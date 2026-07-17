@@ -12,13 +12,13 @@ runtimes, including Node.js, Bun, AWS Lambda, and standards-based worker environ
 ## Planned package
 
 ```sh
-bun add @affinity/sdk
+bun add @affinity-health/sdk
 ```
 
 ## Intended usage
 
 ```ts
-import { Affinity } from "@affinity/sdk";
+import { Affinity } from "@affinity-health/sdk";
 
 const affinity = new Affinity(process.env.AFFINITY_API_KEY!, {
   apiVersion: "2026-07-09",
@@ -65,4 +65,3 @@ contract before publication to npm.
 
 - [OpenAPI specification](https://github.com/affinity-health/affinity-openapi)
 - [SST backend starter](https://github.com/affinity-health/affinity-sst-backend)
-
