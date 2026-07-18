@@ -8,9 +8,12 @@ const access = await affinity.account.retrieveAccess();
 if (access.livemode) throw new Error("This quickstart only runs with a test-mode key");
 
 const catalog = await affinity.catalog.list({ limit: 10, query: "semaglutide", route: "all" });
-console.log(`Found ${catalog.items.length} matching sandbox catalog items`);
+console.log(`Found ${catalog.items.length} matching test catalog items`);
 
 if (process.env.RUN_AFFINITY_MUTATION_EXAMPLE === "1") {
+  const catalogItem = catalog.items[0];
+  if (!catalogItem) throw new Error("The test catalog did not return an orderable item");
+  const runId = crypto.randomUUID();
   const practice = await affinity.practices.create(
     {
       address: {
@@ -26,7 +29,7 @@ if (process.env.RUN_AFFINITY_MUTATION_EXAMPLE === "1") {
         minimumNecessaryPhi: true,
         providerDataAccuracy: true,
       },
-      externalId: "practice_123",
+      externalId: `practice_${runId}`,
       name: "Northstar Wellness",
       primaryContact: { email: "ops@example.com", name: "Clinical Operations" },
     },
@@ -34,9 +37,9 @@ if (process.env.RUN_AFFINITY_MUTATION_EXAMPLE === "1") {
   );
   const order = await affinity.orders.create(
     {
-      catalogItemId: catalog.items[0]!.id,
+      catalogItemId: catalogItem.id,
       directions: "Use as directed by the prescribing clinician.",
-      externalOrderId: "order_123",
+      externalOrderId: `order_${runId}`,
       patient: {
         address: {
           city: "Los Angeles",
@@ -62,5 +65,15 @@ if (process.env.RUN_AFFINITY_MUTATION_EXAMPLE === "1") {
     },
     { idempotencyKey: crypto.randomUUID() },
   );
-  console.log(`Created sandbox order ${order.order.id}`);
+  const retrieved = await affinity.orders.retrieve(order.order.id);
+  const submitted = await affinity.orders.submit(order.order.id, {
+    idempotencyKey: crypto.randomUUID(),
+  });
+  const practiceOrders = await affinity.orders.list({ practiceId: practice.id });
+  if (!practiceOrders.orders.some((item) => item.id === order.order.id)) {
+    throw new Error("The new order was not returned by its practice-scoped order list");
+  }
+  console.log(
+    `Created, retrieved, submitted, and listed test order ${submitted.order.id} for practice ${retrieved.order.practiceId}`,
+  );
 }

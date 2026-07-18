@@ -365,7 +365,7 @@ example().catch(console.error);
 
 ## listOrders
 
-> ListOrders200Response listOrders(externalOrderId, patientExternalId, limit, status)
+> ListOrders200Response listOrders(externalOrderId, patientExternalId, practiceId, limit, status)
 
 List platform orders
 
@@ -393,6 +393,8 @@ async function example() {
     externalOrderId: externalOrderId_example,
     // string (optional)
     patientExternalId: patientExternalId_example,
+    // string (optional)
+    practiceId: practiceId_example,
     // number (optional)
     limit: 56,
     // 'blocked' | 'cancelled' | 'delivered' | 'draft' | 'processing' | 'shipped' | 'submitted' (optional)
@@ -418,6 +420,7 @@ example().catch(console.error);
 |------------- | ------------- | ------------- | -------------|
 | **externalOrderId** | `string` |  | [Optional] [Defaults to `undefined`] |
 | **patientExternalId** | `string` |  | [Optional] [Defaults to `undefined`] |
+| **practiceId** | `string` |  | [Optional] [Defaults to `undefined`] |
 | **limit** | `number` |  | [Optional] [Defaults to `100`] |
 | **status** | `blocked`, `cancelled`, `delivered`, `draft`, `processing`, `shipped`, `submitted` |  | [Optional] [Defaults to `undefined`] [Enum: blocked, cancelled, delivered, draft, processing, shipped, submitted] |
 

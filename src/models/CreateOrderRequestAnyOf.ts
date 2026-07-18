@@ -52,7 +52,7 @@ export interface CreateOrderRequestAnyOf {
    * @type {string}
    * @memberof CreateOrderRequestAnyOf
    */
-  practiceId: string;
+  practiceId: string | null;
   /**
    *
    * @type {string}

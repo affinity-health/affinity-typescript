@@ -71,6 +71,7 @@ export interface ListOrderEventsRequest {
 export interface ListOrdersRequest {
   externalOrderId?: string;
   patientExternalId?: string;
+  practiceId?: string;
   limit?: number;
   status?: ListOrdersStatusEnum;
 }
@@ -415,6 +416,10 @@ export class PlatformOrdersApi extends runtime.BaseAPI {
 
     if (requestParameters["patientExternalId"] != null) {
       queryParameters["patientExternalId"] = requestParameters["patientExternalId"];
+    }
+
+    if (requestParameters["practiceId"] != null) {
+      queryParameters["practiceId"] = requestParameters["practiceId"];
     }
 
     if (requestParameters["limit"] != null) {

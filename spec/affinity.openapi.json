@@ -1,12 +1,12 @@
 {
   "info": {
-    "title": "Affinity API",
-    "version": "2026-07-09",
     "contact": {
       "email": "support@joinaffinityai.com",
       "name": "Affinity API Support"
     },
-    "description": "Affinity API for software platforms connecting practices to the compounder network. A practice is the customer organization, a provider is an individual clinician or prescriber, and a location is a physical practice site. The API covers practice management, catalog discovery, prescription-order submission, fulfillment tracking, and webhooks."
+    "description": "Affinity API for software platforms connecting practices to the compounder network. A practice is the customer organization, a provider is an individual clinician or prescriber, and a location is a physical practice site. The API covers practice management, catalog discovery, prescription-order submission, fulfillment tracking, and webhooks.",
+    "title": "Affinity API",
+    "version": "2026-07-09"
   },
   "openapi": "3.1.1",
   "paths": {
@@ -1437,6 +1437,16 @@
           },
           {
             "in": "query",
+            "name": "practiceId",
+            "required": false,
+            "schema": {
+              "maxLength": 160,
+              "minLength": 1,
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
             "name": "limit",
             "required": false,
             "schema": {
@@ -1579,14 +1589,7 @@
                             "type": "string"
                           },
                           "practiceId": {
-                            "anyOf": [
-                              {
-                                "type": "string"
-                              },
-                              {
-                                "type": "null"
-                              }
-                            ]
+                            "type": "string"
                           },
                           "prescriberName": {
                             "anyOf": [
@@ -2456,14 +2459,7 @@
                           "type": "string"
                         },
                         "practiceId": {
-                          "anyOf": [
-                            {
-                              "type": "string"
-                            },
-                            {
-                              "type": "null"
-                            }
-                          ]
+                          "type": "string"
                         },
                         "prescriberName": {
                           "anyOf": [
@@ -3746,14 +3742,7 @@
                           "type": "string"
                         },
                         "practiceId": {
-                          "anyOf": [
-                            {
-                              "type": "string"
-                            },
-                            {
-                              "type": "null"
-                            }
-                          ]
+                          "type": "string"
                         },
                         "prescriberName": {
                           "anyOf": [
@@ -4653,14 +4642,7 @@
                           "type": "string"
                         },
                         "practiceId": {
-                          "anyOf": [
-                            {
-                              "type": "string"
-                            },
-                            {
-                              "type": "null"
-                            }
-                          ]
+                          "type": "string"
                         },
                         "prescriberName": {
                           "anyOf": [
@@ -5564,14 +5546,7 @@
                           "type": "string"
                         },
                         "practiceId": {
-                          "anyOf": [
-                            {
-                              "type": "string"
-                            },
-                            {
-                              "type": "null"
-                            }
-                          ]
+                          "type": "string"
                         },
                         "prescriberName": {
                           "anyOf": [
@@ -7097,14 +7072,7 @@
                           "type": "string"
                         },
                         "practiceId": {
-                          "anyOf": [
-                            {
-                              "type": "string"
-                            },
-                            {
-                              "type": "null"
-                            }
-                          ]
+                          "type": "string"
                         },
                         "prescriberName": {
                           "anyOf": [
@@ -18096,16 +18064,16 @@
   },
   "components": {
     "securitySchemes": {
-      "bearerAuth": {
-        "type": "http",
-        "scheme": "bearer",
-        "description": "Server-side Affinity service key using the Bearer authentication scheme."
-      },
       "affinityApiKey": {
-        "type": "apiKey",
+        "description": "Server-side Affinity service key. Use this header when bearer authorization is unavailable.",
         "in": "header",
         "name": "x-affinity-api-key",
-        "description": "Server-side Affinity service key. Use this header when bearer authorization is unavailable."
+        "type": "apiKey"
+      },
+      "bearerAuth": {
+        "description": "Server-side Affinity service key using the Bearer authentication scheme.",
+        "scheme": "bearer",
+        "type": "http"
       }
     },
     "headers": {

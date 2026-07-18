@@ -27,9 +27,7 @@ bun link @affinity-health/sdk
 ```ts
 import { Affinity } from "@affinity-health/sdk";
 
-const affinity = new Affinity(process.env.AFFINITY_API_KEY!, {
-  apiVersion: "2026-07-09",
-});
+const affinity = new Affinity(process.env.AFFINITY_API_KEY!);
 
 const access = await affinity.account.retrieveAccess();
 if (access.livemode) throw new Error("Use a test-mode key during sandbox development");
@@ -37,12 +35,12 @@ if (access.livemode) throw new Error("Use a test-mode key during sandbox develop
 const catalog = await affinity.catalog.list({ query: "semaglutide", limit: 10 });
 
 const practices = await affinity.practices.list();
-const orders = await affinity.orders.list();
+const orders = await affinity.orders.list({ practiceId: practices.data[0]?.id });
 ```
 
 ## Resource model
 
-The initial client surface is planned around these resources:
+The client surface is organized around these resources:
 
 - `account` — inspect the authenticated organization and API access
 - `catalog` — search products available through the Affinity network
@@ -52,6 +50,10 @@ The initial client surface is planned around these resources:
 
 Generated transport classes will remain available as an escape hatch, while the `Affinity` client
 will be the recommended entry point.
+
+Each clinical order belongs to exactly one practice. A platform can list orders across all of its
+practices or pass `practiceId` to scope the operational view to one practice. Platform-created
+`externalOrderId` values are unique within that platform and API mode.
 
 ## Safety
 
@@ -64,10 +66,10 @@ infrastructure, and compliance controls.
 
 ## Generation and releases
 
-This SDK is generated from the versioned contract in
-[`affinity-openapi`](https://github.com/affinity-health/affinity-openapi), with a maintained
-resource facade layered over the generated transport. Releases will be validated against the same
-contract before publication to npm.
+This SDK is generated from Affinity's curated public API document at
+[`/v1/openapi.json`](https://api.joinaffinityai.com/v1/openapi.json), with a maintained resource
+facade layered over the generated transport. Releases will be validated against the same contract
+before publication to npm.
 
 Regenerate and validate the checked-in client with:
 

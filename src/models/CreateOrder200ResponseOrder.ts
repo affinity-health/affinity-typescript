@@ -140,7 +140,7 @@ export interface CreateOrder200ResponseOrder {
    * @type {string}
    * @memberof CreateOrder200ResponseOrder
    */
-  practiceId: string | null;
+  practiceId: string;
   /**
    *
    * @type {string}
