@@ -2,17 +2,24 @@
 
 The official TypeScript SDK for the Affinity API.
 
-> **Status:** This repository is being prepared for its first release. The package is not yet
-> published and its public API may change before `0.1.0`.
+> **Status:** The `0.1.0` client is ready for local integration preview. The package is not yet
+> published; use Bun's local package link until the first npm release.
 
 The SDK will provide a small, resource-oriented interface for software platforms connecting
 healthcare practices to Affinity's compounder network. It is intended for trusted server-side
 runtimes, including Node.js, Bun, AWS Lambda, and standards-based worker environments.
 
-## Planned package
+## Local preview
 
 ```sh
-bun add @affinity-health/sdk
+git clone https://github.com/affinity-health/affinity-typescript.git
+cd affinity-typescript
+bun install
+bun run check
+bun link
+
+cd ../your-server
+bun link @affinity-health/sdk
 ```
 
 ## Intended usage
@@ -24,9 +31,10 @@ const affinity = new Affinity(process.env.AFFINITY_API_KEY!, {
   apiVersion: "2026-07-09",
 });
 
-const catalog = await affinity.catalog.list({
-  query: "semaglutide",
-});
+const access = await affinity.account.retrieveAccess();
+if (access.livemode) throw new Error("Use a test-mode key during sandbox development");
+
+const catalog = await affinity.catalog.list({ query: "semaglutide", limit: 10 });
 
 const practices = await affinity.practices.list();
 const orders = await affinity.orders.list();
@@ -56,10 +64,18 @@ infrastructure, and compliance controls.
 
 ## Generation and releases
 
-This SDK will be generated from the versioned contract in
+This SDK is generated from the versioned contract in
 [`affinity-openapi`](https://github.com/affinity-health/affinity-openapi), with a maintained
 resource facade layered over the generated transport. Releases will be validated against the same
 contract before publication to npm.
+
+Regenerate and validate the checked-in client with:
+
+```sh
+bun run generate
+bun run check
+bun run pack:dry-run
+```
 
 ## Related projects
 

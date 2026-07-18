@@ -1,0 +1,54 @@
+
+# CreatePracticeRequest
+
+
+## Properties
+
+Name | Type
+------------ | -------------
+`address` | [CreatePracticeRequestAddress](CreatePracticeRequestAddress.md)
+`attestations` | [CreatePracticeRequestAttestations](CreatePracticeRequestAttestations.md)
+`complianceContact` | [ListPractices200ResponseDataInnerContactsPrimary](ListPractices200ResponseDataInnerContactsPrimary.md)
+`externalId` | string
+`legalName` | string
+`name` | string
+`prescribers` | [Array&lt;CreatePracticeRequestPrescribersInner&gt;](CreatePracticeRequestPrescribersInner.md)
+`primaryContact` | [ListPractices200ResponseDataInnerContactsPrimary](ListPractices200ResponseDataInnerContactsPrimary.md)
+`supportEmail` | string
+`supportPhone` | string
+`timezone` | string
+
+## Example
+
+```typescript
+import type { CreatePracticeRequest } from '@affinity-health/sdk'
+
+// TODO: Update the object below with actual values
+const example = {
+  "address": null,
+  "attestations": null,
+  "complianceContact": null,
+  "externalId": null,
+  "legalName": null,
+  "name": null,
+  "prescribers": null,
+  "primaryContact": null,
+  "supportEmail": null,
+  "supportPhone": null,
+  "timezone": null,
+} satisfies CreatePracticeRequest
+
+console.log(example)
+
+// Convert the instance to a JSON string
+const exampleJSON: string = JSON.stringify(example)
+console.log(exampleJSON)
+
+// Parse the JSON string back to an object
+const exampleParsed = JSON.parse(exampleJSON) as CreatePracticeRequest
+console.log(exampleParsed)
+```
+
+[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
+
+

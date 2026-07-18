@@ -1,0 +1,52 @@
+{
+  "name": "@affinity-health/sdk",
+  "version": "0.1.0",
+  "description": "Official TypeScript SDK for the Affinity API",
+  "type": "module",
+  "license": "MIT",
+  "author": "Affinity API Support <support@joinaffinityai.com>",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/affinity-health/affinity-typescript.git"
+  },
+  "homepage": "https://docs.joinaffinityai.com/api",
+  "bugs": {
+    "url": "https://github.com/affinity-health/affinity-typescript/issues"
+  },
+  "sideEffects": false,
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "default": "./dist/index.js"
+    }
+  },
+  "scripts": {
+    "build": "tsgo -p tsconfig.json",
+    "check": "bun run generate:check && bun run build && bun test && bun run example:check",
+    "example:check": "bun build examples/quickstart.ts --target=node --outfile=/tmp/affinity-typescript-quickstart.js",
+    "format": "oxfmt .",
+    "generate": "bash scripts/generate.sh",
+    "generate:check": "bash scripts/generate-check.sh",
+    "pack:dry-run": "bun pm pack --dry-run"
+  },
+  "devDependencies": {
+    "@types/bun": "latest",
+    "@typescript/native-preview": "^7.0.0-dev.20260527.2",
+    "oxfmt": "^0.52.0"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
