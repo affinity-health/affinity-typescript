@@ -247,10 +247,13 @@ await output(
   `import type { ListOrdersRequest, PlatformOrdersApi } from "../apis/PlatformOrdersApi";
 import type { CancelOrderRequest } from "../models/CancelOrderRequest";
 import type { CreateOrderRequest } from "../models/CreateOrderRequest";
+import type { CreateOrderRequestAnyOf } from "../models/CreateOrderRequestAnyOf";
+import type { CreateOrderRequestAnyOf1 } from "../models/CreateOrderRequestAnyOf1";
 import type { UpdateOrderRequest } from "../models/UpdateOrderRequest";
 import type { MutationOptions } from "./request-options";
 
 export type OrderListParams = ListOrdersRequest;
+export type OrderCreateParams = CreateOrderRequestAnyOf | CreateOrderRequestAnyOf1;
 
 export class OrdersResource {
   constructor(private readonly api: PlatformOrdersApi) {}
@@ -260,9 +263,9 @@ export class OrdersResource {
   retrieve(orderId: string) {
     return this.api.getOrder({ orderId });
   }
-  create(params: CreateOrderRequest, options: MutationOptions) {
+  create(params: OrderCreateParams, options: MutationOptions) {
     return this.api.createOrder({
-      createOrderRequest: params,
+      createOrderRequest: params as CreateOrderRequest,
       idempotencyKey: options.idempotencyKey,
     });
   }
