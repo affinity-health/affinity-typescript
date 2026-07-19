@@ -6,21 +6,26 @@ import type { UpdatePracticeRequest } from "../models/UpdatePracticeRequest";
 import type { MutationOptions } from "./request-options";
 
 export class PracticesResource {
-  constructor(private readonly api: PracticesApi) {}
-  list(params: ListPracticesRequest = {}) {
-    return this.api.listPractices(params);
+  constructor(
+    private readonly api: PracticesApi,
+    private readonly apiVersion: string,
+  ) {}
+  list(params: Omit<ListPracticesRequest, "affinityVersion"> = {}) {
+    return this.api.listPractices({ ...params, affinityVersion: this.apiVersion });
   }
   retrieve(practiceId: string) {
-    return this.api.getPractice({ practiceId });
+    return this.api.getPractice({ affinityVersion: this.apiVersion, practiceId });
   }
   create(params: CreatePracticeRequest, options: MutationOptions) {
     return this.api.createPractice({
       createPracticeRequest: params,
+      affinityVersion: this.apiVersion,
       idempotencyKey: options.idempotencyKey,
     });
   }
   update(practiceId: string, params: UpdatePracticeRequest, options: MutationOptions) {
     return this.api.updatePractice({
+      affinityVersion: this.apiVersion,
       idempotencyKey: options.idempotencyKey,
       practiceId,
       updatePracticeRequest: params,

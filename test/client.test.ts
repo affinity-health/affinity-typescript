@@ -15,7 +15,7 @@ describe("Affinity client", () => {
 
     expect(request?.url).toBe("https://api.joinaffinityai.com/v1/auth/access");
     expect(request?.headers.get("authorization")).toBe("Bearer sk_test_example");
-    expect(request?.headers.get("affinity-version")).toBe("2026-07-09");
+    expect(request?.headers.get("affinity-version")).toBe("2026-07-19");
   });
 
   test("retries safe reads and preserves list filters", async () => {
@@ -24,7 +24,12 @@ describe("Affinity client", () => {
       fetch: async (input, init) => {
         requests.push(new Request(input, init));
         if (requests.length === 1) return new Response(null, { status: 503 });
-        return Response.json({ items: [] });
+        return Response.json({
+          data: [],
+          hasMore: false,
+          object: "list",
+          url: "/v1/catalog/items",
+        });
       },
       maxRetries: 1,
     });

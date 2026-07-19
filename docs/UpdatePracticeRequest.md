@@ -7,14 +7,14 @@
 Name | Type
 ------------ | -------------
 `address` | [CreateOrderRequestAnyOfPatientAddress](CreateOrderRequestAnyOfPatientAddress.md)
-`attestations` | [UpdatePracticeRequestAttestations](UpdatePracticeRequestAttestations.md)
-`complianceContact` | [UpdatePracticeRequestComplianceContact](UpdatePracticeRequestComplianceContact.md)
+`attestations` | [CreatePracticeRequestAttestations](CreatePracticeRequestAttestations.md)
+`complianceContact` | [CreatePracticeRequestComplianceContact](CreatePracticeRequestComplianceContact.md)
 `externalId` | string
 `legalName` | string
 `metadata` | { [key: string]: any; }
 `name` | string
-`prescribers` | [Array&lt;UpdatePracticeRequestPrescribersInner&gt;](UpdatePracticeRequestPrescribersInner.md)
-`primaryContact` | [UpdatePracticeRequestComplianceContact](UpdatePracticeRequestComplianceContact.md)
+`prescribers` | [Array&lt;CreatePracticeRequestPrescribersInner&gt;](CreatePracticeRequestPrescribersInner.md)
+`primaryContact` | [CreatePracticeRequestComplianceContact](CreatePracticeRequestComplianceContact.md)
 `supportEmail` | string
 `supportPhone` | string
 `timezone` | string

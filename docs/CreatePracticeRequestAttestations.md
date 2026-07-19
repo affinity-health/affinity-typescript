@@ -6,8 +6,8 @@
 
 Name | Type
 ------------ | -------------
-`authorizedPhiTransfer` | boolean
 `authorizedPracticeRelationship` | boolean
+`authorizedPhiTransfer` | boolean
 `minimumNecessaryPhi` | boolean
 `providerDataAccuracy` | boolean
 
@@ -18,8 +18,8 @@ import type { CreatePracticeRequestAttestations } from '@affinity-health/sdk'
 
 // TODO: Update the object below with actual values
 const example = {
-  "authorizedPhiTransfer": null,
   "authorizedPracticeRelationship": null,
+  "authorizedPhiTransfer": null,
   "minimumNecessaryPhi": null,
   "providerDataAccuracy": null,
 } satisfies CreatePracticeRequestAttestations

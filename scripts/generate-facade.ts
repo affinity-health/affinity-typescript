@@ -24,7 +24,7 @@ const supportedOperations = [
   "deleteWebhookEndpoint",
   "getApiAccess",
   "getOrder",
-  "getPlatformOrganization",
+  "getAccount",
   "getPractice",
   "getWebhookEvent",
   "listCatalogItems",
@@ -88,6 +88,7 @@ export class Affinity {
   constructor(apiKey: string, options: AffinityOptions = {}) {
     if (!apiKey.trim()) throw new Error("Affinity requires a service API key");
     const baseUrl = options.baseUrl ?? "${baseUrl}";
+    const apiVersion = options.apiVersion ?? "${apiVersion}";
     const timeout = options.timeout ?? 30_000;
     const maxRetries = options.maxRetries ?? 2;
     if (!Number.isFinite(timeout) || timeout <= 0) {
@@ -104,16 +105,17 @@ export class Affinity {
       accessToken: apiKey,
       basePath: (baseUrl.includes("://") ? baseUrl : \`https://\${baseUrl}\`).replace(/\\/+$/, ""),
       fetchApi,
-      headers: { "Affinity-Version": options.apiVersion ?? "${apiVersion}" },
+      headers: { "Affinity-Version": apiVersion },
     });
     this.account = new AccountResource(
       new APIKeysApi(configuration),
       new PlatformsApi(configuration),
+      apiVersion,
     );
-    this.catalog = new CatalogResource(new CatalogApi(configuration));
-    this.orders = new OrdersResource(new PlatformOrdersApi(configuration));
-    this.practices = new PracticesResource(new PracticesApi(configuration));
-    this.webhooks = new WebhooksResource(new PlatformWebhooksApi(configuration));
+    this.catalog = new CatalogResource(new CatalogApi(configuration), apiVersion);
+    this.orders = new OrdersResource(new PlatformOrdersApi(configuration), apiVersion);
+    this.practices = new PracticesResource(new PracticesApi(configuration), apiVersion);
+    this.webhooks = new WebhooksResource(new PlatformWebhooksApi(configuration), apiVersion);
   }
 }`,
 );
@@ -187,12 +189,16 @@ export class AccountResource {
   constructor(
     private readonly accessApi: APIKeysApi,
     private readonly platformsApi: PlatformsApi,
+    private readonly apiVersion: string,
   ) {}
   retrieveAccess() {
-    return this.accessApi.getApiAccess();
+    return this.accessApi.getApiAccess({ affinityVersion: this.apiVersion });
   }
   retrieve(organizationId?: string) {
-    return this.platformsApi.getPlatformOrganization({ orgId: organizationId });
+    return this.platformsApi.getAccount({
+      affinityVersion: this.apiVersion,
+      orgId: organizationId,
+    });
   }
 }`,
 );
@@ -201,12 +207,15 @@ await output(
   "src/resources/catalog.ts",
   `import type { CatalogApi, ListCatalogItemsRequest } from "../apis/CatalogApi";
 
-export type CatalogListParams = ListCatalogItemsRequest;
+export type CatalogListParams = Omit<ListCatalogItemsRequest, "affinityVersion">;
 
 export class CatalogResource {
-  constructor(private readonly api: CatalogApi) {}
+  constructor(
+    private readonly api: CatalogApi,
+    private readonly apiVersion: string,
+  ) {}
   list(params: CatalogListParams = {}) {
-    return this.api.listCatalogItems(params);
+    return this.api.listCatalogItems({ ...params, affinityVersion: this.apiVersion });
   }
 }`,
 );
@@ -219,21 +228,26 @@ import type { UpdatePracticeRequest } from "../models/UpdatePracticeRequest";
 import type { MutationOptions } from "./request-options";
 
 export class PracticesResource {
-  constructor(private readonly api: PracticesApi) {}
-  list(params: ListPracticesRequest = {}) {
-    return this.api.listPractices(params);
+  constructor(
+    private readonly api: PracticesApi,
+    private readonly apiVersion: string,
+  ) {}
+  list(params: Omit<ListPracticesRequest, "affinityVersion"> = {}) {
+    return this.api.listPractices({ ...params, affinityVersion: this.apiVersion });
   }
   retrieve(practiceId: string) {
-    return this.api.getPractice({ practiceId });
+    return this.api.getPractice({ affinityVersion: this.apiVersion, practiceId });
   }
   create(params: CreatePracticeRequest, options: MutationOptions) {
     return this.api.createPractice({
       createPracticeRequest: params,
+      affinityVersion: this.apiVersion,
       idempotencyKey: options.idempotencyKey,
     });
   }
   update(practiceId: string, params: UpdatePracticeRequest, options: MutationOptions) {
     return this.api.updatePractice({
+      affinityVersion: this.apiVersion,
       idempotencyKey: options.idempotencyKey,
       practiceId,
       updatePracticeRequest: params,
@@ -252,42 +266,52 @@ import type { CreateOrderRequestAnyOf1 } from "../models/CreateOrderRequestAnyOf
 import type { UpdateOrderRequest } from "../models/UpdateOrderRequest";
 import type { MutationOptions } from "./request-options";
 
-export type OrderListParams = ListOrdersRequest;
+export type OrderListParams = Omit<ListOrdersRequest, "affinityVersion">;
 export type OrderCreateParams = CreateOrderRequestAnyOf | CreateOrderRequestAnyOf1;
 
 export class OrdersResource {
-  constructor(private readonly api: PlatformOrdersApi) {}
+  constructor(
+    private readonly api: PlatformOrdersApi,
+    private readonly apiVersion: string,
+  ) {}
   list(params: OrderListParams = {}) {
-    return this.api.listOrders(params);
+    return this.api.listOrders({ ...params, affinityVersion: this.apiVersion });
   }
   retrieve(orderId: string) {
-    return this.api.getOrder({ orderId });
+    return this.api.getOrder({ affinityVersion: this.apiVersion, orderId });
   }
   create(params: OrderCreateParams, options: MutationOptions) {
     return this.api.createOrder({
       createOrderRequest: params as CreateOrderRequest,
+      affinityVersion: this.apiVersion,
       idempotencyKey: options.idempotencyKey,
     });
   }
   update(orderId: string, params: UpdateOrderRequest, options: MutationOptions) {
     return this.api.updateOrder({
+      affinityVersion: this.apiVersion,
       idempotencyKey: options.idempotencyKey,
       orderId,
       updateOrderRequest: params,
     });
   }
   submit(orderId: string, options: MutationOptions) {
-    return this.api.submitOrder({ orderId, idempotencyKey: options.idempotencyKey });
+    return this.api.submitOrder({
+      affinityVersion: this.apiVersion,
+      orderId,
+      idempotencyKey: options.idempotencyKey,
+    });
   }
   cancel(orderId: string, params: CancelOrderRequest, options: MutationOptions) {
     return this.api.cancelOrder({
       cancelOrderRequest: params,
+      affinityVersion: this.apiVersion,
       idempotencyKey: options.idempotencyKey,
       orderId,
     });
   }
   listEvents(orderId: string) {
-    return this.api.listOrderEvents({ orderId });
+    return this.api.listOrderEvents({ affinityVersion: this.apiVersion, orderId });
   }
 }`,
 );
@@ -300,13 +324,17 @@ import type { UpdateWebhookEndpointRequest } from "../models/UpdateWebhookEndpoi
 import type { MutationOptions } from "./request-options";
 
 export class WebhooksResource {
-  constructor(private readonly api: PlatformWebhooksApi) {}
+  constructor(
+    private readonly api: PlatformWebhooksApi,
+    private readonly apiVersion: string,
+  ) {}
   listEndpoints() {
-    return this.api.listWebhookEndpoints();
+    return this.api.listWebhookEndpoints({ affinityVersion: this.apiVersion });
   }
   createEndpoint(params: CreateWebhookEndpointRequest, options: MutationOptions) {
     return this.api.createWebhookEndpoint({
       createWebhookEndpointRequest: params,
+      affinityVersion: this.apiVersion,
       idempotencyKey: options.idempotencyKey,
     });
   }
@@ -317,27 +345,37 @@ export class WebhooksResource {
   ) {
     return this.api.updateWebhookEndpoint({
       endpointId,
+      affinityVersion: this.apiVersion,
       idempotencyKey: options.idempotencyKey,
       updateWebhookEndpointRequest: params,
     });
   }
   deleteEndpoint(endpointId: string, options: MutationOptions) {
-    return this.api.deleteWebhookEndpoint({ endpointId, idempotencyKey: options.idempotencyKey });
-  }
-  rotateSecret(endpointId: string, options: MutationOptions) {
-    return this.api.rotateWebhookEndpointSecret({
+    return this.api.deleteWebhookEndpoint({
+      affinityVersion: this.apiVersion,
       endpointId,
       idempotencyKey: options.idempotencyKey,
     });
   }
-  listEvents(params: ListWebhookEventsRequest = {}) {
-    return this.api.listWebhookEvents(params);
+  rotateSecret(endpointId: string, options: MutationOptions) {
+    return this.api.rotateWebhookEndpointSecret({
+      endpointId,
+      affinityVersion: this.apiVersion,
+      idempotencyKey: options.idempotencyKey,
+    });
+  }
+  listEvents(params: Omit<ListWebhookEventsRequest, "affinityVersion"> = {}) {
+    return this.api.listWebhookEvents({ ...params, affinityVersion: this.apiVersion });
   }
   retrieveEvent(eventId: string) {
-    return this.api.getWebhookEvent({ eventId });
+    return this.api.getWebhookEvent({ affinityVersion: this.apiVersion, eventId });
   }
   replayEvent(eventId: string, options: MutationOptions) {
-    return this.api.replayWebhookEvent({ eventId, idempotencyKey: options.idempotencyKey });
+    return this.api.replayWebhookEvent({
+      affinityVersion: this.apiVersion,
+      eventId,
+      idempotencyKey: options.idempotencyKey,
+    });
   }
 }`,
 );

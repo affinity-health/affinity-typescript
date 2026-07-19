@@ -6,14 +6,15 @@
 
 Name | Type
 ------------ | -------------
-`address` | [CreatePracticeRequestAddress](CreatePracticeRequestAddress.md)
+`address` | [CreateOrderRequestAnyOfPatientAddress](CreateOrderRequestAnyOfPatientAddress.md)
 `attestations` | [CreatePracticeRequestAttestations](CreatePracticeRequestAttestations.md)
-`complianceContact` | [ListPractices200ResponseDataInnerContactsPrimary](ListPractices200ResponseDataInnerContactsPrimary.md)
+`complianceContact` | [CreatePracticeRequestComplianceContact](CreatePracticeRequestComplianceContact.md)
 `externalId` | string
 `legalName` | string
+`metadata` | { [key: string]: any; }
 `name` | string
 `prescribers` | [Array&lt;CreatePracticeRequestPrescribersInner&gt;](CreatePracticeRequestPrescribersInner.md)
-`primaryContact` | [ListPractices200ResponseDataInnerContactsPrimary](ListPractices200ResponseDataInnerContactsPrimary.md)
+`primaryContact` | [CreatePracticeRequestComplianceContact](CreatePracticeRequestComplianceContact.md)
 `supportEmail` | string
 `supportPhone` | string
 `timezone` | string
@@ -30,6 +31,7 @@ const example = {
   "complianceContact": null,
   "externalId": null,
   "legalName": null,
+  "metadata": null,
   "name": null,
   "prescribers": null,
   "primaryContact": null,

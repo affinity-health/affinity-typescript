@@ -10,11 +10,11 @@ All URIs are relative to *https://api.joinaffinityai.com*
 
 ## getApiAccess
 
-> GetApiAccess200Response getApiAccess()
+> GetApiAccessResponse getApiAccess(affinityVersion)
 
 Read API key access
 
-Returns the authenticated API key subject, mode, and scopes.
+Returns the subject, mode, and scopes for the API key.
 
 ### Example
 
@@ -35,8 +35,13 @@ async function example() {
   });
   const api = new APIKeysApi(config);
 
+  const body = {
+    // string | Pinned dated API contract version. Official SDKs send this header automatically.
+    affinityVersion: 2026-07-19,
+  } satisfies GetApiAccessRequest;
+
   try {
-    const data = await api.getApiAccess();
+    const data = await api.getApiAccess(body);
     console.log(data);
   } catch (error) {
     console.error(error);
@@ -49,11 +54,14 @@ example().catch(console.error);
 
 ### Parameters
 
-This endpoint does not need any parameter.
+
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **affinityVersion** | `string` | Pinned dated API contract version. Official SDKs send this header automatically. | [Defaults to `undefined`] |
 
 ### Return type
 
-[**GetApiAccess200Response**](GetApiAccess200Response.md)
+[**GetApiAccessResponse**](GetApiAccessResponse.md)
 
 ### Authorization
 
@@ -68,20 +76,12 @@ This endpoint does not need any parameter.
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Successful response |  -  |
-| **400** | Bad request |  -  |
-| **401** | Unauthorized |  -  |
-| **403** | Forbidden |  -  |
-| **404** | Not found |  -  |
-| **409** | Conflict |  -  |
-| **410** | Gone |  -  |
-| **413** | Payload too large |  -  |
-| **422** | Unprocessable entity |  -  |
-| **429** | Too many requests |  -  |
-| **500** | Internal server error |  -  |
-| **501** | Not implemented |  -  |
-| **502** | Bad gateway |  -  |
-| **503** | Service unavailable |  -  |
+| **200** | Successful response |  * Affinity-Version -  <br>  * RateLimit-Limit -  <br>  * RateLimit-Remaining -  <br>  * RateLimit-Reset -  <br>  * Request-Id -  <br>  |
+| **400** | Bad request |  * Affinity-Version -  <br>  * RateLimit-Limit -  <br>  * RateLimit-Remaining -  <br>  * RateLimit-Reset -  <br>  * Request-Id -  <br>  |
+| **401** | Unauthorized |  * Affinity-Version -  <br>  * RateLimit-Limit -  <br>  * RateLimit-Remaining -  <br>  * RateLimit-Reset -  <br>  * Request-Id -  <br>  |
+| **403** | Forbidden |  * Affinity-Version -  <br>  * RateLimit-Limit -  <br>  * RateLimit-Remaining -  <br>  * RateLimit-Reset -  <br>  * Request-Id -  <br>  |
+| **429** | Too many requests |  * Affinity-Version -  <br>  * RateLimit-Limit -  <br>  * RateLimit-Remaining -  <br>  * RateLimit-Reset -  <br>  * Request-Id -  <br>  |
+| **500** | Internal server error |  * Affinity-Version -  <br>  * RateLimit-Limit -  <br>  * RateLimit-Remaining -  <br>  * RateLimit-Reset -  <br>  * Request-Id -  <br>  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 

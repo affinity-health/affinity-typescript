@@ -32,6 +32,7 @@ export class Affinity {
   constructor(apiKey: string, options: AffinityOptions = {}) {
     if (!apiKey.trim()) throw new Error("Affinity requires a service API key");
     const baseUrl = options.baseUrl ?? "https://api.joinaffinityai.com";
+    const apiVersion = options.apiVersion ?? "2026-07-19";
     const timeout = options.timeout ?? 30_000;
     const maxRetries = options.maxRetries ?? 2;
     if (!Number.isFinite(timeout) || timeout <= 0) {
@@ -48,15 +49,16 @@ export class Affinity {
       accessToken: apiKey,
       basePath: (baseUrl.includes("://") ? baseUrl : `https://${baseUrl}`).replace(/\/+$/, ""),
       fetchApi,
-      headers: { "Affinity-Version": options.apiVersion ?? "2026-07-09" },
+      headers: { "Affinity-Version": apiVersion },
     });
     this.account = new AccountResource(
       new APIKeysApi(configuration),
       new PlatformsApi(configuration),
+      apiVersion,
     );
-    this.catalog = new CatalogResource(new CatalogApi(configuration));
-    this.orders = new OrdersResource(new PlatformOrdersApi(configuration));
-    this.practices = new PracticesResource(new PracticesApi(configuration));
-    this.webhooks = new WebhooksResource(new PlatformWebhooksApi(configuration));
+    this.catalog = new CatalogResource(new CatalogApi(configuration), apiVersion);
+    this.orders = new OrdersResource(new PlatformOrdersApi(configuration), apiVersion);
+    this.practices = new PracticesResource(new PracticesApi(configuration), apiVersion);
+    this.webhooks = new WebhooksResource(new PlatformWebhooksApi(configuration), apiVersion);
   }
 }

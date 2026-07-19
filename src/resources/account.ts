@@ -7,11 +7,15 @@ export class AccountResource {
   constructor(
     private readonly accessApi: APIKeysApi,
     private readonly platformsApi: PlatformsApi,
+    private readonly apiVersion: string,
   ) {}
   retrieveAccess() {
-    return this.accessApi.getApiAccess();
+    return this.accessApi.getApiAccess({ affinityVersion: this.apiVersion });
   }
   retrieve(organizationId?: string) {
-    return this.platformsApi.getPlatformOrganization({ orgId: organizationId });
+    return this.platformsApi.getAccount({
+      affinityVersion: this.apiVersion,
+      orgId: organizationId,
+    });
   }
 }

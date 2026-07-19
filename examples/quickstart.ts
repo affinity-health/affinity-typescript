@@ -8,10 +8,10 @@ const access = await affinity.account.retrieveAccess();
 if (access.livemode) throw new Error("This quickstart only runs with a test-mode key");
 
 const catalog = await affinity.catalog.list({ limit: 10, query: "semaglutide", route: "all" });
-console.log(`Found ${catalog.items.length} matching test catalog items`);
+console.log(`Found ${catalog.data.length} matching test catalog items`);
 
 if (process.env.RUN_AFFINITY_MUTATION_EXAMPLE === "1") {
-  const catalogItem = catalog.items[0];
+  const catalogItem = catalog.data[0];
   if (!catalogItem) throw new Error("The test catalog did not return an orderable item");
   const runId = crypto.randomUUID();
   const practice = await affinity.practices.create(
@@ -65,15 +65,15 @@ if (process.env.RUN_AFFINITY_MUTATION_EXAMPLE === "1") {
     },
     { idempotencyKey: crypto.randomUUID() },
   );
-  const retrieved = await affinity.orders.retrieve(order.order.id);
-  const submitted = await affinity.orders.submit(order.order.id, {
+  const retrieved = await affinity.orders.retrieve(order.id);
+  const submitted = await affinity.orders.submit(order.id, {
     idempotencyKey: crypto.randomUUID(),
   });
   const practiceOrders = await affinity.orders.list({ practiceId: practice.id });
-  if (!practiceOrders.orders.some((item) => item.id === order.order.id)) {
+  if (!practiceOrders.data.some((item) => item.id === order.id)) {
     throw new Error("The new order was not returned by its practice-scoped order list");
   }
   console.log(
-    `Created, retrieved, submitted, and listed test order ${submitted.order.id} for practice ${retrieved.order.practiceId}`,
+    `Created, retrieved, submitted, and listed test order ${submitted.id} for practice ${retrieved.practiceId}`,
   );
 }

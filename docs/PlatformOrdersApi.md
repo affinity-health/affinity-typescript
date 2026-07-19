@@ -16,11 +16,11 @@ All URIs are relative to *https://api.joinaffinityai.com*
 
 ## cancelOrder
 
-> CreateOrder200Response cancelOrder(orderId, idempotencyKey, cancelOrderRequest)
+> CancelOrderResponse cancelOrder(orderId, affinityVersion, cancelOrderRequest, idempotencyKey)
 
 Cancel order
 
-Cancels an order before shipment. Corrections use cancel-and-replace.
+Cancels an order before shipment. To correct an order, cancel it and create a replacement.
 
 ### Example
 
@@ -44,10 +44,12 @@ async function example() {
   const body = {
     // string
     orderId: orderId_example,
-    // string | Unique operation key required for every mutation.
-    idempotencyKey: idempotencyKey_example,
+    // string | Pinned dated API contract version. Official SDKs send this header automatically.
+    affinityVersion: 2026-07-19,
     // CancelOrderRequest
     cancelOrderRequest: ...,
+    // string | Unique operation key required for every mutation. (optional)
+    idempotencyKey: idempotencyKey_example,
   } satisfies CancelOrderOperationRequest;
 
   try {
@@ -68,12 +70,13 @@ example().catch(console.error);
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
 | **orderId** | `string` |  | [Defaults to `undefined`] |
-| **idempotencyKey** | `string` | Unique operation key required for every mutation. | [Defaults to `undefined`] |
+| **affinityVersion** | `string` | Pinned dated API contract version. Official SDKs send this header automatically. | [Defaults to `undefined`] |
 | **cancelOrderRequest** | [CancelOrderRequest](CancelOrderRequest.md) |  | |
+| **idempotencyKey** | `string` | Unique operation key required for every mutation. | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 
-[**CreateOrder200Response**](CreateOrder200Response.md)
+[**CancelOrderResponse**](CancelOrderResponse.md)
 
 ### Authorization
 
@@ -88,31 +91,25 @@ example().catch(console.error);
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Successful response |  -  |
-| **400** | Bad request |  -  |
-| **401** | Unauthorized |  -  |
-| **403** | Forbidden |  -  |
-| **404** | Not found |  -  |
-| **409** | Conflict |  -  |
-| **410** | Gone |  -  |
-| **413** | Payload too large |  -  |
-| **422** | Unprocessable entity |  -  |
-| **429** | Too many requests |  -  |
-| **500** | Internal server error |  -  |
-| **501** | Not implemented |  -  |
-| **502** | Bad gateway |  -  |
-| **503** | Service unavailable |  -  |
+| **200** | Successful response |  * Affinity-Version -  <br>  * RateLimit-Limit -  <br>  * RateLimit-Remaining -  <br>  * RateLimit-Reset -  <br>  * Request-Id -  <br>  |
+| **400** | Bad request |  * Affinity-Version -  <br>  * RateLimit-Limit -  <br>  * RateLimit-Remaining -  <br>  * RateLimit-Reset -  <br>  * Request-Id -  <br>  |
+| **401** | Unauthorized |  * Affinity-Version -  <br>  * RateLimit-Limit -  <br>  * RateLimit-Remaining -  <br>  * RateLimit-Reset -  <br>  * Request-Id -  <br>  |
+| **403** | Forbidden |  * Affinity-Version -  <br>  * RateLimit-Limit -  <br>  * RateLimit-Remaining -  <br>  * RateLimit-Reset -  <br>  * Request-Id -  <br>  |
+| **404** | Not found |  * Affinity-Version -  <br>  * RateLimit-Limit -  <br>  * RateLimit-Remaining -  <br>  * RateLimit-Reset -  <br>  * Request-Id -  <br>  |
+| **409** | Conflict |  * Affinity-Version -  <br>  * RateLimit-Limit -  <br>  * RateLimit-Remaining -  <br>  * RateLimit-Reset -  <br>  * Request-Id -  <br>  |
+| **429** | Too many requests |  * Affinity-Version -  <br>  * RateLimit-Limit -  <br>  * RateLimit-Remaining -  <br>  * RateLimit-Reset -  <br>  * Request-Id -  <br>  |
+| **500** | Internal server error |  * Affinity-Version -  <br>  * RateLimit-Limit -  <br>  * RateLimit-Remaining -  <br>  * RateLimit-Reset -  <br>  * Request-Id -  <br>  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
 
 ## createOrder
 
-> CreateOrder200Response createOrder(idempotencyKey, createOrderRequest)
+> CreateOrderResponse createOrder(affinityVersion, createOrderRequest, idempotencyKey)
 
 Create order
 
-Creates an editable synthetic draft in test mode or releases an existing signed immutable prescription version in live mode.
+Creates an editable test draft. In live mode, it releases an existing signed prescription version.
 
 ### Example
 
@@ -134,10 +131,12 @@ async function example() {
   const api = new PlatformOrdersApi(config);
 
   const body = {
-    // string | Unique operation key required for every mutation.
-    idempotencyKey: idempotencyKey_example,
+    // string | Pinned dated API contract version. Official SDKs send this header automatically.
+    affinityVersion: 2026-07-19,
     // CreateOrderRequest
-    createOrderRequest: {"catalogItemId":"catalog_item_123","practiceId":"3f4bd943-a34d-4d4c-aa41-00556569a71d","directions":"Inject 0.25 mL subcutaneously once weekly.","externalOrderId":"order_123","patient":{"address":{"city":"Los Angeles","country":"US","line1":"100 Main Street","line2":null,"postalCode":"90001","state":"CA"},"dateOfBirth":"1988-05-12","email":"patient@example.com","externalPatientId":"patient_123","name":"Example Patient","state":"CA"},"prescriber":{"credentials":"MD","licenseStates":["CA"],"name":"Alex Morgan","npi":"1234567893"},"prescription":{"authorized":true,"signedAt":"2026-07-10T12:00:00.000Z"},"quantity":1},
+    createOrderRequest: {"catalogItemId":"cat_01j00000000000000000000000","practiceId":"prac_01j00000000000000000000000","directions":"Inject 0.25 mL subcutaneously once weekly.","externalOrderId":"order_123","patient":{"address":{"city":"Los Angeles","country":"US","line1":"100 Main Street","line2":null,"postalCode":"90001","state":"CA"},"dateOfBirth":"1988-05-12","email":"patient@example.com","externalPatientId":"patient_123","name":"Example Patient","state":"CA"},"prescriber":{"credentials":"MD","licenseStates":["CA"],"name":"Alex Morgan","npi":"1234567893"},"prescription":{"authorized":true,"signedAt":"2026-07-10T12:00:00.000Z"},"quantity":1},
+    // string | Unique operation key required for every mutation. (optional)
+    idempotencyKey: idempotencyKey_example,
   } satisfies CreateOrderOperationRequest;
 
   try {
@@ -157,12 +156,13 @@ example().catch(console.error);
 
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
-| **idempotencyKey** | `string` | Unique operation key required for every mutation. | [Defaults to `undefined`] |
+| **affinityVersion** | `string` | Pinned dated API contract version. Official SDKs send this header automatically. | [Defaults to `undefined`] |
 | **createOrderRequest** | [CreateOrderRequest](CreateOrderRequest.md) |  | |
+| **idempotencyKey** | `string` | Unique operation key required for every mutation. | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 
-[**CreateOrder200Response**](CreateOrder200Response.md)
+[**CreateOrderResponse**](CreateOrderResponse.md)
 
 ### Authorization
 
@@ -177,27 +177,20 @@ example().catch(console.error);
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Successful response |  -  |
-| **400** | Bad request |  -  |
-| **401** | Unauthorized |  -  |
-| **403** | Forbidden |  -  |
-| **404** | Not found |  -  |
-| **409** | Conflict |  -  |
-| **410** | Gone |  -  |
-| **413** | Payload too large |  -  |
-| **422** | Unprocessable entity |  -  |
-| **429** | Too many requests |  -  |
-| **500** | Internal server error |  -  |
-| **501** | Not implemented |  -  |
-| **502** | Bad gateway |  -  |
-| **503** | Service unavailable |  -  |
+| **200** | Successful response |  * Affinity-Version -  <br>  * RateLimit-Limit -  <br>  * RateLimit-Remaining -  <br>  * RateLimit-Reset -  <br>  * Request-Id -  <br>  |
+| **400** | Bad request |  * Affinity-Version -  <br>  * RateLimit-Limit -  <br>  * RateLimit-Remaining -  <br>  * RateLimit-Reset -  <br>  * Request-Id -  <br>  |
+| **401** | Unauthorized |  * Affinity-Version -  <br>  * RateLimit-Limit -  <br>  * RateLimit-Remaining -  <br>  * RateLimit-Reset -  <br>  * Request-Id -  <br>  |
+| **403** | Forbidden |  * Affinity-Version -  <br>  * RateLimit-Limit -  <br>  * RateLimit-Remaining -  <br>  * RateLimit-Reset -  <br>  * Request-Id -  <br>  |
+| **409** | Conflict |  * Affinity-Version -  <br>  * RateLimit-Limit -  <br>  * RateLimit-Remaining -  <br>  * RateLimit-Reset -  <br>  * Request-Id -  <br>  |
+| **429** | Too many requests |  * Affinity-Version -  <br>  * RateLimit-Limit -  <br>  * RateLimit-Remaining -  <br>  * RateLimit-Reset -  <br>  * Request-Id -  <br>  |
+| **500** | Internal server error |  * Affinity-Version -  <br>  * RateLimit-Limit -  <br>  * RateLimit-Remaining -  <br>  * RateLimit-Reset -  <br>  * Request-Id -  <br>  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
 
 ## getOrder
 
-> CreateOrder200Response getOrder(orderId)
+> GetOrderResponse getOrder(orderId, affinityVersion)
 
 Read order
 
@@ -223,6 +216,8 @@ async function example() {
   const body = {
     // string
     orderId: orderId_example,
+    // string | Pinned dated API contract version. Official SDKs send this header automatically.
+    affinityVersion: 2026-07-19,
   } satisfies GetOrderRequest;
 
   try {
@@ -243,10 +238,11 @@ example().catch(console.error);
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
 | **orderId** | `string` |  | [Defaults to `undefined`] |
+| **affinityVersion** | `string` | Pinned dated API contract version. Official SDKs send this header automatically. | [Defaults to `undefined`] |
 
 ### Return type
 
-[**CreateOrder200Response**](CreateOrder200Response.md)
+[**GetOrderResponse**](GetOrderResponse.md)
 
 ### Authorization
 
@@ -261,27 +257,20 @@ example().catch(console.error);
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Successful response |  -  |
-| **400** | Bad request |  -  |
-| **401** | Unauthorized |  -  |
-| **403** | Forbidden |  -  |
-| **404** | Not found |  -  |
-| **409** | Conflict |  -  |
-| **410** | Gone |  -  |
-| **413** | Payload too large |  -  |
-| **422** | Unprocessable entity |  -  |
-| **429** | Too many requests |  -  |
-| **500** | Internal server error |  -  |
-| **501** | Not implemented |  -  |
-| **502** | Bad gateway |  -  |
-| **503** | Service unavailable |  -  |
+| **200** | Successful response |  * Affinity-Version -  <br>  * RateLimit-Limit -  <br>  * RateLimit-Remaining -  <br>  * RateLimit-Reset -  <br>  * Request-Id -  <br>  |
+| **400** | Bad request |  * Affinity-Version -  <br>  * RateLimit-Limit -  <br>  * RateLimit-Remaining -  <br>  * RateLimit-Reset -  <br>  * Request-Id -  <br>  |
+| **401** | Unauthorized |  * Affinity-Version -  <br>  * RateLimit-Limit -  <br>  * RateLimit-Remaining -  <br>  * RateLimit-Reset -  <br>  * Request-Id -  <br>  |
+| **403** | Forbidden |  * Affinity-Version -  <br>  * RateLimit-Limit -  <br>  * RateLimit-Remaining -  <br>  * RateLimit-Reset -  <br>  * Request-Id -  <br>  |
+| **404** | Not found |  * Affinity-Version -  <br>  * RateLimit-Limit -  <br>  * RateLimit-Remaining -  <br>  * RateLimit-Reset -  <br>  * Request-Id -  <br>  |
+| **429** | Too many requests |  * Affinity-Version -  <br>  * RateLimit-Limit -  <br>  * RateLimit-Remaining -  <br>  * RateLimit-Reset -  <br>  * Request-Id -  <br>  |
+| **500** | Internal server error |  * Affinity-Version -  <br>  * RateLimit-Limit -  <br>  * RateLimit-Remaining -  <br>  * RateLimit-Reset -  <br>  * Request-Id -  <br>  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
 
 ## listOrderEvents
 
-> ListOrderEvents200Response listOrderEvents(orderId)
+> ListOrderEventsResponse listOrderEvents(orderId, affinityVersion, limit, startingAfter, endingBefore)
 
 List order events
 
@@ -307,6 +296,14 @@ async function example() {
   const body = {
     // string
     orderId: orderId_example,
+    // string | Pinned dated API contract version. Official SDKs send this header automatically.
+    affinityVersion: 2026-07-19,
+    // number (optional)
+    limit: 56,
+    // string (optional)
+    startingAfter: startingAfter_example,
+    // string (optional)
+    endingBefore: endingBefore_example,
   } satisfies ListOrderEventsRequest;
 
   try {
@@ -327,10 +324,14 @@ example().catch(console.error);
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
 | **orderId** | `string` |  | [Defaults to `undefined`] |
+| **affinityVersion** | `string` | Pinned dated API contract version. Official SDKs send this header automatically. | [Defaults to `undefined`] |
+| **limit** | `number` |  | [Optional] [Defaults to `25`] |
+| **startingAfter** | `string` |  | [Optional] [Defaults to `undefined`] |
+| **endingBefore** | `string` |  | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 
-[**ListOrderEvents200Response**](ListOrderEvents200Response.md)
+[**ListOrderEventsResponse**](ListOrderEventsResponse.md)
 
 ### Authorization
 
@@ -345,27 +346,20 @@ example().catch(console.error);
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Successful response |  -  |
-| **400** | Bad request |  -  |
-| **401** | Unauthorized |  -  |
-| **403** | Forbidden |  -  |
-| **404** | Not found |  -  |
-| **409** | Conflict |  -  |
-| **410** | Gone |  -  |
-| **413** | Payload too large |  -  |
-| **422** | Unprocessable entity |  -  |
-| **429** | Too many requests |  -  |
-| **500** | Internal server error |  -  |
-| **501** | Not implemented |  -  |
-| **502** | Bad gateway |  -  |
-| **503** | Service unavailable |  -  |
+| **200** | Successful response |  * Affinity-Version -  <br>  * RateLimit-Limit -  <br>  * RateLimit-Remaining -  <br>  * RateLimit-Reset -  <br>  * Request-Id -  <br>  |
+| **400** | Bad request |  * Affinity-Version -  <br>  * RateLimit-Limit -  <br>  * RateLimit-Remaining -  <br>  * RateLimit-Reset -  <br>  * Request-Id -  <br>  |
+| **401** | Unauthorized |  * Affinity-Version -  <br>  * RateLimit-Limit -  <br>  * RateLimit-Remaining -  <br>  * RateLimit-Reset -  <br>  * Request-Id -  <br>  |
+| **403** | Forbidden |  * Affinity-Version -  <br>  * RateLimit-Limit -  <br>  * RateLimit-Remaining -  <br>  * RateLimit-Reset -  <br>  * Request-Id -  <br>  |
+| **404** | Not found |  * Affinity-Version -  <br>  * RateLimit-Limit -  <br>  * RateLimit-Remaining -  <br>  * RateLimit-Reset -  <br>  * Request-Id -  <br>  |
+| **429** | Too many requests |  * Affinity-Version -  <br>  * RateLimit-Limit -  <br>  * RateLimit-Remaining -  <br>  * RateLimit-Reset -  <br>  * Request-Id -  <br>  |
+| **500** | Internal server error |  * Affinity-Version -  <br>  * RateLimit-Limit -  <br>  * RateLimit-Remaining -  <br>  * RateLimit-Reset -  <br>  * Request-Id -  <br>  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
 
 ## listOrders
 
-> ListOrders200Response listOrders(externalOrderId, patientExternalId, practiceId, limit, status)
+> ListOrdersResponse listOrders(affinityVersion, externalOrderId, patientExternalId, limit, startingAfter, endingBefore, practiceId, status)
 
 List platform orders
 
@@ -389,14 +383,20 @@ async function example() {
   const api = new PlatformOrdersApi(config);
 
   const body = {
+    // string | Pinned dated API contract version. Official SDKs send this header automatically.
+    affinityVersion: 2026-07-19,
     // string (optional)
     externalOrderId: externalOrderId_example,
     // string (optional)
     patientExternalId: patientExternalId_example,
-    // string (optional)
-    practiceId: practiceId_example,
     // number (optional)
     limit: 56,
+    // string (optional)
+    startingAfter: startingAfter_example,
+    // string (optional)
+    endingBefore: endingBefore_example,
+    // string (optional)
+    practiceId: practiceId_example,
     // 'blocked' | 'cancelled' | 'delivered' | 'draft' | 'processing' | 'shipped' | 'submitted' (optional)
     status: status_example,
   } satisfies ListOrdersRequest;
@@ -418,15 +418,18 @@ example().catch(console.error);
 
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
+| **affinityVersion** | `string` | Pinned dated API contract version. Official SDKs send this header automatically. | [Defaults to `undefined`] |
 | **externalOrderId** | `string` |  | [Optional] [Defaults to `undefined`] |
 | **patientExternalId** | `string` |  | [Optional] [Defaults to `undefined`] |
-| **practiceId** | `string` |  | [Optional] [Defaults to `undefined`] |
 | **limit** | `number` |  | [Optional] [Defaults to `100`] |
+| **startingAfter** | `string` |  | [Optional] [Defaults to `undefined`] |
+| **endingBefore** | `string` |  | [Optional] [Defaults to `undefined`] |
+| **practiceId** | `string` |  | [Optional] [Defaults to `undefined`] |
 | **status** | `blocked`, `cancelled`, `delivered`, `draft`, `processing`, `shipped`, `submitted` |  | [Optional] [Defaults to `undefined`] [Enum: blocked, cancelled, delivered, draft, processing, shipped, submitted] |
 
 ### Return type
 
-[**ListOrders200Response**](ListOrders200Response.md)
+[**ListOrdersResponse**](ListOrdersResponse.md)
 
 ### Authorization
 
@@ -441,31 +444,23 @@ example().catch(console.error);
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Successful response |  -  |
-| **400** | Bad request |  -  |
-| **401** | Unauthorized |  -  |
-| **403** | Forbidden |  -  |
-| **404** | Not found |  -  |
-| **409** | Conflict |  -  |
-| **410** | Gone |  -  |
-| **413** | Payload too large |  -  |
-| **422** | Unprocessable entity |  -  |
-| **429** | Too many requests |  -  |
-| **500** | Internal server error |  -  |
-| **501** | Not implemented |  -  |
-| **502** | Bad gateway |  -  |
-| **503** | Service unavailable |  -  |
+| **200** | Successful response |  * Affinity-Version -  <br>  * RateLimit-Limit -  <br>  * RateLimit-Remaining -  <br>  * RateLimit-Reset -  <br>  * Request-Id -  <br>  |
+| **400** | Bad request |  * Affinity-Version -  <br>  * RateLimit-Limit -  <br>  * RateLimit-Remaining -  <br>  * RateLimit-Reset -  <br>  * Request-Id -  <br>  |
+| **401** | Unauthorized |  * Affinity-Version -  <br>  * RateLimit-Limit -  <br>  * RateLimit-Remaining -  <br>  * RateLimit-Reset -  <br>  * Request-Id -  <br>  |
+| **403** | Forbidden |  * Affinity-Version -  <br>  * RateLimit-Limit -  <br>  * RateLimit-Remaining -  <br>  * RateLimit-Reset -  <br>  * Request-Id -  <br>  |
+| **429** | Too many requests |  * Affinity-Version -  <br>  * RateLimit-Limit -  <br>  * RateLimit-Remaining -  <br>  * RateLimit-Reset -  <br>  * Request-Id -  <br>  |
+| **500** | Internal server error |  * Affinity-Version -  <br>  * RateLimit-Limit -  <br>  * RateLimit-Remaining -  <br>  * RateLimit-Reset -  <br>  * Request-Id -  <br>  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
 
 ## submitOrder
 
-> CreateOrder200Response submitOrder(orderId, idempotencyKey)
+> SubmitOrderResponse submitOrder(orderId, affinityVersion, idempotencyKey)
 
 Submit order
 
-Validates and submits an immutable order to the Affinity review queue.
+Checks a test draft and submits it to the test review queue.
 
 ### Example
 
@@ -489,7 +484,9 @@ async function example() {
   const body = {
     // string
     orderId: orderId_example,
-    // string | Unique operation key required for every mutation.
+    // string | Pinned dated API contract version. Official SDKs send this header automatically.
+    affinityVersion: 2026-07-19,
+    // string | Unique operation key required for every mutation. (optional)
     idempotencyKey: idempotencyKey_example,
   } satisfies SubmitOrderRequest;
 
@@ -511,11 +508,12 @@ example().catch(console.error);
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
 | **orderId** | `string` |  | [Defaults to `undefined`] |
-| **idempotencyKey** | `string` | Unique operation key required for every mutation. | [Defaults to `undefined`] |
+| **affinityVersion** | `string` | Pinned dated API contract version. Official SDKs send this header automatically. | [Defaults to `undefined`] |
+| **idempotencyKey** | `string` | Unique operation key required for every mutation. | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 
-[**CreateOrder200Response**](CreateOrder200Response.md)
+[**SubmitOrderResponse**](SubmitOrderResponse.md)
 
 ### Authorization
 
@@ -530,31 +528,25 @@ example().catch(console.error);
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Successful response |  -  |
-| **400** | Bad request |  -  |
-| **401** | Unauthorized |  -  |
-| **403** | Forbidden |  -  |
-| **404** | Not found |  -  |
-| **409** | Conflict |  -  |
-| **410** | Gone |  -  |
-| **413** | Payload too large |  -  |
-| **422** | Unprocessable entity |  -  |
-| **429** | Too many requests |  -  |
-| **500** | Internal server error |  -  |
-| **501** | Not implemented |  -  |
-| **502** | Bad gateway |  -  |
-| **503** | Service unavailable |  -  |
+| **200** | Successful response |  * Affinity-Version -  <br>  * RateLimit-Limit -  <br>  * RateLimit-Remaining -  <br>  * RateLimit-Reset -  <br>  * Request-Id -  <br>  |
+| **400** | Bad request |  * Affinity-Version -  <br>  * RateLimit-Limit -  <br>  * RateLimit-Remaining -  <br>  * RateLimit-Reset -  <br>  * Request-Id -  <br>  |
+| **401** | Unauthorized |  * Affinity-Version -  <br>  * RateLimit-Limit -  <br>  * RateLimit-Remaining -  <br>  * RateLimit-Reset -  <br>  * Request-Id -  <br>  |
+| **403** | Forbidden |  * Affinity-Version -  <br>  * RateLimit-Limit -  <br>  * RateLimit-Remaining -  <br>  * RateLimit-Reset -  <br>  * Request-Id -  <br>  |
+| **404** | Not found |  * Affinity-Version -  <br>  * RateLimit-Limit -  <br>  * RateLimit-Remaining -  <br>  * RateLimit-Reset -  <br>  * Request-Id -  <br>  |
+| **409** | Conflict |  * Affinity-Version -  <br>  * RateLimit-Limit -  <br>  * RateLimit-Remaining -  <br>  * RateLimit-Reset -  <br>  * Request-Id -  <br>  |
+| **429** | Too many requests |  * Affinity-Version -  <br>  * RateLimit-Limit -  <br>  * RateLimit-Remaining -  <br>  * RateLimit-Reset -  <br>  * Request-Id -  <br>  |
+| **500** | Internal server error |  * Affinity-Version -  <br>  * RateLimit-Limit -  <br>  * RateLimit-Remaining -  <br>  * RateLimit-Reset -  <br>  * Request-Id -  <br>  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
 
 ## updateOrder
 
-> CreateOrder200Response updateOrder(orderId, idempotencyKey, updateOrderRequest)
+> UpdateOrderResponse updateOrder(orderId, affinityVersion, updateOrderRequest, idempotencyKey)
 
 Update draft order
 
-Updates an order while it remains a draft.
+Updates a test order that is in the draft state.
 
 ### Example
 
@@ -578,10 +570,12 @@ async function example() {
   const body = {
     // string
     orderId: orderId_example,
-    // string | Unique operation key required for every mutation.
-    idempotencyKey: idempotencyKey_example,
+    // string | Pinned dated API contract version. Official SDKs send this header automatically.
+    affinityVersion: 2026-07-19,
     // UpdateOrderRequest
     updateOrderRequest: ...,
+    // string | Unique operation key required for every mutation. (optional)
+    idempotencyKey: idempotencyKey_example,
   } satisfies UpdateOrderOperationRequest;
 
   try {
@@ -602,12 +596,13 @@ example().catch(console.error);
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
 | **orderId** | `string` |  | [Defaults to `undefined`] |
-| **idempotencyKey** | `string` | Unique operation key required for every mutation. | [Defaults to `undefined`] |
+| **affinityVersion** | `string` | Pinned dated API contract version. Official SDKs send this header automatically. | [Defaults to `undefined`] |
 | **updateOrderRequest** | [UpdateOrderRequest](UpdateOrderRequest.md) |  | |
+| **idempotencyKey** | `string` | Unique operation key required for every mutation. | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 
-[**CreateOrder200Response**](CreateOrder200Response.md)
+[**UpdateOrderResponse**](UpdateOrderResponse.md)
 
 ### Authorization
 
@@ -622,20 +617,14 @@ example().catch(console.error);
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Successful response |  -  |
-| **400** | Bad request |  -  |
-| **401** | Unauthorized |  -  |
-| **403** | Forbidden |  -  |
-| **404** | Not found |  -  |
-| **409** | Conflict |  -  |
-| **410** | Gone |  -  |
-| **413** | Payload too large |  -  |
-| **422** | Unprocessable entity |  -  |
-| **429** | Too many requests |  -  |
-| **500** | Internal server error |  -  |
-| **501** | Not implemented |  -  |
-| **502** | Bad gateway |  -  |
-| **503** | Service unavailable |  -  |
+| **200** | Successful response |  * Affinity-Version -  <br>  * RateLimit-Limit -  <br>  * RateLimit-Remaining -  <br>  * RateLimit-Reset -  <br>  * Request-Id -  <br>  |
+| **400** | Bad request |  * Affinity-Version -  <br>  * RateLimit-Limit -  <br>  * RateLimit-Remaining -  <br>  * RateLimit-Reset -  <br>  * Request-Id -  <br>  |
+| **401** | Unauthorized |  * Affinity-Version -  <br>  * RateLimit-Limit -  <br>  * RateLimit-Remaining -  <br>  * RateLimit-Reset -  <br>  * Request-Id -  <br>  |
+| **403** | Forbidden |  * Affinity-Version -  <br>  * RateLimit-Limit -  <br>  * RateLimit-Remaining -  <br>  * RateLimit-Reset -  <br>  * Request-Id -  <br>  |
+| **404** | Not found |  * Affinity-Version -  <br>  * RateLimit-Limit -  <br>  * RateLimit-Remaining -  <br>  * RateLimit-Reset -  <br>  * Request-Id -  <br>  |
+| **409** | Conflict |  * Affinity-Version -  <br>  * RateLimit-Limit -  <br>  * RateLimit-Remaining -  <br>  * RateLimit-Reset -  <br>  * Request-Id -  <br>  |
+| **429** | Too many requests |  * Affinity-Version -  <br>  * RateLimit-Limit -  <br>  * RateLimit-Remaining -  <br>  * RateLimit-Reset -  <br>  * Request-Id -  <br>  |
+| **500** | Internal server error |  * Affinity-Version -  <br>  * RateLimit-Limit -  <br>  * RateLimit-Remaining -  <br>  * RateLimit-Reset -  <br>  * Request-Id -  <br>  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 

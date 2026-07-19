@@ -33,6 +33,12 @@ const access = await affinity.account.retrieveAccess();
 if (access.livemode) throw new Error("Use a test-mode key during sandbox development");
 
 const catalog = await affinity.catalog.list({ query: "semaglutide", limit: 10 });
+const item = catalog.data[0];
+if (item) {
+  console.log(item.pricing.medicationSubtotalCents);
+  console.log(item.pricing.serviceFeeCents);
+  console.log(item.pricing.orderTotalCents);
+}
 
 const practices = await affinity.practices.list();
 const orders = await affinity.orders.list({ practiceId: practices.data[0]?.id });
@@ -54,6 +60,14 @@ will be the recommended entry point.
 Each clinical order belongs to exactly one practice. A platform can list orders across all of its
 practices or pass `practiceId` to scope the operational view to one practice. Platform-created
 `externalOrderId` values are unique within that platform and API mode.
+
+Catalog prices use US cents. `medicationSubtotalCents` is the pharmacy medication price.
+`serviceFeeCents` is the Affinity fee. The fee is 15% of the medication subtotal. It does not apply
+to shipping or tax. `orderTotalCents` is the amount due before shipping and tax.
+
+The practice pays for an order. The pharmacy is the seller and merchant of record. Affinity charges
+the practice card when the pharmacy accepts the order. Platforms do not collect payment data and do
+not pay for orders.
 
 ## Safety
 

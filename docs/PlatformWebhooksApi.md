@@ -17,7 +17,7 @@ All URIs are relative to *https://api.joinaffinityai.com*
 
 ## createWebhookEndpoint
 
-> CreateWebhookEndpoint200Response createWebhookEndpoint(idempotencyKey, createWebhookEndpointRequest)
+> CreateWebhookEndpointResponse createWebhookEndpoint(affinityVersion, createWebhookEndpointRequest, idempotencyKey)
 
 Create webhook endpoint
 
@@ -41,10 +41,12 @@ async function example() {
   const api = new PlatformWebhooksApi(config);
 
   const body = {
-    // string | Unique operation key required for every mutation.
-    idempotencyKey: idempotencyKey_example,
+    // string | Pinned dated API contract version. Official SDKs send this header automatically.
+    affinityVersion: 2026-07-19,
     // CreateWebhookEndpointRequest
     createWebhookEndpointRequest: ...,
+    // string | Unique operation key required for every mutation. (optional)
+    idempotencyKey: idempotencyKey_example,
   } satisfies CreateWebhookEndpointOperationRequest;
 
   try {
@@ -64,12 +66,13 @@ example().catch(console.error);
 
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
-| **idempotencyKey** | `string` | Unique operation key required for every mutation. | [Defaults to `undefined`] |
+| **affinityVersion** | `string` | Pinned dated API contract version. Official SDKs send this header automatically. | [Defaults to `undefined`] |
 | **createWebhookEndpointRequest** | [CreateWebhookEndpointRequest](CreateWebhookEndpointRequest.md) |  | |
+| **idempotencyKey** | `string` | Unique operation key required for every mutation. | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 
-[**CreateWebhookEndpoint200Response**](CreateWebhookEndpoint200Response.md)
+[**CreateWebhookEndpointResponse**](CreateWebhookEndpointResponse.md)
 
 ### Authorization
 
@@ -84,27 +87,20 @@ example().catch(console.error);
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Successful response |  -  |
-| **400** | Bad request |  -  |
-| **401** | Unauthorized |  -  |
-| **403** | Forbidden |  -  |
-| **404** | Not found |  -  |
-| **409** | Conflict |  -  |
-| **410** | Gone |  -  |
-| **413** | Payload too large |  -  |
-| **422** | Unprocessable entity |  -  |
-| **429** | Too many requests |  -  |
-| **500** | Internal server error |  -  |
-| **501** | Not implemented |  -  |
-| **502** | Bad gateway |  -  |
-| **503** | Service unavailable |  -  |
+| **200** | Successful response |  * Affinity-Version -  <br>  * RateLimit-Limit -  <br>  * RateLimit-Remaining -  <br>  * RateLimit-Reset -  <br>  * Request-Id -  <br>  |
+| **400** | Bad request |  * Affinity-Version -  <br>  * RateLimit-Limit -  <br>  * RateLimit-Remaining -  <br>  * RateLimit-Reset -  <br>  * Request-Id -  <br>  |
+| **401** | Unauthorized |  * Affinity-Version -  <br>  * RateLimit-Limit -  <br>  * RateLimit-Remaining -  <br>  * RateLimit-Reset -  <br>  * Request-Id -  <br>  |
+| **403** | Forbidden |  * Affinity-Version -  <br>  * RateLimit-Limit -  <br>  * RateLimit-Remaining -  <br>  * RateLimit-Reset -  <br>  * Request-Id -  <br>  |
+| **409** | Conflict |  * Affinity-Version -  <br>  * RateLimit-Limit -  <br>  * RateLimit-Remaining -  <br>  * RateLimit-Reset -  <br>  * Request-Id -  <br>  |
+| **429** | Too many requests |  * Affinity-Version -  <br>  * RateLimit-Limit -  <br>  * RateLimit-Remaining -  <br>  * RateLimit-Reset -  <br>  * Request-Id -  <br>  |
+| **500** | Internal server error |  * Affinity-Version -  <br>  * RateLimit-Limit -  <br>  * RateLimit-Remaining -  <br>  * RateLimit-Reset -  <br>  * Request-Id -  <br>  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
 
 ## deleteWebhookEndpoint
 
-> DeleteWebhookEndpoint200Response deleteWebhookEndpoint(endpointId, idempotencyKey)
+> DeleteWebhookEndpointResponse deleteWebhookEndpoint(endpointId, affinityVersion, idempotencyKey)
 
 Disable webhook endpoint
 
@@ -130,7 +126,9 @@ async function example() {
   const body = {
     // string
     endpointId: endpointId_example,
-    // string | Unique operation key required for every mutation.
+    // string | Pinned dated API contract version. Official SDKs send this header automatically.
+    affinityVersion: 2026-07-19,
+    // string | Unique operation key required for every mutation. (optional)
     idempotencyKey: idempotencyKey_example,
   } satisfies DeleteWebhookEndpointRequest;
 
@@ -152,11 +150,12 @@ example().catch(console.error);
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
 | **endpointId** | `string` |  | [Defaults to `undefined`] |
-| **idempotencyKey** | `string` | Unique operation key required for every mutation. | [Defaults to `undefined`] |
+| **affinityVersion** | `string` | Pinned dated API contract version. Official SDKs send this header automatically. | [Defaults to `undefined`] |
+| **idempotencyKey** | `string` | Unique operation key required for every mutation. | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 
-[**DeleteWebhookEndpoint200Response**](DeleteWebhookEndpoint200Response.md)
+[**DeleteWebhookEndpointResponse**](DeleteWebhookEndpointResponse.md)
 
 ### Authorization
 
@@ -171,27 +170,21 @@ example().catch(console.error);
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Successful response |  -  |
-| **400** | Bad request |  -  |
-| **401** | Unauthorized |  -  |
-| **403** | Forbidden |  -  |
-| **404** | Not found |  -  |
-| **409** | Conflict |  -  |
-| **410** | Gone |  -  |
-| **413** | Payload too large |  -  |
-| **422** | Unprocessable entity |  -  |
-| **429** | Too many requests |  -  |
-| **500** | Internal server error |  -  |
-| **501** | Not implemented |  -  |
-| **502** | Bad gateway |  -  |
-| **503** | Service unavailable |  -  |
+| **200** | Successful response |  * Affinity-Version -  <br>  * RateLimit-Limit -  <br>  * RateLimit-Remaining -  <br>  * RateLimit-Reset -  <br>  * Request-Id -  <br>  |
+| **400** | Bad request |  * Affinity-Version -  <br>  * RateLimit-Limit -  <br>  * RateLimit-Remaining -  <br>  * RateLimit-Reset -  <br>  * Request-Id -  <br>  |
+| **401** | Unauthorized |  * Affinity-Version -  <br>  * RateLimit-Limit -  <br>  * RateLimit-Remaining -  <br>  * RateLimit-Reset -  <br>  * Request-Id -  <br>  |
+| **403** | Forbidden |  * Affinity-Version -  <br>  * RateLimit-Limit -  <br>  * RateLimit-Remaining -  <br>  * RateLimit-Reset -  <br>  * Request-Id -  <br>  |
+| **404** | Not found |  * Affinity-Version -  <br>  * RateLimit-Limit -  <br>  * RateLimit-Remaining -  <br>  * RateLimit-Reset -  <br>  * Request-Id -  <br>  |
+| **409** | Conflict |  * Affinity-Version -  <br>  * RateLimit-Limit -  <br>  * RateLimit-Remaining -  <br>  * RateLimit-Reset -  <br>  * Request-Id -  <br>  |
+| **429** | Too many requests |  * Affinity-Version -  <br>  * RateLimit-Limit -  <br>  * RateLimit-Remaining -  <br>  * RateLimit-Reset -  <br>  * Request-Id -  <br>  |
+| **500** | Internal server error |  * Affinity-Version -  <br>  * RateLimit-Limit -  <br>  * RateLimit-Remaining -  <br>  * RateLimit-Reset -  <br>  * Request-Id -  <br>  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
 
 ## getWebhookEvent
 
-> GetWebhookEvent200Response getWebhookEvent(eventId)
+> GetWebhookEventResponse getWebhookEvent(eventId, affinityVersion)
 
 Read webhook event attempts
 
@@ -217,6 +210,8 @@ async function example() {
   const body = {
     // string
     eventId: eventId_example,
+    // string | Pinned dated API contract version. Official SDKs send this header automatically.
+    affinityVersion: 2026-07-19,
   } satisfies GetWebhookEventRequest;
 
   try {
@@ -237,10 +232,11 @@ example().catch(console.error);
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
 | **eventId** | `string` |  | [Defaults to `undefined`] |
+| **affinityVersion** | `string` | Pinned dated API contract version. Official SDKs send this header automatically. | [Defaults to `undefined`] |
 
 ### Return type
 
-[**GetWebhookEvent200Response**](GetWebhookEvent200Response.md)
+[**GetWebhookEventResponse**](GetWebhookEventResponse.md)
 
 ### Authorization
 
@@ -255,27 +251,20 @@ example().catch(console.error);
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Successful response |  -  |
-| **400** | Bad request |  -  |
-| **401** | Unauthorized |  -  |
-| **403** | Forbidden |  -  |
-| **404** | Not found |  -  |
-| **409** | Conflict |  -  |
-| **410** | Gone |  -  |
-| **413** | Payload too large |  -  |
-| **422** | Unprocessable entity |  -  |
-| **429** | Too many requests |  -  |
-| **500** | Internal server error |  -  |
-| **501** | Not implemented |  -  |
-| **502** | Bad gateway |  -  |
-| **503** | Service unavailable |  -  |
+| **200** | Successful response |  * Affinity-Version -  <br>  * RateLimit-Limit -  <br>  * RateLimit-Remaining -  <br>  * RateLimit-Reset -  <br>  * Request-Id -  <br>  |
+| **400** | Bad request |  * Affinity-Version -  <br>  * RateLimit-Limit -  <br>  * RateLimit-Remaining -  <br>  * RateLimit-Reset -  <br>  * Request-Id -  <br>  |
+| **401** | Unauthorized |  * Affinity-Version -  <br>  * RateLimit-Limit -  <br>  * RateLimit-Remaining -  <br>  * RateLimit-Reset -  <br>  * Request-Id -  <br>  |
+| **403** | Forbidden |  * Affinity-Version -  <br>  * RateLimit-Limit -  <br>  * RateLimit-Remaining -  <br>  * RateLimit-Reset -  <br>  * Request-Id -  <br>  |
+| **404** | Not found |  * Affinity-Version -  <br>  * RateLimit-Limit -  <br>  * RateLimit-Remaining -  <br>  * RateLimit-Reset -  <br>  * Request-Id -  <br>  |
+| **429** | Too many requests |  * Affinity-Version -  <br>  * RateLimit-Limit -  <br>  * RateLimit-Remaining -  <br>  * RateLimit-Reset -  <br>  * Request-Id -  <br>  |
+| **500** | Internal server error |  * Affinity-Version -  <br>  * RateLimit-Limit -  <br>  * RateLimit-Remaining -  <br>  * RateLimit-Reset -  <br>  * Request-Id -  <br>  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
 
 ## listWebhookEndpoints
 
-> ListWebhookEndpoints200Response listWebhookEndpoints()
+> ListWebhookEndpointsResponse listWebhookEndpoints(affinityVersion, limit, startingAfter, endingBefore)
 
 List webhook endpoints
 
@@ -298,8 +287,19 @@ async function example() {
   });
   const api = new PlatformWebhooksApi(config);
 
+  const body = {
+    // string | Pinned dated API contract version. Official SDKs send this header automatically.
+    affinityVersion: 2026-07-19,
+    // number (optional)
+    limit: 56,
+    // string (optional)
+    startingAfter: startingAfter_example,
+    // string (optional)
+    endingBefore: endingBefore_example,
+  } satisfies ListWebhookEndpointsRequest;
+
   try {
-    const data = await api.listWebhookEndpoints();
+    const data = await api.listWebhookEndpoints(body);
     console.log(data);
   } catch (error) {
     console.error(error);
@@ -312,11 +312,17 @@ example().catch(console.error);
 
 ### Parameters
 
-This endpoint does not need any parameter.
+
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **affinityVersion** | `string` | Pinned dated API contract version. Official SDKs send this header automatically. | [Defaults to `undefined`] |
+| **limit** | `number` |  | [Optional] [Defaults to `25`] |
+| **startingAfter** | `string` |  | [Optional] [Defaults to `undefined`] |
+| **endingBefore** | `string` |  | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 
-[**ListWebhookEndpoints200Response**](ListWebhookEndpoints200Response.md)
+[**ListWebhookEndpointsResponse**](ListWebhookEndpointsResponse.md)
 
 ### Authorization
 
@@ -331,27 +337,19 @@ This endpoint does not need any parameter.
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Successful response |  -  |
-| **400** | Bad request |  -  |
-| **401** | Unauthorized |  -  |
-| **403** | Forbidden |  -  |
-| **404** | Not found |  -  |
-| **409** | Conflict |  -  |
-| **410** | Gone |  -  |
-| **413** | Payload too large |  -  |
-| **422** | Unprocessable entity |  -  |
-| **429** | Too many requests |  -  |
-| **500** | Internal server error |  -  |
-| **501** | Not implemented |  -  |
-| **502** | Bad gateway |  -  |
-| **503** | Service unavailable |  -  |
+| **200** | Successful response |  * Affinity-Version -  <br>  * RateLimit-Limit -  <br>  * RateLimit-Remaining -  <br>  * RateLimit-Reset -  <br>  * Request-Id -  <br>  |
+| **400** | Bad request |  * Affinity-Version -  <br>  * RateLimit-Limit -  <br>  * RateLimit-Remaining -  <br>  * RateLimit-Reset -  <br>  * Request-Id -  <br>  |
+| **401** | Unauthorized |  * Affinity-Version -  <br>  * RateLimit-Limit -  <br>  * RateLimit-Remaining -  <br>  * RateLimit-Reset -  <br>  * Request-Id -  <br>  |
+| **403** | Forbidden |  * Affinity-Version -  <br>  * RateLimit-Limit -  <br>  * RateLimit-Remaining -  <br>  * RateLimit-Reset -  <br>  * Request-Id -  <br>  |
+| **429** | Too many requests |  * Affinity-Version -  <br>  * RateLimit-Limit -  <br>  * RateLimit-Remaining -  <br>  * RateLimit-Reset -  <br>  * Request-Id -  <br>  |
+| **500** | Internal server error |  * Affinity-Version -  <br>  * RateLimit-Limit -  <br>  * RateLimit-Remaining -  <br>  * RateLimit-Reset -  <br>  * Request-Id -  <br>  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
 
 ## listWebhookEvents
 
-> ListWebhookEvents200Response listWebhookEvents(limit, status)
+> ListWebhookEventsResponse listWebhookEvents(affinityVersion, limit, status, startingAfter, endingBefore)
 
 List webhook events
 
@@ -375,10 +373,16 @@ async function example() {
   const api = new PlatformWebhooksApi(config);
 
   const body = {
+    // string | Pinned dated API contract version. Official SDKs send this header automatically.
+    affinityVersion: 2026-07-19,
     // number (optional)
     limit: 56,
     // 'all' | 'delivered' | 'failed' | 'pending' | 'skipped' (optional)
     status: status_example,
+    // string (optional)
+    startingAfter: startingAfter_example,
+    // string (optional)
+    endingBefore: endingBefore_example,
   } satisfies ListWebhookEventsRequest;
 
   try {
@@ -398,12 +402,15 @@ example().catch(console.error);
 
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
+| **affinityVersion** | `string` | Pinned dated API contract version. Official SDKs send this header automatically. | [Defaults to `undefined`] |
 | **limit** | `number` |  | [Optional] [Defaults to `25`] |
 | **status** | `all`, `delivered`, `failed`, `pending`, `skipped` |  | [Optional] [Defaults to `&#39;all&#39;`] [Enum: all, delivered, failed, pending, skipped] |
+| **startingAfter** | `string` |  | [Optional] [Defaults to `undefined`] |
+| **endingBefore** | `string` |  | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 
-[**ListWebhookEvents200Response**](ListWebhookEvents200Response.md)
+[**ListWebhookEventsResponse**](ListWebhookEventsResponse.md)
 
 ### Authorization
 
@@ -418,27 +425,19 @@ example().catch(console.error);
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Successful response |  -  |
-| **400** | Bad request |  -  |
-| **401** | Unauthorized |  -  |
-| **403** | Forbidden |  -  |
-| **404** | Not found |  -  |
-| **409** | Conflict |  -  |
-| **410** | Gone |  -  |
-| **413** | Payload too large |  -  |
-| **422** | Unprocessable entity |  -  |
-| **429** | Too many requests |  -  |
-| **500** | Internal server error |  -  |
-| **501** | Not implemented |  -  |
-| **502** | Bad gateway |  -  |
-| **503** | Service unavailable |  -  |
+| **200** | Successful response |  * Affinity-Version -  <br>  * RateLimit-Limit -  <br>  * RateLimit-Remaining -  <br>  * RateLimit-Reset -  <br>  * Request-Id -  <br>  |
+| **400** | Bad request |  * Affinity-Version -  <br>  * RateLimit-Limit -  <br>  * RateLimit-Remaining -  <br>  * RateLimit-Reset -  <br>  * Request-Id -  <br>  |
+| **401** | Unauthorized |  * Affinity-Version -  <br>  * RateLimit-Limit -  <br>  * RateLimit-Remaining -  <br>  * RateLimit-Reset -  <br>  * Request-Id -  <br>  |
+| **403** | Forbidden |  * Affinity-Version -  <br>  * RateLimit-Limit -  <br>  * RateLimit-Remaining -  <br>  * RateLimit-Reset -  <br>  * Request-Id -  <br>  |
+| **429** | Too many requests |  * Affinity-Version -  <br>  * RateLimit-Limit -  <br>  * RateLimit-Remaining -  <br>  * RateLimit-Reset -  <br>  * Request-Id -  <br>  |
+| **500** | Internal server error |  * Affinity-Version -  <br>  * RateLimit-Limit -  <br>  * RateLimit-Remaining -  <br>  * RateLimit-Reset -  <br>  * Request-Id -  <br>  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
 
 ## replayWebhookEvent
 
-> ReplayWebhookEvent200Response replayWebhookEvent(eventId, idempotencyKey)
+> ReplayWebhookEventResponse replayWebhookEvent(eventId, affinityVersion, idempotencyKey)
 
 Replay webhook event
 
@@ -464,7 +463,9 @@ async function example() {
   const body = {
     // string
     eventId: eventId_example,
-    // string | Unique operation key required for every mutation.
+    // string | Pinned dated API contract version. Official SDKs send this header automatically.
+    affinityVersion: 2026-07-19,
+    // string | Unique operation key required for every mutation. (optional)
     idempotencyKey: idempotencyKey_example,
   } satisfies ReplayWebhookEventRequest;
 
@@ -486,11 +487,12 @@ example().catch(console.error);
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
 | **eventId** | `string` |  | [Defaults to `undefined`] |
-| **idempotencyKey** | `string` | Unique operation key required for every mutation. | [Defaults to `undefined`] |
+| **affinityVersion** | `string` | Pinned dated API contract version. Official SDKs send this header automatically. | [Defaults to `undefined`] |
+| **idempotencyKey** | `string` | Unique operation key required for every mutation. | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 
-[**ReplayWebhookEvent200Response**](ReplayWebhookEvent200Response.md)
+[**ReplayWebhookEventResponse**](ReplayWebhookEventResponse.md)
 
 ### Authorization
 
@@ -505,27 +507,21 @@ example().catch(console.error);
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Successful response |  -  |
-| **400** | Bad request |  -  |
-| **401** | Unauthorized |  -  |
-| **403** | Forbidden |  -  |
-| **404** | Not found |  -  |
-| **409** | Conflict |  -  |
-| **410** | Gone |  -  |
-| **413** | Payload too large |  -  |
-| **422** | Unprocessable entity |  -  |
-| **429** | Too many requests |  -  |
-| **500** | Internal server error |  -  |
-| **501** | Not implemented |  -  |
-| **502** | Bad gateway |  -  |
-| **503** | Service unavailable |  -  |
+| **200** | Successful response |  * Affinity-Version -  <br>  * RateLimit-Limit -  <br>  * RateLimit-Remaining -  <br>  * RateLimit-Reset -  <br>  * Request-Id -  <br>  |
+| **400** | Bad request |  * Affinity-Version -  <br>  * RateLimit-Limit -  <br>  * RateLimit-Remaining -  <br>  * RateLimit-Reset -  <br>  * Request-Id -  <br>  |
+| **401** | Unauthorized |  * Affinity-Version -  <br>  * RateLimit-Limit -  <br>  * RateLimit-Remaining -  <br>  * RateLimit-Reset -  <br>  * Request-Id -  <br>  |
+| **403** | Forbidden |  * Affinity-Version -  <br>  * RateLimit-Limit -  <br>  * RateLimit-Remaining -  <br>  * RateLimit-Reset -  <br>  * Request-Id -  <br>  |
+| **404** | Not found |  * Affinity-Version -  <br>  * RateLimit-Limit -  <br>  * RateLimit-Remaining -  <br>  * RateLimit-Reset -  <br>  * Request-Id -  <br>  |
+| **409** | Conflict |  * Affinity-Version -  <br>  * RateLimit-Limit -  <br>  * RateLimit-Remaining -  <br>  * RateLimit-Reset -  <br>  * Request-Id -  <br>  |
+| **429** | Too many requests |  * Affinity-Version -  <br>  * RateLimit-Limit -  <br>  * RateLimit-Remaining -  <br>  * RateLimit-Reset -  <br>  * Request-Id -  <br>  |
+| **500** | Internal server error |  * Affinity-Version -  <br>  * RateLimit-Limit -  <br>  * RateLimit-Remaining -  <br>  * RateLimit-Reset -  <br>  * Request-Id -  <br>  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
 
 ## rotateWebhookEndpointSecret
 
-> CreateWebhookEndpoint200Response rotateWebhookEndpointSecret(endpointId, idempotencyKey)
+> RotateWebhookEndpointSecretResponse rotateWebhookEndpointSecret(endpointId, affinityVersion, idempotencyKey)
 
 Rotate webhook signing secret
 
@@ -551,7 +547,9 @@ async function example() {
   const body = {
     // string
     endpointId: endpointId_example,
-    // string | Unique operation key required for every mutation.
+    // string | Pinned dated API contract version. Official SDKs send this header automatically.
+    affinityVersion: 2026-07-19,
+    // string | Unique operation key required for every mutation. (optional)
     idempotencyKey: idempotencyKey_example,
   } satisfies RotateWebhookEndpointSecretRequest;
 
@@ -573,11 +571,12 @@ example().catch(console.error);
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
 | **endpointId** | `string` |  | [Defaults to `undefined`] |
-| **idempotencyKey** | `string` | Unique operation key required for every mutation. | [Defaults to `undefined`] |
+| **affinityVersion** | `string` | Pinned dated API contract version. Official SDKs send this header automatically. | [Defaults to `undefined`] |
+| **idempotencyKey** | `string` | Unique operation key required for every mutation. | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 
-[**CreateWebhookEndpoint200Response**](CreateWebhookEndpoint200Response.md)
+[**RotateWebhookEndpointSecretResponse**](RotateWebhookEndpointSecretResponse.md)
 
 ### Authorization
 
@@ -592,27 +591,21 @@ example().catch(console.error);
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Successful response |  -  |
-| **400** | Bad request |  -  |
-| **401** | Unauthorized |  -  |
-| **403** | Forbidden |  -  |
-| **404** | Not found |  -  |
-| **409** | Conflict |  -  |
-| **410** | Gone |  -  |
-| **413** | Payload too large |  -  |
-| **422** | Unprocessable entity |  -  |
-| **429** | Too many requests |  -  |
-| **500** | Internal server error |  -  |
-| **501** | Not implemented |  -  |
-| **502** | Bad gateway |  -  |
-| **503** | Service unavailable |  -  |
+| **200** | Successful response |  * Affinity-Version -  <br>  * RateLimit-Limit -  <br>  * RateLimit-Remaining -  <br>  * RateLimit-Reset -  <br>  * Request-Id -  <br>  |
+| **400** | Bad request |  * Affinity-Version -  <br>  * RateLimit-Limit -  <br>  * RateLimit-Remaining -  <br>  * RateLimit-Reset -  <br>  * Request-Id -  <br>  |
+| **401** | Unauthorized |  * Affinity-Version -  <br>  * RateLimit-Limit -  <br>  * RateLimit-Remaining -  <br>  * RateLimit-Reset -  <br>  * Request-Id -  <br>  |
+| **403** | Forbidden |  * Affinity-Version -  <br>  * RateLimit-Limit -  <br>  * RateLimit-Remaining -  <br>  * RateLimit-Reset -  <br>  * Request-Id -  <br>  |
+| **404** | Not found |  * Affinity-Version -  <br>  * RateLimit-Limit -  <br>  * RateLimit-Remaining -  <br>  * RateLimit-Reset -  <br>  * Request-Id -  <br>  |
+| **409** | Conflict |  * Affinity-Version -  <br>  * RateLimit-Limit -  <br>  * RateLimit-Remaining -  <br>  * RateLimit-Reset -  <br>  * Request-Id -  <br>  |
+| **429** | Too many requests |  * Affinity-Version -  <br>  * RateLimit-Limit -  <br>  * RateLimit-Remaining -  <br>  * RateLimit-Reset -  <br>  * Request-Id -  <br>  |
+| **500** | Internal server error |  * Affinity-Version -  <br>  * RateLimit-Limit -  <br>  * RateLimit-Remaining -  <br>  * RateLimit-Reset -  <br>  * Request-Id -  <br>  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
 
 ## updateWebhookEndpoint
 
-> DeleteWebhookEndpoint200Response updateWebhookEndpoint(endpointId, idempotencyKey, updateWebhookEndpointRequest)
+> UpdateWebhookEndpointResponse updateWebhookEndpoint(endpointId, affinityVersion, updateWebhookEndpointRequest, idempotencyKey)
 
 Update webhook endpoint
 
@@ -638,10 +631,12 @@ async function example() {
   const body = {
     // string
     endpointId: endpointId_example,
-    // string | Unique operation key required for every mutation.
-    idempotencyKey: idempotencyKey_example,
+    // string | Pinned dated API contract version. Official SDKs send this header automatically.
+    affinityVersion: 2026-07-19,
     // UpdateWebhookEndpointRequest
     updateWebhookEndpointRequest: ...,
+    // string | Unique operation key required for every mutation. (optional)
+    idempotencyKey: idempotencyKey_example,
   } satisfies UpdateWebhookEndpointOperationRequest;
 
   try {
@@ -662,12 +657,13 @@ example().catch(console.error);
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
 | **endpointId** | `string` |  | [Defaults to `undefined`] |
-| **idempotencyKey** | `string` | Unique operation key required for every mutation. | [Defaults to `undefined`] |
+| **affinityVersion** | `string` | Pinned dated API contract version. Official SDKs send this header automatically. | [Defaults to `undefined`] |
 | **updateWebhookEndpointRequest** | [UpdateWebhookEndpointRequest](UpdateWebhookEndpointRequest.md) |  | |
+| **idempotencyKey** | `string` | Unique operation key required for every mutation. | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 
-[**DeleteWebhookEndpoint200Response**](DeleteWebhookEndpoint200Response.md)
+[**UpdateWebhookEndpointResponse**](UpdateWebhookEndpointResponse.md)
 
 ### Authorization
 
@@ -682,20 +678,14 @@ example().catch(console.error);
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Successful response |  -  |
-| **400** | Bad request |  -  |
-| **401** | Unauthorized |  -  |
-| **403** | Forbidden |  -  |
-| **404** | Not found |  -  |
-| **409** | Conflict |  -  |
-| **410** | Gone |  -  |
-| **413** | Payload too large |  -  |
-| **422** | Unprocessable entity |  -  |
-| **429** | Too many requests |  -  |
-| **500** | Internal server error |  -  |
-| **501** | Not implemented |  -  |
-| **502** | Bad gateway |  -  |
-| **503** | Service unavailable |  -  |
+| **200** | Successful response |  * Affinity-Version -  <br>  * RateLimit-Limit -  <br>  * RateLimit-Remaining -  <br>  * RateLimit-Reset -  <br>  * Request-Id -  <br>  |
+| **400** | Bad request |  * Affinity-Version -  <br>  * RateLimit-Limit -  <br>  * RateLimit-Remaining -  <br>  * RateLimit-Reset -  <br>  * Request-Id -  <br>  |
+| **401** | Unauthorized |  * Affinity-Version -  <br>  * RateLimit-Limit -  <br>  * RateLimit-Remaining -  <br>  * RateLimit-Reset -  <br>  * Request-Id -  <br>  |
+| **403** | Forbidden |  * Affinity-Version -  <br>  * RateLimit-Limit -  <br>  * RateLimit-Remaining -  <br>  * RateLimit-Reset -  <br>  * Request-Id -  <br>  |
+| **404** | Not found |  * Affinity-Version -  <br>  * RateLimit-Limit -  <br>  * RateLimit-Remaining -  <br>  * RateLimit-Reset -  <br>  * Request-Id -  <br>  |
+| **409** | Conflict |  * Affinity-Version -  <br>  * RateLimit-Limit -  <br>  * RateLimit-Remaining -  <br>  * RateLimit-Reset -  <br>  * Request-Id -  <br>  |
+| **429** | Too many requests |  * Affinity-Version -  <br>  * RateLimit-Limit -  <br>  * RateLimit-Remaining -  <br>  * RateLimit-Reset -  <br>  * Request-Id -  <br>  |
+| **500** | Internal server error |  * Affinity-Version -  <br>  * RateLimit-Limit -  <br>  * RateLimit-Remaining -  <br>  * RateLimit-Reset -  <br>  * Request-Id -  <br>  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 

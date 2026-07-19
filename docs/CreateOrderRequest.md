@@ -19,7 +19,7 @@ Name | Type
 `prescriptionId` | string
 `prescriptionVersionId` | string
 `registeredLocationId` | string
-`shippingAddress` | [CreateOrderRequestAnyOf1ShippingAddress](CreateOrderRequestAnyOf1ShippingAddress.md)
+`shippingAddress` | [CreateOrderRequestAnyOfPatientAddress](CreateOrderRequestAnyOfPatientAddress.md)
 
 ## Example
 

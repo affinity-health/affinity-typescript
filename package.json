@@ -30,8 +30,9 @@
     }
   },
   "scripts": {
-    "build": "tsgo -p tsconfig.json",
+    "build": "bun run clean && tsgo -p tsconfig.json",
     "check": "bun run generate:check && bun run build && bun test && bun run example:check",
+    "clean": "rm -rf dist",
     "example:check": "bun build examples/quickstart.ts --target=node --outfile=/tmp/affinity-typescript-quickstart.js",
     "format": "oxfmt .",
     "generate": "bash scripts/generate.sh",

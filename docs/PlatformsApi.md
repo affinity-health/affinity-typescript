@@ -4,17 +4,17 @@ All URIs are relative to *https://api.joinaffinityai.com*
 
 | Method | HTTP request | Description |
 |------------- | ------------- | -------------|
-| [**getPlatformOrganization**](PlatformsApi.md#getplatformorganization) | **GET** /v1/platform/organization | Read platform organization |
+| [**getAccount**](PlatformsApi.md#getaccount) | **GET** /v1/account | Read account |
 
 
 
-## getPlatformOrganization
+## getAccount
 
-> GetPlatformOrganization200Response getPlatformOrganization(orgId)
+> GetAccountResponse getAccount(affinityVersion, orgId)
 
-Read platform organization
+Read account
 
-Reads the authenticated platform organization and current role.
+Returns the platform organization and the current role.
 
 ### Example
 
@@ -23,7 +23,7 @@ import {
   Configuration,
   PlatformsApi,
 } from '@affinity-health/sdk';
-import type { GetPlatformOrganizationRequest } from '@affinity-health/sdk';
+import type { GetAccountRequest } from '@affinity-health/sdk';
 
 async function example() {
   console.log("🚀 Testing @affinity-health/sdk SDK...");
@@ -36,12 +36,14 @@ async function example() {
   const api = new PlatformsApi(config);
 
   const body = {
+    // string | Pinned dated API contract version. Official SDKs send this header automatically.
+    affinityVersion: 2026-07-19,
     // string (optional)
     orgId: orgId_example,
-  } satisfies GetPlatformOrganizationRequest;
+  } satisfies GetAccountRequest;
 
   try {
-    const data = await api.getPlatformOrganization(body);
+    const data = await api.getAccount(body);
     console.log(data);
   } catch (error) {
     console.error(error);
@@ -57,11 +59,12 @@ example().catch(console.error);
 
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
+| **affinityVersion** | `string` | Pinned dated API contract version. Official SDKs send this header automatically. | [Defaults to `undefined`] |
 | **orgId** | `string` |  | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 
-[**GetPlatformOrganization200Response**](GetPlatformOrganization200Response.md)
+[**GetAccountResponse**](GetAccountResponse.md)
 
 ### Authorization
 
@@ -76,20 +79,12 @@ example().catch(console.error);
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | Successful response |  -  |
-| **400** | Bad request |  -  |
-| **401** | Unauthorized |  -  |
-| **403** | Forbidden |  -  |
-| **404** | Not found |  -  |
-| **409** | Conflict |  -  |
-| **410** | Gone |  -  |
-| **413** | Payload too large |  -  |
-| **422** | Unprocessable entity |  -  |
-| **429** | Too many requests |  -  |
-| **500** | Internal server error |  -  |
-| **501** | Not implemented |  -  |
-| **502** | Bad gateway |  -  |
-| **503** | Service unavailable |  -  |
+| **200** | Successful response |  * Affinity-Version -  <br>  * RateLimit-Limit -  <br>  * RateLimit-Remaining -  <br>  * RateLimit-Reset -  <br>  * Request-Id -  <br>  |
+| **400** | Bad request |  * Affinity-Version -  <br>  * RateLimit-Limit -  <br>  * RateLimit-Remaining -  <br>  * RateLimit-Reset -  <br>  * Request-Id -  <br>  |
+| **401** | Unauthorized |  * Affinity-Version -  <br>  * RateLimit-Limit -  <br>  * RateLimit-Remaining -  <br>  * RateLimit-Reset -  <br>  * Request-Id -  <br>  |
+| **403** | Forbidden |  * Affinity-Version -  <br>  * RateLimit-Limit -  <br>  * RateLimit-Remaining -  <br>  * RateLimit-Reset -  <br>  * Request-Id -  <br>  |
+| **429** | Too many requests |  * Affinity-Version -  <br>  * RateLimit-Limit -  <br>  * RateLimit-Remaining -  <br>  * RateLimit-Reset -  <br>  * Request-Id -  <br>  |
+| **500** | Internal server error |  * Affinity-Version -  <br>  * RateLimit-Limit -  <br>  * RateLimit-Remaining -  <br>  * RateLimit-Reset -  <br>  * Request-Id -  <br>  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
