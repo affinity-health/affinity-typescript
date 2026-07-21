@@ -6,6 +6,7 @@
 
 Name | Type
 ------------ | -------------
+`apiVersion` | string
 `id` | string
 `object` | string
 `subjectId` | string
@@ -18,6 +19,7 @@ import type { GetApiAccessResponseServiceAccount } from '@affinity-health/sdk'
 
 // TODO: Update the object below with actual values
 const example = {
+  "apiVersion": null,
   "id": null,
   "object": null,
   "subjectId": null,

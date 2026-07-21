@@ -17,7 +17,7 @@ All URIs are relative to *https://api.joinaffinityai.com*
 
 ## createWebhookEndpoint
 
-> CreateWebhookEndpointResponse createWebhookEndpoint(affinityVersion, createWebhookEndpointRequest, idempotencyKey)
+> CreateWebhookEndpointResponse createWebhookEndpoint(createWebhookEndpointRequest, idempotencyKey, affinityVersion)
 
 Create webhook endpoint
 
@@ -41,12 +41,12 @@ async function example() {
   const api = new PlatformWebhooksApi(config);
 
   const body = {
-    // string | Pinned dated API contract version. Official SDKs send this header automatically.
-    affinityVersion: 2026-07-19,
     // CreateWebhookEndpointRequest
     createWebhookEndpointRequest: ...,
     // string | Unique operation key required for every mutation. (optional)
     idempotencyKey: idempotencyKey_example,
+    // string | Optional per-request override for the service account\'s pinned API version. (optional)
+    affinityVersion: 2026-07-19,
   } satisfies CreateWebhookEndpointOperationRequest;
 
   try {
@@ -66,9 +66,9 @@ example().catch(console.error);
 
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
-| **affinityVersion** | `string` | Pinned dated API contract version. Official SDKs send this header automatically. | [Defaults to `undefined`] |
 | **createWebhookEndpointRequest** | [CreateWebhookEndpointRequest](CreateWebhookEndpointRequest.md) |  | |
 | **idempotencyKey** | `string` | Unique operation key required for every mutation. | [Optional] [Defaults to `undefined`] |
+| **affinityVersion** | `string` | Optional per-request override for the service account\&#39;s pinned API version. | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 
@@ -100,7 +100,7 @@ example().catch(console.error);
 
 ## deleteWebhookEndpoint
 
-> DeleteWebhookEndpointResponse deleteWebhookEndpoint(endpointId, affinityVersion, idempotencyKey)
+> DeleteWebhookEndpointResponse deleteWebhookEndpoint(endpointId, idempotencyKey, affinityVersion)
 
 Disable webhook endpoint
 
@@ -126,10 +126,10 @@ async function example() {
   const body = {
     // string
     endpointId: endpointId_example,
-    // string | Pinned dated API contract version. Official SDKs send this header automatically.
-    affinityVersion: 2026-07-19,
     // string | Unique operation key required for every mutation. (optional)
     idempotencyKey: idempotencyKey_example,
+    // string | Optional per-request override for the service account\'s pinned API version. (optional)
+    affinityVersion: 2026-07-19,
   } satisfies DeleteWebhookEndpointRequest;
 
   try {
@@ -150,8 +150,8 @@ example().catch(console.error);
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
 | **endpointId** | `string` |  | [Defaults to `undefined`] |
-| **affinityVersion** | `string` | Pinned dated API contract version. Official SDKs send this header automatically. | [Defaults to `undefined`] |
 | **idempotencyKey** | `string` | Unique operation key required for every mutation. | [Optional] [Defaults to `undefined`] |
+| **affinityVersion** | `string` | Optional per-request override for the service account\&#39;s pinned API version. | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 
@@ -210,7 +210,7 @@ async function example() {
   const body = {
     // string
     eventId: eventId_example,
-    // string | Pinned dated API contract version. Official SDKs send this header automatically.
+    // string | Optional per-request override for the service account\'s pinned API version. (optional)
     affinityVersion: 2026-07-19,
   } satisfies GetWebhookEventRequest;
 
@@ -232,7 +232,7 @@ example().catch(console.error);
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
 | **eventId** | `string` |  | [Defaults to `undefined`] |
-| **affinityVersion** | `string` | Pinned dated API contract version. Official SDKs send this header automatically. | [Defaults to `undefined`] |
+| **affinityVersion** | `string` | Optional per-request override for the service account\&#39;s pinned API version. | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 
@@ -264,7 +264,7 @@ example().catch(console.error);
 
 ## listWebhookEndpoints
 
-> ListWebhookEndpointsResponse listWebhookEndpoints(affinityVersion, limit, startingAfter, endingBefore)
+> ListWebhookEndpointsResponse listWebhookEndpoints(limit, startingAfter, endingBefore, affinityVersion)
 
 List webhook endpoints
 
@@ -288,14 +288,14 @@ async function example() {
   const api = new PlatformWebhooksApi(config);
 
   const body = {
-    // string | Pinned dated API contract version. Official SDKs send this header automatically.
-    affinityVersion: 2026-07-19,
     // number (optional)
     limit: 56,
     // string (optional)
     startingAfter: startingAfter_example,
     // string (optional)
     endingBefore: endingBefore_example,
+    // string | Optional per-request override for the service account\'s pinned API version. (optional)
+    affinityVersion: 2026-07-19,
   } satisfies ListWebhookEndpointsRequest;
 
   try {
@@ -315,10 +315,10 @@ example().catch(console.error);
 
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
-| **affinityVersion** | `string` | Pinned dated API contract version. Official SDKs send this header automatically. | [Defaults to `undefined`] |
 | **limit** | `number` |  | [Optional] [Defaults to `25`] |
 | **startingAfter** | `string` |  | [Optional] [Defaults to `undefined`] |
 | **endingBefore** | `string` |  | [Optional] [Defaults to `undefined`] |
+| **affinityVersion** | `string` | Optional per-request override for the service account\&#39;s pinned API version. | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 
@@ -349,7 +349,7 @@ example().catch(console.error);
 
 ## listWebhookEvents
 
-> ListWebhookEventsResponse listWebhookEvents(affinityVersion, limit, status, startingAfter, endingBefore)
+> ListWebhookEventsResponse listWebhookEvents(limit, status, startingAfter, endingBefore, affinityVersion)
 
 List webhook events
 
@@ -373,8 +373,6 @@ async function example() {
   const api = new PlatformWebhooksApi(config);
 
   const body = {
-    // string | Pinned dated API contract version. Official SDKs send this header automatically.
-    affinityVersion: 2026-07-19,
     // number (optional)
     limit: 56,
     // 'all' | 'delivered' | 'failed' | 'pending' | 'skipped' (optional)
@@ -383,6 +381,8 @@ async function example() {
     startingAfter: startingAfter_example,
     // string (optional)
     endingBefore: endingBefore_example,
+    // string | Optional per-request override for the service account\'s pinned API version. (optional)
+    affinityVersion: 2026-07-19,
   } satisfies ListWebhookEventsRequest;
 
   try {
@@ -402,11 +402,11 @@ example().catch(console.error);
 
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
-| **affinityVersion** | `string` | Pinned dated API contract version. Official SDKs send this header automatically. | [Defaults to `undefined`] |
 | **limit** | `number` |  | [Optional] [Defaults to `25`] |
 | **status** | `all`, `delivered`, `failed`, `pending`, `skipped` |  | [Optional] [Defaults to `&#39;all&#39;`] [Enum: all, delivered, failed, pending, skipped] |
 | **startingAfter** | `string` |  | [Optional] [Defaults to `undefined`] |
 | **endingBefore** | `string` |  | [Optional] [Defaults to `undefined`] |
+| **affinityVersion** | `string` | Optional per-request override for the service account\&#39;s pinned API version. | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 
@@ -437,7 +437,7 @@ example().catch(console.error);
 
 ## replayWebhookEvent
 
-> ReplayWebhookEventResponse replayWebhookEvent(eventId, affinityVersion, idempotencyKey)
+> ReplayWebhookEventResponse replayWebhookEvent(eventId, idempotencyKey, affinityVersion)
 
 Replay webhook event
 
@@ -463,10 +463,10 @@ async function example() {
   const body = {
     // string
     eventId: eventId_example,
-    // string | Pinned dated API contract version. Official SDKs send this header automatically.
-    affinityVersion: 2026-07-19,
     // string | Unique operation key required for every mutation. (optional)
     idempotencyKey: idempotencyKey_example,
+    // string | Optional per-request override for the service account\'s pinned API version. (optional)
+    affinityVersion: 2026-07-19,
   } satisfies ReplayWebhookEventRequest;
 
   try {
@@ -487,8 +487,8 @@ example().catch(console.error);
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
 | **eventId** | `string` |  | [Defaults to `undefined`] |
-| **affinityVersion** | `string` | Pinned dated API contract version. Official SDKs send this header automatically. | [Defaults to `undefined`] |
 | **idempotencyKey** | `string` | Unique operation key required for every mutation. | [Optional] [Defaults to `undefined`] |
+| **affinityVersion** | `string` | Optional per-request override for the service account\&#39;s pinned API version. | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 
@@ -521,7 +521,7 @@ example().catch(console.error);
 
 ## rotateWebhookEndpointSecret
 
-> RotateWebhookEndpointSecretResponse rotateWebhookEndpointSecret(endpointId, affinityVersion, idempotencyKey)
+> RotateWebhookEndpointSecretResponse rotateWebhookEndpointSecret(endpointId, idempotencyKey, affinityVersion)
 
 Rotate webhook signing secret
 
@@ -547,10 +547,10 @@ async function example() {
   const body = {
     // string
     endpointId: endpointId_example,
-    // string | Pinned dated API contract version. Official SDKs send this header automatically.
-    affinityVersion: 2026-07-19,
     // string | Unique operation key required for every mutation. (optional)
     idempotencyKey: idempotencyKey_example,
+    // string | Optional per-request override for the service account\'s pinned API version. (optional)
+    affinityVersion: 2026-07-19,
   } satisfies RotateWebhookEndpointSecretRequest;
 
   try {
@@ -571,8 +571,8 @@ example().catch(console.error);
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
 | **endpointId** | `string` |  | [Defaults to `undefined`] |
-| **affinityVersion** | `string` | Pinned dated API contract version. Official SDKs send this header automatically. | [Defaults to `undefined`] |
 | **idempotencyKey** | `string` | Unique operation key required for every mutation. | [Optional] [Defaults to `undefined`] |
+| **affinityVersion** | `string` | Optional per-request override for the service account\&#39;s pinned API version. | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 
@@ -605,7 +605,7 @@ example().catch(console.error);
 
 ## updateWebhookEndpoint
 
-> UpdateWebhookEndpointResponse updateWebhookEndpoint(endpointId, affinityVersion, updateWebhookEndpointRequest, idempotencyKey)
+> UpdateWebhookEndpointResponse updateWebhookEndpoint(endpointId, updateWebhookEndpointRequest, idempotencyKey, affinityVersion)
 
 Update webhook endpoint
 
@@ -631,12 +631,12 @@ async function example() {
   const body = {
     // string
     endpointId: endpointId_example,
-    // string | Pinned dated API contract version. Official SDKs send this header automatically.
-    affinityVersion: 2026-07-19,
     // UpdateWebhookEndpointRequest
     updateWebhookEndpointRequest: ...,
     // string | Unique operation key required for every mutation. (optional)
     idempotencyKey: idempotencyKey_example,
+    // string | Optional per-request override for the service account\'s pinned API version. (optional)
+    affinityVersion: 2026-07-19,
   } satisfies UpdateWebhookEndpointOperationRequest;
 
   try {
@@ -657,9 +657,9 @@ example().catch(console.error);
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
 | **endpointId** | `string` |  | [Defaults to `undefined`] |
-| **affinityVersion** | `string` | Pinned dated API contract version. Official SDKs send this header automatically. | [Defaults to `undefined`] |
 | **updateWebhookEndpointRequest** | [UpdateWebhookEndpointRequest](UpdateWebhookEndpointRequest.md) |  | |
 | **idempotencyKey** | `string` | Unique operation key required for every mutation. | [Optional] [Defaults to `undefined`] |
+| **affinityVersion** | `string` | Optional per-request override for the service account\&#39;s pinned API version. | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 

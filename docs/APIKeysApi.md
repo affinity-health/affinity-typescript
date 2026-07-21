@@ -36,7 +36,7 @@ async function example() {
   const api = new APIKeysApi(config);
 
   const body = {
-    // string | Pinned dated API contract version. Official SDKs send this header automatically.
+    // string | Optional per-request override for the service account\'s pinned API version. (optional)
     affinityVersion: 2026-07-19,
   } satisfies GetApiAccessRequest;
 
@@ -57,7 +57,7 @@ example().catch(console.error);
 
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
-| **affinityVersion** | `string` | Pinned dated API contract version. Official SDKs send this header automatically. | [Defaults to `undefined`] |
+| **affinityVersion** | `string` | Optional per-request override for the service account\&#39;s pinned API version. | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 

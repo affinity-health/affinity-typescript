@@ -10,7 +10,7 @@ All URIs are relative to *https://api.joinaffinityai.com*
 
 ## getAccount
 
-> GetAccountResponse getAccount(affinityVersion, orgId)
+> GetAccountResponse getAccount(orgId, affinityVersion)
 
 Read account
 
@@ -36,10 +36,10 @@ async function example() {
   const api = new PlatformsApi(config);
 
   const body = {
-    // string | Pinned dated API contract version. Official SDKs send this header automatically.
-    affinityVersion: 2026-07-19,
     // string (optional)
     orgId: orgId_example,
+    // string | Optional per-request override for the service account\'s pinned API version. (optional)
+    affinityVersion: 2026-07-19,
   } satisfies GetAccountRequest;
 
   try {
@@ -59,8 +59,8 @@ example().catch(console.error);
 
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
-| **affinityVersion** | `string` | Pinned dated API contract version. Official SDKs send this header automatically. | [Defaults to `undefined`] |
 | **orgId** | `string` |  | [Optional] [Defaults to `undefined`] |
+| **affinityVersion** | `string` | Optional per-request override for the service account\&#39;s pinned API version. | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 

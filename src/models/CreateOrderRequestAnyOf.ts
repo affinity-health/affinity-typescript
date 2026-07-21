@@ -20,6 +20,13 @@ import {
   CreateOrderRequestAnyOfPrescriberToJSON,
   CreateOrderRequestAnyOfPrescriberToJSONTyped,
 } from "./CreateOrderRequestAnyOfPrescriber";
+import type { CreateOrderRequestAnyOfClinical } from "./CreateOrderRequestAnyOfClinical";
+import {
+  CreateOrderRequestAnyOfClinicalFromJSON,
+  CreateOrderRequestAnyOfClinicalFromJSONTyped,
+  CreateOrderRequestAnyOfClinicalToJSON,
+  CreateOrderRequestAnyOfClinicalToJSONTyped,
+} from "./CreateOrderRequestAnyOfClinical";
 import type { CreateOrderRequestAnyOfPatient } from "./CreateOrderRequestAnyOfPatient";
 import {
   CreateOrderRequestAnyOfPatientFromJSON,
@@ -47,6 +54,12 @@ export interface CreateOrderRequestAnyOf {
    * @memberof CreateOrderRequestAnyOf
    */
   catalogItemId: string;
+  /**
+   *
+   * @type {CreateOrderRequestAnyOfClinical}
+   * @memberof CreateOrderRequestAnyOf
+   */
+  clinical?: CreateOrderRequestAnyOfClinical;
   /**
    *
    * @type {string}
@@ -95,7 +108,26 @@ export interface CreateOrderRequestAnyOf {
    * @memberof CreateOrderRequestAnyOf
    */
   replacesOrderId?: string;
+  /**
+   *
+   * @type {CreateOrderRequestAnyOfShippingMethodEnum}
+   * @memberof CreateOrderRequestAnyOf
+   */
+  shippingMethod?: CreateOrderRequestAnyOfShippingMethodEnum;
 }
+
+/**
+ * @export
+ */
+export const CreateOrderRequestAnyOfShippingMethodEnum = {
+  Standard: "standard",
+  Expedited: "expedited",
+  Overnight: "overnight",
+  Pickup: "pickup",
+  LocalDelivery: "local_delivery",
+} as const;
+export type CreateOrderRequestAnyOfShippingMethodEnum =
+  (typeof CreateOrderRequestAnyOfShippingMethodEnum)[keyof typeof CreateOrderRequestAnyOfShippingMethodEnum];
 
 /**
  * Check if a given object implements the CreateOrderRequestAnyOf interface.
@@ -124,6 +156,10 @@ export function CreateOrderRequestAnyOfFromJSONTyped(
   }
   return {
     catalogItemId: json["catalogItemId"],
+    clinical:
+      json["clinical"] == null
+        ? undefined
+        : CreateOrderRequestAnyOfClinicalFromJSON(json["clinical"]),
     practiceId: json["practiceId"],
     directions: json["directions"],
     externalOrderId: json["externalOrderId"],
@@ -132,6 +168,7 @@ export function CreateOrderRequestAnyOfFromJSONTyped(
     prescription: CreateOrderRequestAnyOfPrescriptionFromJSON(json["prescription"]),
     quantity: json["quantity"] == null ? undefined : json["quantity"],
     replacesOrderId: json["replacesOrderId"] == null ? undefined : json["replacesOrderId"],
+    shippingMethod: json["shippingMethod"] == null ? undefined : json["shippingMethod"],
   };
 }
 
@@ -149,6 +186,7 @@ export function CreateOrderRequestAnyOfToJSONTyped(
 
   return {
     catalogItemId: value["catalogItemId"],
+    clinical: CreateOrderRequestAnyOfClinicalToJSON(value["clinical"]),
     practiceId: value["practiceId"],
     directions: value["directions"],
     externalOrderId: value["externalOrderId"],
@@ -157,5 +195,6 @@ export function CreateOrderRequestAnyOfToJSONTyped(
     prescription: CreateOrderRequestAnyOfPrescriptionToJSON(value["prescription"]),
     quantity: value["quantity"],
     replacesOrderId: value["replacesOrderId"],
+    shippingMethod: value["shippingMethod"],
   };
 }

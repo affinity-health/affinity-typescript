@@ -13,6 +13,13 @@
  */
 
 import { mapValues } from "../runtime";
+import type { ListOrdersResponseDataInnerShipping } from "./ListOrdersResponseDataInnerShipping";
+import {
+  ListOrdersResponseDataInnerShippingFromJSON,
+  ListOrdersResponseDataInnerShippingFromJSONTyped,
+  ListOrdersResponseDataInnerShippingToJSON,
+  ListOrdersResponseDataInnerShippingToJSONTyped,
+} from "./ListOrdersResponseDataInnerShipping";
 import type { ListOrdersResponseDataInnerRouting } from "./ListOrdersResponseDataInnerRouting";
 import {
   ListOrdersResponseDataInnerRoutingFromJSON,
@@ -212,6 +219,24 @@ export interface UpdateOrderResponse {
    * @type {string}
    * @memberof UpdateOrderResponse
    */
+  estimatedDeliveryAt: string | null;
+  /**
+   *
+   * @type {ListOrdersResponseDataInnerShipping}
+   * @memberof UpdateOrderResponse
+   */
+  shipping: ListOrdersResponseDataInnerShipping;
+  /**
+   *
+   * @type {string}
+   * @memberof UpdateOrderResponse
+   */
+  trackingUrl: string | null;
+  /**
+   *
+   * @type {string}
+   * @memberof UpdateOrderResponse
+   */
   updatedAt: string;
 }
 
@@ -281,6 +306,9 @@ export function instanceOfUpdateOrderResponse(value: object): value is UpdateOrd
   if (!("trackingNumber" in value) || value["trackingNumber"] === undefined) return false;
   if (!("shippedAt" in value) || value["shippedAt"] === undefined) return false;
   if (!("deliveredAt" in value) || value["deliveredAt"] === undefined) return false;
+  if (!("estimatedDeliveryAt" in value) || value["estimatedDeliveryAt"] === undefined) return false;
+  if (!("shipping" in value) || value["shipping"] === undefined) return false;
+  if (!("trackingUrl" in value) || value["trackingUrl"] === undefined) return false;
   if (!("updatedAt" in value) || value["updatedAt"] === undefined) return false;
   return true;
 }
@@ -327,6 +355,9 @@ export function UpdateOrderResponseFromJSONTyped(
     trackingNumber: json["trackingNumber"],
     shippedAt: json["shippedAt"],
     deliveredAt: json["deliveredAt"],
+    estimatedDeliveryAt: json["estimatedDeliveryAt"],
+    shipping: ListOrdersResponseDataInnerShippingFromJSON(json["shipping"]),
+    trackingUrl: json["trackingUrl"],
     updatedAt: json["updatedAt"],
   };
 }
@@ -374,6 +405,9 @@ export function UpdateOrderResponseToJSONTyped(
     trackingNumber: value["trackingNumber"],
     shippedAt: value["shippedAt"],
     deliveredAt: value["deliveredAt"],
+    estimatedDeliveryAt: value["estimatedDeliveryAt"],
+    shipping: ListOrdersResponseDataInnerShippingToJSON(value["shipping"]),
+    trackingUrl: value["trackingUrl"],
     updatedAt: value["updatedAt"],
   };
 }

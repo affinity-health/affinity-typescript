@@ -21,7 +21,7 @@ import {
 import { type Problem, ProblemFromJSON, ProblemToJSON } from "../models/Problem";
 
 export interface GetApiAccessRequest {
-  affinityVersion: string;
+  affinityVersion?: string;
 }
 
 /**
@@ -34,13 +34,6 @@ export class APIKeysApi extends runtime.BaseAPI {
   async getApiAccessRequestOpts(
     requestParameters: GetApiAccessRequest,
   ): Promise<runtime.RequestOpts> {
-    if (requestParameters["affinityVersion"] == null) {
-      throw new runtime.RequiredError(
-        "affinityVersion",
-        'Required parameter "affinityVersion" was null or undefined when calling getApiAccess().',
-      );
-    }
-
     const queryParameters: any = {};
 
     const headerParameters: runtime.HTTPHeaders = {};
@@ -93,7 +86,7 @@ export class APIKeysApi extends runtime.BaseAPI {
    * Read API key access
    */
   async getApiAccess(
-    requestParameters: GetApiAccessRequest,
+    requestParameters: GetApiAccessRequest = {},
     initOverrides?: RequestInit | runtime.InitOverrideFunction,
   ): Promise<GetApiAccessResponse> {
     const response = await this.getApiAccessRaw(requestParameters, initOverrides);

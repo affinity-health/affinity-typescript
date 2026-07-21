@@ -116,7 +116,7 @@ export interface ListCatalogItemsResponseDataInner {
    * @type {ListCatalogItemsResponseDataInnerPricing}
    * @memberof ListCatalogItemsResponseDataInner
    */
-  pricing: ListCatalogItemsResponseDataInnerPricing;
+  pricing: ListCatalogItemsResponseDataInnerPricing | null;
   /**
    *
    * @type {Array<string>}

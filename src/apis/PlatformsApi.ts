@@ -21,8 +21,8 @@ import {
 import { type Problem, ProblemFromJSON, ProblemToJSON } from "../models/Problem";
 
 export interface GetAccountRequest {
-  affinityVersion: string;
   orgId?: string;
+  affinityVersion?: string;
 }
 
 /**
@@ -33,13 +33,6 @@ export class PlatformsApi extends runtime.BaseAPI {
    * Creates request options for getAccount without sending the request
    */
   async getAccountRequestOpts(requestParameters: GetAccountRequest): Promise<runtime.RequestOpts> {
-    if (requestParameters["affinityVersion"] == null) {
-      throw new runtime.RequiredError(
-        "affinityVersion",
-        'Required parameter "affinityVersion" was null or undefined when calling getAccount().',
-      );
-    }
-
     const queryParameters: any = {};
 
     if (requestParameters["orgId"] != null) {
@@ -96,7 +89,7 @@ export class PlatformsApi extends runtime.BaseAPI {
    * Read account
    */
   async getAccount(
-    requestParameters: GetAccountRequest,
+    requestParameters: GetAccountRequest = {},
     initOverrides?: RequestInit | runtime.InitOverrideFunction,
   ): Promise<GetAccountResponse> {
     const response = await this.getAccountRaw(requestParameters, initOverrides);

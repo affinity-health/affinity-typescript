@@ -8,11 +8,14 @@ Name | Type
 ------------ | -------------
 `practiceId` | string
 `externalOrderId` | string
-`pharmacyOrganizationId` | string
+`routingDecisionId` | string
 `prescriptionId` | string
 `prescriptionVersionId` | string
 `registeredLocationId` | string
 `shippingAddress` | [CreateOrderRequestAnyOfPatientAddress](CreateOrderRequestAnyOfPatientAddress.md)
+`shippingDestination` | [CreateOrderRequestAnyOf1ShippingDestination](CreateOrderRequestAnyOf1ShippingDestination.md)
+`shippingOptionId` | string
+`epcsHandoff` | [CreateOrderRequestAnyOf1EpcsHandoff](CreateOrderRequestAnyOf1EpcsHandoff.md)
 
 ## Example
 
@@ -23,11 +26,14 @@ import type { CreateOrderRequestAnyOf1 } from '@affinity-health/sdk'
 const example = {
   "practiceId": null,
   "externalOrderId": null,
-  "pharmacyOrganizationId": null,
+  "routingDecisionId": null,
   "prescriptionId": null,
   "prescriptionVersionId": null,
   "registeredLocationId": null,
   "shippingAddress": null,
+  "shippingDestination": null,
+  "shippingOptionId": null,
+  "epcsHandoff": null,
 } satisfies CreateOrderRequestAnyOf1
 
 console.log(example)

@@ -66,54 +66,54 @@ import {
 } from "../models/UpdateWebhookEndpointResponse";
 
 export interface CreateWebhookEndpointOperationRequest {
-  affinityVersion: string;
   createWebhookEndpointRequest: CreateWebhookEndpointRequest;
   idempotencyKey?: string;
+  affinityVersion?: string;
 }
 
 export interface DeleteWebhookEndpointRequest {
   endpointId: string;
-  affinityVersion: string;
   idempotencyKey?: string;
+  affinityVersion?: string;
 }
 
 export interface GetWebhookEventRequest {
   eventId: string;
-  affinityVersion: string;
+  affinityVersion?: string;
 }
 
 export interface ListWebhookEndpointsRequest {
-  affinityVersion: string;
   limit?: number;
   startingAfter?: string;
   endingBefore?: string;
+  affinityVersion?: string;
 }
 
 export interface ListWebhookEventsRequest {
-  affinityVersion: string;
   limit?: number;
   status?: ListWebhookEventsStatusEnum;
   startingAfter?: string;
   endingBefore?: string;
+  affinityVersion?: string;
 }
 
 export interface ReplayWebhookEventRequest {
   eventId: string;
-  affinityVersion: string;
   idempotencyKey?: string;
+  affinityVersion?: string;
 }
 
 export interface RotateWebhookEndpointSecretRequest {
   endpointId: string;
-  affinityVersion: string;
   idempotencyKey?: string;
+  affinityVersion?: string;
 }
 
 export interface UpdateWebhookEndpointOperationRequest {
   endpointId: string;
-  affinityVersion: string;
   updateWebhookEndpointRequest: UpdateWebhookEndpointRequest;
   idempotencyKey?: string;
+  affinityVersion?: string;
 }
 
 /**
@@ -126,13 +126,6 @@ export class PlatformWebhooksApi extends runtime.BaseAPI {
   async createWebhookEndpointRequestOpts(
     requestParameters: CreateWebhookEndpointOperationRequest,
   ): Promise<runtime.RequestOpts> {
-    if (requestParameters["affinityVersion"] == null) {
-      throw new runtime.RequiredError(
-        "affinityVersion",
-        'Required parameter "affinityVersion" was null or undefined when calling createWebhookEndpoint().',
-      );
-    }
-
     if (requestParameters["createWebhookEndpointRequest"] == null) {
       throw new runtime.RequiredError(
         "createWebhookEndpointRequest",
@@ -217,13 +210,6 @@ export class PlatformWebhooksApi extends runtime.BaseAPI {
       );
     }
 
-    if (requestParameters["affinityVersion"] == null) {
-      throw new runtime.RequiredError(
-        "affinityVersion",
-        'Required parameter "affinityVersion" was null or undefined when calling deleteWebhookEndpoint().',
-      );
-    }
-
     const queryParameters: any = {};
 
     const headerParameters: runtime.HTTPHeaders = {};
@@ -302,13 +288,6 @@ export class PlatformWebhooksApi extends runtime.BaseAPI {
       );
     }
 
-    if (requestParameters["affinityVersion"] == null) {
-      throw new runtime.RequiredError(
-        "affinityVersion",
-        'Required parameter "affinityVersion" was null or undefined when calling getWebhookEvent().',
-      );
-    }
-
     const queryParameters: any = {};
 
     const headerParameters: runtime.HTTPHeaders = {};
@@ -376,13 +355,6 @@ export class PlatformWebhooksApi extends runtime.BaseAPI {
   async listWebhookEndpointsRequestOpts(
     requestParameters: ListWebhookEndpointsRequest,
   ): Promise<runtime.RequestOpts> {
-    if (requestParameters["affinityVersion"] == null) {
-      throw new runtime.RequiredError(
-        "affinityVersion",
-        'Required parameter "affinityVersion" was null or undefined when calling listWebhookEndpoints().',
-      );
-    }
-
     const queryParameters: any = {};
 
     if (requestParameters["limit"] != null) {
@@ -445,7 +417,7 @@ export class PlatformWebhooksApi extends runtime.BaseAPI {
    * List webhook endpoints
    */
   async listWebhookEndpoints(
-    requestParameters: ListWebhookEndpointsRequest,
+    requestParameters: ListWebhookEndpointsRequest = {},
     initOverrides?: RequestInit | runtime.InitOverrideFunction,
   ): Promise<ListWebhookEndpointsResponse> {
     const response = await this.listWebhookEndpointsRaw(requestParameters, initOverrides);
@@ -458,13 +430,6 @@ export class PlatformWebhooksApi extends runtime.BaseAPI {
   async listWebhookEventsRequestOpts(
     requestParameters: ListWebhookEventsRequest,
   ): Promise<runtime.RequestOpts> {
-    if (requestParameters["affinityVersion"] == null) {
-      throw new runtime.RequiredError(
-        "affinityVersion",
-        'Required parameter "affinityVersion" was null or undefined when calling listWebhookEvents().',
-      );
-    }
-
     const queryParameters: any = {};
 
     if (requestParameters["limit"] != null) {
@@ -531,7 +496,7 @@ export class PlatformWebhooksApi extends runtime.BaseAPI {
    * List webhook events
    */
   async listWebhookEvents(
-    requestParameters: ListWebhookEventsRequest,
+    requestParameters: ListWebhookEventsRequest = {},
     initOverrides?: RequestInit | runtime.InitOverrideFunction,
   ): Promise<ListWebhookEventsResponse> {
     const response = await this.listWebhookEventsRaw(requestParameters, initOverrides);
@@ -548,13 +513,6 @@ export class PlatformWebhooksApi extends runtime.BaseAPI {
       throw new runtime.RequiredError(
         "eventId",
         'Required parameter "eventId" was null or undefined when calling replayWebhookEvent().',
-      );
-    }
-
-    if (requestParameters["affinityVersion"] == null) {
-      throw new runtime.RequiredError(
-        "affinityVersion",
-        'Required parameter "affinityVersion" was null or undefined when calling replayWebhookEvent().',
       );
     }
 
@@ -636,13 +594,6 @@ export class PlatformWebhooksApi extends runtime.BaseAPI {
       );
     }
 
-    if (requestParameters["affinityVersion"] == null) {
-      throw new runtime.RequiredError(
-        "affinityVersion",
-        'Required parameter "affinityVersion" was null or undefined when calling rotateWebhookEndpointSecret().',
-      );
-    }
-
     const queryParameters: any = {};
 
     const headerParameters: runtime.HTTPHeaders = {};
@@ -718,13 +669,6 @@ export class PlatformWebhooksApi extends runtime.BaseAPI {
       throw new runtime.RequiredError(
         "endpointId",
         'Required parameter "endpointId" was null or undefined when calling updateWebhookEndpoint().',
-      );
-    }
-
-    if (requestParameters["affinityVersion"] == null) {
-      throw new runtime.RequiredError(
-        "affinityVersion",
-        'Required parameter "affinityVersion" was null or undefined when calling updateWebhookEndpoint().',
       );
     }
 

@@ -6,17 +6,18 @@ All URIs are relative to *https://api.joinaffinityai.com*
 |------------- | ------------- | -------------|
 | [**cancelOrder**](PlatformOrdersApi.md#cancelorderoperation) | **POST** /v1/orders/{orderId}/cancel | Cancel order |
 | [**createOrder**](PlatformOrdersApi.md#createorderoperation) | **POST** /v1/orders | Create order |
+| [**createRoutingDecision**](PlatformOrdersApi.md#createroutingdecisionoperation) | **POST** /v1/routing-decisions | Create routing decision |
 | [**getOrder**](PlatformOrdersApi.md#getorder) | **GET** /v1/orders/{orderId} | Read order |
 | [**listOrderEvents**](PlatformOrdersApi.md#listorderevents) | **GET** /v1/orders/{orderId}/events | List order events |
 | [**listOrders**](PlatformOrdersApi.md#listorders) | **GET** /v1/orders | List platform orders |
-| [**submitOrder**](PlatformOrdersApi.md#submitorder) | **POST** /v1/orders/{orderId}/submit | Submit order |
+| [**submitOrder**](PlatformOrdersApi.md#submitorderoperation) | **POST** /v1/orders/{orderId}/submit | Submit order |
 | [**updateOrder**](PlatformOrdersApi.md#updateorderoperation) | **PATCH** /v1/orders/{orderId} | Update draft order |
 
 
 
 ## cancelOrder
 
-> CancelOrderResponse cancelOrder(orderId, affinityVersion, cancelOrderRequest, idempotencyKey)
+> CancelOrderResponse cancelOrder(orderId, cancelOrderRequest, idempotencyKey, affinityVersion)
 
 Cancel order
 
@@ -44,12 +45,12 @@ async function example() {
   const body = {
     // string
     orderId: orderId_example,
-    // string | Pinned dated API contract version. Official SDKs send this header automatically.
-    affinityVersion: 2026-07-19,
     // CancelOrderRequest
     cancelOrderRequest: ...,
     // string | Unique operation key required for every mutation. (optional)
     idempotencyKey: idempotencyKey_example,
+    // string | Optional per-request override for the service account\'s pinned API version. (optional)
+    affinityVersion: 2026-07-19,
   } satisfies CancelOrderOperationRequest;
 
   try {
@@ -70,9 +71,9 @@ example().catch(console.error);
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
 | **orderId** | `string` |  | [Defaults to `undefined`] |
-| **affinityVersion** | `string` | Pinned dated API contract version. Official SDKs send this header automatically. | [Defaults to `undefined`] |
 | **cancelOrderRequest** | [CancelOrderRequest](CancelOrderRequest.md) |  | |
 | **idempotencyKey** | `string` | Unique operation key required for every mutation. | [Optional] [Defaults to `undefined`] |
+| **affinityVersion** | `string` | Optional per-request override for the service account\&#39;s pinned API version. | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 
@@ -105,7 +106,7 @@ example().catch(console.error);
 
 ## createOrder
 
-> CreateOrderResponse createOrder(affinityVersion, createOrderRequest, idempotencyKey)
+> CreateOrderResponse createOrder(createOrderRequest, idempotencyKey, affinityVersion)
 
 Create order
 
@@ -131,12 +132,12 @@ async function example() {
   const api = new PlatformOrdersApi(config);
 
   const body = {
-    // string | Pinned dated API contract version. Official SDKs send this header automatically.
-    affinityVersion: 2026-07-19,
     // CreateOrderRequest
     createOrderRequest: {"catalogItemId":"cat_01j00000000000000000000000","practiceId":"prac_01j00000000000000000000000","directions":"Inject 0.25 mL subcutaneously once weekly.","externalOrderId":"order_123","patient":{"address":{"city":"Los Angeles","country":"US","line1":"100 Main Street","line2":null,"postalCode":"90001","state":"CA"},"dateOfBirth":"1988-05-12","email":"patient@example.com","externalPatientId":"patient_123","name":"Example Patient","state":"CA"},"prescriber":{"credentials":"MD","licenseStates":["CA"],"name":"Alex Morgan","npi":"1234567893"},"prescription":{"authorized":true,"signedAt":"2026-07-10T12:00:00.000Z"},"quantity":1},
     // string | Unique operation key required for every mutation. (optional)
     idempotencyKey: idempotencyKey_example,
+    // string | Optional per-request override for the service account\'s pinned API version. (optional)
+    affinityVersion: 2026-07-19,
   } satisfies CreateOrderOperationRequest;
 
   try {
@@ -156,13 +157,98 @@ example().catch(console.error);
 
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
-| **affinityVersion** | `string` | Pinned dated API contract version. Official SDKs send this header automatically. | [Defaults to `undefined`] |
 | **createOrderRequest** | [CreateOrderRequest](CreateOrderRequest.md) |  | |
 | **idempotencyKey** | `string` | Unique operation key required for every mutation. | [Optional] [Defaults to `undefined`] |
+| **affinityVersion** | `string` | Optional per-request override for the service account\&#39;s pinned API version. | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 
 [**CreateOrderResponse**](CreateOrderResponse.md)
+
+### Authorization
+
+[bearerAuth](../README.md#bearerAuth), [affinityApiKey](../README.md#affinityApiKey)
+
+### HTTP request headers
+
+- **Content-Type**: `application/json`
+- **Accept**: `application/json`, `application/problem+json`
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | Successful response |  * Affinity-Version -  <br>  * RateLimit-Limit -  <br>  * RateLimit-Remaining -  <br>  * RateLimit-Reset -  <br>  * Request-Id -  <br>  |
+| **400** | Bad request |  * Affinity-Version -  <br>  * RateLimit-Limit -  <br>  * RateLimit-Remaining -  <br>  * RateLimit-Reset -  <br>  * Request-Id -  <br>  |
+| **401** | Unauthorized |  * Affinity-Version -  <br>  * RateLimit-Limit -  <br>  * RateLimit-Remaining -  <br>  * RateLimit-Reset -  <br>  * Request-Id -  <br>  |
+| **403** | Forbidden |  * Affinity-Version -  <br>  * RateLimit-Limit -  <br>  * RateLimit-Remaining -  <br>  * RateLimit-Reset -  <br>  * Request-Id -  <br>  |
+| **409** | Conflict |  * Affinity-Version -  <br>  * RateLimit-Limit -  <br>  * RateLimit-Remaining -  <br>  * RateLimit-Reset -  <br>  * Request-Id -  <br>  |
+| **429** | Too many requests |  * Affinity-Version -  <br>  * RateLimit-Limit -  <br>  * RateLimit-Remaining -  <br>  * RateLimit-Reset -  <br>  * Request-Id -  <br>  |
+| **500** | Internal server error |  * Affinity-Version -  <br>  * RateLimit-Limit -  <br>  * RateLimit-Remaining -  <br>  * RateLimit-Reset -  <br>  * Request-Id -  <br>  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
+
+
+## createRoutingDecision
+
+> CreateRoutingDecisionResponse createRoutingDecision(createRoutingDecisionRequest, idempotencyKey, affinityVersion)
+
+Create routing decision
+
+Selects an eligible live pharmacy and returns an expiring single-use routing decision.
+
+### Example
+
+```ts
+import {
+  Configuration,
+  PlatformOrdersApi,
+} from '@affinity-health/sdk';
+import type { CreateRoutingDecisionOperationRequest } from '@affinity-health/sdk';
+
+async function example() {
+  console.log("🚀 Testing @affinity-health/sdk SDK...");
+  const config = new Configuration({ 
+    // Configure HTTP bearer authorization: bearerAuth
+    accessToken: "YOUR BEARER TOKEN",
+    // To configure API key authorization: affinityApiKey
+    apiKey: "YOUR API KEY",
+  });
+  const api = new PlatformOrdersApi(config);
+
+  const body = {
+    // CreateRoutingDecisionRequest
+    createRoutingDecisionRequest: ...,
+    // string | Unique operation key required for every mutation. (optional)
+    idempotencyKey: idempotencyKey_example,
+    // string | Optional per-request override for the service account\'s pinned API version. (optional)
+    affinityVersion: 2026-07-19,
+  } satisfies CreateRoutingDecisionOperationRequest;
+
+  try {
+    const data = await api.createRoutingDecision(body);
+    console.log(data);
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+// Run the test
+example().catch(console.error);
+```
+
+### Parameters
+
+
+| Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **createRoutingDecisionRequest** | [CreateRoutingDecisionRequest](CreateRoutingDecisionRequest.md) |  | |
+| **idempotencyKey** | `string` | Unique operation key required for every mutation. | [Optional] [Defaults to `undefined`] |
+| **affinityVersion** | `string` | Optional per-request override for the service account\&#39;s pinned API version. | [Optional] [Defaults to `undefined`] |
+
+### Return type
+
+[**CreateRoutingDecisionResponse**](CreateRoutingDecisionResponse.md)
 
 ### Authorization
 
@@ -216,7 +302,7 @@ async function example() {
   const body = {
     // string
     orderId: orderId_example,
-    // string | Pinned dated API contract version. Official SDKs send this header automatically.
+    // string | Optional per-request override for the service account\'s pinned API version. (optional)
     affinityVersion: 2026-07-19,
   } satisfies GetOrderRequest;
 
@@ -238,7 +324,7 @@ example().catch(console.error);
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
 | **orderId** | `string` |  | [Defaults to `undefined`] |
-| **affinityVersion** | `string` | Pinned dated API contract version. Official SDKs send this header automatically. | [Defaults to `undefined`] |
+| **affinityVersion** | `string` | Optional per-request override for the service account\&#39;s pinned API version. | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 
@@ -270,7 +356,7 @@ example().catch(console.error);
 
 ## listOrderEvents
 
-> ListOrderEventsResponse listOrderEvents(orderId, affinityVersion, limit, startingAfter, endingBefore)
+> ListOrderEventsResponse listOrderEvents(orderId, limit, startingAfter, endingBefore, affinityVersion)
 
 List order events
 
@@ -296,14 +382,14 @@ async function example() {
   const body = {
     // string
     orderId: orderId_example,
-    // string | Pinned dated API contract version. Official SDKs send this header automatically.
-    affinityVersion: 2026-07-19,
     // number (optional)
     limit: 56,
     // string (optional)
     startingAfter: startingAfter_example,
     // string (optional)
     endingBefore: endingBefore_example,
+    // string | Optional per-request override for the service account\'s pinned API version. (optional)
+    affinityVersion: 2026-07-19,
   } satisfies ListOrderEventsRequest;
 
   try {
@@ -324,10 +410,10 @@ example().catch(console.error);
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
 | **orderId** | `string` |  | [Defaults to `undefined`] |
-| **affinityVersion** | `string` | Pinned dated API contract version. Official SDKs send this header automatically. | [Defaults to `undefined`] |
 | **limit** | `number` |  | [Optional] [Defaults to `25`] |
 | **startingAfter** | `string` |  | [Optional] [Defaults to `undefined`] |
 | **endingBefore** | `string` |  | [Optional] [Defaults to `undefined`] |
+| **affinityVersion** | `string` | Optional per-request override for the service account\&#39;s pinned API version. | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 
@@ -359,7 +445,7 @@ example().catch(console.error);
 
 ## listOrders
 
-> ListOrdersResponse listOrders(affinityVersion, externalOrderId, patientExternalId, limit, startingAfter, endingBefore, practiceId, status)
+> ListOrdersResponse listOrders(externalOrderId, patientExternalId, limit, startingAfter, endingBefore, practiceId, status, affinityVersion)
 
 List platform orders
 
@@ -383,8 +469,6 @@ async function example() {
   const api = new PlatformOrdersApi(config);
 
   const body = {
-    // string | Pinned dated API contract version. Official SDKs send this header automatically.
-    affinityVersion: 2026-07-19,
     // string (optional)
     externalOrderId: externalOrderId_example,
     // string (optional)
@@ -399,6 +483,8 @@ async function example() {
     practiceId: practiceId_example,
     // 'blocked' | 'cancelled' | 'delivered' | 'draft' | 'processing' | 'shipped' | 'submitted' (optional)
     status: status_example,
+    // string | Optional per-request override for the service account\'s pinned API version. (optional)
+    affinityVersion: 2026-07-19,
   } satisfies ListOrdersRequest;
 
   try {
@@ -418,7 +504,6 @@ example().catch(console.error);
 
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
-| **affinityVersion** | `string` | Pinned dated API contract version. Official SDKs send this header automatically. | [Defaults to `undefined`] |
 | **externalOrderId** | `string` |  | [Optional] [Defaults to `undefined`] |
 | **patientExternalId** | `string` |  | [Optional] [Defaults to `undefined`] |
 | **limit** | `number` |  | [Optional] [Defaults to `100`] |
@@ -426,6 +511,7 @@ example().catch(console.error);
 | **endingBefore** | `string` |  | [Optional] [Defaults to `undefined`] |
 | **practiceId** | `string` |  | [Optional] [Defaults to `undefined`] |
 | **status** | `blocked`, `cancelled`, `delivered`, `draft`, `processing`, `shipped`, `submitted` |  | [Optional] [Defaults to `undefined`] [Enum: blocked, cancelled, delivered, draft, processing, shipped, submitted] |
+| **affinityVersion** | `string` | Optional per-request override for the service account\&#39;s pinned API version. | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 
@@ -456,7 +542,7 @@ example().catch(console.error);
 
 ## submitOrder
 
-> SubmitOrderResponse submitOrder(orderId, affinityVersion, idempotencyKey)
+> SubmitOrderResponse submitOrder(orderId, submitOrderRequest, idempotencyKey, affinityVersion)
 
 Submit order
 
@@ -469,7 +555,7 @@ import {
   Configuration,
   PlatformOrdersApi,
 } from '@affinity-health/sdk';
-import type { SubmitOrderRequest } from '@affinity-health/sdk';
+import type { SubmitOrderOperationRequest } from '@affinity-health/sdk';
 
 async function example() {
   console.log("🚀 Testing @affinity-health/sdk SDK...");
@@ -484,11 +570,13 @@ async function example() {
   const body = {
     // string
     orderId: orderId_example,
-    // string | Pinned dated API contract version. Official SDKs send this header automatically.
-    affinityVersion: 2026-07-19,
+    // SubmitOrderRequest
+    submitOrderRequest: ...,
     // string | Unique operation key required for every mutation. (optional)
     idempotencyKey: idempotencyKey_example,
-  } satisfies SubmitOrderRequest;
+    // string | Optional per-request override for the service account\'s pinned API version. (optional)
+    affinityVersion: 2026-07-19,
+  } satisfies SubmitOrderOperationRequest;
 
   try {
     const data = await api.submitOrder(body);
@@ -508,8 +596,9 @@ example().catch(console.error);
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
 | **orderId** | `string` |  | [Defaults to `undefined`] |
-| **affinityVersion** | `string` | Pinned dated API contract version. Official SDKs send this header automatically. | [Defaults to `undefined`] |
+| **submitOrderRequest** | [SubmitOrderRequest](SubmitOrderRequest.md) |  | |
 | **idempotencyKey** | `string` | Unique operation key required for every mutation. | [Optional] [Defaults to `undefined`] |
+| **affinityVersion** | `string` | Optional per-request override for the service account\&#39;s pinned API version. | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 
@@ -521,7 +610,7 @@ example().catch(console.error);
 
 ### HTTP request headers
 
-- **Content-Type**: Not defined
+- **Content-Type**: `application/json`
 - **Accept**: `application/json`, `application/problem+json`
 
 
@@ -542,7 +631,7 @@ example().catch(console.error);
 
 ## updateOrder
 
-> UpdateOrderResponse updateOrder(orderId, affinityVersion, updateOrderRequest, idempotencyKey)
+> UpdateOrderResponse updateOrder(orderId, updateOrderRequest, idempotencyKey, affinityVersion)
 
 Update draft order
 
@@ -570,12 +659,12 @@ async function example() {
   const body = {
     // string
     orderId: orderId_example,
-    // string | Pinned dated API contract version. Official SDKs send this header automatically.
-    affinityVersion: 2026-07-19,
     // UpdateOrderRequest
     updateOrderRequest: ...,
     // string | Unique operation key required for every mutation. (optional)
     idempotencyKey: idempotencyKey_example,
+    // string | Optional per-request override for the service account\'s pinned API version. (optional)
+    affinityVersion: 2026-07-19,
   } satisfies UpdateOrderOperationRequest;
 
   try {
@@ -596,9 +685,9 @@ example().catch(console.error);
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
 | **orderId** | `string` |  | [Defaults to `undefined`] |
-| **affinityVersion** | `string` | Pinned dated API contract version. Official SDKs send this header automatically. | [Defaults to `undefined`] |
 | **updateOrderRequest** | [UpdateOrderRequest](UpdateOrderRequest.md) |  | |
 | **idempotencyKey** | `string` | Unique operation key required for every mutation. | [Optional] [Defaults to `undefined`] |
+| **affinityVersion** | `string` | Optional per-request override for the service account\&#39;s pinned API version. | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 

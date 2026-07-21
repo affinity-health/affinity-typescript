@@ -13,7 +13,7 @@ All URIs are relative to *https://api.joinaffinityai.com*
 
 ## createPractice
 
-> CreatePracticeResponse createPractice(affinityVersion, createPracticeRequest, idempotencyKey)
+> CreatePracticeResponse createPractice(createPracticeRequest, idempotencyKey, affinityVersion)
 
 Create practice
 
@@ -39,12 +39,12 @@ async function example() {
   const api = new PracticesApi(config);
 
   const body = {
-    // string | Pinned dated API contract version. Official SDKs send this header automatically.
-    affinityVersion: 2026-07-19,
     // CreatePracticeRequest
     createPracticeRequest: {"address":{"city":"Los Angeles","country":"US","line1":"100 Practice Way","line2":null,"postalCode":"90001","state":"CA"},"attestations":{"authorizedPracticeRelationship":true,"authorizedPhiTransfer":true,"minimumNecessaryPhi":true,"providerDataAccuracy":true},"complianceContact":null,"externalId":"practice_123","legalName":"Example Medical Group PLLC","metadata":{},"name":"Example Medical Group","prescribers":[{"credentials":"MD","licenseStates":["CA"],"name":"Alex Morgan","npi":"1234567893"}],"primaryContact":{"email":"operations@example-practice.com","name":"Jordan Lee","phone":null},"supportEmail":"support@example-practice.com","supportPhone":null,"timezone":"America/Los_Angeles"},
     // string | Unique operation key required for every mutation. (optional)
     idempotencyKey: idempotencyKey_example,
+    // string | Optional per-request override for the service account\'s pinned API version. (optional)
+    affinityVersion: 2026-07-19,
   } satisfies CreatePracticeOperationRequest;
 
   try {
@@ -64,9 +64,9 @@ example().catch(console.error);
 
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
-| **affinityVersion** | `string` | Pinned dated API contract version. Official SDKs send this header automatically. | [Defaults to `undefined`] |
 | **createPracticeRequest** | [CreatePracticeRequest](CreatePracticeRequest.md) |  | |
 | **idempotencyKey** | `string` | Unique operation key required for every mutation. | [Optional] [Defaults to `undefined`] |
+| **affinityVersion** | `string` | Optional per-request override for the service account\&#39;s pinned API version. | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 
@@ -126,7 +126,7 @@ async function example() {
   const body = {
     // string
     practiceId: practiceId_example,
-    // string | Pinned dated API contract version. Official SDKs send this header automatically.
+    // string | Optional per-request override for the service account\'s pinned API version. (optional)
     affinityVersion: 2026-07-19,
   } satisfies GetPracticeRequest;
 
@@ -148,7 +148,7 @@ example().catch(console.error);
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
 | **practiceId** | `string` |  | [Defaults to `undefined`] |
-| **affinityVersion** | `string` | Pinned dated API contract version. Official SDKs send this header automatically. | [Defaults to `undefined`] |
+| **affinityVersion** | `string` | Optional per-request override for the service account\&#39;s pinned API version. | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 
@@ -180,7 +180,7 @@ example().catch(console.error);
 
 ## listPractices
 
-> ListPracticesResponse listPractices(affinityVersion, limit, startingAfter, endingBefore)
+> ListPracticesResponse listPractices(limit, startingAfter, endingBefore, affinityVersion)
 
 List practices
 
@@ -204,14 +204,14 @@ async function example() {
   const api = new PracticesApi(config);
 
   const body = {
-    // string | Pinned dated API contract version. Official SDKs send this header automatically.
-    affinityVersion: 2026-07-19,
     // number (optional)
     limit: 56,
     // string (optional)
     startingAfter: startingAfter_example,
     // string (optional)
     endingBefore: endingBefore_example,
+    // string | Optional per-request override for the service account\'s pinned API version. (optional)
+    affinityVersion: 2026-07-19,
   } satisfies ListPracticesRequest;
 
   try {
@@ -231,10 +231,10 @@ example().catch(console.error);
 
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
-| **affinityVersion** | `string` | Pinned dated API contract version. Official SDKs send this header automatically. | [Defaults to `undefined`] |
 | **limit** | `number` |  | [Optional] [Defaults to `25`] |
 | **startingAfter** | `string` |  | [Optional] [Defaults to `undefined`] |
 | **endingBefore** | `string` |  | [Optional] [Defaults to `undefined`] |
+| **affinityVersion** | `string` | Optional per-request override for the service account\&#39;s pinned API version. | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 
@@ -265,7 +265,7 @@ example().catch(console.error);
 
 ## updatePractice
 
-> UpdatePracticeResponse updatePractice(practiceId, affinityVersion, updatePracticeRequest, idempotencyKey)
+> UpdatePracticeResponse updatePractice(practiceId, updatePracticeRequest, idempotencyKey, affinityVersion)
 
 Update practice
 
@@ -293,12 +293,12 @@ async function example() {
   const body = {
     // string
     practiceId: practiceId_example,
-    // string | Pinned dated API contract version. Official SDKs send this header automatically.
-    affinityVersion: 2026-07-19,
     // UpdatePracticeRequest
     updatePracticeRequest: ...,
     // string | Unique operation key required for every mutation. (optional)
     idempotencyKey: idempotencyKey_example,
+    // string | Optional per-request override for the service account\'s pinned API version. (optional)
+    affinityVersion: 2026-07-19,
   } satisfies UpdatePracticeOperationRequest;
 
   try {
@@ -319,9 +319,9 @@ example().catch(console.error);
 | Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
 | **practiceId** | `string` |  | [Defaults to `undefined`] |
-| **affinityVersion** | `string` | Pinned dated API contract version. Official SDKs send this header automatically. | [Defaults to `undefined`] |
 | **updatePracticeRequest** | [UpdatePracticeRequest](UpdatePracticeRequest.md) |  | |
 | **idempotencyKey** | `string` | Unique operation key required for every mutation. | [Optional] [Defaults to `undefined`] |
+| **affinityVersion** | `string` | Optional per-request override for the service account\&#39;s pinned API version. | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 

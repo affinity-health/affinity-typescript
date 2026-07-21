@@ -27,6 +27,20 @@ import {
   CreateOrderRequestAnyOfPrescriberToJSON,
   CreateOrderRequestAnyOfPrescriberToJSONTyped,
 } from "./CreateOrderRequestAnyOfPrescriber";
+import type { CreateOrderRequestAnyOf1ShippingDestination } from "./CreateOrderRequestAnyOf1ShippingDestination";
+import {
+  CreateOrderRequestAnyOf1ShippingDestinationFromJSON,
+  CreateOrderRequestAnyOf1ShippingDestinationFromJSONTyped,
+  CreateOrderRequestAnyOf1ShippingDestinationToJSON,
+  CreateOrderRequestAnyOf1ShippingDestinationToJSONTyped,
+} from "./CreateOrderRequestAnyOf1ShippingDestination";
+import type { CreateOrderRequestAnyOfClinical } from "./CreateOrderRequestAnyOfClinical";
+import {
+  CreateOrderRequestAnyOfClinicalFromJSON,
+  CreateOrderRequestAnyOfClinicalFromJSONTyped,
+  CreateOrderRequestAnyOfClinicalToJSON,
+  CreateOrderRequestAnyOfClinicalToJSONTyped,
+} from "./CreateOrderRequestAnyOfClinical";
 import type { CreateOrderRequestAnyOf } from "./CreateOrderRequestAnyOf";
 import {
   CreateOrderRequestAnyOfFromJSON,
@@ -55,6 +69,13 @@ import {
   CreateOrderRequestAnyOfPrescriptionToJSON,
   CreateOrderRequestAnyOfPrescriptionToJSONTyped,
 } from "./CreateOrderRequestAnyOfPrescription";
+import type { CreateOrderRequestAnyOf1EpcsHandoff } from "./CreateOrderRequestAnyOf1EpcsHandoff";
+import {
+  CreateOrderRequestAnyOf1EpcsHandoffFromJSON,
+  CreateOrderRequestAnyOf1EpcsHandoffFromJSONTyped,
+  CreateOrderRequestAnyOf1EpcsHandoffToJSON,
+  CreateOrderRequestAnyOf1EpcsHandoffToJSONTyped,
+} from "./CreateOrderRequestAnyOf1EpcsHandoff";
 
 /**
  *
@@ -68,6 +89,12 @@ export interface CreateOrderRequest {
    * @memberof CreateOrderRequest
    */
   catalogItemId: string;
+  /**
+   *
+   * @type {CreateOrderRequestAnyOfClinical}
+   * @memberof CreateOrderRequest
+   */
+  clinical?: CreateOrderRequestAnyOfClinical;
   /**
    *
    * @type {string}
@@ -118,10 +145,16 @@ export interface CreateOrderRequest {
   replacesOrderId?: string;
   /**
    *
+   * @type {CreateOrderRequestShippingMethodEnum}
+   * @memberof CreateOrderRequest
+   */
+  shippingMethod?: CreateOrderRequestShippingMethodEnum;
+  /**
+   *
    * @type {string}
    * @memberof CreateOrderRequest
    */
-  pharmacyOrganizationId: string;
+  routingDecisionId: string;
   /**
    *
    * @type {string}
@@ -146,7 +179,38 @@ export interface CreateOrderRequest {
    * @memberof CreateOrderRequest
    */
   shippingAddress: CreateOrderRequestAnyOfPatientAddress;
+  /**
+   *
+   * @type {CreateOrderRequestAnyOf1ShippingDestination}
+   * @memberof CreateOrderRequest
+   */
+  shippingDestination?: CreateOrderRequestAnyOf1ShippingDestination;
+  /**
+   *
+   * @type {string}
+   * @memberof CreateOrderRequest
+   */
+  shippingOptionId?: string;
+  /**
+   *
+   * @type {CreateOrderRequestAnyOf1EpcsHandoff}
+   * @memberof CreateOrderRequest
+   */
+  epcsHandoff?: CreateOrderRequestAnyOf1EpcsHandoff;
 }
+
+/**
+ * @export
+ */
+export const CreateOrderRequestShippingMethodEnum = {
+  Standard: "standard",
+  Expedited: "expedited",
+  Overnight: "overnight",
+  Pickup: "pickup",
+  LocalDelivery: "local_delivery",
+} as const;
+export type CreateOrderRequestShippingMethodEnum =
+  (typeof CreateOrderRequestShippingMethodEnum)[keyof typeof CreateOrderRequestShippingMethodEnum];
 
 /**
  * Check if a given object implements the CreateOrderRequest interface.
@@ -159,8 +223,7 @@ export function instanceOfCreateOrderRequest(value: object): value is CreateOrde
   if (!("patient" in value) || value["patient"] === undefined) return false;
   if (!("prescriber" in value) || value["prescriber"] === undefined) return false;
   if (!("prescription" in value) || value["prescription"] === undefined) return false;
-  if (!("pharmacyOrganizationId" in value) || value["pharmacyOrganizationId"] === undefined)
-    return false;
+  if (!("routingDecisionId" in value) || value["routingDecisionId"] === undefined) return false;
   if (!("prescriptionId" in value) || value["prescriptionId"] === undefined) return false;
   if (!("prescriptionVersionId" in value) || value["prescriptionVersionId"] === undefined)
     return false;
@@ -183,6 +246,10 @@ export function CreateOrderRequestFromJSONTyped(
   }
   return {
     catalogItemId: json["catalogItemId"],
+    clinical:
+      json["clinical"] == null
+        ? undefined
+        : CreateOrderRequestAnyOfClinicalFromJSON(json["clinical"]),
     practiceId: json["practiceId"],
     directions: json["directions"],
     externalOrderId: json["externalOrderId"],
@@ -191,11 +258,21 @@ export function CreateOrderRequestFromJSONTyped(
     prescription: CreateOrderRequestAnyOfPrescriptionFromJSON(json["prescription"]),
     quantity: json["quantity"] == null ? undefined : json["quantity"],
     replacesOrderId: json["replacesOrderId"] == null ? undefined : json["replacesOrderId"],
-    pharmacyOrganizationId: json["pharmacyOrganizationId"],
+    shippingMethod: json["shippingMethod"] == null ? undefined : json["shippingMethod"],
+    routingDecisionId: json["routingDecisionId"],
     prescriptionId: json["prescriptionId"],
     prescriptionVersionId: json["prescriptionVersionId"],
     registeredLocationId: json["registeredLocationId"],
     shippingAddress: CreateOrderRequestAnyOfPatientAddressFromJSON(json["shippingAddress"]),
+    shippingDestination:
+      json["shippingDestination"] == null
+        ? undefined
+        : CreateOrderRequestAnyOf1ShippingDestinationFromJSON(json["shippingDestination"]),
+    shippingOptionId: json["shippingOptionId"] == null ? undefined : json["shippingOptionId"],
+    epcsHandoff:
+      json["epcsHandoff"] == null
+        ? undefined
+        : CreateOrderRequestAnyOf1EpcsHandoffFromJSON(json["epcsHandoff"]),
   };
 }
 
@@ -213,6 +290,7 @@ export function CreateOrderRequestToJSONTyped(
 
   return {
     catalogItemId: value["catalogItemId"],
+    clinical: CreateOrderRequestAnyOfClinicalToJSON(value["clinical"]),
     practiceId: value["practiceId"],
     directions: value["directions"],
     externalOrderId: value["externalOrderId"],
@@ -221,10 +299,16 @@ export function CreateOrderRequestToJSONTyped(
     prescription: CreateOrderRequestAnyOfPrescriptionToJSON(value["prescription"]),
     quantity: value["quantity"],
     replacesOrderId: value["replacesOrderId"],
-    pharmacyOrganizationId: value["pharmacyOrganizationId"],
+    shippingMethod: value["shippingMethod"],
+    routingDecisionId: value["routingDecisionId"],
     prescriptionId: value["prescriptionId"],
     prescriptionVersionId: value["prescriptionVersionId"],
     registeredLocationId: value["registeredLocationId"],
     shippingAddress: CreateOrderRequestAnyOfPatientAddressToJSON(value["shippingAddress"]),
+    shippingDestination: CreateOrderRequestAnyOf1ShippingDestinationToJSON(
+      value["shippingDestination"],
+    ),
+    shippingOptionId: value["shippingOptionId"],
+    epcsHandoff: CreateOrderRequestAnyOf1EpcsHandoffToJSON(value["epcsHandoff"]),
   };
 }

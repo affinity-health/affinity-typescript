@@ -46,28 +46,28 @@ import {
 } from "../models/UpdatePracticeResponse";
 
 export interface CreatePracticeOperationRequest {
-  affinityVersion: string;
   createPracticeRequest: CreatePracticeRequest;
   idempotencyKey?: string;
+  affinityVersion?: string;
 }
 
 export interface GetPracticeRequest {
   practiceId: string;
-  affinityVersion: string;
+  affinityVersion?: string;
 }
 
 export interface ListPracticesRequest {
-  affinityVersion: string;
   limit?: number;
   startingAfter?: string;
   endingBefore?: string;
+  affinityVersion?: string;
 }
 
 export interface UpdatePracticeOperationRequest {
   practiceId: string;
-  affinityVersion: string;
   updatePracticeRequest: UpdatePracticeRequest;
   idempotencyKey?: string;
+  affinityVersion?: string;
 }
 
 /**
@@ -80,13 +80,6 @@ export class PracticesApi extends runtime.BaseAPI {
   async createPracticeRequestOpts(
     requestParameters: CreatePracticeOperationRequest,
   ): Promise<runtime.RequestOpts> {
-    if (requestParameters["affinityVersion"] == null) {
-      throw new runtime.RequiredError(
-        "affinityVersion",
-        'Required parameter "affinityVersion" was null or undefined when calling createPractice().',
-      );
-    }
-
     if (requestParameters["createPracticeRequest"] == null) {
       throw new runtime.RequiredError(
         "createPracticeRequest",
@@ -173,13 +166,6 @@ export class PracticesApi extends runtime.BaseAPI {
       );
     }
 
-    if (requestParameters["affinityVersion"] == null) {
-      throw new runtime.RequiredError(
-        "affinityVersion",
-        'Required parameter "affinityVersion" was null or undefined when calling getPractice().',
-      );
-    }
-
     const queryParameters: any = {};
 
     const headerParameters: runtime.HTTPHeaders = {};
@@ -249,13 +235,6 @@ export class PracticesApi extends runtime.BaseAPI {
   async listPracticesRequestOpts(
     requestParameters: ListPracticesRequest,
   ): Promise<runtime.RequestOpts> {
-    if (requestParameters["affinityVersion"] == null) {
-      throw new runtime.RequiredError(
-        "affinityVersion",
-        'Required parameter "affinityVersion" was null or undefined when calling listPractices().',
-      );
-    }
-
     const queryParameters: any = {};
 
     if (requestParameters["limit"] != null) {
@@ -318,7 +297,7 @@ export class PracticesApi extends runtime.BaseAPI {
    * List practices
    */
   async listPractices(
-    requestParameters: ListPracticesRequest,
+    requestParameters: ListPracticesRequest = {},
     initOverrides?: RequestInit | runtime.InitOverrideFunction,
   ): Promise<ListPracticesResponse> {
     const response = await this.listPracticesRaw(requestParameters, initOverrides);
@@ -335,13 +314,6 @@ export class PracticesApi extends runtime.BaseAPI {
       throw new runtime.RequiredError(
         "practiceId",
         'Required parameter "practiceId" was null or undefined when calling updatePractice().',
-      );
-    }
-
-    if (requestParameters["affinityVersion"] == null) {
-      throw new runtime.RequiredError(
-        "affinityVersion",
-        'Required parameter "affinityVersion" was null or undefined when calling updatePractice().',
       );
     }
 

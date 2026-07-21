@@ -36,6 +36,9 @@ Name | Type
 `trackingNumber` | string
 `shippedAt` | string
 `deliveredAt` | string
+`estimatedDeliveryAt` | string
+`shipping` | [ListOrdersResponseDataInnerShipping](ListOrdersResponseDataInnerShipping.md)
+`trackingUrl` | string
 `updatedAt` | string
 
 ## Example
@@ -75,6 +78,9 @@ const example = {
   "trackingNumber": null,
   "shippedAt": null,
   "deliveredAt": null,
+  "estimatedDeliveryAt": null,
+  "shipping": null,
+  "trackingUrl": null,
   "updatedAt": null,
 } satisfies CreateOrderResponse
 

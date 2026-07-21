@@ -34,6 +34,16 @@ import {
   CreateOrderResponseToJSON,
 } from "../models/CreateOrderResponse";
 import {
+  type CreateRoutingDecisionRequest,
+  CreateRoutingDecisionRequestFromJSON,
+  CreateRoutingDecisionRequestToJSON,
+} from "../models/CreateRoutingDecisionRequest";
+import {
+  type CreateRoutingDecisionResponse,
+  CreateRoutingDecisionResponseFromJSON,
+  CreateRoutingDecisionResponseToJSON,
+} from "../models/CreateRoutingDecisionResponse";
+import {
   type GetOrderResponse,
   GetOrderResponseFromJSON,
   GetOrderResponseToJSON,
@@ -49,6 +59,11 @@ import {
   ListOrdersResponseToJSON,
 } from "../models/ListOrdersResponse";
 import { type Problem, ProblemFromJSON, ProblemToJSON } from "../models/Problem";
+import {
+  type SubmitOrderRequest,
+  SubmitOrderRequestFromJSON,
+  SubmitOrderRequestToJSON,
+} from "../models/SubmitOrderRequest";
 import {
   type SubmitOrderResponse,
   SubmitOrderResponseFromJSON,
@@ -67,32 +82,37 @@ import {
 
 export interface CancelOrderOperationRequest {
   orderId: string;
-  affinityVersion: string;
   cancelOrderRequest: CancelOrderRequest;
   idempotencyKey?: string;
+  affinityVersion?: string;
 }
 
 export interface CreateOrderOperationRequest {
-  affinityVersion: string;
   createOrderRequest: CreateOrderRequest;
   idempotencyKey?: string;
+  affinityVersion?: string;
+}
+
+export interface CreateRoutingDecisionOperationRequest {
+  createRoutingDecisionRequest: CreateRoutingDecisionRequest;
+  idempotencyKey?: string;
+  affinityVersion?: string;
 }
 
 export interface GetOrderRequest {
   orderId: string;
-  affinityVersion: string;
+  affinityVersion?: string;
 }
 
 export interface ListOrderEventsRequest {
   orderId: string;
-  affinityVersion: string;
   limit?: number;
   startingAfter?: string;
   endingBefore?: string;
+  affinityVersion?: string;
 }
 
 export interface ListOrdersRequest {
-  affinityVersion: string;
   externalOrderId?: string;
   patientExternalId?: string;
   limit?: number;
@@ -100,19 +120,21 @@ export interface ListOrdersRequest {
   endingBefore?: string;
   practiceId?: string;
   status?: ListOrdersStatusEnum;
+  affinityVersion?: string;
 }
 
-export interface SubmitOrderRequest {
+export interface SubmitOrderOperationRequest {
   orderId: string;
-  affinityVersion: string;
+  submitOrderRequest: SubmitOrderRequest;
   idempotencyKey?: string;
+  affinityVersion?: string;
 }
 
 export interface UpdateOrderOperationRequest {
   orderId: string;
-  affinityVersion: string;
   updateOrderRequest: UpdateOrderRequest;
   idempotencyKey?: string;
+  affinityVersion?: string;
 }
 
 /**
@@ -129,13 +151,6 @@ export class PlatformOrdersApi extends runtime.BaseAPI {
       throw new runtime.RequiredError(
         "orderId",
         'Required parameter "orderId" was null or undefined when calling cancelOrder().',
-      );
-    }
-
-    if (requestParameters["affinityVersion"] == null) {
-      throw new runtime.RequiredError(
-        "affinityVersion",
-        'Required parameter "affinityVersion" was null or undefined when calling cancelOrder().',
       );
     }
 
@@ -222,13 +237,6 @@ export class PlatformOrdersApi extends runtime.BaseAPI {
   async createOrderRequestOpts(
     requestParameters: CreateOrderOperationRequest,
   ): Promise<runtime.RequestOpts> {
-    if (requestParameters["affinityVersion"] == null) {
-      throw new runtime.RequiredError(
-        "affinityVersion",
-        'Required parameter "affinityVersion" was null or undefined when calling createOrder().',
-      );
-    }
-
     if (requestParameters["createOrderRequest"] == null) {
       throw new runtime.RequiredError(
         "createOrderRequest",
@@ -303,6 +311,85 @@ export class PlatformOrdersApi extends runtime.BaseAPI {
   }
 
   /**
+   * Creates request options for createRoutingDecision without sending the request
+   */
+  async createRoutingDecisionRequestOpts(
+    requestParameters: CreateRoutingDecisionOperationRequest,
+  ): Promise<runtime.RequestOpts> {
+    if (requestParameters["createRoutingDecisionRequest"] == null) {
+      throw new runtime.RequiredError(
+        "createRoutingDecisionRequest",
+        'Required parameter "createRoutingDecisionRequest" was null or undefined when calling createRoutingDecision().',
+      );
+    }
+
+    const queryParameters: any = {};
+
+    const headerParameters: runtime.HTTPHeaders = {};
+
+    headerParameters["Content-Type"] = "application/json";
+
+    if (requestParameters["idempotencyKey"] != null) {
+      headerParameters["Idempotency-Key"] = String(requestParameters["idempotencyKey"]);
+    }
+
+    if (requestParameters["affinityVersion"] != null) {
+      headerParameters["Affinity-Version"] = String(requestParameters["affinityVersion"]);
+    }
+
+    if (this.configuration && this.configuration.accessToken) {
+      const token = this.configuration.accessToken;
+      const tokenString = await token("bearerAuth", []);
+
+      if (tokenString) {
+        headerParameters["Authorization"] = `Bearer ${tokenString}`;
+      }
+    }
+    if (this.configuration && this.configuration.apiKey) {
+      headerParameters["x-affinity-api-key"] =
+        await this.configuration.apiKey("x-affinity-api-key"); // affinityApiKey authentication
+    }
+
+    let urlPath = `/v1/routing-decisions`;
+
+    return {
+      path: urlPath,
+      method: "POST",
+      headers: headerParameters,
+      query: queryParameters,
+      body: CreateRoutingDecisionRequestToJSON(requestParameters["createRoutingDecisionRequest"]),
+    };
+  }
+
+  /**
+   * Selects an eligible live pharmacy and returns an expiring single-use routing decision.
+   * Create routing decision
+   */
+  async createRoutingDecisionRaw(
+    requestParameters: CreateRoutingDecisionOperationRequest,
+    initOverrides?: RequestInit | runtime.InitOverrideFunction,
+  ): Promise<runtime.ApiResponse<CreateRoutingDecisionResponse>> {
+    const requestOptions = await this.createRoutingDecisionRequestOpts(requestParameters);
+    const response = await this.request(requestOptions, initOverrides);
+
+    return new runtime.JSONApiResponse(response, (jsonValue) =>
+      CreateRoutingDecisionResponseFromJSON(jsonValue),
+    );
+  }
+
+  /**
+   * Selects an eligible live pharmacy and returns an expiring single-use routing decision.
+   * Create routing decision
+   */
+  async createRoutingDecision(
+    requestParameters: CreateRoutingDecisionOperationRequest,
+    initOverrides?: RequestInit | runtime.InitOverrideFunction,
+  ): Promise<CreateRoutingDecisionResponse> {
+    const response = await this.createRoutingDecisionRaw(requestParameters, initOverrides);
+    return await response.value();
+  }
+
+  /**
    * Creates request options for getOrder without sending the request
    */
   async getOrderRequestOpts(requestParameters: GetOrderRequest): Promise<runtime.RequestOpts> {
@@ -310,13 +397,6 @@ export class PlatformOrdersApi extends runtime.BaseAPI {
       throw new runtime.RequiredError(
         "orderId",
         'Required parameter "orderId" was null or undefined when calling getOrder().',
-      );
-    }
-
-    if (requestParameters["affinityVersion"] == null) {
-      throw new runtime.RequiredError(
-        "affinityVersion",
-        'Required parameter "affinityVersion" was null or undefined when calling getOrder().',
       );
     }
 
@@ -391,13 +471,6 @@ export class PlatformOrdersApi extends runtime.BaseAPI {
       throw new runtime.RequiredError(
         "orderId",
         'Required parameter "orderId" was null or undefined when calling listOrderEvents().',
-      );
-    }
-
-    if (requestParameters["affinityVersion"] == null) {
-      throw new runtime.RequiredError(
-        "affinityVersion",
-        'Required parameter "affinityVersion" was null or undefined when calling listOrderEvents().',
       );
     }
 
@@ -478,13 +551,6 @@ export class PlatformOrdersApi extends runtime.BaseAPI {
    * Creates request options for listOrders without sending the request
    */
   async listOrdersRequestOpts(requestParameters: ListOrdersRequest): Promise<runtime.RequestOpts> {
-    if (requestParameters["affinityVersion"] == null) {
-      throw new runtime.RequiredError(
-        "affinityVersion",
-        'Required parameter "affinityVersion" was null or undefined when calling listOrders().',
-      );
-    }
-
     const queryParameters: any = {};
 
     if (requestParameters["externalOrderId"] != null) {
@@ -563,7 +629,7 @@ export class PlatformOrdersApi extends runtime.BaseAPI {
    * List platform orders
    */
   async listOrders(
-    requestParameters: ListOrdersRequest,
+    requestParameters: ListOrdersRequest = {},
     initOverrides?: RequestInit | runtime.InitOverrideFunction,
   ): Promise<ListOrdersResponse> {
     const response = await this.listOrdersRaw(requestParameters, initOverrides);
@@ -574,7 +640,7 @@ export class PlatformOrdersApi extends runtime.BaseAPI {
    * Creates request options for submitOrder without sending the request
    */
   async submitOrderRequestOpts(
-    requestParameters: SubmitOrderRequest,
+    requestParameters: SubmitOrderOperationRequest,
   ): Promise<runtime.RequestOpts> {
     if (requestParameters["orderId"] == null) {
       throw new runtime.RequiredError(
@@ -583,16 +649,18 @@ export class PlatformOrdersApi extends runtime.BaseAPI {
       );
     }
 
-    if (requestParameters["affinityVersion"] == null) {
+    if (requestParameters["submitOrderRequest"] == null) {
       throw new runtime.RequiredError(
-        "affinityVersion",
-        'Required parameter "affinityVersion" was null or undefined when calling submitOrder().',
+        "submitOrderRequest",
+        'Required parameter "submitOrderRequest" was null or undefined when calling submitOrder().',
       );
     }
 
     const queryParameters: any = {};
 
     const headerParameters: runtime.HTTPHeaders = {};
+
+    headerParameters["Content-Type"] = "application/json";
 
     if (requestParameters["idempotencyKey"] != null) {
       headerParameters["Idempotency-Key"] = String(requestParameters["idempotencyKey"]);
@@ -626,6 +694,7 @@ export class PlatformOrdersApi extends runtime.BaseAPI {
       method: "POST",
       headers: headerParameters,
       query: queryParameters,
+      body: SubmitOrderRequestToJSON(requestParameters["submitOrderRequest"]),
     };
   }
 
@@ -634,7 +703,7 @@ export class PlatformOrdersApi extends runtime.BaseAPI {
    * Submit order
    */
   async submitOrderRaw(
-    requestParameters: SubmitOrderRequest,
+    requestParameters: SubmitOrderOperationRequest,
     initOverrides?: RequestInit | runtime.InitOverrideFunction,
   ): Promise<runtime.ApiResponse<SubmitOrderResponse>> {
     const requestOptions = await this.submitOrderRequestOpts(requestParameters);
@@ -650,7 +719,7 @@ export class PlatformOrdersApi extends runtime.BaseAPI {
    * Submit order
    */
   async submitOrder(
-    requestParameters: SubmitOrderRequest,
+    requestParameters: SubmitOrderOperationRequest,
     initOverrides?: RequestInit | runtime.InitOverrideFunction,
   ): Promise<SubmitOrderResponse> {
     const response = await this.submitOrderRaw(requestParameters, initOverrides);
@@ -667,13 +736,6 @@ export class PlatformOrdersApi extends runtime.BaseAPI {
       throw new runtime.RequiredError(
         "orderId",
         'Required parameter "orderId" was null or undefined when calling updateOrder().',
-      );
-    }
-
-    if (requestParameters["affinityVersion"] == null) {
-      throw new runtime.RequiredError(
-        "affinityVersion",
-        'Required parameter "affinityVersion" was null or undefined when calling updateOrder().',
       );
     }
 

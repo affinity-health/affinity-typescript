@@ -18,15 +18,27 @@ import {
   ListCatalogItemsResponseFromJSON,
   ListCatalogItemsResponseToJSON,
 } from "../models/ListCatalogItemsResponse";
+import {
+  type ListShippingOptionsResponse,
+  ListShippingOptionsResponseFromJSON,
+  ListShippingOptionsResponseToJSON,
+} from "../models/ListShippingOptionsResponse";
 import { type Problem, ProblemFromJSON, ProblemToJSON } from "../models/Problem";
 
 export interface ListCatalogItemsRequest {
-  affinityVersion: string;
   query?: string;
   limit?: number;
   startingAfter?: string;
   endingBefore?: string;
   route?: ListCatalogItemsRouteEnum;
+  affinityVersion?: string;
+}
+
+export interface ListShippingOptionsRequest {
+  catalogItemId: string;
+  destinationState: string;
+  destinationType?: ListShippingOptionsDestinationTypeEnum;
+  affinityVersion?: string;
 }
 
 /**
@@ -39,13 +51,6 @@ export class CatalogApi extends runtime.BaseAPI {
   async listCatalogItemsRequestOpts(
     requestParameters: ListCatalogItemsRequest,
   ): Promise<runtime.RequestOpts> {
-    if (requestParameters["affinityVersion"] == null) {
-      throw new runtime.RequiredError(
-        "affinityVersion",
-        'Required parameter "affinityVersion" was null or undefined when calling listCatalogItems().',
-      );
-    }
-
     const queryParameters: any = {};
 
     if (requestParameters["query"] != null) {
@@ -118,10 +123,101 @@ export class CatalogApi extends runtime.BaseAPI {
    * List catalog items
    */
   async listCatalogItems(
-    requestParameters: ListCatalogItemsRequest,
+    requestParameters: ListCatalogItemsRequest = {},
     initOverrides?: RequestInit | runtime.InitOverrideFunction,
   ): Promise<ListCatalogItemsResponse> {
     const response = await this.listCatalogItemsRaw(requestParameters, initOverrides);
+    return await response.value();
+  }
+
+  /**
+   * Creates request options for listShippingOptions without sending the request
+   */
+  async listShippingOptionsRequestOpts(
+    requestParameters: ListShippingOptionsRequest,
+  ): Promise<runtime.RequestOpts> {
+    if (requestParameters["catalogItemId"] == null) {
+      throw new runtime.RequiredError(
+        "catalogItemId",
+        'Required parameter "catalogItemId" was null or undefined when calling listShippingOptions().',
+      );
+    }
+
+    if (requestParameters["destinationState"] == null) {
+      throw new runtime.RequiredError(
+        "destinationState",
+        'Required parameter "destinationState" was null or undefined when calling listShippingOptions().',
+      );
+    }
+
+    const queryParameters: any = {};
+
+    if (requestParameters["destinationState"] != null) {
+      queryParameters["destinationState"] = requestParameters["destinationState"];
+    }
+
+    if (requestParameters["destinationType"] != null) {
+      queryParameters["destinationType"] = requestParameters["destinationType"];
+    }
+
+    const headerParameters: runtime.HTTPHeaders = {};
+
+    if (requestParameters["affinityVersion"] != null) {
+      headerParameters["Affinity-Version"] = String(requestParameters["affinityVersion"]);
+    }
+
+    if (this.configuration && this.configuration.accessToken) {
+      const token = this.configuration.accessToken;
+      const tokenString = await token("bearerAuth", []);
+
+      if (tokenString) {
+        headerParameters["Authorization"] = `Bearer ${tokenString}`;
+      }
+    }
+    if (this.configuration && this.configuration.apiKey) {
+      headerParameters["x-affinity-api-key"] =
+        await this.configuration.apiKey("x-affinity-api-key"); // affinityApiKey authentication
+    }
+
+    let urlPath = `/v1/catalog/items/{catalogItemId}/shipping-options`;
+    urlPath = urlPath.replace(
+      "{catalogItemId}",
+      encodeURIComponent(String(requestParameters["catalogItemId"])),
+    );
+
+    return {
+      path: urlPath,
+      method: "GET",
+      headers: headerParameters,
+      query: queryParameters,
+    };
+  }
+
+  /**
+   * Lists reviewed shipping services eligible for a catalog item, destination, and API mode.
+   * List shipping options
+   */
+  async listShippingOptionsRaw(
+    requestParameters: ListShippingOptionsRequest,
+    initOverrides?: RequestInit | runtime.InitOverrideFunction,
+  ): Promise<runtime.ApiResponse<ListShippingOptionsResponse>> {
+    const requestOptions = await this.listShippingOptionsRequestOpts(requestParameters);
+    const response = await this.request(requestOptions, initOverrides);
+
+    return new runtime.JSONApiResponse(response, (jsonValue) =>
+      ListShippingOptionsResponseFromJSON(jsonValue),
+    );
+  }
+
+  /**
+   * Lists reviewed shipping services eligible for a catalog item, destination, and API mode.
+   * List shipping options
+   */
+  async listShippingOptions(
+    requestParameters: ListShippingOptionsRequest,
+    initOverrides?: RequestInit | runtime.InitOverrideFunction,
+  ): Promise<ListShippingOptionsResponse> {
+    const response = await this.listShippingOptionsRaw(requestParameters, initOverrides);
     return await response.value();
   }
 }
@@ -140,3 +236,12 @@ export const ListCatalogItemsRouteEnum = {
 } as const;
 export type ListCatalogItemsRouteEnum =
   (typeof ListCatalogItemsRouteEnum)[keyof typeof ListCatalogItemsRouteEnum];
+/**
+ * @export
+ */
+export const ListShippingOptionsDestinationTypeEnum = {
+  Patient: "patient",
+  Practice: "practice",
+} as const;
+export type ListShippingOptionsDestinationTypeEnum =
+  (typeof ListShippingOptionsDestinationTypeEnum)[keyof typeof ListShippingOptionsDestinationTypeEnum];

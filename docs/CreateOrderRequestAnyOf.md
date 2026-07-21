@@ -7,6 +7,7 @@
 Name | Type
 ------------ | -------------
 `catalogItemId` | string
+`clinical` | [CreateOrderRequestAnyOfClinical](CreateOrderRequestAnyOfClinical.md)
 `practiceId` | string
 `directions` | string
 `externalOrderId` | string
@@ -15,6 +16,7 @@ Name | Type
 `prescription` | [CreateOrderRequestAnyOfPrescription](CreateOrderRequestAnyOfPrescription.md)
 `quantity` | number
 `replacesOrderId` | string
+`shippingMethod` | string
 
 ## Example
 
@@ -24,6 +26,7 @@ import type { CreateOrderRequestAnyOf } from '@affinity-health/sdk'
 // TODO: Update the object below with actual values
 const example = {
   "catalogItemId": null,
+  "clinical": null,
   "practiceId": null,
   "directions": null,
   "externalOrderId": null,
@@ -32,6 +35,7 @@ const example = {
   "prescription": null,
   "quantity": null,
   "replacesOrderId": null,
+  "shippingMethod": null,
 } satisfies CreateOrderRequestAnyOf
 
 console.log(example)

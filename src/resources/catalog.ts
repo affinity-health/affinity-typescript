@@ -1,6 +1,10 @@
 // Code generated from spec/affinity.openapi.json by scripts/generate-facade.ts. DO NOT EDIT.
 
-import type { CatalogApi, ListCatalogItemsRequest } from "../apis/CatalogApi";
+import type {
+  CatalogApi,
+  ListCatalogItemsRequest,
+  ListShippingOptionsRequest,
+} from "../apis/CatalogApi";
 
 export type CatalogListParams = Omit<ListCatalogItemsRequest, "affinityVersion">;
 
@@ -11,5 +15,8 @@ export class CatalogResource {
   ) {}
   list(params: CatalogListParams = {}) {
     return this.api.listCatalogItems({ ...params, affinityVersion: this.apiVersion });
+  }
+  listShippingOptions(params: Omit<ListShippingOptionsRequest, "affinityVersion">) {
+    return this.api.listShippingOptions({ ...params, affinityVersion: this.apiVersion });
   }
 }
