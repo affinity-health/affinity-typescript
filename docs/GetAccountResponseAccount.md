@@ -6,6 +6,7 @@
 
 Name | Type
 ------------ | -------------
+`allowedReturnUrls` | Array&lt;string&gt;
 `alertEmails` | Array&lt;string&gt;
 `alertIntegrationIssues` | boolean
 `alertNewOrders` | boolean
@@ -25,6 +26,7 @@ import type { GetAccountResponseAccount } from '@affinity-health/sdk'
 
 // TODO: Update the object below with actual values
 const example = {
+  "allowedReturnUrls": null,
   "alertEmails": null,
   "alertIntegrationIssues": null,
   "alertNewOrders": null,

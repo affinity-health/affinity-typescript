@@ -2,23 +2,23 @@
   "name": "@affinity-health/sdk",
   "version": "0.1.0",
   "description": "Official TypeScript SDK for the Affinity API",
-  "type": "module",
+  "homepage": "https://docs.joinaffinityai.com/api",
+  "bugs": {
+    "url": "https://github.com/affinity-health/affinity-typescript/issues"
+  },
   "license": "MIT",
   "author": "Affinity API Support <support@joinaffinityai.com>",
   "repository": {
     "type": "git",
     "url": "https://github.com/affinity-health/affinity-typescript.git"
   },
-  "homepage": "https://docs.joinaffinityai.com/api",
-  "bugs": {
-    "url": "https://github.com/affinity-health/affinity-typescript/issues"
-  },
-  "sideEffects": false,
   "files": [
     "dist",
     "README.md",
     "LICENSE"
   ],
+  "type": "module",
+  "sideEffects": false,
   "main": "./dist/index.js",
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -28,6 +28,9 @@
       "import": "./dist/index.js",
       "default": "./dist/index.js"
     }
+  },
+  "publishConfig": {
+    "access": "public"
   },
   "scripts": {
     "build": "bun run clean && tsgo -p tsconfig.json",
@@ -46,8 +49,5 @@
   },
   "engines": {
     "node": ">=20"
-  },
-  "publishConfig": {
-    "access": "public"
   }
 }

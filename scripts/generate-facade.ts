@@ -19,20 +19,29 @@ const operationIds = Object.values(
 const supportedOperations = [
   "cancelOrder",
   "createOrder",
+  "createPortalSession",
   "createPractice",
+  "createPracticeMembership",
+  "createPracticeRole",
   "createRoutingDecision",
+  "createUser",
   "createWebhookEndpoint",
+  "deletePracticeRole",
   "deleteWebhookEndpoint",
   "getApiAccess",
   "getOrder",
   "getAccount",
   "getPractice",
+  "getUser",
   "getWebhookEvent",
   "listCatalogItems",
   "listShippingOptions",
   "listOrderEvents",
   "listOrders",
+  "listPracticeMemberships",
+  "listPracticeRoles",
   "listPractices",
+  "listUsers",
   "listWebhookEndpoints",
   "listWebhookEvents",
   "replayWebhookEvent",
@@ -40,6 +49,9 @@ const supportedOperations = [
   "submitOrder",
   "updateOrder",
   "updatePractice",
+  "updatePracticeMembership",
+  "updatePracticeRole",
+  "updateUser",
   "updateWebhookEndpoint",
 ].sort();
 if (JSON.stringify(operationIds) !== JSON.stringify(supportedOperations)) {
@@ -60,16 +72,24 @@ await output(
   "src/affinity.ts",
   `import { APIKeysApi } from "./apis/APIKeysApi";
 import { CatalogApi } from "./apis/CatalogApi";
+import { MembershipsApi } from "./apis/MembershipsApi";
 import { PlatformOrdersApi } from "./apis/PlatformOrdersApi";
 import { PlatformWebhooksApi } from "./apis/PlatformWebhooksApi";
 import { PlatformsApi } from "./apis/PlatformsApi";
+import { PortalSessionsApi } from "./apis/PortalSessionsApi";
 import { PracticesApi } from "./apis/PracticesApi";
+import { RolesApi } from "./apis/RolesApi";
+import { UsersApi } from "./apis/UsersApi";
 import { Configuration, type FetchAPI } from "./runtime";
 import { AccountResource } from "./resources/account";
 import { CatalogResource } from "./resources/catalog";
+import { MembershipsResource } from "./resources/memberships";
 import { OrdersResource } from "./resources/orders";
+import { PortalSessionsResource } from "./resources/portal-sessions";
 import { PracticesResource } from "./resources/practices";
 import { createRetryingFetch } from "./resources/retrying-fetch";
+import { RolesResource } from "./resources/roles";
+import { UsersResource } from "./resources/users";
 import { WebhooksResource } from "./resources/webhooks";
 
 export interface AffinityOptions {
@@ -83,8 +103,12 @@ export interface AffinityOptions {
 export class Affinity {
   readonly account: AccountResource;
   readonly catalog: CatalogResource;
+  readonly memberships: MembershipsResource;
   readonly orders: OrdersResource;
+  readonly portalSessions: PortalSessionsResource;
   readonly practices: PracticesResource;
+  readonly roles: RolesResource;
+  readonly users: UsersResource;
   readonly webhooks: WebhooksResource;
 
   constructor(apiKey: string, options: AffinityOptions = {}) {
@@ -115,8 +139,15 @@ export class Affinity {
       apiVersion,
     );
     this.catalog = new CatalogResource(new CatalogApi(configuration), apiVersion);
+    this.memberships = new MembershipsResource(new MembershipsApi(configuration), apiVersion);
     this.orders = new OrdersResource(new PlatformOrdersApi(configuration), apiVersion);
+    this.portalSessions = new PortalSessionsResource(
+      new PortalSessionsApi(configuration),
+      apiVersion,
+    );
     this.practices = new PracticesResource(new PracticesApi(configuration), apiVersion);
+    this.roles = new RolesResource(new RolesApi(configuration), apiVersion);
+    this.users = new UsersResource(new UsersApi(configuration), apiVersion);
     this.webhooks = new WebhooksResource(new PlatformWebhooksApi(configuration), apiVersion);
   }
 }`,
@@ -338,6 +369,155 @@ export class OrdersResource {
 );
 
 await output(
+  "src/resources/users.ts",
+  `import type { ListUsersRequest, UsersApi } from "../apis/UsersApi";
+import type { CreateUserRequest } from "../models/CreateUserRequest";
+import type { UpdateUserRequest } from "../models/UpdateUserRequest";
+import type { MutationOptions } from "./request-options";
+
+export class UsersResource {
+  constructor(
+    private readonly api: UsersApi,
+    private readonly apiVersion: string,
+  ) {}
+  list(params: Omit<ListUsersRequest, "affinityVersion"> = {}) {
+    return this.api.listUsers({ ...params, affinityVersion: this.apiVersion });
+  }
+  retrieve(userId: string) {
+    return this.api.getUser({ affinityVersion: this.apiVersion, userId });
+  }
+  create(params: CreateUserRequest, options: MutationOptions) {
+    return this.api.createUser({
+      affinityVersion: this.apiVersion,
+      createUserRequest: params,
+      idempotencyKey: options.idempotencyKey,
+    });
+  }
+  update(userId: string, params: UpdateUserRequest, options: MutationOptions) {
+    return this.api.updateUser({
+      affinityVersion: this.apiVersion,
+      idempotencyKey: options.idempotencyKey,
+      updateUserRequest: params,
+      userId,
+    });
+  }
+}`,
+);
+
+await output(
+  "src/resources/roles.ts",
+  `import type { RolesApi } from "../apis/RolesApi";
+import type { CreatePracticeRoleRequest } from "../models/CreatePracticeRoleRequest";
+import type { UpdatePracticeRoleRequest } from "../models/UpdatePracticeRoleRequest";
+import type { MutationOptions } from "./request-options";
+
+export class RolesResource {
+  constructor(
+    private readonly api: RolesApi,
+    private readonly apiVersion: string,
+  ) {}
+  list(practiceId: string) {
+    return this.api.listPracticeRoles({ affinityVersion: this.apiVersion, practiceId });
+  }
+  create(practiceId: string, params: CreatePracticeRoleRequest, options: MutationOptions) {
+    return this.api.createPracticeRole({
+      affinityVersion: this.apiVersion,
+      createPracticeRoleRequest: params,
+      idempotencyKey: options.idempotencyKey,
+      practiceId,
+    });
+  }
+  update(
+    practiceId: string,
+    roleId: string,
+    params: UpdatePracticeRoleRequest,
+    options: MutationOptions,
+  ) {
+    return this.api.updatePracticeRole({
+      affinityVersion: this.apiVersion,
+      idempotencyKey: options.idempotencyKey,
+      practiceId,
+      roleId,
+      updatePracticeRoleRequest: params,
+    });
+  }
+  delete(practiceId: string, roleId: string, options: MutationOptions) {
+    return this.api.deletePracticeRole({
+      affinityVersion: this.apiVersion,
+      idempotencyKey: options.idempotencyKey,
+      practiceId,
+      roleId,
+    });
+  }
+}`,
+);
+
+await output(
+  "src/resources/memberships.ts",
+  `import type { MembershipsApi } from "../apis/MembershipsApi";
+import type { CreatePracticeMembershipRequest } from "../models/CreatePracticeMembershipRequest";
+import type { UpdatePracticeMembershipRequest } from "../models/UpdatePracticeMembershipRequest";
+import type { MutationOptions } from "./request-options";
+
+export class MembershipsResource {
+  constructor(
+    private readonly api: MembershipsApi,
+    private readonly apiVersion: string,
+  ) {}
+  list(practiceId: string) {
+    return this.api.listPracticeMemberships({ affinityVersion: this.apiVersion, practiceId });
+  }
+  create(
+    practiceId: string,
+    params: CreatePracticeMembershipRequest,
+    options: MutationOptions,
+  ) {
+    return this.api.createPracticeMembership({
+      affinityVersion: this.apiVersion,
+      createPracticeMembershipRequest: params,
+      idempotencyKey: options.idempotencyKey,
+      practiceId,
+    });
+  }
+  update(
+    practiceId: string,
+    membershipId: string,
+    params: UpdatePracticeMembershipRequest,
+    options: MutationOptions,
+  ) {
+    return this.api.updatePracticeMembership({
+      affinityVersion: this.apiVersion,
+      idempotencyKey: options.idempotencyKey,
+      membershipId,
+      practiceId,
+      updatePracticeMembershipRequest: params,
+    });
+  }
+}`,
+);
+
+await output(
+  "src/resources/portal-sessions.ts",
+  `import type { PortalSessionsApi } from "../apis/PortalSessionsApi";
+import type { CreatePortalSessionRequest } from "../models/CreatePortalSessionRequest";
+import type { MutationOptions } from "./request-options";
+
+export class PortalSessionsResource {
+  constructor(
+    private readonly api: PortalSessionsApi,
+    private readonly apiVersion: string,
+  ) {}
+  create(params: CreatePortalSessionRequest, options: MutationOptions) {
+    return this.api.createPortalSession({
+      affinityVersion: this.apiVersion,
+      createPortalSessionRequest: params,
+      idempotencyKey: options.idempotencyKey,
+    });
+  }
+}`,
+);
+
+await output(
   "src/resources/webhooks.ts",
   `import type { ListWebhookEventsRequest, PlatformWebhooksApi } from "../apis/PlatformWebhooksApi";
 import type { CreateWebhookEndpointRequest } from "../models/CreateWebhookEndpointRequest";
@@ -405,5 +585,5 @@ const indexPath = resolve(root, "src/index.ts");
 const generatedIndex = (await readFile(indexPath, "utf8")).trimEnd();
 await writeFile(
   indexPath,
-  `${generatedIndex}\n\nexport * from "./affinity";\nexport * from "./resources/account";\nexport * from "./resources/catalog";\nexport * from "./resources/orders";\nexport * from "./resources/practices";\nexport * from "./resources/request-options";\nexport * from "./resources/webhooks";\n`,
+  `${generatedIndex}\n\nexport * from "./affinity";\nexport * from "./resources/account";\nexport * from "./resources/catalog";\nexport * from "./resources/memberships";\nexport * from "./resources/orders";\nexport * from "./resources/portal-sessions";\nexport * from "./resources/practices";\nexport * from "./resources/request-options";\nexport * from "./resources/roles";\nexport * from "./resources/users";\nexport * from "./resources/webhooks";\n`,
 );

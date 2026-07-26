@@ -44,7 +44,7 @@ async function example() {
     // string | Unique operation key required for every mutation. (optional)
     idempotencyKey: idempotencyKey_example,
     // string | Optional per-request override for the service account\'s pinned API version. (optional)
-    affinityVersion: 2026-07-19,
+    affinityVersion: 2026-07-26,
   } satisfies CreatePracticeOperationRequest;
 
   try {
@@ -127,7 +127,7 @@ async function example() {
     // string
     practiceId: practiceId_example,
     // string | Optional per-request override for the service account\'s pinned API version. (optional)
-    affinityVersion: 2026-07-19,
+    affinityVersion: 2026-07-26,
   } satisfies GetPracticeRequest;
 
   try {
@@ -211,7 +211,7 @@ async function example() {
     // string (optional)
     endingBefore: endingBefore_example,
     // string | Optional per-request override for the service account\'s pinned API version. (optional)
-    affinityVersion: 2026-07-19,
+    affinityVersion: 2026-07-26,
   } satisfies ListPracticesRequest;
 
   try {
@@ -298,7 +298,7 @@ async function example() {
     // string | Unique operation key required for every mutation. (optional)
     idempotencyKey: idempotencyKey_example,
     // string | Optional per-request override for the service account\'s pinned API version. (optional)
-    affinityVersion: 2026-07-19,
+    affinityVersion: 2026-07-26,
   } satisfies UpdatePracticeOperationRequest;
 
   try {

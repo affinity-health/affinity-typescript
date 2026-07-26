@@ -50,7 +50,7 @@ async function example() {
     // string | Unique operation key required for every mutation. (optional)
     idempotencyKey: idempotencyKey_example,
     // string | Optional per-request override for the service account\'s pinned API version. (optional)
-    affinityVersion: 2026-07-19,
+    affinityVersion: 2026-07-26,
   } satisfies CancelOrderOperationRequest;
 
   try {
@@ -137,7 +137,7 @@ async function example() {
     // string | Unique operation key required for every mutation. (optional)
     idempotencyKey: idempotencyKey_example,
     // string | Optional per-request override for the service account\'s pinned API version. (optional)
-    affinityVersion: 2026-07-19,
+    affinityVersion: 2026-07-26,
   } satisfies CreateOrderOperationRequest;
 
   try {
@@ -222,7 +222,7 @@ async function example() {
     // string | Unique operation key required for every mutation. (optional)
     idempotencyKey: idempotencyKey_example,
     // string | Optional per-request override for the service account\'s pinned API version. (optional)
-    affinityVersion: 2026-07-19,
+    affinityVersion: 2026-07-26,
   } satisfies CreateRoutingDecisionOperationRequest;
 
   try {
@@ -303,7 +303,7 @@ async function example() {
     // string
     orderId: orderId_example,
     // string | Optional per-request override for the service account\'s pinned API version. (optional)
-    affinityVersion: 2026-07-19,
+    affinityVersion: 2026-07-26,
   } satisfies GetOrderRequest;
 
   try {
@@ -389,7 +389,7 @@ async function example() {
     // string (optional)
     endingBefore: endingBefore_example,
     // string | Optional per-request override for the service account\'s pinned API version. (optional)
-    affinityVersion: 2026-07-19,
+    affinityVersion: 2026-07-26,
   } satisfies ListOrderEventsRequest;
 
   try {
@@ -484,7 +484,7 @@ async function example() {
     // 'blocked' | 'cancelled' | 'delivered' | 'draft' | 'processing' | 'shipped' | 'submitted' (optional)
     status: status_example,
     // string | Optional per-request override for the service account\'s pinned API version. (optional)
-    affinityVersion: 2026-07-19,
+    affinityVersion: 2026-07-26,
   } satisfies ListOrdersRequest;
 
   try {
@@ -575,7 +575,7 @@ async function example() {
     // string | Unique operation key required for every mutation. (optional)
     idempotencyKey: idempotencyKey_example,
     // string | Optional per-request override for the service account\'s pinned API version. (optional)
-    affinityVersion: 2026-07-19,
+    affinityVersion: 2026-07-26,
   } satisfies SubmitOrderOperationRequest;
 
   try {
@@ -664,7 +664,7 @@ async function example() {
     // string | Unique operation key required for every mutation. (optional)
     idempotencyKey: idempotencyKey_example,
     // string | Optional per-request override for the service account\'s pinned API version. (optional)
-    affinityVersion: 2026-07-19,
+    affinityVersion: 2026-07-26,
   } satisfies UpdateOrderOperationRequest;
 
   try {

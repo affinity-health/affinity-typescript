@@ -2,24 +2,18 @@
 
 The official TypeScript SDK for the Affinity API.
 
-> **Status:** The `0.1.0` client is ready for local integration preview. The package is not yet
-> published; use Bun's local package link until the first npm release.
+> **Status:** The `0.1.0` client is ready for integration validation. The npm release has not been
+> published yet; install the GitHub repository at an exact reviewed commit until that release is
+> available.
 
 The SDK will provide a small, resource-oriented interface for software platforms connecting
 healthcare practices to Affinity's compounder network. It is intended for trusted server-side
 runtimes, including Node.js, Bun, AWS Lambda, and standards-based worker environments.
 
-## Local preview
+## Install
 
 ```sh
-git clone https://github.com/affinity-health/affinity-typescript.git
-cd affinity-typescript
-bun install
-bun run check
-bun link
-
-cd ../your-server
-bun link @affinity-health/sdk
+bun add github:affinity-health/affinity-typescript#<reviewed-commit-sha>
 ```
 
 ## Intended usage
@@ -44,13 +38,69 @@ const practices = await affinity.practices.list();
 const orders = await affinity.orders.list({ practiceId: practices.data[0]?.id });
 ```
 
+The API key belongs only in your backend. Never create an `Affinity` client in browser or mobile
+code.
+
+## Affinity Hosted access
+
+Use your own stable customer identifier as `externalId`; do not use email as identity or
+authorization. Email is optional and can change.
+
+```ts
+const user = await affinity.users.create(
+  {
+    externalId: "customer_123",
+    email: "clinician@example.com",
+    name: "Jordan Lee",
+    metadata: {},
+  },
+  { idempotencyKey: "customer_123" },
+);
+
+const practice = (await affinity.practices.list()).data[0];
+if (!practice) throw new Error("Create a practice before granting access");
+const role = (await affinity.roles.list(practice.id)).data[0];
+if (!role) throw new Error("Create a practice role before granting access");
+
+const membership = await affinity.memberships.create(
+  practice.id,
+  {
+    roleId: role.id,
+    termsVersion: "2026-07-26",
+    userId: user.id,
+  },
+  { idempotencyKey: `membership:${practice.id}:${user.id}` },
+);
+
+const session = await affinity.portalSessions.create(
+  {
+    destination: "/prescriptions",
+    membershipId: membership.id,
+    practiceId: practice.id,
+    returnUrl: "https://platform.example.com/affinity/return",
+    userId: user.id,
+  },
+  { idempotencyKey: crypto.randomUUID() },
+);
+
+// Redirect the user's browser to this single-use, 15-minute URL.
+console.log(session.url);
+```
+
+The user reviews and accepts the practice role in Affinity before the pending membership becomes
+active. Return URLs must exactly match an allowlisted URL configured for the same API mode.
+
 ## Resource model
 
 The client surface is organized around these resources:
 
 - `account` — inspect the authenticated organization and API access
 - `catalog` — search products available through the Affinity network
+- `users` — provision platform-owned user records by stable external ID
 - `practices` — create and manage customer practices
+- `roles` — list and manage custom practice roles
+- `memberships` — create consent-bound practice role grants
+- `portalSessions` — create short-lived, single-use Affinity Hosted launch URLs
 - `orders` — create, submit, inspect, update, and cancel orders
 - `webhooks` — manage endpoints and inspect or replay events
 

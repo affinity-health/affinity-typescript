@@ -39,7 +39,7 @@ async function example() {
     // string (optional)
     orgId: orgId_example,
     // string | Optional per-request override for the service account\'s pinned API version. (optional)
-    affinityVersion: 2026-07-19,
+    affinityVersion: 2026-07-26,
   } satisfies GetAccountRequest;
 
   try {

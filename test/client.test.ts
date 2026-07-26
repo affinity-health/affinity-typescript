@@ -15,7 +15,7 @@ describe("Affinity client", () => {
 
     expect(request?.url).toBe("https://api.joinaffinityai.com/v1/auth/access");
     expect(request?.headers.get("authorization")).toBe("Bearer sk_test_example");
-    expect(request?.headers.get("affinity-version")).toBe("2026-07-19");
+    expect(request?.headers.get("affinity-version")).toBe("2026-07-26");
   });
 
   test("retries safe reads and preserves list filters", async () => {
@@ -45,5 +45,36 @@ describe("Affinity client", () => {
   test("validates retry and timeout options", () => {
     expect(() => new Affinity("sk_test_example", { maxRetries: -1 })).toThrow();
     expect(() => new Affinity("sk_test_example", { timeout: 0 })).toThrow();
+  });
+
+  test("creates hosted identity resources with idempotency", async () => {
+    const requests: Request[] = [];
+    const affinity = new Affinity("sk_test_example", {
+      baseUrl: "http://api.affinity.localhost",
+      fetch: async (input, init) => {
+        requests.push(new Request(input, init));
+        return Response.json({
+          createdAt: new Date().toISOString(),
+          email: null,
+          externalId: "customer_123",
+          id: "usr_01k123456789abcdefghjkmnp",
+          livemode: false,
+          metadata: {},
+          name: "Jordan Lee",
+          object: "user",
+          status: "active",
+          updatedAt: new Date().toISOString(),
+        });
+      },
+    });
+
+    await affinity.users.create(
+      { email: null, externalId: "customer_123", metadata: {}, name: "Jordan Lee" },
+      { idempotencyKey: "provision-customer-123" },
+    );
+
+    expect(requests[0]?.url).toBe("http://api.affinity.localhost/v1/users");
+    expect(requests[0]?.headers.get("idempotency-key")).toBe("provision-customer-123");
+    expect(await requests[0]?.json()).toMatchObject({ externalId: "customer_123" });
   });
 });
