@@ -7,6 +7,8 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 
 ## [Unreleased]
 
+## [0.2.0] - 2026-07-29
+
 ### Added
 
 - Added the exhaustive dated `AffinityWebhookEvent` union, event/status constants, strict payload
@@ -38,6 +40,7 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 - Typed RFC 9457 problem responses, including validation, dependency, and internal failures.
 - A compile-checked Test-mode quickstart.
 
-[Unreleased]: https://github.com/affinity-health/affinity-typescript/compare/v0.1.1...HEAD
+[Unreleased]: https://github.com/affinity-health/affinity-typescript/compare/v0.2.0...HEAD
+[0.2.0]: https://github.com/affinity-health/affinity-typescript/compare/v0.1.1...v0.2.0
 [0.1.1]: https://github.com/affinity-health/affinity-typescript/compare/v0.1.0...v0.1.1
 [0.1.0]: https://github.com/affinity-health/affinity-typescript/releases/tag/v0.1.0
