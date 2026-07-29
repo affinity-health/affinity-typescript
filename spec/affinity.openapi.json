@@ -10,7 +10,7 @@
       "url": "https://www.apache.org/licenses/LICENSE-2.0.html"
     },
     "title": "Affinity API",
-    "version": "2026-07-28"
+    "version": "2026-07-29"
   },
   "openapi": "3.1.1",
   "paths": {
@@ -1626,6 +1626,434 @@
         "x-affinity-version-default": "service_account"
       }
     },
+    "/v1/component-sessions": {
+      "post": {
+        "description": "Creates a one-time, origin-bound Affinity Elements client secret. The platform API key must stay on the server.",
+        "operationId": "createComponentSession",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateComponentSessionRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateComponentSessionResponse"
+                }
+              }
+            },
+            "description": "Successful response",
+            "headers": {
+              "Affinity-Version": {
+                "$ref": "#/components/headers/AffinityVersion"
+              },
+              "RateLimit-Limit": {
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "RateLimit-Remaining": {
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "RateLimit-Reset": {
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "Request-Id": {
+                "$ref": "#/components/headers/RequestId"
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description": "Bad request",
+            "headers": {
+              "Affinity-Version": {
+                "$ref": "#/components/headers/AffinityVersion"
+              },
+              "RateLimit-Limit": {
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "RateLimit-Remaining": {
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "RateLimit-Reset": {
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "Request-Id": {
+                "$ref": "#/components/headers/RequestId"
+              }
+            },
+            "x-affinity-error-codes": [
+              "idempotency_key_too_long",
+              "invalid_cursor",
+              "invalid_id",
+              "invalid_request",
+              "practice_attestation_required",
+              "unsupported_api_version"
+            ]
+          },
+          "401": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description": "Unauthorized",
+            "headers": {
+              "Affinity-Version": {
+                "$ref": "#/components/headers/AffinityVersion"
+              },
+              "RateLimit-Limit": {
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "RateLimit-Remaining": {
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "RateLimit-Reset": {
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "Request-Id": {
+                "$ref": "#/components/headers/RequestId"
+              }
+            },
+            "x-affinity-error-codes": ["unauthorized"]
+          },
+          "403": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description": "Forbidden",
+            "headers": {
+              "Affinity-Version": {
+                "$ref": "#/components/headers/AffinityVersion"
+              },
+              "RateLimit-Limit": {
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "RateLimit-Remaining": {
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "RateLimit-Reset": {
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "Request-Id": {
+                "$ref": "#/components/headers/RequestId"
+              }
+            },
+            "x-affinity-error-codes": [
+              "live_mode_not_approved",
+              "permission_denied",
+              "platform_account_not_found",
+              "platform_account_required",
+              "platform_authorization_changed",
+              "practice_not_accessible"
+            ]
+          },
+          "409": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description": "Conflict",
+            "headers": {
+              "Affinity-Version": {
+                "$ref": "#/components/headers/AffinityVersion"
+              },
+              "RateLimit-Limit": {
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "RateLimit-Remaining": {
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "RateLimit-Reset": {
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "Request-Id": {
+                "$ref": "#/components/headers/RequestId"
+              }
+            },
+            "x-affinity-error-codes": [
+              "conflict",
+              "idempotency_key_reused",
+              "idempotency_request_in_progress",
+              "idempotency_response_unavailable"
+            ]
+          },
+          "413": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description": "Payload too large",
+            "headers": {
+              "Affinity-Version": {
+                "$ref": "#/components/headers/AffinityVersion"
+              },
+              "RateLimit-Limit": {
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "RateLimit-Remaining": {
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "RateLimit-Reset": {
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "Request-Id": {
+                "$ref": "#/components/headers/RequestId"
+              }
+            },
+            "x-affinity-error-codes": ["payload_too_large"]
+          },
+          "422": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description": "Unprocessable entity",
+            "headers": {
+              "Affinity-Version": {
+                "$ref": "#/components/headers/AffinityVersion"
+              },
+              "RateLimit-Limit": {
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "RateLimit-Remaining": {
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "RateLimit-Reset": {
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "Request-Id": {
+                "$ref": "#/components/headers/RequestId"
+              }
+            },
+            "x-affinity-error-codes": ["unprocessable_entity"]
+          },
+          "429": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description": "Too many requests",
+            "headers": {
+              "Affinity-Version": {
+                "$ref": "#/components/headers/AffinityVersion"
+              },
+              "RateLimit-Limit": {
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "RateLimit-Remaining": {
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "RateLimit-Reset": {
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "Request-Id": {
+                "$ref": "#/components/headers/RequestId"
+              }
+            },
+            "x-affinity-error-codes": ["rate_limit_exceeded"]
+          },
+          "500": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description": "Internal server error",
+            "headers": {
+              "Affinity-Version": {
+                "$ref": "#/components/headers/AffinityVersion"
+              },
+              "RateLimit-Limit": {
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "RateLimit-Remaining": {
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "RateLimit-Reset": {
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "Request-Id": {
+                "$ref": "#/components/headers/RequestId"
+              }
+            },
+            "x-affinity-error-codes": ["internal_server_error"]
+          },
+          "502": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description": "Bad gateway",
+            "headers": {
+              "Affinity-Version": {
+                "$ref": "#/components/headers/AffinityVersion"
+              },
+              "RateLimit-Limit": {
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "RateLimit-Remaining": {
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "RateLimit-Reset": {
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "Request-Id": {
+                "$ref": "#/components/headers/RequestId"
+              }
+            },
+            "x-affinity-error-codes": ["upstream_error"]
+          },
+          "503": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description": "Service unavailable",
+            "headers": {
+              "Affinity-Version": {
+                "$ref": "#/components/headers/AffinityVersion"
+              },
+              "RateLimit-Limit": {
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "RateLimit-Remaining": {
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "RateLimit-Reset": {
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "Request-Id": {
+                "$ref": "#/components/headers/RequestId"
+              }
+            },
+            "x-affinity-error-codes": ["service_unavailable"]
+          }
+        },
+        "summary": "Create component session",
+        "tags": ["Component Sessions"],
+        "x-pier": {
+          "domain": "platform.public-api",
+          "exportName": "componentSessionCreate",
+          "file": "src/routes/platform/public-api/public-api.endpoints.ts",
+          "name": "platform.public-api.componentSessionCreate",
+          "visibility": "public"
+        },
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/IdempotencyKey"
+          },
+          {
+            "$ref": "#/components/parameters/AffinityVersion"
+          }
+        ],
+        "x-affinity-version-default": "service_account"
+      }
+    },
     "/v1/compounders": {
       "get": {
         "description": "Lists compounders available to the authenticated account, including approved invite-only relationships.",
@@ -2008,6 +2436,434 @@
           "name": "platform.compounders",
           "visibility": "public"
         },
+        "x-affinity-version-default": "service_account"
+      }
+    },
+    "/v1/hosted-sessions": {
+      "post": {
+        "description": "Creates a single-use Affinity Hosted workflow URL that expires after 15 minutes. The platform API key must stay on the server.",
+        "operationId": "createHostedSession",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateHostedSessionRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateHostedSessionResponse"
+                }
+              }
+            },
+            "description": "Successful response",
+            "headers": {
+              "Affinity-Version": {
+                "$ref": "#/components/headers/AffinityVersion"
+              },
+              "RateLimit-Limit": {
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "RateLimit-Remaining": {
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "RateLimit-Reset": {
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "Request-Id": {
+                "$ref": "#/components/headers/RequestId"
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description": "Bad request",
+            "headers": {
+              "Affinity-Version": {
+                "$ref": "#/components/headers/AffinityVersion"
+              },
+              "RateLimit-Limit": {
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "RateLimit-Remaining": {
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "RateLimit-Reset": {
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "Request-Id": {
+                "$ref": "#/components/headers/RequestId"
+              }
+            },
+            "x-affinity-error-codes": [
+              "idempotency_key_too_long",
+              "invalid_cursor",
+              "invalid_id",
+              "invalid_request",
+              "practice_attestation_required",
+              "unsupported_api_version"
+            ]
+          },
+          "401": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description": "Unauthorized",
+            "headers": {
+              "Affinity-Version": {
+                "$ref": "#/components/headers/AffinityVersion"
+              },
+              "RateLimit-Limit": {
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "RateLimit-Remaining": {
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "RateLimit-Reset": {
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "Request-Id": {
+                "$ref": "#/components/headers/RequestId"
+              }
+            },
+            "x-affinity-error-codes": ["unauthorized"]
+          },
+          "403": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description": "Forbidden",
+            "headers": {
+              "Affinity-Version": {
+                "$ref": "#/components/headers/AffinityVersion"
+              },
+              "RateLimit-Limit": {
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "RateLimit-Remaining": {
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "RateLimit-Reset": {
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "Request-Id": {
+                "$ref": "#/components/headers/RequestId"
+              }
+            },
+            "x-affinity-error-codes": [
+              "live_mode_not_approved",
+              "permission_denied",
+              "platform_account_not_found",
+              "platform_account_required",
+              "platform_authorization_changed",
+              "practice_not_accessible"
+            ]
+          },
+          "409": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description": "Conflict",
+            "headers": {
+              "Affinity-Version": {
+                "$ref": "#/components/headers/AffinityVersion"
+              },
+              "RateLimit-Limit": {
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "RateLimit-Remaining": {
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "RateLimit-Reset": {
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "Request-Id": {
+                "$ref": "#/components/headers/RequestId"
+              }
+            },
+            "x-affinity-error-codes": [
+              "conflict",
+              "idempotency_key_reused",
+              "idempotency_request_in_progress",
+              "idempotency_response_unavailable"
+            ]
+          },
+          "413": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description": "Payload too large",
+            "headers": {
+              "Affinity-Version": {
+                "$ref": "#/components/headers/AffinityVersion"
+              },
+              "RateLimit-Limit": {
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "RateLimit-Remaining": {
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "RateLimit-Reset": {
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "Request-Id": {
+                "$ref": "#/components/headers/RequestId"
+              }
+            },
+            "x-affinity-error-codes": ["payload_too_large"]
+          },
+          "422": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description": "Unprocessable entity",
+            "headers": {
+              "Affinity-Version": {
+                "$ref": "#/components/headers/AffinityVersion"
+              },
+              "RateLimit-Limit": {
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "RateLimit-Remaining": {
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "RateLimit-Reset": {
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "Request-Id": {
+                "$ref": "#/components/headers/RequestId"
+              }
+            },
+            "x-affinity-error-codes": ["unprocessable_entity"]
+          },
+          "429": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description": "Too many requests",
+            "headers": {
+              "Affinity-Version": {
+                "$ref": "#/components/headers/AffinityVersion"
+              },
+              "RateLimit-Limit": {
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "RateLimit-Remaining": {
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "RateLimit-Reset": {
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "Request-Id": {
+                "$ref": "#/components/headers/RequestId"
+              }
+            },
+            "x-affinity-error-codes": ["rate_limit_exceeded"]
+          },
+          "500": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description": "Internal server error",
+            "headers": {
+              "Affinity-Version": {
+                "$ref": "#/components/headers/AffinityVersion"
+              },
+              "RateLimit-Limit": {
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "RateLimit-Remaining": {
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "RateLimit-Reset": {
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "Request-Id": {
+                "$ref": "#/components/headers/RequestId"
+              }
+            },
+            "x-affinity-error-codes": ["internal_server_error"]
+          },
+          "502": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description": "Bad gateway",
+            "headers": {
+              "Affinity-Version": {
+                "$ref": "#/components/headers/AffinityVersion"
+              },
+              "RateLimit-Limit": {
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "RateLimit-Remaining": {
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "RateLimit-Reset": {
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "Request-Id": {
+                "$ref": "#/components/headers/RequestId"
+              }
+            },
+            "x-affinity-error-codes": ["upstream_error"]
+          },
+          "503": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description": "Service unavailable",
+            "headers": {
+              "Affinity-Version": {
+                "$ref": "#/components/headers/AffinityVersion"
+              },
+              "RateLimit-Limit": {
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "RateLimit-Remaining": {
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "RateLimit-Reset": {
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "Request-Id": {
+                "$ref": "#/components/headers/RequestId"
+              }
+            },
+            "x-affinity-error-codes": ["service_unavailable"]
+          }
+        },
+        "summary": "Create hosted session",
+        "tags": ["Hosted Sessions"],
+        "x-pier": {
+          "domain": "platform.public-api",
+          "exportName": "hostedSessionCreate",
+          "file": "src/routes/platform/public-api/public-api.endpoints.ts",
+          "name": "platform.public-api.hostedSessionCreate",
+          "visibility": "public"
+        },
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/IdempotencyKey"
+          },
+          {
+            "$ref": "#/components/parameters/AffinityVersion"
+          }
+        ],
         "x-affinity-version-default": "service_account"
       }
     },
@@ -5209,434 +6065,6 @@
           },
           "required": true
         },
-        "x-affinity-version-default": "service_account"
-      }
-    },
-    "/v1/portal-sessions": {
-      "post": {
-        "description": "Creates a single-use Affinity Hosted launch URL that expires after 15 minutes. The platform API key must stay on the server.",
-        "operationId": "createPortalSession",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/CreatePortalSessionRequest"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/CreatePortalSessionResponse"
-                }
-              }
-            },
-            "description": "Successful response",
-            "headers": {
-              "Affinity-Version": {
-                "$ref": "#/components/headers/AffinityVersion"
-              },
-              "RateLimit-Limit": {
-                "schema": {
-                  "type": "integer"
-                }
-              },
-              "RateLimit-Remaining": {
-                "schema": {
-                  "type": "integer"
-                }
-              },
-              "RateLimit-Reset": {
-                "schema": {
-                  "type": "integer"
-                }
-              },
-              "Request-Id": {
-                "$ref": "#/components/headers/RequestId"
-              }
-            }
-          },
-          "400": {
-            "content": {
-              "application/problem+json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Problem"
-                }
-              }
-            },
-            "description": "Bad request",
-            "headers": {
-              "Affinity-Version": {
-                "$ref": "#/components/headers/AffinityVersion"
-              },
-              "RateLimit-Limit": {
-                "schema": {
-                  "type": "integer"
-                }
-              },
-              "RateLimit-Remaining": {
-                "schema": {
-                  "type": "integer"
-                }
-              },
-              "RateLimit-Reset": {
-                "schema": {
-                  "type": "integer"
-                }
-              },
-              "Request-Id": {
-                "$ref": "#/components/headers/RequestId"
-              }
-            },
-            "x-affinity-error-codes": [
-              "idempotency_key_too_long",
-              "invalid_cursor",
-              "invalid_id",
-              "invalid_request",
-              "practice_attestation_required",
-              "unsupported_api_version"
-            ]
-          },
-          "401": {
-            "content": {
-              "application/problem+json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Problem"
-                }
-              }
-            },
-            "description": "Unauthorized",
-            "headers": {
-              "Affinity-Version": {
-                "$ref": "#/components/headers/AffinityVersion"
-              },
-              "RateLimit-Limit": {
-                "schema": {
-                  "type": "integer"
-                }
-              },
-              "RateLimit-Remaining": {
-                "schema": {
-                  "type": "integer"
-                }
-              },
-              "RateLimit-Reset": {
-                "schema": {
-                  "type": "integer"
-                }
-              },
-              "Request-Id": {
-                "$ref": "#/components/headers/RequestId"
-              }
-            },
-            "x-affinity-error-codes": ["unauthorized"]
-          },
-          "403": {
-            "content": {
-              "application/problem+json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Problem"
-                }
-              }
-            },
-            "description": "Forbidden",
-            "headers": {
-              "Affinity-Version": {
-                "$ref": "#/components/headers/AffinityVersion"
-              },
-              "RateLimit-Limit": {
-                "schema": {
-                  "type": "integer"
-                }
-              },
-              "RateLimit-Remaining": {
-                "schema": {
-                  "type": "integer"
-                }
-              },
-              "RateLimit-Reset": {
-                "schema": {
-                  "type": "integer"
-                }
-              },
-              "Request-Id": {
-                "$ref": "#/components/headers/RequestId"
-              }
-            },
-            "x-affinity-error-codes": [
-              "live_mode_not_approved",
-              "permission_denied",
-              "platform_account_not_found",
-              "platform_account_required",
-              "platform_authorization_changed",
-              "practice_not_accessible"
-            ]
-          },
-          "409": {
-            "content": {
-              "application/problem+json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Problem"
-                }
-              }
-            },
-            "description": "Conflict",
-            "headers": {
-              "Affinity-Version": {
-                "$ref": "#/components/headers/AffinityVersion"
-              },
-              "RateLimit-Limit": {
-                "schema": {
-                  "type": "integer"
-                }
-              },
-              "RateLimit-Remaining": {
-                "schema": {
-                  "type": "integer"
-                }
-              },
-              "RateLimit-Reset": {
-                "schema": {
-                  "type": "integer"
-                }
-              },
-              "Request-Id": {
-                "$ref": "#/components/headers/RequestId"
-              }
-            },
-            "x-affinity-error-codes": [
-              "conflict",
-              "idempotency_key_reused",
-              "idempotency_request_in_progress",
-              "idempotency_response_unavailable"
-            ]
-          },
-          "413": {
-            "content": {
-              "application/problem+json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Problem"
-                }
-              }
-            },
-            "description": "Payload too large",
-            "headers": {
-              "Affinity-Version": {
-                "$ref": "#/components/headers/AffinityVersion"
-              },
-              "RateLimit-Limit": {
-                "schema": {
-                  "type": "integer"
-                }
-              },
-              "RateLimit-Remaining": {
-                "schema": {
-                  "type": "integer"
-                }
-              },
-              "RateLimit-Reset": {
-                "schema": {
-                  "type": "integer"
-                }
-              },
-              "Request-Id": {
-                "$ref": "#/components/headers/RequestId"
-              }
-            },
-            "x-affinity-error-codes": ["payload_too_large"]
-          },
-          "422": {
-            "content": {
-              "application/problem+json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Problem"
-                }
-              }
-            },
-            "description": "Unprocessable entity",
-            "headers": {
-              "Affinity-Version": {
-                "$ref": "#/components/headers/AffinityVersion"
-              },
-              "RateLimit-Limit": {
-                "schema": {
-                  "type": "integer"
-                }
-              },
-              "RateLimit-Remaining": {
-                "schema": {
-                  "type": "integer"
-                }
-              },
-              "RateLimit-Reset": {
-                "schema": {
-                  "type": "integer"
-                }
-              },
-              "Request-Id": {
-                "$ref": "#/components/headers/RequestId"
-              }
-            },
-            "x-affinity-error-codes": ["unprocessable_entity"]
-          },
-          "429": {
-            "content": {
-              "application/problem+json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Problem"
-                }
-              }
-            },
-            "description": "Too many requests",
-            "headers": {
-              "Affinity-Version": {
-                "$ref": "#/components/headers/AffinityVersion"
-              },
-              "RateLimit-Limit": {
-                "schema": {
-                  "type": "integer"
-                }
-              },
-              "RateLimit-Remaining": {
-                "schema": {
-                  "type": "integer"
-                }
-              },
-              "RateLimit-Reset": {
-                "schema": {
-                  "type": "integer"
-                }
-              },
-              "Request-Id": {
-                "$ref": "#/components/headers/RequestId"
-              }
-            },
-            "x-affinity-error-codes": ["rate_limit_exceeded"]
-          },
-          "500": {
-            "content": {
-              "application/problem+json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Problem"
-                }
-              }
-            },
-            "description": "Internal server error",
-            "headers": {
-              "Affinity-Version": {
-                "$ref": "#/components/headers/AffinityVersion"
-              },
-              "RateLimit-Limit": {
-                "schema": {
-                  "type": "integer"
-                }
-              },
-              "RateLimit-Remaining": {
-                "schema": {
-                  "type": "integer"
-                }
-              },
-              "RateLimit-Reset": {
-                "schema": {
-                  "type": "integer"
-                }
-              },
-              "Request-Id": {
-                "$ref": "#/components/headers/RequestId"
-              }
-            },
-            "x-affinity-error-codes": ["internal_server_error"]
-          },
-          "502": {
-            "content": {
-              "application/problem+json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Problem"
-                }
-              }
-            },
-            "description": "Bad gateway",
-            "headers": {
-              "Affinity-Version": {
-                "$ref": "#/components/headers/AffinityVersion"
-              },
-              "RateLimit-Limit": {
-                "schema": {
-                  "type": "integer"
-                }
-              },
-              "RateLimit-Remaining": {
-                "schema": {
-                  "type": "integer"
-                }
-              },
-              "RateLimit-Reset": {
-                "schema": {
-                  "type": "integer"
-                }
-              },
-              "Request-Id": {
-                "$ref": "#/components/headers/RequestId"
-              }
-            },
-            "x-affinity-error-codes": ["upstream_error"]
-          },
-          "503": {
-            "content": {
-              "application/problem+json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Problem"
-                }
-              }
-            },
-            "description": "Service unavailable",
-            "headers": {
-              "Affinity-Version": {
-                "$ref": "#/components/headers/AffinityVersion"
-              },
-              "RateLimit-Limit": {
-                "schema": {
-                  "type": "integer"
-                }
-              },
-              "RateLimit-Remaining": {
-                "schema": {
-                  "type": "integer"
-                }
-              },
-              "RateLimit-Reset": {
-                "schema": {
-                  "type": "integer"
-                }
-              },
-              "Request-Id": {
-                "$ref": "#/components/headers/RequestId"
-              }
-            },
-            "x-affinity-error-codes": ["service_unavailable"]
-          }
-        },
-        "summary": "Create portal session",
-        "tags": ["Portal Sessions"],
-        "x-pier": {
-          "domain": "platform.public-api",
-          "exportName": "portalSessionCreate",
-          "file": "src/routes/platform/public-api/public-api.endpoints.ts",
-          "name": "platform.public-api.portalSessionCreate",
-          "visibility": "public"
-        },
-        "parameters": [
-          {
-            "$ref": "#/components/parameters/IdempotencyKey"
-          },
-          {
-            "$ref": "#/components/parameters/AffinityVersion"
-          }
-        ],
         "x-affinity-version-default": "service_account"
       }
     },
@@ -10586,6 +11014,852 @@
           "exportName": "practiceRoleUpdate",
           "file": "src/routes/platform/public-api/public-api.endpoints.ts",
           "name": "platform.public-api.practiceRoleUpdate",
+          "visibility": "public"
+        },
+        "x-affinity-version-default": "service_account"
+      }
+    },
+    "/v1/provider-mappings": {
+      "post": {
+        "description": "Maps the platform's provider identity to an independently verified Affinity provider. Creating a mapping does not assert prescribing authority.",
+        "operationId": "createProviderMapping",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateProviderMappingRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateProviderMappingResponse"
+                }
+              }
+            },
+            "description": "Successful response",
+            "headers": {
+              "Affinity-Version": {
+                "$ref": "#/components/headers/AffinityVersion"
+              },
+              "RateLimit-Limit": {
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "RateLimit-Remaining": {
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "RateLimit-Reset": {
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "Request-Id": {
+                "$ref": "#/components/headers/RequestId"
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description": "Bad request",
+            "headers": {
+              "Affinity-Version": {
+                "$ref": "#/components/headers/AffinityVersion"
+              },
+              "RateLimit-Limit": {
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "RateLimit-Remaining": {
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "RateLimit-Reset": {
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "Request-Id": {
+                "$ref": "#/components/headers/RequestId"
+              }
+            },
+            "x-affinity-error-codes": [
+              "idempotency_key_too_long",
+              "invalid_cursor",
+              "invalid_id",
+              "invalid_request",
+              "practice_attestation_required",
+              "unsupported_api_version"
+            ]
+          },
+          "401": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description": "Unauthorized",
+            "headers": {
+              "Affinity-Version": {
+                "$ref": "#/components/headers/AffinityVersion"
+              },
+              "RateLimit-Limit": {
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "RateLimit-Remaining": {
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "RateLimit-Reset": {
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "Request-Id": {
+                "$ref": "#/components/headers/RequestId"
+              }
+            },
+            "x-affinity-error-codes": ["unauthorized"]
+          },
+          "403": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description": "Forbidden",
+            "headers": {
+              "Affinity-Version": {
+                "$ref": "#/components/headers/AffinityVersion"
+              },
+              "RateLimit-Limit": {
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "RateLimit-Remaining": {
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "RateLimit-Reset": {
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "Request-Id": {
+                "$ref": "#/components/headers/RequestId"
+              }
+            },
+            "x-affinity-error-codes": [
+              "live_mode_not_approved",
+              "permission_denied",
+              "platform_account_not_found",
+              "platform_account_required",
+              "platform_authorization_changed",
+              "practice_not_accessible"
+            ]
+          },
+          "409": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description": "Conflict",
+            "headers": {
+              "Affinity-Version": {
+                "$ref": "#/components/headers/AffinityVersion"
+              },
+              "RateLimit-Limit": {
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "RateLimit-Remaining": {
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "RateLimit-Reset": {
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "Request-Id": {
+                "$ref": "#/components/headers/RequestId"
+              }
+            },
+            "x-affinity-error-codes": [
+              "conflict",
+              "idempotency_key_reused",
+              "idempotency_request_in_progress",
+              "idempotency_response_unavailable"
+            ]
+          },
+          "413": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description": "Payload too large",
+            "headers": {
+              "Affinity-Version": {
+                "$ref": "#/components/headers/AffinityVersion"
+              },
+              "RateLimit-Limit": {
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "RateLimit-Remaining": {
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "RateLimit-Reset": {
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "Request-Id": {
+                "$ref": "#/components/headers/RequestId"
+              }
+            },
+            "x-affinity-error-codes": ["payload_too_large"]
+          },
+          "422": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description": "Unprocessable entity",
+            "headers": {
+              "Affinity-Version": {
+                "$ref": "#/components/headers/AffinityVersion"
+              },
+              "RateLimit-Limit": {
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "RateLimit-Remaining": {
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "RateLimit-Reset": {
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "Request-Id": {
+                "$ref": "#/components/headers/RequestId"
+              }
+            },
+            "x-affinity-error-codes": ["unprocessable_entity"]
+          },
+          "429": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description": "Too many requests",
+            "headers": {
+              "Affinity-Version": {
+                "$ref": "#/components/headers/AffinityVersion"
+              },
+              "RateLimit-Limit": {
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "RateLimit-Remaining": {
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "RateLimit-Reset": {
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "Request-Id": {
+                "$ref": "#/components/headers/RequestId"
+              }
+            },
+            "x-affinity-error-codes": ["rate_limit_exceeded"]
+          },
+          "500": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description": "Internal server error",
+            "headers": {
+              "Affinity-Version": {
+                "$ref": "#/components/headers/AffinityVersion"
+              },
+              "RateLimit-Limit": {
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "RateLimit-Remaining": {
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "RateLimit-Reset": {
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "Request-Id": {
+                "$ref": "#/components/headers/RequestId"
+              }
+            },
+            "x-affinity-error-codes": ["internal_server_error"]
+          },
+          "502": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description": "Bad gateway",
+            "headers": {
+              "Affinity-Version": {
+                "$ref": "#/components/headers/AffinityVersion"
+              },
+              "RateLimit-Limit": {
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "RateLimit-Remaining": {
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "RateLimit-Reset": {
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "Request-Id": {
+                "$ref": "#/components/headers/RequestId"
+              }
+            },
+            "x-affinity-error-codes": ["upstream_error"]
+          },
+          "503": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description": "Service unavailable",
+            "headers": {
+              "Affinity-Version": {
+                "$ref": "#/components/headers/AffinityVersion"
+              },
+              "RateLimit-Limit": {
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "RateLimit-Remaining": {
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "RateLimit-Reset": {
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "Request-Id": {
+                "$ref": "#/components/headers/RequestId"
+              }
+            },
+            "x-affinity-error-codes": ["service_unavailable"]
+          }
+        },
+        "summary": "Create provider mapping",
+        "tags": ["Provider Mappings"],
+        "x-pier": {
+          "domain": "platform.public-api",
+          "exportName": "providerMappingCreate",
+          "file": "src/routes/platform/public-api/public-api.endpoints.ts",
+          "name": "platform.public-api.providerMappingCreate",
+          "visibility": "public"
+        },
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/IdempotencyKey"
+          },
+          {
+            "$ref": "#/components/parameters/AffinityVersion"
+          }
+        ],
+        "x-affinity-version-default": "service_account"
+      }
+    },
+    "/v1/provider-mappings/{providerMappingId}": {
+      "get": {
+        "description": "Returns the current Affinity verification state for a provider mapping.",
+        "operationId": "getProviderMapping",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "providerMappingId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/AffinityVersion"
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetProviderMappingResponse"
+                }
+              }
+            },
+            "description": "Successful response",
+            "headers": {
+              "Affinity-Version": {
+                "$ref": "#/components/headers/AffinityVersion"
+              },
+              "RateLimit-Limit": {
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "RateLimit-Remaining": {
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "RateLimit-Reset": {
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "Request-Id": {
+                "$ref": "#/components/headers/RequestId"
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description": "Bad request",
+            "headers": {
+              "Affinity-Version": {
+                "$ref": "#/components/headers/AffinityVersion"
+              },
+              "RateLimit-Limit": {
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "RateLimit-Remaining": {
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "RateLimit-Reset": {
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "Request-Id": {
+                "$ref": "#/components/headers/RequestId"
+              }
+            },
+            "x-affinity-error-codes": [
+              "idempotency_key_too_long",
+              "invalid_cursor",
+              "invalid_id",
+              "invalid_request",
+              "practice_attestation_required",
+              "unsupported_api_version"
+            ]
+          },
+          "401": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description": "Unauthorized",
+            "headers": {
+              "Affinity-Version": {
+                "$ref": "#/components/headers/AffinityVersion"
+              },
+              "RateLimit-Limit": {
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "RateLimit-Remaining": {
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "RateLimit-Reset": {
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "Request-Id": {
+                "$ref": "#/components/headers/RequestId"
+              }
+            },
+            "x-affinity-error-codes": ["unauthorized"]
+          },
+          "403": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description": "Forbidden",
+            "headers": {
+              "Affinity-Version": {
+                "$ref": "#/components/headers/AffinityVersion"
+              },
+              "RateLimit-Limit": {
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "RateLimit-Remaining": {
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "RateLimit-Reset": {
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "Request-Id": {
+                "$ref": "#/components/headers/RequestId"
+              }
+            },
+            "x-affinity-error-codes": [
+              "live_mode_not_approved",
+              "permission_denied",
+              "platform_account_not_found",
+              "platform_account_required",
+              "platform_authorization_changed",
+              "practice_not_accessible"
+            ]
+          },
+          "404": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description": "Not found",
+            "headers": {
+              "Affinity-Version": {
+                "$ref": "#/components/headers/AffinityVersion"
+              },
+              "RateLimit-Limit": {
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "RateLimit-Remaining": {
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "RateLimit-Reset": {
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "Request-Id": {
+                "$ref": "#/components/headers/RequestId"
+              }
+            },
+            "x-affinity-error-codes": ["not_found"]
+          },
+          "413": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description": "Payload too large",
+            "headers": {
+              "Affinity-Version": {
+                "$ref": "#/components/headers/AffinityVersion"
+              },
+              "RateLimit-Limit": {
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "RateLimit-Remaining": {
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "RateLimit-Reset": {
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "Request-Id": {
+                "$ref": "#/components/headers/RequestId"
+              }
+            },
+            "x-affinity-error-codes": ["payload_too_large"]
+          },
+          "422": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description": "Unprocessable entity",
+            "headers": {
+              "Affinity-Version": {
+                "$ref": "#/components/headers/AffinityVersion"
+              },
+              "RateLimit-Limit": {
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "RateLimit-Remaining": {
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "RateLimit-Reset": {
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "Request-Id": {
+                "$ref": "#/components/headers/RequestId"
+              }
+            },
+            "x-affinity-error-codes": ["unprocessable_entity"]
+          },
+          "429": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description": "Too many requests",
+            "headers": {
+              "Affinity-Version": {
+                "$ref": "#/components/headers/AffinityVersion"
+              },
+              "RateLimit-Limit": {
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "RateLimit-Remaining": {
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "RateLimit-Reset": {
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "Request-Id": {
+                "$ref": "#/components/headers/RequestId"
+              }
+            },
+            "x-affinity-error-codes": ["rate_limit_exceeded"]
+          },
+          "500": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description": "Internal server error",
+            "headers": {
+              "Affinity-Version": {
+                "$ref": "#/components/headers/AffinityVersion"
+              },
+              "RateLimit-Limit": {
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "RateLimit-Remaining": {
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "RateLimit-Reset": {
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "Request-Id": {
+                "$ref": "#/components/headers/RequestId"
+              }
+            },
+            "x-affinity-error-codes": ["internal_server_error"]
+          },
+          "502": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description": "Bad gateway",
+            "headers": {
+              "Affinity-Version": {
+                "$ref": "#/components/headers/AffinityVersion"
+              },
+              "RateLimit-Limit": {
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "RateLimit-Remaining": {
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "RateLimit-Reset": {
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "Request-Id": {
+                "$ref": "#/components/headers/RequestId"
+              }
+            },
+            "x-affinity-error-codes": ["upstream_error"]
+          },
+          "503": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description": "Service unavailable",
+            "headers": {
+              "Affinity-Version": {
+                "$ref": "#/components/headers/AffinityVersion"
+              },
+              "RateLimit-Limit": {
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "RateLimit-Remaining": {
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "RateLimit-Reset": {
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "Request-Id": {
+                "$ref": "#/components/headers/RequestId"
+              }
+            },
+            "x-affinity-error-codes": ["service_unavailable"]
+          }
+        },
+        "summary": "Read provider mapping",
+        "tags": ["Provider Mappings"],
+        "x-pier": {
+          "domain": "platform.public-api",
+          "exportName": "providerMappingRead",
+          "file": "src/routes/platform/public-api/public-api.endpoints.ts",
+          "name": "platform.public-api.providerMappingRead",
           "visibility": "public"
         },
         "x-affinity-version-default": "service_account"
@@ -16241,7 +17515,7 @@
       "AffinityVersion": {
         "description": "The effective dated Affinity API contract version.",
         "schema": {
-          "example": "2026-07-28",
+          "example": "2026-07-29",
           "type": "string"
         }
       },
@@ -16255,7 +17529,7 @@
     "parameters": {
       "AffinityVersion": {
         "description": "Optional per-request override for the service account's pinned API version.",
-        "example": "2026-07-28",
+        "example": "2026-07-29",
         "in": "header",
         "name": "Affinity-Version",
         "required": false,
@@ -16343,6 +17617,13 @@
           "account": {
             "type": "object",
             "properties": {
+              "allowedOrigins": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "format": "uri"
+                }
+              },
               "allowedReturnUrls": {
                 "type": "array",
                 "items": {
@@ -16391,6 +17672,7 @@
               }
             },
             "required": [
+              "allowedOrigins",
               "allowedReturnUrls",
               "displayName",
               "id",
@@ -16515,7 +17797,7 @@
             "properties": {
               "apiVersion": {
                 "type": "string",
-                "enum": ["2026-07-28"]
+                "enum": ["2026-07-29"]
               },
               "id": {
                 "type": "string",
@@ -16809,6 +18091,151 @@
         "required": ["data", "hasMore", "object", "url"],
         "additionalProperties": false
       },
+      "CreateComponentSessionRequest": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {
+          "allowedOrigin": {
+            "type": "string",
+            "format": "uri"
+          },
+          "components": {
+            "type": "object",
+            "properties": {
+              "prescriptionComposer": {
+                "type": "object",
+                "properties": {
+                  "enabled": {
+                    "type": "boolean",
+                    "const": true
+                  },
+                  "features": {
+                    "type": "object",
+                    "properties": {
+                      "changePatient": {
+                        "default": false,
+                        "type": "boolean"
+                      },
+                      "createDraft": {
+                        "default": true,
+                        "type": "boolean"
+                      },
+                      "sign": {
+                        "default": false,
+                        "type": "boolean"
+                      },
+                      "viewHistory": {
+                        "default": true,
+                        "type": "boolean"
+                      }
+                    }
+                  }
+                },
+                "required": ["enabled", "features"]
+              }
+            }
+          },
+          "consent": {
+            "type": "object",
+            "properties": {
+              "authorizedProviderAccess": {
+                "type": "boolean",
+                "const": true
+              },
+              "minimumNecessaryPhi": {
+                "type": "boolean",
+                "const": true
+              },
+              "recordedAt": {
+                "type": "string",
+                "format": "date-time",
+                "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?(?:Z))$"
+              }
+            },
+            "required": ["authorizedProviderAccess", "minimumNecessaryPhi", "recordedAt"]
+          },
+          "context": {
+            "type": "object",
+            "properties": {
+              "encounterExternalId": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 160
+              },
+              "patientExternalId": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 160
+              },
+              "patientId": {
+                "type": "string",
+                "pattern": "^pat_[0-9a-hjkmnp-tv-z]{26}$",
+                "examples": ["pat_01j2y8m6jcc9tt24af5pw9x1bc"]
+              },
+              "patientSelection": {
+                "default": "fixed",
+                "type": "string",
+                "enum": ["fixed", "initial", "search"]
+              }
+            }
+          },
+          "membershipId": {
+            "type": "string",
+            "pattern": "^grnt_[0-9a-hjkmnp-tv-z]{26}$",
+            "examples": ["grnt_01j2y8m6jcc9tt24af5pw9x1bc"]
+          },
+          "practiceId": {
+            "type": "string",
+            "pattern": "^prac_[0-9a-hjkmnp-tv-z]{26}$",
+            "examples": ["prac_01j2y8m6jcc9tt24af5pw9x1bc"]
+          },
+          "providerMappingId": {
+            "type": "string",
+            "pattern": "^pmap_[0-9a-hjkmnp-tv-z]{26}$",
+            "examples": ["pmap_01j2y8m6jcc9tt24af5pw9x1bc"]
+          },
+          "userId": {
+            "type": "string",
+            "pattern": "^usr_[0-9a-hjkmnp-tv-z]{26}$",
+            "examples": ["usr_01j2y8m6jcc9tt24af5pw9x1bc"]
+          }
+        },
+        "required": [
+          "allowedOrigin",
+          "components",
+          "consent",
+          "context",
+          "practiceId",
+          "providerMappingId",
+          "userId"
+        ]
+      },
+      "CreateComponentSessionResponse": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {
+          "clientSecret": {
+            "type": "string",
+            "pattern": "^aff_cs_.*"
+          },
+          "expiresAt": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?(?:Z))$"
+          },
+          "id": {
+            "type": "string",
+            "pattern": "^csess_[0-9a-hjkmnp-tv-z]{26}$",
+            "examples": ["csess_01j2y8m6jcc9tt24af5pw9x1bc"]
+          },
+          "object": {
+            "type": "string",
+            "const": "component_session"
+          }
+        },
+        "required": ["clientSecret", "expiresAt", "id", "object"],
+        "additionalProperties": false
+      },
       "ListCompoundersResponse": {
         "additionalProperties": false,
         "properties": {
@@ -16873,6 +18300,105 @@
         },
         "required": ["data", "hasMore", "object", "url"],
         "type": "object"
+      },
+      "CreateHostedSessionRequest": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {
+          "consent": {
+            "type": "object",
+            "properties": {
+              "authorizedProviderAccess": {
+                "type": "boolean",
+                "const": true
+              },
+              "minimumNecessaryPhi": {
+                "type": "boolean",
+                "const": true
+              },
+              "recordedAt": {
+                "type": "string",
+                "format": "date-time",
+                "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?(?:Z))$"
+              }
+            },
+            "required": ["authorizedProviderAccess", "minimumNecessaryPhi", "recordedAt"]
+          },
+          "flow": {
+            "type": "string",
+            "enum": [
+              "provider_onboarding",
+              "provider_verification",
+              "provider_credentials",
+              "prescription_composer",
+              "provider_portal"
+            ]
+          },
+          "membershipId": {
+            "type": "string",
+            "pattern": "^grnt_[0-9a-hjkmnp-tv-z]{26}$",
+            "examples": ["grnt_01j2y8m6jcc9tt24af5pw9x1bc"]
+          },
+          "patientId": {
+            "type": "string",
+            "pattern": "^pat_[0-9a-hjkmnp-tv-z]{26}$",
+            "examples": ["pat_01j2y8m6jcc9tt24af5pw9x1bc"]
+          },
+          "practiceId": {
+            "type": "string",
+            "pattern": "^prac_[0-9a-hjkmnp-tv-z]{26}$",
+            "examples": ["prac_01j2y8m6jcc9tt24af5pw9x1bc"]
+          },
+          "providerMappingId": {
+            "type": "string",
+            "pattern": "^pmap_[0-9a-hjkmnp-tv-z]{26}$",
+            "examples": ["pmap_01j2y8m6jcc9tt24af5pw9x1bc"]
+          },
+          "returnUrl": {
+            "default": null,
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "uri"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "userId": {
+            "type": "string",
+            "pattern": "^usr_[0-9a-hjkmnp-tv-z]{26}$",
+            "examples": ["usr_01j2y8m6jcc9tt24af5pw9x1bc"]
+          }
+        },
+        "required": ["consent", "flow", "practiceId", "userId"]
+      },
+      "CreateHostedSessionResponse": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {
+          "expiresAt": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?(?:Z))$"
+          },
+          "id": {
+            "type": "string",
+            "pattern": "^hsess_[0-9a-hjkmnp-tv-z]{26}$",
+            "examples": ["hsess_01j2y8m6jcc9tt24af5pw9x1bc"]
+          },
+          "object": {
+            "type": "string",
+            "const": "hosted_session"
+          },
+          "url": {
+            "type": "string",
+            "format": "uri"
+          }
+        },
+        "required": ["expiresAt", "id", "object", "url"],
+        "additionalProperties": false
       },
       "ListOrdersResponse": {
         "$schema": "https://json-schema.org/draft/2020-12/schema",
@@ -19750,71 +21276,6 @@
         ],
         "additionalProperties": false
       },
-      "CreatePortalSessionRequest": {
-        "$schema": "https://json-schema.org/draft/2020-12/schema",
-        "type": "object",
-        "properties": {
-          "destination": {
-            "default": "/",
-            "type": "string",
-            "pattern": "^\\/(?!\\/)"
-          },
-          "membershipId": {
-            "type": "string",
-            "pattern": "^grnt_[0-9a-hjkmnp-tv-z]{26}$",
-            "examples": ["grnt_01j2y8m6jcc9tt24af5pw9x1bc"]
-          },
-          "practiceId": {
-            "type": "string",
-            "pattern": "^prac_[0-9a-hjkmnp-tv-z]{26}$",
-            "examples": ["prac_01j2y8m6jcc9tt24af5pw9x1bc"]
-          },
-          "returnUrl": {
-            "default": null,
-            "anyOf": [
-              {
-                "type": "string",
-                "format": "uri"
-              },
-              {
-                "type": "null"
-              }
-            ]
-          },
-          "userId": {
-            "type": "string",
-            "pattern": "^usr_[0-9a-hjkmnp-tv-z]{26}$",
-            "examples": ["usr_01j2y8m6jcc9tt24af5pw9x1bc"]
-          }
-        },
-        "required": ["practiceId", "userId"]
-      },
-      "CreatePortalSessionResponse": {
-        "$schema": "https://json-schema.org/draft/2020-12/schema",
-        "type": "object",
-        "properties": {
-          "expiresAt": {
-            "type": "string",
-            "format": "date-time",
-            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?(?:Z))$"
-          },
-          "id": {
-            "type": "string",
-            "pattern": "^psess_[0-9a-hjkmnp-tv-z]{26}$",
-            "examples": ["psess_01j2y8m6jcc9tt24af5pw9x1bc"]
-          },
-          "object": {
-            "type": "string",
-            "const": "portal_session"
-          },
-          "url": {
-            "type": "string",
-            "format": "uri"
-          }
-        },
-        "required": ["expiresAt", "id", "object", "url"],
-        "additionalProperties": false
-      },
       "ListPracticesResponse": {
         "$schema": "https://json-schema.org/draft/2020-12/schema",
         "type": "object",
@@ -21909,6 +23370,200 @@
         "required": ["description", "id", "name", "object", "permissions", "protected"],
         "additionalProperties": false
       },
+      "CreateProviderMappingRequest": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {
+          "attestations": {
+            "type": "object",
+            "properties": {
+              "authorizedProviderRelationship": {
+                "type": "boolean",
+                "const": true
+              },
+              "providerDataAccuracy": {
+                "type": "boolean",
+                "const": true
+              }
+            },
+            "required": ["authorizedProviderRelationship", "providerDataAccuracy"]
+          },
+          "credentials": {
+            "default": null,
+            "anyOf": [
+              {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 80
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "externalId": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 160
+          },
+          "name": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 160
+          },
+          "npi": {
+            "type": "string",
+            "pattern": "^\\d{10}$"
+          },
+          "practiceId": {
+            "type": "string",
+            "pattern": "^prac_[0-9a-hjkmnp-tv-z]{26}$",
+            "examples": ["prac_01j2y8m6jcc9tt24af5pw9x1bc"]
+          },
+          "userId": {
+            "type": "string",
+            "pattern": "^usr_[0-9a-hjkmnp-tv-z]{26}$",
+            "examples": ["usr_01j2y8m6jcc9tt24af5pw9x1bc"]
+          }
+        },
+        "required": ["attestations", "externalId", "name", "npi", "practiceId", "userId"]
+      },
+      "CreateProviderMappingResponse": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {
+          "externalId": {
+            "type": "string"
+          },
+          "id": {
+            "type": "string",
+            "pattern": "^pmap_[0-9a-hjkmnp-tv-z]{26}$",
+            "examples": ["pmap_01j2y8m6jcc9tt24af5pw9x1bc"]
+          },
+          "livemode": {
+            "type": "boolean"
+          },
+          "npi": {
+            "type": "string"
+          },
+          "object": {
+            "type": "string",
+            "const": "provider_mapping"
+          },
+          "practiceId": {
+            "type": "string",
+            "pattern": "^prac_[0-9a-hjkmnp-tv-z]{26}$",
+            "examples": ["prac_01j2y8m6jcc9tt24af5pw9x1bc"]
+          },
+          "providerId": {
+            "type": "string",
+            "pattern": "^prov_[0-9a-hjkmnp-tv-z]{26}$",
+            "examples": ["prov_01j2y8m6jcc9tt24af5pw9x1bc"]
+          },
+          "status": {
+            "type": "string",
+            "enum": ["pending", "verified", "revoked"]
+          },
+          "userId": {
+            "type": "string",
+            "pattern": "^usr_[0-9a-hjkmnp-tv-z]{26}$",
+            "examples": ["usr_01j2y8m6jcc9tt24af5pw9x1bc"]
+          },
+          "verifiedAt": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time",
+                "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?(?:Z))$"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "required": [
+          "externalId",
+          "id",
+          "livemode",
+          "npi",
+          "object",
+          "practiceId",
+          "providerId",
+          "status",
+          "userId",
+          "verifiedAt"
+        ],
+        "additionalProperties": false
+      },
+      "GetProviderMappingResponse": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {
+          "externalId": {
+            "type": "string"
+          },
+          "id": {
+            "type": "string",
+            "pattern": "^pmap_[0-9a-hjkmnp-tv-z]{26}$",
+            "examples": ["pmap_01j2y8m6jcc9tt24af5pw9x1bc"]
+          },
+          "livemode": {
+            "type": "boolean"
+          },
+          "npi": {
+            "type": "string"
+          },
+          "object": {
+            "type": "string",
+            "const": "provider_mapping"
+          },
+          "practiceId": {
+            "type": "string",
+            "pattern": "^prac_[0-9a-hjkmnp-tv-z]{26}$",
+            "examples": ["prac_01j2y8m6jcc9tt24af5pw9x1bc"]
+          },
+          "providerId": {
+            "type": "string",
+            "pattern": "^prov_[0-9a-hjkmnp-tv-z]{26}$",
+            "examples": ["prov_01j2y8m6jcc9tt24af5pw9x1bc"]
+          },
+          "status": {
+            "type": "string",
+            "enum": ["pending", "verified", "revoked"]
+          },
+          "userId": {
+            "type": "string",
+            "pattern": "^usr_[0-9a-hjkmnp-tv-z]{26}$",
+            "examples": ["usr_01j2y8m6jcc9tt24af5pw9x1bc"]
+          },
+          "verifiedAt": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time",
+                "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?(?:Z))$"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "required": [
+          "externalId",
+          "id",
+          "livemode",
+          "npi",
+          "object",
+          "practiceId",
+          "providerId",
+          "status",
+          "userId",
+          "verifiedAt"
+        ],
+        "additionalProperties": false
+      },
       "CreateRoutingDecisionRequest": {
         "additionalProperties": false,
         "properties": {
@@ -22432,8 +24087,7 @@
               "type": "object",
               "properties": {
                 "apiVersion": {
-                  "type": "string",
-                  "const": "2026-07-28"
+                  "type": "string"
                 },
                 "consecutiveFailures": {
                   "type": "integer",
@@ -22534,8 +24188,7 @@
         "type": "object",
         "properties": {
           "apiVersion": {
-            "type": "string",
-            "const": "2026-07-28"
+            "type": "string"
           },
           "consecutiveFailures": {
             "type": "integer",
@@ -22606,8 +24259,7 @@
         "type": "object",
         "properties": {
           "apiVersion": {
-            "type": "string",
-            "const": "2026-07-28"
+            "type": "string"
           },
           "consecutiveFailures": {
             "type": "integer",
@@ -22693,8 +24345,7 @@
         "type": "object",
         "properties": {
           "apiVersion": {
-            "type": "string",
-            "const": "2026-07-28"
+            "type": "string"
           },
           "consecutiveFailures": {
             "type": "integer",
@@ -22761,8 +24412,7 @@
         "type": "object",
         "properties": {
           "apiVersion": {
-            "type": "string",
-            "const": "2026-07-28"
+            "type": "string"
           },
           "consecutiveFailures": {
             "type": "integer",
@@ -22838,8 +24488,7 @@
               "type": "object",
               "properties": {
                 "apiVersion": {
-                  "type": "string",
-                  "const": "2026-07-28"
+                  "type": "string"
                 },
                 "createdAt": {
                   "type": "string"
@@ -22904,8 +24553,7 @@
         "type": "object",
         "properties": {
           "apiVersion": {
-            "type": "string",
-            "const": "2026-07-28"
+            "type": "string"
           },
           "createdAt": {
             "type": "string"
@@ -23116,8 +24764,7 @@
         "type": "object",
         "properties": {
           "apiVersion": {
-            "type": "string",
-            "const": "2026-07-28"
+            "type": "string"
           },
           "createdAt": {
             "type": "string"
@@ -23369,6 +25016,6 @@
     "defaultSource": "service_account",
     "header": "Affinity-Version",
     "requiredForRawHttp": false,
-    "value": "2026-07-28"
+    "value": "2026-07-29"
   }
 }

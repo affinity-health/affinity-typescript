@@ -1,26 +1,26 @@
-# CreatePortalSessionResponse
+# CreateComponentSessionResponse
 
 ## Properties
 
-| Name        | Type   |
-| ----------- | ------ |
-| `expiresAt` | Date   |
-| `id`        | string |
-| `object`    | string |
-| `url`       | string |
+| Name           | Type   |
+| -------------- | ------ |
+| `clientSecret` | string |
+| `expiresAt`    | Date   |
+| `id`           | string |
+| `object`       | string |
 
 ## Example
 
 ```typescript
-import type { CreatePortalSessionResponse } from "@affinity-health/sdk";
+import type { CreateComponentSessionResponse } from "@affinity-health/sdk";
 
 // TODO: Update the object below with actual values
 const example = {
+  clientSecret: null,
   expiresAt: null,
   id: null,
   object: null,
-  url: null,
-} satisfies CreatePortalSessionResponse;
+} satisfies CreateComponentSessionResponse;
 
 console.log(example);
 
@@ -29,7 +29,7 @@ const exampleJSON: string = JSON.stringify(example);
 console.log(exampleJSON);
 
 // Parse the JSON string back to an object
-const exampleParsed = JSON.parse(exampleJSON) as CreatePortalSessionResponse;
+const exampleParsed = JSON.parse(exampleJSON) as CreateComponentSessionResponse;
 console.log(exampleParsed);
 ```
 

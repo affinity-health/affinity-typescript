@@ -18,11 +18,13 @@ const operationIds = Object.values(
   .sort();
 const supportedOperations = [
   "cancelOrder",
+  "createComponentSession",
+  "createHostedSession",
   "createOrder",
-  "createPortalSession",
   "createPractice",
   "createPracticeMembership",
   "createPracticeRole",
+  "createProviderMapping",
   "createRoutingDecision",
   "createUser",
   "createWebhookEndpoint",
@@ -32,6 +34,7 @@ const supportedOperations = [
   "getOrder",
   "getAccount",
   "getPractice",
+  "getProviderMapping",
   "getUser",
   "getWebhookEvent",
   "listCatalogItems",
@@ -73,22 +76,26 @@ await output(
   "src/affinity.ts",
   `import { APIKeysApi } from "./apis/APIKeysApi";
 import { CatalogApi } from "./apis/CatalogApi";
+import { ComponentSessionsApi } from "./apis/ComponentSessionsApi";
+import { HostedSessionsApi } from "./apis/HostedSessionsApi";
 import { MembershipsApi } from "./apis/MembershipsApi";
 import { PlatformOrdersApi } from "./apis/PlatformOrdersApi";
 import { PlatformWebhooksApi } from "./apis/PlatformWebhooksApi";
 import { PlatformsApi } from "./apis/PlatformsApi";
-import { PortalSessionsApi } from "./apis/PortalSessionsApi";
 import { PracticesApi } from "./apis/PracticesApi";
+import { ProviderMappingsApi } from "./apis/ProviderMappingsApi";
 import { RolesApi } from "./apis/RolesApi";
 import { UsersApi } from "./apis/UsersApi";
 import { Configuration, type FetchAPI } from "./runtime";
 import { AccountResource } from "./resources/account";
 import { CatalogResource } from "./resources/catalog";
+import { ComponentSessionsResource } from "./resources/component-sessions";
 import { CompoundersResource } from "./resources/compounders";
+import { HostedSessionsResource } from "./resources/hosted-sessions";
 import { MembershipsResource } from "./resources/memberships";
 import { OrdersResource } from "./resources/orders";
-import { PortalSessionsResource } from "./resources/portal-sessions";
 import { PracticesResource } from "./resources/practices";
+import { ProviderMappingsResource } from "./resources/provider-mappings";
 import { createRetryingFetch } from "./resources/retrying-fetch";
 import { RolesResource } from "./resources/roles";
 import { UsersResource } from "./resources/users";
@@ -105,11 +112,13 @@ export interface AffinityOptions {
 export class Affinity {
   readonly account: AccountResource;
   readonly catalog: CatalogResource;
+  readonly componentSessions: ComponentSessionsResource;
   readonly compounders: CompoundersResource;
+  readonly hostedSessions: HostedSessionsResource;
   readonly memberships: MembershipsResource;
   readonly orders: OrdersResource;
-  readonly portalSessions: PortalSessionsResource;
   readonly practices: PracticesResource;
+  readonly providerMappings: ProviderMappingsResource;
   readonly roles: RolesResource;
   readonly users: UsersResource;
   readonly webhooks: WebhooksResource;
@@ -142,14 +151,22 @@ export class Affinity {
       apiVersion,
     );
     this.catalog = new CatalogResource(new CatalogApi(configuration), apiVersion);
-    this.compounders = new CompoundersResource(new CatalogApi(configuration), apiVersion);
-    this.memberships = new MembershipsResource(new MembershipsApi(configuration), apiVersion);
-    this.orders = new OrdersResource(new PlatformOrdersApi(configuration), apiVersion);
-    this.portalSessions = new PortalSessionsResource(
-      new PortalSessionsApi(configuration),
+    this.componentSessions = new ComponentSessionsResource(
+      new ComponentSessionsApi(configuration),
       apiVersion,
     );
+    this.compounders = new CompoundersResource(new CatalogApi(configuration), apiVersion);
+    this.hostedSessions = new HostedSessionsResource(
+      new HostedSessionsApi(configuration),
+      apiVersion,
+    );
+    this.memberships = new MembershipsResource(new MembershipsApi(configuration), apiVersion);
+    this.orders = new OrdersResource(new PlatformOrdersApi(configuration), apiVersion);
     this.practices = new PracticesResource(new PracticesApi(configuration), apiVersion);
+    this.providerMappings = new ProviderMappingsResource(
+      new ProviderMappingsApi(configuration),
+      apiVersion,
+    );
     this.roles = new RolesResource(new RolesApi(configuration), apiVersion);
     this.users = new UsersResource(new UsersApi(configuration), apiVersion);
     this.webhooks = new WebhooksResource(new PlatformWebhooksApi(configuration), apiVersion);
@@ -515,20 +532,68 @@ export class MembershipsResource {
 );
 
 await output(
-  "src/resources/portal-sessions.ts",
-  `import type { PortalSessionsApi } from "../apis/PortalSessionsApi";
-import type { CreatePortalSessionRequest } from "../models/CreatePortalSessionRequest";
+  "src/resources/provider-mappings.ts",
+  `import type { ProviderMappingsApi } from "../apis/ProviderMappingsApi";
+import type { CreateProviderMappingRequest } from "../models/CreateProviderMappingRequest";
 import type { MutationOptions } from "./request-options";
 
-export class PortalSessionsResource {
+export class ProviderMappingsResource {
   constructor(
-    private readonly api: PortalSessionsApi,
+    private readonly api: ProviderMappingsApi,
     private readonly apiVersion: string,
   ) {}
-  create(params: CreatePortalSessionRequest, options: MutationOptions) {
-    return this.api.createPortalSession({
+  create(params: CreateProviderMappingRequest, options: MutationOptions) {
+    return this.api.createProviderMapping({
       affinityVersion: this.apiVersion,
-      createPortalSessionRequest: params,
+      createProviderMappingRequest: params,
+      idempotencyKey: options.idempotencyKey,
+    });
+  }
+  retrieve(providerMappingId: string) {
+    return this.api.getProviderMapping({
+      affinityVersion: this.apiVersion,
+      providerMappingId,
+    });
+  }
+}`,
+);
+
+await output(
+  "src/resources/component-sessions.ts",
+  `import type { ComponentSessionsApi } from "../apis/ComponentSessionsApi";
+import type { CreateComponentSessionRequest } from "../models/CreateComponentSessionRequest";
+import type { MutationOptions } from "./request-options";
+
+export class ComponentSessionsResource {
+  constructor(
+    private readonly api: ComponentSessionsApi,
+    private readonly apiVersion: string,
+  ) {}
+  create(params: CreateComponentSessionRequest, options: MutationOptions) {
+    return this.api.createComponentSession({
+      affinityVersion: this.apiVersion,
+      createComponentSessionRequest: params,
+      idempotencyKey: options.idempotencyKey,
+    });
+  }
+}`,
+);
+
+await output(
+  "src/resources/hosted-sessions.ts",
+  `import type { HostedSessionsApi } from "../apis/HostedSessionsApi";
+import type { CreateHostedSessionRequest } from "../models/CreateHostedSessionRequest";
+import type { MutationOptions } from "./request-options";
+
+export class HostedSessionsResource {
+  constructor(
+    private readonly api: HostedSessionsApi,
+    private readonly apiVersion: string,
+  ) {}
+  create(params: CreateHostedSessionRequest, options: MutationOptions) {
+    return this.api.createHostedSession({
+      affinityVersion: this.apiVersion,
+      createHostedSessionRequest: params,
       idempotencyKey: options.idempotencyKey,
     });
   }
@@ -603,5 +668,5 @@ const indexPath = resolve(root, "src/index.ts");
 const generatedIndex = (await readFile(indexPath, "utf8")).trimEnd();
 await writeFile(
   indexPath,
-  `${generatedIndex}\n\nexport * from "./affinity";\nexport * from "./resources/account";\nexport * from "./resources/catalog";\nexport * from "./resources/compounders";\nexport * from "./resources/memberships";\nexport * from "./resources/orders";\nexport * from "./resources/portal-sessions";\nexport * from "./resources/practices";\nexport * from "./resources/request-options";\nexport * from "./resources/roles";\nexport * from "./resources/users";\nexport * from "./resources/webhooks";\n`,
+  `${generatedIndex}\n\nexport * from "./affinity";\nexport * from "./resources/account";\nexport * from "./resources/catalog";\nexport * from "./resources/component-sessions";\nexport * from "./resources/compounders";\nexport * from "./resources/hosted-sessions";\nexport * from "./resources/memberships";\nexport * from "./resources/orders";\nexport * from "./resources/practices";\nexport * from "./resources/provider-mappings";\nexport * from "./resources/request-options";\nexport * from "./resources/roles";\nexport * from "./resources/users";\nexport * from "./resources/webhooks";\n`,
 );

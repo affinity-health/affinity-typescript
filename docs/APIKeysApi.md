@@ -35,7 +35,7 @@ async function example() {
 
   const body = {
     // string | Optional per-request override for the service account\'s pinned API version. (optional)
-    affinityVersion: 2026-07-28,
+    affinityVersion: 2026-07-29,
   } satisfies GetApiAccessRequest;
 
   try {

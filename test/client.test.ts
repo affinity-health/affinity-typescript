@@ -15,7 +15,7 @@ describe("Affinity client", () => {
 
     expect(request?.url).toBe("https://api.joinaffinityai.com/v1/auth/access");
     expect(request?.headers.get("authorization")).toBe("Bearer sk_test_example");
-    expect(request?.headers.get("affinity-version")).toBe("2026-07-28");
+    expect(request?.headers.get("affinity-version")).toBe("2026-07-29");
   });
 
   test("retries safe reads and preserves list filters", async () => {
@@ -59,7 +59,7 @@ describe("Affinity client", () => {
     await affinity.compounders.list({ query: "example" });
 
     expect(request?.url).toBe("https://api.joinaffinityai.com/v1/compounders?query=example");
-    expect(request?.headers.get("affinity-version")).toBe("2026-07-28");
+    expect(request?.headers.get("affinity-version")).toBe("2026-07-29");
   });
 
   test("validates retry and timeout options", () => {
@@ -96,5 +96,62 @@ describe("Affinity client", () => {
     expect(requests[0]?.url).toBe("http://api.affinity.localhost/v1/users");
     expect(requests[0]?.headers.get("idempotency-key")).toBe("provision-customer-123");
     expect(await requests[0]?.json()).toMatchObject({ externalId: "customer_123" });
+  });
+
+  test("creates component and hosted sessions through separate resources", async () => {
+    const requests: Request[] = [];
+    const affinity = new Affinity("sk_test_example", {
+      fetch: async (input, init) => {
+        requests.push(new Request(input, init));
+        return Response.json({});
+      },
+    });
+    const consent = {
+      authorizedProviderAccess: true as const,
+      minimumNecessaryPhi: true as const,
+      recordedAt: new Date("2026-07-29T12:00:00.000Z"),
+    };
+
+    await affinity.componentSessions.create(
+      {
+        allowedOrigin: "https://platform.example.com",
+        components: {
+          prescriptionComposer: {
+            enabled: true,
+            features: {
+              changePatient: false,
+              createDraft: true,
+              sign: false,
+              viewHistory: true,
+            },
+          },
+        },
+        consent,
+        context: { patientSelection: "search" },
+        practiceId: "prac_01k123456789abcdefghjkmnp",
+        providerMappingId: "pmap_01k123456789abcdefghjkmnp",
+        userId: "usr_01k123456789abcdefghjkmnp",
+      },
+      { idempotencyKey: "component-example" },
+    );
+    await affinity.hostedSessions.create(
+      {
+        consent,
+        flow: "provider_verification",
+        practiceId: "prac_01k123456789abcdefghjkmnp",
+        returnUrl: "https://platform.example.com/affinity/return",
+        userId: "usr_01k123456789abcdefghjkmnp",
+      },
+      { idempotencyKey: "hosted-example" },
+    );
+
+    expect(requests.map((request) => new URL(request.url).pathname)).toEqual([
+      "/v1/component-sessions",
+      "/v1/hosted-sessions",
+    ]);
+    expect(requests.map((request) => request.headers.get("idempotency-key"))).toEqual([
+      "component-example",
+      "hosted-example",
+    ]);
   });
 });

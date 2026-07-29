@@ -44,7 +44,7 @@ async function example() {
     // string | Unique operation key required for every mutation. (optional)
     idempotencyKey: idempotencyKey_example,
     // string | Optional per-request override for the service account\'s pinned API version. (optional)
-    affinityVersion: 2026-07-28,
+    affinityVersion: 2026-07-29,
   } satisfies CreateWebhookEndpointOperationRequest;
 
   try {
@@ -129,7 +129,7 @@ async function example() {
     // string | Unique operation key required for every mutation. (optional)
     idempotencyKey: idempotencyKey_example,
     // string | Optional per-request override for the service account\'s pinned API version. (optional)
-    affinityVersion: 2026-07-28,
+    affinityVersion: 2026-07-29,
   } satisfies DeleteWebhookEndpointRequest;
 
   try {
@@ -213,7 +213,7 @@ async function example() {
     // string
     eventId: eventId_example,
     // string | Optional per-request override for the service account\'s pinned API version. (optional)
-    affinityVersion: 2026-07-28,
+    affinityVersion: 2026-07-29,
   } satisfies GetWebhookEventRequest;
 
   try {
@@ -299,7 +299,7 @@ async function example() {
     // string (optional)
     endingBefore: endingBefore_example,
     // string | Optional per-request override for the service account\'s pinned API version. (optional)
-    affinityVersion: 2026-07-28,
+    affinityVersion: 2026-07-29,
   } satisfies ListWebhookEndpointsRequest;
 
   try {
@@ -388,7 +388,7 @@ async function example() {
     // string (optional)
     endingBefore: endingBefore_example,
     // string | Optional per-request override for the service account\'s pinned API version. (optional)
-    affinityVersion: 2026-07-28,
+    affinityVersion: 2026-07-29,
   } satisfies ListWebhookEventsRequest;
 
   try {
@@ -474,7 +474,7 @@ async function example() {
     // string | Unique operation key required for every mutation. (optional)
     idempotencyKey: idempotencyKey_example,
     // string | Optional per-request override for the service account\'s pinned API version. (optional)
-    affinityVersion: 2026-07-28,
+    affinityVersion: 2026-07-29,
   } satisfies ReplayWebhookEventRequest;
 
   try {
@@ -560,7 +560,7 @@ async function example() {
     // string | Unique operation key required for every mutation. (optional)
     idempotencyKey: idempotencyKey_example,
     // string | Optional per-request override for the service account\'s pinned API version. (optional)
-    affinityVersion: 2026-07-28,
+    affinityVersion: 2026-07-29,
   } satisfies RotateWebhookEndpointSecretRequest;
 
   try {
@@ -648,7 +648,7 @@ async function example() {
     // string | Unique operation key required for every mutation. (optional)
     idempotencyKey: idempotencyKey_example,
     // string | Optional per-request override for the service account\'s pinned API version. (optional)
-    affinityVersion: 2026-07-28,
+    affinityVersion: 2026-07-29,
   } satisfies UpdateWebhookEndpointOperationRequest;
 
   try {

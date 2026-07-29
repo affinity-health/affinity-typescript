@@ -42,7 +42,7 @@ async function example() {
     // string | Unique operation key required for every mutation. (optional)
     idempotencyKey: idempotencyKey_example,
     // string | Optional per-request override for the service account\'s pinned API version. (optional)
-    affinityVersion: 2026-07-28,
+    affinityVersion: 2026-07-29,
   } satisfies CreateUserOperationRequest;
 
   try {
@@ -127,7 +127,7 @@ async function example() {
     // string
     userId: userId_example,
     // string | Optional per-request override for the service account\'s pinned API version. (optional)
-    affinityVersion: 2026-07-28,
+    affinityVersion: 2026-07-29,
   } satisfies GetUserRequest;
 
   try {
@@ -211,7 +211,7 @@ async function example() {
     // number (optional)
     limit: 56,
     // string | Optional per-request override for the service account\'s pinned API version. (optional)
-    affinityVersion: 2026-07-28,
+    affinityVersion: 2026-07-29,
   } satisfies ListUsersRequest;
 
   try {
@@ -298,7 +298,7 @@ async function example() {
     // string | Unique operation key required for every mutation. (optional)
     idempotencyKey: idempotencyKey_example,
     // string | Optional per-request override for the service account\'s pinned API version. (optional)
-    affinityVersion: 2026-07-28,
+    affinityVersion: 2026-07-29,
   } satisfies UpdateUserOperationRequest;
 
   try {

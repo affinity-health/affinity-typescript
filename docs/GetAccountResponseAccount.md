@@ -4,6 +4,7 @@
 
 | Name                | Type                |
 | ------------------- | ------------------- |
+| `allowedOrigins`    | Array&lt;string&gt; |
 | `allowedReturnUrls` | Array&lt;string&gt; |
 | `displayName`       | string              |
 | `id`                | string              |
@@ -20,6 +21,7 @@ import type { GetAccountResponseAccount } from "@affinity-health/sdk";
 
 // TODO: Update the object below with actual values
 const example = {
+  allowedOrigins: null,
   allowedReturnUrls: null,
   displayName: null,
   id: null,

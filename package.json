@@ -42,7 +42,7 @@
     "format": "oxfmt .",
     "generate": "bash scripts/generate.sh",
     "generate:check": "bash scripts/generate-check.sh",
-    "package:check": "node --input-type=module -e 'const sdk = await import(\"./dist/index.js\"); const client = new sdk.Affinity(\"sk_test_package_check\"); if (typeof client.compounders.list !== \"function\") throw new Error(\"compounders resource missing\")'",
+    "package:check": "node --input-type=module -e 'const sdk = await import(\"./dist/index.js\"); const client = new sdk.Affinity(\"sk_test_package_check\"); for (const resource of [\"componentSessions\", \"compounders\", \"hostedSessions\", \"providerMappings\"]) if (!(resource in client)) throw new Error(`${resource} resource missing`); if (\"portalSessions\" in client) throw new Error(\"legacy portalSessions resource remains\")'",
     "pack:dry-run": "bun pm pack --dry-run"
   },
   "devDependencies": {

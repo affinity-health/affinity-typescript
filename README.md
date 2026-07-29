@@ -2,8 +2,8 @@
 
 The official TypeScript SDK for the Affinity API.
 
-> **Status:** `0.1.1` tracks the dated `2026-07-28` Affinity API contract and is intended for
-> integration validation in Test mode.
+> **Status:** The unreleased SDK tracks the forward-only `2026-07-29` Affinity API contract and is
+> intended for integration validation in Test mode.
 
 The SDK will provide a small, resource-oriented interface for software platforms connecting
 healthcare practices to Affinity's compounder network. It is intended for trusted server-side
@@ -42,10 +42,11 @@ console.log(`${compounders.data.length} compounders are available to this accoun
 The API key belongs only in your backend. Never create an `Affinity` client in browser or mobile
 code.
 
-## Affinity Hosted access
+## Platform identity and delegated sessions
 
 Use your own stable customer identifier as `externalId`; do not use email as identity or
-authorization. Email is optional and can change.
+authorization. Email is optional and can change. Affinity independently verifies the mapped
+provider and determines prescribing authority.
 
 ```ts
 const user = await affinity.users.create(
@@ -73,23 +74,83 @@ const membership = await affinity.memberships.create(
   { idempotencyKey: `membership:${practice.id}:${user.id}` },
 );
 
-const session = await affinity.portalSessions.create(
+const providerMapping = await affinity.providerMappings.create(
   {
-    destination: "/prescriptions",
+    attestations: {
+      authorizedProviderRelationship: true,
+      providerDataAccuracy: true,
+    },
+    credentials: "MD",
+    externalId: "provider_4821",
+    name: "Jordan Lee",
+    npi: "1234567893",
+    practiceId: practice.id,
+    userId: user.id,
+  },
+  { idempotencyKey: `provider:${practice.id}:${user.id}` },
+);
+
+if (providerMapping.status !== "verified") {
+  throw new Error("Complete Affinity provider verification before creating a clinical session");
+}
+
+const consent = {
+  authorizedProviderAccess: true as const,
+  minimumNecessaryPhi: true as const,
+  recordedAt: new Date(),
+};
+
+const componentSession = await affinity.componentSessions.create(
+  {
+    allowedOrigin: "https://platform.example.com",
+    components: {
+      prescriptionComposer: {
+        enabled: true,
+        features: {
+          changePatient: false,
+          createDraft: true,
+          sign: true,
+          viewHistory: true,
+        },
+      },
+    },
+    consent,
+    context: {
+      patientExternalId: "patient_991",
+      patientSelection: "fixed",
+    },
     membershipId: membership.id,
     practiceId: practice.id,
+    providerMappingId: providerMapping.id,
+    userId: user.id,
+  },
+  { idempotencyKey: `component:${crypto.randomUUID()}` },
+);
+
+// Return this one-time, 10-minute client secret only to the authenticated browser.
+// The Affinity Elements SDK sends it to the origin-checked Affinity iframe.
+console.log(componentSession.clientSecret);
+
+const hostedSession = await affinity.hostedSessions.create(
+  {
+    consent,
+    flow: "provider_verification",
+    membershipId: membership.id,
+    practiceId: practice.id,
+    providerMappingId: providerMapping.id,
     returnUrl: "https://platform.example.com/affinity/return",
     userId: user.id,
   },
-  { idempotencyKey: crypto.randomUUID() },
+  { idempotencyKey: `hosted:${crypto.randomUUID()}` },
 );
 
-// Redirect the user's browser to this single-use, 15-minute URL.
-console.log(session.url);
+// Open this single-use, 15-minute URL in a redirect, popup, or new tab.
+console.log(hostedSession.url);
 ```
 
-The user reviews and accepts the practice role in Affinity before the pending membership becomes
-active. Return URLs must exactly match an allowlisted URL configured for the same API mode.
+API keys and all provisioning calls stay on the platform backend. Component origins and hosted
+return URLs must exactly match the Test or Live allowlist. Never put a component secret in a URL,
+log, analytics event, or persistent storage.
 
 ## Resource model
 
@@ -102,7 +163,9 @@ The client surface is organized around these resources:
 - `practices` — create and manage customer practices
 - `roles` — list and manage custom practice roles
 - `memberships` — create consent-bound practice role grants
-- `portalSessions` — create short-lived, single-use Affinity Hosted launch URLs
+- `providerMappings` — connect platform identities to independently verified Affinity providers
+- `componentSessions` — create short-lived, one-time, origin-bound Affinity Elements secrets
+- `hostedSessions` — create short-lived, single-use Affinity Hosted workflow URLs
 - `orders` — create, submit, inspect, update, and cancel orders
 - `webhooks` — manage endpoints and inspect or replay events
 

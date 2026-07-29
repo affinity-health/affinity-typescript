@@ -47,7 +47,7 @@ async function example() {
     // 'all' | 'injectable' | 'nasal' | 'oral' | 'sublingual' | 'topical' | 'unknown' (optional)
     route: route_example,
     // string | Optional per-request override for the service account\'s pinned API version. (optional)
-    affinityVersion: 2026-07-28,
+    affinityVersion: 2026-07-29,
   } satisfies ListCatalogItemsRequest;
 
   try {
@@ -134,7 +134,7 @@ async function example() {
     // string (optional)
     query: query_example,
     // string | Optional per-request override for the service account\'s pinned API version. (optional)
-    affinityVersion: 2026-07-28,
+    affinityVersion: 2026-07-29,
   } satisfies ListCompoundersRequest;
 
   try {
@@ -221,7 +221,7 @@ async function example() {
     // 'patient' | 'practice' (optional)
     destinationType: destinationType_example,
     // string | Optional per-request override for the service account\'s pinned API version. (optional)
-    affinityVersion: 2026-07-28,
+    affinityVersion: 2026-07-29,
   } satisfies ListShippingOptionsRequest;
 
   try {

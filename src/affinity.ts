@@ -2,22 +2,26 @@
 
 import { APIKeysApi } from "./apis/APIKeysApi";
 import { CatalogApi } from "./apis/CatalogApi";
+import { ComponentSessionsApi } from "./apis/ComponentSessionsApi";
+import { HostedSessionsApi } from "./apis/HostedSessionsApi";
 import { MembershipsApi } from "./apis/MembershipsApi";
 import { PlatformOrdersApi } from "./apis/PlatformOrdersApi";
 import { PlatformWebhooksApi } from "./apis/PlatformWebhooksApi";
 import { PlatformsApi } from "./apis/PlatformsApi";
-import { PortalSessionsApi } from "./apis/PortalSessionsApi";
 import { PracticesApi } from "./apis/PracticesApi";
+import { ProviderMappingsApi } from "./apis/ProviderMappingsApi";
 import { RolesApi } from "./apis/RolesApi";
 import { UsersApi } from "./apis/UsersApi";
 import { Configuration, type FetchAPI } from "./runtime";
 import { AccountResource } from "./resources/account";
 import { CatalogResource } from "./resources/catalog";
+import { ComponentSessionsResource } from "./resources/component-sessions";
 import { CompoundersResource } from "./resources/compounders";
+import { HostedSessionsResource } from "./resources/hosted-sessions";
 import { MembershipsResource } from "./resources/memberships";
 import { OrdersResource } from "./resources/orders";
-import { PortalSessionsResource } from "./resources/portal-sessions";
 import { PracticesResource } from "./resources/practices";
+import { ProviderMappingsResource } from "./resources/provider-mappings";
 import { createRetryingFetch } from "./resources/retrying-fetch";
 import { RolesResource } from "./resources/roles";
 import { UsersResource } from "./resources/users";
@@ -34,11 +38,13 @@ export interface AffinityOptions {
 export class Affinity {
   readonly account: AccountResource;
   readonly catalog: CatalogResource;
+  readonly componentSessions: ComponentSessionsResource;
   readonly compounders: CompoundersResource;
+  readonly hostedSessions: HostedSessionsResource;
   readonly memberships: MembershipsResource;
   readonly orders: OrdersResource;
-  readonly portalSessions: PortalSessionsResource;
   readonly practices: PracticesResource;
+  readonly providerMappings: ProviderMappingsResource;
   readonly roles: RolesResource;
   readonly users: UsersResource;
   readonly webhooks: WebhooksResource;
@@ -46,7 +52,7 @@ export class Affinity {
   constructor(apiKey: string, options: AffinityOptions = {}) {
     if (!apiKey.trim()) throw new Error("Affinity requires a service API key");
     const baseUrl = options.baseUrl ?? "https://api.joinaffinityai.com";
-    const apiVersion = options.apiVersion ?? "2026-07-28";
+    const apiVersion = options.apiVersion ?? "2026-07-29";
     const timeout = options.timeout ?? 30_000;
     const maxRetries = options.maxRetries ?? 2;
     if (!Number.isFinite(timeout) || timeout <= 0) {
@@ -71,14 +77,22 @@ export class Affinity {
       apiVersion,
     );
     this.catalog = new CatalogResource(new CatalogApi(configuration), apiVersion);
-    this.compounders = new CompoundersResource(new CatalogApi(configuration), apiVersion);
-    this.memberships = new MembershipsResource(new MembershipsApi(configuration), apiVersion);
-    this.orders = new OrdersResource(new PlatformOrdersApi(configuration), apiVersion);
-    this.portalSessions = new PortalSessionsResource(
-      new PortalSessionsApi(configuration),
+    this.componentSessions = new ComponentSessionsResource(
+      new ComponentSessionsApi(configuration),
       apiVersion,
     );
+    this.compounders = new CompoundersResource(new CatalogApi(configuration), apiVersion);
+    this.hostedSessions = new HostedSessionsResource(
+      new HostedSessionsApi(configuration),
+      apiVersion,
+    );
+    this.memberships = new MembershipsResource(new MembershipsApi(configuration), apiVersion);
+    this.orders = new OrdersResource(new PlatformOrdersApi(configuration), apiVersion);
     this.practices = new PracticesResource(new PracticesApi(configuration), apiVersion);
+    this.providerMappings = new ProviderMappingsResource(
+      new ProviderMappingsApi(configuration),
+      apiVersion,
+    );
     this.roles = new RolesResource(new RolesApi(configuration), apiVersion);
     this.users = new UsersResource(new UsersApi(configuration), apiVersion);
     this.webhooks = new WebhooksResource(new PlatformWebhooksApi(configuration), apiVersion);

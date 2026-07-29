@@ -7,6 +7,13 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 
 ## [Unreleased]
 
+### Changed
+
+- Cut the SDK forward to the `2026-07-29` API contract.
+- Replaced legacy portal sessions with typed provider mappings, origin-bound component sessions,
+  and named hosted workflow sessions.
+- Removed the `portalSessions` resource without a backwards-compatibility alias.
+
 ## [0.1.1] - 2026-07-28
 
 ### Fixed
