@@ -43,7 +43,8 @@
     "generate": "bash scripts/generate.sh",
     "generate:check": "bash scripts/generate-check.sh",
     "package:check": "node --input-type=module -e 'const sdk = await import(\"./dist/index.js\"); const client = new sdk.Affinity(\"sk_test_package_check\"); for (const resource of [\"componentSessions\", \"compounders\", \"hostedSessions\", \"providerMappings\"]) if (!(resource in client)) throw new Error(`${resource} resource missing`); for (const webhookExport of [\"parseAffinityWebhookEvent\", \"verifyAffinityWebhook\"]) if (typeof sdk[webhookExport] !== \"function\") throw new Error(`${webhookExport} export missing`); if (\"portalSessions\" in client) throw new Error(\"legacy portalSessions resource remains\")'",
-    "pack:dry-run": "bun pm pack --dry-run"
+    "pack:dry-run": "bun pm pack --dry-run",
+    "prepublishOnly": "bun run check"
   },
   "devDependencies": {
     "@types/bun": "latest",
