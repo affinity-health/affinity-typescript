@@ -8,6 +8,23 @@ const baseUrl = spec.servers?.[0]?.url as string;
 if (!apiVersion || !baseUrl) {
   throw new Error("The OpenAPI contract must define info.version and servers[0].url");
 }
+const webhookContract = spec["x-affinity-webhooks"] as
+  | {
+      apiVersion?: string;
+      eventTypes?: string[];
+      orderStatuses?: string[];
+      signatureHeader?: string;
+    }
+  | undefined;
+if (
+  webhookContract?.apiVersion !== apiVersion ||
+  !webhookContract.eventTypes?.includes("webhook_endpoint.test") ||
+  !webhookContract.eventTypes.some((eventType) => eventType.startsWith("order.")) ||
+  !webhookContract.orderStatuses?.length ||
+  !webhookContract.signatureHeader
+) {
+  throw new Error("The OpenAPI contract must define the complete x-affinity-webhooks contract");
+}
 
 const operationIds = Object.values(
   spec.paths as Record<string, Record<string, { operationId?: string }>>,
@@ -45,6 +62,7 @@ const supportedOperations = [
   "listPracticeMemberships",
   "listPracticeRoles",
   "listPractices",
+  "listProviderMappings",
   "listUsers",
   "listWebhookEndpoints",
   "listWebhookEvents",
@@ -534,7 +552,7 @@ export class MembershipsResource {
 
 await output(
   "src/resources/provider-mappings.ts",
-  `import type { ProviderMappingsApi } from "../apis/ProviderMappingsApi";
+  `import type { ListProviderMappingsRequest, ProviderMappingsApi } from "../apis/ProviderMappingsApi";
 import type { CreateProviderMappingRequest } from "../models/CreateProviderMappingRequest";
 import type { UpdateProviderMappingRequest } from "../models/UpdateProviderMappingRequest";
 import type { MutationOptions } from "./request-options";
@@ -556,6 +574,9 @@ export class ProviderMappingsResource {
       affinityVersion: this.apiVersion,
       providerMappingId,
     });
+  }
+  list(params: Omit<ListProviderMappingsRequest, "affinityVersion"> = {}) {
+    return this.api.listProviderMappings({ ...params, affinityVersion: this.apiVersion });
   }
   revoke(providerMappingId: string, options: MutationOptions) {
     const params: UpdateProviderMappingRequest = { status: "revoked" };
@@ -675,9 +696,25 @@ export class WebhooksResource {
 }`,
 );
 
+const webhookTemplate = await readFile(resolve(root, "templates/webhook-events.ts"), "utf8");
+await output(
+  "src/webhook-events.ts",
+  webhookTemplate
+    .replace("__AFFINITY_WEBHOOK_API_VERSION__", JSON.stringify(webhookContract.apiVersion))
+    .replace(
+      "__AFFINITY_WEBHOOK_EVENT_TYPES__",
+      JSON.stringify(webhookContract.eventTypes, null, 2),
+    )
+    .replace("__AFFINITY_ORDER_STATUSES__", JSON.stringify(webhookContract.orderStatuses, null, 2))
+    .replace(
+      "__AFFINITY_WEBHOOK_SIGNATURE_HEADER__",
+      JSON.stringify(webhookContract.signatureHeader),
+    ),
+);
+
 const indexPath = resolve(root, "src/index.ts");
 const generatedIndex = (await readFile(indexPath, "utf8")).trimEnd();
 await writeFile(
   indexPath,
-  `${generatedIndex}\n\nexport * from "./affinity";\nexport * from "./resources/account";\nexport * from "./resources/catalog";\nexport * from "./resources/component-sessions";\nexport * from "./resources/compounders";\nexport * from "./resources/hosted-sessions";\nexport * from "./resources/memberships";\nexport * from "./resources/orders";\nexport * from "./resources/practices";\nexport * from "./resources/provider-mappings";\nexport * from "./resources/request-options";\nexport * from "./resources/roles";\nexport * from "./resources/users";\nexport * from "./resources/webhooks";\n`,
+  `${generatedIndex}\n\nexport * from "./affinity";\nexport * from "./webhook-events";\nexport * from "./resources/account";\nexport * from "./resources/catalog";\nexport * from "./resources/component-sessions";\nexport * from "./resources/compounders";\nexport * from "./resources/hosted-sessions";\nexport * from "./resources/memberships";\nexport * from "./resources/orders";\nexport * from "./resources/practices";\nexport * from "./resources/provider-mappings";\nexport * from "./resources/request-options";\nexport * from "./resources/roles";\nexport * from "./resources/users";\nexport * from "./resources/webhooks";\n`,
 );

@@ -4,6 +4,7 @@
 
 | Name         | Type    |
 | ------------ | ------- |
+| `createdAt`  | Date    |
 | `externalId` | string  |
 | `id`         | string  |
 | `livemode`   | boolean |
@@ -12,6 +13,7 @@
 | `practiceId` | string  |
 | `providerId` | string  |
 | `status`     | string  |
+| `updatedAt`  | Date    |
 | `userId`     | string  |
 | `verifiedAt` | Date    |
 
@@ -22,6 +24,7 @@ import type { CreateProviderMappingResponse } from "@affinity-health/sdk";
 
 // TODO: Update the object below with actual values
 const example = {
+  createdAt: null,
   externalId: null,
   id: null,
   livemode: null,
@@ -30,6 +33,7 @@ const example = {
   practiceId: null,
   providerId: null,
   status: null,
+  updatedAt: null,
   userId: null,
   verifiedAt: null,
 } satisfies CreateProviderMappingResponse;

@@ -58,8 +58,8 @@ export interface GetPracticeRequest {
 
 export interface ListPracticesRequest {
   limit?: number;
-  startingAfter?: string;
-  endingBefore?: string;
+  startingAfter?: string | null;
+  endingBefore?: string | null;
   affinityVersion?: string;
 }
 

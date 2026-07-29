@@ -7,6 +7,12 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 
 ## [Unreleased]
 
+### Added
+
+- Added the exhaustive dated `AffinityWebhookEvent` union, event/status constants, strict payload
+  parser, and raw-body HMAC signature verifier with signing-secret rotation support.
+- Added provider-mapping list support with external identity, practice, and verification filters.
+
 ### Changed
 
 - Cut the SDK forward to the `2026-07-29` API contract.

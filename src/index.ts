@@ -5,6 +5,7 @@ export * from "./apis/index";
 export * from "./models/index";
 
 export * from "./affinity";
+export * from "./webhook-events";
 export * from "./resources/account";
 export * from "./resources/catalog";
 export * from "./resources/component-sessions";

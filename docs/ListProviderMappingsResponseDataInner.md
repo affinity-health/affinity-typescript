@@ -1,4 +1,4 @@
-# GetProviderMappingResponse
+# ListProviderMappingsResponseDataInner
 
 ## Properties
 
@@ -20,7 +20,7 @@
 ## Example
 
 ```typescript
-import type { GetProviderMappingResponse } from "@affinity-health/sdk";
+import type { ListProviderMappingsResponseDataInner } from "@affinity-health/sdk";
 
 // TODO: Update the object below with actual values
 const example = {
@@ -36,7 +36,7 @@ const example = {
   updatedAt: null,
   userId: null,
   verifiedAt: null,
-} satisfies GetProviderMappingResponse;
+} satisfies ListProviderMappingsResponseDataInner;
 
 console.log(example);
 
@@ -45,7 +45,7 @@ const exampleJSON: string = JSON.stringify(example);
 console.log(exampleJSON);
 
 // Parse the JSON string back to an object
-const exampleParsed = JSON.parse(exampleJSON) as GetProviderMappingResponse;
+const exampleParsed = JSON.parse(exampleJSON) as ListProviderMappingsResponseDataInner;
 console.log(exampleParsed);
 ```
 

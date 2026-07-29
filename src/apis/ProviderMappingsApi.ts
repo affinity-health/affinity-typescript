@@ -28,6 +28,11 @@ import {
   GetProviderMappingResponseFromJSON,
   GetProviderMappingResponseToJSON,
 } from "../models/GetProviderMappingResponse";
+import {
+  type ListProviderMappingsResponse,
+  ListProviderMappingsResponseFromJSON,
+  ListProviderMappingsResponseToJSON,
+} from "../models/ListProviderMappingsResponse";
 import { type Problem, ProblemFromJSON, ProblemToJSON } from "../models/Problem";
 import {
   type UpdateProviderMappingRequest,
@@ -48,6 +53,16 @@ export interface CreateProviderMappingOperationRequest {
 
 export interface GetProviderMappingRequest {
   providerMappingId: string;
+  affinityVersion?: string;
+}
+
+export interface ListProviderMappingsRequest {
+  externalId?: string;
+  limit?: number;
+  startingAfter?: string;
+  endingBefore?: string;
+  practiceId?: string;
+  status?: ListProviderMappingsStatusEnum;
   affinityVersion?: string;
 }
 
@@ -218,6 +233,95 @@ export class ProviderMappingsApi extends runtime.BaseAPI {
   }
 
   /**
+   * Creates request options for listProviderMappings without sending the request
+   */
+  async listProviderMappingsRequestOpts(
+    requestParameters: ListProviderMappingsRequest,
+  ): Promise<runtime.RequestOpts> {
+    const queryParameters: any = {};
+
+    if (requestParameters["externalId"] != null) {
+      queryParameters["externalId"] = requestParameters["externalId"];
+    }
+
+    if (requestParameters["limit"] != null) {
+      queryParameters["limit"] = requestParameters["limit"];
+    }
+
+    if (requestParameters["startingAfter"] != null) {
+      queryParameters["startingAfter"] = requestParameters["startingAfter"];
+    }
+
+    if (requestParameters["endingBefore"] != null) {
+      queryParameters["endingBefore"] = requestParameters["endingBefore"];
+    }
+
+    if (requestParameters["practiceId"] != null) {
+      queryParameters["practiceId"] = requestParameters["practiceId"];
+    }
+
+    if (requestParameters["status"] != null) {
+      queryParameters["status"] = requestParameters["status"];
+    }
+
+    const headerParameters: runtime.HTTPHeaders = {};
+
+    if (requestParameters["affinityVersion"] != null) {
+      headerParameters["Affinity-Version"] = String(requestParameters["affinityVersion"]);
+    }
+
+    if (this.configuration && this.configuration.accessToken) {
+      const token = this.configuration.accessToken;
+      const tokenString = await token("bearerAuth", []);
+
+      if (tokenString) {
+        headerParameters["Authorization"] = `Bearer ${tokenString}`;
+      }
+    }
+    if (this.configuration && this.configuration.apiKey) {
+      headerParameters["x-affinity-api-key"] =
+        await this.configuration.apiKey("x-affinity-api-key"); // affinityApiKey authentication
+    }
+
+    let urlPath = `/v1/provider-mappings`;
+
+    return {
+      path: urlPath,
+      method: "GET",
+      headers: headerParameters,
+      query: queryParameters,
+    };
+  }
+
+  /**
+   * Lists the platform\'s provider-to-Affinity identity mappings in the current Test or Live mode.
+   * List provider mappings
+   */
+  async listProviderMappingsRaw(
+    requestParameters: ListProviderMappingsRequest,
+    initOverrides?: RequestInit | runtime.InitOverrideFunction,
+  ): Promise<runtime.ApiResponse<ListProviderMappingsResponse>> {
+    const requestOptions = await this.listProviderMappingsRequestOpts(requestParameters);
+    const response = await this.request(requestOptions, initOverrides);
+
+    return new runtime.JSONApiResponse(response, (jsonValue) =>
+      ListProviderMappingsResponseFromJSON(jsonValue),
+    );
+  }
+
+  /**
+   * Lists the platform\'s provider-to-Affinity identity mappings in the current Test or Live mode.
+   * List provider mappings
+   */
+  async listProviderMappings(
+    requestParameters: ListProviderMappingsRequest = {},
+    initOverrides?: RequestInit | runtime.InitOverrideFunction,
+  ): Promise<ListProviderMappingsResponse> {
+    const response = await this.listProviderMappingsRaw(requestParameters, initOverrides);
+    return await response.value();
+  }
+
+  /**
    * Creates request options for updateProviderMapping without sending the request
    */
   async updateProviderMappingRequestOpts(
@@ -307,3 +411,14 @@ export class ProviderMappingsApi extends runtime.BaseAPI {
     return await response.value();
   }
 }
+
+/**
+ * @export
+ */
+export const ListProviderMappingsStatusEnum = {
+  Pending: "pending",
+  Verified: "verified",
+  Revoked: "revoked",
+} as const;
+export type ListProviderMappingsStatusEnum =
+  (typeof ListProviderMappingsStatusEnum)[keyof typeof ListProviderMappingsStatusEnum];

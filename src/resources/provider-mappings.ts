@@ -1,6 +1,6 @@
 // Code generated from spec/affinity.openapi.json by scripts/generate-facade.ts. DO NOT EDIT.
 
-import type { ProviderMappingsApi } from "../apis/ProviderMappingsApi";
+import type { ListProviderMappingsRequest, ProviderMappingsApi } from "../apis/ProviderMappingsApi";
 import type { CreateProviderMappingRequest } from "../models/CreateProviderMappingRequest";
 import type { UpdateProviderMappingRequest } from "../models/UpdateProviderMappingRequest";
 import type { MutationOptions } from "./request-options";
@@ -22,6 +22,9 @@ export class ProviderMappingsResource {
       affinityVersion: this.apiVersion,
       providerMappingId,
     });
+  }
+  list(params: Omit<ListProviderMappingsRequest, "affinityVersion"> = {}) {
+    return this.api.listProviderMappings({ ...params, affinityVersion: this.apiVersion });
   }
   revoke(providerMappingId: string, options: MutationOptions) {
     const params: UpdateProviderMappingRequest = { status: "revoked" };

@@ -16,79 +16,79 @@ import { mapValues } from "../runtime";
 /**
  *
  * @export
- * @interface CreateProviderMappingResponse
+ * @interface ListProviderMappingsResponseDataInner
  */
-export interface CreateProviderMappingResponse {
+export interface ListProviderMappingsResponseDataInner {
   /**
    *
    * @type {Date}
-   * @memberof CreateProviderMappingResponse
+   * @memberof ListProviderMappingsResponseDataInner
    */
   createdAt: Date;
   /**
    *
    * @type {string}
-   * @memberof CreateProviderMappingResponse
+   * @memberof ListProviderMappingsResponseDataInner
    */
   externalId: string;
   /**
    *
    * @type {string}
-   * @memberof CreateProviderMappingResponse
+   * @memberof ListProviderMappingsResponseDataInner
    */
   id: string;
   /**
    *
    * @type {boolean}
-   * @memberof CreateProviderMappingResponse
+   * @memberof ListProviderMappingsResponseDataInner
    */
   livemode: boolean;
   /**
    *
    * @type {string}
-   * @memberof CreateProviderMappingResponse
+   * @memberof ListProviderMappingsResponseDataInner
    */
   npi: string;
   /**
    *
-   * @type {CreateProviderMappingResponseObjectEnum}
-   * @memberof CreateProviderMappingResponse
+   * @type {ListProviderMappingsResponseDataInnerObjectEnum}
+   * @memberof ListProviderMappingsResponseDataInner
    */
-  object: CreateProviderMappingResponseObjectEnum;
+  object: ListProviderMappingsResponseDataInnerObjectEnum;
   /**
    *
    * @type {string}
-   * @memberof CreateProviderMappingResponse
+   * @memberof ListProviderMappingsResponseDataInner
    */
   practiceId: string;
   /**
    *
    * @type {string}
-   * @memberof CreateProviderMappingResponse
+   * @memberof ListProviderMappingsResponseDataInner
    */
   providerId: string;
   /**
    *
-   * @type {CreateProviderMappingResponseStatusEnum}
-   * @memberof CreateProviderMappingResponse
+   * @type {ListProviderMappingsResponseDataInnerStatusEnum}
+   * @memberof ListProviderMappingsResponseDataInner
    */
-  status: CreateProviderMappingResponseStatusEnum;
+  status: ListProviderMappingsResponseDataInnerStatusEnum;
   /**
    *
    * @type {Date}
-   * @memberof CreateProviderMappingResponse
+   * @memberof ListProviderMappingsResponseDataInner
    */
   updatedAt: Date;
   /**
    *
    * @type {string}
-   * @memberof CreateProviderMappingResponse
+   * @memberof ListProviderMappingsResponseDataInner
    */
   userId: string;
   /**
    *
    * @type {Date}
-   * @memberof CreateProviderMappingResponse
+   * @memberof ListProviderMappingsResponseDataInner
    */
   verifiedAt: Date | null;
 }
@@ -96,29 +96,29 @@ export interface CreateProviderMappingResponse {
 /**
  * @export
  */
-export const CreateProviderMappingResponseObjectEnum = {
+export const ListProviderMappingsResponseDataInnerObjectEnum = {
   ProviderMapping: "provider_mapping",
 } as const;
-export type CreateProviderMappingResponseObjectEnum =
-  (typeof CreateProviderMappingResponseObjectEnum)[keyof typeof CreateProviderMappingResponseObjectEnum];
+export type ListProviderMappingsResponseDataInnerObjectEnum =
+  (typeof ListProviderMappingsResponseDataInnerObjectEnum)[keyof typeof ListProviderMappingsResponseDataInnerObjectEnum];
 
 /**
  * @export
  */
-export const CreateProviderMappingResponseStatusEnum = {
+export const ListProviderMappingsResponseDataInnerStatusEnum = {
   Pending: "pending",
   Verified: "verified",
   Revoked: "revoked",
 } as const;
-export type CreateProviderMappingResponseStatusEnum =
-  (typeof CreateProviderMappingResponseStatusEnum)[keyof typeof CreateProviderMappingResponseStatusEnum];
+export type ListProviderMappingsResponseDataInnerStatusEnum =
+  (typeof ListProviderMappingsResponseDataInnerStatusEnum)[keyof typeof ListProviderMappingsResponseDataInnerStatusEnum];
 
 /**
- * Check if a given object implements the CreateProviderMappingResponse interface.
+ * Check if a given object implements the ListProviderMappingsResponseDataInner interface.
  */
-export function instanceOfCreateProviderMappingResponse(
+export function instanceOfListProviderMappingsResponseDataInner(
   value: object,
-): value is CreateProviderMappingResponse {
+): value is ListProviderMappingsResponseDataInner {
   if (!("createdAt" in value) || value["createdAt"] === undefined) return false;
   if (!("externalId" in value) || value["externalId"] === undefined) return false;
   if (!("id" in value) || value["id"] === undefined) return false;
@@ -134,14 +134,16 @@ export function instanceOfCreateProviderMappingResponse(
   return true;
 }
 
-export function CreateProviderMappingResponseFromJSON(json: any): CreateProviderMappingResponse {
-  return CreateProviderMappingResponseFromJSONTyped(json, false);
+export function ListProviderMappingsResponseDataInnerFromJSON(
+  json: any,
+): ListProviderMappingsResponseDataInner {
+  return ListProviderMappingsResponseDataInnerFromJSONTyped(json, false);
 }
 
-export function CreateProviderMappingResponseFromJSONTyped(
+export function ListProviderMappingsResponseDataInnerFromJSONTyped(
   json: any,
   ignoreDiscriminator: boolean,
-): CreateProviderMappingResponse {
+): ListProviderMappingsResponseDataInner {
   if (json == null) {
     return json;
   }
@@ -161,12 +163,14 @@ export function CreateProviderMappingResponseFromJSONTyped(
   };
 }
 
-export function CreateProviderMappingResponseToJSON(json: any): CreateProviderMappingResponse {
-  return CreateProviderMappingResponseToJSONTyped(json, false);
+export function ListProviderMappingsResponseDataInnerToJSON(
+  json: any,
+): ListProviderMappingsResponseDataInner {
+  return ListProviderMappingsResponseDataInnerToJSONTyped(json, false);
 }
 
-export function CreateProviderMappingResponseToJSONTyped(
-  value?: CreateProviderMappingResponse | null,
+export function ListProviderMappingsResponseDataInnerToJSONTyped(
+  value?: ListProviderMappingsResponseDataInner | null,
   ignoreDiscriminator: boolean = false,
 ): any {
   if (value == null) {

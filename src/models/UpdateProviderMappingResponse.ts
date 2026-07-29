@@ -21,6 +21,12 @@ import { mapValues } from "../runtime";
 export interface UpdateProviderMappingResponse {
   /**
    *
+   * @type {Date}
+   * @memberof UpdateProviderMappingResponse
+   */
+  createdAt: Date;
+  /**
+   *
    * @type {string}
    * @memberof UpdateProviderMappingResponse
    */
@@ -69,6 +75,12 @@ export interface UpdateProviderMappingResponse {
   status: UpdateProviderMappingResponseStatusEnum;
   /**
    *
+   * @type {Date}
+   * @memberof UpdateProviderMappingResponse
+   */
+  updatedAt: Date;
+  /**
+   *
    * @type {string}
    * @memberof UpdateProviderMappingResponse
    */
@@ -107,6 +119,7 @@ export type UpdateProviderMappingResponseStatusEnum =
 export function instanceOfUpdateProviderMappingResponse(
   value: object,
 ): value is UpdateProviderMappingResponse {
+  if (!("createdAt" in value) || value["createdAt"] === undefined) return false;
   if (!("externalId" in value) || value["externalId"] === undefined) return false;
   if (!("id" in value) || value["id"] === undefined) return false;
   if (!("livemode" in value) || value["livemode"] === undefined) return false;
@@ -115,6 +128,7 @@ export function instanceOfUpdateProviderMappingResponse(
   if (!("practiceId" in value) || value["practiceId"] === undefined) return false;
   if (!("providerId" in value) || value["providerId"] === undefined) return false;
   if (!("status" in value) || value["status"] === undefined) return false;
+  if (!("updatedAt" in value) || value["updatedAt"] === undefined) return false;
   if (!("userId" in value) || value["userId"] === undefined) return false;
   if (!("verifiedAt" in value) || value["verifiedAt"] === undefined) return false;
   return true;
@@ -132,6 +146,7 @@ export function UpdateProviderMappingResponseFromJSONTyped(
     return json;
   }
   return {
+    createdAt: new Date(json["createdAt"]),
     externalId: json["externalId"],
     id: json["id"],
     livemode: json["livemode"],
@@ -140,6 +155,7 @@ export function UpdateProviderMappingResponseFromJSONTyped(
     practiceId: json["practiceId"],
     providerId: json["providerId"],
     status: json["status"],
+    updatedAt: new Date(json["updatedAt"]),
     userId: json["userId"],
     verifiedAt: json["verifiedAt"] == null ? null : new Date(json["verifiedAt"]),
   };
@@ -158,6 +174,7 @@ export function UpdateProviderMappingResponseToJSONTyped(
   }
 
   return {
+    createdAt: value["createdAt"].toISOString(),
     externalId: value["externalId"],
     id: value["id"],
     livemode: value["livemode"],
@@ -166,6 +183,7 @@ export function UpdateProviderMappingResponseToJSONTyped(
     practiceId: value["practiceId"],
     providerId: value["providerId"],
     status: value["status"],
+    updatedAt: value["updatedAt"].toISOString(),
     userId: value["userId"],
     verifiedAt:
       value["verifiedAt"] == null ? value["verifiedAt"] : value["verifiedAt"].toISOString(),

@@ -42,6 +42,47 @@ console.log(`${compounders.data.length} compounders are available to this accoun
 The API key belongs only in your backend. Never create an `Affinity` client in browser or mobile
 code.
 
+## Webhooks
+
+Verify the signature against the exact raw request body before parsing or logging it. The verifier
+returns the exhaustive, dated `AffinityWebhookEvent` union, so checking `event.type` narrows both
+the event and its `data.object`.
+
+```ts
+import { AffinityWebhookVerificationError, verifyAffinityWebhook } from "@affinity-health/sdk";
+
+export async function handleAffinityWebhook(request: Request) {
+  try {
+    const event = await verifyAffinityWebhook({
+      body: await request.arrayBuffer(),
+      secret: process.env.AFFINITY_WEBHOOK_SECRET!,
+      signature: request.headers.get("affinity-signature"),
+    });
+
+    switch (event.type) {
+      case "order.submitted":
+        console.log(event.data.object.id, event.data.object.status);
+        break;
+      case "webhook_endpoint.test":
+        console.log(event.data.object.id);
+        break;
+    }
+
+    return new Response(null, { status: 204 });
+  } catch (error) {
+    if (error instanceof AffinityWebhookVerificationError) {
+      return Response.json({ error: error.code }, { status: 400 });
+    }
+    throw error;
+  }
+}
+```
+
+The current event types and order statuses are exported as
+`affinityWebhookEventTypes` and `affinityOrderStatuses`. During a signing-secret rotation, pass
+both active secrets as an array; a request is accepted when either secret verifies. Do not call
+`request.json()` before signature verification.
+
 ## Platform identity and delegated sessions
 
 Use your own stable customer identifier as `externalId`; do not use email as identity or
@@ -90,6 +131,8 @@ const providerMapping = await affinity.providerMappings.create(
   { idempotencyKey: `provider:${practice.id}:${user.id}` },
 );
 
+// Save providerMapping.id with this provider in your database. It is a durable identity mapping,
+// not an API key and not a browser credential.
 if (providerMapping.status !== "verified") {
   throw new Error("Complete Affinity provider verification before creating a clinical session");
 }

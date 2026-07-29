@@ -11020,6 +11020,437 @@
       }
     },
     "/v1/provider-mappings": {
+      "get": {
+        "description": "Lists the platform's provider-to-Affinity identity mappings in the current Test or Live mode.",
+        "operationId": "listProviderMappings",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "externalId",
+            "required": false,
+            "schema": {
+              "maxLength": 160,
+              "minLength": 1,
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "required": false,
+            "schema": {
+              "default": 25,
+              "maximum": 100,
+              "minimum": 1,
+              "type": "integer"
+            }
+          },
+          {
+            "in": "query",
+            "name": "startingAfter",
+            "required": false,
+            "schema": {
+              "pattern": "^pmap_[0-9a-hjkmnp-tv-z]{26}$",
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "endingBefore",
+            "required": false,
+            "schema": {
+              "pattern": "^pmap_[0-9a-hjkmnp-tv-z]{26}$",
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "practiceId",
+            "required": false,
+            "schema": {
+              "pattern": "^prac_[0-9a-hjkmnp-tv-z]{26}$",
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "status",
+            "required": false,
+            "schema": {
+              "enum": ["pending", "verified", "revoked"],
+              "type": "string"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/AffinityVersion"
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ListProviderMappingsResponse"
+                }
+              }
+            },
+            "description": "Successful response",
+            "headers": {
+              "Affinity-Version": {
+                "$ref": "#/components/headers/AffinityVersion"
+              },
+              "RateLimit-Limit": {
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "RateLimit-Remaining": {
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "RateLimit-Reset": {
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "Request-Id": {
+                "$ref": "#/components/headers/RequestId"
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description": "Bad request",
+            "headers": {
+              "Affinity-Version": {
+                "$ref": "#/components/headers/AffinityVersion"
+              },
+              "RateLimit-Limit": {
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "RateLimit-Remaining": {
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "RateLimit-Reset": {
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "Request-Id": {
+                "$ref": "#/components/headers/RequestId"
+              }
+            },
+            "x-affinity-error-codes": [
+              "idempotency_key_too_long",
+              "invalid_cursor",
+              "invalid_id",
+              "invalid_request",
+              "practice_attestation_required",
+              "unsupported_api_version"
+            ]
+          },
+          "401": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description": "Unauthorized",
+            "headers": {
+              "Affinity-Version": {
+                "$ref": "#/components/headers/AffinityVersion"
+              },
+              "RateLimit-Limit": {
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "RateLimit-Remaining": {
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "RateLimit-Reset": {
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "Request-Id": {
+                "$ref": "#/components/headers/RequestId"
+              }
+            },
+            "x-affinity-error-codes": ["unauthorized"]
+          },
+          "403": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description": "Forbidden",
+            "headers": {
+              "Affinity-Version": {
+                "$ref": "#/components/headers/AffinityVersion"
+              },
+              "RateLimit-Limit": {
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "RateLimit-Remaining": {
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "RateLimit-Reset": {
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "Request-Id": {
+                "$ref": "#/components/headers/RequestId"
+              }
+            },
+            "x-affinity-error-codes": [
+              "live_mode_not_approved",
+              "permission_denied",
+              "platform_account_not_found",
+              "platform_account_required",
+              "platform_authorization_changed",
+              "practice_not_accessible"
+            ]
+          },
+          "413": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description": "Payload too large",
+            "headers": {
+              "Affinity-Version": {
+                "$ref": "#/components/headers/AffinityVersion"
+              },
+              "RateLimit-Limit": {
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "RateLimit-Remaining": {
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "RateLimit-Reset": {
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "Request-Id": {
+                "$ref": "#/components/headers/RequestId"
+              }
+            },
+            "x-affinity-error-codes": ["payload_too_large"]
+          },
+          "422": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description": "Unprocessable entity",
+            "headers": {
+              "Affinity-Version": {
+                "$ref": "#/components/headers/AffinityVersion"
+              },
+              "RateLimit-Limit": {
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "RateLimit-Remaining": {
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "RateLimit-Reset": {
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "Request-Id": {
+                "$ref": "#/components/headers/RequestId"
+              }
+            },
+            "x-affinity-error-codes": ["unprocessable_entity"]
+          },
+          "429": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description": "Too many requests",
+            "headers": {
+              "Affinity-Version": {
+                "$ref": "#/components/headers/AffinityVersion"
+              },
+              "RateLimit-Limit": {
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "RateLimit-Remaining": {
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "RateLimit-Reset": {
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "Request-Id": {
+                "$ref": "#/components/headers/RequestId"
+              }
+            },
+            "x-affinity-error-codes": ["rate_limit_exceeded"]
+          },
+          "500": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description": "Internal server error",
+            "headers": {
+              "Affinity-Version": {
+                "$ref": "#/components/headers/AffinityVersion"
+              },
+              "RateLimit-Limit": {
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "RateLimit-Remaining": {
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "RateLimit-Reset": {
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "Request-Id": {
+                "$ref": "#/components/headers/RequestId"
+              }
+            },
+            "x-affinity-error-codes": ["internal_server_error"]
+          },
+          "502": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description": "Bad gateway",
+            "headers": {
+              "Affinity-Version": {
+                "$ref": "#/components/headers/AffinityVersion"
+              },
+              "RateLimit-Limit": {
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "RateLimit-Remaining": {
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "RateLimit-Reset": {
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "Request-Id": {
+                "$ref": "#/components/headers/RequestId"
+              }
+            },
+            "x-affinity-error-codes": ["upstream_error"]
+          },
+          "503": {
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "description": "Service unavailable",
+            "headers": {
+              "Affinity-Version": {
+                "$ref": "#/components/headers/AffinityVersion"
+              },
+              "RateLimit-Limit": {
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "RateLimit-Remaining": {
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "RateLimit-Reset": {
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "Request-Id": {
+                "$ref": "#/components/headers/RequestId"
+              }
+            },
+            "x-affinity-error-codes": ["service_unavailable"]
+          }
+        },
+        "summary": "List provider mappings",
+        "tags": ["Provider Mappings"],
+        "x-pier": {
+          "domain": "platform.public-api",
+          "exportName": "providerMappings",
+          "file": "src/routes/platform/public-api/public-api.endpoints.ts",
+          "name": "platform.public-api.providerMappings",
+          "visibility": "public"
+        },
+        "x-affinity-version-default": "service_account"
+      },
       "post": {
         "description": "Maps the platform's provider identity to an independently verified Affinity provider. Creating a mapping does not assert prescribing authority.",
         "operationId": "createProviderMapping",
@@ -17987,6 +18418,13 @@
           "type": "string"
         }
       },
+      "AffinitySignature": {
+        "description": "Timestamped HMAC-SHA256 signature over the exact raw webhook request body.",
+        "schema": {
+          "example": "t=1785273452,v1=0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
+          "type": "string"
+        }
+      },
       "RequestId": {
         "description": "Identifier used to correlate a request with Affinity support and logs.",
         "schema": {
@@ -23832,6 +24270,107 @@
         "required": ["description", "id", "name", "object", "permissions", "protected"],
         "additionalProperties": false
       },
+      "ListProviderMappingsResponse": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "createdAt": {
+                  "type": "string",
+                  "format": "date-time",
+                  "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?(?:Z))$"
+                },
+                "externalId": {
+                  "type": "string"
+                },
+                "id": {
+                  "type": "string",
+                  "pattern": "^pmap_[0-9a-hjkmnp-tv-z]{26}$",
+                  "examples": ["pmap_01j2y8m6jcc9tt24af5pw9x1bc"]
+                },
+                "livemode": {
+                  "type": "boolean"
+                },
+                "npi": {
+                  "type": "string"
+                },
+                "object": {
+                  "type": "string",
+                  "const": "provider_mapping"
+                },
+                "practiceId": {
+                  "type": "string",
+                  "pattern": "^prac_[0-9a-hjkmnp-tv-z]{26}$",
+                  "examples": ["prac_01j2y8m6jcc9tt24af5pw9x1bc"]
+                },
+                "providerId": {
+                  "type": "string",
+                  "pattern": "^prov_[0-9a-hjkmnp-tv-z]{26}$",
+                  "examples": ["prov_01j2y8m6jcc9tt24af5pw9x1bc"]
+                },
+                "status": {
+                  "type": "string",
+                  "enum": ["pending", "verified", "revoked"]
+                },
+                "updatedAt": {
+                  "type": "string",
+                  "format": "date-time",
+                  "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?(?:Z))$"
+                },
+                "userId": {
+                  "type": "string",
+                  "pattern": "^usr_[0-9a-hjkmnp-tv-z]{26}$",
+                  "examples": ["usr_01j2y8m6jcc9tt24af5pw9x1bc"]
+                },
+                "verifiedAt": {
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "format": "date-time",
+                      "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?(?:Z))$"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                }
+              },
+              "required": [
+                "createdAt",
+                "externalId",
+                "id",
+                "livemode",
+                "npi",
+                "object",
+                "practiceId",
+                "providerId",
+                "status",
+                "updatedAt",
+                "userId",
+                "verifiedAt"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "hasMore": {
+            "type": "boolean"
+          },
+          "object": {
+            "type": "string",
+            "const": "list"
+          },
+          "url": {
+            "type": "string",
+            "const": "/v1/provider-mappings"
+          }
+        },
+        "required": ["data", "hasMore", "object", "url"],
+        "additionalProperties": false
+      },
       "CreateProviderMappingRequest": {
         "$schema": "https://json-schema.org/draft/2020-12/schema",
         "type": "object",
@@ -23894,6 +24433,11 @@
         "$schema": "https://json-schema.org/draft/2020-12/schema",
         "type": "object",
         "properties": {
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?(?:Z))$"
+          },
           "externalId": {
             "type": "string"
           },
@@ -23926,6 +24470,11 @@
             "type": "string",
             "enum": ["pending", "verified", "revoked"]
           },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?(?:Z))$"
+          },
           "userId": {
             "type": "string",
             "pattern": "^usr_[0-9a-hjkmnp-tv-z]{26}$",
@@ -23945,6 +24494,7 @@
           }
         },
         "required": [
+          "createdAt",
           "externalId",
           "id",
           "livemode",
@@ -23953,6 +24503,7 @@
           "practiceId",
           "providerId",
           "status",
+          "updatedAt",
           "userId",
           "verifiedAt"
         ],
@@ -23962,6 +24513,11 @@
         "$schema": "https://json-schema.org/draft/2020-12/schema",
         "type": "object",
         "properties": {
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?(?:Z))$"
+          },
           "externalId": {
             "type": "string"
           },
@@ -23994,6 +24550,11 @@
             "type": "string",
             "enum": ["pending", "verified", "revoked"]
           },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?(?:Z))$"
+          },
           "userId": {
             "type": "string",
             "pattern": "^usr_[0-9a-hjkmnp-tv-z]{26}$",
@@ -24013,6 +24574,7 @@
           }
         },
         "required": [
+          "createdAt",
           "externalId",
           "id",
           "livemode",
@@ -24021,6 +24583,7 @@
           "practiceId",
           "providerId",
           "status",
+          "updatedAt",
           "userId",
           "verifiedAt"
         ],
@@ -24041,6 +24604,11 @@
         "$schema": "https://json-schema.org/draft/2020-12/schema",
         "type": "object",
         "properties": {
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?(?:Z))$"
+          },
           "externalId": {
             "type": "string"
           },
@@ -24073,6 +24641,11 @@
             "type": "string",
             "enum": ["pending", "verified", "revoked"]
           },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?(?:Z))$"
+          },
           "userId": {
             "type": "string",
             "pattern": "^usr_[0-9a-hjkmnp-tv-z]{26}$",
@@ -24092,6 +24665,7 @@
           }
         },
         "required": [
+          "createdAt",
           "externalId",
           "id",
           "livemode",
@@ -24100,6 +24674,7 @@
           "practiceId",
           "providerId",
           "status",
+          "updatedAt",
           "userId",
           "verifiedAt"
         ],
@@ -25510,6 +26085,372 @@
           "payload"
         ],
         "additionalProperties": false
+      },
+      "AffinityWebhookPayload": {
+        "anyOf": [
+          {
+            "type": "object",
+            "properties": {
+              "api_version": {
+                "type": "string",
+                "const": "2026-07-29"
+              },
+              "created": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 9007199254740991
+              },
+              "id": {
+                "type": "string",
+                "pattern": "^evt_[0-9a-hjkmnp-tv-z]{26}$"
+              },
+              "livemode": {
+                "type": "boolean"
+              },
+              "object": {
+                "type": "string",
+                "const": "event"
+              },
+              "organization_id": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "pattern": "^acct_[0-9a-hjkmnp-tv-z]{26}$"
+                  },
+                  {
+                    "type": "string",
+                    "pattern": "^pharm_[0-9a-hjkmnp-tv-z]{26}$"
+                  },
+                  {
+                    "type": "string",
+                    "pattern": "^prac_[0-9a-hjkmnp-tv-z]{26}$"
+                  }
+                ]
+              },
+              "request_id": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "pattern": "^req_[0-9a-hjkmnp-tv-z]{26}$"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "data": {
+                "type": "object",
+                "properties": {
+                  "object": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "pattern": "^whe_[0-9a-hjkmnp-tv-z]{26}$"
+                      },
+                      "object": {
+                        "type": "string",
+                        "const": "webhook_endpoint"
+                      }
+                    },
+                    "required": ["id", "object"],
+                    "additionalProperties": false
+                  }
+                },
+                "required": ["object"],
+                "additionalProperties": false
+              },
+              "type": {
+                "type": "string",
+                "const": "webhook_endpoint.test"
+              }
+            },
+            "required": [
+              "api_version",
+              "created",
+              "id",
+              "livemode",
+              "object",
+              "organization_id",
+              "request_id",
+              "data",
+              "type"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "api_version": {
+                "type": "string",
+                "const": "2026-07-29"
+              },
+              "created": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 9007199254740991
+              },
+              "id": {
+                "type": "string",
+                "pattern": "^evt_[0-9a-hjkmnp-tv-z]{26}$"
+              },
+              "livemode": {
+                "type": "boolean"
+              },
+              "object": {
+                "type": "string",
+                "const": "event"
+              },
+              "organization_id": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "pattern": "^acct_[0-9a-hjkmnp-tv-z]{26}$"
+                  },
+                  {
+                    "type": "string",
+                    "pattern": "^pharm_[0-9a-hjkmnp-tv-z]{26}$"
+                  },
+                  {
+                    "type": "string",
+                    "pattern": "^prac_[0-9a-hjkmnp-tv-z]{26}$"
+                  }
+                ]
+              },
+              "request_id": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "pattern": "^req_[0-9a-hjkmnp-tv-z]{26}$"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "data": {
+                "type": "object",
+                "properties": {
+                  "object": {
+                    "type": "object",
+                    "properties": {
+                      "carrier": {
+                        "anyOf": [
+                          {
+                            "type": "string"
+                          },
+                          {
+                            "type": "null"
+                          }
+                        ]
+                      },
+                      "delivered_at": {
+                        "anyOf": [
+                          {
+                            "type": "string",
+                            "format": "date-time",
+                            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?(?:Z))$"
+                          },
+                          {
+                            "type": "null"
+                          }
+                        ]
+                      },
+                      "external_order_id": {
+                        "anyOf": [
+                          {
+                            "type": "string"
+                          },
+                          {
+                            "type": "null"
+                          }
+                        ]
+                      },
+                      "id": {
+                        "type": "string",
+                        "pattern": "^ord_[0-9a-hjkmnp-tv-z]{26}$"
+                      },
+                      "object": {
+                        "type": "string",
+                        "const": "order"
+                      },
+                      "practice_id": {
+                        "anyOf": [
+                          {
+                            "type": "string",
+                            "pattern": "^prac_[0-9a-hjkmnp-tv-z]{26}$"
+                          },
+                          {
+                            "type": "null"
+                          }
+                        ]
+                      },
+                      "shipped_at": {
+                        "anyOf": [
+                          {
+                            "type": "string",
+                            "format": "date-time",
+                            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?(?:Z))$"
+                          },
+                          {
+                            "type": "null"
+                          }
+                        ]
+                      },
+                      "status": {
+                        "type": "string",
+                        "enum": [
+                          "accepted",
+                          "blocked",
+                          "cancelled",
+                          "delivered",
+                          "draft",
+                          "processing",
+                          "shipped",
+                          "submitted"
+                        ]
+                      },
+                      "tracking_number": {
+                        "anyOf": [
+                          {
+                            "type": "string"
+                          },
+                          {
+                            "type": "null"
+                          }
+                        ]
+                      },
+                      "updated_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?(?:Z))$"
+                      }
+                    },
+                    "required": ["id", "object"],
+                    "additionalProperties": false
+                  },
+                  "previous_attributes": {
+                    "type": "object",
+                    "properties": {
+                      "carrier": {
+                        "anyOf": [
+                          {
+                            "type": "string"
+                          },
+                          {
+                            "type": "null"
+                          }
+                        ]
+                      },
+                      "delivered_at": {
+                        "anyOf": [
+                          {
+                            "type": "string",
+                            "format": "date-time",
+                            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?(?:Z))$"
+                          },
+                          {
+                            "type": "null"
+                          }
+                        ]
+                      },
+                      "external_order_id": {
+                        "anyOf": [
+                          {
+                            "type": "string"
+                          },
+                          {
+                            "type": "null"
+                          }
+                        ]
+                      },
+                      "practice_id": {
+                        "anyOf": [
+                          {
+                            "type": "string",
+                            "pattern": "^prac_[0-9a-hjkmnp-tv-z]{26}$"
+                          },
+                          {
+                            "type": "null"
+                          }
+                        ]
+                      },
+                      "shipped_at": {
+                        "anyOf": [
+                          {
+                            "type": "string",
+                            "format": "date-time",
+                            "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?(?:Z))$"
+                          },
+                          {
+                            "type": "null"
+                          }
+                        ]
+                      },
+                      "status": {
+                        "type": "string",
+                        "enum": [
+                          "accepted",
+                          "blocked",
+                          "cancelled",
+                          "delivered",
+                          "draft",
+                          "processing",
+                          "shipped",
+                          "submitted"
+                        ]
+                      },
+                      "tracking_number": {
+                        "anyOf": [
+                          {
+                            "type": "string"
+                          },
+                          {
+                            "type": "null"
+                          }
+                        ]
+                      },
+                      "updated_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?(?:Z))$"
+                      }
+                    },
+                    "additionalProperties": false
+                  }
+                },
+                "required": ["object"],
+                "additionalProperties": false
+              },
+              "type": {
+                "type": "string",
+                "enum": [
+                  "order.created",
+                  "order.updated",
+                  "order.submitted",
+                  "order.accepted",
+                  "order.processing",
+                  "order.shipped",
+                  "order.delivered",
+                  "order.blocked",
+                  "order.cancelled"
+                ]
+              }
+            },
+            "required": [
+              "api_version",
+              "created",
+              "id",
+              "livemode",
+              "object",
+              "organization_id",
+              "request_id",
+              "data",
+              "type"
+            ],
+            "additionalProperties": false
+          }
+        ]
       }
     }
   },
@@ -25564,5 +26505,32 @@
     "header": "Affinity-Version",
     "requiredForRawHttp": false,
     "value": "2026-07-29"
+  },
+  "x-affinity-webhooks": {
+    "apiVersion": "2026-07-29",
+    "eventTypes": [
+      "webhook_endpoint.test",
+      "order.created",
+      "order.updated",
+      "order.submitted",
+      "order.accepted",
+      "order.processing",
+      "order.shipped",
+      "order.delivered",
+      "order.blocked",
+      "order.cancelled"
+    ],
+    "orderStatuses": [
+      "accepted",
+      "blocked",
+      "cancelled",
+      "delivered",
+      "draft",
+      "processing",
+      "shipped",
+      "submitted"
+    ],
+    "signatureHeader": "affinity-signature",
+    "signatureScheme": "t=<unix-seconds>,v1=<hex-hmac-sha256>"
   }
 }

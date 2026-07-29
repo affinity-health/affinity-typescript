@@ -1,5 +1,15 @@
 /* tslint:disable */
 /* eslint-disable */
+export * from "./AffinityWebhookPayload";
+export * from "./AffinityWebhookPayloadAnyOf";
+export * from "./AffinityWebhookPayloadAnyOf1";
+export * from "./AffinityWebhookPayloadAnyOf1Data";
+export * from "./AffinityWebhookPayloadAnyOf1DataObject";
+export * from "./AffinityWebhookPayloadAnyOf1DataPreviousAttributes";
+export * from "./AffinityWebhookPayloadAnyOf1OrganizationId";
+export * from "./AffinityWebhookPayloadAnyOfData";
+export * from "./AffinityWebhookPayloadAnyOfDataObject";
+export * from "./AffinityWebhookPayloadAnyOfOrganizationId";
 export * from "./CancelOrderRequest";
 export * from "./CancelOrderResponse";
 export * from "./CreateComponentSessionRequest";
@@ -85,6 +95,8 @@ export * from "./ListPracticesResponseDataInnerAddress";
 export * from "./ListPracticesResponseDataInnerContacts";
 export * from "./ListPracticesResponseDataInnerContactsCompliance";
 export * from "./ListPracticesResponseDataInnerPrescribersInner";
+export * from "./ListProviderMappingsResponse";
+export * from "./ListProviderMappingsResponseDataInner";
 export * from "./ListShippingOptionsResponse";
 export * from "./ListShippingOptionsResponseDataInner";
 export * from "./ListUsersResponse";

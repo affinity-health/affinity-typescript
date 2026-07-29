@@ -176,4 +176,32 @@ describe("Affinity client", () => {
     expect(request?.headers.get("idempotency-key")).toBe("provider-revoke-example");
     expect(await request?.json()).toEqual({ status: "revoked" });
   });
+
+  test("lists provider mappings with platform identity filters", async () => {
+    let request: Request | undefined;
+    const affinity = new Affinity("sk_test_example", {
+      fetch: async (input, init) => {
+        request = new Request(input, init);
+        return Response.json({
+          data: [],
+          hasMore: false,
+          object: "list",
+          url: "/v1/provider-mappings",
+        });
+      },
+    });
+
+    await affinity.providerMappings.list({
+      externalId: "provider_4821",
+      practiceId: "prac_01k123456789abcdefghjkmnp",
+      status: "verified",
+    });
+
+    expect(request?.url).toBe(
+      "https://api.joinaffinityai.com/v1/provider-mappings" +
+        "?externalId=provider_4821" +
+        "&practiceId=prac_01k123456789abcdefghjkmnp" +
+        "&status=verified",
+    );
+  });
 });
