@@ -2,7 +2,7 @@
 
 The official TypeScript SDK for the Affinity API.
 
-> **Status:** `0.1.0` tracks the dated `2026-07-28` Affinity API contract and is intended for
+> **Status:** `0.1.1` tracks the dated `2026-07-28` Affinity API contract and is intended for
 > integration validation in Test mode.
 
 The SDK will provide a small, resource-oriented interface for software platforms connecting

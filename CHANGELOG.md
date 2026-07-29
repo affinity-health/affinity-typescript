@@ -7,6 +7,13 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 
 ## [Unreleased]
 
+## [0.1.1] - 2026-07-28
+
+### Fixed
+
+- Bundled the published ESM runtime entry so Node.js can resolve every internal SDK module.
+- Added a Node.js package import gate to the release checks.
+
 ## [0.1.0] - 2026-07-28
 
 ### Added
@@ -18,5 +25,6 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 - Typed RFC 9457 problem responses, including validation, dependency, and internal failures.
 - A compile-checked Test-mode quickstart.
 
-[Unreleased]: https://github.com/affinity-health/affinity-typescript/compare/v0.1.0...HEAD
+[Unreleased]: https://github.com/affinity-health/affinity-typescript/compare/v0.1.1...HEAD
+[0.1.1]: https://github.com/affinity-health/affinity-typescript/compare/v0.1.0...v0.1.1
 [0.1.0]: https://github.com/affinity-health/affinity-typescript/releases/tag/v0.1.0
