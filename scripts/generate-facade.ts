@@ -55,6 +55,7 @@ const supportedOperations = [
   "updatePractice",
   "updatePracticeMembership",
   "updatePracticeRole",
+  "updateProviderMapping",
   "updateUser",
   "updateWebhookEndpoint",
 ].sort();
@@ -535,6 +536,7 @@ await output(
   "src/resources/provider-mappings.ts",
   `import type { ProviderMappingsApi } from "../apis/ProviderMappingsApi";
 import type { CreateProviderMappingRequest } from "../models/CreateProviderMappingRequest";
+import type { UpdateProviderMappingRequest } from "../models/UpdateProviderMappingRequest";
 import type { MutationOptions } from "./request-options";
 
 export class ProviderMappingsResource {
@@ -553,6 +555,15 @@ export class ProviderMappingsResource {
     return this.api.getProviderMapping({
       affinityVersion: this.apiVersion,
       providerMappingId,
+    });
+  }
+  revoke(providerMappingId: string, options: MutationOptions) {
+    const params: UpdateProviderMappingRequest = { status: "revoked" };
+    return this.api.updateProviderMapping({
+      affinityVersion: this.apiVersion,
+      idempotencyKey: options.idempotencyKey,
+      providerMappingId,
+      updateProviderMappingRequest: params,
     });
   }
 }`,

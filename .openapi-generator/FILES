@@ -120,6 +120,8 @@ docs/UpdatePracticeRequest.md
 docs/UpdatePracticeResponse.md
 docs/UpdatePracticeRoleRequest.md
 docs/UpdatePracticeRoleResponse.md
+docs/UpdateProviderMappingRequest.md
+docs/UpdateProviderMappingResponse.md
 docs/UpdateUserRequest.md
 docs/UpdateUserResponse.md
 docs/UpdateWebhookEndpointRequest.md
@@ -247,6 +249,8 @@ src/models/UpdatePracticeRequest.ts
 src/models/UpdatePracticeResponse.ts
 src/models/UpdatePracticeRoleRequest.ts
 src/models/UpdatePracticeRoleResponse.ts
+src/models/UpdateProviderMappingRequest.ts
+src/models/UpdateProviderMappingResponse.ts
 src/models/UpdateUserRequest.ts
 src/models/UpdateUserResponse.ts
 src/models/UpdateWebhookEndpointRequest.ts

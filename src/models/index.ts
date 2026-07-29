@@ -107,6 +107,8 @@ export * from "./UpdatePracticeRequest";
 export * from "./UpdatePracticeResponse";
 export * from "./UpdatePracticeRoleRequest";
 export * from "./UpdatePracticeRoleResponse";
+export * from "./UpdateProviderMappingRequest";
+export * from "./UpdateProviderMappingResponse";
 export * from "./UpdateUserRequest";
 export * from "./UpdateUserResponse";
 export * from "./UpdateWebhookEndpointRequest";

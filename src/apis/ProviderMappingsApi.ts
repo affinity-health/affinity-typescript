@@ -29,6 +29,16 @@ import {
   GetProviderMappingResponseToJSON,
 } from "../models/GetProviderMappingResponse";
 import { type Problem, ProblemFromJSON, ProblemToJSON } from "../models/Problem";
+import {
+  type UpdateProviderMappingRequest,
+  UpdateProviderMappingRequestFromJSON,
+  UpdateProviderMappingRequestToJSON,
+} from "../models/UpdateProviderMappingRequest";
+import {
+  type UpdateProviderMappingResponse,
+  UpdateProviderMappingResponseFromJSON,
+  UpdateProviderMappingResponseToJSON,
+} from "../models/UpdateProviderMappingResponse";
 
 export interface CreateProviderMappingOperationRequest {
   createProviderMappingRequest: CreateProviderMappingRequest;
@@ -38,6 +48,13 @@ export interface CreateProviderMappingOperationRequest {
 
 export interface GetProviderMappingRequest {
   providerMappingId: string;
+  affinityVersion?: string;
+}
+
+export interface UpdateProviderMappingOperationRequest {
+  providerMappingId: string;
+  updateProviderMappingRequest: UpdateProviderMappingRequest;
+  idempotencyKey?: string;
   affinityVersion?: string;
 }
 
@@ -197,6 +214,96 @@ export class ProviderMappingsApi extends runtime.BaseAPI {
     initOverrides?: RequestInit | runtime.InitOverrideFunction,
   ): Promise<GetProviderMappingResponse> {
     const response = await this.getProviderMappingRaw(requestParameters, initOverrides);
+    return await response.value();
+  }
+
+  /**
+   * Creates request options for updateProviderMapping without sending the request
+   */
+  async updateProviderMappingRequestOpts(
+    requestParameters: UpdateProviderMappingOperationRequest,
+  ): Promise<runtime.RequestOpts> {
+    if (requestParameters["providerMappingId"] == null) {
+      throw new runtime.RequiredError(
+        "providerMappingId",
+        'Required parameter "providerMappingId" was null or undefined when calling updateProviderMapping().',
+      );
+    }
+
+    if (requestParameters["updateProviderMappingRequest"] == null) {
+      throw new runtime.RequiredError(
+        "updateProviderMappingRequest",
+        'Required parameter "updateProviderMappingRequest" was null or undefined when calling updateProviderMapping().',
+      );
+    }
+
+    const queryParameters: any = {};
+
+    const headerParameters: runtime.HTTPHeaders = {};
+
+    headerParameters["Content-Type"] = "application/json";
+
+    if (requestParameters["idempotencyKey"] != null) {
+      headerParameters["Idempotency-Key"] = String(requestParameters["idempotencyKey"]);
+    }
+
+    if (requestParameters["affinityVersion"] != null) {
+      headerParameters["Affinity-Version"] = String(requestParameters["affinityVersion"]);
+    }
+
+    if (this.configuration && this.configuration.accessToken) {
+      const token = this.configuration.accessToken;
+      const tokenString = await token("bearerAuth", []);
+
+      if (tokenString) {
+        headerParameters["Authorization"] = `Bearer ${tokenString}`;
+      }
+    }
+    if (this.configuration && this.configuration.apiKey) {
+      headerParameters["x-affinity-api-key"] =
+        await this.configuration.apiKey("x-affinity-api-key"); // affinityApiKey authentication
+    }
+
+    let urlPath = `/v1/provider-mappings/{providerMappingId}`;
+    urlPath = urlPath.replace(
+      "{providerMappingId}",
+      encodeURIComponent(String(requestParameters["providerMappingId"])),
+    );
+
+    return {
+      path: urlPath,
+      method: "PATCH",
+      headers: headerParameters,
+      query: queryParameters,
+      body: UpdateProviderMappingRequestToJSON(requestParameters["updateProviderMappingRequest"]),
+    };
+  }
+
+  /**
+   * Revokes a provider mapping and every component, hosted, and delegated session issued through it.
+   * Revoke provider mapping
+   */
+  async updateProviderMappingRaw(
+    requestParameters: UpdateProviderMappingOperationRequest,
+    initOverrides?: RequestInit | runtime.InitOverrideFunction,
+  ): Promise<runtime.ApiResponse<UpdateProviderMappingResponse>> {
+    const requestOptions = await this.updateProviderMappingRequestOpts(requestParameters);
+    const response = await this.request(requestOptions, initOverrides);
+
+    return new runtime.JSONApiResponse(response, (jsonValue) =>
+      UpdateProviderMappingResponseFromJSON(jsonValue),
+    );
+  }
+
+  /**
+   * Revokes a provider mapping and every component, hosted, and delegated session issued through it.
+   * Revoke provider mapping
+   */
+  async updateProviderMapping(
+    requestParameters: UpdateProviderMappingOperationRequest,
+    initOverrides?: RequestInit | runtime.InitOverrideFunction,
+  ): Promise<UpdateProviderMappingResponse> {
+    const response = await this.updateProviderMappingRaw(requestParameters, initOverrides);
     return await response.value();
   }
 }

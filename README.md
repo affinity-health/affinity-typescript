@@ -94,6 +94,11 @@ if (providerMapping.status !== "verified") {
   throw new Error("Complete Affinity provider verification before creating a clinical session");
 }
 
+// Revocation immediately invalidates delegated component and hosted access for this mapping.
+// await affinity.providerMappings.revoke(providerMapping.id, {
+//   idempotencyKey: `provider-revoke:${providerMapping.id}`,
+// });
+
 const consent = {
   authorizedProviderAccess: true as const,
   minimumNecessaryPhi: true as const,
@@ -163,7 +168,8 @@ The client surface is organized around these resources:
 - `practices` — create and manage customer practices
 - `roles` — list and manage custom practice roles
 - `memberships` — create consent-bound practice role grants
-- `providerMappings` — connect platform identities to independently verified Affinity providers
+- `providerMappings` — connect, inspect, and revoke platform identities mapped to independently
+  verified Affinity providers
 - `componentSessions` — create short-lived, one-time, origin-bound Affinity Elements secrets
 - `hostedSessions` — create short-lived, single-use Affinity Hosted workflow URLs
 - `orders` — create, submit, inspect, update, and cancel orders

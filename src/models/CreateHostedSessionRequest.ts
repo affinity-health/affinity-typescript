@@ -62,7 +62,7 @@ export interface CreateHostedSessionRequest {
    * @type {string}
    * @memberof CreateHostedSessionRequest
    */
-  providerMappingId?: string;
+  providerMappingId: string;
   /**
    *
    * @type {string}
@@ -81,11 +81,8 @@ export interface CreateHostedSessionRequest {
  * @export
  */
 export const CreateHostedSessionRequestFlowEnum = {
-  ProviderOnboarding: "provider_onboarding",
   ProviderVerification: "provider_verification",
-  ProviderCredentials: "provider_credentials",
   PrescriptionComposer: "prescription_composer",
-  ProviderPortal: "provider_portal",
 } as const;
 export type CreateHostedSessionRequestFlowEnum =
   (typeof CreateHostedSessionRequestFlowEnum)[keyof typeof CreateHostedSessionRequestFlowEnum];
@@ -99,6 +96,7 @@ export function instanceOfCreateHostedSessionRequest(
   if (!("consent" in value) || value["consent"] === undefined) return false;
   if (!("flow" in value) || value["flow"] === undefined) return false;
   if (!("practiceId" in value) || value["practiceId"] === undefined) return false;
+  if (!("providerMappingId" in value) || value["providerMappingId"] === undefined) return false;
   if (!("userId" in value) || value["userId"] === undefined) return false;
   return true;
 }
@@ -120,7 +118,7 @@ export function CreateHostedSessionRequestFromJSONTyped(
     membershipId: json["membershipId"] == null ? undefined : json["membershipId"],
     patientId: json["patientId"] == null ? undefined : json["patientId"],
     practiceId: json["practiceId"],
-    providerMappingId: json["providerMappingId"] == null ? undefined : json["providerMappingId"],
+    providerMappingId: json["providerMappingId"],
     returnUrl: json["returnUrl"] == null ? undefined : json["returnUrl"],
     userId: json["userId"],
   };

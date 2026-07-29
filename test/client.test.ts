@@ -139,6 +139,7 @@ describe("Affinity client", () => {
         consent,
         flow: "provider_verification",
         practiceId: "prac_01k123456789abcdefghjkmnp",
+        providerMappingId: "pmap_01k123456789abcdefghjkmnp",
         returnUrl: "https://platform.example.com/affinity/return",
         userId: "usr_01k123456789abcdefghjkmnp",
       },
@@ -153,5 +154,26 @@ describe("Affinity client", () => {
       "component-example",
       "hosted-example",
     ]);
+  });
+
+  test("revokes provider mappings with an idempotent mutation", async () => {
+    let request: Request | undefined;
+    const affinity = new Affinity("sk_test_example", {
+      fetch: async (input, init) => {
+        request = new Request(input, init);
+        return Response.json({});
+      },
+    });
+
+    await affinity.providerMappings.revoke("pmap_01k123456789abcdefghjkmnp", {
+      idempotencyKey: "provider-revoke-example",
+    });
+
+    expect(request?.method).toBe("PATCH");
+    expect(new URL(request?.url ?? "").pathname).toBe(
+      "/v1/provider-mappings/pmap_01k123456789abcdefghjkmnp",
+    );
+    expect(request?.headers.get("idempotency-key")).toBe("provider-revoke-example");
+    expect(await request?.json()).toEqual({ status: "revoked" });
   });
 });
