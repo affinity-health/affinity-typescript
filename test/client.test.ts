@@ -15,7 +15,7 @@ describe("Affinity client", () => {
 
     expect(request?.url).toBe("https://api.joinaffinityai.com/v1/auth/access");
     expect(request?.headers.get("authorization")).toBe("Bearer sk_test_example");
-    expect(request?.headers.get("affinity-version")).toBe("2026-07-26");
+    expect(request?.headers.get("affinity-version")).toBe("2026-07-28");
   });
 
   test("retries safe reads and preserves list filters", async () => {
@@ -40,6 +40,26 @@ describe("Affinity client", () => {
     expect(requests[1]?.url).toContain("limit=10");
     expect(requests[1]?.url).toContain("query=semaglutide");
     expect(requests[1]?.url).toContain("route=injectable");
+  });
+
+  test("lists only the compounders available to the authenticated account", async () => {
+    let request: Request | undefined;
+    const affinity = new Affinity("sk_test_example", {
+      fetch: async (input, init) => {
+        request = new Request(input, init);
+        return Response.json({
+          data: [],
+          hasMore: false,
+          object: "list",
+          url: "/v1/compounders",
+        });
+      },
+    });
+
+    await affinity.compounders.list({ query: "example" });
+
+    expect(request?.url).toBe("https://api.joinaffinityai.com/v1/compounders?query=example");
+    expect(request?.headers.get("affinity-version")).toBe("2026-07-28");
   });
 
   test("validates retry and timeout options", () => {

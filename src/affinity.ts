@@ -13,6 +13,7 @@ import { UsersApi } from "./apis/UsersApi";
 import { Configuration, type FetchAPI } from "./runtime";
 import { AccountResource } from "./resources/account";
 import { CatalogResource } from "./resources/catalog";
+import { CompoundersResource } from "./resources/compounders";
 import { MembershipsResource } from "./resources/memberships";
 import { OrdersResource } from "./resources/orders";
 import { PortalSessionsResource } from "./resources/portal-sessions";
@@ -33,6 +34,7 @@ export interface AffinityOptions {
 export class Affinity {
   readonly account: AccountResource;
   readonly catalog: CatalogResource;
+  readonly compounders: CompoundersResource;
   readonly memberships: MembershipsResource;
   readonly orders: OrdersResource;
   readonly portalSessions: PortalSessionsResource;
@@ -44,7 +46,7 @@ export class Affinity {
   constructor(apiKey: string, options: AffinityOptions = {}) {
     if (!apiKey.trim()) throw new Error("Affinity requires a service API key");
     const baseUrl = options.baseUrl ?? "https://api.joinaffinityai.com";
-    const apiVersion = options.apiVersion ?? "2026-07-26";
+    const apiVersion = options.apiVersion ?? "2026-07-28";
     const timeout = options.timeout ?? 30_000;
     const maxRetries = options.maxRetries ?? 2;
     if (!Number.isFinite(timeout) || timeout <= 0) {
@@ -69,6 +71,7 @@ export class Affinity {
       apiVersion,
     );
     this.catalog = new CatalogResource(new CatalogApi(configuration), apiVersion);
+    this.compounders = new CompoundersResource(new CatalogApi(configuration), apiVersion);
     this.memberships = new MembershipsResource(new MembershipsApi(configuration), apiVersion);
     this.orders = new OrdersResource(new PlatformOrdersApi(configuration), apiVersion);
     this.portalSessions = new PortalSessionsResource(

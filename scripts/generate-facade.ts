@@ -35,6 +35,7 @@ const supportedOperations = [
   "getUser",
   "getWebhookEvent",
   "listCatalogItems",
+  "listCompounders",
   "listShippingOptions",
   "listOrderEvents",
   "listOrders",
@@ -83,6 +84,7 @@ import { UsersApi } from "./apis/UsersApi";
 import { Configuration, type FetchAPI } from "./runtime";
 import { AccountResource } from "./resources/account";
 import { CatalogResource } from "./resources/catalog";
+import { CompoundersResource } from "./resources/compounders";
 import { MembershipsResource } from "./resources/memberships";
 import { OrdersResource } from "./resources/orders";
 import { PortalSessionsResource } from "./resources/portal-sessions";
@@ -103,6 +105,7 @@ export interface AffinityOptions {
 export class Affinity {
   readonly account: AccountResource;
   readonly catalog: CatalogResource;
+  readonly compounders: CompoundersResource;
   readonly memberships: MembershipsResource;
   readonly orders: OrdersResource;
   readonly portalSessions: PortalSessionsResource;
@@ -139,6 +142,7 @@ export class Affinity {
       apiVersion,
     );
     this.catalog = new CatalogResource(new CatalogApi(configuration), apiVersion);
+    this.compounders = new CompoundersResource(new CatalogApi(configuration), apiVersion);
     this.memberships = new MembershipsResource(new MembershipsApi(configuration), apiVersion);
     this.orders = new OrdersResource(new PlatformOrdersApi(configuration), apiVersion);
     this.portalSessions = new PortalSessionsResource(
@@ -227,11 +231,8 @@ export class AccountResource {
   retrieveAccess() {
     return this.accessApi.getApiAccess({ affinityVersion: this.apiVersion });
   }
-  retrieve(organizationId?: string) {
-    return this.platformsApi.getAccount({
-      affinityVersion: this.apiVersion,
-      orgId: organizationId,
-    });
+  retrieve() {
+    return this.platformsApi.getAccount({ affinityVersion: this.apiVersion });
   }
 }`,
 );
@@ -258,6 +259,23 @@ export class CatalogResource {
     params: Omit<ListShippingOptionsRequest, "affinityVersion">,
   ) {
     return this.api.listShippingOptions({ ...params, affinityVersion: this.apiVersion });
+  }
+}`,
+);
+
+await output(
+  "src/resources/compounders.ts",
+  `import type { CatalogApi, ListCompoundersRequest } from "../apis/CatalogApi";
+
+export type CompounderListParams = Omit<ListCompoundersRequest, "affinityVersion">;
+
+export class CompoundersResource {
+  constructor(
+    private readonly api: CatalogApi,
+    private readonly apiVersion: string,
+  ) {}
+  list(params: CompounderListParams = {}) {
+    return this.api.listCompounders({ ...params, affinityVersion: this.apiVersion });
   }
 }`,
 );
@@ -585,5 +603,5 @@ const indexPath = resolve(root, "src/index.ts");
 const generatedIndex = (await readFile(indexPath, "utf8")).trimEnd();
 await writeFile(
   indexPath,
-  `${generatedIndex}\n\nexport * from "./affinity";\nexport * from "./resources/account";\nexport * from "./resources/catalog";\nexport * from "./resources/memberships";\nexport * from "./resources/orders";\nexport * from "./resources/portal-sessions";\nexport * from "./resources/practices";\nexport * from "./resources/request-options";\nexport * from "./resources/roles";\nexport * from "./resources/users";\nexport * from "./resources/webhooks";\n`,
+  `${generatedIndex}\n\nexport * from "./affinity";\nexport * from "./resources/account";\nexport * from "./resources/catalog";\nexport * from "./resources/compounders";\nexport * from "./resources/memberships";\nexport * from "./resources/orders";\nexport * from "./resources/portal-sessions";\nexport * from "./resources/practices";\nexport * from "./resources/request-options";\nexport * from "./resources/roles";\nexport * from "./resources/users";\nexport * from "./resources/webhooks";\n`,
 );

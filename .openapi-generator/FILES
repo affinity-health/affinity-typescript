@@ -59,6 +59,8 @@ docs/GetWebhookEventResponseDeliveriesInner.md
 docs/ListCatalogItemsResponse.md
 docs/ListCatalogItemsResponseDataInner.md
 docs/ListCatalogItemsResponseDataInnerPricing.md
+docs/ListCompoundersResponse.md
+docs/ListCompoundersResponseDataInner.md
 docs/ListOrderEventsResponse.md
 docs/ListOrderEventsResponseDataInner.md
 docs/ListOrdersResponse.md
@@ -178,6 +180,8 @@ src/models/GetWebhookEventResponseDeliveriesInner.ts
 src/models/ListCatalogItemsResponse.ts
 src/models/ListCatalogItemsResponseDataInner.ts
 src/models/ListCatalogItemsResponseDataInnerPricing.ts
+src/models/ListCompoundersResponse.ts
+src/models/ListCompoundersResponseDataInner.ts
 src/models/ListOrderEventsResponse.ts
 src/models/ListOrderEventsResponseDataInner.ts
 src/models/ListOrdersResponse.ts

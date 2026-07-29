@@ -1,36 +1,32 @@
-
 # CreateOrderRequestAnyOf1ShippingDestinationOneOf1
-
 
 ## Properties
 
-Name | Type
------------- | -------------
-`locationId` | string
-`type` | string
+| Name         | Type   |
+| ------------ | ------ |
+| `locationId` | string |
+| `type`       | string |
 
 ## Example
 
 ```typescript
-import type { CreateOrderRequestAnyOf1ShippingDestinationOneOf1 } from '@affinity-health/sdk'
+import type { CreateOrderRequestAnyOf1ShippingDestinationOneOf1 } from "@affinity-health/sdk";
 
 // TODO: Update the object below with actual values
 const example = {
-  "locationId": null,
-  "type": null,
-} satisfies CreateOrderRequestAnyOf1ShippingDestinationOneOf1
+  locationId: null,
+  type: null,
+} satisfies CreateOrderRequestAnyOf1ShippingDestinationOneOf1;
 
-console.log(example)
+console.log(example);
 
 // Convert the instance to a JSON string
-const exampleJSON: string = JSON.stringify(example)
-console.log(exampleJSON)
+const exampleJSON: string = JSON.stringify(example);
+console.log(exampleJSON);
 
 // Parse the JSON string back to an object
-const exampleParsed = JSON.parse(exampleJSON) as CreateOrderRequestAnyOf1ShippingDestinationOneOf1
-console.log(exampleParsed)
+const exampleParsed = JSON.parse(exampleJSON) as CreateOrderRequestAnyOf1ShippingDestinationOneOf1;
+console.log(exampleParsed);
 ```
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
-
-

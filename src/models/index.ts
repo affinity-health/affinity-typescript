@@ -55,6 +55,8 @@ export * from "./GetWebhookEventResponseDeliveriesInner";
 export * from "./ListCatalogItemsResponse";
 export * from "./ListCatalogItemsResponseDataInner";
 export * from "./ListCatalogItemsResponseDataInnerPricing";
+export * from "./ListCompoundersResponse";
+export * from "./ListCompoundersResponseDataInner";
 export * from "./ListOrderEventsResponse";
 export * from "./ListOrderEventsResponseDataInner";
 export * from "./ListOrdersResponse";

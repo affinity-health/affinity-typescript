@@ -7,6 +7,7 @@ export * from "./models/index";
 export * from "./affinity";
 export * from "./resources/account";
 export * from "./resources/catalog";
+export * from "./resources/compounders";
 export * from "./resources/memberships";
 export * from "./resources/orders";
 export * from "./resources/portal-sessions";

@@ -12,10 +12,7 @@ export class AccountResource {
   retrieveAccess() {
     return this.accessApi.getApiAccess({ affinityVersion: this.apiVersion });
   }
-  retrieve(organizationId?: string) {
-    return this.platformsApi.getAccount({
-      affinityVersion: this.apiVersion,
-      orgId: organizationId,
-    });
+  retrieve() {
+    return this.platformsApi.getAccount({ affinityVersion: this.apiVersion });
   }
 }
