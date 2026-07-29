@@ -10,7 +10,7 @@
   "author": "Affinity API Support <support@joinaffinityai.com>",
   "repository": {
     "type": "git",
-    "url": "https://github.com/affinity-health/affinity-typescript.git"
+    "url": "git+https://github.com/affinity-health/affinity-typescript.git"
   },
   "files": [
     "dist",
