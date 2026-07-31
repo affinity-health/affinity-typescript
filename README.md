@@ -2,10 +2,10 @@
 
 The official TypeScript SDK for the Affinity API.
 
-> **Status:** Version `0.3.0` uses the forward-only `2026-07-29` Affinity API contract. Use Test
+> **Status:** Version `1.0.0` uses the forward-only `2026-07-29` Affinity API contract. Use Test
 > mode until Affinity approves Live access.
 
-The SDK will provide a small, resource-oriented interface for software platforms connecting
+The SDK provides a small, resource-oriented interface for software platforms connecting
 healthcare practices to Affinity's compounder network. It is intended for trusted server-side
 runtimes, including Node.js, Bun, AWS Lambda, and standards-based worker environments.
 

@@ -7,6 +7,13 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 
 ## [Unreleased]
 
+## [1.0.0] - 2026-07-31
+
+### Changed
+
+- Promoted the verified `2026-07-29` forward-only API surface to stable after npm registry and
+  Production-hosted Test integration checks.
+
 ## [0.3.0] - 2026-07-31
 
 ### Added
@@ -57,7 +64,8 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 - Typed RFC 9457 problem responses, including validation, dependency, and internal failures.
 - A compile-checked Test-mode quickstart.
 
-[Unreleased]: https://github.com/affinity-health/affinity-typescript/compare/v0.3.0...HEAD
+[Unreleased]: https://github.com/affinity-health/affinity-typescript/compare/v1.0.0...HEAD
+[1.0.0]: https://github.com/affinity-health/affinity-typescript/compare/v0.3.0...v1.0.0
 [0.3.0]: https://github.com/affinity-health/affinity-typescript/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/affinity-health/affinity-typescript/compare/v0.1.1...v0.2.0
 [0.1.1]: https://github.com/affinity-health/affinity-typescript/compare/v0.1.0...v0.1.1
