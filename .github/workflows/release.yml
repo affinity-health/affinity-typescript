@@ -20,6 +20,10 @@ jobs:
         with:
           node-version: 24
           registry-url: https://registry.npmjs.org
+      - uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: "17"
       - run: bun install --frozen-lockfile
       - name: Verify release tag and package version
         run: |

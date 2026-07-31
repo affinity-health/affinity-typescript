@@ -47,6 +47,7 @@
     "prepublishOnly": "bun run check"
   },
   "devDependencies": {
+    "@openapitools/openapi-generator-cli": "2.40.1",
     "@types/bun": "latest",
     "@typescript/native-preview": "^7.0.0-dev.20260527.2",
     "oxfmt": "^0.52.0"
