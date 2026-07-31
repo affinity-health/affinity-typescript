@@ -1,6 +1,6 @@
 {
   "name": "@affinity-health/sdk",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Official TypeScript SDK for the Affinity API",
   "homepage": "https://docs.joinaffinityai.com/api",
   "bugs": {
@@ -42,7 +42,7 @@
     "format": "oxfmt .",
     "generate": "bash scripts/generate.sh",
     "generate:check": "bash scripts/generate-check.sh",
-    "package:check": "node --input-type=module -e 'const sdk = await import(\"./dist/index.js\"); const client = new sdk.Affinity(\"sk_test_package_check\"); for (const resource of [\"componentSessions\", \"compounders\", \"hostedSessions\", \"providerMappings\"]) if (!(resource in client)) throw new Error(`${resource} resource missing`); for (const webhookExport of [\"parseAffinityWebhookEvent\", \"verifyAffinityWebhook\"]) if (typeof sdk[webhookExport] !== \"function\") throw new Error(`${webhookExport} export missing`); if (\"portalSessions\" in client) throw new Error(\"legacy portalSessions resource remains\")'",
+    "package:check": "node scripts/check-package.mjs",
     "pack:dry-run": "bun pm pack --dry-run",
     "prepublishOnly": "bun run check"
   },

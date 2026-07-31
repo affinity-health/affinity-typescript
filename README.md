@@ -2,7 +2,7 @@
 
 The official TypeScript SDK for the Affinity API.
 
-> **Status:** Version `0.2.0` uses the forward-only `2026-07-29` Affinity API contract. Use Test
+> **Status:** Version `0.3.0` uses the forward-only `2026-07-29` Affinity API contract. Use Test
 > mode until Affinity approves Live access.
 
 The SDK will provide a small, resource-oriented interface for software platforms connecting
@@ -38,6 +38,10 @@ const practices = await affinity.practices.list();
 const orders = await affinity.orders.list({ practiceId: practices.data[0]?.id });
 console.log(`${compounders.data.length} compounders are available to this account`);
 ```
+
+The platform API does not create, edit, sign, route, or submit prescriptions. Create an
+origin-bound component session, then let the provider complete those actions inside Affinity
+Connect.
 
 The API key belongs only in your backend. Never create an `Affinity` client in browser or mobile
 code.
@@ -200,6 +204,54 @@ API keys and all provisioning calls stay on the platform backend. Component orig
 return URLs must exactly match the Test or Live allowlist. Never put a component secret in a URL,
 log, analytics event, or persistent storage.
 
+## Patients and card setup
+
+Create each patient inside its owning practice. Use your stable patient identifier for
+`externalId`.
+
+```ts
+const patient = await affinity.patients.create(
+  practice.id,
+  {
+    address: {
+      city: "Detroit",
+      country: "US",
+      line1: "100 Test Avenue",
+      postalCode: "48201",
+      state: "MI",
+    },
+    dateOfBirth: new Date("1990-01-01"),
+    externalId: "patient_991",
+    name: { first: "Demo", last: "Patient" },
+    phone: "+13135550100",
+  },
+  { idempotencyKey: "patient:patient_991" },
+);
+
+const setup = await affinity.billing.createPaymentSetup(
+  practice.id,
+  { consentAccepted: true },
+  { idempotencyKey: `payment-setup:${practice.id}` },
+);
+```
+
+Return `setup.publishableKey` and `setup.clientSecret` only to an authenticated practice billing
+view. Confirm the SetupIntent with Stripe.js. Send only its `seti_...` ID back to your backend.
+
+```ts
+const paymentProfile = await affinity.billing.completePaymentSetup(
+  practice.id,
+  { setupIntentId },
+  { idempotencyKey: `payment-setup-complete:${setupIntentId}` },
+);
+
+if (paymentProfile.status !== "ready") {
+  throw new Error("The practice payment profile is not ready");
+}
+```
+
+Do not log the SetupIntent client secret or send it to another practice.
+
 ## Resource model
 
 The client surface is organized around these resources:
@@ -209,13 +261,15 @@ The client surface is organized around these resources:
 - `compounders` — list the compounders available to the authenticated account and mode
 - `users` — provision platform-owned user records by stable external ID
 - `practices` — create and manage customer practices
+- `patients` — create and manage patients inside one practice
+- `billing` — start and complete Stripe card setup and read the safe payment profile
 - `roles` — list and manage custom practice roles
 - `memberships` — create consent-bound practice role grants
 - `providerMappings` — connect, inspect, and revoke platform identities mapped to independently
   verified Affinity providers
 - `componentSessions` — create short-lived, one-time, origin-bound Affinity Elements secrets
 - `hostedSessions` — create short-lived, single-use Affinity Hosted workflow URLs
-- `orders` — create, submit, inspect, update, and cancel orders
+- `orders` — list, inspect, cancel eligible orders, and read fulfillment events
 - `webhooks` — manage endpoints and inspect or replay events
 
 Generated transport classes remain available as an escape hatch, while the `Affinity` client is the
@@ -243,17 +297,9 @@ try {
 }
 ```
 
-Each clinical order belongs to exactly one practice. A platform can list orders across all of its
-practices or pass `practiceId` to scope the operational view to one practice. Platform-created
-`externalOrderId` values are unique within that platform and API mode.
-
-Catalog prices use US cents. `medicationSubtotalCents` is the pharmacy medication price.
-`serviceFeeCents` is the Affinity fee. The fee is 15% of the medication subtotal. It does not apply
-to shipping or tax. `orderTotalCents` is the amount due before shipping and tax.
-
-The practice pays for an order. The pharmacy is the seller and merchant of record. Affinity charges
-the practice card when the pharmacy accepts the order. Platforms do not collect payment data and do
-not pay for orders.
+Each clinical order belongs to one practice. A platform can list orders across its practices or use
+`practiceId` to scope the operational view. The practice payment profile returns only safe card
+metadata. The platform must not receive raw card data.
 
 ## Safety
 
@@ -267,7 +313,7 @@ infrastructure, and compliance controls.
 ## Generation and releases
 
 This SDK is generated from Affinity's curated public API document at
-[`/v1/openapi.json`](https://api.joinaffinityai.com/v1/openapi.json), with a maintained resource
+[`/openapi.json`](https://api.joinaffinityai.com/openapi.json), with a maintained resource
 facade layered over the generated transport. Releases will be validated against the same contract
 before publication to npm.
 
@@ -281,5 +327,5 @@ bun run pack:dry-run
 
 ## Related projects
 
-- [OpenAPI specification](https://github.com/affinity-health/affinity-openapi)
-- [SST backend starter](https://github.com/affinity-health/affinity-sst-backend)
+- [API documentation](https://docs.joinaffinityai.com/api)
+- [TanStack Start platform example](https://github.com/affinity-health/tanstack-start-example)

@@ -4,7 +4,7 @@
 
 | Name                | Type                                                                                           |
 | ------------------- | ---------------------------------------------------------------------------------------------- |
-| `address`           | [CreateOrderRequestAnyOfPatientAddress](CreateOrderRequestAnyOfPatientAddress.md)              |
+| `address`           | [CreatePracticeRequestAddress](CreatePracticeRequestAddress.md)                                |
 | `attestations`      | [CreatePracticeRequestAttestations](CreatePracticeRequestAttestations.md)                      |
 | `complianceContact` | [CreatePracticeRequestComplianceContact](CreatePracticeRequestComplianceContact.md)            |
 | `externalId`        | string                                                                                         |

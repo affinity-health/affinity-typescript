@@ -7,6 +7,23 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 
 ## [Unreleased]
 
+## [0.3.0] - 2026-07-31
+
+### Added
+
+- Added practice-scoped Patients resources for list, create, retrieve, and update operations.
+- Added Billing resources for payment-profile retrieval and Stripe SetupIntent setup completion.
+- Added GitHub CI and npm trusted-publishing release automation with provenance.
+
+### Changed
+
+- Regenerated the SDK from the deployed `2026-07-29` canonical OpenAPI document.
+- Limited Orders to list, retrieve, eligible cancellation, and fulfillment event history.
+
+### Removed
+
+- Removed public order creation, editing, routing, and submission without compatibility aliases.
+
 ## [0.2.0] - 2026-07-29
 
 ### Added
@@ -40,7 +57,8 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 - Typed RFC 9457 problem responses, including validation, dependency, and internal failures.
 - A compile-checked Test-mode quickstart.
 
-[Unreleased]: https://github.com/affinity-health/affinity-typescript/compare/v0.2.0...HEAD
+[Unreleased]: https://github.com/affinity-health/affinity-typescript/compare/v0.3.0...HEAD
+[0.3.0]: https://github.com/affinity-health/affinity-typescript/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/affinity-health/affinity-typescript/compare/v0.1.1...v0.2.0
 [0.1.1]: https://github.com/affinity-health/affinity-typescript/compare/v0.1.0...v0.1.1
 [0.1.0]: https://github.com/affinity-health/affinity-typescript/releases/tag/v0.1.0

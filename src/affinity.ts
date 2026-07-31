@@ -1,10 +1,12 @@
 // Code generated from spec/affinity.openapi.json by scripts/generate-facade.ts. DO NOT EDIT.
 
 import { APIKeysApi } from "./apis/APIKeysApi";
+import { BillingApi } from "./apis/BillingApi";
 import { CatalogApi } from "./apis/CatalogApi";
 import { ComponentSessionsApi } from "./apis/ComponentSessionsApi";
 import { HostedSessionsApi } from "./apis/HostedSessionsApi";
 import { MembershipsApi } from "./apis/MembershipsApi";
+import { PatientsApi } from "./apis/PatientsApi";
 import { PlatformOrdersApi } from "./apis/PlatformOrdersApi";
 import { PlatformWebhooksApi } from "./apis/PlatformWebhooksApi";
 import { PlatformsApi } from "./apis/PlatformsApi";
@@ -14,12 +16,14 @@ import { RolesApi } from "./apis/RolesApi";
 import { UsersApi } from "./apis/UsersApi";
 import { Configuration, type FetchAPI } from "./runtime";
 import { AccountResource } from "./resources/account";
+import { BillingResource } from "./resources/billing";
 import { CatalogResource } from "./resources/catalog";
 import { ComponentSessionsResource } from "./resources/component-sessions";
 import { CompoundersResource } from "./resources/compounders";
 import { HostedSessionsResource } from "./resources/hosted-sessions";
 import { MembershipsResource } from "./resources/memberships";
 import { OrdersResource } from "./resources/orders";
+import { PatientsResource } from "./resources/patients";
 import { PracticesResource } from "./resources/practices";
 import { ProviderMappingsResource } from "./resources/provider-mappings";
 import { createRetryingFetch } from "./resources/retrying-fetch";
@@ -37,12 +41,14 @@ export interface AffinityOptions {
 
 export class Affinity {
   readonly account: AccountResource;
+  readonly billing: BillingResource;
   readonly catalog: CatalogResource;
   readonly componentSessions: ComponentSessionsResource;
   readonly compounders: CompoundersResource;
   readonly hostedSessions: HostedSessionsResource;
   readonly memberships: MembershipsResource;
   readonly orders: OrdersResource;
+  readonly patients: PatientsResource;
   readonly practices: PracticesResource;
   readonly providerMappings: ProviderMappingsResource;
   readonly roles: RolesResource;
@@ -76,6 +82,7 @@ export class Affinity {
       new PlatformsApi(configuration),
       apiVersion,
     );
+    this.billing = new BillingResource(new BillingApi(configuration), apiVersion);
     this.catalog = new CatalogResource(new CatalogApi(configuration), apiVersion);
     this.componentSessions = new ComponentSessionsResource(
       new ComponentSessionsApi(configuration),
@@ -88,6 +95,7 @@ export class Affinity {
     );
     this.memberships = new MembershipsResource(new MembershipsApi(configuration), apiVersion);
     this.orders = new OrdersResource(new PlatformOrdersApi(configuration), apiVersion);
+    this.patients = new PatientsResource(new PatientsApi(configuration), apiVersion);
     this.practices = new PracticesResource(new PracticesApi(configuration), apiVersion);
     this.providerMappings = new ProviderMappingsResource(
       new ProviderMappingsApi(configuration),

@@ -2,42 +2,40 @@
 
 ## Properties
 
-| Name                              | Type                                                                          |
-| --------------------------------- | ----------------------------------------------------------------------------- |
-| `cancellationReason`              | string                                                                        |
-| `carrier`                         | string                                                                        |
-| `catalogItemId`                   | string                                                                        |
-| `practiceId`                      | string                                                                        |
-| `compounderId`                    | string                                                                        |
-| `createdAt`                       | string                                                                        |
-| `currency`                        | string                                                                        |
-| `directions`                      | string                                                                        |
-| `dosageForm`                      | string                                                                        |
-| `externalOrderId`                 | string                                                                        |
-| `externalSubmissionAttempted`     | boolean                                                                       |
-| `externalSubmissionBlockedReason` | string                                                                        |
-| `id`                              | string                                                                        |
-| `livemode`                        | boolean                                                                       |
-| `medicationName`                  | string                                                                        |
-| `patientExternalId`               | string                                                                        |
-| `patientName`                     | string                                                                        |
-| `patientState`                    | string                                                                        |
-| `prescriberName`                  | string                                                                        |
-| `prescriberNpi`                   | string                                                                        |
-| `quantity`                        | number                                                                        |
-| `quoteCents`                      | number                                                                        |
-| `object`                          | string                                                                        |
-| `replacesOrderId`                 | string                                                                        |
-| `routing`                         | [ListOrdersResponseDataInnerRouting](ListOrdersResponseDataInnerRouting.md)   |
-| `status`                          | string                                                                        |
-| `strength`                        | string                                                                        |
-| `trackingNumber`                  | string                                                                        |
-| `shippedAt`                       | string                                                                        |
-| `deliveredAt`                     | string                                                                        |
-| `estimatedDeliveryAt`             | string                                                                        |
-| `shipping`                        | [ListOrdersResponseDataInnerShipping](ListOrdersResponseDataInnerShipping.md) |
-| `trackingUrl`                     | string                                                                        |
-| `updatedAt`                       | string                                                                        |
+| Name                  | Type                                                                          |
+| --------------------- | ----------------------------------------------------------------------------- |
+| `cancellationReason`  | string                                                                        |
+| `carrier`             | string                                                                        |
+| `catalogItemId`       | string                                                                        |
+| `practiceId`          | string                                                                        |
+| `compounderId`        | string                                                                        |
+| `createdAt`           | string                                                                        |
+| `currency`            | string                                                                        |
+| `directions`          | string                                                                        |
+| `dosageForm`          | string                                                                        |
+| `externalOrderId`     | string                                                                        |
+| `id`                  | string                                                                        |
+| `livemode`            | boolean                                                                       |
+| `medicationName`      | string                                                                        |
+| `patientExternalId`   | string                                                                        |
+| `patientName`         | string                                                                        |
+| `patientState`        | string                                                                        |
+| `prescriberName`      | string                                                                        |
+| `prescriberNpi`       | string                                                                        |
+| `quantity`            | number                                                                        |
+| `quoteCents`          | number                                                                        |
+| `object`              | string                                                                        |
+| `replacesOrderId`     | string                                                                        |
+| `routing`             | [ListOrdersResponseDataInnerRouting](ListOrdersResponseDataInnerRouting.md)   |
+| `status`              | string                                                                        |
+| `strength`            | string                                                                        |
+| `trackingNumber`      | string                                                                        |
+| `shippedAt`           | string                                                                        |
+| `deliveredAt`         | string                                                                        |
+| `estimatedDeliveryAt` | string                                                                        |
+| `shipping`            | [ListOrdersResponseDataInnerShipping](ListOrdersResponseDataInnerShipping.md) |
+| `trackingUrl`         | string                                                                        |
+| `updatedAt`           | string                                                                        |
 
 ## Example
 
@@ -56,8 +54,6 @@ const example = {
   directions: null,
   dosageForm: null,
   externalOrderId: null,
-  externalSubmissionAttempted: null,
-  externalSubmissionBlockedReason: null,
   id: null,
   livemode: null,
   medicationName: null,

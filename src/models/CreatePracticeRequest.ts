@@ -13,13 +13,6 @@
  */
 
 import { mapValues } from "../runtime";
-import type { CreateOrderRequestAnyOfPatientAddress } from "./CreateOrderRequestAnyOfPatientAddress";
-import {
-  CreateOrderRequestAnyOfPatientAddressFromJSON,
-  CreateOrderRequestAnyOfPatientAddressFromJSONTyped,
-  CreateOrderRequestAnyOfPatientAddressToJSON,
-  CreateOrderRequestAnyOfPatientAddressToJSONTyped,
-} from "./CreateOrderRequestAnyOfPatientAddress";
 import type { CreatePracticeRequestAttestations } from "./CreatePracticeRequestAttestations";
 import {
   CreatePracticeRequestAttestationsFromJSON,
@@ -41,6 +34,13 @@ import {
   CreatePracticeRequestPrescribersInnerToJSON,
   CreatePracticeRequestPrescribersInnerToJSONTyped,
 } from "./CreatePracticeRequestPrescribersInner";
+import type { CreatePracticeRequestAddress } from "./CreatePracticeRequestAddress";
+import {
+  CreatePracticeRequestAddressFromJSON,
+  CreatePracticeRequestAddressFromJSONTyped,
+  CreatePracticeRequestAddressToJSON,
+  CreatePracticeRequestAddressToJSONTyped,
+} from "./CreatePracticeRequestAddress";
 
 /**
  *
@@ -50,10 +50,10 @@ import {
 export interface CreatePracticeRequest {
   /**
    *
-   * @type {CreateOrderRequestAnyOfPatientAddress}
+   * @type {CreatePracticeRequestAddress}
    * @memberof CreatePracticeRequest
    */
-  address: CreateOrderRequestAnyOfPatientAddress;
+  address: CreatePracticeRequestAddress;
   /**
    *
    * @type {CreatePracticeRequestAttestations}
@@ -144,7 +144,7 @@ export function CreatePracticeRequestFromJSONTyped(
     return json;
   }
   return {
-    address: CreateOrderRequestAnyOfPatientAddressFromJSON(json["address"]),
+    address: CreatePracticeRequestAddressFromJSON(json["address"]),
     attestations: CreatePracticeRequestAttestationsFromJSON(json["attestations"]),
     complianceContact:
       json["complianceContact"] == null
@@ -181,7 +181,7 @@ export function CreatePracticeRequestToJSONTyped(
   }
 
   return {
-    address: CreateOrderRequestAnyOfPatientAddressToJSON(value["address"]),
+    address: CreatePracticeRequestAddressToJSON(value["address"]),
     attestations: CreatePracticeRequestAttestationsToJSON(value["attestations"]),
     complianceContact: CreatePracticeRequestComplianceContactToJSON(value["complianceContact"]),
     externalId: value["externalId"],

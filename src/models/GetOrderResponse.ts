@@ -96,18 +96,6 @@ export interface GetOrderResponse {
   externalOrderId: string;
   /**
    *
-   * @type {boolean}
-   * @memberof GetOrderResponse
-   */
-  externalSubmissionAttempted: boolean;
-  /**
-   *
-   * @type {string}
-   * @memberof GetOrderResponse
-   */
-  externalSubmissionBlockedReason: string | null;
-  /**
-   *
    * @type {string}
    * @memberof GetOrderResponse
    */
@@ -278,16 +266,6 @@ export function instanceOfGetOrderResponse(value: object): value is GetOrderResp
   if (!("directions" in value) || value["directions"] === undefined) return false;
   if (!("dosageForm" in value) || value["dosageForm"] === undefined) return false;
   if (!("externalOrderId" in value) || value["externalOrderId"] === undefined) return false;
-  if (
-    !("externalSubmissionAttempted" in value) ||
-    value["externalSubmissionAttempted"] === undefined
-  )
-    return false;
-  if (
-    !("externalSubmissionBlockedReason" in value) ||
-    value["externalSubmissionBlockedReason"] === undefined
-  )
-    return false;
   if (!("id" in value) || value["id"] === undefined) return false;
   if (!("livemode" in value) || value["livemode"] === undefined) return false;
   if (!("medicationName" in value) || value["medicationName"] === undefined) return false;
@@ -335,8 +313,6 @@ export function GetOrderResponseFromJSONTyped(
     directions: json["directions"],
     dosageForm: json["dosageForm"],
     externalOrderId: json["externalOrderId"],
-    externalSubmissionAttempted: json["externalSubmissionAttempted"],
-    externalSubmissionBlockedReason: json["externalSubmissionBlockedReason"],
     id: json["id"],
     livemode: json["livemode"],
     medicationName: json["medicationName"],
@@ -385,8 +361,6 @@ export function GetOrderResponseToJSONTyped(
     directions: value["directions"],
     dosageForm: value["dosageForm"],
     externalOrderId: value["externalOrderId"],
-    externalSubmissionAttempted: value["externalSubmissionAttempted"],
-    externalSubmissionBlockedReason: value["externalSubmissionBlockedReason"],
     id: value["id"],
     livemode: value["livemode"],
     medicationName: value["medicationName"],

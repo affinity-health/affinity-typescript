@@ -13,13 +13,6 @@
  */
 
 import { mapValues } from "../runtime";
-import type { CreateOrderRequestAnyOfPatientAddress } from "./CreateOrderRequestAnyOfPatientAddress";
-import {
-  CreateOrderRequestAnyOfPatientAddressFromJSON,
-  CreateOrderRequestAnyOfPatientAddressFromJSONTyped,
-  CreateOrderRequestAnyOfPatientAddressToJSON,
-  CreateOrderRequestAnyOfPatientAddressToJSONTyped,
-} from "./CreateOrderRequestAnyOfPatientAddress";
 import type { CreatePracticeRequestAttestations } from "./CreatePracticeRequestAttestations";
 import {
   CreatePracticeRequestAttestationsFromJSON,
@@ -41,6 +34,13 @@ import {
   CreatePracticeRequestPrescribersInnerToJSON,
   CreatePracticeRequestPrescribersInnerToJSONTyped,
 } from "./CreatePracticeRequestPrescribersInner";
+import type { CreatePracticeRequestAddress } from "./CreatePracticeRequestAddress";
+import {
+  CreatePracticeRequestAddressFromJSON,
+  CreatePracticeRequestAddressFromJSONTyped,
+  CreatePracticeRequestAddressToJSON,
+  CreatePracticeRequestAddressToJSONTyped,
+} from "./CreatePracticeRequestAddress";
 
 /**
  *
@@ -50,10 +50,10 @@ import {
 export interface UpdatePracticeRequest {
   /**
    *
-   * @type {CreateOrderRequestAnyOfPatientAddress}
+   * @type {CreatePracticeRequestAddress}
    * @memberof UpdatePracticeRequest
    */
-  address?: CreateOrderRequestAnyOfPatientAddress;
+  address?: CreatePracticeRequestAddress;
   /**
    *
    * @type {CreatePracticeRequestAttestations}
@@ -142,9 +142,7 @@ export function UpdatePracticeRequestFromJSONTyped(
   }
   return {
     address:
-      json["address"] == null
-        ? undefined
-        : CreateOrderRequestAnyOfPatientAddressFromJSON(json["address"]),
+      json["address"] == null ? undefined : CreatePracticeRequestAddressFromJSON(json["address"]),
     attestations:
       json["attestations"] == null
         ? undefined
@@ -184,7 +182,7 @@ export function UpdatePracticeRequestToJSONTyped(
   }
 
   return {
-    address: CreateOrderRequestAnyOfPatientAddressToJSON(value["address"]),
+    address: CreatePracticeRequestAddressToJSON(value["address"]),
     attestations: CreatePracticeRequestAttestationsToJSON(value["attestations"]),
     complianceContact: CreatePracticeRequestComplianceContactToJSON(value["complianceContact"]),
     externalId: value["externalId"],

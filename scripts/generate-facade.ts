@@ -35,22 +35,25 @@ const operationIds = Object.values(
   .sort();
 const supportedOperations = [
   "cancelOrder",
+  "completePracticePaymentSetup",
   "createComponentSession",
   "createHostedSession",
-  "createOrder",
+  "createPatient",
   "createPractice",
   "createPracticeMembership",
+  "createPracticePaymentSetup",
   "createPracticeRole",
   "createProviderMapping",
-  "createRoutingDecision",
   "createUser",
   "createWebhookEndpoint",
   "deletePracticeRole",
   "deleteWebhookEndpoint",
   "getApiAccess",
-  "getOrder",
   "getAccount",
+  "getOrder",
+  "getPatient",
   "getPractice",
+  "getPracticePaymentProfile",
   "getProviderMapping",
   "getUser",
   "getWebhookEvent",
@@ -59,6 +62,7 @@ const supportedOperations = [
   "listShippingOptions",
   "listOrderEvents",
   "listOrders",
+  "listPatients",
   "listPracticeMemberships",
   "listPracticeRoles",
   "listPractices",
@@ -68,8 +72,7 @@ const supportedOperations = [
   "listWebhookEvents",
   "replayWebhookEvent",
   "rotateWebhookEndpointSecret",
-  "submitOrder",
-  "updateOrder",
+  "updatePatient",
   "updatePractice",
   "updatePracticeMembership",
   "updatePracticeRole",
@@ -94,10 +97,12 @@ async function output(path: string, source: string) {
 await output(
   "src/affinity.ts",
   `import { APIKeysApi } from "./apis/APIKeysApi";
+import { BillingApi } from "./apis/BillingApi";
 import { CatalogApi } from "./apis/CatalogApi";
 import { ComponentSessionsApi } from "./apis/ComponentSessionsApi";
 import { HostedSessionsApi } from "./apis/HostedSessionsApi";
 import { MembershipsApi } from "./apis/MembershipsApi";
+import { PatientsApi } from "./apis/PatientsApi";
 import { PlatformOrdersApi } from "./apis/PlatformOrdersApi";
 import { PlatformWebhooksApi } from "./apis/PlatformWebhooksApi";
 import { PlatformsApi } from "./apis/PlatformsApi";
@@ -107,12 +112,14 @@ import { RolesApi } from "./apis/RolesApi";
 import { UsersApi } from "./apis/UsersApi";
 import { Configuration, type FetchAPI } from "./runtime";
 import { AccountResource } from "./resources/account";
+import { BillingResource } from "./resources/billing";
 import { CatalogResource } from "./resources/catalog";
 import { ComponentSessionsResource } from "./resources/component-sessions";
 import { CompoundersResource } from "./resources/compounders";
 import { HostedSessionsResource } from "./resources/hosted-sessions";
 import { MembershipsResource } from "./resources/memberships";
 import { OrdersResource } from "./resources/orders";
+import { PatientsResource } from "./resources/patients";
 import { PracticesResource } from "./resources/practices";
 import { ProviderMappingsResource } from "./resources/provider-mappings";
 import { createRetryingFetch } from "./resources/retrying-fetch";
@@ -130,12 +137,14 @@ export interface AffinityOptions {
 
 export class Affinity {
   readonly account: AccountResource;
+  readonly billing: BillingResource;
   readonly catalog: CatalogResource;
   readonly componentSessions: ComponentSessionsResource;
   readonly compounders: CompoundersResource;
   readonly hostedSessions: HostedSessionsResource;
   readonly memberships: MembershipsResource;
   readonly orders: OrdersResource;
+  readonly patients: PatientsResource;
   readonly practices: PracticesResource;
   readonly providerMappings: ProviderMappingsResource;
   readonly roles: RolesResource;
@@ -169,6 +178,7 @@ export class Affinity {
       new PlatformsApi(configuration),
       apiVersion,
     );
+    this.billing = new BillingResource(new BillingApi(configuration), apiVersion);
     this.catalog = new CatalogResource(new CatalogApi(configuration), apiVersion);
     this.componentSessions = new ComponentSessionsResource(
       new ComponentSessionsApi(configuration),
@@ -181,6 +191,7 @@ export class Affinity {
     );
     this.memberships = new MembershipsResource(new MembershipsApi(configuration), apiVersion);
     this.orders = new OrdersResource(new PlatformOrdersApi(configuration), apiVersion);
+    this.patients = new PatientsResource(new PatientsApi(configuration), apiVersion);
     this.practices = new PracticesResource(new PracticesApi(configuration), apiVersion);
     this.providerMappings = new ProviderMappingsResource(
       new ProviderMappingsApi(configuration),
@@ -317,6 +328,48 @@ export class CompoundersResource {
 );
 
 await output(
+  "src/resources/billing.ts",
+  `import type { BillingApi } from "../apis/BillingApi";
+import type { CompletePracticePaymentSetupRequest } from "../models/CompletePracticePaymentSetupRequest";
+import type { CreatePracticePaymentSetupRequest } from "../models/CreatePracticePaymentSetupRequest";
+import type { MutationOptions } from "./request-options";
+
+export class BillingResource {
+  constructor(
+    private readonly api: BillingApi,
+    private readonly apiVersion: string,
+  ) {}
+  retrievePaymentProfile(practiceId: string) {
+    return this.api.getPracticePaymentProfile({ affinityVersion: this.apiVersion, practiceId });
+  }
+  createPaymentSetup(
+    practiceId: string,
+    params: CreatePracticePaymentSetupRequest,
+    options: MutationOptions,
+  ) {
+    return this.api.createPracticePaymentSetup({
+      affinityVersion: this.apiVersion,
+      createPracticePaymentSetupRequest: params,
+      idempotencyKey: options.idempotencyKey,
+      practiceId,
+    });
+  }
+  completePaymentSetup(
+    practiceId: string,
+    params: CompletePracticePaymentSetupRequest,
+    options: MutationOptions,
+  ) {
+    return this.api.completePracticePaymentSetup({
+      affinityVersion: this.apiVersion,
+      completePracticePaymentSetupRequest: params,
+      idempotencyKey: options.idempotencyKey,
+      practiceId,
+    });
+  }
+}`,
+);
+
+await output(
   "src/resources/practices.ts",
   `import type { ListPracticesRequest, PracticesApi } from "../apis/PracticesApi";
 import type { CreatePracticeRequest } from "../models/CreatePracticeRequest";
@@ -353,19 +406,57 @@ export class PracticesResource {
 );
 
 await output(
+  "src/resources/patients.ts",
+  `import type { ListPatientsRequest, PatientsApi } from "../apis/PatientsApi";
+import type { CreatePatientRequest } from "../models/CreatePatientRequest";
+import type { UpdatePatientRequest } from "../models/UpdatePatientRequest";
+import type { MutationOptions } from "./request-options";
+
+export type PatientListParams = Omit<ListPatientsRequest, "affinityVersion" | "practiceId">;
+
+export class PatientsResource {
+  constructor(
+    private readonly api: PatientsApi,
+    private readonly apiVersion: string,
+  ) {}
+  list(practiceId: string, params: PatientListParams = {}) {
+    return this.api.listPatients({ ...params, affinityVersion: this.apiVersion, practiceId });
+  }
+  retrieve(practiceId: string, patientId: string) {
+    return this.api.getPatient({ affinityVersion: this.apiVersion, patientId, practiceId });
+  }
+  create(practiceId: string, params: CreatePatientRequest, options: MutationOptions) {
+    return this.api.createPatient({
+      affinityVersion: this.apiVersion,
+      createPatientRequest: params,
+      idempotencyKey: options.idempotencyKey,
+      practiceId,
+    });
+  }
+  update(
+    practiceId: string,
+    patientId: string,
+    params: UpdatePatientRequest,
+    options: MutationOptions,
+  ) {
+    return this.api.updatePatient({
+      affinityVersion: this.apiVersion,
+      idempotencyKey: options.idempotencyKey,
+      patientId,
+      practiceId,
+      updatePatientRequest: params,
+    });
+  }
+}`,
+);
+
+await output(
   "src/resources/orders.ts",
   `import type { ListOrdersRequest, PlatformOrdersApi } from "../apis/PlatformOrdersApi";
 import type { CancelOrderRequest } from "../models/CancelOrderRequest";
-import type { CreateOrderRequest } from "../models/CreateOrderRequest";
-import type { CreateOrderRequestAnyOf } from "../models/CreateOrderRequestAnyOf";
-import type { CreateOrderRequestAnyOf1 } from "../models/CreateOrderRequestAnyOf1";
-import type { CreateRoutingDecisionRequest } from "../models/CreateRoutingDecisionRequest";
-import type { SubmitOrderRequest } from "../models/SubmitOrderRequest";
-import type { UpdateOrderRequest } from "../models/UpdateOrderRequest";
 import type { MutationOptions } from "./request-options";
 
 export type OrderListParams = Omit<ListOrdersRequest, "affinityVersion">;
-export type OrderCreateParams = CreateOrderRequestAnyOf | CreateOrderRequestAnyOf1;
 
 export class OrdersResource {
   constructor(
@@ -377,36 +468,6 @@ export class OrdersResource {
   }
   retrieve(orderId: string) {
     return this.api.getOrder({ affinityVersion: this.apiVersion, orderId });
-  }
-  create(params: OrderCreateParams, options: MutationOptions) {
-    return this.api.createOrder({
-      createOrderRequest: params as CreateOrderRequest,
-      affinityVersion: this.apiVersion,
-      idempotencyKey: options.idempotencyKey,
-    });
-  }
-  createRoutingDecision(params: CreateRoutingDecisionRequest, options: MutationOptions) {
-    return this.api.createRoutingDecision({
-      affinityVersion: this.apiVersion,
-      createRoutingDecisionRequest: params,
-      idempotencyKey: options.idempotencyKey,
-    });
-  }
-  update(orderId: string, params: UpdateOrderRequest, options: MutationOptions) {
-    return this.api.updateOrder({
-      affinityVersion: this.apiVersion,
-      idempotencyKey: options.idempotencyKey,
-      orderId,
-      updateOrderRequest: params,
-    });
-  }
-  submit(orderId: string, options: MutationOptions & SubmitOrderRequest) {
-    return this.api.submitOrder({
-      affinityVersion: this.apiVersion,
-      orderId,
-      idempotencyKey: options.idempotencyKey,
-      submitOrderRequest: { shippingOptionId: options.shippingOptionId },
-    });
   }
   cancel(orderId: string, params: CancelOrderRequest, options: MutationOptions) {
     return this.api.cancelOrder({
@@ -716,5 +777,5 @@ const indexPath = resolve(root, "src/index.ts");
 const generatedIndex = (await readFile(indexPath, "utf8")).trimEnd();
 await writeFile(
   indexPath,
-  `${generatedIndex}\n\nexport * from "./affinity";\nexport * from "./webhook-events";\nexport * from "./resources/account";\nexport * from "./resources/catalog";\nexport * from "./resources/component-sessions";\nexport * from "./resources/compounders";\nexport * from "./resources/hosted-sessions";\nexport * from "./resources/memberships";\nexport * from "./resources/orders";\nexport * from "./resources/practices";\nexport * from "./resources/provider-mappings";\nexport * from "./resources/request-options";\nexport * from "./resources/roles";\nexport * from "./resources/users";\nexport * from "./resources/webhooks";\n`,
+  `${generatedIndex}\n\nexport * from "./affinity";\nexport * from "./webhook-events";\nexport * from "./resources/account";\nexport * from "./resources/billing";\nexport * from "./resources/catalog";\nexport * from "./resources/component-sessions";\nexport * from "./resources/compounders";\nexport * from "./resources/hosted-sessions";\nexport * from "./resources/memberships";\nexport * from "./resources/orders";\nexport * from "./resources/patients";\nexport * from "./resources/practices";\nexport * from "./resources/provider-mappings";\nexport * from "./resources/request-options";\nexport * from "./resources/roles";\nexport * from "./resources/users";\nexport * from "./resources/webhooks";\n`,
 );

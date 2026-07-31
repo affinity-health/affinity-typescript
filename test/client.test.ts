@@ -98,6 +98,138 @@ describe("Affinity client", () => {
     expect(await requests[0]?.json()).toMatchObject({ externalId: "customer_123" });
   });
 
+  test("manages practice patients with scoped paths and idempotency", async () => {
+    const requests: Request[] = [];
+    const practiceId = "prac_01k123456789abcdefghjkmnp";
+    const patientId = "pat_01k123456789abcdefghjkmnp";
+    const patient = {
+      address: {
+        city: "Detroit",
+        country: "US",
+        line1: "100 Test Avenue",
+        line2: null,
+        postalCode: "48201",
+        state: "MI",
+      },
+      allergies: "NKDA",
+      createdAt: "2026-07-31T12:00:00.000Z",
+      dateOfBirth: "1990-01-01",
+      email: null,
+      externalId: "patient_4821",
+      gender: "u",
+      id: patientId,
+      livemode: false,
+      metadata: {},
+      name: { first: "Jordan", last: "Lee", middle: null, preferred: null },
+      object: "patient",
+      phone: "+13135550100",
+      practiceId,
+      status: "active",
+      updatedAt: "2026-07-31T12:00:00.000Z",
+    };
+    const affinity = new Affinity("sk_test_example", {
+      fetch: async (input, init) => {
+        const request = new Request(input, init);
+        requests.push(request);
+        if (request.method === "GET" && new URL(request.url).pathname.endsWith("/patients")) {
+          return Response.json({ data: [], hasMore: false, object: "list", url: request.url });
+        }
+        return Response.json(patient);
+      },
+    });
+
+    await affinity.patients.list(practiceId, { limit: 10, query: "Jordan" });
+    await affinity.patients.retrieve(practiceId, patientId);
+    await affinity.patients.create(
+      practiceId,
+      {
+        address: {
+          city: "Detroit",
+          country: "US",
+          line1: "100 Test Avenue",
+          postalCode: "48201",
+          state: "MI",
+        },
+        dateOfBirth: new Date("1990-01-01"),
+        externalId: "patient_4821",
+        name: { first: "Jordan", last: "Lee" },
+        phone: "+13135550100",
+      },
+      { idempotencyKey: "patient-create-4821" },
+    );
+    await affinity.patients.update(
+      practiceId,
+      patientId,
+      { status: "inactive" },
+      { idempotencyKey: "patient-update-4821" },
+    );
+
+    expect(requests.map((request) => `${request.method} ${new URL(request.url).pathname}`)).toEqual(
+      [
+        `GET /v1/practices/${practiceId}/patients`,
+        `GET /v1/practices/${practiceId}/patients/${patientId}`,
+        `POST /v1/practices/${practiceId}/patients`,
+        `PATCH /v1/practices/${practiceId}/patients/${patientId}`,
+      ],
+    );
+    const patientListUrl = new URL(requests[0]?.url ?? "https://invalid.example");
+    expect(patientListUrl.searchParams.get("limit")).toBe("10");
+    expect(patientListUrl.searchParams.get("query")).toBe("Jordan");
+    expect(requests[2]?.headers.get("idempotency-key")).toBe("patient-create-4821");
+    expect(requests[3]?.headers.get("idempotency-key")).toBe("patient-update-4821");
+    expect(await requests[3]?.json()).toEqual({ status: "inactive" });
+  });
+
+  test("creates and completes practice payment setup without exposing card data", async () => {
+    const requests: Request[] = [];
+    const affinity = new Affinity("sk_test_example", {
+      fetch: async (input, init) => {
+        const request = new Request(input, init);
+        requests.push(request);
+        if (new URL(request.url).pathname.endsWith("/setup")) {
+          return Response.json({
+            clientSecret: "seti_test_4821_secret_example",
+            consentVersion: "2026-07-31",
+            publishableKey: "pk_test_example",
+          });
+        }
+        return Response.json({
+          consentVersion: "2026-07-31",
+          environment: "sandbox",
+          paymentMethod: null,
+          paymentMethods: [],
+          portalAvailable: true,
+          status: "ready",
+        });
+      },
+    });
+    const practiceId = "prac_01k123456789abcdefghjkmnp";
+
+    await affinity.billing.retrievePaymentProfile(practiceId);
+    await affinity.billing.createPaymentSetup(
+      practiceId,
+      { consentAccepted: true },
+      { idempotencyKey: "billing-create-4821" },
+    );
+    await affinity.billing.completePaymentSetup(
+      practiceId,
+      { setupIntentId: "seti_test_4821" },
+      { idempotencyKey: "billing-complete-4821" },
+    );
+
+    expect(requests.map((request) => `${request.method} ${new URL(request.url).pathname}`)).toEqual(
+      [
+        `GET /v1/practices/${practiceId}/payment-profile`,
+        `POST /v1/practices/${practiceId}/payment-profile/setup`,
+        `POST /v1/practices/${practiceId}/payment-profile/setup/complete`,
+      ],
+    );
+    expect(requests[1]?.headers.get("idempotency-key")).toBe("billing-create-4821");
+    expect(await requests[1]?.json()).toEqual({ consentAccepted: true });
+    expect(requests[2]?.headers.get("idempotency-key")).toBe("billing-complete-4821");
+    expect(await requests[2]?.json()).toEqual({ setupIntentId: "seti_test_4821" });
+  });
+
   test("creates component and hosted sessions through separate resources", async () => {
     const requests: Request[] = [];
     const affinity = new Affinity("sk_test_example", {
