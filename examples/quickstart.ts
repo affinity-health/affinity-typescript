@@ -14,6 +14,7 @@ console.log(`Found ${compounders.data.length} compounders available to this test
 
 if (process.env.RUN_AFFINITY_MUTATION_EXAMPLE === "1") {
   const runId = crypto.randomUUID();
+  const actingAffinity = affinity.withActor({ id: `quickstart_${runId}`, type: "system" });
   const practice = await affinity.practices.create(
     {
       address: {
@@ -35,7 +36,7 @@ if (process.env.RUN_AFFINITY_MUTATION_EXAMPLE === "1") {
     },
     { idempotencyKey: crypto.randomUUID() },
   );
-  const patient = await affinity.patients.create(
+  const patient = await actingAffinity.patients.create(
     practice.id,
     {
       address: {
@@ -66,7 +67,7 @@ if (process.env.RUN_AFFINITY_MUTATION_EXAMPLE === "1") {
     );
   }
 
-  const practiceOrders = await affinity.orders.list({ practiceId: practice.id });
+  const practiceOrders = await actingAffinity.orders.list({ practiceId: practice.id });
   console.log(
     `Created patient ${patient.id} for practice ${practice.id}; ${practiceOrders.data.length} orders are visible`,
   );

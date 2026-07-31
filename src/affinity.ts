@@ -30,8 +30,10 @@ import { createRetryingFetch } from "./resources/retrying-fetch";
 import { RolesResource } from "./resources/roles";
 import { UsersResource } from "./resources/users";
 import { WebhooksResource } from "./resources/webhooks";
+import { type AffinityActor, validateAffinityActor } from "./resources/actor";
 
 export interface AffinityOptions {
+  actor?: AffinityActor;
   apiVersion?: string;
   baseUrl?: string;
   fetch?: FetchAPI;
@@ -54,9 +56,12 @@ export class Affinity {
   readonly roles: RolesResource;
   readonly users: UsersResource;
   readonly webhooks: WebhooksResource;
+  private readonly apiKey: string;
+  private readonly options: AffinityOptions;
 
   constructor(apiKey: string, options: AffinityOptions = {}) {
     if (!apiKey.trim()) throw new Error("Affinity requires a service API key");
+    const actor = options.actor ? validateAffinityActor(options.actor) : undefined;
     const baseUrl = options.baseUrl ?? "https://api.joinaffinityai.com";
     const apiVersion = options.apiVersion ?? "2026-07-29";
     const timeout = options.timeout ?? 30_000;
@@ -67,6 +72,8 @@ export class Affinity {
     if (!Number.isInteger(maxRetries) || maxRetries < 0) {
       throw new Error("Affinity maxRetries must be a non-negative integer");
     }
+    this.apiKey = apiKey;
+    this.options = { ...options, ...(actor ? { actor } : {}) };
     const fetchApi = createRetryingFetch(options.fetch ?? globalThis.fetch, {
       maxRetries,
       timeout,
@@ -94,8 +101,8 @@ export class Affinity {
       apiVersion,
     );
     this.memberships = new MembershipsResource(new MembershipsApi(configuration), apiVersion);
-    this.orders = new OrdersResource(new PlatformOrdersApi(configuration), apiVersion);
-    this.patients = new PatientsResource(new PatientsApi(configuration), apiVersion);
+    this.orders = new OrdersResource(new PlatformOrdersApi(configuration), apiVersion, actor);
+    this.patients = new PatientsResource(new PatientsApi(configuration), apiVersion, actor);
     this.practices = new PracticesResource(new PracticesApi(configuration), apiVersion);
     this.providerMappings = new ProviderMappingsResource(
       new ProviderMappingsApi(configuration),
@@ -104,5 +111,9 @@ export class Affinity {
     this.roles = new RolesResource(new RolesApi(configuration), apiVersion);
     this.users = new UsersResource(new UsersApi(configuration), apiVersion);
     this.webhooks = new WebhooksResource(new PlatformWebhooksApi(configuration), apiVersion);
+  }
+
+  withActor(actor: AffinityActor) {
+    return new Affinity(this.apiKey, { ...this.options, actor });
   }
 }

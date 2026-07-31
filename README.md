@@ -2,7 +2,7 @@
 
 The official TypeScript SDK for the Affinity API.
 
-> **Status:** Version `1.0.0` uses the forward-only `2026-07-29` Affinity API contract. Use Test
+> **Status:** Version `1.0.1` uses the forward-only `2026-07-29` Affinity API contract. Use Test
 > mode until Affinity approves Live access.
 
 The SDK provides a small, resource-oriented interface for software platforms connecting
@@ -35,7 +35,8 @@ if (item) {
 }
 
 const practices = await affinity.practices.list();
-const orders = await affinity.orders.list({ practiceId: practices.data[0]?.id });
+const actingAffinity = affinity.withActor({ id: authenticatedUser.id, type: "user" });
+const orders = await actingAffinity.orders.list({ practiceId: practices.data[0]?.id });
 console.log(`${compounders.data.length} compounders are available to this account`);
 ```
 
@@ -45,6 +46,11 @@ Connect.
 
 The API key belongs only in your backend. Never create an `Affinity` client in browser or mobile
 code.
+
+Patient and order requests require traceable actor context. Create an immutable request-scoped
+client with `withActor(...)`, using your authenticated user's stable opaque ID. Use `type: "system"`
+only for an automated process with no human user. Affinity records the actor for authorization and
+audit attribution; do not use an email address or expose a provider's Affinity signing PIN.
 
 ## Webhooks
 
@@ -210,7 +216,8 @@ Create each patient inside its owning practice. Use your stable patient identifi
 `externalId`.
 
 ```ts
-const patient = await affinity.patients.create(
+const actingAffinity = affinity.withActor({ id: authenticatedUser.id, type: "user" });
+const patient = await actingAffinity.patients.create(
   practice.id,
   {
     address: {

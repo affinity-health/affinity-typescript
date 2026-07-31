@@ -2948,6 +2948,12 @@
           },
           {
             "$ref": "#/components/parameters/AffinityVersion"
+          },
+          {
+            "$ref": "#/components/parameters/AffinityActorId"
+          },
+          {
+            "$ref": "#/components/parameters/AffinityActorType"
           }
         ],
         "responses": {
@@ -3331,6 +3337,12 @@
           },
           {
             "$ref": "#/components/parameters/AffinityVersion"
+          },
+          {
+            "$ref": "#/components/parameters/AffinityActorId"
+          },
+          {
+            "$ref": "#/components/parameters/AffinityActorType"
           }
         ],
         "responses": {
@@ -3752,6 +3764,12 @@
           },
           {
             "$ref": "#/components/parameters/AffinityVersion"
+          },
+          {
+            "$ref": "#/components/parameters/AffinityActorId"
+          },
+          {
+            "$ref": "#/components/parameters/AffinityActorType"
           }
         ],
         "requestBody": {
@@ -4247,6 +4265,12 @@
           },
           {
             "$ref": "#/components/parameters/AffinityVersion"
+          },
+          {
+            "$ref": "#/components/parameters/AffinityActorId"
+          },
+          {
+            "$ref": "#/components/parameters/AffinityActorType"
           }
         ],
         "responses": {
@@ -7806,6 +7830,12 @@
           },
           {
             "$ref": "#/components/parameters/AffinityVersion"
+          },
+          {
+            "$ref": "#/components/parameters/AffinityActorId"
+          },
+          {
+            "$ref": "#/components/parameters/AffinityActorType"
           }
         ],
         "responses": {
@@ -8225,6 +8255,12 @@
           },
           {
             "$ref": "#/components/parameters/AffinityVersion"
+          },
+          {
+            "$ref": "#/components/parameters/AffinityActorId"
+          },
+          {
+            "$ref": "#/components/parameters/AffinityActorType"
           }
         ],
         "requestBody": {
@@ -8700,6 +8736,12 @@
           },
           {
             "$ref": "#/components/parameters/AffinityVersion"
+          },
+          {
+            "$ref": "#/components/parameters/AffinityActorId"
+          },
+          {
+            "$ref": "#/components/parameters/AffinityActorType"
           }
         ],
         "responses": {
@@ -9127,6 +9169,12 @@
           },
           {
             "$ref": "#/components/parameters/AffinityVersion"
+          },
+          {
+            "$ref": "#/components/parameters/AffinityActorId"
+          },
+          {
+            "$ref": "#/components/parameters/AffinityActorType"
           }
         ],
         "requestBody": {
@@ -19770,6 +19818,27 @@
         "required": false,
         "schema": {
           "maxLength": 255,
+          "type": "string"
+        }
+      },
+      "AffinityActorId": {
+        "description": "Stable opaque ID of the authenticated platform user or system initiating a PHI-capable request. Do not use an email address.",
+        "in": "header",
+        "name": "Affinity-Actor-Id",
+        "required": true,
+        "schema": {
+          "maxLength": 200,
+          "minLength": 1,
+          "type": "string"
+        }
+      },
+      "AffinityActorType": {
+        "description": "Whether the external actor is an authenticated platform user or an automated system process.",
+        "in": "header",
+        "name": "Affinity-Actor-Type",
+        "required": true,
+        "schema": {
+          "enum": ["user", "system"],
           "type": "string"
         }
       }

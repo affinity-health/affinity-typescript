@@ -7,6 +7,15 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 
 ## [Unreleased]
 
+## [1.0.1] - 2026-07-31
+
+### Fixed
+
+- Added immutable request-scoped actor attribution for patient and order operations through
+  `affinity.withActor(...)`, matching the API's PHI audit requirement.
+- Regenerated patient and order transports from the canonical contract's required
+  `Affinity-Actor-Id` and `Affinity-Actor-Type` headers.
+
 ## [1.0.0] - 2026-07-31
 
 ### Changed
@@ -64,7 +73,8 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 - Typed RFC 9457 problem responses, including validation, dependency, and internal failures.
 - A compile-checked Test-mode quickstart.
 
-[Unreleased]: https://github.com/affinity-health/affinity-typescript/compare/v1.0.0...HEAD
+[Unreleased]: https://github.com/affinity-health/affinity-typescript/compare/v1.0.1...HEAD
+[1.0.1]: https://github.com/affinity-health/affinity-typescript/compare/v1.0.0...v1.0.1
 [1.0.0]: https://github.com/affinity-health/affinity-typescript/compare/v0.3.0...v1.0.0
 [0.3.0]: https://github.com/affinity-health/affinity-typescript/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/affinity-health/affinity-typescript/compare/v0.1.1...v0.2.0

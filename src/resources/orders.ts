@@ -2,23 +2,43 @@
 
 import type { ListOrdersRequest, PlatformOrdersApi } from "../apis/PlatformOrdersApi";
 import type { CancelOrderRequest } from "../models/CancelOrderRequest";
+import { type AffinityActor, requireAffinityActor } from "./actor";
 import type { MutationOptions } from "./request-options";
 
-export type OrderListParams = Omit<ListOrdersRequest, "affinityVersion">;
+export type OrderListParams = Omit<
+  ListOrdersRequest,
+  "affinityActorId" | "affinityActorType" | "affinityVersion"
+>;
 
 export class OrdersResource {
   constructor(
     private readonly api: PlatformOrdersApi,
     private readonly apiVersion: string,
+    private readonly affinityActor?: AffinityActor,
   ) {}
   list(params: OrderListParams = {}) {
-    return this.api.listOrders({ ...params, affinityVersion: this.apiVersion });
+    const actor = requireAffinityActor(this.affinityActor);
+    return this.api.listOrders({
+      ...params,
+      affinityActorId: actor.id,
+      affinityActorType: actor.type,
+      affinityVersion: this.apiVersion,
+    });
   }
   retrieve(orderId: string) {
-    return this.api.getOrder({ affinityVersion: this.apiVersion, orderId });
+    const actor = requireAffinityActor(this.affinityActor);
+    return this.api.getOrder({
+      affinityActorId: actor.id,
+      affinityActorType: actor.type,
+      affinityVersion: this.apiVersion,
+      orderId,
+    });
   }
   cancel(orderId: string, params: CancelOrderRequest, options: MutationOptions) {
+    const actor = requireAffinityActor(this.affinityActor);
     return this.api.cancelOrder({
+      affinityActorId: actor.id,
+      affinityActorType: actor.type,
       cancelOrderRequest: params,
       affinityVersion: this.apiVersion,
       idempotencyKey: options.idempotencyKey,
@@ -26,6 +46,12 @@ export class OrdersResource {
     });
   }
   listEvents(orderId: string) {
-    return this.api.listOrderEvents({ affinityVersion: this.apiVersion, orderId });
+    const actor = requireAffinityActor(this.affinityActor);
+    return this.api.listOrderEvents({
+      affinityActorId: actor.id,
+      affinityActorType: actor.type,
+      affinityVersion: this.apiVersion,
+      orderId,
+    });
   }
 }

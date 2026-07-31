@@ -65,6 +65,23 @@ describe("Affinity client", () => {
   test("validates retry and timeout options", () => {
     expect(() => new Affinity("sk_test_example", { maxRetries: -1 })).toThrow();
     expect(() => new Affinity("sk_test_example", { timeout: 0 })).toThrow();
+    expect(() => new Affinity("sk_test_example").withActor({ id: "", type: "user" })).toThrow();
+  });
+
+  test("requires and sends traceable actor context for PHI-capable requests", async () => {
+    let request: Request | undefined;
+    const affinity = new Affinity("sk_test_example", {
+      fetch: async (input, init) => {
+        request = new Request(input, init);
+        return Response.json({ data: [], hasMore: false, object: "list", url: "/v1/orders" });
+      },
+    });
+
+    expect(() => affinity.orders.list()).toThrow("call affinity.withActor(...) first");
+    await affinity.withActor({ id: "sync-job-4821", type: "system" }).orders.list();
+
+    expect(request?.headers.get("affinity-actor-id")).toBe("sync-job-4821");
+    expect(request?.headers.get("affinity-actor-type")).toBe("system");
   });
 
   test("creates hosted identity resources with idempotency", async () => {
@@ -136,7 +153,7 @@ describe("Affinity client", () => {
         }
         return Response.json(patient);
       },
-    });
+    }).withActor({ id: "platform-user-4821", type: "user" });
 
     await affinity.patients.list(practiceId, { limit: 10, query: "Jordan" });
     await affinity.patients.retrieve(practiceId, patientId);
@@ -177,6 +194,18 @@ describe("Affinity client", () => {
     expect(patientListUrl.searchParams.get("query")).toBe("Jordan");
     expect(requests[2]?.headers.get("idempotency-key")).toBe("patient-create-4821");
     expect(requests[3]?.headers.get("idempotency-key")).toBe("patient-update-4821");
+    expect(requests.map((request) => request.headers.get("affinity-actor-id"))).toEqual([
+      "platform-user-4821",
+      "platform-user-4821",
+      "platform-user-4821",
+      "platform-user-4821",
+    ]);
+    expect(requests.map((request) => request.headers.get("affinity-actor-type"))).toEqual([
+      "user",
+      "user",
+      "user",
+      "user",
+    ]);
     expect(await requests[3]?.json()).toEqual({ status: "inactive" });
   });
 

@@ -126,8 +126,10 @@ import { createRetryingFetch } from "./resources/retrying-fetch";
 import { RolesResource } from "./resources/roles";
 import { UsersResource } from "./resources/users";
 import { WebhooksResource } from "./resources/webhooks";
+import { type AffinityActor, validateAffinityActor } from "./resources/actor";
 
 export interface AffinityOptions {
+  actor?: AffinityActor;
   apiVersion?: string;
   baseUrl?: string;
   fetch?: FetchAPI;
@@ -150,9 +152,12 @@ export class Affinity {
   readonly roles: RolesResource;
   readonly users: UsersResource;
   readonly webhooks: WebhooksResource;
+  private readonly apiKey: string;
+  private readonly options: AffinityOptions;
 
   constructor(apiKey: string, options: AffinityOptions = {}) {
     if (!apiKey.trim()) throw new Error("Affinity requires a service API key");
+    const actor = options.actor ? validateAffinityActor(options.actor) : undefined;
     const baseUrl = options.baseUrl ?? "${baseUrl}";
     const apiVersion = options.apiVersion ?? "${apiVersion}";
     const timeout = options.timeout ?? 30_000;
@@ -163,6 +168,8 @@ export class Affinity {
     if (!Number.isInteger(maxRetries) || maxRetries < 0) {
       throw new Error("Affinity maxRetries must be a non-negative integer");
     }
+    this.apiKey = apiKey;
+    this.options = { ...options, ...(actor ? { actor } : {}) };
     const fetchApi = createRetryingFetch(options.fetch ?? globalThis.fetch, {
       maxRetries,
       timeout,
@@ -190,8 +197,8 @@ export class Affinity {
       apiVersion,
     );
     this.memberships = new MembershipsResource(new MembershipsApi(configuration), apiVersion);
-    this.orders = new OrdersResource(new PlatformOrdersApi(configuration), apiVersion);
-    this.patients = new PatientsResource(new PatientsApi(configuration), apiVersion);
+    this.orders = new OrdersResource(new PlatformOrdersApi(configuration), apiVersion, actor);
+    this.patients = new PatientsResource(new PatientsApi(configuration), apiVersion, actor);
     this.practices = new PracticesResource(new PracticesApi(configuration), apiVersion);
     this.providerMappings = new ProviderMappingsResource(
       new ProviderMappingsApi(configuration),
@@ -200,6 +207,10 @@ export class Affinity {
     this.roles = new RolesResource(new RolesApi(configuration), apiVersion);
     this.users = new UsersResource(new UsersApi(configuration), apiVersion);
     this.webhooks = new WebhooksResource(new PlatformWebhooksApi(configuration), apiVersion);
+  }
+
+  withActor(actor: AffinityActor) {
+    return new Affinity(this.apiKey, { ...this.options, actor });
   }
 }`,
 );
@@ -254,6 +265,36 @@ async function waitBeforeRetry(attempt: number, retryAfter: string | null) {
     ? Math.max(0, retryAfterSeconds * 1_000)
     : Math.min(250 * 2 ** attempt, 2_000);
   await new Promise((resolve) => setTimeout(resolve, delay));
+}`,
+);
+
+await output(
+  "src/resources/actor.ts",
+  `export type AffinityActorType = "system" | "user";
+
+export interface AffinityActor {
+  id: string;
+  type: AffinityActorType;
+}
+
+export function validateAffinityActor(actor: AffinityActor): AffinityActor {
+  const id = actor.id.trim();
+  if (!id || id.length > 200) {
+    throw new Error("Affinity actor ID must contain 1 to 200 characters");
+  }
+  if (actor.type !== "user" && actor.type !== "system") {
+    throw new Error("Affinity actor type must be user or system");
+  }
+  return { id, type: actor.type };
+}
+
+export function requireAffinityActor(actor: AffinityActor | undefined) {
+  if (!actor) {
+    throw new Error(
+      "Patient and order requests require actor attribution; call affinity.withActor(...) first",
+    );
+  }
+  return actor;
 }`,
 );
 
@@ -410,23 +451,45 @@ await output(
   `import type { ListPatientsRequest, PatientsApi } from "../apis/PatientsApi";
 import type { CreatePatientRequest } from "../models/CreatePatientRequest";
 import type { UpdatePatientRequest } from "../models/UpdatePatientRequest";
+import { type AffinityActor, requireAffinityActor } from "./actor";
 import type { MutationOptions } from "./request-options";
 
-export type PatientListParams = Omit<ListPatientsRequest, "affinityVersion" | "practiceId">;
+export type PatientListParams = Omit<
+  ListPatientsRequest,
+  "affinityActorId" | "affinityActorType" | "affinityVersion" | "practiceId"
+>;
 
 export class PatientsResource {
   constructor(
     private readonly api: PatientsApi,
     private readonly apiVersion: string,
+    private readonly affinityActor?: AffinityActor,
   ) {}
   list(practiceId: string, params: PatientListParams = {}) {
-    return this.api.listPatients({ ...params, affinityVersion: this.apiVersion, practiceId });
+    const actor = requireAffinityActor(this.affinityActor);
+    return this.api.listPatients({
+      ...params,
+      affinityActorId: actor.id,
+      affinityActorType: actor.type,
+      affinityVersion: this.apiVersion,
+      practiceId,
+    });
   }
   retrieve(practiceId: string, patientId: string) {
-    return this.api.getPatient({ affinityVersion: this.apiVersion, patientId, practiceId });
+    const actor = requireAffinityActor(this.affinityActor);
+    return this.api.getPatient({
+      affinityActorId: actor.id,
+      affinityActorType: actor.type,
+      affinityVersion: this.apiVersion,
+      patientId,
+      practiceId,
+    });
   }
   create(practiceId: string, params: CreatePatientRequest, options: MutationOptions) {
+    const actor = requireAffinityActor(this.affinityActor);
     return this.api.createPatient({
+      affinityActorId: actor.id,
+      affinityActorType: actor.type,
       affinityVersion: this.apiVersion,
       createPatientRequest: params,
       idempotencyKey: options.idempotencyKey,
@@ -439,7 +502,10 @@ export class PatientsResource {
     params: UpdatePatientRequest,
     options: MutationOptions,
   ) {
+    const actor = requireAffinityActor(this.affinityActor);
     return this.api.updatePatient({
+      affinityActorId: actor.id,
+      affinityActorType: actor.type,
       affinityVersion: this.apiVersion,
       idempotencyKey: options.idempotencyKey,
       patientId,
@@ -454,23 +520,43 @@ await output(
   "src/resources/orders.ts",
   `import type { ListOrdersRequest, PlatformOrdersApi } from "../apis/PlatformOrdersApi";
 import type { CancelOrderRequest } from "../models/CancelOrderRequest";
+import { type AffinityActor, requireAffinityActor } from "./actor";
 import type { MutationOptions } from "./request-options";
 
-export type OrderListParams = Omit<ListOrdersRequest, "affinityVersion">;
+export type OrderListParams = Omit<
+  ListOrdersRequest,
+  "affinityActorId" | "affinityActorType" | "affinityVersion"
+>;
 
 export class OrdersResource {
   constructor(
     private readonly api: PlatformOrdersApi,
     private readonly apiVersion: string,
+    private readonly affinityActor?: AffinityActor,
   ) {}
   list(params: OrderListParams = {}) {
-    return this.api.listOrders({ ...params, affinityVersion: this.apiVersion });
+    const actor = requireAffinityActor(this.affinityActor);
+    return this.api.listOrders({
+      ...params,
+      affinityActorId: actor.id,
+      affinityActorType: actor.type,
+      affinityVersion: this.apiVersion,
+    });
   }
   retrieve(orderId: string) {
-    return this.api.getOrder({ affinityVersion: this.apiVersion, orderId });
+    const actor = requireAffinityActor(this.affinityActor);
+    return this.api.getOrder({
+      affinityActorId: actor.id,
+      affinityActorType: actor.type,
+      affinityVersion: this.apiVersion,
+      orderId,
+    });
   }
   cancel(orderId: string, params: CancelOrderRequest, options: MutationOptions) {
+    const actor = requireAffinityActor(this.affinityActor);
     return this.api.cancelOrder({
+      affinityActorId: actor.id,
+      affinityActorType: actor.type,
       cancelOrderRequest: params,
       affinityVersion: this.apiVersion,
       idempotencyKey: options.idempotencyKey,
@@ -478,7 +564,13 @@ export class OrdersResource {
     });
   }
   listEvents(orderId: string) {
-    return this.api.listOrderEvents({ affinityVersion: this.apiVersion, orderId });
+    const actor = requireAffinityActor(this.affinityActor);
+    return this.api.listOrderEvents({
+      affinityActorId: actor.id,
+      affinityActorType: actor.type,
+      affinityVersion: this.apiVersion,
+      orderId,
+    });
   }
 }`,
 );
@@ -777,5 +869,5 @@ const indexPath = resolve(root, "src/index.ts");
 const generatedIndex = (await readFile(indexPath, "utf8")).trimEnd();
 await writeFile(
   indexPath,
-  `${generatedIndex}\n\nexport * from "./affinity";\nexport * from "./webhook-events";\nexport * from "./resources/account";\nexport * from "./resources/billing";\nexport * from "./resources/catalog";\nexport * from "./resources/component-sessions";\nexport * from "./resources/compounders";\nexport * from "./resources/hosted-sessions";\nexport * from "./resources/memberships";\nexport * from "./resources/orders";\nexport * from "./resources/patients";\nexport * from "./resources/practices";\nexport * from "./resources/provider-mappings";\nexport * from "./resources/request-options";\nexport * from "./resources/roles";\nexport * from "./resources/users";\nexport * from "./resources/webhooks";\n`,
+  `${generatedIndex}\n\nexport * from "./affinity";\nexport * from "./webhook-events";\nexport * from "./resources/account";\nexport * from "./resources/actor";\nexport * from "./resources/billing";\nexport * from "./resources/catalog";\nexport * from "./resources/component-sessions";\nexport * from "./resources/compounders";\nexport * from "./resources/hosted-sessions";\nexport * from "./resources/memberships";\nexport * from "./resources/orders";\nexport * from "./resources/patients";\nexport * from "./resources/practices";\nexport * from "./resources/provider-mappings";\nexport * from "./resources/request-options";\nexport * from "./resources/roles";\nexport * from "./resources/users";\nexport * from "./resources/webhooks";\n`,
 );

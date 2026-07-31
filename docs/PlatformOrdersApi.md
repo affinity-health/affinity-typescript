@@ -11,7 +11,7 @@ All URIs are relative to *https://api.joinaffinityai.com*
 
 ## cancelOrder
 
-> CancelOrderResponse cancelOrder(orderId, cancelOrderRequest, idempotencyKey, affinityVersion)
+> CancelOrderResponse cancelOrder(orderId, affinityActorId, affinityActorType, cancelOrderRequest, idempotencyKey, affinityVersion)
 
 Cancel order
 
@@ -39,6 +39,10 @@ async function example() {
   const body = {
     // string
     orderId: orderId_example,
+    // string | Stable opaque ID of the authenticated platform user or system initiating a PHI-capable request. Do not use an email address.
+    affinityActorId: affinityActorId_example,
+    // 'user' | 'system' | Whether the external actor is an authenticated platform user or an automated system process.
+    affinityActorType: affinityActorType_example,
     // CancelOrderRequest
     cancelOrderRequest: ...,
     // string | Unique operation key required for every mutation. (optional)
@@ -61,12 +65,14 @@ example().catch(console.error);
 
 ### Parameters
 
-| Name                   | Type                                        | Description                                                                      | Notes                                |
-| ---------------------- | ------------------------------------------- | -------------------------------------------------------------------------------- | ------------------------------------ |
-| **orderId**            | `string`                                    |                                                                                  | [Defaults to `undefined`]            |
-| **cancelOrderRequest** | [CancelOrderRequest](CancelOrderRequest.md) |                                                                                  |                                      |
-| **idempotencyKey**     | `string`                                    | Unique operation key required for every mutation.                                | [Optional] [Defaults to `undefined`] |
-| **affinityVersion**    | `string`                                    | Optional per-request override for the service account\&#39;s pinned API version. | [Optional] [Defaults to `undefined`] |
+| Name                   | Type                                        | Description                                                                                                                  | Notes                                          |
+| ---------------------- | ------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------- |
+| **orderId**            | `string`                                    |                                                                                                                              | [Defaults to `undefined`]                      |
+| **affinityActorId**    | `string`                                    | Stable opaque ID of the authenticated platform user or system initiating a PHI-capable request. Do not use an email address. | [Defaults to `undefined`]                      |
+| **affinityActorType**  | `user`, `system`                            | Whether the external actor is an authenticated platform user or an automated system process.                                 | [Defaults to `undefined`] [Enum: user, system] |
+| **cancelOrderRequest** | [CancelOrderRequest](CancelOrderRequest.md) |                                                                                                                              |                                                |
+| **idempotencyKey**     | `string`                                    | Unique operation key required for every mutation.                                                                            | [Optional] [Defaults to `undefined`]           |
+| **affinityVersion**    | `string`                                    | Optional per-request override for the service account\&#39;s pinned API version.                                             | [Optional] [Defaults to `undefined`]           |
 
 ### Return type
 
@@ -102,7 +108,7 @@ example().catch(console.error);
 
 ## getOrder
 
-> GetOrderResponse getOrder(orderId, affinityVersion)
+> GetOrderResponse getOrder(orderId, affinityActorId, affinityActorType, affinityVersion)
 
 Read order
 
@@ -128,6 +134,10 @@ async function example() {
   const body = {
     // string
     orderId: orderId_example,
+    // string | Stable opaque ID of the authenticated platform user or system initiating a PHI-capable request. Do not use an email address.
+    affinityActorId: affinityActorId_example,
+    // 'user' | 'system' | Whether the external actor is an authenticated platform user or an automated system process.
+    affinityActorType: affinityActorType_example,
     // string | Optional per-request override for the service account\'s pinned API version. (optional)
     affinityVersion: 2026-07-29,
   } satisfies GetOrderRequest;
@@ -146,10 +156,12 @@ example().catch(console.error);
 
 ### Parameters
 
-| Name                | Type     | Description                                                                      | Notes                                |
-| ------------------- | -------- | -------------------------------------------------------------------------------- | ------------------------------------ |
-| **orderId**         | `string` |                                                                                  | [Defaults to `undefined`]            |
-| **affinityVersion** | `string` | Optional per-request override for the service account\&#39;s pinned API version. | [Optional] [Defaults to `undefined`] |
+| Name                  | Type             | Description                                                                                                                  | Notes                                          |
+| --------------------- | ---------------- | ---------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------- |
+| **orderId**           | `string`         |                                                                                                                              | [Defaults to `undefined`]                      |
+| **affinityActorId**   | `string`         | Stable opaque ID of the authenticated platform user or system initiating a PHI-capable request. Do not use an email address. | [Defaults to `undefined`]                      |
+| **affinityActorType** | `user`, `system` | Whether the external actor is an authenticated platform user or an automated system process.                                 | [Defaults to `undefined`] [Enum: user, system] |
+| **affinityVersion**   | `string`         | Optional per-request override for the service account\&#39;s pinned API version.                                             | [Optional] [Defaults to `undefined`]           |
 
 ### Return type
 
@@ -184,7 +196,7 @@ example().catch(console.error);
 
 ## listOrderEvents
 
-> ListOrderEventsResponse listOrderEvents(orderId, limit, startingAfter, endingBefore, affinityVersion)
+> ListOrderEventsResponse listOrderEvents(orderId, affinityActorId, affinityActorType, limit, startingAfter, endingBefore, affinityVersion)
 
 List order events
 
@@ -210,6 +222,10 @@ async function example() {
   const body = {
     // string
     orderId: orderId_example,
+    // string | Stable opaque ID of the authenticated platform user or system initiating a PHI-capable request. Do not use an email address.
+    affinityActorId: affinityActorId_example,
+    // 'user' | 'system' | Whether the external actor is an authenticated platform user or an automated system process.
+    affinityActorType: affinityActorType_example,
     // number (optional)
     limit: 56,
     // string (optional)
@@ -234,13 +250,15 @@ example().catch(console.error);
 
 ### Parameters
 
-| Name                | Type     | Description                                                                      | Notes                                |
-| ------------------- | -------- | -------------------------------------------------------------------------------- | ------------------------------------ |
-| **orderId**         | `string` |                                                                                  | [Defaults to `undefined`]            |
-| **limit**           | `number` |                                                                                  | [Optional] [Defaults to `25`]        |
-| **startingAfter**   | `string` |                                                                                  | [Optional] [Defaults to `undefined`] |
-| **endingBefore**    | `string` |                                                                                  | [Optional] [Defaults to `undefined`] |
-| **affinityVersion** | `string` | Optional per-request override for the service account\&#39;s pinned API version. | [Optional] [Defaults to `undefined`] |
+| Name                  | Type             | Description                                                                                                                  | Notes                                          |
+| --------------------- | ---------------- | ---------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------- |
+| **orderId**           | `string`         |                                                                                                                              | [Defaults to `undefined`]                      |
+| **affinityActorId**   | `string`         | Stable opaque ID of the authenticated platform user or system initiating a PHI-capable request. Do not use an email address. | [Defaults to `undefined`]                      |
+| **affinityActorType** | `user`, `system` | Whether the external actor is an authenticated platform user or an automated system process.                                 | [Defaults to `undefined`] [Enum: user, system] |
+| **limit**             | `number`         |                                                                                                                              | [Optional] [Defaults to `25`]                  |
+| **startingAfter**     | `string`         |                                                                                                                              | [Optional] [Defaults to `undefined`]           |
+| **endingBefore**      | `string`         |                                                                                                                              | [Optional] [Defaults to `undefined`]           |
+| **affinityVersion**   | `string`         | Optional per-request override for the service account\&#39;s pinned API version.                                             | [Optional] [Defaults to `undefined`]           |
 
 ### Return type
 
@@ -275,7 +293,7 @@ example().catch(console.error);
 
 ## listOrders
 
-> ListOrdersResponse listOrders(externalOrderId, patientExternalId, limit, startingAfter, endingBefore, practiceId, status, affinityVersion)
+> ListOrdersResponse listOrders(affinityActorId, affinityActorType, externalOrderId, patientExternalId, limit, startingAfter, endingBefore, practiceId, status, affinityVersion)
 
 List platform orders
 
@@ -299,6 +317,10 @@ async function example() {
   const api = new PlatformOrdersApi(config);
 
   const body = {
+    // string | Stable opaque ID of the authenticated platform user or system initiating a PHI-capable request. Do not use an email address.
+    affinityActorId: affinityActorId_example,
+    // 'user' | 'system' | Whether the external actor is an authenticated platform user or an automated system process.
+    affinityActorType: affinityActorType_example,
     // string (optional)
     externalOrderId: externalOrderId_example,
     // string (optional)
@@ -331,16 +353,18 @@ example().catch(console.error);
 
 ### Parameters
 
-| Name                  | Type                                                                               | Description                                                                      | Notes                                                                                                             |
-| --------------------- | ---------------------------------------------------------------------------------- | -------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------- |
-| **externalOrderId**   | `string`                                                                           |                                                                                  | [Optional] [Defaults to `undefined`]                                                                              |
-| **patientExternalId** | `string`                                                                           |                                                                                  | [Optional] [Defaults to `undefined`]                                                                              |
-| **limit**             | `number`                                                                           |                                                                                  | [Optional] [Defaults to `100`]                                                                                    |
-| **startingAfter**     | `string`                                                                           |                                                                                  | [Optional] [Defaults to `undefined`]                                                                              |
-| **endingBefore**      | `string`                                                                           |                                                                                  | [Optional] [Defaults to `undefined`]                                                                              |
-| **practiceId**        | `string`                                                                           |                                                                                  | [Optional] [Defaults to `undefined`]                                                                              |
-| **status**            | `blocked`, `cancelled`, `delivered`, `draft`, `processing`, `shipped`, `submitted` |                                                                                  | [Optional] [Defaults to `undefined`] [Enum: blocked, cancelled, delivered, draft, processing, shipped, submitted] |
-| **affinityVersion**   | `string`                                                                           | Optional per-request override for the service account\&#39;s pinned API version. | [Optional] [Defaults to `undefined`]                                                                              |
+| Name                  | Type                                                                               | Description                                                                                                                  | Notes                                                                                                             |
+| --------------------- | ---------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------- |
+| **affinityActorId**   | `string`                                                                           | Stable opaque ID of the authenticated platform user or system initiating a PHI-capable request. Do not use an email address. | [Defaults to `undefined`]                                                                                         |
+| **affinityActorType** | `user`, `system`                                                                   | Whether the external actor is an authenticated platform user or an automated system process.                                 | [Defaults to `undefined`] [Enum: user, system]                                                                    |
+| **externalOrderId**   | `string`                                                                           |                                                                                                                              | [Optional] [Defaults to `undefined`]                                                                              |
+| **patientExternalId** | `string`                                                                           |                                                                                                                              | [Optional] [Defaults to `undefined`]                                                                              |
+| **limit**             | `number`                                                                           |                                                                                                                              | [Optional] [Defaults to `100`]                                                                                    |
+| **startingAfter**     | `string`                                                                           |                                                                                                                              | [Optional] [Defaults to `undefined`]                                                                              |
+| **endingBefore**      | `string`                                                                           |                                                                                                                              | [Optional] [Defaults to `undefined`]                                                                              |
+| **practiceId**        | `string`                                                                           |                                                                                                                              | [Optional] [Defaults to `undefined`]                                                                              |
+| **status**            | `blocked`, `cancelled`, `delivered`, `draft`, `processing`, `shipped`, `submitted` |                                                                                                                              | [Optional] [Defaults to `undefined`] [Enum: blocked, cancelled, delivered, draft, processing, shipped, submitted] |
+| **affinityVersion**   | `string`                                                                           | Optional per-request override for the service account\&#39;s pinned API version.                                             | [Optional] [Defaults to `undefined`]                                                                              |
 
 ### Return type
 

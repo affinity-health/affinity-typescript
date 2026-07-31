@@ -42,6 +42,8 @@ import { type Problem, ProblemFromJSON, ProblemToJSON } from "../models/Problem"
 
 export interface CancelOrderOperationRequest {
   orderId: string;
+  affinityActorId: string;
+  affinityActorType: CancelOrderOperationAffinityActorTypeEnum;
   cancelOrderRequest: CancelOrderRequest;
   idempotencyKey?: string;
   affinityVersion?: string;
@@ -49,11 +51,15 @@ export interface CancelOrderOperationRequest {
 
 export interface GetOrderRequest {
   orderId: string;
+  affinityActorId: string;
+  affinityActorType: GetOrderAffinityActorTypeEnum;
   affinityVersion?: string;
 }
 
 export interface ListOrderEventsRequest {
   orderId: string;
+  affinityActorId: string;
+  affinityActorType: ListOrderEventsAffinityActorTypeEnum;
   limit?: number;
   startingAfter?: string;
   endingBefore?: string;
@@ -61,6 +67,8 @@ export interface ListOrderEventsRequest {
 }
 
 export interface ListOrdersRequest {
+  affinityActorId: string;
+  affinityActorType: ListOrdersAffinityActorTypeEnum;
   externalOrderId?: string;
   patientExternalId?: string;
   limit?: number;
@@ -88,6 +96,20 @@ export class PlatformOrdersApi extends runtime.BaseAPI {
       );
     }
 
+    if (requestParameters["affinityActorId"] == null) {
+      throw new runtime.RequiredError(
+        "affinityActorId",
+        'Required parameter "affinityActorId" was null or undefined when calling cancelOrder().',
+      );
+    }
+
+    if (requestParameters["affinityActorType"] == null) {
+      throw new runtime.RequiredError(
+        "affinityActorType",
+        'Required parameter "affinityActorType" was null or undefined when calling cancelOrder().',
+      );
+    }
+
     if (requestParameters["cancelOrderRequest"] == null) {
       throw new runtime.RequiredError(
         "cancelOrderRequest",
@@ -107,6 +129,14 @@ export class PlatformOrdersApi extends runtime.BaseAPI {
 
     if (requestParameters["affinityVersion"] != null) {
       headerParameters["Affinity-Version"] = String(requestParameters["affinityVersion"]);
+    }
+
+    if (requestParameters["affinityActorId"] != null) {
+      headerParameters["Affinity-Actor-Id"] = String(requestParameters["affinityActorId"]);
+    }
+
+    if (requestParameters["affinityActorType"] != null) {
+      headerParameters["Affinity-Actor-Type"] = String(requestParameters["affinityActorType"]);
     }
 
     if (this.configuration && this.configuration.accessToken) {
@@ -176,12 +206,34 @@ export class PlatformOrdersApi extends runtime.BaseAPI {
       );
     }
 
+    if (requestParameters["affinityActorId"] == null) {
+      throw new runtime.RequiredError(
+        "affinityActorId",
+        'Required parameter "affinityActorId" was null or undefined when calling getOrder().',
+      );
+    }
+
+    if (requestParameters["affinityActorType"] == null) {
+      throw new runtime.RequiredError(
+        "affinityActorType",
+        'Required parameter "affinityActorType" was null or undefined when calling getOrder().',
+      );
+    }
+
     const queryParameters: any = {};
 
     const headerParameters: runtime.HTTPHeaders = {};
 
     if (requestParameters["affinityVersion"] != null) {
       headerParameters["Affinity-Version"] = String(requestParameters["affinityVersion"]);
+    }
+
+    if (requestParameters["affinityActorId"] != null) {
+      headerParameters["Affinity-Actor-Id"] = String(requestParameters["affinityActorId"]);
+    }
+
+    if (requestParameters["affinityActorType"] != null) {
+      headerParameters["Affinity-Actor-Type"] = String(requestParameters["affinityActorType"]);
     }
 
     if (this.configuration && this.configuration.accessToken) {
@@ -250,6 +302,20 @@ export class PlatformOrdersApi extends runtime.BaseAPI {
       );
     }
 
+    if (requestParameters["affinityActorId"] == null) {
+      throw new runtime.RequiredError(
+        "affinityActorId",
+        'Required parameter "affinityActorId" was null or undefined when calling listOrderEvents().',
+      );
+    }
+
+    if (requestParameters["affinityActorType"] == null) {
+      throw new runtime.RequiredError(
+        "affinityActorType",
+        'Required parameter "affinityActorType" was null or undefined when calling listOrderEvents().',
+      );
+    }
+
     const queryParameters: any = {};
 
     if (requestParameters["limit"] != null) {
@@ -268,6 +334,14 @@ export class PlatformOrdersApi extends runtime.BaseAPI {
 
     if (requestParameters["affinityVersion"] != null) {
       headerParameters["Affinity-Version"] = String(requestParameters["affinityVersion"]);
+    }
+
+    if (requestParameters["affinityActorId"] != null) {
+      headerParameters["Affinity-Actor-Id"] = String(requestParameters["affinityActorId"]);
+    }
+
+    if (requestParameters["affinityActorType"] != null) {
+      headerParameters["Affinity-Actor-Type"] = String(requestParameters["affinityActorType"]);
     }
 
     if (this.configuration && this.configuration.accessToken) {
@@ -327,6 +401,20 @@ export class PlatformOrdersApi extends runtime.BaseAPI {
    * Creates request options for listOrders without sending the request
    */
   async listOrdersRequestOpts(requestParameters: ListOrdersRequest): Promise<runtime.RequestOpts> {
+    if (requestParameters["affinityActorId"] == null) {
+      throw new runtime.RequiredError(
+        "affinityActorId",
+        'Required parameter "affinityActorId" was null or undefined when calling listOrders().',
+      );
+    }
+
+    if (requestParameters["affinityActorType"] == null) {
+      throw new runtime.RequiredError(
+        "affinityActorType",
+        'Required parameter "affinityActorType" was null or undefined when calling listOrders().',
+      );
+    }
+
     const queryParameters: any = {};
 
     if (requestParameters["externalOrderId"] != null) {
@@ -361,6 +449,14 @@ export class PlatformOrdersApi extends runtime.BaseAPI {
 
     if (requestParameters["affinityVersion"] != null) {
       headerParameters["Affinity-Version"] = String(requestParameters["affinityVersion"]);
+    }
+
+    if (requestParameters["affinityActorId"] != null) {
+      headerParameters["Affinity-Actor-Id"] = String(requestParameters["affinityActorId"]);
+    }
+
+    if (requestParameters["affinityActorType"] != null) {
+      headerParameters["Affinity-Actor-Type"] = String(requestParameters["affinityActorType"]);
     }
 
     if (this.configuration && this.configuration.accessToken) {
@@ -405,7 +501,7 @@ export class PlatformOrdersApi extends runtime.BaseAPI {
    * List platform orders
    */
   async listOrders(
-    requestParameters: ListOrdersRequest = {},
+    requestParameters: ListOrdersRequest,
     initOverrides?: RequestInit | runtime.InitOverrideFunction,
   ): Promise<ListOrdersResponse> {
     const response = await this.listOrdersRaw(requestParameters, initOverrides);
@@ -413,6 +509,42 @@ export class PlatformOrdersApi extends runtime.BaseAPI {
   }
 }
 
+/**
+ * @export
+ */
+export const CancelOrderOperationAffinityActorTypeEnum = {
+  User: "user",
+  System: "system",
+} as const;
+export type CancelOrderOperationAffinityActorTypeEnum =
+  (typeof CancelOrderOperationAffinityActorTypeEnum)[keyof typeof CancelOrderOperationAffinityActorTypeEnum];
+/**
+ * @export
+ */
+export const GetOrderAffinityActorTypeEnum = {
+  User: "user",
+  System: "system",
+} as const;
+export type GetOrderAffinityActorTypeEnum =
+  (typeof GetOrderAffinityActorTypeEnum)[keyof typeof GetOrderAffinityActorTypeEnum];
+/**
+ * @export
+ */
+export const ListOrderEventsAffinityActorTypeEnum = {
+  User: "user",
+  System: "system",
+} as const;
+export type ListOrderEventsAffinityActorTypeEnum =
+  (typeof ListOrderEventsAffinityActorTypeEnum)[keyof typeof ListOrderEventsAffinityActorTypeEnum];
+/**
+ * @export
+ */
+export const ListOrdersAffinityActorTypeEnum = {
+  User: "user",
+  System: "system",
+} as const;
+export type ListOrdersAffinityActorTypeEnum =
+  (typeof ListOrdersAffinityActorTypeEnum)[keyof typeof ListOrdersAffinityActorTypeEnum];
 /**
  * @export
  */

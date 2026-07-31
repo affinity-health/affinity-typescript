@@ -11,7 +11,7 @@ All URIs are relative to *https://api.joinaffinityai.com*
 
 ## createPatient
 
-> CreatePatientResponse createPatient(practiceId, createPatientRequest, idempotencyKey, affinityVersion)
+> CreatePatientResponse createPatient(practiceId, affinityActorId, affinityActorType, createPatientRequest, idempotencyKey, affinityVersion)
 
 Create practice patient
 
@@ -39,6 +39,10 @@ async function example() {
   const body = {
     // string
     practiceId: practiceId_example,
+    // string | Stable opaque ID of the authenticated platform user or system initiating a PHI-capable request. Do not use an email address.
+    affinityActorId: affinityActorId_example,
+    // 'user' | 'system' | Whether the external actor is an authenticated platform user or an automated system process.
+    affinityActorType: affinityActorType_example,
     // CreatePatientRequest
     createPatientRequest: ...,
     // string | Unique operation key required for every mutation. (optional)
@@ -61,12 +65,14 @@ example().catch(console.error);
 
 ### Parameters
 
-| Name                     | Type                                            | Description                                                                      | Notes                                |
-| ------------------------ | ----------------------------------------------- | -------------------------------------------------------------------------------- | ------------------------------------ |
-| **practiceId**           | `string`                                        |                                                                                  | [Defaults to `undefined`]            |
-| **createPatientRequest** | [CreatePatientRequest](CreatePatientRequest.md) |                                                                                  |                                      |
-| **idempotencyKey**       | `string`                                        | Unique operation key required for every mutation.                                | [Optional] [Defaults to `undefined`] |
-| **affinityVersion**      | `string`                                        | Optional per-request override for the service account\&#39;s pinned API version. | [Optional] [Defaults to `undefined`] |
+| Name                     | Type                                            | Description                                                                                                                  | Notes                                          |
+| ------------------------ | ----------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------- |
+| **practiceId**           | `string`                                        |                                                                                                                              | [Defaults to `undefined`]                      |
+| **affinityActorId**      | `string`                                        | Stable opaque ID of the authenticated platform user or system initiating a PHI-capable request. Do not use an email address. | [Defaults to `undefined`]                      |
+| **affinityActorType**    | `user`, `system`                                | Whether the external actor is an authenticated platform user or an automated system process.                                 | [Defaults to `undefined`] [Enum: user, system] |
+| **createPatientRequest** | [CreatePatientRequest](CreatePatientRequest.md) |                                                                                                                              |                                                |
+| **idempotencyKey**       | `string`                                        | Unique operation key required for every mutation.                                                                            | [Optional] [Defaults to `undefined`]           |
+| **affinityVersion**      | `string`                                        | Optional per-request override for the service account\&#39;s pinned API version.                                             | [Optional] [Defaults to `undefined`]           |
 
 ### Return type
 
@@ -102,7 +108,7 @@ example().catch(console.error);
 
 ## getPatient
 
-> GetPatientResponse getPatient(practiceId, patientId, affinityVersion)
+> GetPatientResponse getPatient(practiceId, patientId, affinityActorId, affinityActorType, affinityVersion)
 
 Read practice patient
 
@@ -132,6 +138,10 @@ async function example() {
     practiceId: practiceId_example,
     // string
     patientId: patientId_example,
+    // string | Stable opaque ID of the authenticated platform user or system initiating a PHI-capable request. Do not use an email address.
+    affinityActorId: affinityActorId_example,
+    // 'user' | 'system' | Whether the external actor is an authenticated platform user or an automated system process.
+    affinityActorType: affinityActorType_example,
     // string | Optional per-request override for the service account\'s pinned API version. (optional)
     affinityVersion: 2026-07-29,
   } satisfies GetPatientRequest;
@@ -150,11 +160,13 @@ example().catch(console.error);
 
 ### Parameters
 
-| Name                | Type     | Description                                                                      | Notes                                |
-| ------------------- | -------- | -------------------------------------------------------------------------------- | ------------------------------------ |
-| **practiceId**      | `string` |                                                                                  | [Defaults to `undefined`]            |
-| **patientId**       | `string` |                                                                                  | [Defaults to `undefined`]            |
-| **affinityVersion** | `string` | Optional per-request override for the service account\&#39;s pinned API version. | [Optional] [Defaults to `undefined`] |
+| Name                  | Type             | Description                                                                                                                  | Notes                                          |
+| --------------------- | ---------------- | ---------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------- |
+| **practiceId**        | `string`         |                                                                                                                              | [Defaults to `undefined`]                      |
+| **patientId**         | `string`         |                                                                                                                              | [Defaults to `undefined`]                      |
+| **affinityActorId**   | `string`         | Stable opaque ID of the authenticated platform user or system initiating a PHI-capable request. Do not use an email address. | [Defaults to `undefined`]                      |
+| **affinityActorType** | `user`, `system` | Whether the external actor is an authenticated platform user or an automated system process.                                 | [Defaults to `undefined`] [Enum: user, system] |
+| **affinityVersion**   | `string`         | Optional per-request override for the service account\&#39;s pinned API version.                                             | [Optional] [Defaults to `undefined`]           |
 
 ### Return type
 
@@ -189,7 +201,7 @@ example().catch(console.error);
 
 ## listPatients
 
-> ListPatientsResponse listPatients(practiceId, query, limit, affinityVersion)
+> ListPatientsResponse listPatients(practiceId, affinityActorId, affinityActorType, query, limit, affinityVersion)
 
 List practice patients
 
@@ -217,6 +229,10 @@ async function example() {
   const body = {
     // string
     practiceId: practiceId_example,
+    // string | Stable opaque ID of the authenticated platform user or system initiating a PHI-capable request. Do not use an email address.
+    affinityActorId: affinityActorId_example,
+    // 'user' | 'system' | Whether the external actor is an authenticated platform user or an automated system process.
+    affinityActorType: affinityActorType_example,
     // string (optional)
     query: query_example,
     // number (optional)
@@ -239,12 +255,14 @@ example().catch(console.error);
 
 ### Parameters
 
-| Name                | Type     | Description                                                                      | Notes                                |
-| ------------------- | -------- | -------------------------------------------------------------------------------- | ------------------------------------ |
-| **practiceId**      | `string` |                                                                                  | [Defaults to `undefined`]            |
-| **query**           | `string` |                                                                                  | [Optional] [Defaults to `undefined`] |
-| **limit**           | `number` |                                                                                  | [Optional] [Defaults to `25`]        |
-| **affinityVersion** | `string` | Optional per-request override for the service account\&#39;s pinned API version. | [Optional] [Defaults to `undefined`] |
+| Name                  | Type             | Description                                                                                                                  | Notes                                          |
+| --------------------- | ---------------- | ---------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------- |
+| **practiceId**        | `string`         |                                                                                                                              | [Defaults to `undefined`]                      |
+| **affinityActorId**   | `string`         | Stable opaque ID of the authenticated platform user or system initiating a PHI-capable request. Do not use an email address. | [Defaults to `undefined`]                      |
+| **affinityActorType** | `user`, `system` | Whether the external actor is an authenticated platform user or an automated system process.                                 | [Defaults to `undefined`] [Enum: user, system] |
+| **query**             | `string`         |                                                                                                                              | [Optional] [Defaults to `undefined`]           |
+| **limit**             | `number`         |                                                                                                                              | [Optional] [Defaults to `25`]                  |
+| **affinityVersion**   | `string`         | Optional per-request override for the service account\&#39;s pinned API version.                                             | [Optional] [Defaults to `undefined`]           |
 
 ### Return type
 
@@ -279,7 +297,7 @@ example().catch(console.error);
 
 ## updatePatient
 
-> UpdatePatientResponse updatePatient(practiceId, patientId, updatePatientRequest, idempotencyKey, affinityVersion)
+> UpdatePatientResponse updatePatient(practiceId, patientId, affinityActorId, affinityActorType, updatePatientRequest, idempotencyKey, affinityVersion)
 
 Update practice patient
 
@@ -309,6 +327,10 @@ async function example() {
     practiceId: practiceId_example,
     // string
     patientId: patientId_example,
+    // string | Stable opaque ID of the authenticated platform user or system initiating a PHI-capable request. Do not use an email address.
+    affinityActorId: affinityActorId_example,
+    // 'user' | 'system' | Whether the external actor is an authenticated platform user or an automated system process.
+    affinityActorType: affinityActorType_example,
     // UpdatePatientRequest
     updatePatientRequest: ...,
     // string | Unique operation key required for every mutation. (optional)
@@ -331,13 +353,15 @@ example().catch(console.error);
 
 ### Parameters
 
-| Name                     | Type                                            | Description                                                                      | Notes                                |
-| ------------------------ | ----------------------------------------------- | -------------------------------------------------------------------------------- | ------------------------------------ |
-| **practiceId**           | `string`                                        |                                                                                  | [Defaults to `undefined`]            |
-| **patientId**            | `string`                                        |                                                                                  | [Defaults to `undefined`]            |
-| **updatePatientRequest** | [UpdatePatientRequest](UpdatePatientRequest.md) |                                                                                  |                                      |
-| **idempotencyKey**       | `string`                                        | Unique operation key required for every mutation.                                | [Optional] [Defaults to `undefined`] |
-| **affinityVersion**      | `string`                                        | Optional per-request override for the service account\&#39;s pinned API version. | [Optional] [Defaults to `undefined`] |
+| Name                     | Type                                            | Description                                                                                                                  | Notes                                          |
+| ------------------------ | ----------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------- |
+| **practiceId**           | `string`                                        |                                                                                                                              | [Defaults to `undefined`]                      |
+| **patientId**            | `string`                                        |                                                                                                                              | [Defaults to `undefined`]                      |
+| **affinityActorId**      | `string`                                        | Stable opaque ID of the authenticated platform user or system initiating a PHI-capable request. Do not use an email address. | [Defaults to `undefined`]                      |
+| **affinityActorType**    | `user`, `system`                                | Whether the external actor is an authenticated platform user or an automated system process.                                 | [Defaults to `undefined`] [Enum: user, system] |
+| **updatePatientRequest** | [UpdatePatientRequest](UpdatePatientRequest.md) |                                                                                                                              |                                                |
+| **idempotencyKey**       | `string`                                        | Unique operation key required for every mutation.                                                                            | [Optional] [Defaults to `undefined`]           |
+| **affinityVersion**      | `string`                                        | Optional per-request override for the service account\&#39;s pinned API version.                                             | [Optional] [Defaults to `undefined`]           |
 
 ### Return type
 

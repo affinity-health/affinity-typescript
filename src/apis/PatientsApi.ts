@@ -47,6 +47,8 @@ import {
 
 export interface CreatePatientOperationRequest {
   practiceId: string;
+  affinityActorId: string;
+  affinityActorType: CreatePatientOperationAffinityActorTypeEnum;
   createPatientRequest: CreatePatientRequest;
   idempotencyKey?: string;
   affinityVersion?: string;
@@ -55,11 +57,15 @@ export interface CreatePatientOperationRequest {
 export interface GetPatientRequest {
   practiceId: string;
   patientId: string;
+  affinityActorId: string;
+  affinityActorType: GetPatientAffinityActorTypeEnum;
   affinityVersion?: string;
 }
 
 export interface ListPatientsRequest {
   practiceId: string;
+  affinityActorId: string;
+  affinityActorType: ListPatientsAffinityActorTypeEnum;
   query?: string;
   limit?: number;
   affinityVersion?: string;
@@ -68,6 +74,8 @@ export interface ListPatientsRequest {
 export interface UpdatePatientOperationRequest {
   practiceId: string;
   patientId: string;
+  affinityActorId: string;
+  affinityActorType: UpdatePatientOperationAffinityActorTypeEnum;
   updatePatientRequest: UpdatePatientRequest;
   idempotencyKey?: string;
   affinityVersion?: string;
@@ -90,6 +98,20 @@ export class PatientsApi extends runtime.BaseAPI {
       );
     }
 
+    if (requestParameters["affinityActorId"] == null) {
+      throw new runtime.RequiredError(
+        "affinityActorId",
+        'Required parameter "affinityActorId" was null or undefined when calling createPatient().',
+      );
+    }
+
+    if (requestParameters["affinityActorType"] == null) {
+      throw new runtime.RequiredError(
+        "affinityActorType",
+        'Required parameter "affinityActorType" was null or undefined when calling createPatient().',
+      );
+    }
+
     if (requestParameters["createPatientRequest"] == null) {
       throw new runtime.RequiredError(
         "createPatientRequest",
@@ -109,6 +131,14 @@ export class PatientsApi extends runtime.BaseAPI {
 
     if (requestParameters["affinityVersion"] != null) {
       headerParameters["Affinity-Version"] = String(requestParameters["affinityVersion"]);
+    }
+
+    if (requestParameters["affinityActorId"] != null) {
+      headerParameters["Affinity-Actor-Id"] = String(requestParameters["affinityActorId"]);
+    }
+
+    if (requestParameters["affinityActorType"] != null) {
+      headerParameters["Affinity-Actor-Type"] = String(requestParameters["affinityActorType"]);
     }
 
     if (this.configuration && this.configuration.accessToken) {
@@ -185,12 +215,34 @@ export class PatientsApi extends runtime.BaseAPI {
       );
     }
 
+    if (requestParameters["affinityActorId"] == null) {
+      throw new runtime.RequiredError(
+        "affinityActorId",
+        'Required parameter "affinityActorId" was null or undefined when calling getPatient().',
+      );
+    }
+
+    if (requestParameters["affinityActorType"] == null) {
+      throw new runtime.RequiredError(
+        "affinityActorType",
+        'Required parameter "affinityActorType" was null or undefined when calling getPatient().',
+      );
+    }
+
     const queryParameters: any = {};
 
     const headerParameters: runtime.HTTPHeaders = {};
 
     if (requestParameters["affinityVersion"] != null) {
       headerParameters["Affinity-Version"] = String(requestParameters["affinityVersion"]);
+    }
+
+    if (requestParameters["affinityActorId"] != null) {
+      headerParameters["Affinity-Actor-Id"] = String(requestParameters["affinityActorId"]);
+    }
+
+    if (requestParameters["affinityActorType"] != null) {
+      headerParameters["Affinity-Actor-Type"] = String(requestParameters["affinityActorType"]);
     }
 
     if (this.configuration && this.configuration.accessToken) {
@@ -265,6 +317,20 @@ export class PatientsApi extends runtime.BaseAPI {
       );
     }
 
+    if (requestParameters["affinityActorId"] == null) {
+      throw new runtime.RequiredError(
+        "affinityActorId",
+        'Required parameter "affinityActorId" was null or undefined when calling listPatients().',
+      );
+    }
+
+    if (requestParameters["affinityActorType"] == null) {
+      throw new runtime.RequiredError(
+        "affinityActorType",
+        'Required parameter "affinityActorType" was null or undefined when calling listPatients().',
+      );
+    }
+
     const queryParameters: any = {};
 
     if (requestParameters["query"] != null) {
@@ -279,6 +345,14 @@ export class PatientsApi extends runtime.BaseAPI {
 
     if (requestParameters["affinityVersion"] != null) {
       headerParameters["Affinity-Version"] = String(requestParameters["affinityVersion"]);
+    }
+
+    if (requestParameters["affinityActorId"] != null) {
+      headerParameters["Affinity-Actor-Id"] = String(requestParameters["affinityActorId"]);
+    }
+
+    if (requestParameters["affinityActorType"] != null) {
+      headerParameters["Affinity-Actor-Type"] = String(requestParameters["affinityActorType"]);
     }
 
     if (this.configuration && this.configuration.accessToken) {
@@ -356,6 +430,20 @@ export class PatientsApi extends runtime.BaseAPI {
       );
     }
 
+    if (requestParameters["affinityActorId"] == null) {
+      throw new runtime.RequiredError(
+        "affinityActorId",
+        'Required parameter "affinityActorId" was null or undefined when calling updatePatient().',
+      );
+    }
+
+    if (requestParameters["affinityActorType"] == null) {
+      throw new runtime.RequiredError(
+        "affinityActorType",
+        'Required parameter "affinityActorType" was null or undefined when calling updatePatient().',
+      );
+    }
+
     if (requestParameters["updatePatientRequest"] == null) {
       throw new runtime.RequiredError(
         "updatePatientRequest",
@@ -375,6 +463,14 @@ export class PatientsApi extends runtime.BaseAPI {
 
     if (requestParameters["affinityVersion"] != null) {
       headerParameters["Affinity-Version"] = String(requestParameters["affinityVersion"]);
+    }
+
+    if (requestParameters["affinityActorId"] != null) {
+      headerParameters["Affinity-Actor-Id"] = String(requestParameters["affinityActorId"]);
+    }
+
+    if (requestParameters["affinityActorType"] != null) {
+      headerParameters["Affinity-Actor-Type"] = String(requestParameters["affinityActorType"]);
     }
 
     if (this.configuration && this.configuration.accessToken) {
@@ -437,3 +533,40 @@ export class PatientsApi extends runtime.BaseAPI {
     return await response.value();
   }
 }
+
+/**
+ * @export
+ */
+export const CreatePatientOperationAffinityActorTypeEnum = {
+  User: "user",
+  System: "system",
+} as const;
+export type CreatePatientOperationAffinityActorTypeEnum =
+  (typeof CreatePatientOperationAffinityActorTypeEnum)[keyof typeof CreatePatientOperationAffinityActorTypeEnum];
+/**
+ * @export
+ */
+export const GetPatientAffinityActorTypeEnum = {
+  User: "user",
+  System: "system",
+} as const;
+export type GetPatientAffinityActorTypeEnum =
+  (typeof GetPatientAffinityActorTypeEnum)[keyof typeof GetPatientAffinityActorTypeEnum];
+/**
+ * @export
+ */
+export const ListPatientsAffinityActorTypeEnum = {
+  User: "user",
+  System: "system",
+} as const;
+export type ListPatientsAffinityActorTypeEnum =
+  (typeof ListPatientsAffinityActorTypeEnum)[keyof typeof ListPatientsAffinityActorTypeEnum];
+/**
+ * @export
+ */
+export const UpdatePatientOperationAffinityActorTypeEnum = {
+  User: "user",
+  System: "system",
+} as const;
+export type UpdatePatientOperationAffinityActorTypeEnum =
+  (typeof UpdatePatientOperationAffinityActorTypeEnum)[keyof typeof UpdatePatientOperationAffinityActorTypeEnum];
