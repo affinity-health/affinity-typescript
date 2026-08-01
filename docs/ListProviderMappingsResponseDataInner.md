@@ -11,7 +11,6 @@
 | `npi`        | string  |
 | `object`     | string  |
 | `practiceId` | string  |
-| `providerId` | string  |
 | `status`     | string  |
 | `updatedAt`  | Date    |
 | `userId`     | string  |
@@ -31,7 +30,6 @@ const example = {
   npi: null,
   object: null,
   practiceId: null,
-  providerId: null,
   status: null,
   updatedAt: null,
   userId: null,

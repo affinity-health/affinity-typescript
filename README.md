@@ -40,9 +40,11 @@ const orders = await actingAffinity.orders.list({ practiceId: practices.data[0]?
 console.log(`${compounders.data.length} compounders are available to this account`);
 ```
 
-The platform API does not create, edit, sign, route, or submit prescriptions. Create an
-origin-bound component session, then let the provider complete those actions inside Affinity
-Connect.
+Affinity supports three prescribing integrations: Affinity Hosted for a redirect-based workflow,
+Affinity Elements for an embedded composer, and the server-side SDK for platforms that build their
+own prescribing UI. The server-side SDK creates a complete unsigned draft; only the mapped provider
+can review and sign it in the one-time Affinity signing session. A service key cannot sign a
+prescription or receive the provider's Affinity signing PIN.
 
 The API key belongs only in your backend. Never create an `Affinity` client in browser or mobile
 code.
@@ -210,6 +212,73 @@ API keys and all provisioning calls stay on the platform backend. Component orig
 return URLs must exactly match the Test or Live allowlist. Never put a component secret in a URL,
 log, analytics event, or persistent storage.
 
+## Headless prescription flow
+
+Use the request-scoped actor client when your backend creates a prescription from your own UI.
+`prescriptions.create(...)` returns `requires_provider_signature`; it does not sign or transmit the
+prescription. Then create a one-time signing session and send its URL only to the authenticated
+provider represented by the provider mapping.
+
+```ts
+const actingAffinity = affinity.withActor({ id: authenticatedUser.id, type: "user" });
+const [medication] = (await actingAffinity.catalog.list({ query: "semaglutide", limit: 10 })).data;
+if (!medication) throw new Error("No matching formulation is available");
+
+const prescription = await actingAffinity.prescriptions.create(
+  {
+    clinical: {
+      currentMedications: [],
+      observations: [],
+    },
+    daysSupply: 30,
+    dispensing: {
+      dispenseUponAcceptance: true,
+      substitutionPermitted: false,
+    },
+    directions: "Inject 0.25 mL subcutaneously once weekly",
+    medicationId: medication.id,
+    patientId: patient.id,
+    practiceId: practice.id,
+    providerMappingId: providerMapping.id,
+    quantity: 1,
+    quantityUnit: "mL",
+    refills: 0,
+    structuredSig: {
+      dose: "0.25",
+      doseUnit: "mL",
+      frequency: "once weekly",
+      prn: false,
+      route: "subcutaneous",
+    },
+  },
+  { idempotencyKey: `prescription:${encounter.id}` },
+);
+
+if (prescription.status !== "requires_provider_signature") {
+  throw new Error("Unexpected prescription state");
+}
+
+const signingSession = await affinity.prescriptionSigningSessions.create(
+  {
+    consent,
+    membershipId: membership.id,
+    practiceId: practice.id,
+    prescriptionId: prescription.id,
+    providerMappingId: providerMapping.id,
+    returnUrl: `https://platform.example.com/encounters/${encounter.id}`,
+    userId: user.id,
+  },
+  { idempotencyKey: `prescription-signing:${prescription.id}` },
+);
+
+// Redirect or open a popup for the authenticated provider. The URL is single-use and expires.
+console.log(signingSession.url);
+```
+
+The signing session is server-bound to the platform, Test or Live mode, practice, patient,
+provider, and prescription. The provider reviews the exact draft, enters their PIN only inside
+Affinity, and selects shipping before Affinity sends the order.
+
 ## Patients and card setup
 
 Create each patient inside its owning practice. Use your stable patient identifier for
@@ -276,6 +345,8 @@ The client surface is organized around these resources:
   verified Affinity providers
 - `componentSessions` — create short-lived, one-time, origin-bound Affinity Elements secrets
 - `hostedSessions` — create short-lived, single-use Affinity Hosted workflow URLs
+- `prescriptions` — create unsigned prescription drafts from a platform-owned prescribing UI
+- `prescriptionSigningSessions` — create provider-bound Hosted review and signing URLs
 - `orders` — list, inspect, cancel eligible orders, and read fulfillment events
 - `webhooks` — manage endpoints and inspect or replay events
 

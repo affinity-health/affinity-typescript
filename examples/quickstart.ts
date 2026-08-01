@@ -71,4 +71,8 @@ if (process.env.RUN_AFFINITY_MUTATION_EXAMPLE === "1") {
   console.log(
     `Created patient ${patient.id} for practice ${practice.id}; ${practiceOrders.data.length} orders are visible`,
   );
+
+  console.log(
+    "For a verified provider, call actingAffinity.prescriptions.create(...) and then affinity.prescriptionSigningSessions.create(...) to obtain the one-time provider signing URL.",
+  );
 }

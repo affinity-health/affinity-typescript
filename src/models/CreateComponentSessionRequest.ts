@@ -78,7 +78,7 @@ export interface CreateComponentSessionRequest {
    */
   practiceId: string;
   /**
-   *
+   * The pmap_ ID returned as id by POST /v1/provider-mappings.
    * @type {string}
    * @memberof CreateComponentSessionRequest
    */

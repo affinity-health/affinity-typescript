@@ -11,6 +11,8 @@ import { PlatformOrdersApi } from "./apis/PlatformOrdersApi";
 import { PlatformWebhooksApi } from "./apis/PlatformWebhooksApi";
 import { PlatformsApi } from "./apis/PlatformsApi";
 import { PracticesApi } from "./apis/PracticesApi";
+import { PrescriptionSigningSessionsApi } from "./apis/PrescriptionSigningSessionsApi";
+import { PrescriptionsApi } from "./apis/PrescriptionsApi";
 import { ProviderMappingsApi } from "./apis/ProviderMappingsApi";
 import { RolesApi } from "./apis/RolesApi";
 import { UsersApi } from "./apis/UsersApi";
@@ -25,6 +27,8 @@ import { MembershipsResource } from "./resources/memberships";
 import { OrdersResource } from "./resources/orders";
 import { PatientsResource } from "./resources/patients";
 import { PracticesResource } from "./resources/practices";
+import { PrescriptionSigningSessionsResource } from "./resources/prescription-signing-sessions";
+import { PrescriptionsResource } from "./resources/prescriptions";
 import { ProviderMappingsResource } from "./resources/provider-mappings";
 import { createRetryingFetch } from "./resources/retrying-fetch";
 import { RolesResource } from "./resources/roles";
@@ -52,6 +56,8 @@ export class Affinity {
   readonly orders: OrdersResource;
   readonly patients: PatientsResource;
   readonly practices: PracticesResource;
+  readonly prescriptionSigningSessions: PrescriptionSigningSessionsResource;
+  readonly prescriptions: PrescriptionsResource;
   readonly providerMappings: ProviderMappingsResource;
   readonly roles: RolesResource;
   readonly users: UsersResource;
@@ -104,6 +110,15 @@ export class Affinity {
     this.orders = new OrdersResource(new PlatformOrdersApi(configuration), apiVersion, actor);
     this.patients = new PatientsResource(new PatientsApi(configuration), apiVersion, actor);
     this.practices = new PracticesResource(new PracticesApi(configuration), apiVersion);
+    this.prescriptionSigningSessions = new PrescriptionSigningSessionsResource(
+      new PrescriptionSigningSessionsApi(configuration),
+      apiVersion,
+    );
+    this.prescriptions = new PrescriptionsResource(
+      new PrescriptionsApi(configuration),
+      apiVersion,
+      actor,
+    );
     this.providerMappings = new ProviderMappingsResource(
       new ProviderMappingsApi(configuration),
       apiVersion,

@@ -16,41 +16,41 @@ import { mapValues } from "../runtime";
 /**
  *
  * @export
- * @interface ListPracticesResponseDataInnerPrescribersInner
+ * @interface CreatePracticeResponsePrescribersInner
  */
-export interface ListPracticesResponseDataInnerPrescribersInner {
+export interface CreatePracticeResponsePrescribersInner {
   /**
-   * The provider's professional credentials, such as MD or DO.
+   *
    * @type {string}
-   * @memberof ListPracticesResponseDataInnerPrescribersInner
+   * @memberof CreatePracticeResponsePrescribersInner
    */
   credentials: string | null;
   /**
    *
    * @type {Array<string>}
-   * @memberof ListPracticesResponseDataInnerPrescribersInner
+   * @memberof CreatePracticeResponsePrescribersInner
    */
   licenseStates: Array<string>;
   /**
    *
    * @type {string}
-   * @memberof ListPracticesResponseDataInnerPrescribersInner
+   * @memberof CreatePracticeResponsePrescribersInner
    */
   name: string;
   /**
    *
    * @type {string}
-   * @memberof ListPracticesResponseDataInnerPrescribersInner
+   * @memberof CreatePracticeResponsePrescribersInner
    */
   npi: string;
 }
 
 /**
- * Check if a given object implements the ListPracticesResponseDataInnerPrescribersInner interface.
+ * Check if a given object implements the CreatePracticeResponsePrescribersInner interface.
  */
-export function instanceOfListPracticesResponseDataInnerPrescribersInner(
+export function instanceOfCreatePracticeResponsePrescribersInner(
   value: object,
-): value is ListPracticesResponseDataInnerPrescribersInner {
+): value is CreatePracticeResponsePrescribersInner {
   if (!("credentials" in value) || value["credentials"] === undefined) return false;
   if (!("licenseStates" in value) || value["licenseStates"] === undefined) return false;
   if (!("name" in value) || value["name"] === undefined) return false;
@@ -58,16 +58,16 @@ export function instanceOfListPracticesResponseDataInnerPrescribersInner(
   return true;
 }
 
-export function ListPracticesResponseDataInnerPrescribersInnerFromJSON(
+export function CreatePracticeResponsePrescribersInnerFromJSON(
   json: any,
-): ListPracticesResponseDataInnerPrescribersInner {
-  return ListPracticesResponseDataInnerPrescribersInnerFromJSONTyped(json, false);
+): CreatePracticeResponsePrescribersInner {
+  return CreatePracticeResponsePrescribersInnerFromJSONTyped(json, false);
 }
 
-export function ListPracticesResponseDataInnerPrescribersInnerFromJSONTyped(
+export function CreatePracticeResponsePrescribersInnerFromJSONTyped(
   json: any,
   ignoreDiscriminator: boolean,
-): ListPracticesResponseDataInnerPrescribersInner {
+): CreatePracticeResponsePrescribersInner {
   if (json == null) {
     return json;
   }
@@ -79,14 +79,14 @@ export function ListPracticesResponseDataInnerPrescribersInnerFromJSONTyped(
   };
 }
 
-export function ListPracticesResponseDataInnerPrescribersInnerToJSON(
+export function CreatePracticeResponsePrescribersInnerToJSON(
   json: any,
-): ListPracticesResponseDataInnerPrescribersInner {
-  return ListPracticesResponseDataInnerPrescribersInnerToJSONTyped(json, false);
+): CreatePracticeResponsePrescribersInner {
+  return CreatePracticeResponsePrescribersInnerToJSONTyped(json, false);
 }
 
-export function ListPracticesResponseDataInnerPrescribersInnerToJSONTyped(
-  value?: ListPracticesResponseDataInnerPrescribersInner | null,
+export function CreatePracticeResponsePrescribersInnerToJSONTyped(
+  value?: CreatePracticeResponsePrescribersInner | null,
   ignoreDiscriminator: boolean = false,
 ): any {
   if (value == null) {

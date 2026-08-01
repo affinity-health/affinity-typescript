@@ -365,4 +365,64 @@ describe("Affinity client", () => {
         "&status=verified",
     );
   });
+
+  test("creates an unsigned prescription and a provider-bound signing session", async () => {
+    const requests: Request[] = [];
+    const affinity = new Affinity("sk_test_example", {
+      fetch: async (input, init) => {
+        requests.push(new Request(input, init));
+        return Response.json({});
+      },
+    });
+    const actingAffinity = affinity.withActor({ id: "platform-user-4821", type: "user" });
+
+    await actingAffinity.prescriptions.create(
+      {
+        clinical: { currentMedications: [], observations: [] },
+        daysSupply: 30,
+        dispensing: { dispenseUponAcceptance: true, substitutionPermitted: false },
+        directions: "Inject 0.25 mL subcutaneously once weekly",
+        medicationId: "cat_01k123456789abcdefghjkmnp",
+        patientId: "pat_01k123456789abcdefghjkmnp",
+        practiceId: "prac_01k123456789abcdefghjkmnp",
+        providerMappingId: "pmap_01k123456789abcdefghjkmnp",
+        quantity: 1,
+        quantityUnit: "mL",
+        refills: 0,
+        structuredSig: {
+          dose: "0.25",
+          doseUnit: "mL",
+          frequency: "once weekly",
+          prn: false,
+          route: "subcutaneous",
+        },
+      },
+      { idempotencyKey: "prescription-example" },
+    );
+    await affinity.prescriptionSigningSessions.create(
+      {
+        consent: {
+          authorizedProviderAccess: true,
+          minimumNecessaryPhi: true,
+          recordedAt: new Date("2026-08-01T12:00:00.000Z"),
+        },
+        practiceId: "prac_01k123456789abcdefghjkmnp",
+        prescriptionId: "rx_01k123456789abcdefghjkmnp",
+        providerMappingId: "pmap_01k123456789abcdefghjkmnp",
+        userId: "usr_01k123456789abcdefghjkmnp",
+      },
+      { idempotencyKey: "prescription-signing-example" },
+    );
+
+    expect(requests.map((request) => new URL(request.url).pathname)).toEqual([
+      "/v1/prescriptions",
+      "/v1/prescription-signing-sessions",
+    ]);
+    expect(requests[0]?.headers.get("affinity-actor-id")).toBe("platform-user-4821");
+    expect(requests[0]?.headers.get("affinity-actor-type")).toBe("user");
+    expect(requests.map((request) => request.headers.get("idempotency-key"))).toEqual([
+      "prescription-example",
+      "prescription-signing-example",
+    ]);
+  });
 });

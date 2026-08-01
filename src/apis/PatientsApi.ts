@@ -129,16 +129,16 @@ export class PatientsApi extends runtime.BaseAPI {
       headerParameters["Idempotency-Key"] = String(requestParameters["idempotencyKey"]);
     }
 
-    if (requestParameters["affinityVersion"] != null) {
-      headerParameters["Affinity-Version"] = String(requestParameters["affinityVersion"]);
-    }
-
     if (requestParameters["affinityActorId"] != null) {
       headerParameters["Affinity-Actor-Id"] = String(requestParameters["affinityActorId"]);
     }
 
     if (requestParameters["affinityActorType"] != null) {
       headerParameters["Affinity-Actor-Type"] = String(requestParameters["affinityActorType"]);
+    }
+
+    if (requestParameters["affinityVersion"] != null) {
+      headerParameters["Affinity-Version"] = String(requestParameters["affinityVersion"]);
     }
 
     if (this.configuration && this.configuration.accessToken) {
@@ -233,16 +233,16 @@ export class PatientsApi extends runtime.BaseAPI {
 
     const headerParameters: runtime.HTTPHeaders = {};
 
-    if (requestParameters["affinityVersion"] != null) {
-      headerParameters["Affinity-Version"] = String(requestParameters["affinityVersion"]);
-    }
-
     if (requestParameters["affinityActorId"] != null) {
       headerParameters["Affinity-Actor-Id"] = String(requestParameters["affinityActorId"]);
     }
 
     if (requestParameters["affinityActorType"] != null) {
       headerParameters["Affinity-Actor-Type"] = String(requestParameters["affinityActorType"]);
+    }
+
+    if (requestParameters["affinityVersion"] != null) {
+      headerParameters["Affinity-Version"] = String(requestParameters["affinityVersion"]);
     }
 
     if (this.configuration && this.configuration.accessToken) {
@@ -343,16 +343,16 @@ export class PatientsApi extends runtime.BaseAPI {
 
     const headerParameters: runtime.HTTPHeaders = {};
 
-    if (requestParameters["affinityVersion"] != null) {
-      headerParameters["Affinity-Version"] = String(requestParameters["affinityVersion"]);
-    }
-
     if (requestParameters["affinityActorId"] != null) {
       headerParameters["Affinity-Actor-Id"] = String(requestParameters["affinityActorId"]);
     }
 
     if (requestParameters["affinityActorType"] != null) {
       headerParameters["Affinity-Actor-Type"] = String(requestParameters["affinityActorType"]);
+    }
+
+    if (requestParameters["affinityVersion"] != null) {
+      headerParameters["Affinity-Version"] = String(requestParameters["affinityVersion"]);
     }
 
     if (this.configuration && this.configuration.accessToken) {
@@ -461,16 +461,16 @@ export class PatientsApi extends runtime.BaseAPI {
       headerParameters["Idempotency-Key"] = String(requestParameters["idempotencyKey"]);
     }
 
-    if (requestParameters["affinityVersion"] != null) {
-      headerParameters["Affinity-Version"] = String(requestParameters["affinityVersion"]);
-    }
-
     if (requestParameters["affinityActorId"] != null) {
       headerParameters["Affinity-Actor-Id"] = String(requestParameters["affinityActorId"]);
     }
 
     if (requestParameters["affinityActorType"] != null) {
       headerParameters["Affinity-Actor-Type"] = String(requestParameters["affinityActorType"]);
+    }
+
+    if (requestParameters["affinityVersion"] != null) {
+      headerParameters["Affinity-Version"] = String(requestParameters["affinityVersion"]);
     }
 
     if (this.configuration && this.configuration.accessToken) {

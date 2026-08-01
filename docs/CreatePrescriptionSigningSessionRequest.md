@@ -1,13 +1,11 @@
-# CreateHostedSessionRequest
+# CreatePrescriptionSigningSessionRequest
 
 ## Properties
 
 | Name                | Type                                                                            |
 | ------------------- | ------------------------------------------------------------------------------- |
 | `consent`           | [CreateComponentSessionRequestConsent](CreateComponentSessionRequestConsent.md) |
-| `flow`              | string                                                                          |
 | `membershipId`      | string                                                                          |
-| `patientId`         | string                                                                          |
 | `practiceId`        | string                                                                          |
 | `prescriptionId`    | string                                                                          |
 | `providerMappingId` | string                                                                          |
@@ -17,20 +15,18 @@
 ## Example
 
 ```typescript
-import type { CreateHostedSessionRequest } from "@affinity-health/sdk";
+import type { CreatePrescriptionSigningSessionRequest } from "@affinity-health/sdk";
 
 // TODO: Update the object below with actual values
 const example = {
   consent: null,
-  flow: null,
   membershipId: null,
-  patientId: null,
   practiceId: null,
   prescriptionId: null,
   providerMappingId: null,
   returnUrl: null,
   userId: null,
-} satisfies CreateHostedSessionRequest;
+} satisfies CreatePrescriptionSigningSessionRequest;
 
 console.log(example);
 
@@ -39,7 +35,7 @@ const exampleJSON: string = JSON.stringify(example);
 console.log(exampleJSON);
 
 // Parse the JSON string back to an object
-const exampleParsed = JSON.parse(exampleJSON) as CreateHostedSessionRequest;
+const exampleParsed = JSON.parse(exampleJSON) as CreatePrescriptionSigningSessionRequest;
 console.log(exampleParsed);
 ```
 

@@ -2,23 +2,23 @@
 
 ## Properties
 
-| Name               | Type                                                                                                             |
-| ------------------ | ---------------------------------------------------------------------------------------------------------------- |
-| `address`          | [ListPracticesResponseDataInnerAddress](ListPracticesResponseDataInnerAddress.md)                                |
-| `contacts`         | [ListPracticesResponseDataInnerContacts](ListPracticesResponseDataInnerContacts.md)                              |
-| `createdAt`        | Date                                                                                                             |
-| `externalId`       | string                                                                                                           |
-| `id`               | string                                                                                                           |
-| `legalName`        | string                                                                                                           |
-| `livemode`         | boolean                                                                                                          |
-| `metadata`         | { [key: string]: any; }                                                                                          |
-| `name`             | string                                                                                                           |
-| `object`           | string                                                                                                           |
-| `prescribers`      | [Array&lt;ListPracticesResponseDataInnerPrescribersInner&gt;](ListPracticesResponseDataInnerPrescribersInner.md) |
-| `productionAccess` | string                                                                                                           |
-| `supportEmail`     | string                                                                                                           |
-| `supportPhone`     | string                                                                                                           |
-| `timezone`         | string                                                                                                           |
+| Name               | Type                                                                                             |
+| ------------------ | ------------------------------------------------------------------------------------------------ |
+| `address`          | [ListPracticesResponseDataInnerAddress](ListPracticesResponseDataInnerAddress.md)                |
+| `contacts`         | [ListPracticesResponseDataInnerContacts](ListPracticesResponseDataInnerContacts.md)              |
+| `createdAt`        | Date                                                                                             |
+| `externalId`       | string                                                                                           |
+| `id`               | string                                                                                           |
+| `legalName`        | string                                                                                           |
+| `livemode`         | boolean                                                                                          |
+| `metadata`         | { [key: string]: any; }                                                                          |
+| `name`             | string                                                                                           |
+| `object`           | string                                                                                           |
+| `prescribers`      | [Array&lt;CreatePracticeResponsePrescribersInner&gt;](CreatePracticeResponsePrescribersInner.md) |
+| `productionAccess` | string                                                                                           |
+| `supportEmail`     | string                                                                                           |
+| `supportPhone`     | string                                                                                           |
+| `timezone`         | string                                                                                           |
 
 ## Example
 

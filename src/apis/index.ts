@@ -11,6 +11,8 @@ export * from "./PlatformOrdersApi";
 export * from "./PlatformWebhooksApi";
 export * from "./PlatformsApi";
 export * from "./PracticesApi";
+export * from "./PrescriptionSigningSessionsApi";
+export * from "./PrescriptionsApi";
 export * from "./ProviderMappingsApi";
 export * from "./RolesApi";
 export * from "./UsersApi";

@@ -7,6 +7,13 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 
 ## [Unreleased]
 
+### Added
+
+- Added `prescriptions.create(...)` for complete unsigned drafts from platform-owned prescribing
+  interfaces, with required actor attribution and idempotency.
+- Added `prescriptionSigningSessions.create(...)` for one-time, provider-bound Affinity review,
+  PIN-signing, shipping, and transmission.
+
 ## [1.0.1] - 2026-07-31
 
 ### Fixed

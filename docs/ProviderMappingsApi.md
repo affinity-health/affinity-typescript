@@ -15,7 +15,7 @@ All URIs are relative to *https://api.joinaffinityai.com*
 
 Create provider mapping
 
-Maps the platform\&#39;s provider identity to an independently verified Affinity provider. Creating a mapping does not assert prescribing authority.
+Links your platform\&#39;s provider identity to a clinician in Affinity. Store the returned pmap\_ ID and use it as providerMappingId for component or hosted sessions. Creating a mapping does not assert prescribing authority.
 
 ### Example
 
@@ -102,7 +102,7 @@ example().catch(console.error);
 
 Read provider mapping
 
-Returns the current Affinity verification state for a provider mapping.
+Returns the provider mapping and its current verification state. Use the mapping\&#39;s pmap\_ ID when you create component or hosted sessions.
 
 ### Example
 
@@ -124,7 +124,7 @@ async function example() {
   const api = new ProviderMappingsApi(config);
 
   const body = {
-    // string
+    // string | The provider mapping ID returned by POST /v1/provider-mappings.
     providerMappingId: providerMappingId_example,
     // string | Optional per-request override for the service account\'s pinned API version. (optional)
     affinityVersion: 2026-07-29,
@@ -146,7 +146,7 @@ example().catch(console.error);
 
 | Name                  | Type     | Description                                                                      | Notes                                |
 | --------------------- | -------- | -------------------------------------------------------------------------------- | ------------------------------------ |
-| **providerMappingId** | `string` |                                                                                  | [Defaults to `undefined`]            |
+| **providerMappingId** | `string` | The provider mapping ID returned by POST /v1/provider-mappings.                  | [Defaults to `undefined`]            |
 | **affinityVersion**   | `string` | Optional per-request override for the service account\&#39;s pinned API version. | [Optional] [Defaults to `undefined`] |
 
 ### Return type
@@ -306,7 +306,7 @@ async function example() {
   const api = new ProviderMappingsApi(config);
 
   const body = {
-    // string
+    // string | The provider mapping ID returned by POST /v1/provider-mappings.
     providerMappingId: providerMappingId_example,
     // UpdateProviderMappingRequest
     updateProviderMappingRequest: ...,
@@ -332,7 +332,7 @@ example().catch(console.error);
 
 | Name                             | Type                                                            | Description                                                                      | Notes                                |
 | -------------------------------- | --------------------------------------------------------------- | -------------------------------------------------------------------------------- | ------------------------------------ |
-| **providerMappingId**            | `string`                                                        |                                                                                  | [Defaults to `undefined`]            |
+| **providerMappingId**            | `string`                                                        | The provider mapping ID returned by POST /v1/provider-mappings.                  | [Defaults to `undefined`]            |
 | **updateProviderMappingRequest** | [UpdateProviderMappingRequest](UpdateProviderMappingRequest.md) |                                                                                  |                                      |
 | **idempotencyKey**               | `string`                                                        | Unique operation key required for every mutation.                                | [Optional] [Defaults to `undefined`] |
 | **affinityVersion**              | `string`                                                        | Optional per-request override for the service account\&#39;s pinned API version. | [Optional] [Defaults to `undefined`] |

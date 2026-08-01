@@ -26,13 +26,13 @@ export interface CreateProviderMappingResponse {
    */
   createdAt: Date;
   /**
-   *
+   * Your platform's stable identifier for this provider.
    * @type {string}
    * @memberof CreateProviderMappingResponse
    */
   externalId: string;
   /**
-   *
+   * The Affinity provider mapping ID. Store this pmap_ value and send it as providerMappingId when you create component or hosted sessions.
    * @type {string}
    * @memberof CreateProviderMappingResponse
    */
@@ -44,7 +44,7 @@ export interface CreateProviderMappingResponse {
    */
   livemode: boolean;
   /**
-   *
+   * The provider's 10-digit individual NPI.
    * @type {string}
    * @memberof CreateProviderMappingResponse
    */
@@ -56,19 +56,13 @@ export interface CreateProviderMappingResponse {
    */
   object: CreateProviderMappingResponseObjectEnum;
   /**
-   *
+   * The Affinity practice where this provider is authorized to act.
    * @type {string}
    * @memberof CreateProviderMappingResponse
    */
   practiceId: string;
   /**
-   *
-   * @type {string}
-   * @memberof CreateProviderMappingResponse
-   */
-  providerId: string;
-  /**
-   *
+   * The mapping's verification state. Prescribing sessions require verified status.
    * @type {CreateProviderMappingResponseStatusEnum}
    * @memberof CreateProviderMappingResponse
    */
@@ -80,13 +74,13 @@ export interface CreateProviderMappingResponse {
    */
   updatedAt: Date;
   /**
-   *
+   * The Affinity user record for the person your platform authenticated.
    * @type {string}
    * @memberof CreateProviderMappingResponse
    */
   userId: string;
   /**
-   *
+   * When Affinity verified this mapping, or null until verification is complete.
    * @type {Date}
    * @memberof CreateProviderMappingResponse
    */
@@ -126,7 +120,6 @@ export function instanceOfCreateProviderMappingResponse(
   if (!("npi" in value) || value["npi"] === undefined) return false;
   if (!("object" in value) || value["object"] === undefined) return false;
   if (!("practiceId" in value) || value["practiceId"] === undefined) return false;
-  if (!("providerId" in value) || value["providerId"] === undefined) return false;
   if (!("status" in value) || value["status"] === undefined) return false;
   if (!("updatedAt" in value) || value["updatedAt"] === undefined) return false;
   if (!("userId" in value) || value["userId"] === undefined) return false;
@@ -153,7 +146,6 @@ export function CreateProviderMappingResponseFromJSONTyped(
     npi: json["npi"],
     object: json["object"],
     practiceId: json["practiceId"],
-    providerId: json["providerId"],
     status: json["status"],
     updatedAt: new Date(json["updatedAt"]),
     userId: json["userId"],
@@ -181,7 +173,6 @@ export function CreateProviderMappingResponseToJSONTyped(
     npi: value["npi"],
     object: value["object"],
     practiceId: value["practiceId"],
-    providerId: value["providerId"],
     status: value["status"],
     updatedAt: value["updatedAt"].toISOString(),
     userId: value["userId"],

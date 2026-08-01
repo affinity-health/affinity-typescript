@@ -129,7 +129,7 @@ export class ProviderMappingsApi extends runtime.BaseAPI {
   }
 
   /**
-   * Maps the platform\'s provider identity to an independently verified Affinity provider. Creating a mapping does not assert prescribing authority.
+   * Links your platform\'s provider identity to a clinician in Affinity. Store the returned pmap_ ID and use it as providerMappingId for component or hosted sessions. Creating a mapping does not assert prescribing authority.
    * Create provider mapping
    */
   async createProviderMappingRaw(
@@ -145,7 +145,7 @@ export class ProviderMappingsApi extends runtime.BaseAPI {
   }
 
   /**
-   * Maps the platform\'s provider identity to an independently verified Affinity provider. Creating a mapping does not assert prescribing authority.
+   * Links your platform\'s provider identity to a clinician in Affinity. Store the returned pmap_ ID and use it as providerMappingId for component or hosted sessions. Creating a mapping does not assert prescribing authority.
    * Create provider mapping
    */
   async createProviderMapping(
@@ -205,7 +205,7 @@ export class ProviderMappingsApi extends runtime.BaseAPI {
   }
 
   /**
-   * Returns the current Affinity verification state for a provider mapping.
+   * Returns the provider mapping and its current verification state. Use the mapping\'s pmap_ ID when you create component or hosted sessions.
    * Read provider mapping
    */
   async getProviderMappingRaw(
@@ -221,7 +221,7 @@ export class ProviderMappingsApi extends runtime.BaseAPI {
   }
 
   /**
-   * Returns the current Affinity verification state for a provider mapping.
+   * Returns the provider mapping and its current verification state. Use the mapping\'s pmap_ ID when you create component or hosted sessions.
    * Read provider mapping
    */
   async getProviderMapping(
