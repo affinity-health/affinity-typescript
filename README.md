@@ -212,63 +212,72 @@ API keys and all provisioning calls stay on the platform backend. Component orig
 return URLs must exactly match the Test or Live allowlist. Never put a component secret in a URL,
 log, analytics event, or persistent storage.
 
-## Headless prescription flow
+## Headless order flow
 
-Use the request-scoped actor client when your backend creates a prescription from your own UI.
-`prescriptions.create(...)` returns `requires_provider_signature`; it does not sign or transmit the
-prescription. Then create a one-time signing session and send its URL only to the authenticated
-provider represented by the provider mapping.
+Use the request-scoped actor client when your backend creates an order from your own UI. Each order
+belongs to exactly one patient and contains one or more prescriptions. `orders.create(...)` creates
+unsigned drafts; it does not sign or transmit them. Then create one signing session for the complete
+order and send its URL only to the authenticated provider represented by the provider mapping.
 
 ```ts
 const actingAffinity = affinity.withActor({ id: authenticatedUser.id, type: "user" });
-const [medication] = (await actingAffinity.catalog.list({ query: "semaglutide", limit: 10 })).data;
-if (!medication) throw new Error("No matching formulation is available");
+const [semaglutide] = (await actingAffinity.catalog.list({ query: "semaglutide", limit: 10 })).data;
+const [vitaminB12] = (await actingAffinity.catalog.list({ query: "vitamin b12", limit: 10 })).data;
+if (!semaglutide || !vitaminB12) throw new Error("Required formulations are unavailable");
 
-const prescription = await actingAffinity.prescriptions.create(
+const order = await actingAffinity.orders.create(
   {
-    clinical: {
-      currentMedications: [],
-      observations: [],
-    },
-    daysSupply: 30,
-    dispensing: {
-      dispenseUponAcceptance: true,
-      substitutionPermitted: false,
-    },
-    directions: "Inject 0.25 mL subcutaneously once weekly",
-    medicationId: medication.id,
     patientId: patient.id,
     practiceId: practice.id,
     providerMappingId: providerMapping.id,
-    quantity: 1,
-    quantityUnit: "mL",
-    refills: 0,
-    structuredSig: {
-      dose: "0.25",
-      doseUnit: "mL",
-      frequency: "once weekly",
-      prn: false,
-      route: "subcutaneous",
-    },
+    prescriptions: [
+      {
+        clinical: { currentMedications: [], observations: [] },
+        daysSupply: 30,
+        dispensing: { dispenseUponAcceptance: true, substitutionPermitted: false },
+        directions: "Inject 0.25 mL subcutaneously once weekly",
+        medicationId: semaglutide.id,
+        quantity: 1,
+        quantityUnit: "mL",
+        refills: 0,
+        structuredSig: {
+          dose: "0.25",
+          doseUnit: "mL",
+          frequency: "once weekly",
+          prn: false,
+          route: "subcutaneous",
+        },
+      },
+      {
+        clinical: { currentMedications: [], observations: [] },
+        daysSupply: 30,
+        dispensing: { dispenseUponAcceptance: true, substitutionPermitted: false },
+        directions: "Inject 1 mL intramuscularly once weekly",
+        medicationId: vitaminB12.id,
+        quantity: 4,
+        quantityUnit: "mL",
+        refills: 0,
+      },
+    ],
   },
-  { idempotencyKey: `prescription:${encounter.id}` },
+  { idempotencyKey: `order:${encounter.id}` },
 );
 
-if (prescription.status !== "requires_provider_signature") {
-  throw new Error("Unexpected prescription state");
+if (order.status !== "requires_provider_signature") {
+  throw new Error("Unexpected order state");
 }
 
-const signingSession = await affinity.prescriptionSigningSessions.create(
+const signingSession = await affinity.orderSigningSessions.create(
   {
     consent,
     membershipId: membership.id,
+    orderId: order.id,
     practiceId: practice.id,
-    prescriptionId: prescription.id,
     providerMappingId: providerMapping.id,
     returnUrl: `https://platform.example.com/encounters/${encounter.id}`,
     userId: user.id,
   },
-  { idempotencyKey: `prescription-signing:${prescription.id}` },
+  { idempotencyKey: `order-signing:${order.id}` },
 );
 
 // Redirect or open a popup for the authenticated provider. The URL is single-use and expires.
@@ -276,8 +285,8 @@ console.log(signingSession.url);
 ```
 
 The signing session is server-bound to the platform, Test or Live mode, practice, patient,
-provider, and prescription. The provider reviews the exact draft, enters their PIN only inside
-Affinity, and selects shipping before Affinity sends the order.
+provider, and complete order. The provider reviews every prescription, enters their PIN only
+inside Affinity, and selects shipping for each prescription before Affinity transmits them.
 
 ## Patients and card setup
 
@@ -345,9 +354,8 @@ The client surface is organized around these resources:
   verified Affinity providers
 - `componentSessions` — create short-lived, one-time, origin-bound Affinity Elements secrets
 - `hostedSessions` — create short-lived, single-use Affinity Hosted workflow URLs
-- `prescriptions` — create unsigned prescription drafts from a platform-owned prescribing UI
-- `prescriptionSigningSessions` — create provider-bound Hosted review and signing URLs
-- `orders` — list, inspect, cancel eligible orders, and read fulfillment events
+- `orders` — create one-patient multi-prescription orders, then list, inspect, cancel, and read events
+- `orderSigningSessions` — create provider-bound Hosted review and signing URLs for complete orders
 - `webhooks` — manage endpoints and inspect or replay events
 
 Generated transport classes remain available as an escape hatch, while the `Affinity` client is the

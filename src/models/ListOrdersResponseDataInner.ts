@@ -13,20 +13,20 @@
  */
 
 import { mapValues } from "../runtime";
-import type { ListOrdersResponseDataInnerShipping } from "./ListOrdersResponseDataInnerShipping";
+import type { ListOrdersResponseDataInnerFulfillmentsInner } from "./ListOrdersResponseDataInnerFulfillmentsInner";
 import {
-  ListOrdersResponseDataInnerShippingFromJSON,
-  ListOrdersResponseDataInnerShippingFromJSONTyped,
-  ListOrdersResponseDataInnerShippingToJSON,
-  ListOrdersResponseDataInnerShippingToJSONTyped,
-} from "./ListOrdersResponseDataInnerShipping";
-import type { ListOrdersResponseDataInnerRouting } from "./ListOrdersResponseDataInnerRouting";
+  ListOrdersResponseDataInnerFulfillmentsInnerFromJSON,
+  ListOrdersResponseDataInnerFulfillmentsInnerFromJSONTyped,
+  ListOrdersResponseDataInnerFulfillmentsInnerToJSON,
+  ListOrdersResponseDataInnerFulfillmentsInnerToJSONTyped,
+} from "./ListOrdersResponseDataInnerFulfillmentsInner";
+import type { ListOrdersResponseDataInnerPrescriptionsInner } from "./ListOrdersResponseDataInnerPrescriptionsInner";
 import {
-  ListOrdersResponseDataInnerRoutingFromJSON,
-  ListOrdersResponseDataInnerRoutingFromJSONTyped,
-  ListOrdersResponseDataInnerRoutingToJSON,
-  ListOrdersResponseDataInnerRoutingToJSONTyped,
-} from "./ListOrdersResponseDataInnerRouting";
+  ListOrdersResponseDataInnerPrescriptionsInnerFromJSON,
+  ListOrdersResponseDataInnerPrescriptionsInnerFromJSONTyped,
+  ListOrdersResponseDataInnerPrescriptionsInnerToJSON,
+  ListOrdersResponseDataInnerPrescriptionsInnerToJSONTyped,
+} from "./ListOrdersResponseDataInnerPrescriptionsInner";
 
 /**
  *
@@ -39,61 +39,13 @@ export interface ListOrdersResponseDataInner {
    * @type {string}
    * @memberof ListOrdersResponseDataInner
    */
-  cancellationReason: string | null;
-  /**
-   *
-   * @type {string}
-   * @memberof ListOrdersResponseDataInner
-   */
-  carrier: string | null;
-  /**
-   *
-   * @type {string}
-   * @memberof ListOrdersResponseDataInner
-   */
-  catalogItemId: string | null;
-  /**
-   *
-   * @type {string}
-   * @memberof ListOrdersResponseDataInner
-   */
-  practiceId: string;
-  /**
-   *
-   * @type {string}
-   * @memberof ListOrdersResponseDataInner
-   */
-  compounderId: string | null;
-  /**
-   *
-   * @type {string}
-   * @memberof ListOrdersResponseDataInner
-   */
   createdAt: string;
   /**
    *
-   * @type {string}
+   * @type {Array<ListOrdersResponseDataInnerFulfillmentsInner>}
    * @memberof ListOrdersResponseDataInner
    */
-  currency: string;
-  /**
-   *
-   * @type {string}
-   * @memberof ListOrdersResponseDataInner
-   */
-  directions: string;
-  /**
-   *
-   * @type {string}
-   * @memberof ListOrdersResponseDataInner
-   */
-  dosageForm: string | null;
-  /**
-   *
-   * @type {string}
-   * @memberof ListOrdersResponseDataInner
-   */
-  externalOrderId: string;
+  fulfillments: Array<ListOrdersResponseDataInnerFulfillmentsInner>;
   /**
    *
    * @type {string}
@@ -108,16 +60,22 @@ export interface ListOrdersResponseDataInner {
   livemode: boolean;
   /**
    *
-   * @type {string}
+   * @type {ListOrdersResponseDataInnerObjectEnum}
    * @memberof ListOrdersResponseDataInner
    */
-  medicationName: string;
+  object: ListOrdersResponseDataInnerObjectEnum;
   /**
    *
    * @type {string}
    * @memberof ListOrdersResponseDataInner
    */
   patientExternalId: string;
+  /**
+   *
+   * @type {string}
+   * @memberof ListOrdersResponseDataInner
+   */
+  patientId: string;
   /**
    *
    * @type {string}
@@ -135,6 +93,12 @@ export interface ListOrdersResponseDataInner {
    * @type {string}
    * @memberof ListOrdersResponseDataInner
    */
+  practiceId: string;
+  /**
+   *
+   * @type {string}
+   * @memberof ListOrdersResponseDataInner
+   */
   prescriberName: string | null;
   /**
    *
@@ -144,82 +108,16 @@ export interface ListOrdersResponseDataInner {
   prescriberNpi: string | null;
   /**
    *
-   * @type {number}
+   * @type {Array<ListOrdersResponseDataInnerPrescriptionsInner>}
    * @memberof ListOrdersResponseDataInner
    */
-  quantity: number;
-  /**
-   *
-   * @type {number}
-   * @memberof ListOrdersResponseDataInner
-   */
-  quoteCents: number | null;
-  /**
-   *
-   * @type {ListOrdersResponseDataInnerObjectEnum}
-   * @memberof ListOrdersResponseDataInner
-   */
-  object: ListOrdersResponseDataInnerObjectEnum;
-  /**
-   *
-   * @type {string}
-   * @memberof ListOrdersResponseDataInner
-   */
-  replacesOrderId: string | null;
-  /**
-   *
-   * @type {ListOrdersResponseDataInnerRouting}
-   * @memberof ListOrdersResponseDataInner
-   */
-  routing: ListOrdersResponseDataInnerRouting | null;
+  prescriptions: Array<ListOrdersResponseDataInnerPrescriptionsInner>;
   /**
    *
    * @type {ListOrdersResponseDataInnerStatusEnum}
    * @memberof ListOrdersResponseDataInner
    */
   status: ListOrdersResponseDataInnerStatusEnum;
-  /**
-   *
-   * @type {string}
-   * @memberof ListOrdersResponseDataInner
-   */
-  strength: string | null;
-  /**
-   *
-   * @type {string}
-   * @memberof ListOrdersResponseDataInner
-   */
-  trackingNumber: string | null;
-  /**
-   *
-   * @type {string}
-   * @memberof ListOrdersResponseDataInner
-   */
-  shippedAt: string | null;
-  /**
-   *
-   * @type {string}
-   * @memberof ListOrdersResponseDataInner
-   */
-  deliveredAt: string | null;
-  /**
-   *
-   * @type {string}
-   * @memberof ListOrdersResponseDataInner
-   */
-  estimatedDeliveryAt: string | null;
-  /**
-   *
-   * @type {ListOrdersResponseDataInnerShipping}
-   * @memberof ListOrdersResponseDataInner
-   */
-  shipping: ListOrdersResponseDataInnerShipping;
-  /**
-   *
-   * @type {string}
-   * @memberof ListOrdersResponseDataInner
-   */
-  trackingUrl: string | null;
   /**
    *
    * @type {string}
@@ -245,7 +143,10 @@ export const ListOrdersResponseDataInnerStatusEnum = {
   Cancelled: "cancelled",
   Delivered: "delivered",
   Draft: "draft",
+  PartiallySubmitted: "partially_submitted",
   Processing: "processing",
+  Ready: "ready",
+  RequiresProviderSignature: "requires_provider_signature",
   Shipped: "shipped",
   Submitted: "submitted",
 } as const;
@@ -258,37 +159,20 @@ export type ListOrdersResponseDataInnerStatusEnum =
 export function instanceOfListOrdersResponseDataInner(
   value: object,
 ): value is ListOrdersResponseDataInner {
-  if (!("cancellationReason" in value) || value["cancellationReason"] === undefined) return false;
-  if (!("carrier" in value) || value["carrier"] === undefined) return false;
-  if (!("catalogItemId" in value) || value["catalogItemId"] === undefined) return false;
-  if (!("practiceId" in value) || value["practiceId"] === undefined) return false;
-  if (!("compounderId" in value) || value["compounderId"] === undefined) return false;
   if (!("createdAt" in value) || value["createdAt"] === undefined) return false;
-  if (!("currency" in value) || value["currency"] === undefined) return false;
-  if (!("directions" in value) || value["directions"] === undefined) return false;
-  if (!("dosageForm" in value) || value["dosageForm"] === undefined) return false;
-  if (!("externalOrderId" in value) || value["externalOrderId"] === undefined) return false;
+  if (!("fulfillments" in value) || value["fulfillments"] === undefined) return false;
   if (!("id" in value) || value["id"] === undefined) return false;
   if (!("livemode" in value) || value["livemode"] === undefined) return false;
-  if (!("medicationName" in value) || value["medicationName"] === undefined) return false;
+  if (!("object" in value) || value["object"] === undefined) return false;
   if (!("patientExternalId" in value) || value["patientExternalId"] === undefined) return false;
+  if (!("patientId" in value) || value["patientId"] === undefined) return false;
   if (!("patientName" in value) || value["patientName"] === undefined) return false;
   if (!("patientState" in value) || value["patientState"] === undefined) return false;
+  if (!("practiceId" in value) || value["practiceId"] === undefined) return false;
   if (!("prescriberName" in value) || value["prescriberName"] === undefined) return false;
   if (!("prescriberNpi" in value) || value["prescriberNpi"] === undefined) return false;
-  if (!("quantity" in value) || value["quantity"] === undefined) return false;
-  if (!("quoteCents" in value) || value["quoteCents"] === undefined) return false;
-  if (!("object" in value) || value["object"] === undefined) return false;
-  if (!("replacesOrderId" in value) || value["replacesOrderId"] === undefined) return false;
-  if (!("routing" in value) || value["routing"] === undefined) return false;
+  if (!("prescriptions" in value) || value["prescriptions"] === undefined) return false;
   if (!("status" in value) || value["status"] === undefined) return false;
-  if (!("strength" in value) || value["strength"] === undefined) return false;
-  if (!("trackingNumber" in value) || value["trackingNumber"] === undefined) return false;
-  if (!("shippedAt" in value) || value["shippedAt"] === undefined) return false;
-  if (!("deliveredAt" in value) || value["deliveredAt"] === undefined) return false;
-  if (!("estimatedDeliveryAt" in value) || value["estimatedDeliveryAt"] === undefined) return false;
-  if (!("shipping" in value) || value["shipping"] === undefined) return false;
-  if (!("trackingUrl" in value) || value["trackingUrl"] === undefined) return false;
   if (!("updatedAt" in value) || value["updatedAt"] === undefined) return false;
   return true;
 }
@@ -305,37 +189,24 @@ export function ListOrdersResponseDataInnerFromJSONTyped(
     return json;
   }
   return {
-    cancellationReason: json["cancellationReason"],
-    carrier: json["carrier"],
-    catalogItemId: json["catalogItemId"],
-    practiceId: json["practiceId"],
-    compounderId: json["compounderId"],
     createdAt: json["createdAt"],
-    currency: json["currency"],
-    directions: json["directions"],
-    dosageForm: json["dosageForm"],
-    externalOrderId: json["externalOrderId"],
+    fulfillments: (json["fulfillments"] as Array<any>).map(
+      ListOrdersResponseDataInnerFulfillmentsInnerFromJSON,
+    ),
     id: json["id"],
     livemode: json["livemode"],
-    medicationName: json["medicationName"],
+    object: json["object"],
     patientExternalId: json["patientExternalId"],
+    patientId: json["patientId"],
     patientName: json["patientName"],
     patientState: json["patientState"],
+    practiceId: json["practiceId"],
     prescriberName: json["prescriberName"],
     prescriberNpi: json["prescriberNpi"],
-    quantity: json["quantity"],
-    quoteCents: json["quoteCents"],
-    object: json["object"],
-    replacesOrderId: json["replacesOrderId"],
-    routing: ListOrdersResponseDataInnerRoutingFromJSON(json["routing"]),
+    prescriptions: (json["prescriptions"] as Array<any>).map(
+      ListOrdersResponseDataInnerPrescriptionsInnerFromJSON,
+    ),
     status: json["status"],
-    strength: json["strength"],
-    trackingNumber: json["trackingNumber"],
-    shippedAt: json["shippedAt"],
-    deliveredAt: json["deliveredAt"],
-    estimatedDeliveryAt: json["estimatedDeliveryAt"],
-    shipping: ListOrdersResponseDataInnerShippingFromJSON(json["shipping"]),
-    trackingUrl: json["trackingUrl"],
     updatedAt: json["updatedAt"],
   };
 }
@@ -353,37 +224,24 @@ export function ListOrdersResponseDataInnerToJSONTyped(
   }
 
   return {
-    cancellationReason: value["cancellationReason"],
-    carrier: value["carrier"],
-    catalogItemId: value["catalogItemId"],
-    practiceId: value["practiceId"],
-    compounderId: value["compounderId"],
     createdAt: value["createdAt"],
-    currency: value["currency"],
-    directions: value["directions"],
-    dosageForm: value["dosageForm"],
-    externalOrderId: value["externalOrderId"],
+    fulfillments: (value["fulfillments"] as Array<any>).map(
+      ListOrdersResponseDataInnerFulfillmentsInnerToJSON,
+    ),
     id: value["id"],
     livemode: value["livemode"],
-    medicationName: value["medicationName"],
+    object: value["object"],
     patientExternalId: value["patientExternalId"],
+    patientId: value["patientId"],
     patientName: value["patientName"],
     patientState: value["patientState"],
+    practiceId: value["practiceId"],
     prescriberName: value["prescriberName"],
     prescriberNpi: value["prescriberNpi"],
-    quantity: value["quantity"],
-    quoteCents: value["quoteCents"],
-    object: value["object"],
-    replacesOrderId: value["replacesOrderId"],
-    routing: ListOrdersResponseDataInnerRoutingToJSON(value["routing"]),
+    prescriptions: (value["prescriptions"] as Array<any>).map(
+      ListOrdersResponseDataInnerPrescriptionsInnerToJSON,
+    ),
     status: value["status"],
-    strength: value["strength"],
-    trackingNumber: value["trackingNumber"],
-    shippedAt: value["shippedAt"],
-    deliveredAt: value["deliveredAt"],
-    estimatedDeliveryAt: value["estimatedDeliveryAt"],
-    shipping: ListOrdersResponseDataInnerShippingToJSON(value["shipping"]),
-    trackingUrl: value["trackingUrl"],
     updatedAt: value["updatedAt"],
   };
 }

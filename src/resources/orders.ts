@@ -2,6 +2,7 @@
 
 import type { ListOrdersRequest, PlatformOrdersApi } from "../apis/PlatformOrdersApi";
 import type { CancelOrderRequest } from "../models/CancelOrderRequest";
+import type { CreateOrderRequest } from "../models/CreateOrderRequest";
 import { type AffinityActor, requireAffinityActor } from "./actor";
 import type { MutationOptions } from "./request-options";
 
@@ -16,6 +17,16 @@ export class OrdersResource {
     private readonly apiVersion: string,
     private readonly affinityActor?: AffinityActor,
   ) {}
+  create(params: CreateOrderRequest, options: MutationOptions) {
+    const actor = requireAffinityActor(this.affinityActor);
+    return this.api.createOrder({
+      affinityActorId: actor.id,
+      affinityActorType: actor.type,
+      affinityVersion: this.apiVersion,
+      createOrderRequest: params,
+      idempotencyKey: options.idempotencyKey,
+    });
+  }
   list(params: OrderListParams = {}) {
     const actor = requireAffinityActor(this.affinityActor);
     return this.api.listOrders({

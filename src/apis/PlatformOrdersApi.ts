@@ -24,6 +24,16 @@ import {
   CancelOrderResponseToJSON,
 } from "../models/CancelOrderResponse";
 import {
+  type CreateOrderRequest,
+  CreateOrderRequestFromJSON,
+  CreateOrderRequestToJSON,
+} from "../models/CreateOrderRequest";
+import {
+  type CreateOrderResponse,
+  CreateOrderResponseFromJSON,
+  CreateOrderResponseToJSON,
+} from "../models/CreateOrderResponse";
+import {
   type GetOrderResponse,
   GetOrderResponseFromJSON,
   GetOrderResponseToJSON,
@@ -49,6 +59,14 @@ export interface CancelOrderOperationRequest {
   affinityVersion?: string;
 }
 
+export interface CreateOrderOperationRequest {
+  affinityActorId: string;
+  affinityActorType: CreateOrderOperationAffinityActorTypeEnum;
+  createOrderRequest: CreateOrderRequest;
+  idempotencyKey?: string;
+  affinityVersion?: string;
+}
+
 export interface GetOrderRequest {
   orderId: string;
   affinityActorId: string;
@@ -69,11 +87,11 @@ export interface ListOrderEventsRequest {
 export interface ListOrdersRequest {
   affinityActorId: string;
   affinityActorType: ListOrdersAffinityActorTypeEnum;
-  externalOrderId?: string;
   patientExternalId?: string;
   limit?: number;
   startingAfter?: string;
   endingBefore?: string;
+  externalOrderId?: string;
   practiceId?: string;
   status?: ListOrdersStatusEnum;
   affinityVersion?: string;
@@ -192,6 +210,107 @@ export class PlatformOrdersApi extends runtime.BaseAPI {
     initOverrides?: RequestInit | runtime.InitOverrideFunction,
   ): Promise<CancelOrderResponse> {
     const response = await this.cancelOrderRaw(requestParameters, initOverrides);
+    return await response.value();
+  }
+
+  /**
+   * Creates request options for createOrder without sending the request
+   */
+  async createOrderRequestOpts(
+    requestParameters: CreateOrderOperationRequest,
+  ): Promise<runtime.RequestOpts> {
+    if (requestParameters["affinityActorId"] == null) {
+      throw new runtime.RequiredError(
+        "affinityActorId",
+        'Required parameter "affinityActorId" was null or undefined when calling createOrder().',
+      );
+    }
+
+    if (requestParameters["affinityActorType"] == null) {
+      throw new runtime.RequiredError(
+        "affinityActorType",
+        'Required parameter "affinityActorType" was null or undefined when calling createOrder().',
+      );
+    }
+
+    if (requestParameters["createOrderRequest"] == null) {
+      throw new runtime.RequiredError(
+        "createOrderRequest",
+        'Required parameter "createOrderRequest" was null or undefined when calling createOrder().',
+      );
+    }
+
+    const queryParameters: any = {};
+
+    const headerParameters: runtime.HTTPHeaders = {};
+
+    headerParameters["Content-Type"] = "application/json";
+
+    if (requestParameters["idempotencyKey"] != null) {
+      headerParameters["Idempotency-Key"] = String(requestParameters["idempotencyKey"]);
+    }
+
+    if (requestParameters["affinityActorId"] != null) {
+      headerParameters["Affinity-Actor-Id"] = String(requestParameters["affinityActorId"]);
+    }
+
+    if (requestParameters["affinityActorType"] != null) {
+      headerParameters["Affinity-Actor-Type"] = String(requestParameters["affinityActorType"]);
+    }
+
+    if (requestParameters["affinityVersion"] != null) {
+      headerParameters["Affinity-Version"] = String(requestParameters["affinityVersion"]);
+    }
+
+    if (this.configuration && this.configuration.accessToken) {
+      const token = this.configuration.accessToken;
+      const tokenString = await token("bearerAuth", []);
+
+      if (tokenString) {
+        headerParameters["Authorization"] = `Bearer ${tokenString}`;
+      }
+    }
+    if (this.configuration && this.configuration.apiKey) {
+      headerParameters["x-affinity-api-key"] =
+        await this.configuration.apiKey("x-affinity-api-key"); // affinityApiKey authentication
+    }
+
+    let urlPath = `/v1/orders`;
+
+    return {
+      path: urlPath,
+      method: "POST",
+      headers: headerParameters,
+      query: queryParameters,
+      body: CreateOrderRequestToJSON(requestParameters["createOrderRequest"]),
+    };
+  }
+
+  /**
+   * Creates one patient order containing one or more unsigned prescription drafts. A platform API key cannot sign them; create a provider-bound order signing session next. Idempotency-Key and actor context are required.
+   * Create patient order
+   */
+  async createOrderRaw(
+    requestParameters: CreateOrderOperationRequest,
+    initOverrides?: RequestInit | runtime.InitOverrideFunction,
+  ): Promise<runtime.ApiResponse<CreateOrderResponse>> {
+    const requestOptions = await this.createOrderRequestOpts(requestParameters);
+    const response = await this.request(requestOptions, initOverrides);
+
+    return new runtime.JSONApiResponse(response, (jsonValue) =>
+      CreateOrderResponseFromJSON(jsonValue),
+    );
+  }
+
+  /**
+   * Creates one patient order containing one or more unsigned prescription drafts. A platform API key cannot sign them; create a provider-bound order signing session next. Idempotency-Key and actor context are required.
+   * Create patient order
+   */
+  async createOrder(
+    requestParameters: CreateOrderOperationRequest,
+    initOverrides?: RequestInit | runtime.InitOverrideFunction,
+  ): Promise<CreateOrderResponse> {
+    const response = await this.createOrderRaw(requestParameters, initOverrides);
     return await response.value();
   }
 
@@ -417,10 +536,6 @@ export class PlatformOrdersApi extends runtime.BaseAPI {
 
     const queryParameters: any = {};
 
-    if (requestParameters["externalOrderId"] != null) {
-      queryParameters["externalOrderId"] = requestParameters["externalOrderId"];
-    }
-
     if (requestParameters["patientExternalId"] != null) {
       queryParameters["patientExternalId"] = requestParameters["patientExternalId"];
     }
@@ -435,6 +550,10 @@ export class PlatformOrdersApi extends runtime.BaseAPI {
 
     if (requestParameters["endingBefore"] != null) {
       queryParameters["endingBefore"] = requestParameters["endingBefore"];
+    }
+
+    if (requestParameters["externalOrderId"] != null) {
+      queryParameters["externalOrderId"] = requestParameters["externalOrderId"];
     }
 
     if (requestParameters["practiceId"] != null) {
@@ -521,6 +640,15 @@ export type CancelOrderOperationAffinityActorTypeEnum =
 /**
  * @export
  */
+export const CreateOrderOperationAffinityActorTypeEnum = {
+  User: "user",
+  System: "system",
+} as const;
+export type CreateOrderOperationAffinityActorTypeEnum =
+  (typeof CreateOrderOperationAffinityActorTypeEnum)[keyof typeof CreateOrderOperationAffinityActorTypeEnum];
+/**
+ * @export
+ */
 export const GetOrderAffinityActorTypeEnum = {
   User: "user",
   System: "system",
@@ -553,7 +681,10 @@ export const ListOrdersStatusEnum = {
   Cancelled: "cancelled",
   Delivered: "delivered",
   Draft: "draft",
+  PartiallySubmitted: "partially_submitted",
   Processing: "processing",
+  Ready: "ready",
+  RequiresProviderSignature: "requires_provider_signature",
   Shipped: "shipped",
   Submitted: "submitted",
 } as const;

@@ -6,6 +6,8 @@ for (const resource of [
   "componentSessions",
   "compounders",
   "hostedSessions",
+  "orders",
+  "orderSigningSessions",
   "patients",
   "providerMappings",
 ]) {
@@ -18,10 +20,10 @@ for (const webhookExport of ["parseAffinityWebhookEvent", "verifyAffinityWebhook
   }
 }
 
-for (const legacyResource of ["portalSessions"]) {
+for (const legacyResource of ["portalSessions", "prescriptions", "prescriptionSigningSessions"]) {
   if (legacyResource in client) throw new Error(`legacy ${legacyResource} resource remains`);
 }
 
-for (const legacyMethod of ["create", "createRoutingDecision", "submit", "update"]) {
+for (const legacyMethod of ["createRoutingDecision", "submit", "update"]) {
   if (legacyMethod in client.orders) throw new Error(`legacy orders.${legacyMethod} remains`);
 }

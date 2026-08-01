@@ -1,15 +1,13 @@
-# CreateHostedSessionRequest
+# CreateOrderSigningSessionRequest
 
 ## Properties
 
 | Name                | Type                                                                            |
 | ------------------- | ------------------------------------------------------------------------------- |
 | `consent`           | [CreateComponentSessionRequestConsent](CreateComponentSessionRequestConsent.md) |
-| `flow`              | string                                                                          |
 | `membershipId`      | string                                                                          |
-| `patientId`         | string                                                                          |
-| `practiceId`        | string                                                                          |
 | `orderId`           | string                                                                          |
+| `practiceId`        | string                                                                          |
 | `providerMappingId` | string                                                                          |
 | `returnUrl`         | string                                                                          |
 | `userId`            | string                                                                          |
@@ -17,20 +15,18 @@
 ## Example
 
 ```typescript
-import type { CreateHostedSessionRequest } from "@affinity-health/sdk";
+import type { CreateOrderSigningSessionRequest } from "@affinity-health/sdk";
 
 // TODO: Update the object below with actual values
 const example = {
   consent: null,
-  flow: null,
   membershipId: null,
-  patientId: null,
-  practiceId: null,
   orderId: null,
+  practiceId: null,
   providerMappingId: null,
   returnUrl: null,
   userId: null,
-} satisfies CreateHostedSessionRequest;
+} satisfies CreateOrderSigningSessionRequest;
 
 console.log(example);
 
@@ -39,7 +35,7 @@ const exampleJSON: string = JSON.stringify(example);
 console.log(exampleJSON);
 
 // Parse the JSON string back to an object
-const exampleParsed = JSON.parse(exampleJSON) as CreateHostedSessionRequest;
+const exampleParsed = JSON.parse(exampleJSON) as CreateOrderSigningSessionRequest;
 console.log(exampleParsed);
 ```
 

@@ -2,40 +2,23 @@
 
 ## Properties
 
-| Name                  | Type                                                                          |
-| --------------------- | ----------------------------------------------------------------------------- |
-| `cancellationReason`  | string                                                                        |
-| `carrier`             | string                                                                        |
-| `catalogItemId`       | string                                                                        |
-| `practiceId`          | string                                                                        |
-| `compounderId`        | string                                                                        |
-| `createdAt`           | string                                                                        |
-| `currency`            | string                                                                        |
-| `directions`          | string                                                                        |
-| `dosageForm`          | string                                                                        |
-| `externalOrderId`     | string                                                                        |
-| `id`                  | string                                                                        |
-| `livemode`            | boolean                                                                       |
-| `medicationName`      | string                                                                        |
-| `patientExternalId`   | string                                                                        |
-| `patientName`         | string                                                                        |
-| `patientState`        | string                                                                        |
-| `prescriberName`      | string                                                                        |
-| `prescriberNpi`       | string                                                                        |
-| `quantity`            | number                                                                        |
-| `quoteCents`          | number                                                                        |
-| `object`              | string                                                                        |
-| `replacesOrderId`     | string                                                                        |
-| `routing`             | [ListOrdersResponseDataInnerRouting](ListOrdersResponseDataInnerRouting.md)   |
-| `status`              | string                                                                        |
-| `strength`            | string                                                                        |
-| `trackingNumber`      | string                                                                        |
-| `shippedAt`           | string                                                                        |
-| `deliveredAt`         | string                                                                        |
-| `estimatedDeliveryAt` | string                                                                        |
-| `shipping`            | [ListOrdersResponseDataInnerShipping](ListOrdersResponseDataInnerShipping.md) |
-| `trackingUrl`         | string                                                                        |
-| `updatedAt`           | string                                                                        |
+| Name                | Type                                                                                                           |
+| ------------------- | -------------------------------------------------------------------------------------------------------------- |
+| `createdAt`         | string                                                                                                         |
+| `fulfillments`      | [Array&lt;ListOrdersResponseDataInnerFulfillmentsInner&gt;](ListOrdersResponseDataInnerFulfillmentsInner.md)   |
+| `id`                | string                                                                                                         |
+| `livemode`          | boolean                                                                                                        |
+| `object`            | string                                                                                                         |
+| `patientExternalId` | string                                                                                                         |
+| `patientId`         | string                                                                                                         |
+| `patientName`       | string                                                                                                         |
+| `patientState`      | string                                                                                                         |
+| `practiceId`        | string                                                                                                         |
+| `prescriberName`    | string                                                                                                         |
+| `prescriberNpi`     | string                                                                                                         |
+| `prescriptions`     | [Array&lt;ListOrdersResponseDataInnerPrescriptionsInner&gt;](ListOrdersResponseDataInnerPrescriptionsInner.md) |
+| `status`            | string                                                                                                         |
+| `updatedAt`         | string                                                                                                         |
 
 ## Example
 
@@ -44,37 +27,20 @@ import type { GetOrderResponse } from "@affinity-health/sdk";
 
 // TODO: Update the object below with actual values
 const example = {
-  cancellationReason: null,
-  carrier: null,
-  catalogItemId: null,
-  practiceId: null,
-  compounderId: null,
   createdAt: null,
-  currency: null,
-  directions: null,
-  dosageForm: null,
-  externalOrderId: null,
+  fulfillments: null,
   id: null,
   livemode: null,
-  medicationName: null,
+  object: null,
   patientExternalId: null,
+  patientId: null,
   patientName: null,
   patientState: null,
+  practiceId: null,
   prescriberName: null,
   prescriberNpi: null,
-  quantity: null,
-  quoteCents: null,
-  object: null,
-  replacesOrderId: null,
-  routing: null,
+  prescriptions: null,
   status: null,
-  strength: null,
-  trackingNumber: null,
-  shippedAt: null,
-  deliveredAt: null,
-  estimatedDeliveryAt: null,
-  shipping: null,
-  trackingUrl: null,
   updatedAt: null,
 } satisfies GetOrderResponse;
 

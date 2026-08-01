@@ -38,10 +38,10 @@ const supportedOperations = [
   "completePracticePaymentSetup",
   "createComponentSession",
   "createHostedSession",
+  "createOrder",
+  "createOrderSigningSession",
   "createPatient",
   "createPractice",
-  "createPrescription",
-  "createPrescriptionSigningSession",
   "createPracticeMembership",
   "createPracticePaymentSetup",
   "createPracticeRole",
@@ -104,13 +104,12 @@ import { CatalogApi } from "./apis/CatalogApi";
 import { ComponentSessionsApi } from "./apis/ComponentSessionsApi";
 import { HostedSessionsApi } from "./apis/HostedSessionsApi";
 import { MembershipsApi } from "./apis/MembershipsApi";
+import { OrderSigningSessionsApi } from "./apis/OrderSigningSessionsApi";
 import { PatientsApi } from "./apis/PatientsApi";
 import { PlatformOrdersApi } from "./apis/PlatformOrdersApi";
 import { PlatformWebhooksApi } from "./apis/PlatformWebhooksApi";
 import { PlatformsApi } from "./apis/PlatformsApi";
 import { PracticesApi } from "./apis/PracticesApi";
-import { PrescriptionSigningSessionsApi } from "./apis/PrescriptionSigningSessionsApi";
-import { PrescriptionsApi } from "./apis/PrescriptionsApi";
 import { ProviderMappingsApi } from "./apis/ProviderMappingsApi";
 import { RolesApi } from "./apis/RolesApi";
 import { UsersApi } from "./apis/UsersApi";
@@ -122,11 +121,10 @@ import { ComponentSessionsResource } from "./resources/component-sessions";
 import { CompoundersResource } from "./resources/compounders";
 import { HostedSessionsResource } from "./resources/hosted-sessions";
 import { MembershipsResource } from "./resources/memberships";
+import { OrderSigningSessionsResource } from "./resources/order-signing-sessions";
 import { OrdersResource } from "./resources/orders";
 import { PatientsResource } from "./resources/patients";
 import { PracticesResource } from "./resources/practices";
-import { PrescriptionSigningSessionsResource } from "./resources/prescription-signing-sessions";
-import { PrescriptionsResource } from "./resources/prescriptions";
 import { ProviderMappingsResource } from "./resources/provider-mappings";
 import { createRetryingFetch } from "./resources/retrying-fetch";
 import { RolesResource } from "./resources/roles";
@@ -151,11 +149,10 @@ export class Affinity {
   readonly compounders: CompoundersResource;
   readonly hostedSessions: HostedSessionsResource;
   readonly memberships: MembershipsResource;
+  readonly orderSigningSessions: OrderSigningSessionsResource;
   readonly orders: OrdersResource;
   readonly patients: PatientsResource;
   readonly practices: PracticesResource;
-  readonly prescriptionSigningSessions: PrescriptionSigningSessionsResource;
-  readonly prescriptions: PrescriptionsResource;
   readonly providerMappings: ProviderMappingsResource;
   readonly roles: RolesResource;
   readonly users: UsersResource;
@@ -205,18 +202,13 @@ export class Affinity {
       apiVersion,
     );
     this.memberships = new MembershipsResource(new MembershipsApi(configuration), apiVersion);
+    this.orderSigningSessions = new OrderSigningSessionsResource(
+      new OrderSigningSessionsApi(configuration),
+      apiVersion,
+    );
     this.orders = new OrdersResource(new PlatformOrdersApi(configuration), apiVersion, actor);
     this.patients = new PatientsResource(new PatientsApi(configuration), apiVersion, actor);
     this.practices = new PracticesResource(new PracticesApi(configuration), apiVersion);
-    this.prescriptionSigningSessions = new PrescriptionSigningSessionsResource(
-      new PrescriptionSigningSessionsApi(configuration),
-      apiVersion,
-    );
-    this.prescriptions = new PrescriptionsResource(
-      new PrescriptionsApi(configuration),
-      apiVersion,
-      actor,
-    );
     this.providerMappings = new ProviderMappingsResource(
       new ProviderMappingsApi(configuration),
       apiVersion,
@@ -537,6 +529,7 @@ await output(
   "src/resources/orders.ts",
   `import type { ListOrdersRequest, PlatformOrdersApi } from "../apis/PlatformOrdersApi";
 import type { CancelOrderRequest } from "../models/CancelOrderRequest";
+import type { CreateOrderRequest } from "../models/CreateOrderRequest";
 import { type AffinityActor, requireAffinityActor } from "./actor";
 import type { MutationOptions } from "./request-options";
 
@@ -551,6 +544,16 @@ export class OrdersResource {
     private readonly apiVersion: string,
     private readonly affinityActor?: AffinityActor,
   ) {}
+  create(params: CreateOrderRequest, options: MutationOptions) {
+    const actor = requireAffinityActor(this.affinityActor);
+    return this.api.createOrder({
+      affinityActorId: actor.id,
+      affinityActorType: actor.type,
+      affinityVersion: this.apiVersion,
+      createOrderRequest: params,
+      idempotencyKey: options.idempotencyKey,
+    });
+  }
   list(params: OrderListParams = {}) {
     const actor = requireAffinityActor(this.affinityActor);
     return this.api.listOrders({
@@ -803,46 +806,20 @@ export class HostedSessionsResource {
 );
 
 await output(
-  "src/resources/prescriptions.ts",
-  `import type { PrescriptionsApi } from "../apis/PrescriptionsApi";
-import type { CreatePrescriptionRequest } from "../models/CreatePrescriptionRequest";
-import { type AffinityActor, requireAffinityActor } from "./actor";
+  "src/resources/order-signing-sessions.ts",
+  `import type { OrderSigningSessionsApi } from "../apis/OrderSigningSessionsApi";
+import type { CreateOrderSigningSessionRequest } from "../models/CreateOrderSigningSessionRequest";
 import type { MutationOptions } from "./request-options";
 
-export class PrescriptionsResource {
+export class OrderSigningSessionsResource {
   constructor(
-    private readonly api: PrescriptionsApi,
-    private readonly apiVersion: string,
-    private readonly affinityActor?: AffinityActor,
-  ) {}
-  create(params: CreatePrescriptionRequest, options: MutationOptions) {
-    const actor = requireAffinityActor(this.affinityActor);
-    return this.api.createPrescription({
-      affinityActorId: actor.id,
-      affinityActorType: actor.type,
-      affinityVersion: this.apiVersion,
-      createPrescriptionRequest: params,
-      idempotencyKey: options.idempotencyKey,
-    });
-  }
-}`,
-);
-
-await output(
-  "src/resources/prescription-signing-sessions.ts",
-  `import type { PrescriptionSigningSessionsApi } from "../apis/PrescriptionSigningSessionsApi";
-import type { CreatePrescriptionSigningSessionRequest } from "../models/CreatePrescriptionSigningSessionRequest";
-import type { MutationOptions } from "./request-options";
-
-export class PrescriptionSigningSessionsResource {
-  constructor(
-    private readonly api: PrescriptionSigningSessionsApi,
+    private readonly api: OrderSigningSessionsApi,
     private readonly apiVersion: string,
   ) {}
-  create(params: CreatePrescriptionSigningSessionRequest, options: MutationOptions) {
-    return this.api.createPrescriptionSigningSession({
+  create(params: CreateOrderSigningSessionRequest, options: MutationOptions) {
+    return this.api.createOrderSigningSession({
       affinityVersion: this.apiVersion,
-      createPrescriptionSigningSessionRequest: params,
+      createOrderSigningSessionRequest: params,
       idempotencyKey: options.idempotencyKey,
     });
   }
@@ -933,5 +910,5 @@ const indexPath = resolve(root, "src/index.ts");
 const generatedIndex = (await readFile(indexPath, "utf8")).trimEnd();
 await writeFile(
   indexPath,
-  `${generatedIndex}\n\nexport * from "./affinity";\nexport * from "./webhook-events";\nexport * from "./resources/account";\nexport * from "./resources/actor";\nexport * from "./resources/billing";\nexport * from "./resources/catalog";\nexport * from "./resources/component-sessions";\nexport * from "./resources/compounders";\nexport * from "./resources/hosted-sessions";\nexport * from "./resources/memberships";\nexport * from "./resources/orders";\nexport * from "./resources/patients";\nexport * from "./resources/practices";\nexport * from "./resources/prescription-signing-sessions";\nexport * from "./resources/prescriptions";\nexport * from "./resources/provider-mappings";\nexport * from "./resources/request-options";\nexport * from "./resources/roles";\nexport * from "./resources/users";\nexport * from "./resources/webhooks";\n`,
+  `${generatedIndex}\n\nexport * from "./affinity";\nexport * from "./webhook-events";\nexport * from "./resources/account";\nexport * from "./resources/actor";\nexport * from "./resources/billing";\nexport * from "./resources/catalog";\nexport * from "./resources/component-sessions";\nexport * from "./resources/compounders";\nexport * from "./resources/hosted-sessions";\nexport * from "./resources/memberships";\nexport * from "./resources/order-signing-sessions";\nexport * from "./resources/orders";\nexport * from "./resources/patients";\nexport * from "./resources/practices";\nexport * from "./resources/provider-mappings";\nexport * from "./resources/request-options";\nexport * from "./resources/roles";\nexport * from "./resources/users";\nexport * from "./resources/webhooks";\n`,
 );

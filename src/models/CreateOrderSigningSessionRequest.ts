@@ -24,119 +24,99 @@ import {
 /**
  *
  * @export
- * @interface CreateHostedSessionRequest
+ * @interface CreateOrderSigningSessionRequest
  */
-export interface CreateHostedSessionRequest {
+export interface CreateOrderSigningSessionRequest {
   /**
    *
    * @type {CreateComponentSessionRequestConsent}
-   * @memberof CreateHostedSessionRequest
+   * @memberof CreateOrderSigningSessionRequest
    */
   consent: CreateComponentSessionRequestConsent;
   /**
    *
-   * @type {CreateHostedSessionRequestFlowEnum}
-   * @memberof CreateHostedSessionRequest
-   */
-  flow: CreateHostedSessionRequestFlowEnum;
-  /**
-   *
    * @type {string}
-   * @memberof CreateHostedSessionRequest
+   * @memberof CreateOrderSigningSessionRequest
    */
   membershipId?: string;
   /**
    *
    * @type {string}
-   * @memberof CreateHostedSessionRequest
+   * @memberof CreateOrderSigningSessionRequest
    */
-  patientId?: string;
+  orderId: string;
   /**
    *
    * @type {string}
-   * @memberof CreateHostedSessionRequest
+   * @memberof CreateOrderSigningSessionRequest
    */
   practiceId: string;
   /**
    *
    * @type {string}
-   * @memberof CreateHostedSessionRequest
-   */
-  orderId?: string;
-  /**
-   * The pmap_ ID returned as id by POST /v1/provider-mappings.
-   * @type {string}
-   * @memberof CreateHostedSessionRequest
+   * @memberof CreateOrderSigningSessionRequest
    */
   providerMappingId: string;
   /**
    *
    * @type {string}
-   * @memberof CreateHostedSessionRequest
+   * @memberof CreateOrderSigningSessionRequest
    */
   returnUrl?: string | null;
   /**
    *
    * @type {string}
-   * @memberof CreateHostedSessionRequest
+   * @memberof CreateOrderSigningSessionRequest
    */
   userId: string;
 }
 
 /**
- * @export
+ * Check if a given object implements the CreateOrderSigningSessionRequest interface.
  */
-export const CreateHostedSessionRequestFlowEnum = {
-  ProviderVerification: "provider_verification",
-  PrescriptionComposer: "prescription_composer",
-} as const;
-export type CreateHostedSessionRequestFlowEnum =
-  (typeof CreateHostedSessionRequestFlowEnum)[keyof typeof CreateHostedSessionRequestFlowEnum];
-
-/**
- * Check if a given object implements the CreateHostedSessionRequest interface.
- */
-export function instanceOfCreateHostedSessionRequest(
+export function instanceOfCreateOrderSigningSessionRequest(
   value: object,
-): value is CreateHostedSessionRequest {
+): value is CreateOrderSigningSessionRequest {
   if (!("consent" in value) || value["consent"] === undefined) return false;
-  if (!("flow" in value) || value["flow"] === undefined) return false;
+  if (!("orderId" in value) || value["orderId"] === undefined) return false;
   if (!("practiceId" in value) || value["practiceId"] === undefined) return false;
   if (!("providerMappingId" in value) || value["providerMappingId"] === undefined) return false;
   if (!("userId" in value) || value["userId"] === undefined) return false;
   return true;
 }
 
-export function CreateHostedSessionRequestFromJSON(json: any): CreateHostedSessionRequest {
-  return CreateHostedSessionRequestFromJSONTyped(json, false);
+export function CreateOrderSigningSessionRequestFromJSON(
+  json: any,
+): CreateOrderSigningSessionRequest {
+  return CreateOrderSigningSessionRequestFromJSONTyped(json, false);
 }
 
-export function CreateHostedSessionRequestFromJSONTyped(
+export function CreateOrderSigningSessionRequestFromJSONTyped(
   json: any,
   ignoreDiscriminator: boolean,
-): CreateHostedSessionRequest {
+): CreateOrderSigningSessionRequest {
   if (json == null) {
     return json;
   }
   return {
     consent: CreateComponentSessionRequestConsentFromJSON(json["consent"]),
-    flow: json["flow"],
     membershipId: json["membershipId"] == null ? undefined : json["membershipId"],
-    patientId: json["patientId"] == null ? undefined : json["patientId"],
+    orderId: json["orderId"],
     practiceId: json["practiceId"],
-    orderId: json["orderId"] == null ? undefined : json["orderId"],
     providerMappingId: json["providerMappingId"],
     returnUrl: json["returnUrl"] == null ? undefined : json["returnUrl"],
     userId: json["userId"],
   };
 }
 
-export function CreateHostedSessionRequestToJSON(json: any): CreateHostedSessionRequest {
-  return CreateHostedSessionRequestToJSONTyped(json, false);
+export function CreateOrderSigningSessionRequestToJSON(
+  json: any,
+): CreateOrderSigningSessionRequest {
+  return CreateOrderSigningSessionRequestToJSONTyped(json, false);
 }
 
-export function CreateHostedSessionRequestToJSONTyped(
-  value?: CreateHostedSessionRequest | null,
+export function CreateOrderSigningSessionRequestToJSONTyped(
+  value?: CreateOrderSigningSessionRequest | null,
   ignoreDiscriminator: boolean = false,
 ): any {
   if (value == null) {
@@ -145,11 +125,9 @@ export function CreateHostedSessionRequestToJSONTyped(
 
   return {
     consent: CreateComponentSessionRequestConsentToJSON(value["consent"]),
-    flow: value["flow"],
     membershipId: value["membershipId"],
-    patientId: value["patientId"],
-    practiceId: value["practiceId"],
     orderId: value["orderId"],
+    practiceId: value["practiceId"],
     providerMappingId: value["providerMappingId"],
     returnUrl: value["returnUrl"],
     userId: value["userId"],

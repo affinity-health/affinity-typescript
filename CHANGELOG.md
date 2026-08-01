@@ -9,10 +9,11 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 
 ### Added
 
-- Added `prescriptions.create(...)` for complete unsigned drafts from platform-owned prescribing
-  interfaces, with required actor attribution and idempotency.
-- Added `prescriptionSigningSessions.create(...)` for one-time, provider-bound Affinity review,
-  PIN-signing, shipping, and transmission.
+- Added `orders.create(...)` for one-patient orders containing one or more unsigned prescription
+  drafts, with required actor attribution and idempotency.
+- Added `orderSigningSessions.create(...)` for one-time, provider-bound review and PIN-signing of
+  every prescription in an order.
+- Removed the unreleased single-prescription creation and signing-session resources.
 
 ## [1.0.1] - 2026-07-31
 

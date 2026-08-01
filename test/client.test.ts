@@ -366,63 +366,111 @@ describe("Affinity client", () => {
     );
   });
 
-  test("creates an unsigned prescription and a provider-bound signing session", async () => {
+  test("creates a multi-prescription order and a provider-bound signing session", async () => {
     const requests: Request[] = [];
     const affinity = new Affinity("sk_test_example", {
       fetch: async (input, init) => {
-        requests.push(new Request(input, init));
-        return Response.json({});
+        const request = new Request(input, init);
+        requests.push(request);
+        if (new URL(request.url).pathname === "/v1/orders") {
+          return Response.json({
+            createdAt: "2026-08-01T12:00:00.000Z",
+            id: "ord_01k123456789abcdefghjkmnp",
+            livemode: false,
+            object: "order",
+            patientId: "pat_01k123456789abcdefghjkmnp",
+            practiceId: "prac_01k123456789abcdefghjkmnp",
+            prescriptions: [
+              {
+                createdAt: "2026-08-01T12:00:00.000Z",
+                directions: "Inject once weekly",
+                id: "rx_01k123456789abcdefghjkmnp",
+                medicationId: "cat_01k123456789abcdefghjkmnp",
+                medicationName: "Semaglutide",
+                object: "prescription",
+                quantity: 1,
+                quantityUnit: "mL",
+                refills: 0,
+                status: "requires_provider_signature",
+              },
+            ],
+            providerMappingId: "pmap_01k123456789abcdefghjkmnp",
+            status: "requires_provider_signature",
+          });
+        }
+        return Response.json({
+          expiresAt: "2026-08-01T12:15:00.000Z",
+          id: "oss_01k123456789abcdefghjkmnp",
+          object: "order_signing_session",
+          orderId: "ord_01k123456789abcdefghjkmnp",
+          url: "https://connect.joinaffinityai.com/sign/example",
+        });
       },
     });
     const actingAffinity = affinity.withActor({ id: "platform-user-4821", type: "user" });
 
-    await actingAffinity.prescriptions.create(
+    await actingAffinity.orders.create(
       {
-        clinical: { currentMedications: [], observations: [] },
-        daysSupply: 30,
-        dispensing: { dispenseUponAcceptance: true, substitutionPermitted: false },
-        directions: "Inject 0.25 mL subcutaneously once weekly",
-        medicationId: "cat_01k123456789abcdefghjkmnp",
         patientId: "pat_01k123456789abcdefghjkmnp",
         practiceId: "prac_01k123456789abcdefghjkmnp",
         providerMappingId: "pmap_01k123456789abcdefghjkmnp",
-        quantity: 1,
-        quantityUnit: "mL",
-        refills: 0,
-        structuredSig: {
-          dose: "0.25",
-          doseUnit: "mL",
-          frequency: "once weekly",
-          prn: false,
-          route: "subcutaneous",
-        },
+        prescriptions: [
+          {
+            clinical: { currentMedications: [], observations: [] },
+            daysSupply: 30,
+            dispensing: { dispenseUponAcceptance: true, substitutionPermitted: false },
+            directions: "Inject 0.25 mL subcutaneously once weekly",
+            medicationId: "cat_01k123456789abcdefghjkmnp",
+            quantity: 1,
+            quantityUnit: "mL",
+            refills: 0,
+            structuredSig: {
+              dose: "0.25",
+              doseUnit: "mL",
+              frequency: "once weekly",
+              prn: false,
+              route: "subcutaneous",
+            },
+          },
+          {
+            clinical: { currentMedications: [], observations: [] },
+            daysSupply: 30,
+            dispensing: { dispenseUponAcceptance: true, substitutionPermitted: false },
+            directions: "Inject 1 mL intramuscularly once weekly",
+            medicationId: "cat_01k123456789abcdefghjkmnq",
+            quantity: 4,
+            quantityUnit: "mL",
+            refills: 0,
+          },
+        ],
       },
-      { idempotencyKey: "prescription-example" },
+      { idempotencyKey: "order-example" },
     );
-    await affinity.prescriptionSigningSessions.create(
+    await affinity.orderSigningSessions.create(
       {
         consent: {
           authorizedProviderAccess: true,
           minimumNecessaryPhi: true,
           recordedAt: new Date("2026-08-01T12:00:00.000Z"),
         },
+        orderId: "ord_01k123456789abcdefghjkmnp",
         practiceId: "prac_01k123456789abcdefghjkmnp",
-        prescriptionId: "rx_01k123456789abcdefghjkmnp",
         providerMappingId: "pmap_01k123456789abcdefghjkmnp",
         userId: "usr_01k123456789abcdefghjkmnp",
       },
-      { idempotencyKey: "prescription-signing-example" },
+      { idempotencyKey: "order-signing-example" },
     );
 
     expect(requests.map((request) => new URL(request.url).pathname)).toEqual([
-      "/v1/prescriptions",
-      "/v1/prescription-signing-sessions",
+      "/v1/orders",
+      "/v1/order-signing-sessions",
     ]);
     expect(requests[0]?.headers.get("affinity-actor-id")).toBe("platform-user-4821");
     expect(requests[0]?.headers.get("affinity-actor-type")).toBe("user");
     expect(requests.map((request) => request.headers.get("idempotency-key"))).toEqual([
-      "prescription-example",
-      "prescription-signing-example",
+      "order-example",
+      "order-signing-example",
     ]);
+    expect((await requests[0]!.clone().json()).prescriptions).toHaveLength(2);
   });
 });
