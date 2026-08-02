@@ -18,5 +18,6 @@ trap 'rm -rf "$generated"' EXIT
   --additional-properties="hideGenerationTimestamp=true,licenseName=MIT,npmName=@affinity-health/sdk,npmVersion=$package_version,npmRepository=https://github.com/affinity-health/affinity-typescript,supportsES6=true,typescriptThreePlus=true"
 
 bun "$root/scripts/replace-generated.ts" "$generated" "$root"
+bun "$root/scripts/clean-generated-docs.ts" "$root/docs"
 bun "$root/scripts/generate-facade.ts"
 oxfmt "$root/src" "$root/docs" "$root/scripts" "$root/examples" "$root/test"

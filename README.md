@@ -2,7 +2,7 @@
 
 The official TypeScript SDK for the Affinity API.
 
-> **Status:** Version `1.0.1` uses the forward-only `2026-07-29` Affinity API contract. Use Test
+> **Status:** Version `1.1.1` uses the forward-only `2026-07-29` Affinity API contract. Use Test
 > mode until Affinity approves Live access.
 
 The SDK provides a small, resource-oriented interface for software platforms connecting
@@ -257,6 +257,13 @@ const order = await actingAffinity.orders.create(
         quantity: 4,
         quantityUnit: "mL",
         refills: 0,
+        structuredSig: {
+          dose: "1",
+          doseUnit: "mL",
+          frequency: "once weekly",
+          prn: false,
+          route: "intramuscular",
+        },
       },
     ],
   },
@@ -299,11 +306,11 @@ const patient = await actingAffinity.patients.create(
   practice.id,
   {
     address: {
-      city: "Detroit",
+      city: "Los Angeles",
       country: "US",
       line1: "100 Test Avenue",
-      postalCode: "48201",
-      state: "MI",
+      postalCode: "90001",
+      state: "CA",
     },
     dateOfBirth: new Date("1990-01-01"),
     externalId: "patient_991",

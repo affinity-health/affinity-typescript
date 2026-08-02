@@ -7,6 +7,13 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 
 ## [Unreleased]
 
+## [1.1.1] - 2026-08-01
+
+### Fixed
+
+- Updated the package documentation for the patient-order API and current package version.
+- Removed non-runnable placeholder examples from generated model reference pages.
+
 ## [1.1.0] - 2026-08-01
 
 ### Added
@@ -83,7 +90,8 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 - Typed RFC 9457 problem responses, including validation, dependency, and internal failures.
 - A compile-checked Test-mode quickstart.
 
-[Unreleased]: https://github.com/affinity-health/affinity-typescript/compare/v1.1.0...HEAD
+[Unreleased]: https://github.com/affinity-health/affinity-typescript/compare/v1.1.1...HEAD
+[1.1.1]: https://github.com/affinity-health/affinity-typescript/compare/v1.1.0...v1.1.1
 [1.1.0]: https://github.com/affinity-health/affinity-typescript/compare/v1.0.1...v1.1.0
 [1.0.1]: https://github.com/affinity-health/affinity-typescript/compare/v1.0.0...v1.0.1
 [1.0.0]: https://github.com/affinity-health/affinity-typescript/compare/v0.3.0...v1.0.0
