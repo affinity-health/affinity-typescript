@@ -121,12 +121,12 @@ describe("Affinity client", () => {
     const patientId = "pat_01k123456789abcdefghjkmnp";
     const patient = {
       address: {
-        city: "Detroit",
+        city: "Los Angeles",
         country: "US",
         line1: "100 Test Avenue",
         line2: null,
-        postalCode: "48201",
-        state: "MI",
+        postalCode: "90001",
+        state: "CA",
       },
       allergies: "NKDA",
       createdAt: "2026-07-31T12:00:00.000Z",
@@ -139,7 +139,7 @@ describe("Affinity client", () => {
       metadata: {},
       name: { first: "Jordan", last: "Lee", middle: null, preferred: null },
       object: "patient",
-      phone: "+13135550100",
+      phone: "+13105550100",
       practiceId,
       status: "active",
       updatedAt: "2026-07-31T12:00:00.000Z",
@@ -161,16 +161,16 @@ describe("Affinity client", () => {
       practiceId,
       {
         address: {
-          city: "Detroit",
+          city: "Los Angeles",
           country: "US",
           line1: "100 Test Avenue",
-          postalCode: "48201",
-          state: "MI",
+          postalCode: "90001",
+          state: "CA",
         },
         dateOfBirth: new Date("1990-01-01"),
         externalId: "patient_4821",
         name: { first: "Jordan", last: "Lee" },
-        phone: "+13135550100",
+        phone: "+13105550100",
       },
       { idempotencyKey: "patient-create-4821" },
     );

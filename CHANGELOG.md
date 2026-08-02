@@ -7,6 +7,10 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 
 ## [Unreleased]
 
+### Changed
+
+- Replaced location-specific patient fixtures with generic synthetic California data.
+
 ## [1.1.1] - 2026-08-01
 
 ### Fixed
