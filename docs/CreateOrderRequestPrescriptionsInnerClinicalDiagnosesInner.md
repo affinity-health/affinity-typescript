@@ -1,4 +1,4 @@
-# CreateOrderRequestPrescriptionsInnerClinicalDiagnosis
+# CreateOrderRequestPrescriptionsInnerClinicalDiagnosesInner
 
 ## Properties
 

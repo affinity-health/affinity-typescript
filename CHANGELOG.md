@@ -7,8 +7,14 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 
 ## [Unreleased]
 
+## [1.1.2] - 2026-08-02
+
 ### Changed
 
+- Replaced each prescription's single `clinical.diagnosis` object with a bounded
+  `clinical.diagnoses` array. The first diagnosis is primary.
+- Updated the headless multi-prescription example to send an ICD-10-CM diagnosis for each
+  prescription.
 - Replaced location-specific patient fixtures with generic synthetic California data.
 
 ## [1.1.1] - 2026-08-01
@@ -94,7 +100,8 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 - Typed RFC 9457 problem responses, including validation, dependency, and internal failures.
 - A compile-checked Test-mode quickstart.
 
-[Unreleased]: https://github.com/affinity-health/affinity-typescript/compare/v1.1.1...HEAD
+[Unreleased]: https://github.com/affinity-health/affinity-typescript/compare/v1.1.2...HEAD
+[1.1.2]: https://github.com/affinity-health/affinity-typescript/compare/v1.1.1...v1.1.2
 [1.1.1]: https://github.com/affinity-health/affinity-typescript/compare/v1.1.0...v1.1.1
 [1.1.0]: https://github.com/affinity-health/affinity-typescript/compare/v1.0.1...v1.1.0
 [1.0.1]: https://github.com/affinity-health/affinity-typescript/compare/v1.0.0...v1.0.1

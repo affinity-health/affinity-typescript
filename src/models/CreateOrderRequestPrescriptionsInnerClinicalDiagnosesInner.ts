@@ -16,44 +16,44 @@ import { mapValues } from "../runtime";
 /**
  *
  * @export
- * @interface CreateOrderRequestPrescriptionsInnerClinicalDiagnosis
+ * @interface CreateOrderRequestPrescriptionsInnerClinicalDiagnosesInner
  */
-export interface CreateOrderRequestPrescriptionsInnerClinicalDiagnosis {
+export interface CreateOrderRequestPrescriptionsInnerClinicalDiagnosesInner {
   /**
    *
    * @type {string}
-   * @memberof CreateOrderRequestPrescriptionsInnerClinicalDiagnosis
+   * @memberof CreateOrderRequestPrescriptionsInnerClinicalDiagnosesInner
    */
   code: string;
   /**
    *
    * @type {string}
-   * @memberof CreateOrderRequestPrescriptionsInnerClinicalDiagnosis
+   * @memberof CreateOrderRequestPrescriptionsInnerClinicalDiagnosesInner
    */
   display: string;
 }
 
 /**
- * Check if a given object implements the CreateOrderRequestPrescriptionsInnerClinicalDiagnosis interface.
+ * Check if a given object implements the CreateOrderRequestPrescriptionsInnerClinicalDiagnosesInner interface.
  */
-export function instanceOfCreateOrderRequestPrescriptionsInnerClinicalDiagnosis(
+export function instanceOfCreateOrderRequestPrescriptionsInnerClinicalDiagnosesInner(
   value: object,
-): value is CreateOrderRequestPrescriptionsInnerClinicalDiagnosis {
+): value is CreateOrderRequestPrescriptionsInnerClinicalDiagnosesInner {
   if (!("code" in value) || value["code"] === undefined) return false;
   if (!("display" in value) || value["display"] === undefined) return false;
   return true;
 }
 
-export function CreateOrderRequestPrescriptionsInnerClinicalDiagnosisFromJSON(
+export function CreateOrderRequestPrescriptionsInnerClinicalDiagnosesInnerFromJSON(
   json: any,
-): CreateOrderRequestPrescriptionsInnerClinicalDiagnosis {
-  return CreateOrderRequestPrescriptionsInnerClinicalDiagnosisFromJSONTyped(json, false);
+): CreateOrderRequestPrescriptionsInnerClinicalDiagnosesInner {
+  return CreateOrderRequestPrescriptionsInnerClinicalDiagnosesInnerFromJSONTyped(json, false);
 }
 
-export function CreateOrderRequestPrescriptionsInnerClinicalDiagnosisFromJSONTyped(
+export function CreateOrderRequestPrescriptionsInnerClinicalDiagnosesInnerFromJSONTyped(
   json: any,
   ignoreDiscriminator: boolean,
-): CreateOrderRequestPrescriptionsInnerClinicalDiagnosis {
+): CreateOrderRequestPrescriptionsInnerClinicalDiagnosesInner {
   if (json == null) {
     return json;
   }
@@ -63,14 +63,14 @@ export function CreateOrderRequestPrescriptionsInnerClinicalDiagnosisFromJSONTyp
   };
 }
 
-export function CreateOrderRequestPrescriptionsInnerClinicalDiagnosisToJSON(
+export function CreateOrderRequestPrescriptionsInnerClinicalDiagnosesInnerToJSON(
   json: any,
-): CreateOrderRequestPrescriptionsInnerClinicalDiagnosis {
-  return CreateOrderRequestPrescriptionsInnerClinicalDiagnosisToJSONTyped(json, false);
+): CreateOrderRequestPrescriptionsInnerClinicalDiagnosesInner {
+  return CreateOrderRequestPrescriptionsInnerClinicalDiagnosesInnerToJSONTyped(json, false);
 }
 
-export function CreateOrderRequestPrescriptionsInnerClinicalDiagnosisToJSONTyped(
-  value?: CreateOrderRequestPrescriptionsInnerClinicalDiagnosis | null,
+export function CreateOrderRequestPrescriptionsInnerClinicalDiagnosesInnerToJSONTyped(
+  value?: CreateOrderRequestPrescriptionsInnerClinicalDiagnosesInner | null,
   ignoreDiscriminator: boolean = false,
 ): any {
   if (value == null) {

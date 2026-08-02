@@ -27,7 +27,7 @@ export * from "./CreateOrderRequest";
 export * from "./CreateOrderRequestPrescriptionsInner";
 export * from "./CreateOrderRequestPrescriptionsInnerClinical";
 export * from "./CreateOrderRequestPrescriptionsInnerClinicalCompoundingReason";
-export * from "./CreateOrderRequestPrescriptionsInnerClinicalDiagnosis";
+export * from "./CreateOrderRequestPrescriptionsInnerClinicalDiagnosesInner";
 export * from "./CreateOrderRequestPrescriptionsInnerClinicalObservationsInner";
 export * from "./CreateOrderRequestPrescriptionsInnerDispensing";
 export * from "./CreateOrderRequestPrescriptionsInnerStructuredSig";

@@ -27,13 +27,13 @@ import {
   CreateOrderRequestPrescriptionsInnerClinicalObservationsInnerToJSON,
   CreateOrderRequestPrescriptionsInnerClinicalObservationsInnerToJSONTyped,
 } from "./CreateOrderRequestPrescriptionsInnerClinicalObservationsInner";
-import type { CreateOrderRequestPrescriptionsInnerClinicalDiagnosis } from "./CreateOrderRequestPrescriptionsInnerClinicalDiagnosis";
+import type { CreateOrderRequestPrescriptionsInnerClinicalDiagnosesInner } from "./CreateOrderRequestPrescriptionsInnerClinicalDiagnosesInner";
 import {
-  CreateOrderRequestPrescriptionsInnerClinicalDiagnosisFromJSON,
-  CreateOrderRequestPrescriptionsInnerClinicalDiagnosisFromJSONTyped,
-  CreateOrderRequestPrescriptionsInnerClinicalDiagnosisToJSON,
-  CreateOrderRequestPrescriptionsInnerClinicalDiagnosisToJSONTyped,
-} from "./CreateOrderRequestPrescriptionsInnerClinicalDiagnosis";
+  CreateOrderRequestPrescriptionsInnerClinicalDiagnosesInnerFromJSON,
+  CreateOrderRequestPrescriptionsInnerClinicalDiagnosesInnerFromJSONTyped,
+  CreateOrderRequestPrescriptionsInnerClinicalDiagnosesInnerToJSON,
+  CreateOrderRequestPrescriptionsInnerClinicalDiagnosesInnerToJSONTyped,
+} from "./CreateOrderRequestPrescriptionsInnerClinicalDiagnosesInner";
 
 /**
  *
@@ -54,11 +54,11 @@ export interface CreateOrderRequestPrescriptionsInnerClinical {
    */
   currentMedications?: Array<string>;
   /**
-   *
-   * @type {CreateOrderRequestPrescriptionsInnerClinicalDiagnosis}
+   * ICD-10-CM diagnoses that are reasons for this prescription. List the primary diagnosis first.
+   * @type {Array<CreateOrderRequestPrescriptionsInnerClinicalDiagnosesInner>}
    * @memberof CreateOrderRequestPrescriptionsInnerClinical
    */
-  diagnosis?: CreateOrderRequestPrescriptionsInnerClinicalDiagnosis;
+  diagnoses?: Array<CreateOrderRequestPrescriptionsInnerClinicalDiagnosesInner>;
   /**
    *
    * @type {Array<CreateOrderRequestPrescriptionsInnerClinicalObservationsInner>}
@@ -97,10 +97,12 @@ export function CreateOrderRequestPrescriptionsInnerClinicalFromJSONTyped(
             json["compoundingReason"],
           ),
     currentMedications: json["currentMedications"] == null ? undefined : json["currentMedications"],
-    diagnosis:
-      json["diagnosis"] == null
+    diagnoses:
+      json["diagnoses"] == null
         ? undefined
-        : CreateOrderRequestPrescriptionsInnerClinicalDiagnosisFromJSON(json["diagnosis"]),
+        : (json["diagnoses"] as Array<any>).map(
+            CreateOrderRequestPrescriptionsInnerClinicalDiagnosesInnerFromJSON,
+          ),
     observations:
       json["observations"] == null
         ? undefined
@@ -129,7 +131,12 @@ export function CreateOrderRequestPrescriptionsInnerClinicalToJSONTyped(
       value["compoundingReason"],
     ),
     currentMedications: value["currentMedications"],
-    diagnosis: CreateOrderRequestPrescriptionsInnerClinicalDiagnosisToJSON(value["diagnosis"]),
+    diagnoses:
+      value["diagnoses"] == null
+        ? undefined
+        : (value["diagnoses"] as Array<any>).map(
+            CreateOrderRequestPrescriptionsInnerClinicalDiagnosesInnerToJSON,
+          ),
     observations:
       value["observations"] == null
         ? undefined

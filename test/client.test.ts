@@ -416,7 +416,11 @@ describe("Affinity client", () => {
         providerMappingId: "pmap_01k123456789abcdefghjkmnp",
         prescriptions: [
           {
-            clinical: { currentMedications: [], observations: [] },
+            clinical: {
+              currentMedications: [],
+              diagnoses: [{ code: "E66.9", display: "Obesity, unspecified" }],
+              observations: [],
+            },
             daysSupply: 30,
             dispensing: { dispenseUponAcceptance: true, substitutionPermitted: false },
             directions: "Inject 0.25 mL subcutaneously once weekly",
@@ -433,7 +437,11 @@ describe("Affinity client", () => {
             },
           },
           {
-            clinical: { currentMedications: [], observations: [] },
+            clinical: {
+              currentMedications: [],
+              diagnoses: [{ code: "E53.8", display: "Other specified vitamin B deficiency" }],
+              observations: [],
+            },
             daysSupply: 30,
             dispensing: { dispenseUponAcceptance: true, substitutionPermitted: false },
             directions: "Inject 1 mL intramuscularly once weekly",
@@ -467,6 +475,9 @@ describe("Affinity client", () => {
     ]);
     expect(requests[0]?.headers.get("affinity-actor-id")).toBe("platform-user-4821");
     expect(requests[0]?.headers.get("affinity-actor-type")).toBe("user");
+    expect((await requests[0]?.clone().json()).prescriptions[0].clinical.diagnoses).toEqual([
+      { code: "E66.9", display: "Obesity, unspecified" },
+    ]);
     expect(requests.map((request) => request.headers.get("idempotency-key"))).toEqual([
       "order-example",
       "order-signing-example",

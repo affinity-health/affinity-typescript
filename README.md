@@ -2,7 +2,7 @@
 
 The official TypeScript SDK for the Affinity API.
 
-> **Status:** Version `1.1.1` uses the forward-only `2026-07-29` Affinity API contract. Use Test
+> **Status:** Version `1.1.2` uses the forward-only `2026-07-29` Affinity API contract. Use Test
 > mode until Affinity approves Live access.
 
 The SDK provides a small, resource-oriented interface for software platforms connecting
@@ -232,7 +232,11 @@ const order = await actingAffinity.orders.create(
     providerMappingId: providerMapping.id,
     prescriptions: [
       {
-        clinical: { currentMedications: [], observations: [] },
+        clinical: {
+          currentMedications: [],
+          diagnoses: [{ code: "E66.9", display: "Obesity, unspecified" }],
+          observations: [],
+        },
         daysSupply: 30,
         dispensing: { dispenseUponAcceptance: true, substitutionPermitted: false },
         directions: "Inject 0.25 mL subcutaneously once weekly",
@@ -249,7 +253,11 @@ const order = await actingAffinity.orders.create(
         },
       },
       {
-        clinical: { currentMedications: [], observations: [] },
+        clinical: {
+          currentMedications: [],
+          diagnoses: [{ code: "E53.8", display: "Other specified vitamin B deficiency" }],
+          observations: [],
+        },
         daysSupply: 30,
         dispensing: { dispenseUponAcceptance: true, substitutionPermitted: false },
         directions: "Inject 1 mL intramuscularly once weekly",

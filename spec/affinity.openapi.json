@@ -20630,60 +20630,20 @@
       }
     }
   },
-  "servers": [
-    {
-      "description": "Production",
-      "url": "https://api.joinaffinityai.com"
-    }
-  ],
-  "security": [
-    {
-      "bearerAuth": []
-    },
-    {
-      "affinityApiKey": []
-    }
-  ],
-  "x-affinity-api-version": {
-    "defaultSource": "service_account",
-    "header": "Affinity-Version",
-    "requiredForRawHttp": false,
-    "value": "2026-07-29"
-  },
-  "x-tagGroups": [
-    {
-      "name": "Platform",
-      "tags": ["System", "Account", "Admin", "Invites"]
-    },
-    {
-      "name": "Practices",
-      "tags": ["Practices", "Patients", "Billing", "Practice Settings"]
-    },
-    {
-      "name": "Catalog",
-      "tags": ["Compounders", "Catalog"]
-    },
-    {
-      "name": "Developers",
-      "tags": [
-        "API Keys",
-        "Platform Organization",
-        "Provider Mappings",
-        "Component Sessions",
-        "Hosted Sessions",
-        "Prescription Signing Sessions"
-      ]
-    },
-    {
-      "name": "Prescribing",
-      "tags": ["Provider Setup", "Prescriptions", "Provider Operations"]
-    },
-    {
-      "name": "Pharmacy",
-      "tags": ["Pharmacy Organization", "Pharmacy Orders"]
-    }
-  ],
   "components": {
+    "securitySchemes": {
+      "affinityApiKey": {
+        "description": "Server-side Affinity service key. Use this header when bearer authorization is unavailable.",
+        "in": "header",
+        "name": "x-affinity-api-key",
+        "type": "apiKey"
+      },
+      "bearerAuth": {
+        "description": "Server-side Affinity service key using the Bearer authentication scheme.",
+        "scheme": "bearer",
+        "type": "http"
+      }
+    },
     "headers": {
       "AffinityVersion": {
         "description": "The effective dated Affinity API contract version.",
@@ -20747,19 +20707,6 @@
           "maxLength": 255,
           "type": "string"
         }
-      }
-    },
-    "securitySchemes": {
-      "affinityApiKey": {
-        "description": "Server-side Affinity service key. Use this header when bearer authorization is unavailable.",
-        "in": "header",
-        "name": "x-affinity-api-key",
-        "type": "apiKey"
-      },
-      "bearerAuth": {
-        "description": "Server-side Affinity service key using the Bearer authentication scheme.",
-        "scheme": "bearer",
-        "type": "http"
       }
     },
     "schemas": {
@@ -22129,6 +22076,7 @@
                 "clinical": {
                   "default": {
                     "currentMedications": [],
+                    "diagnoses": [],
                     "observations": []
                   },
                   "type": "object",
@@ -22169,20 +22117,26 @@
                         "maxLength": 200
                       }
                     },
-                    "diagnosis": {
-                      "type": "object",
-                      "properties": {
-                        "code": {
-                          "type": "string",
-                          "pattern": "^[A-TV-Z][0-9][0-9A-Z](?:\\.[0-9A-Z]{1,4})?$"
+                    "diagnoses": {
+                      "default": [],
+                      "description": "ICD-10-CM diagnoses that are reasons for this prescription. List the primary diagnosis first.",
+                      "maxItems": 20,
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "code": {
+                            "type": "string",
+                            "pattern": "^[A-TV-Z][0-9][0-9A-Z](?:\\.[0-9A-Z]{1,4})?$"
+                          },
+                          "display": {
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 240
+                          }
                         },
-                        "display": {
-                          "type": "string",
-                          "minLength": 1,
-                          "maxLength": 240
-                        }
-                      },
-                      "required": ["code", "display"]
+                        "required": ["code", "display"]
+                      }
                     },
                     "observations": {
                       "default": [],
@@ -22209,7 +22163,8 @@
                         "required": ["display", "unit", "value"]
                       }
                     }
-                  }
+                  },
+                  "additionalProperties": false
                 },
                 "compounderId": {
                   "type": "string",
@@ -28640,6 +28595,59 @@
         ]
       }
     }
+  },
+  "servers": [
+    {
+      "description": "Production",
+      "url": "https://api.joinaffinityai.com"
+    }
+  ],
+  "x-tagGroups": [
+    {
+      "name": "Platform",
+      "tags": ["System", "Account", "Admin", "Invites"]
+    },
+    {
+      "name": "Practices",
+      "tags": ["Practices", "Patients", "Billing", "Practice Settings"]
+    },
+    {
+      "name": "Catalog",
+      "tags": ["Compounders", "Catalog"]
+    },
+    {
+      "name": "Developers",
+      "tags": [
+        "API Keys",
+        "Platform Organization",
+        "Provider Mappings",
+        "Component Sessions",
+        "Hosted Sessions",
+        "Prescription Signing Sessions"
+      ]
+    },
+    {
+      "name": "Prescribing",
+      "tags": ["Provider Setup", "Prescriptions", "Provider Operations"]
+    },
+    {
+      "name": "Pharmacy",
+      "tags": ["Pharmacy Organization", "Pharmacy Orders"]
+    }
+  ],
+  "security": [
+    {
+      "bearerAuth": []
+    },
+    {
+      "affinityApiKey": []
+    }
+  ],
+  "x-affinity-api-version": {
+    "defaultSource": "service_account",
+    "header": "Affinity-Version",
+    "requiredForRawHttp": false,
+    "value": "2026-07-29"
   },
   "x-affinity-webhooks": {
     "apiVersion": "2026-07-29",

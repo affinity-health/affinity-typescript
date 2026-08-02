@@ -1,6 +1,6 @@
 {
   "name": "@affinity-health/sdk",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "Official TypeScript SDK for the Affinity API",
   "homepage": "https://docs.joinaffinityai.com/api",
   "bugs": {
