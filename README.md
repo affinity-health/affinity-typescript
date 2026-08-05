@@ -2,7 +2,7 @@
 
 The official TypeScript SDK for the Affinity API.
 
-> **Status:** Version `1.1.2` uses the forward-only `2026-07-29` Affinity API contract. Use Test
+> **Status:** The `1.2` release uses the forward-only `2026-07-29` Affinity API contract. Use Test
 > mode until Affinity approves Live access.
 
 The SDK provides a small, resource-oriented interface for software platforms connecting
