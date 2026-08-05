@@ -2,7 +2,7 @@
 /* eslint-disable */
 /**
  * Affinity API
- * Affinity API for software platforms connecting practices to the compounder network. A practice is the customer organization, a provider is an individual clinician or prescriber, and a location is a physical practice site. The API covers practice management, catalog discovery, prescription-order submission, fulfillment tracking, and webhooks.
+ * Affinity API for software platforms connecting practices to the compounder network.
  *
  * The version of the OpenAPI document: 2026-07-29
  * Contact: support@joinaffinityai.com
@@ -26,17 +26,17 @@ export interface CreateOrderRequestPrescriptionsInnerDispensing {
    */
   dispenseUponAcceptance?: boolean;
   /**
+   * a string that will be trimmed
+   * @type {string}
+   * @memberof CreateOrderRequestPrescriptionsInnerDispensing
+   */
+  pharmacyNotes?: string | null;
+  /**
    *
    * @type {string}
    * @memberof CreateOrderRequestPrescriptionsInnerDispensing
    */
-  pharmacyNotes?: string;
-  /**
-   *
-   * @type {Date}
-   * @memberof CreateOrderRequestPrescriptionsInnerDispensing
-   */
-  requestedFillDate?: Date;
+  requestedFillDate?: string;
   /**
    *
    * @type {boolean}
@@ -71,8 +71,7 @@ export function CreateOrderRequestPrescriptionsInnerDispensingFromJSONTyped(
     dispenseUponAcceptance:
       json["dispenseUponAcceptance"] == null ? undefined : json["dispenseUponAcceptance"],
     pharmacyNotes: json["pharmacyNotes"] == null ? undefined : json["pharmacyNotes"],
-    requestedFillDate:
-      json["requestedFillDate"] == null ? undefined : new Date(json["requestedFillDate"]),
+    requestedFillDate: json["requestedFillDate"] == null ? undefined : json["requestedFillDate"],
     substitutionPermitted:
       json["substitutionPermitted"] == null ? undefined : json["substitutionPermitted"],
   };
@@ -95,10 +94,7 @@ export function CreateOrderRequestPrescriptionsInnerDispensingToJSONTyped(
   return {
     dispenseUponAcceptance: value["dispenseUponAcceptance"],
     pharmacyNotes: value["pharmacyNotes"],
-    requestedFillDate:
-      value["requestedFillDate"] == null
-        ? value["requestedFillDate"]
-        : value["requestedFillDate"].toISOString().substring(0, 10),
+    requestedFillDate: value["requestedFillDate"],
     substitutionPermitted: value["substitutionPermitted"],
   };
 }

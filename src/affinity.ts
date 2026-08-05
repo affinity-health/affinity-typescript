@@ -85,39 +85,31 @@ export class Affinity {
       accessToken: apiKey,
       basePath: (baseUrl.includes("://") ? baseUrl : `https://${baseUrl}`).replace(/\/+$/, ""),
       fetchApi,
-      headers: { "Affinity-Version": apiVersion },
+      headers: {
+        "Affinity-Version": apiVersion,
+        ...(actor ? { "Affinity-Actor-Id": actor.id, "Affinity-Actor-Type": actor.type } : {}),
+      },
     });
     this.account = new AccountResource(
       new APIKeysApi(configuration),
       new PlatformsApi(configuration),
-      apiVersion,
     );
-    this.billing = new BillingResource(new BillingApi(configuration), apiVersion);
-    this.catalog = new CatalogResource(new CatalogApi(configuration), apiVersion);
-    this.componentSessions = new ComponentSessionsResource(
-      new ComponentSessionsApi(configuration),
-      apiVersion,
-    );
-    this.compounders = new CompoundersResource(new CatalogApi(configuration), apiVersion);
-    this.hostedSessions = new HostedSessionsResource(
-      new HostedSessionsApi(configuration),
-      apiVersion,
-    );
-    this.memberships = new MembershipsResource(new MembershipsApi(configuration), apiVersion);
+    this.billing = new BillingResource(new BillingApi(configuration));
+    this.catalog = new CatalogResource(new CatalogApi(configuration));
+    this.componentSessions = new ComponentSessionsResource(new ComponentSessionsApi(configuration));
+    this.compounders = new CompoundersResource(new CatalogApi(configuration));
+    this.hostedSessions = new HostedSessionsResource(new HostedSessionsApi(configuration));
+    this.memberships = new MembershipsResource(new MembershipsApi(configuration));
     this.orderSigningSessions = new OrderSigningSessionsResource(
       new OrderSigningSessionsApi(configuration),
-      apiVersion,
     );
-    this.orders = new OrdersResource(new PlatformOrdersApi(configuration), apiVersion, actor);
-    this.patients = new PatientsResource(new PatientsApi(configuration), apiVersion, actor);
-    this.practices = new PracticesResource(new PracticesApi(configuration), apiVersion);
-    this.providerMappings = new ProviderMappingsResource(
-      new ProviderMappingsApi(configuration),
-      apiVersion,
-    );
-    this.roles = new RolesResource(new RolesApi(configuration), apiVersion);
-    this.users = new UsersResource(new UsersApi(configuration), apiVersion);
-    this.webhooks = new WebhooksResource(new PlatformWebhooksApi(configuration), apiVersion);
+    this.orders = new OrdersResource(new PlatformOrdersApi(configuration), actor);
+    this.patients = new PatientsResource(new PatientsApi(configuration), actor);
+    this.practices = new PracticesResource(new PracticesApi(configuration));
+    this.providerMappings = new ProviderMappingsResource(new ProviderMappingsApi(configuration));
+    this.roles = new RolesResource(new RolesApi(configuration));
+    this.users = new UsersResource(new UsersApi(configuration));
+    this.webhooks = new WebhooksResource(new PlatformWebhooksApi(configuration));
   }
 
   withActor(actor: AffinityActor) {

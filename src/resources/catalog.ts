@@ -6,17 +6,14 @@ import type {
   ListShippingOptionsRequest,
 } from "../apis/CatalogApi";
 
-export type CatalogListParams = Omit<ListCatalogItemsRequest, "affinityVersion">;
+export type CatalogListParams = ListCatalogItemsRequest;
 
 export class CatalogResource {
-  constructor(
-    private readonly api: CatalogApi,
-    private readonly apiVersion: string,
-  ) {}
+  constructor(private readonly api: CatalogApi) {}
   list(params: CatalogListParams = {}) {
-    return this.api.listCatalogItems({ ...params, affinityVersion: this.apiVersion });
+    return this.api.listCatalogItems(params);
   }
-  listShippingOptions(params: Omit<ListShippingOptionsRequest, "affinityVersion">) {
-    return this.api.listShippingOptions({ ...params, affinityVersion: this.apiVersion });
+  listShippingOptions(params: ListShippingOptionsRequest) {
+    return this.api.listShippingOptions(params);
   }
 }

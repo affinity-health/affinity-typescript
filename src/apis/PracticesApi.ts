@@ -2,7 +2,7 @@
 /* eslint-disable */
 /**
  * Affinity API
- * Affinity API for software platforms connecting practices to the compounder network. A practice is the customer organization, a provider is an individual clinician or prescriber, and a location is a physical practice site. The API covers practice management, catalog discovery, prescription-order submission, fulfillment tracking, and webhooks.
+ * Affinity API for software platforms connecting practices to the compounder network.
  *
  * The version of the OpenAPI document: 2026-07-29
  * Contact: support@joinaffinityai.com
@@ -29,6 +29,11 @@ import {
   GetPracticeResponseToJSON,
 } from "../models/GetPracticeResponse";
 import {
+  type ListCatalogItemsLimitParameter,
+  ListCatalogItemsLimitParameterFromJSON,
+  ListCatalogItemsLimitParameterToJSON,
+} from "../models/ListCatalogItemsLimitParameter";
+import {
   type ListPracticesResponse,
   ListPracticesResponseFromJSON,
   ListPracticesResponseToJSON,
@@ -46,8 +51,8 @@ import {
 } from "../models/UpdatePracticeResponse";
 
 export interface CreatePracticeOperationRequest {
+  idempotencyKey: string;
   createPracticeRequest: CreatePracticeRequest;
-  idempotencyKey?: string;
   affinityVersion?: string;
 }
 
@@ -57,16 +62,16 @@ export interface GetPracticeRequest {
 }
 
 export interface ListPracticesRequest {
-  limit?: number;
-  startingAfter?: string | null;
-  endingBefore?: string | null;
+  endingBefore?: string;
+  limit?: ListCatalogItemsLimitParameter;
+  startingAfter?: string;
   affinityVersion?: string;
 }
 
 export interface UpdatePracticeOperationRequest {
   practiceId: string;
+  idempotencyKey: string;
   updatePracticeRequest: UpdatePracticeRequest;
-  idempotencyKey?: string;
   affinityVersion?: string;
 }
 
@@ -80,6 +85,13 @@ export class PracticesApi extends runtime.BaseAPI {
   async createPracticeRequestOpts(
     requestParameters: CreatePracticeOperationRequest,
   ): Promise<runtime.RequestOpts> {
+    if (requestParameters["idempotencyKey"] == null) {
+      throw new runtime.RequiredError(
+        "idempotencyKey",
+        'Required parameter "idempotencyKey" was null or undefined when calling createPractice().',
+      );
+    }
+
     if (requestParameters["createPracticeRequest"] == null) {
       throw new runtime.RequiredError(
         "createPracticeRequest",
@@ -93,12 +105,12 @@ export class PracticesApi extends runtime.BaseAPI {
 
     headerParameters["Content-Type"] = "application/json";
 
-    if (requestParameters["idempotencyKey"] != null) {
-      headerParameters["Idempotency-Key"] = String(requestParameters["idempotencyKey"]);
-    }
-
     if (requestParameters["affinityVersion"] != null) {
       headerParameters["Affinity-Version"] = String(requestParameters["affinityVersion"]);
+    }
+
+    if (requestParameters["idempotencyKey"] != null) {
+      headerParameters["Idempotency-Key"] = String(requestParameters["idempotencyKey"]);
     }
 
     if (this.configuration && this.configuration.accessToken) {
@@ -237,16 +249,16 @@ export class PracticesApi extends runtime.BaseAPI {
   ): Promise<runtime.RequestOpts> {
     const queryParameters: any = {};
 
+    if (requestParameters["endingBefore"] != null) {
+      queryParameters["endingBefore"] = requestParameters["endingBefore"];
+    }
+
     if (requestParameters["limit"] != null) {
       queryParameters["limit"] = requestParameters["limit"];
     }
 
     if (requestParameters["startingAfter"] != null) {
       queryParameters["startingAfter"] = requestParameters["startingAfter"];
-    }
-
-    if (requestParameters["endingBefore"] != null) {
-      queryParameters["endingBefore"] = requestParameters["endingBefore"];
     }
 
     const headerParameters: runtime.HTTPHeaders = {};
@@ -279,6 +291,7 @@ export class PracticesApi extends runtime.BaseAPI {
   }
 
   /**
+   * Returns the practices that belong to the platform. The default Affinity-Version is 2026-07-29.
    * List practices
    */
   async listPracticesRaw(
@@ -294,6 +307,7 @@ export class PracticesApi extends runtime.BaseAPI {
   }
 
   /**
+   * Returns the practices that belong to the platform. The default Affinity-Version is 2026-07-29.
    * List practices
    */
   async listPractices(
@@ -317,6 +331,13 @@ export class PracticesApi extends runtime.BaseAPI {
       );
     }
 
+    if (requestParameters["idempotencyKey"] == null) {
+      throw new runtime.RequiredError(
+        "idempotencyKey",
+        'Required parameter "idempotencyKey" was null or undefined when calling updatePractice().',
+      );
+    }
+
     if (requestParameters["updatePracticeRequest"] == null) {
       throw new runtime.RequiredError(
         "updatePracticeRequest",
@@ -330,12 +351,12 @@ export class PracticesApi extends runtime.BaseAPI {
 
     headerParameters["Content-Type"] = "application/json";
 
-    if (requestParameters["idempotencyKey"] != null) {
-      headerParameters["Idempotency-Key"] = String(requestParameters["idempotencyKey"]);
-    }
-
     if (requestParameters["affinityVersion"] != null) {
       headerParameters["Affinity-Version"] = String(requestParameters["affinityVersion"]);
+    }
+
+    if (requestParameters["idempotencyKey"] != null) {
+      headerParameters["Idempotency-Key"] = String(requestParameters["idempotencyKey"]);
     }
 
     if (this.configuration && this.configuration.accessToken) {

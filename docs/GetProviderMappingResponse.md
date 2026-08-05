@@ -4,7 +4,7 @@
 
 | Name         | Type    |
 | ------------ | ------- |
-| `createdAt`  | Date    |
+| `createdAt`  | string  |
 | `externalId` | string  |
 | `id`         | string  |
 | `livemode`   | boolean |
@@ -12,8 +12,8 @@
 | `object`     | string  |
 | `practiceId` | string  |
 | `status`     | string  |
-| `updatedAt`  | Date    |
+| `updatedAt`  | string  |
 | `userId`     | string  |
-| `verifiedAt` | Date    |
+| `verifiedAt` | string  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)

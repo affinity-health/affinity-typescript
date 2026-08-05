@@ -2,7 +2,7 @@
 /* eslint-disable */
 /**
  * Affinity API
- * Affinity API for software platforms connecting practices to the compounder network. A practice is the customer organization, a provider is an individual clinician or prescriber, and a location is a physical practice site. The API covers practice management, catalog discovery, prescription-order submission, fulfillment tracking, and webhooks.
+ * Affinity API for software platforms connecting practices to the compounder network.
  *
  * The version of the OpenAPI document: 2026-07-29
  * Contact: support@joinaffinityai.com
@@ -13,20 +13,20 @@
  */
 
 import { mapValues } from "../runtime";
-import type { GetPracticePaymentProfileResponsePaymentMethodsInner } from "./GetPracticePaymentProfileResponsePaymentMethodsInner";
+import type { CompletePracticePaymentSetupResponsePaymentMethod } from "./CompletePracticePaymentSetupResponsePaymentMethod";
 import {
-  GetPracticePaymentProfileResponsePaymentMethodsInnerFromJSON,
-  GetPracticePaymentProfileResponsePaymentMethodsInnerFromJSONTyped,
-  GetPracticePaymentProfileResponsePaymentMethodsInnerToJSON,
-  GetPracticePaymentProfileResponsePaymentMethodsInnerToJSONTyped,
-} from "./GetPracticePaymentProfileResponsePaymentMethodsInner";
-import type { GetPracticePaymentProfileResponsePaymentMethod } from "./GetPracticePaymentProfileResponsePaymentMethod";
+  CompletePracticePaymentSetupResponsePaymentMethodFromJSON,
+  CompletePracticePaymentSetupResponsePaymentMethodFromJSONTyped,
+  CompletePracticePaymentSetupResponsePaymentMethodToJSON,
+  CompletePracticePaymentSetupResponsePaymentMethodToJSONTyped,
+} from "./CompletePracticePaymentSetupResponsePaymentMethod";
+import type { CompletePracticePaymentSetupResponsePaymentMethodsInner } from "./CompletePracticePaymentSetupResponsePaymentMethodsInner";
 import {
-  GetPracticePaymentProfileResponsePaymentMethodFromJSON,
-  GetPracticePaymentProfileResponsePaymentMethodFromJSONTyped,
-  GetPracticePaymentProfileResponsePaymentMethodToJSON,
-  GetPracticePaymentProfileResponsePaymentMethodToJSONTyped,
-} from "./GetPracticePaymentProfileResponsePaymentMethod";
+  CompletePracticePaymentSetupResponsePaymentMethodsInnerFromJSON,
+  CompletePracticePaymentSetupResponsePaymentMethodsInnerFromJSONTyped,
+  CompletePracticePaymentSetupResponsePaymentMethodsInnerToJSON,
+  CompletePracticePaymentSetupResponsePaymentMethodsInnerToJSONTyped,
+} from "./CompletePracticePaymentSetupResponsePaymentMethodsInner";
 
 /**
  *
@@ -48,16 +48,16 @@ export interface CompletePracticePaymentSetupResponse {
   environment: CompletePracticePaymentSetupResponseEnvironmentEnum;
   /**
    *
-   * @type {GetPracticePaymentProfileResponsePaymentMethod}
+   * @type {CompletePracticePaymentSetupResponsePaymentMethod}
    * @memberof CompletePracticePaymentSetupResponse
    */
-  paymentMethod: GetPracticePaymentProfileResponsePaymentMethod | null;
+  paymentMethod: CompletePracticePaymentSetupResponsePaymentMethod | null;
   /**
    *
-   * @type {Array<GetPracticePaymentProfileResponsePaymentMethodsInner>}
+   * @type {Array<CompletePracticePaymentSetupResponsePaymentMethodsInner>}
    * @memberof CompletePracticePaymentSetupResponse
    */
-  paymentMethods: Array<GetPracticePaymentProfileResponsePaymentMethodsInner>;
+  paymentMethods: Array<CompletePracticePaymentSetupResponsePaymentMethodsInner>;
   /**
    *
    * @type {boolean}
@@ -125,9 +125,9 @@ export function CompletePracticePaymentSetupResponseFromJSONTyped(
   return {
     consentVersion: json["consentVersion"],
     environment: json["environment"],
-    paymentMethod: GetPracticePaymentProfileResponsePaymentMethodFromJSON(json["paymentMethod"]),
+    paymentMethod: CompletePracticePaymentSetupResponsePaymentMethodFromJSON(json["paymentMethod"]),
     paymentMethods: (json["paymentMethods"] as Array<any>).map(
-      GetPracticePaymentProfileResponsePaymentMethodsInnerFromJSON,
+      CompletePracticePaymentSetupResponsePaymentMethodsInnerFromJSON,
     ),
     portalAvailable: json["portalAvailable"],
     status: json["status"],
@@ -151,9 +151,9 @@ export function CompletePracticePaymentSetupResponseToJSONTyped(
   return {
     consentVersion: value["consentVersion"],
     environment: value["environment"],
-    paymentMethod: GetPracticePaymentProfileResponsePaymentMethodToJSON(value["paymentMethod"]),
+    paymentMethod: CompletePracticePaymentSetupResponsePaymentMethodToJSON(value["paymentMethod"]),
     paymentMethods: (value["paymentMethods"] as Array<any>).map(
-      GetPracticePaymentProfileResponsePaymentMethodsInnerToJSON,
+      CompletePracticePaymentSetupResponsePaymentMethodsInnerToJSON,
     ),
     portalAvailable: value["portalAvailable"],
     status: value["status"],

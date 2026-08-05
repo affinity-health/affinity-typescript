@@ -2,7 +2,7 @@
 /* eslint-disable */
 /**
  * Affinity API
- * Affinity API for software platforms connecting practices to the compounder network. A practice is the customer organization, a provider is an individual clinician or prescriber, and a location is a physical practice site. The API covers practice management, catalog discovery, prescription-order submission, fulfillment tracking, and webhooks.
+ * Affinity API for software platforms connecting practices to the compounder network.
  *
  * The version of the OpenAPI document: 2026-07-29
  * Contact: support@joinaffinityai.com
@@ -13,6 +13,21 @@
  */
 
 import * as runtime from "../runtime";
+import {
+  type ListCatalogItemsCompounderIdsParameter,
+  ListCatalogItemsCompounderIdsParameterFromJSON,
+  ListCatalogItemsCompounderIdsParameterToJSON,
+} from "../models/ListCatalogItemsCompounderIdsParameter";
+import {
+  type ListCatalogItemsDosageFormsParameter,
+  ListCatalogItemsDosageFormsParameterFromJSON,
+  ListCatalogItemsDosageFormsParameterToJSON,
+} from "../models/ListCatalogItemsDosageFormsParameter";
+import {
+  type ListCatalogItemsLimitParameter,
+  ListCatalogItemsLimitParameterFromJSON,
+  ListCatalogItemsLimitParameterToJSON,
+} from "../models/ListCatalogItemsLimitParameter";
 import {
   type ListCatalogItemsResponse,
   ListCatalogItemsResponseFromJSON,
@@ -31,22 +46,28 @@ import {
 import { type Problem, ProblemFromJSON, ProblemToJSON } from "../models/Problem";
 
 export interface ListCatalogItemsRequest {
-  query?: string;
-  limit?: number;
-  startingAfter?: string;
+  availability?: ListCatalogItemsAvailabilityEnum;
+  compounderIds?: ListCatalogItemsCompounderIdsParameter;
+  dosageForms?: ListCatalogItemsDosageFormsParameter;
   endingBefore?: string;
+  limit?: ListCatalogItemsLimitParameter;
+  orgId?: string;
+  query?: string;
+  requirement?: ListCatalogItemsRequirementEnum;
   route?: ListCatalogItemsRouteEnum;
+  startingAfter?: string;
   affinityVersion?: string;
 }
 
 export interface ListCompoundersRequest {
+  orgId?: string;
   query?: string;
   affinityVersion?: string;
 }
 
 export interface ListShippingOptionsRequest {
   catalogItemId: string;
-  destinationState: string;
+  destinationState: string | null;
   destinationType?: ListShippingOptionsDestinationTypeEnum;
   affinityVersion?: string;
 }
@@ -63,24 +84,44 @@ export class CatalogApi extends runtime.BaseAPI {
   ): Promise<runtime.RequestOpts> {
     const queryParameters: any = {};
 
-    if (requestParameters["query"] != null) {
-      queryParameters["query"] = requestParameters["query"];
+    if (requestParameters["availability"] != null) {
+      queryParameters["availability"] = requestParameters["availability"];
     }
 
-    if (requestParameters["limit"] != null) {
-      queryParameters["limit"] = requestParameters["limit"];
+    if (requestParameters["compounderIds"] != null) {
+      queryParameters["compounderIds"] = requestParameters["compounderIds"];
     }
 
-    if (requestParameters["startingAfter"] != null) {
-      queryParameters["startingAfter"] = requestParameters["startingAfter"];
+    if (requestParameters["dosageForms"] != null) {
+      queryParameters["dosageForms"] = requestParameters["dosageForms"];
     }
 
     if (requestParameters["endingBefore"] != null) {
       queryParameters["endingBefore"] = requestParameters["endingBefore"];
     }
 
+    if (requestParameters["limit"] != null) {
+      queryParameters["limit"] = requestParameters["limit"];
+    }
+
+    if (requestParameters["orgId"] != null) {
+      queryParameters["orgId"] = requestParameters["orgId"];
+    }
+
+    if (requestParameters["query"] != null) {
+      queryParameters["query"] = requestParameters["query"];
+    }
+
+    if (requestParameters["requirement"] != null) {
+      queryParameters["requirement"] = requestParameters["requirement"];
+    }
+
     if (requestParameters["route"] != null) {
       queryParameters["route"] = requestParameters["route"];
+    }
+
+    if (requestParameters["startingAfter"] != null) {
+      queryParameters["startingAfter"] = requestParameters["startingAfter"];
     }
 
     const headerParameters: runtime.HTTPHeaders = {};
@@ -147,6 +188,10 @@ export class CatalogApi extends runtime.BaseAPI {
     requestParameters: ListCompoundersRequest,
   ): Promise<runtime.RequestOpts> {
     const queryParameters: any = {};
+
+    if (requestParameters["orgId"] != null) {
+      queryParameters["orgId"] = requestParameters["orgId"];
+    }
 
     if (requestParameters["query"] != null) {
       queryParameters["query"] = requestParameters["query"];
@@ -301,6 +346,26 @@ export class CatalogApi extends runtime.BaseAPI {
   }
 }
 
+/**
+ * @export
+ */
+export const ListCatalogItemsAvailabilityEnum = {
+  All: "all",
+  Orderable: "orderable",
+  Unavailable: "unavailable",
+} as const;
+export type ListCatalogItemsAvailabilityEnum =
+  (typeof ListCatalogItemsAvailabilityEnum)[keyof typeof ListCatalogItemsAvailabilityEnum];
+/**
+ * @export
+ */
+export const ListCatalogItemsRequirementEnum = {
+  All: "all",
+  OfficeUse: "office_use",
+  PatientSpecific: "patient_specific",
+} as const;
+export type ListCatalogItemsRequirementEnum =
+  (typeof ListCatalogItemsRequirementEnum)[keyof typeof ListCatalogItemsRequirementEnum];
 /**
  * @export
  */

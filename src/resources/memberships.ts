@@ -6,16 +6,12 @@ import type { UpdatePracticeMembershipRequest } from "../models/UpdatePracticeMe
 import type { MutationOptions } from "./request-options";
 
 export class MembershipsResource {
-  constructor(
-    private readonly api: MembershipsApi,
-    private readonly apiVersion: string,
-  ) {}
+  constructor(private readonly api: MembershipsApi) {}
   list(practiceId: string) {
-    return this.api.listPracticeMemberships({ affinityVersion: this.apiVersion, practiceId });
+    return this.api.listPracticeMemberships({ practiceId });
   }
   create(practiceId: string, params: CreatePracticeMembershipRequest, options: MutationOptions) {
     return this.api.createPracticeMembership({
-      affinityVersion: this.apiVersion,
       createPracticeMembershipRequest: params,
       idempotencyKey: options.idempotencyKey,
       practiceId,
@@ -28,7 +24,6 @@ export class MembershipsResource {
     options: MutationOptions,
   ) {
     return this.api.updatePracticeMembership({
-      affinityVersion: this.apiVersion,
       idempotencyKey: options.idempotencyKey,
       membershipId,
       practiceId,

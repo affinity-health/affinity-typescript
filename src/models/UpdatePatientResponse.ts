@@ -2,7 +2,7 @@
 /* eslint-disable */
 /**
  * Affinity API
- * Affinity API for software platforms connecting practices to the compounder network. A practice is the customer organization, a provider is an individual clinician or prescriber, and a location is a physical practice site. The API covers practice management, catalog discovery, prescription-order submission, fulfillment tracking, and webhooks.
+ * Affinity API for software platforms connecting practices to the compounder network.
  *
  * The version of the OpenAPI document: 2026-07-29
  * Contact: support@joinaffinityai.com
@@ -13,20 +13,20 @@
  */
 
 import { mapValues } from "../runtime";
-import type { ListPatientsResponseDataInnerName } from "./ListPatientsResponseDataInnerName";
+import type { CreatePracticeRequestAddress } from "./CreatePracticeRequestAddress";
 import {
-  ListPatientsResponseDataInnerNameFromJSON,
-  ListPatientsResponseDataInnerNameFromJSONTyped,
-  ListPatientsResponseDataInnerNameToJSON,
-  ListPatientsResponseDataInnerNameToJSONTyped,
-} from "./ListPatientsResponseDataInnerName";
-import type { ListPatientsResponseDataInnerAddress } from "./ListPatientsResponseDataInnerAddress";
+  CreatePracticeRequestAddressFromJSON,
+  CreatePracticeRequestAddressFromJSONTyped,
+  CreatePracticeRequestAddressToJSON,
+  CreatePracticeRequestAddressToJSONTyped,
+} from "./CreatePracticeRequestAddress";
+import type { CreatePatientResponseName } from "./CreatePatientResponseName";
 import {
-  ListPatientsResponseDataInnerAddressFromJSON,
-  ListPatientsResponseDataInnerAddressFromJSONTyped,
-  ListPatientsResponseDataInnerAddressToJSON,
-  ListPatientsResponseDataInnerAddressToJSONTyped,
-} from "./ListPatientsResponseDataInnerAddress";
+  CreatePatientResponseNameFromJSON,
+  CreatePatientResponseNameFromJSONTyped,
+  CreatePatientResponseNameToJSON,
+  CreatePatientResponseNameToJSONTyped,
+} from "./CreatePatientResponseName";
 
 /**
  *
@@ -36,10 +36,10 @@ import {
 export interface UpdatePatientResponse {
   /**
    *
-   * @type {ListPatientsResponseDataInnerAddress}
+   * @type {CreatePracticeRequestAddress}
    * @memberof UpdatePatientResponse
    */
-  address: ListPatientsResponseDataInnerAddress;
+  address: CreatePracticeRequestAddress;
   /**
    *
    * @type {string}
@@ -48,16 +48,16 @@ export interface UpdatePatientResponse {
   allergies: string;
   /**
    *
-   * @type {Date}
+   * @type {string}
    * @memberof UpdatePatientResponse
    */
-  createdAt: Date;
+  createdAt: string;
   /**
    *
-   * @type {Date}
+   * @type {string}
    * @memberof UpdatePatientResponse
    */
-  dateOfBirth: Date;
+  dateOfBirth: string;
   /**
    *
    * @type {string}
@@ -96,10 +96,10 @@ export interface UpdatePatientResponse {
   metadata: { [key: string]: any };
   /**
    *
-   * @type {ListPatientsResponseDataInnerName}
+   * @type {CreatePatientResponseName}
    * @memberof UpdatePatientResponse
    */
-  name: ListPatientsResponseDataInnerName;
+  name: CreatePatientResponseName;
   /**
    *
    * @type {UpdatePatientResponseObjectEnum}
@@ -126,10 +126,10 @@ export interface UpdatePatientResponse {
   status: UpdatePatientResponseStatusEnum;
   /**
    *
-   * @type {Date}
+   * @type {string}
    * @memberof UpdatePatientResponse
    */
-  updatedAt: Date;
+  updatedAt: string;
 }
 
 /**
@@ -199,22 +199,22 @@ export function UpdatePatientResponseFromJSONTyped(
     return json;
   }
   return {
-    address: ListPatientsResponseDataInnerAddressFromJSON(json["address"]),
+    address: CreatePracticeRequestAddressFromJSON(json["address"]),
     allergies: json["allergies"],
-    createdAt: new Date(json["createdAt"]),
-    dateOfBirth: new Date(json["dateOfBirth"]),
+    createdAt: json["createdAt"],
+    dateOfBirth: json["dateOfBirth"],
     email: json["email"],
     externalId: json["externalId"],
     gender: json["gender"],
     id: json["id"],
     livemode: json["livemode"],
     metadata: json["metadata"],
-    name: ListPatientsResponseDataInnerNameFromJSON(json["name"]),
+    name: CreatePatientResponseNameFromJSON(json["name"]),
     object: json["object"],
     phone: json["phone"],
     practiceId: json["practiceId"],
     status: json["status"],
-    updatedAt: new Date(json["updatedAt"]),
+    updatedAt: json["updatedAt"],
   };
 }
 
@@ -231,21 +231,21 @@ export function UpdatePatientResponseToJSONTyped(
   }
 
   return {
-    address: ListPatientsResponseDataInnerAddressToJSON(value["address"]),
+    address: CreatePracticeRequestAddressToJSON(value["address"]),
     allergies: value["allergies"],
-    createdAt: value["createdAt"].toISOString(),
-    dateOfBirth: value["dateOfBirth"].toISOString().substring(0, 10),
+    createdAt: value["createdAt"],
+    dateOfBirth: value["dateOfBirth"],
     email: value["email"],
     externalId: value["externalId"],
     gender: value["gender"],
     id: value["id"],
     livemode: value["livemode"],
     metadata: value["metadata"],
-    name: ListPatientsResponseDataInnerNameToJSON(value["name"]),
+    name: CreatePatientResponseNameToJSON(value["name"]),
     object: value["object"],
     phone: value["phone"],
     practiceId: value["practiceId"],
     status: value["status"],
-    updatedAt: value["updatedAt"].toISOString(),
+    updatedAt: value["updatedAt"],
   };
 }

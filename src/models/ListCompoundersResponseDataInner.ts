@@ -2,7 +2,7 @@
 /* eslint-disable */
 /**
  * Affinity API
- * Affinity API for software platforms connecting practices to the compounder network. A practice is the customer organization, a provider is an individual clinician or prescriber, and a location is a physical practice site. The API covers practice management, catalog discovery, prescription-order submission, fulfillment tracking, and webhooks.
+ * Affinity API for software platforms connecting practices to the compounder network.
  *
  * The version of the OpenAPI document: 2026-07-29
  * Contact: support@joinaffinityai.com
@@ -21,16 +21,28 @@ import { mapValues } from "../runtime";
 export interface ListCompoundersResponseDataInner {
   /**
    *
+   * @type {ListCompoundersResponseDataInnerAccessEnum}
+   * @memberof ListCompoundersResponseDataInner
+   */
+  access: ListCompoundersResponseDataInnerAccessEnum;
+  /**
+   *
    * @type {number}
    * @memberof ListCompoundersResponseDataInner
    */
-  catalogItemCount: number;
+  catalogItemCount: number | null;
   /**
    *
    * @type {string}
    * @memberof ListCompoundersResponseDataInner
    */
   facilityType: string;
+  /**
+   *
+   * @type {string}
+   * @memberof ListCompoundersResponseDataInner
+   */
+  id: string;
   /**
    *
    * @type {boolean}
@@ -66,6 +78,16 @@ export interface ListCompoundersResponseDataInner {
 /**
  * @export
  */
+export const ListCompoundersResponseDataInnerAccessEnum = {
+  Invited: "invited",
+  Network: "network",
+} as const;
+export type ListCompoundersResponseDataInnerAccessEnum =
+  (typeof ListCompoundersResponseDataInnerAccessEnum)[keyof typeof ListCompoundersResponseDataInnerAccessEnum];
+
+/**
+ * @export
+ */
 export const ListCompoundersResponseDataInnerObjectEnum = {
   Compounder: "compounder",
 } as const;
@@ -78,8 +100,10 @@ export type ListCompoundersResponseDataInnerObjectEnum =
 export function instanceOfListCompoundersResponseDataInner(
   value: object,
 ): value is ListCompoundersResponseDataInner {
+  if (!("access" in value) || value["access"] === undefined) return false;
   if (!("catalogItemCount" in value) || value["catalogItemCount"] === undefined) return false;
   if (!("facilityType" in value) || value["facilityType"] === undefined) return false;
+  if (!("id" in value) || value["id"] === undefined) return false;
   if (!("livemode" in value) || value["livemode"] === undefined) return false;
   if (!("name" in value) || value["name"] === undefined) return false;
   if (!("object" in value) || value["object"] === undefined) return false;
@@ -102,8 +126,10 @@ export function ListCompoundersResponseDataInnerFromJSONTyped(
     return json;
   }
   return {
+    access: json["access"],
     catalogItemCount: json["catalogItemCount"],
     facilityType: json["facilityType"],
+    id: json["id"],
     livemode: json["livemode"],
     name: json["name"],
     object: json["object"],
@@ -127,8 +153,10 @@ export function ListCompoundersResponseDataInnerToJSONTyped(
   }
 
   return {
+    access: value["access"],
     catalogItemCount: value["catalogItemCount"],
     facilityType: value["facilityType"],
+    id: value["id"],
     livemode: value["livemode"],
     name: value["name"],
     object: value["object"],

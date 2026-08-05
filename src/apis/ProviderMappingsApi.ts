@@ -2,7 +2,7 @@
 /* eslint-disable */
 /**
  * Affinity API
- * Affinity API for software platforms connecting practices to the compounder network. A practice is the customer organization, a provider is an individual clinician or prescriber, and a location is a physical practice site. The API covers practice management, catalog discovery, prescription-order submission, fulfillment tracking, and webhooks.
+ * Affinity API for software platforms connecting practices to the compounder network.
  *
  * The version of the OpenAPI document: 2026-07-29
  * Contact: support@joinaffinityai.com
@@ -29,6 +29,11 @@ import {
   GetProviderMappingResponseToJSON,
 } from "../models/GetProviderMappingResponse";
 import {
+  type ListCatalogItemsLimitParameter,
+  ListCatalogItemsLimitParameterFromJSON,
+  ListCatalogItemsLimitParameterToJSON,
+} from "../models/ListCatalogItemsLimitParameter";
+import {
   type ListProviderMappingsResponse,
   ListProviderMappingsResponseFromJSON,
   ListProviderMappingsResponseToJSON,
@@ -46,8 +51,8 @@ import {
 } from "../models/UpdateProviderMappingResponse";
 
 export interface CreateProviderMappingOperationRequest {
+  idempotencyKey: string;
   createProviderMappingRequest: CreateProviderMappingRequest;
-  idempotencyKey?: string;
   affinityVersion?: string;
 }
 
@@ -57,19 +62,19 @@ export interface GetProviderMappingRequest {
 }
 
 export interface ListProviderMappingsRequest {
-  externalId?: string;
-  limit?: number;
-  startingAfter?: string;
   endingBefore?: string;
+  externalId?: string | null;
+  limit?: ListCatalogItemsLimitParameter;
   practiceId?: string;
+  startingAfter?: string;
   status?: ListProviderMappingsStatusEnum;
   affinityVersion?: string;
 }
 
 export interface UpdateProviderMappingOperationRequest {
   providerMappingId: string;
+  idempotencyKey: string;
   updateProviderMappingRequest: UpdateProviderMappingRequest;
-  idempotencyKey?: string;
   affinityVersion?: string;
 }
 
@@ -83,6 +88,13 @@ export class ProviderMappingsApi extends runtime.BaseAPI {
   async createProviderMappingRequestOpts(
     requestParameters: CreateProviderMappingOperationRequest,
   ): Promise<runtime.RequestOpts> {
+    if (requestParameters["idempotencyKey"] == null) {
+      throw new runtime.RequiredError(
+        "idempotencyKey",
+        'Required parameter "idempotencyKey" was null or undefined when calling createProviderMapping().',
+      );
+    }
+
     if (requestParameters["createProviderMappingRequest"] == null) {
       throw new runtime.RequiredError(
         "createProviderMappingRequest",
@@ -96,12 +108,12 @@ export class ProviderMappingsApi extends runtime.BaseAPI {
 
     headerParameters["Content-Type"] = "application/json";
 
-    if (requestParameters["idempotencyKey"] != null) {
-      headerParameters["Idempotency-Key"] = String(requestParameters["idempotencyKey"]);
-    }
-
     if (requestParameters["affinityVersion"] != null) {
       headerParameters["Affinity-Version"] = String(requestParameters["affinityVersion"]);
+    }
+
+    if (requestParameters["idempotencyKey"] != null) {
+      headerParameters["Idempotency-Key"] = String(requestParameters["idempotencyKey"]);
     }
 
     if (this.configuration && this.configuration.accessToken) {
@@ -240,6 +252,10 @@ export class ProviderMappingsApi extends runtime.BaseAPI {
   ): Promise<runtime.RequestOpts> {
     const queryParameters: any = {};
 
+    if (requestParameters["endingBefore"] != null) {
+      queryParameters["endingBefore"] = requestParameters["endingBefore"];
+    }
+
     if (requestParameters["externalId"] != null) {
       queryParameters["externalId"] = requestParameters["externalId"];
     }
@@ -248,16 +264,12 @@ export class ProviderMappingsApi extends runtime.BaseAPI {
       queryParameters["limit"] = requestParameters["limit"];
     }
 
-    if (requestParameters["startingAfter"] != null) {
-      queryParameters["startingAfter"] = requestParameters["startingAfter"];
-    }
-
-    if (requestParameters["endingBefore"] != null) {
-      queryParameters["endingBefore"] = requestParameters["endingBefore"];
-    }
-
     if (requestParameters["practiceId"] != null) {
       queryParameters["practiceId"] = requestParameters["practiceId"];
+    }
+
+    if (requestParameters["startingAfter"] != null) {
+      queryParameters["startingAfter"] = requestParameters["startingAfter"];
     }
 
     if (requestParameters["status"] != null) {
@@ -334,6 +346,13 @@ export class ProviderMappingsApi extends runtime.BaseAPI {
       );
     }
 
+    if (requestParameters["idempotencyKey"] == null) {
+      throw new runtime.RequiredError(
+        "idempotencyKey",
+        'Required parameter "idempotencyKey" was null or undefined when calling updateProviderMapping().',
+      );
+    }
+
     if (requestParameters["updateProviderMappingRequest"] == null) {
       throw new runtime.RequiredError(
         "updateProviderMappingRequest",
@@ -347,12 +366,12 @@ export class ProviderMappingsApi extends runtime.BaseAPI {
 
     headerParameters["Content-Type"] = "application/json";
 
-    if (requestParameters["idempotencyKey"] != null) {
-      headerParameters["Idempotency-Key"] = String(requestParameters["idempotencyKey"]);
-    }
-
     if (requestParameters["affinityVersion"] != null) {
       headerParameters["Affinity-Version"] = String(requestParameters["affinityVersion"]);
+    }
+
+    if (requestParameters["idempotencyKey"] != null) {
+      headerParameters["Idempotency-Key"] = String(requestParameters["idempotencyKey"]);
     }
 
     if (this.configuration && this.configuration.accessToken) {

@@ -15,7 +15,7 @@ All URIs are relative to *https://api.joinaffinityai.com*
 
 ## createWebhookEndpoint
 
-> CreateWebhookEndpointResponse createWebhookEndpoint(createWebhookEndpointRequest, idempotencyKey, affinityVersion)
+> CreateWebhookEndpointResponse createWebhookEndpoint(idempotencyKey, createWebhookEndpointRequest, affinityVersion)
 
 Create webhook endpoint
 
@@ -39,12 +39,12 @@ async function example() {
   const api = new PlatformWebhooksApi(config);
 
   const body = {
+    // string
+    idempotencyKey: idempotencyKey_example,
     // CreateWebhookEndpointRequest
     createWebhookEndpointRequest: ...,
-    // string | Unique operation key required for every mutation. (optional)
-    idempotencyKey: idempotencyKey_example,
-    // string | Optional per-request override for the service account\'s pinned API version. (optional)
-    affinityVersion: 2026-07-29,
+    // string (optional)
+    affinityVersion: affinityVersion_example,
   } satisfies CreateWebhookEndpointOperationRequest;
 
   try {
@@ -61,11 +61,11 @@ example().catch(console.error);
 
 ### Parameters
 
-| Name                             | Type                                                            | Description                                                                      | Notes                                |
-| -------------------------------- | --------------------------------------------------------------- | -------------------------------------------------------------------------------- | ------------------------------------ |
-| **createWebhookEndpointRequest** | [CreateWebhookEndpointRequest](CreateWebhookEndpointRequest.md) |                                                                                  |                                      |
-| **idempotencyKey**               | `string`                                                        | Unique operation key required for every mutation.                                | [Optional] [Defaults to `undefined`] |
-| **affinityVersion**              | `string`                                                        | Optional per-request override for the service account\&#39;s pinned API version. | [Optional] [Defaults to `undefined`] |
+| Name                             | Type                                                            | Description | Notes                                |
+| -------------------------------- | --------------------------------------------------------------- | ----------- | ------------------------------------ |
+| **idempotencyKey**               | `string`                                                        |             | [Defaults to `undefined`]            |
+| **createWebhookEndpointRequest** | [CreateWebhookEndpointRequest](CreateWebhookEndpointRequest.md) |             |                                      |
+| **affinityVersion**              | `string`                                                        |             | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 
@@ -78,23 +78,16 @@ example().catch(console.error);
 ### HTTP request headers
 
 - **Content-Type**: `application/json`
-- **Accept**: `application/json`, `application/problem+json`
+- **Accept**: `application/json`
 
 ### HTTP response details
 
-| Status code | Description           | Response headers                                                                                                              |
-| ----------- | --------------------- | ----------------------------------------------------------------------------------------------------------------------------- |
-| **200**     | Successful response   | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
-| **400**     | Bad request           | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
-| **401**     | Unauthorized          | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
-| **403**     | Forbidden             | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
-| **409**     | Conflict              | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
-| **413**     | Payload too large     | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
-| **422**     | Unprocessable entity  | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
-| **429**     | Too many requests     | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
-| **500**     | Internal server error | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
-| **502**     | Bad gateway           | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
-| **503**     | Service unavailable   | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
+| Status code | Description | Response headers |
+| ----------- | ----------- | ---------------- |
+| **200**     | HTTP 200    | -                |
+| **401**     | HTTP 401    | -                |
+| **403**     | HTTP 403    | -                |
+| **429**     | HTTP 429    | -                |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
@@ -107,11 +100,8 @@ Disable webhook endpoint
 ### Example
 
 ```ts
-import {
-  Configuration,
-  PlatformWebhooksApi,
-} from '@affinity-health/sdk';
-import type { DeleteWebhookEndpointRequest } from '@affinity-health/sdk';
+import { Configuration, PlatformWebhooksApi } from "@affinity-health/sdk";
+import type { DeleteWebhookEndpointRequest } from "@affinity-health/sdk";
 
 async function example() {
   console.log("🚀 Testing @affinity-health/sdk SDK...");
@@ -126,10 +116,10 @@ async function example() {
   const body = {
     // string
     endpointId: endpointId_example,
-    // string | Unique operation key required for every mutation. (optional)
+    // string
     idempotencyKey: idempotencyKey_example,
-    // string | Optional per-request override for the service account\'s pinned API version. (optional)
-    affinityVersion: 2026-07-29,
+    // string (optional)
+    affinityVersion: affinityVersion_example,
   } satisfies DeleteWebhookEndpointRequest;
 
   try {
@@ -146,11 +136,11 @@ example().catch(console.error);
 
 ### Parameters
 
-| Name                | Type     | Description                                                                      | Notes                                |
-| ------------------- | -------- | -------------------------------------------------------------------------------- | ------------------------------------ |
-| **endpointId**      | `string` |                                                                                  | [Defaults to `undefined`]            |
-| **idempotencyKey**  | `string` | Unique operation key required for every mutation.                                | [Optional] [Defaults to `undefined`] |
-| **affinityVersion** | `string` | Optional per-request override for the service account\&#39;s pinned API version. | [Optional] [Defaults to `undefined`] |
+| Name                | Type     | Description | Notes                                |
+| ------------------- | -------- | ----------- | ------------------------------------ |
+| **endpointId**      | `string` |             | [Defaults to `undefined`]            |
+| **idempotencyKey**  | `string` |             | [Defaults to `undefined`]            |
+| **affinityVersion** | `string` |             | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 
@@ -163,24 +153,16 @@ example().catch(console.error);
 ### HTTP request headers
 
 - **Content-Type**: Not defined
-- **Accept**: `application/json`, `application/problem+json`
+- **Accept**: `application/json`
 
 ### HTTP response details
 
-| Status code | Description           | Response headers                                                                                                              |
-| ----------- | --------------------- | ----------------------------------------------------------------------------------------------------------------------------- |
-| **200**     | Successful response   | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
-| **400**     | Bad request           | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
-| **401**     | Unauthorized          | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
-| **403**     | Forbidden             | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
-| **404**     | Not found             | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
-| **409**     | Conflict              | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
-| **413**     | Payload too large     | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
-| **422**     | Unprocessable entity  | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
-| **429**     | Too many requests     | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
-| **500**     | Internal server error | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
-| **502**     | Bad gateway           | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
-| **503**     | Service unavailable   | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
+| Status code | Description | Response headers |
+| ----------- | ----------- | ---------------- |
+| **200**     | HTTP 200    | -                |
+| **401**     | HTTP 401    | -                |
+| **403**     | HTTP 403    | -                |
+| **429**     | HTTP 429    | -                |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
@@ -193,11 +175,8 @@ Read webhook event attempts
 ### Example
 
 ```ts
-import {
-  Configuration,
-  PlatformWebhooksApi,
-} from '@affinity-health/sdk';
-import type { GetWebhookEventRequest } from '@affinity-health/sdk';
+import { Configuration, PlatformWebhooksApi } from "@affinity-health/sdk";
+import type { GetWebhookEventRequest } from "@affinity-health/sdk";
 
 async function example() {
   console.log("🚀 Testing @affinity-health/sdk SDK...");
@@ -212,8 +191,8 @@ async function example() {
   const body = {
     // string
     eventId: eventId_example,
-    // string | Optional per-request override for the service account\'s pinned API version. (optional)
-    affinityVersion: 2026-07-29,
+    // string (optional)
+    affinityVersion: affinityVersion_example,
   } satisfies GetWebhookEventRequest;
 
   try {
@@ -230,10 +209,10 @@ example().catch(console.error);
 
 ### Parameters
 
-| Name                | Type     | Description                                                                      | Notes                                |
-| ------------------- | -------- | -------------------------------------------------------------------------------- | ------------------------------------ |
-| **eventId**         | `string` |                                                                                  | [Defaults to `undefined`]            |
-| **affinityVersion** | `string` | Optional per-request override for the service account\&#39;s pinned API version. | [Optional] [Defaults to `undefined`] |
+| Name                | Type     | Description | Notes                                |
+| ------------------- | -------- | ----------- | ------------------------------------ |
+| **eventId**         | `string` |             | [Defaults to `undefined`]            |
+| **affinityVersion** | `string` |             | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 
@@ -246,29 +225,22 @@ example().catch(console.error);
 ### HTTP request headers
 
 - **Content-Type**: Not defined
-- **Accept**: `application/json`, `application/problem+json`
+- **Accept**: `application/json`
 
 ### HTTP response details
 
-| Status code | Description           | Response headers                                                                                                              |
-| ----------- | --------------------- | ----------------------------------------------------------------------------------------------------------------------------- |
-| **200**     | Successful response   | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
-| **400**     | Bad request           | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
-| **401**     | Unauthorized          | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
-| **403**     | Forbidden             | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
-| **404**     | Not found             | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
-| **413**     | Payload too large     | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
-| **422**     | Unprocessable entity  | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
-| **429**     | Too many requests     | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
-| **500**     | Internal server error | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
-| **502**     | Bad gateway           | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
-| **503**     | Service unavailable   | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
+| Status code | Description | Response headers |
+| ----------- | ----------- | ---------------- |
+| **200**     | HTTP 200    | -                |
+| **401**     | HTTP 401    | -                |
+| **403**     | HTTP 403    | -                |
+| **429**     | HTTP 429    | -                |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
 ## listWebhookEndpoints
 
-> ListWebhookEndpointsResponse listWebhookEndpoints(limit, startingAfter, endingBefore, affinityVersion)
+> ListWebhookEndpointsResponse listWebhookEndpoints(endingBefore, limit, startingAfter, affinityVersion)
 
 List webhook endpoints
 
@@ -292,14 +264,14 @@ async function example() {
   const api = new PlatformWebhooksApi(config);
 
   const body = {
-    // number (optional)
-    limit: 56,
+    // string (optional)
+    endingBefore: endingBefore_example,
+    // ListCatalogItemsLimitParameter (optional)
+    limit: ...,
     // string (optional)
     startingAfter: startingAfter_example,
     // string (optional)
-    endingBefore: endingBefore_example,
-    // string | Optional per-request override for the service account\'s pinned API version. (optional)
-    affinityVersion: 2026-07-29,
+    affinityVersion: affinityVersion_example,
   } satisfies ListWebhookEndpointsRequest;
 
   try {
@@ -316,12 +288,12 @@ example().catch(console.error);
 
 ### Parameters
 
-| Name                | Type     | Description                                                                      | Notes                                |
-| ------------------- | -------- | -------------------------------------------------------------------------------- | ------------------------------------ |
-| **limit**           | `number` |                                                                                  | [Optional] [Defaults to `25`]        |
-| **startingAfter**   | `string` |                                                                                  | [Optional] [Defaults to `undefined`] |
-| **endingBefore**    | `string` |                                                                                  | [Optional] [Defaults to `undefined`] |
-| **affinityVersion** | `string` | Optional per-request override for the service account\&#39;s pinned API version. | [Optional] [Defaults to `undefined`] |
+| Name                | Type     | Description | Notes                                |
+| ------------------- | -------- | ----------- | ------------------------------------ |
+| **endingBefore**    | `string` |             | [Optional] [Defaults to `undefined`] |
+| **limit**           | [](.md)  |             | [Optional] [Defaults to `undefined`] |
+| **startingAfter**   | `string` |             | [Optional] [Defaults to `undefined`] |
+| **affinityVersion** | `string` |             | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 
@@ -334,28 +306,22 @@ example().catch(console.error);
 ### HTTP request headers
 
 - **Content-Type**: Not defined
-- **Accept**: `application/json`, `application/problem+json`
+- **Accept**: `application/json`
 
 ### HTTP response details
 
-| Status code | Description           | Response headers                                                                                                              |
-| ----------- | --------------------- | ----------------------------------------------------------------------------------------------------------------------------- |
-| **200**     | Successful response   | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
-| **400**     | Bad request           | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
-| **401**     | Unauthorized          | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
-| **403**     | Forbidden             | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
-| **413**     | Payload too large     | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
-| **422**     | Unprocessable entity  | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
-| **429**     | Too many requests     | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
-| **500**     | Internal server error | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
-| **502**     | Bad gateway           | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
-| **503**     | Service unavailable   | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
+| Status code | Description | Response headers |
+| ----------- | ----------- | ---------------- |
+| **200**     | HTTP 200    | -                |
+| **401**     | HTTP 401    | -                |
+| **403**     | HTTP 403    | -                |
+| **429**     | HTTP 429    | -                |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
 ## listWebhookEvents
 
-> ListWebhookEventsResponse listWebhookEvents(limit, status, startingAfter, endingBefore, affinityVersion)
+> ListWebhookEventsResponse listWebhookEvents(endingBefore, limit, status, startingAfter, affinityVersion)
 
 List webhook events
 
@@ -379,16 +345,16 @@ async function example() {
   const api = new PlatformWebhooksApi(config);
 
   const body = {
-    // number (optional)
-    limit: 56,
-    // 'all' | 'delivered' | 'failed' | 'pending' | 'skipped' (optional)
+    // string (optional)
+    endingBefore: endingBefore_example,
+    // ListCatalogItemsLimitParameter (optional)
+    limit: ...,
+    // 'all' | 'delivered' | 'failed' | 'pending' (optional)
     status: status_example,
     // string (optional)
     startingAfter: startingAfter_example,
     // string (optional)
-    endingBefore: endingBefore_example,
-    // string | Optional per-request override for the service account\'s pinned API version. (optional)
-    affinityVersion: 2026-07-29,
+    affinityVersion: affinityVersion_example,
   } satisfies ListWebhookEventsRequest;
 
   try {
@@ -405,13 +371,13 @@ example().catch(console.error);
 
 ### Parameters
 
-| Name                | Type                                               | Description                                                                      | Notes                                                                                     |
-| ------------------- | -------------------------------------------------- | -------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------- |
-| **limit**           | `number`                                           |                                                                                  | [Optional] [Defaults to `25`]                                                             |
-| **status**          | `all`, `delivered`, `failed`, `pending`, `skipped` |                                                                                  | [Optional] [Defaults to `&#39;all&#39;`] [Enum: all, delivered, failed, pending, skipped] |
-| **startingAfter**   | `string`                                           |                                                                                  | [Optional] [Defaults to `undefined`]                                                      |
-| **endingBefore**    | `string`                                           |                                                                                  | [Optional] [Defaults to `undefined`]                                                      |
-| **affinityVersion** | `string`                                           | Optional per-request override for the service account\&#39;s pinned API version. | [Optional] [Defaults to `undefined`]                                                      |
+| Name                | Type                                    | Description | Notes                                                                        |
+| ------------------- | --------------------------------------- | ----------- | ---------------------------------------------------------------------------- |
+| **endingBefore**    | `string`                                |             | [Optional] [Defaults to `undefined`]                                         |
+| **limit**           | [](.md)                                 |             | [Optional] [Defaults to `undefined`]                                         |
+| **status**          | `all`, `delivered`, `failed`, `pending` |             | [Optional] [Defaults to `undefined`] [Enum: all, delivered, failed, pending] |
+| **startingAfter**   | `string`                                |             | [Optional] [Defaults to `undefined`]                                         |
+| **affinityVersion** | `string`                                |             | [Optional] [Defaults to `undefined`]                                         |
 
 ### Return type
 
@@ -424,22 +390,16 @@ example().catch(console.error);
 ### HTTP request headers
 
 - **Content-Type**: Not defined
-- **Accept**: `application/json`, `application/problem+json`
+- **Accept**: `application/json`
 
 ### HTTP response details
 
-| Status code | Description           | Response headers                                                                                                              |
-| ----------- | --------------------- | ----------------------------------------------------------------------------------------------------------------------------- |
-| **200**     | Successful response   | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
-| **400**     | Bad request           | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
-| **401**     | Unauthorized          | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
-| **403**     | Forbidden             | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
-| **413**     | Payload too large     | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
-| **422**     | Unprocessable entity  | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
-| **429**     | Too many requests     | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
-| **500**     | Internal server error | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
-| **502**     | Bad gateway           | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
-| **503**     | Service unavailable   | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
+| Status code | Description | Response headers |
+| ----------- | ----------- | ---------------- |
+| **200**     | HTTP 200    | -                |
+| **401**     | HTTP 401    | -                |
+| **403**     | HTTP 403    | -                |
+| **429**     | HTTP 429    | -                |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
@@ -452,11 +412,8 @@ Replay webhook event
 ### Example
 
 ```ts
-import {
-  Configuration,
-  PlatformWebhooksApi,
-} from '@affinity-health/sdk';
-import type { ReplayWebhookEventRequest } from '@affinity-health/sdk';
+import { Configuration, PlatformWebhooksApi } from "@affinity-health/sdk";
+import type { ReplayWebhookEventRequest } from "@affinity-health/sdk";
 
 async function example() {
   console.log("🚀 Testing @affinity-health/sdk SDK...");
@@ -471,10 +428,10 @@ async function example() {
   const body = {
     // string
     eventId: eventId_example,
-    // string | Unique operation key required for every mutation. (optional)
+    // string
     idempotencyKey: idempotencyKey_example,
-    // string | Optional per-request override for the service account\'s pinned API version. (optional)
-    affinityVersion: 2026-07-29,
+    // string (optional)
+    affinityVersion: affinityVersion_example,
   } satisfies ReplayWebhookEventRequest;
 
   try {
@@ -491,11 +448,11 @@ example().catch(console.error);
 
 ### Parameters
 
-| Name                | Type     | Description                                                                      | Notes                                |
-| ------------------- | -------- | -------------------------------------------------------------------------------- | ------------------------------------ |
-| **eventId**         | `string` |                                                                                  | [Defaults to `undefined`]            |
-| **idempotencyKey**  | `string` | Unique operation key required for every mutation.                                | [Optional] [Defaults to `undefined`] |
-| **affinityVersion** | `string` | Optional per-request override for the service account\&#39;s pinned API version. | [Optional] [Defaults to `undefined`] |
+| Name                | Type     | Description | Notes                                |
+| ------------------- | -------- | ----------- | ------------------------------------ |
+| **eventId**         | `string` |             | [Defaults to `undefined`]            |
+| **idempotencyKey**  | `string` |             | [Defaults to `undefined`]            |
+| **affinityVersion** | `string` |             | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 
@@ -508,24 +465,16 @@ example().catch(console.error);
 ### HTTP request headers
 
 - **Content-Type**: Not defined
-- **Accept**: `application/json`, `application/problem+json`
+- **Accept**: `application/json`
 
 ### HTTP response details
 
-| Status code | Description           | Response headers                                                                                                              |
-| ----------- | --------------------- | ----------------------------------------------------------------------------------------------------------------------------- |
-| **200**     | Successful response   | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
-| **400**     | Bad request           | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
-| **401**     | Unauthorized          | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
-| **403**     | Forbidden             | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
-| **404**     | Not found             | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
-| **409**     | Conflict              | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
-| **413**     | Payload too large     | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
-| **422**     | Unprocessable entity  | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
-| **429**     | Too many requests     | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
-| **500**     | Internal server error | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
-| **502**     | Bad gateway           | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
-| **503**     | Service unavailable   | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
+| Status code | Description | Response headers |
+| ----------- | ----------- | ---------------- |
+| **200**     | HTTP 200    | -                |
+| **401**     | HTTP 401    | -                |
+| **403**     | HTTP 403    | -                |
+| **429**     | HTTP 429    | -                |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
@@ -538,11 +487,8 @@ Rotate webhook signing secret
 ### Example
 
 ```ts
-import {
-  Configuration,
-  PlatformWebhooksApi,
-} from '@affinity-health/sdk';
-import type { RotateWebhookEndpointSecretRequest } from '@affinity-health/sdk';
+import { Configuration, PlatformWebhooksApi } from "@affinity-health/sdk";
+import type { RotateWebhookEndpointSecretRequest } from "@affinity-health/sdk";
 
 async function example() {
   console.log("🚀 Testing @affinity-health/sdk SDK...");
@@ -557,10 +503,10 @@ async function example() {
   const body = {
     // string
     endpointId: endpointId_example,
-    // string | Unique operation key required for every mutation. (optional)
+    // string
     idempotencyKey: idempotencyKey_example,
-    // string | Optional per-request override for the service account\'s pinned API version. (optional)
-    affinityVersion: 2026-07-29,
+    // string (optional)
+    affinityVersion: affinityVersion_example,
   } satisfies RotateWebhookEndpointSecretRequest;
 
   try {
@@ -577,11 +523,11 @@ example().catch(console.error);
 
 ### Parameters
 
-| Name                | Type     | Description                                                                      | Notes                                |
-| ------------------- | -------- | -------------------------------------------------------------------------------- | ------------------------------------ |
-| **endpointId**      | `string` |                                                                                  | [Defaults to `undefined`]            |
-| **idempotencyKey**  | `string` | Unique operation key required for every mutation.                                | [Optional] [Defaults to `undefined`] |
-| **affinityVersion** | `string` | Optional per-request override for the service account\&#39;s pinned API version. | [Optional] [Defaults to `undefined`] |
+| Name                | Type     | Description | Notes                                |
+| ------------------- | -------- | ----------- | ------------------------------------ |
+| **endpointId**      | `string` |             | [Defaults to `undefined`]            |
+| **idempotencyKey**  | `string` |             | [Defaults to `undefined`]            |
+| **affinityVersion** | `string` |             | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 
@@ -594,30 +540,22 @@ example().catch(console.error);
 ### HTTP request headers
 
 - **Content-Type**: Not defined
-- **Accept**: `application/json`, `application/problem+json`
+- **Accept**: `application/json`
 
 ### HTTP response details
 
-| Status code | Description           | Response headers                                                                                                              |
-| ----------- | --------------------- | ----------------------------------------------------------------------------------------------------------------------------- |
-| **200**     | Successful response   | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
-| **400**     | Bad request           | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
-| **401**     | Unauthorized          | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
-| **403**     | Forbidden             | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
-| **404**     | Not found             | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
-| **409**     | Conflict              | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
-| **413**     | Payload too large     | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
-| **422**     | Unprocessable entity  | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
-| **429**     | Too many requests     | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
-| **500**     | Internal server error | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
-| **502**     | Bad gateway           | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
-| **503**     | Service unavailable   | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
+| Status code | Description | Response headers |
+| ----------- | ----------- | ---------------- |
+| **200**     | HTTP 200    | -                |
+| **401**     | HTTP 401    | -                |
+| **403**     | HTTP 403    | -                |
+| **429**     | HTTP 429    | -                |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
 ## updateWebhookEndpoint
 
-> UpdateWebhookEndpointResponse updateWebhookEndpoint(endpointId, updateWebhookEndpointRequest, idempotencyKey, affinityVersion)
+> UpdateWebhookEndpointResponse updateWebhookEndpoint(endpointId, idempotencyKey, updateWebhookEndpointRequest, affinityVersion)
 
 Update webhook endpoint
 
@@ -643,12 +581,12 @@ async function example() {
   const body = {
     // string
     endpointId: endpointId_example,
+    // string
+    idempotencyKey: idempotencyKey_example,
     // UpdateWebhookEndpointRequest
     updateWebhookEndpointRequest: ...,
-    // string | Unique operation key required for every mutation. (optional)
-    idempotencyKey: idempotencyKey_example,
-    // string | Optional per-request override for the service account\'s pinned API version. (optional)
-    affinityVersion: 2026-07-29,
+    // string (optional)
+    affinityVersion: affinityVersion_example,
   } satisfies UpdateWebhookEndpointOperationRequest;
 
   try {
@@ -665,12 +603,12 @@ example().catch(console.error);
 
 ### Parameters
 
-| Name                             | Type                                                            | Description                                                                      | Notes                                |
-| -------------------------------- | --------------------------------------------------------------- | -------------------------------------------------------------------------------- | ------------------------------------ |
-| **endpointId**                   | `string`                                                        |                                                                                  | [Defaults to `undefined`]            |
-| **updateWebhookEndpointRequest** | [UpdateWebhookEndpointRequest](UpdateWebhookEndpointRequest.md) |                                                                                  |                                      |
-| **idempotencyKey**               | `string`                                                        | Unique operation key required for every mutation.                                | [Optional] [Defaults to `undefined`] |
-| **affinityVersion**              | `string`                                                        | Optional per-request override for the service account\&#39;s pinned API version. | [Optional] [Defaults to `undefined`] |
+| Name                             | Type                                                            | Description | Notes                                |
+| -------------------------------- | --------------------------------------------------------------- | ----------- | ------------------------------------ |
+| **endpointId**                   | `string`                                                        |             | [Defaults to `undefined`]            |
+| **idempotencyKey**               | `string`                                                        |             | [Defaults to `undefined`]            |
+| **updateWebhookEndpointRequest** | [UpdateWebhookEndpointRequest](UpdateWebhookEndpointRequest.md) |             |                                      |
+| **affinityVersion**              | `string`                                                        |             | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 
@@ -683,23 +621,15 @@ example().catch(console.error);
 ### HTTP request headers
 
 - **Content-Type**: `application/json`
-- **Accept**: `application/json`, `application/problem+json`
+- **Accept**: `application/json`
 
 ### HTTP response details
 
-| Status code | Description           | Response headers                                                                                                              |
-| ----------- | --------------------- | ----------------------------------------------------------------------------------------------------------------------------- |
-| **200**     | Successful response   | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
-| **400**     | Bad request           | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
-| **401**     | Unauthorized          | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
-| **403**     | Forbidden             | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
-| **404**     | Not found             | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
-| **409**     | Conflict              | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
-| **413**     | Payload too large     | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
-| **422**     | Unprocessable entity  | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
-| **429**     | Too many requests     | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
-| **500**     | Internal server error | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
-| **502**     | Bad gateway           | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
-| **503**     | Service unavailable   | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
+| Status code | Description | Response headers |
+| ----------- | ----------- | ---------------- |
+| **200**     | HTTP 200    | -                |
+| **401**     | HTTP 401    | -                |
+| **403**     | HTTP 403    | -                |
+| **429**     | HTTP 429    | -                |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)

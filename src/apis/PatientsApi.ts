@@ -2,7 +2,7 @@
 /* eslint-disable */
 /**
  * Affinity API
- * Affinity API for software platforms connecting practices to the compounder network. A practice is the customer organization, a provider is an individual clinician or prescriber, and a location is a physical practice site. The API covers practice management, catalog discovery, prescription-order submission, fulfillment tracking, and webhooks.
+ * Affinity API for software platforms connecting practices to the compounder network.
  *
  * The version of the OpenAPI document: 2026-07-29
  * Contact: support@joinaffinityai.com
@@ -29,6 +29,11 @@ import {
   GetPatientResponseToJSON,
 } from "../models/GetPatientResponse";
 import {
+  type ListCatalogItemsLimitParameter,
+  ListCatalogItemsLimitParameterFromJSON,
+  ListCatalogItemsLimitParameterToJSON,
+} from "../models/ListCatalogItemsLimitParameter";
+import {
   type ListPatientsResponse,
   ListPatientsResponseFromJSON,
   ListPatientsResponseToJSON,
@@ -47,38 +52,38 @@ import {
 
 export interface CreatePatientOperationRequest {
   practiceId: string;
-  affinityActorId: string;
-  affinityActorType: CreatePatientOperationAffinityActorTypeEnum;
+  idempotencyKey: string;
   createPatientRequest: CreatePatientRequest;
-  idempotencyKey?: string;
   affinityVersion?: string;
+  affinityActorId?: string;
+  affinityActorType?: string;
 }
 
 export interface GetPatientRequest {
-  practiceId: string;
   patientId: string;
-  affinityActorId: string;
-  affinityActorType: GetPatientAffinityActorTypeEnum;
+  practiceId: string;
   affinityVersion?: string;
+  affinityActorId?: string;
+  affinityActorType?: string;
 }
 
 export interface ListPatientsRequest {
   practiceId: string;
-  affinityActorId: string;
-  affinityActorType: ListPatientsAffinityActorTypeEnum;
+  limit?: ListCatalogItemsLimitParameter;
   query?: string;
-  limit?: number;
   affinityVersion?: string;
+  affinityActorId?: string;
+  affinityActorType?: string;
 }
 
 export interface UpdatePatientOperationRequest {
-  practiceId: string;
   patientId: string;
-  affinityActorId: string;
-  affinityActorType: UpdatePatientOperationAffinityActorTypeEnum;
+  practiceId: string;
+  idempotencyKey: string;
   updatePatientRequest: UpdatePatientRequest;
-  idempotencyKey?: string;
   affinityVersion?: string;
+  affinityActorId?: string;
+  affinityActorType?: string;
 }
 
 /**
@@ -98,17 +103,10 @@ export class PatientsApi extends runtime.BaseAPI {
       );
     }
 
-    if (requestParameters["affinityActorId"] == null) {
+    if (requestParameters["idempotencyKey"] == null) {
       throw new runtime.RequiredError(
-        "affinityActorId",
-        'Required parameter "affinityActorId" was null or undefined when calling createPatient().',
-      );
-    }
-
-    if (requestParameters["affinityActorType"] == null) {
-      throw new runtime.RequiredError(
-        "affinityActorType",
-        'Required parameter "affinityActorType" was null or undefined when calling createPatient().',
+        "idempotencyKey",
+        'Required parameter "idempotencyKey" was null or undefined when calling createPatient().',
       );
     }
 
@@ -125,6 +123,10 @@ export class PatientsApi extends runtime.BaseAPI {
 
     headerParameters["Content-Type"] = "application/json";
 
+    if (requestParameters["affinityVersion"] != null) {
+      headerParameters["Affinity-Version"] = String(requestParameters["affinityVersion"]);
+    }
+
     if (requestParameters["idempotencyKey"] != null) {
       headerParameters["Idempotency-Key"] = String(requestParameters["idempotencyKey"]);
     }
@@ -135,10 +137,6 @@ export class PatientsApi extends runtime.BaseAPI {
 
     if (requestParameters["affinityActorType"] != null) {
       headerParameters["Affinity-Actor-Type"] = String(requestParameters["affinityActorType"]);
-    }
-
-    if (requestParameters["affinityVersion"] != null) {
-      headerParameters["Affinity-Version"] = String(requestParameters["affinityVersion"]);
     }
 
     if (this.configuration && this.configuration.accessToken) {
@@ -201,13 +199,6 @@ export class PatientsApi extends runtime.BaseAPI {
    * Creates request options for getPatient without sending the request
    */
   async getPatientRequestOpts(requestParameters: GetPatientRequest): Promise<runtime.RequestOpts> {
-    if (requestParameters["practiceId"] == null) {
-      throw new runtime.RequiredError(
-        "practiceId",
-        'Required parameter "practiceId" was null or undefined when calling getPatient().',
-      );
-    }
-
     if (requestParameters["patientId"] == null) {
       throw new runtime.RequiredError(
         "patientId",
@@ -215,17 +206,10 @@ export class PatientsApi extends runtime.BaseAPI {
       );
     }
 
-    if (requestParameters["affinityActorId"] == null) {
+    if (requestParameters["practiceId"] == null) {
       throw new runtime.RequiredError(
-        "affinityActorId",
-        'Required parameter "affinityActorId" was null or undefined when calling getPatient().',
-      );
-    }
-
-    if (requestParameters["affinityActorType"] == null) {
-      throw new runtime.RequiredError(
-        "affinityActorType",
-        'Required parameter "affinityActorType" was null or undefined when calling getPatient().',
+        "practiceId",
+        'Required parameter "practiceId" was null or undefined when calling getPatient().',
       );
     }
 
@@ -233,16 +217,16 @@ export class PatientsApi extends runtime.BaseAPI {
 
     const headerParameters: runtime.HTTPHeaders = {};
 
+    if (requestParameters["affinityVersion"] != null) {
+      headerParameters["Affinity-Version"] = String(requestParameters["affinityVersion"]);
+    }
+
     if (requestParameters["affinityActorId"] != null) {
       headerParameters["Affinity-Actor-Id"] = String(requestParameters["affinityActorId"]);
     }
 
     if (requestParameters["affinityActorType"] != null) {
       headerParameters["Affinity-Actor-Type"] = String(requestParameters["affinityActorType"]);
-    }
-
-    if (requestParameters["affinityVersion"] != null) {
-      headerParameters["Affinity-Version"] = String(requestParameters["affinityVersion"]);
     }
 
     if (this.configuration && this.configuration.accessToken) {
@@ -260,12 +244,12 @@ export class PatientsApi extends runtime.BaseAPI {
 
     let urlPath = `/v1/practices/{practiceId}/patients/{patientId}`;
     urlPath = urlPath.replace(
-      "{practiceId}",
-      encodeURIComponent(String(requestParameters["practiceId"])),
-    );
-    urlPath = urlPath.replace(
       "{patientId}",
       encodeURIComponent(String(requestParameters["patientId"])),
+    );
+    urlPath = urlPath.replace(
+      "{practiceId}",
+      encodeURIComponent(String(requestParameters["practiceId"])),
     );
 
     return {
@@ -317,31 +301,21 @@ export class PatientsApi extends runtime.BaseAPI {
       );
     }
 
-    if (requestParameters["affinityActorId"] == null) {
-      throw new runtime.RequiredError(
-        "affinityActorId",
-        'Required parameter "affinityActorId" was null or undefined when calling listPatients().',
-      );
-    }
-
-    if (requestParameters["affinityActorType"] == null) {
-      throw new runtime.RequiredError(
-        "affinityActorType",
-        'Required parameter "affinityActorType" was null or undefined when calling listPatients().',
-      );
-    }
-
     const queryParameters: any = {};
-
-    if (requestParameters["query"] != null) {
-      queryParameters["query"] = requestParameters["query"];
-    }
 
     if (requestParameters["limit"] != null) {
       queryParameters["limit"] = requestParameters["limit"];
     }
 
+    if (requestParameters["query"] != null) {
+      queryParameters["query"] = requestParameters["query"];
+    }
+
     const headerParameters: runtime.HTTPHeaders = {};
+
+    if (requestParameters["affinityVersion"] != null) {
+      headerParameters["Affinity-Version"] = String(requestParameters["affinityVersion"]);
+    }
 
     if (requestParameters["affinityActorId"] != null) {
       headerParameters["Affinity-Actor-Id"] = String(requestParameters["affinityActorId"]);
@@ -349,10 +323,6 @@ export class PatientsApi extends runtime.BaseAPI {
 
     if (requestParameters["affinityActorType"] != null) {
       headerParameters["Affinity-Actor-Type"] = String(requestParameters["affinityActorType"]);
-    }
-
-    if (requestParameters["affinityVersion"] != null) {
-      headerParameters["Affinity-Version"] = String(requestParameters["affinityVersion"]);
     }
 
     if (this.configuration && this.configuration.accessToken) {
@@ -416,13 +386,6 @@ export class PatientsApi extends runtime.BaseAPI {
   async updatePatientRequestOpts(
     requestParameters: UpdatePatientOperationRequest,
   ): Promise<runtime.RequestOpts> {
-    if (requestParameters["practiceId"] == null) {
-      throw new runtime.RequiredError(
-        "practiceId",
-        'Required parameter "practiceId" was null or undefined when calling updatePatient().',
-      );
-    }
-
     if (requestParameters["patientId"] == null) {
       throw new runtime.RequiredError(
         "patientId",
@@ -430,17 +393,17 @@ export class PatientsApi extends runtime.BaseAPI {
       );
     }
 
-    if (requestParameters["affinityActorId"] == null) {
+    if (requestParameters["practiceId"] == null) {
       throw new runtime.RequiredError(
-        "affinityActorId",
-        'Required parameter "affinityActorId" was null or undefined when calling updatePatient().',
+        "practiceId",
+        'Required parameter "practiceId" was null or undefined when calling updatePatient().',
       );
     }
 
-    if (requestParameters["affinityActorType"] == null) {
+    if (requestParameters["idempotencyKey"] == null) {
       throw new runtime.RequiredError(
-        "affinityActorType",
-        'Required parameter "affinityActorType" was null or undefined when calling updatePatient().',
+        "idempotencyKey",
+        'Required parameter "idempotencyKey" was null or undefined when calling updatePatient().',
       );
     }
 
@@ -457,6 +420,10 @@ export class PatientsApi extends runtime.BaseAPI {
 
     headerParameters["Content-Type"] = "application/json";
 
+    if (requestParameters["affinityVersion"] != null) {
+      headerParameters["Affinity-Version"] = String(requestParameters["affinityVersion"]);
+    }
+
     if (requestParameters["idempotencyKey"] != null) {
       headerParameters["Idempotency-Key"] = String(requestParameters["idempotencyKey"]);
     }
@@ -467,10 +434,6 @@ export class PatientsApi extends runtime.BaseAPI {
 
     if (requestParameters["affinityActorType"] != null) {
       headerParameters["Affinity-Actor-Type"] = String(requestParameters["affinityActorType"]);
-    }
-
-    if (requestParameters["affinityVersion"] != null) {
-      headerParameters["Affinity-Version"] = String(requestParameters["affinityVersion"]);
     }
 
     if (this.configuration && this.configuration.accessToken) {
@@ -488,12 +451,12 @@ export class PatientsApi extends runtime.BaseAPI {
 
     let urlPath = `/v1/practices/{practiceId}/patients/{patientId}`;
     urlPath = urlPath.replace(
-      "{practiceId}",
-      encodeURIComponent(String(requestParameters["practiceId"])),
-    );
-    urlPath = urlPath.replace(
       "{patientId}",
       encodeURIComponent(String(requestParameters["patientId"])),
+    );
+    urlPath = urlPath.replace(
+      "{practiceId}",
+      encodeURIComponent(String(requestParameters["practiceId"])),
     );
 
     return {
@@ -533,40 +496,3 @@ export class PatientsApi extends runtime.BaseAPI {
     return await response.value();
   }
 }
-
-/**
- * @export
- */
-export const CreatePatientOperationAffinityActorTypeEnum = {
-  User: "user",
-  System: "system",
-} as const;
-export type CreatePatientOperationAffinityActorTypeEnum =
-  (typeof CreatePatientOperationAffinityActorTypeEnum)[keyof typeof CreatePatientOperationAffinityActorTypeEnum];
-/**
- * @export
- */
-export const GetPatientAffinityActorTypeEnum = {
-  User: "user",
-  System: "system",
-} as const;
-export type GetPatientAffinityActorTypeEnum =
-  (typeof GetPatientAffinityActorTypeEnum)[keyof typeof GetPatientAffinityActorTypeEnum];
-/**
- * @export
- */
-export const ListPatientsAffinityActorTypeEnum = {
-  User: "user",
-  System: "system",
-} as const;
-export type ListPatientsAffinityActorTypeEnum =
-  (typeof ListPatientsAffinityActorTypeEnum)[keyof typeof ListPatientsAffinityActorTypeEnum];
-/**
- * @export
- */
-export const UpdatePatientOperationAffinityActorTypeEnum = {
-  User: "user",
-  System: "system",
-} as const;
-export type UpdatePatientOperationAffinityActorTypeEnum =
-  (typeof UpdatePatientOperationAffinityActorTypeEnum)[keyof typeof UpdatePatientOperationAffinityActorTypeEnum];

@@ -6,7 +6,7 @@
 | ------------------ | ---------------------------------------------------------------------------------------------------------------- |
 | `address`          | [ListPracticesResponseDataInnerAddress](ListPracticesResponseDataInnerAddress.md)                                |
 | `contacts`         | [ListPracticesResponseDataInnerContacts](ListPracticesResponseDataInnerContacts.md)                              |
-| `createdAt`        | Date                                                                                                             |
+| `createdAt`        | string                                                                                                           |
 | `externalId`       | string                                                                                                           |
 | `id`               | string                                                                                                           |
 | `legalName`        | string                                                                                                           |

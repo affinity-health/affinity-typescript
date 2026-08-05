@@ -10,7 +10,7 @@ All URIs are relative to *https://api.joinaffinityai.com*
 
 ## listCatalogItems
 
-> ListCatalogItemsResponse listCatalogItems(query, limit, startingAfter, endingBefore, route, affinityVersion)
+> ListCatalogItemsResponse listCatalogItems(availability, compounderIds, dosageForms, endingBefore, limit, orgId, query, requirement, route, startingAfter, affinityVersion)
 
 List catalog items
 
@@ -36,18 +36,28 @@ async function example() {
   const api = new CatalogApi(config);
 
   const body = {
+    // 'all' | 'orderable' | 'unavailable' (optional)
+    availability: availability_example,
+    // ListCatalogItemsCompounderIdsParameter (optional)
+    compounderIds: ...,
+    // ListCatalogItemsDosageFormsParameter (optional)
+    dosageForms: ...,
+    // string (optional)
+    endingBefore: endingBefore_example,
+    // ListCatalogItemsLimitParameter (optional)
+    limit: ...,
+    // string (optional)
+    orgId: orgId_example,
     // string (optional)
     query: query_example,
-    // number (optional)
-    limit: 56,
+    // 'all' | 'office_use' | 'patient_specific' (optional)
+    requirement: requirement_example,
+    // 'all' | 'injectable' | 'nasal' | 'oral' | 'sublingual' | 'topical' | 'unknown' (optional)
+    route: route_example,
     // string (optional)
     startingAfter: startingAfter_example,
     // string (optional)
-    endingBefore: endingBefore_example,
-    // 'all' | 'injectable' | 'nasal' | 'oral' | 'sublingual' | 'topical' | 'unknown' (optional)
-    route: route_example,
-    // string | Optional per-request override for the service account\'s pinned API version. (optional)
-    affinityVersion: 2026-07-29,
+    affinityVersion: affinityVersion_example,
   } satisfies ListCatalogItemsRequest;
 
   try {
@@ -64,14 +74,19 @@ example().catch(console.error);
 
 ### Parameters
 
-| Name                | Type                                                                     | Description                                                                      | Notes                                                                                                       |
-| ------------------- | ------------------------------------------------------------------------ | -------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------- |
-| **query**           | `string`                                                                 |                                                                                  | [Optional] [Defaults to `undefined`]                                                                        |
-| **limit**           | `number`                                                                 |                                                                                  | [Optional] [Defaults to `50`]                                                                               |
-| **startingAfter**   | `string`                                                                 |                                                                                  | [Optional] [Defaults to `undefined`]                                                                        |
-| **endingBefore**    | `string`                                                                 |                                                                                  | [Optional] [Defaults to `undefined`]                                                                        |
-| **route**           | `all`, `injectable`, `nasal`, `oral`, `sublingual`, `topical`, `unknown` |                                                                                  | [Optional] [Defaults to `&#39;all&#39;`] [Enum: all, injectable, nasal, oral, sublingual, topical, unknown] |
-| **affinityVersion** | `string`                                                                 | Optional per-request override for the service account\&#39;s pinned API version. | [Optional] [Defaults to `undefined`]                                                                        |
+| Name                | Type                                                                     | Description | Notes                                                                                                   |
+| ------------------- | ------------------------------------------------------------------------ | ----------- | ------------------------------------------------------------------------------------------------------- |
+| **availability**    | `all`, `orderable`, `unavailable`                                        |             | [Optional] [Defaults to `undefined`] [Enum: all, orderable, unavailable]                                |
+| **compounderIds**   | [](.md)                                                                  |             | [Optional] [Defaults to `undefined`]                                                                    |
+| **dosageForms**     | [](.md)                                                                  |             | [Optional] [Defaults to `undefined`]                                                                    |
+| **endingBefore**    | `string`                                                                 |             | [Optional] [Defaults to `undefined`]                                                                    |
+| **limit**           | [](.md)                                                                  |             | [Optional] [Defaults to `undefined`]                                                                    |
+| **orgId**           | `string`                                                                 |             | [Optional] [Defaults to `undefined`]                                                                    |
+| **query**           | `string`                                                                 |             | [Optional] [Defaults to `undefined`]                                                                    |
+| **requirement**     | `all`, `office_use`, `patient_specific`                                  |             | [Optional] [Defaults to `undefined`] [Enum: all, office_use, patient_specific]                          |
+| **route**           | `all`, `injectable`, `nasal`, `oral`, `sublingual`, `topical`, `unknown` |             | [Optional] [Defaults to `undefined`] [Enum: all, injectable, nasal, oral, sublingual, topical, unknown] |
+| **startingAfter**   | `string`                                                                 |             | [Optional] [Defaults to `undefined`]                                                                    |
+| **affinityVersion** | `string`                                                                 |             | [Optional] [Defaults to `undefined`]                                                                    |
 
 ### Return type
 
@@ -84,28 +99,22 @@ example().catch(console.error);
 ### HTTP request headers
 
 - **Content-Type**: Not defined
-- **Accept**: `application/json`, `application/problem+json`
+- **Accept**: `application/json`
 
 ### HTTP response details
 
-| Status code | Description           | Response headers                                                                                                              |
-| ----------- | --------------------- | ----------------------------------------------------------------------------------------------------------------------------- |
-| **200**     | Successful response   | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
-| **400**     | Bad request           | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
-| **401**     | Unauthorized          | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
-| **403**     | Forbidden             | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
-| **413**     | Payload too large     | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
-| **422**     | Unprocessable entity  | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
-| **429**     | Too many requests     | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
-| **500**     | Internal server error | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
-| **502**     | Bad gateway           | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
-| **503**     | Service unavailable   | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
+| Status code | Description | Response headers |
+| ----------- | ----------- | ---------------- |
+| **200**     | HTTP 200    | -                |
+| **401**     | HTTP 401    | -                |
+| **403**     | HTTP 403    | -                |
+| **429**     | HTTP 429    | -                |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
 ## listCompounders
 
-> ListCompoundersResponse listCompounders(query, affinityVersion)
+> ListCompoundersResponse listCompounders(orgId, query, affinityVersion)
 
 List available compounders
 
@@ -114,11 +123,8 @@ Lists compounders available to the authenticated account, including approved inv
 ### Example
 
 ```ts
-import {
-  Configuration,
-  CatalogApi,
-} from '@affinity-health/sdk';
-import type { ListCompoundersRequest } from '@affinity-health/sdk';
+import { Configuration, CatalogApi } from "@affinity-health/sdk";
+import type { ListCompoundersRequest } from "@affinity-health/sdk";
 
 async function example() {
   console.log("🚀 Testing @affinity-health/sdk SDK...");
@@ -132,9 +138,11 @@ async function example() {
 
   const body = {
     // string (optional)
+    orgId: orgId_example,
+    // string (optional)
     query: query_example,
-    // string | Optional per-request override for the service account\'s pinned API version. (optional)
-    affinityVersion: 2026-07-29,
+    // string (optional)
+    affinityVersion: affinityVersion_example,
   } satisfies ListCompoundersRequest;
 
   try {
@@ -151,10 +159,11 @@ example().catch(console.error);
 
 ### Parameters
 
-| Name                | Type     | Description                                                                      | Notes                                |
-| ------------------- | -------- | -------------------------------------------------------------------------------- | ------------------------------------ |
-| **query**           | `string` |                                                                                  | [Optional] [Defaults to `undefined`] |
-| **affinityVersion** | `string` | Optional per-request override for the service account\&#39;s pinned API version. | [Optional] [Defaults to `undefined`] |
+| Name                | Type     | Description | Notes                                |
+| ------------------- | -------- | ----------- | ------------------------------------ |
+| **orgId**           | `string` |             | [Optional] [Defaults to `undefined`] |
+| **query**           | `string` |             | [Optional] [Defaults to `undefined`] |
+| **affinityVersion** | `string` |             | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 
@@ -167,22 +176,16 @@ example().catch(console.error);
 ### HTTP request headers
 
 - **Content-Type**: Not defined
-- **Accept**: `application/json`, `application/problem+json`
+- **Accept**: `application/json`
 
 ### HTTP response details
 
-| Status code | Description           | Response headers                                                                                                              |
-| ----------- | --------------------- | ----------------------------------------------------------------------------------------------------------------------------- |
-| **200**     | Successful response   | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
-| **400**     | Bad request           | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
-| **401**     | Unauthorized          | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
-| **403**     | Forbidden             | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
-| **413**     | Payload too large     | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
-| **422**     | Unprocessable entity  | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
-| **429**     | Too many requests     | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
-| **500**     | Internal server error | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
-| **502**     | Bad gateway           | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
-| **503**     | Service unavailable   | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
+| Status code | Description | Response headers |
+| ----------- | ----------- | ---------------- |
+| **200**     | HTTP 200    | -                |
+| **401**     | HTTP 401    | -                |
+| **403**     | HTTP 403    | -                |
+| **429**     | HTTP 429    | -                |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
@@ -197,11 +200,8 @@ Lists reviewed shipping services eligible for a catalog item, destination, and A
 ### Example
 
 ```ts
-import {
-  Configuration,
-  CatalogApi,
-} from '@affinity-health/sdk';
-import type { ListShippingOptionsRequest } from '@affinity-health/sdk';
+import { Configuration, CatalogApi } from "@affinity-health/sdk";
+import type { ListShippingOptionsRequest } from "@affinity-health/sdk";
 
 async function example() {
   console.log("🚀 Testing @affinity-health/sdk SDK...");
@@ -220,8 +220,8 @@ async function example() {
     destinationState: destinationState_example,
     // 'patient' | 'practice' (optional)
     destinationType: destinationType_example,
-    // string | Optional per-request override for the service account\'s pinned API version. (optional)
-    affinityVersion: 2026-07-29,
+    // string (optional)
+    affinityVersion: affinityVersion_example,
   } satisfies ListShippingOptionsRequest;
 
   try {
@@ -238,12 +238,12 @@ example().catch(console.error);
 
 ### Parameters
 
-| Name                 | Type                  | Description                                                                      | Notes                                                                  |
-| -------------------- | --------------------- | -------------------------------------------------------------------------------- | ---------------------------------------------------------------------- |
-| **catalogItemId**    | `string`              |                                                                                  | [Defaults to `undefined`]                                              |
-| **destinationState** | `string`              |                                                                                  | [Defaults to `undefined`]                                              |
-| **destinationType**  | `patient`, `practice` |                                                                                  | [Optional] [Defaults to `&#39;patient&#39;`] [Enum: patient, practice] |
-| **affinityVersion**  | `string`              | Optional per-request override for the service account\&#39;s pinned API version. | [Optional] [Defaults to `undefined`]                                   |
+| Name                 | Type                  | Description | Notes                                                          |
+| -------------------- | --------------------- | ----------- | -------------------------------------------------------------- |
+| **catalogItemId**    | `string`              |             | [Defaults to `undefined`]                                      |
+| **destinationState** | `string`              |             | [Defaults to `undefined`]                                      |
+| **destinationType**  | `patient`, `practice` |             | [Optional] [Defaults to `undefined`] [Enum: patient, practice] |
+| **affinityVersion**  | `string`              |             | [Optional] [Defaults to `undefined`]                           |
 
 ### Return type
 
@@ -256,22 +256,15 @@ example().catch(console.error);
 ### HTTP request headers
 
 - **Content-Type**: Not defined
-- **Accept**: `application/json`, `application/problem+json`
+- **Accept**: `application/json`
 
 ### HTTP response details
 
-| Status code | Description           | Response headers                                                                                                              |
-| ----------- | --------------------- | ----------------------------------------------------------------------------------------------------------------------------- |
-| **200**     | Successful response   | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
-| **400**     | Bad request           | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
-| **401**     | Unauthorized          | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
-| **403**     | Forbidden             | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
-| **404**     | Not found             | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
-| **413**     | Payload too large     | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
-| **422**     | Unprocessable entity  | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
-| **429**     | Too many requests     | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
-| **500**     | Internal server error | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
-| **502**     | Bad gateway           | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
-| **503**     | Service unavailable   | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
+| Status code | Description | Response headers |
+| ----------- | ----------- | ---------------- |
+| **200**     | HTTP 200    | -                |
+| **401**     | HTTP 401    | -                |
+| **403**     | HTTP 403    | -                |
+| **429**     | HTTP 429    | -                |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)

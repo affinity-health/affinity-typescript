@@ -5,13 +5,9 @@ import type { CreateComponentSessionRequest } from "../models/CreateComponentSes
 import type { MutationOptions } from "./request-options";
 
 export class ComponentSessionsResource {
-  constructor(
-    private readonly api: ComponentSessionsApi,
-    private readonly apiVersion: string,
-  ) {}
+  constructor(private readonly api: ComponentSessionsApi) {}
   create(params: CreateComponentSessionRequest, options: MutationOptions) {
     return this.api.createComponentSession({
-      affinityVersion: this.apiVersion,
       createComponentSessionRequest: params,
       idempotencyKey: options.idempotencyKey,
     });

@@ -4,7 +4,7 @@
 
 | Name           | Type   |
 | -------------- | ------ |
-| `acceptedAt`   | Date   |
+| `acceptedAt`   | string |
 | `id`           | string |
 | `object`       | string |
 | `practiceId`   | string |

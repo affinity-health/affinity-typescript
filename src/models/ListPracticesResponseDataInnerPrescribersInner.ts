@@ -2,7 +2,7 @@
 /* eslint-disable */
 /**
  * Affinity API
- * Affinity API for software platforms connecting practices to the compounder network. A practice is the customer organization, a provider is an individual clinician or prescriber, and a location is a physical practice site. The API covers practice management, catalog discovery, prescription-order submission, fulfillment tracking, and webhooks.
+ * Affinity API for software platforms connecting practices to the compounder network.
  *
  * The version of the OpenAPI document: 2026-07-29
  * Contact: support@joinaffinityai.com
@@ -20,11 +20,11 @@ import { mapValues } from "../runtime";
  */
 export interface ListPracticesResponseDataInnerPrescribersInner {
   /**
-   * The provider's professional credentials, such as MD or DO.
+   * a string that will be trimmed
    * @type {string}
    * @memberof ListPracticesResponseDataInnerPrescribersInner
    */
-  credentials: string | null;
+  credentials?: string | null;
   /**
    *
    * @type {Array<string>}
@@ -32,11 +32,11 @@ export interface ListPracticesResponseDataInnerPrescribersInner {
    */
   licenseStates: Array<string>;
   /**
-   *
+   * a string that will be trimmed
    * @type {string}
    * @memberof ListPracticesResponseDataInnerPrescribersInner
    */
-  name: string;
+  name: string | null;
   /**
    *
    * @type {string}
@@ -51,7 +51,6 @@ export interface ListPracticesResponseDataInnerPrescribersInner {
 export function instanceOfListPracticesResponseDataInnerPrescribersInner(
   value: object,
 ): value is ListPracticesResponseDataInnerPrescribersInner {
-  if (!("credentials" in value) || value["credentials"] === undefined) return false;
   if (!("licenseStates" in value) || value["licenseStates"] === undefined) return false;
   if (!("name" in value) || value["name"] === undefined) return false;
   if (!("npi" in value) || value["npi"] === undefined) return false;
@@ -72,7 +71,7 @@ export function ListPracticesResponseDataInnerPrescribersInnerFromJSONTyped(
     return json;
   }
   return {
-    credentials: json["credentials"],
+    credentials: json["credentials"] == null ? undefined : json["credentials"],
     licenseStates: json["licenseStates"],
     name: json["name"],
     npi: json["npi"],

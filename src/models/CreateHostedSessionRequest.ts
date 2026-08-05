@@ -2,7 +2,7 @@
 /* eslint-disable */
 /**
  * Affinity API
- * Affinity API for software platforms connecting practices to the compounder network. A practice is the customer organization, a provider is an individual clinician or prescriber, and a location is a physical practice site. The API covers practice management, catalog discovery, prescription-order submission, fulfillment tracking, and webhooks.
+ * Affinity API for software platforms connecting practices to the compounder network.
  *
  * The version of the OpenAPI document: 2026-07-29
  * Contact: support@joinaffinityai.com
@@ -13,13 +13,13 @@
  */
 
 import { mapValues } from "../runtime";
-import type { CreateComponentSessionRequestConsent } from "./CreateComponentSessionRequestConsent";
+import type { CreateHostedSessionRequestConsent } from "./CreateHostedSessionRequestConsent";
 import {
-  CreateComponentSessionRequestConsentFromJSON,
-  CreateComponentSessionRequestConsentFromJSONTyped,
-  CreateComponentSessionRequestConsentToJSON,
-  CreateComponentSessionRequestConsentToJSONTyped,
-} from "./CreateComponentSessionRequestConsent";
+  CreateHostedSessionRequestConsentFromJSON,
+  CreateHostedSessionRequestConsentFromJSONTyped,
+  CreateHostedSessionRequestConsentToJSON,
+  CreateHostedSessionRequestConsentToJSONTyped,
+} from "./CreateHostedSessionRequestConsent";
 
 /**
  *
@@ -29,10 +29,10 @@ import {
 export interface CreateHostedSessionRequest {
   /**
    *
-   * @type {CreateComponentSessionRequestConsent}
+   * @type {CreateHostedSessionRequestConsent}
    * @memberof CreateHostedSessionRequest
    */
-  consent: CreateComponentSessionRequestConsent;
+  consent: CreateHostedSessionRequestConsent;
   /**
    *
    * @type {CreateHostedSessionRequestFlowEnum}
@@ -64,7 +64,7 @@ export interface CreateHostedSessionRequest {
    */
   orderId?: string;
   /**
-   * The pmap_ ID returned as id by POST /v1/provider-mappings.
+   *
    * @type {string}
    * @memberof CreateHostedSessionRequest
    */
@@ -119,7 +119,7 @@ export function CreateHostedSessionRequestFromJSONTyped(
     return json;
   }
   return {
-    consent: CreateComponentSessionRequestConsentFromJSON(json["consent"]),
+    consent: CreateHostedSessionRequestConsentFromJSON(json["consent"]),
     flow: json["flow"],
     membershipId: json["membershipId"] == null ? undefined : json["membershipId"],
     patientId: json["patientId"] == null ? undefined : json["patientId"],
@@ -144,7 +144,7 @@ export function CreateHostedSessionRequestToJSONTyped(
   }
 
   return {
-    consent: CreateComponentSessionRequestConsentToJSON(value["consent"]),
+    consent: CreateHostedSessionRequestConsentToJSON(value["consent"]),
     flow: value["flow"],
     membershipId: value["membershipId"],
     patientId: value["patientId"],

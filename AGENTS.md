@@ -4,8 +4,8 @@ This repository contains the official TypeScript SDK for the Affinity public API
 
 ## Source of truth
 
-- `spec/affinity.openapi.json` is exported from `publicApiDocument()` in the private
-  `peptide-clinic-os` repository.
+- `spec/affinity.openapi.json` is copied from the matching committed
+  `openapi/api/<date>.json` artifact in the private Affinity monorepo.
 - Never hand-edit generated API classes, models, runtime files, or resource facade files. Change
   `scripts/generate-facade.ts` or the private API contract and run `bun run generate`.
 - Keep public examples synthetic and test-mode only.

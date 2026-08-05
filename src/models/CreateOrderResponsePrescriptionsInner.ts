@@ -2,7 +2,7 @@
 /* eslint-disable */
 /**
  * Affinity API
- * Affinity API for software platforms connecting practices to the compounder network. A practice is the customer organization, a provider is an individual clinician or prescriber, and a location is a physical practice site. The API covers practice management, catalog discovery, prescription-order submission, fulfillment tracking, and webhooks.
+ * Affinity API for software platforms connecting practices to the compounder network.
  *
  * The version of the OpenAPI document: 2026-07-29
  * Contact: support@joinaffinityai.com
@@ -21,10 +21,10 @@ import { mapValues } from "../runtime";
 export interface CreateOrderResponsePrescriptionsInner {
   /**
    *
-   * @type {Date}
+   * @type {string}
    * @memberof CreateOrderResponsePrescriptionsInner
    */
-  createdAt: Date;
+  createdAt: string;
   /**
    *
    * @type {string}
@@ -60,7 +60,7 @@ export interface CreateOrderResponsePrescriptionsInner {
    * @type {number}
    * @memberof CreateOrderResponsePrescriptionsInner
    */
-  quantity: number;
+  quantity: number | null;
   /**
    *
    * @type {string}
@@ -72,7 +72,7 @@ export interface CreateOrderResponsePrescriptionsInner {
    * @type {number}
    * @memberof CreateOrderResponsePrescriptionsInner
    */
-  refills: number;
+  refills: number | null;
   /**
    *
    * @type {CreateOrderResponsePrescriptionsInnerStatusEnum}
@@ -132,7 +132,7 @@ export function CreateOrderResponsePrescriptionsInnerFromJSONTyped(
     return json;
   }
   return {
-    createdAt: new Date(json["createdAt"]),
+    createdAt: json["createdAt"],
     directions: json["directions"],
     id: json["id"],
     medicationId: json["medicationId"],
@@ -160,7 +160,7 @@ export function CreateOrderResponsePrescriptionsInnerToJSONTyped(
   }
 
   return {
-    createdAt: value["createdAt"].toISOString(),
+    createdAt: value["createdAt"],
     directions: value["directions"],
     id: value["id"],
     medicationId: value["medicationId"],

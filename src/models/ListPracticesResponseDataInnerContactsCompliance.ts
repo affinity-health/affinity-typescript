@@ -2,7 +2,7 @@
 /* eslint-disable */
 /**
  * Affinity API
- * Affinity API for software platforms connecting practices to the compounder network. A practice is the customer organization, a provider is an individual clinician or prescriber, and a location is a physical practice site. The API covers practice management, catalog discovery, prescription-order submission, fulfillment tracking, and webhooks.
+ * Affinity API for software platforms connecting practices to the compounder network.
  *
  * The version of the OpenAPI document: 2026-07-29
  * Contact: support@joinaffinityai.com
@@ -26,17 +26,17 @@ export interface ListPracticesResponseDataInnerContactsCompliance {
    */
   email: string;
   /**
-   *
+   * a string that will be trimmed
    * @type {string}
    * @memberof ListPracticesResponseDataInnerContactsCompliance
    */
-  name: string;
+  name: string | null;
   /**
-   *
+   * a string that will be trimmed
    * @type {string}
    * @memberof ListPracticesResponseDataInnerContactsCompliance
    */
-  phone: string | null;
+  phone?: string | null;
 }
 
 /**
@@ -47,7 +47,6 @@ export function instanceOfListPracticesResponseDataInnerContactsCompliance(
 ): value is ListPracticesResponseDataInnerContactsCompliance {
   if (!("email" in value) || value["email"] === undefined) return false;
   if (!("name" in value) || value["name"] === undefined) return false;
-  if (!("phone" in value) || value["phone"] === undefined) return false;
   return true;
 }
 
@@ -67,7 +66,7 @@ export function ListPracticesResponseDataInnerContactsComplianceFromJSONTyped(
   return {
     email: json["email"],
     name: json["name"],
-    phone: json["phone"],
+    phone: json["phone"] == null ? undefined : json["phone"],
   };
 }
 

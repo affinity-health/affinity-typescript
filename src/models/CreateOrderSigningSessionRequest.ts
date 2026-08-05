@@ -2,7 +2,7 @@
 /* eslint-disable */
 /**
  * Affinity API
- * Affinity API for software platforms connecting practices to the compounder network. A practice is the customer organization, a provider is an individual clinician or prescriber, and a location is a physical practice site. The API covers practice management, catalog discovery, prescription-order submission, fulfillment tracking, and webhooks.
+ * Affinity API for software platforms connecting practices to the compounder network.
  *
  * The version of the OpenAPI document: 2026-07-29
  * Contact: support@joinaffinityai.com
@@ -13,13 +13,13 @@
  */
 
 import { mapValues } from "../runtime";
-import type { CreateComponentSessionRequestConsent } from "./CreateComponentSessionRequestConsent";
+import type { CreateHostedSessionRequestConsent } from "./CreateHostedSessionRequestConsent";
 import {
-  CreateComponentSessionRequestConsentFromJSON,
-  CreateComponentSessionRequestConsentFromJSONTyped,
-  CreateComponentSessionRequestConsentToJSON,
-  CreateComponentSessionRequestConsentToJSONTyped,
-} from "./CreateComponentSessionRequestConsent";
+  CreateHostedSessionRequestConsentFromJSON,
+  CreateHostedSessionRequestConsentFromJSONTyped,
+  CreateHostedSessionRequestConsentToJSON,
+  CreateHostedSessionRequestConsentToJSONTyped,
+} from "./CreateHostedSessionRequestConsent";
 
 /**
  *
@@ -29,10 +29,10 @@ import {
 export interface CreateOrderSigningSessionRequest {
   /**
    *
-   * @type {CreateComponentSessionRequestConsent}
+   * @type {CreateHostedSessionRequestConsent}
    * @memberof CreateOrderSigningSessionRequest
    */
-  consent: CreateComponentSessionRequestConsent;
+  consent: CreateHostedSessionRequestConsent;
   /**
    *
    * @type {string}
@@ -99,7 +99,7 @@ export function CreateOrderSigningSessionRequestFromJSONTyped(
     return json;
   }
   return {
-    consent: CreateComponentSessionRequestConsentFromJSON(json["consent"]),
+    consent: CreateHostedSessionRequestConsentFromJSON(json["consent"]),
     membershipId: json["membershipId"] == null ? undefined : json["membershipId"],
     orderId: json["orderId"],
     practiceId: json["practiceId"],
@@ -124,7 +124,7 @@ export function CreateOrderSigningSessionRequestToJSONTyped(
   }
 
   return {
-    consent: CreateComponentSessionRequestConsentToJSON(value["consent"]),
+    consent: CreateHostedSessionRequestConsentToJSON(value["consent"]),
     membershipId: value["membershipId"],
     orderId: value["orderId"],
     practiceId: value["practiceId"],

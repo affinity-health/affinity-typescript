@@ -2,7 +2,7 @@
 /* eslint-disable */
 /**
  * Affinity API
- * Affinity API for software platforms connecting practices to the compounder network. A practice is the customer organization, a provider is an individual clinician or prescriber, and a location is a physical practice site. The API covers practice management, catalog discovery, prescription-order submission, fulfillment tracking, and webhooks.
+ * Affinity API for software platforms connecting practices to the compounder network.
  *
  * The version of the OpenAPI document: 2026-07-29
  * Contact: support@joinaffinityai.com
@@ -21,10 +21,10 @@ import { mapValues } from "../runtime";
 export interface UpdateProviderMappingResponse {
   /**
    *
-   * @type {Date}
+   * @type {string}
    * @memberof UpdateProviderMappingResponse
    */
-  createdAt: Date;
+  createdAt: string;
   /**
    * Your platform's stable identifier for this provider.
    * @type {string}
@@ -32,7 +32,7 @@ export interface UpdateProviderMappingResponse {
    */
   externalId: string;
   /**
-   * The Affinity provider mapping ID. Store this pmap_ value and send it as providerMappingId when you create component or hosted sessions.
+   *
    * @type {string}
    * @memberof UpdateProviderMappingResponse
    */
@@ -56,7 +56,7 @@ export interface UpdateProviderMappingResponse {
    */
   object: UpdateProviderMappingResponseObjectEnum;
   /**
-   * The Affinity practice where this provider is authorized to act.
+   *
    * @type {string}
    * @memberof UpdateProviderMappingResponse
    */
@@ -69,22 +69,22 @@ export interface UpdateProviderMappingResponse {
   status: UpdateProviderMappingResponseStatusEnum;
   /**
    *
-   * @type {Date}
+   * @type {string}
    * @memberof UpdateProviderMappingResponse
    */
-  updatedAt: Date;
+  updatedAt: string;
   /**
-   * The Affinity user record for the person your platform authenticated.
+   *
    * @type {string}
    * @memberof UpdateProviderMappingResponse
    */
   userId: string;
   /**
-   * When Affinity verified this mapping, or null until verification is complete.
-   * @type {Date}
+   *
+   * @type {string}
    * @memberof UpdateProviderMappingResponse
    */
-  verifiedAt: Date | null;
+  verifiedAt: string | null;
 }
 
 /**
@@ -139,7 +139,7 @@ export function UpdateProviderMappingResponseFromJSONTyped(
     return json;
   }
   return {
-    createdAt: new Date(json["createdAt"]),
+    createdAt: json["createdAt"],
     externalId: json["externalId"],
     id: json["id"],
     livemode: json["livemode"],
@@ -147,9 +147,9 @@ export function UpdateProviderMappingResponseFromJSONTyped(
     object: json["object"],
     practiceId: json["practiceId"],
     status: json["status"],
-    updatedAt: new Date(json["updatedAt"]),
+    updatedAt: json["updatedAt"],
     userId: json["userId"],
-    verifiedAt: json["verifiedAt"] == null ? null : new Date(json["verifiedAt"]),
+    verifiedAt: json["verifiedAt"],
   };
 }
 
@@ -166,7 +166,7 @@ export function UpdateProviderMappingResponseToJSONTyped(
   }
 
   return {
-    createdAt: value["createdAt"].toISOString(),
+    createdAt: value["createdAt"],
     externalId: value["externalId"],
     id: value["id"],
     livemode: value["livemode"],
@@ -174,9 +174,8 @@ export function UpdateProviderMappingResponseToJSONTyped(
     object: value["object"],
     practiceId: value["practiceId"],
     status: value["status"],
-    updatedAt: value["updatedAt"].toISOString(),
+    updatedAt: value["updatedAt"],
     userId: value["userId"],
-    verifiedAt:
-      value["verifiedAt"] == null ? value["verifiedAt"] : value["verifiedAt"].toISOString(),
+    verifiedAt: value["verifiedAt"],
   };
 }

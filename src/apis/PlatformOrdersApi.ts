@@ -2,7 +2,7 @@
 /* eslint-disable */
 /**
  * Affinity API
- * Affinity API for software platforms connecting practices to the compounder network. A practice is the customer organization, a provider is an individual clinician or prescriber, and a location is a physical practice site. The API covers practice management, catalog discovery, prescription-order submission, fulfillment tracking, and webhooks.
+ * Affinity API for software platforms connecting practices to the compounder network.
  *
  * The version of the OpenAPI document: 2026-07-29
  * Contact: support@joinaffinityai.com
@@ -39,6 +39,11 @@ import {
   GetOrderResponseToJSON,
 } from "../models/GetOrderResponse";
 import {
+  type ListCatalogItemsLimitParameter,
+  ListCatalogItemsLimitParameterFromJSON,
+  ListCatalogItemsLimitParameterToJSON,
+} from "../models/ListCatalogItemsLimitParameter";
+import {
   type ListOrderEventsResponse,
   ListOrderEventsResponseFromJSON,
   ListOrderEventsResponseToJSON,
@@ -52,49 +57,48 @@ import { type Problem, ProblemFromJSON, ProblemToJSON } from "../models/Problem"
 
 export interface CancelOrderOperationRequest {
   orderId: string;
-  affinityActorId: string;
-  affinityActorType: CancelOrderOperationAffinityActorTypeEnum;
+  idempotencyKey: string;
   cancelOrderRequest: CancelOrderRequest;
-  idempotencyKey?: string;
   affinityVersion?: string;
+  affinityActorId?: string;
+  affinityActorType?: string;
 }
 
 export interface CreateOrderOperationRequest {
-  affinityActorId: string;
-  affinityActorType: CreateOrderOperationAffinityActorTypeEnum;
+  idempotencyKey: string;
   createOrderRequest: CreateOrderRequest;
-  idempotencyKey?: string;
   affinityVersion?: string;
+  affinityActorId?: string;
+  affinityActorType?: string;
 }
 
 export interface GetOrderRequest {
   orderId: string;
-  affinityActorId: string;
-  affinityActorType: GetOrderAffinityActorTypeEnum;
   affinityVersion?: string;
+  affinityActorId?: string;
+  affinityActorType?: string;
 }
 
 export interface ListOrderEventsRequest {
   orderId: string;
-  affinityActorId: string;
-  affinityActorType: ListOrderEventsAffinityActorTypeEnum;
-  limit?: number;
-  startingAfter?: string;
   endingBefore?: string;
+  limit?: ListCatalogItemsLimitParameter;
+  startingAfter?: string;
   affinityVersion?: string;
+  affinityActorId?: string;
+  affinityActorType?: string;
 }
 
 export interface ListOrdersRequest {
-  affinityActorId: string;
-  affinityActorType: ListOrdersAffinityActorTypeEnum;
-  patientExternalId?: string;
-  limit?: number;
-  startingAfter?: string;
   endingBefore?: string;
-  externalOrderId?: string;
+  limit?: ListCatalogItemsLimitParameter;
+  patientExternalId?: string | null;
   practiceId?: string;
+  startingAfter?: string;
   status?: ListOrdersStatusEnum;
   affinityVersion?: string;
+  affinityActorId?: string;
+  affinityActorType?: string;
 }
 
 /**
@@ -114,17 +118,10 @@ export class PlatformOrdersApi extends runtime.BaseAPI {
       );
     }
 
-    if (requestParameters["affinityActorId"] == null) {
+    if (requestParameters["idempotencyKey"] == null) {
       throw new runtime.RequiredError(
-        "affinityActorId",
-        'Required parameter "affinityActorId" was null or undefined when calling cancelOrder().',
-      );
-    }
-
-    if (requestParameters["affinityActorType"] == null) {
-      throw new runtime.RequiredError(
-        "affinityActorType",
-        'Required parameter "affinityActorType" was null or undefined when calling cancelOrder().',
+        "idempotencyKey",
+        'Required parameter "idempotencyKey" was null or undefined when calling cancelOrder().',
       );
     }
 
@@ -141,6 +138,10 @@ export class PlatformOrdersApi extends runtime.BaseAPI {
 
     headerParameters["Content-Type"] = "application/json";
 
+    if (requestParameters["affinityVersion"] != null) {
+      headerParameters["Affinity-Version"] = String(requestParameters["affinityVersion"]);
+    }
+
     if (requestParameters["idempotencyKey"] != null) {
       headerParameters["Idempotency-Key"] = String(requestParameters["idempotencyKey"]);
     }
@@ -151,10 +152,6 @@ export class PlatformOrdersApi extends runtime.BaseAPI {
 
     if (requestParameters["affinityActorType"] != null) {
       headerParameters["Affinity-Actor-Type"] = String(requestParameters["affinityActorType"]);
-    }
-
-    if (requestParameters["affinityVersion"] != null) {
-      headerParameters["Affinity-Version"] = String(requestParameters["affinityVersion"]);
     }
 
     if (this.configuration && this.configuration.accessToken) {
@@ -219,17 +216,10 @@ export class PlatformOrdersApi extends runtime.BaseAPI {
   async createOrderRequestOpts(
     requestParameters: CreateOrderOperationRequest,
   ): Promise<runtime.RequestOpts> {
-    if (requestParameters["affinityActorId"] == null) {
+    if (requestParameters["idempotencyKey"] == null) {
       throw new runtime.RequiredError(
-        "affinityActorId",
-        'Required parameter "affinityActorId" was null or undefined when calling createOrder().',
-      );
-    }
-
-    if (requestParameters["affinityActorType"] == null) {
-      throw new runtime.RequiredError(
-        "affinityActorType",
-        'Required parameter "affinityActorType" was null or undefined when calling createOrder().',
+        "idempotencyKey",
+        'Required parameter "idempotencyKey" was null or undefined when calling createOrder().',
       );
     }
 
@@ -246,6 +236,10 @@ export class PlatformOrdersApi extends runtime.BaseAPI {
 
     headerParameters["Content-Type"] = "application/json";
 
+    if (requestParameters["affinityVersion"] != null) {
+      headerParameters["Affinity-Version"] = String(requestParameters["affinityVersion"]);
+    }
+
     if (requestParameters["idempotencyKey"] != null) {
       headerParameters["Idempotency-Key"] = String(requestParameters["idempotencyKey"]);
     }
@@ -256,10 +250,6 @@ export class PlatformOrdersApi extends runtime.BaseAPI {
 
     if (requestParameters["affinityActorType"] != null) {
       headerParameters["Affinity-Actor-Type"] = String(requestParameters["affinityActorType"]);
-    }
-
-    if (requestParameters["affinityVersion"] != null) {
-      headerParameters["Affinity-Version"] = String(requestParameters["affinityVersion"]);
     }
 
     if (this.configuration && this.configuration.accessToken) {
@@ -325,23 +315,13 @@ export class PlatformOrdersApi extends runtime.BaseAPI {
       );
     }
 
-    if (requestParameters["affinityActorId"] == null) {
-      throw new runtime.RequiredError(
-        "affinityActorId",
-        'Required parameter "affinityActorId" was null or undefined when calling getOrder().',
-      );
-    }
-
-    if (requestParameters["affinityActorType"] == null) {
-      throw new runtime.RequiredError(
-        "affinityActorType",
-        'Required parameter "affinityActorType" was null or undefined when calling getOrder().',
-      );
-    }
-
     const queryParameters: any = {};
 
     const headerParameters: runtime.HTTPHeaders = {};
+
+    if (requestParameters["affinityVersion"] != null) {
+      headerParameters["Affinity-Version"] = String(requestParameters["affinityVersion"]);
+    }
 
     if (requestParameters["affinityActorId"] != null) {
       headerParameters["Affinity-Actor-Id"] = String(requestParameters["affinityActorId"]);
@@ -349,10 +329,6 @@ export class PlatformOrdersApi extends runtime.BaseAPI {
 
     if (requestParameters["affinityActorType"] != null) {
       headerParameters["Affinity-Actor-Type"] = String(requestParameters["affinityActorType"]);
-    }
-
-    if (requestParameters["affinityVersion"] != null) {
-      headerParameters["Affinity-Version"] = String(requestParameters["affinityVersion"]);
     }
 
     if (this.configuration && this.configuration.accessToken) {
@@ -421,21 +397,11 @@ export class PlatformOrdersApi extends runtime.BaseAPI {
       );
     }
 
-    if (requestParameters["affinityActorId"] == null) {
-      throw new runtime.RequiredError(
-        "affinityActorId",
-        'Required parameter "affinityActorId" was null or undefined when calling listOrderEvents().',
-      );
-    }
-
-    if (requestParameters["affinityActorType"] == null) {
-      throw new runtime.RequiredError(
-        "affinityActorType",
-        'Required parameter "affinityActorType" was null or undefined when calling listOrderEvents().',
-      );
-    }
-
     const queryParameters: any = {};
+
+    if (requestParameters["endingBefore"] != null) {
+      queryParameters["endingBefore"] = requestParameters["endingBefore"];
+    }
 
     if (requestParameters["limit"] != null) {
       queryParameters["limit"] = requestParameters["limit"];
@@ -445,11 +411,11 @@ export class PlatformOrdersApi extends runtime.BaseAPI {
       queryParameters["startingAfter"] = requestParameters["startingAfter"];
     }
 
-    if (requestParameters["endingBefore"] != null) {
-      queryParameters["endingBefore"] = requestParameters["endingBefore"];
-    }
-
     const headerParameters: runtime.HTTPHeaders = {};
+
+    if (requestParameters["affinityVersion"] != null) {
+      headerParameters["Affinity-Version"] = String(requestParameters["affinityVersion"]);
+    }
 
     if (requestParameters["affinityActorId"] != null) {
       headerParameters["Affinity-Actor-Id"] = String(requestParameters["affinityActorId"]);
@@ -457,10 +423,6 @@ export class PlatformOrdersApi extends runtime.BaseAPI {
 
     if (requestParameters["affinityActorType"] != null) {
       headerParameters["Affinity-Actor-Type"] = String(requestParameters["affinityActorType"]);
-    }
-
-    if (requestParameters["affinityVersion"] != null) {
-      headerParameters["Affinity-Version"] = String(requestParameters["affinityVersion"]);
     }
 
     if (this.configuration && this.configuration.accessToken) {
@@ -520,44 +482,26 @@ export class PlatformOrdersApi extends runtime.BaseAPI {
    * Creates request options for listOrders without sending the request
    */
   async listOrdersRequestOpts(requestParameters: ListOrdersRequest): Promise<runtime.RequestOpts> {
-    if (requestParameters["affinityActorId"] == null) {
-      throw new runtime.RequiredError(
-        "affinityActorId",
-        'Required parameter "affinityActorId" was null or undefined when calling listOrders().',
-      );
-    }
-
-    if (requestParameters["affinityActorType"] == null) {
-      throw new runtime.RequiredError(
-        "affinityActorType",
-        'Required parameter "affinityActorType" was null or undefined when calling listOrders().',
-      );
-    }
-
     const queryParameters: any = {};
 
-    if (requestParameters["patientExternalId"] != null) {
-      queryParameters["patientExternalId"] = requestParameters["patientExternalId"];
+    if (requestParameters["endingBefore"] != null) {
+      queryParameters["endingBefore"] = requestParameters["endingBefore"];
     }
 
     if (requestParameters["limit"] != null) {
       queryParameters["limit"] = requestParameters["limit"];
     }
 
-    if (requestParameters["startingAfter"] != null) {
-      queryParameters["startingAfter"] = requestParameters["startingAfter"];
-    }
-
-    if (requestParameters["endingBefore"] != null) {
-      queryParameters["endingBefore"] = requestParameters["endingBefore"];
-    }
-
-    if (requestParameters["externalOrderId"] != null) {
-      queryParameters["externalOrderId"] = requestParameters["externalOrderId"];
+    if (requestParameters["patientExternalId"] != null) {
+      queryParameters["patientExternalId"] = requestParameters["patientExternalId"];
     }
 
     if (requestParameters["practiceId"] != null) {
       queryParameters["practiceId"] = requestParameters["practiceId"];
+    }
+
+    if (requestParameters["startingAfter"] != null) {
+      queryParameters["startingAfter"] = requestParameters["startingAfter"];
     }
 
     if (requestParameters["status"] != null) {
@@ -566,16 +510,16 @@ export class PlatformOrdersApi extends runtime.BaseAPI {
 
     const headerParameters: runtime.HTTPHeaders = {};
 
+    if (requestParameters["affinityVersion"] != null) {
+      headerParameters["Affinity-Version"] = String(requestParameters["affinityVersion"]);
+    }
+
     if (requestParameters["affinityActorId"] != null) {
       headerParameters["Affinity-Actor-Id"] = String(requestParameters["affinityActorId"]);
     }
 
     if (requestParameters["affinityActorType"] != null) {
       headerParameters["Affinity-Actor-Type"] = String(requestParameters["affinityActorType"]);
-    }
-
-    if (requestParameters["affinityVersion"] != null) {
-      headerParameters["Affinity-Version"] = String(requestParameters["affinityVersion"]);
     }
 
     if (this.configuration && this.configuration.accessToken) {
@@ -620,7 +564,7 @@ export class PlatformOrdersApi extends runtime.BaseAPI {
    * List platform orders
    */
   async listOrders(
-    requestParameters: ListOrdersRequest,
+    requestParameters: ListOrdersRequest = {},
     initOverrides?: RequestInit | runtime.InitOverrideFunction,
   ): Promise<ListOrdersResponse> {
     const response = await this.listOrdersRaw(requestParameters, initOverrides);
@@ -628,51 +572,6 @@ export class PlatformOrdersApi extends runtime.BaseAPI {
   }
 }
 
-/**
- * @export
- */
-export const CancelOrderOperationAffinityActorTypeEnum = {
-  User: "user",
-  System: "system",
-} as const;
-export type CancelOrderOperationAffinityActorTypeEnum =
-  (typeof CancelOrderOperationAffinityActorTypeEnum)[keyof typeof CancelOrderOperationAffinityActorTypeEnum];
-/**
- * @export
- */
-export const CreateOrderOperationAffinityActorTypeEnum = {
-  User: "user",
-  System: "system",
-} as const;
-export type CreateOrderOperationAffinityActorTypeEnum =
-  (typeof CreateOrderOperationAffinityActorTypeEnum)[keyof typeof CreateOrderOperationAffinityActorTypeEnum];
-/**
- * @export
- */
-export const GetOrderAffinityActorTypeEnum = {
-  User: "user",
-  System: "system",
-} as const;
-export type GetOrderAffinityActorTypeEnum =
-  (typeof GetOrderAffinityActorTypeEnum)[keyof typeof GetOrderAffinityActorTypeEnum];
-/**
- * @export
- */
-export const ListOrderEventsAffinityActorTypeEnum = {
-  User: "user",
-  System: "system",
-} as const;
-export type ListOrderEventsAffinityActorTypeEnum =
-  (typeof ListOrderEventsAffinityActorTypeEnum)[keyof typeof ListOrderEventsAffinityActorTypeEnum];
-/**
- * @export
- */
-export const ListOrdersAffinityActorTypeEnum = {
-  User: "user",
-  System: "system",
-} as const;
-export type ListOrdersAffinityActorTypeEnum =
-  (typeof ListOrdersAffinityActorTypeEnum)[keyof typeof ListOrdersAffinityActorTypeEnum];
 /**
  * @export
  */

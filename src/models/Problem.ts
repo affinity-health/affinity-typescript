@@ -2,7 +2,7 @@
 /* eslint-disable */
 /**
  * Affinity API
- * Affinity API for software platforms connecting practices to the compounder network. A practice is the customer organization, a provider is an individual clinician or prescriber, and a location is a physical practice site. The API covers practice management, catalog discovery, prescription-order submission, fulfillment tracking, and webhooks.
+ * Affinity API for software platforms connecting practices to the compounder network.
  *
  * The version of the OpenAPI document: 2026-07-29
  * Contact: support@joinaffinityai.com
@@ -13,14 +13,6 @@
  */
 
 import { mapValues } from "../runtime";
-import type { ProblemError } from "./ProblemError";
-import {
-  ProblemErrorFromJSON,
-  ProblemErrorFromJSONTyped,
-  ProblemErrorToJSON,
-  ProblemErrorToJSONTyped,
-} from "./ProblemError";
-
 /**
  *
  * @export
@@ -35,16 +27,16 @@ export interface Problem {
   code: string;
   /**
    *
+   * @type {{ [key: string]: any; }}
+   * @memberof Problem
+   */
+  data?: { [key: string]: any };
+  /**
+   *
    * @type {string}
    * @memberof Problem
    */
   detail: string;
-  /**
-   *
-   * @type {Array<ProblemError>}
-   * @memberof Problem
-   */
-  errors?: Array<ProblemError>;
   /**
    *
    * @type {string}
@@ -69,6 +61,12 @@ export interface Problem {
    * @memberof Problem
    */
   title: string;
+  /**
+   *
+   * @type {string}
+   * @memberof Problem
+   */
+  traceId?: string;
   /**
    *
    * @type {string}
@@ -101,13 +99,13 @@ export function ProblemFromJSONTyped(json: any, ignoreDiscriminator: boolean): P
   }
   return {
     code: json["code"],
+    data: json["data"] == null ? undefined : json["data"],
     detail: json["detail"],
-    errors:
-      json["errors"] == null ? undefined : (json["errors"] as Array<any>).map(ProblemErrorFromJSON),
     instance: json["instance"],
     requestId: json["requestId"],
     status: json["status"],
     title: json["title"],
+    traceId: json["traceId"] == null ? undefined : json["traceId"],
     type: json["type"],
   };
 }
@@ -126,13 +124,13 @@ export function ProblemToJSONTyped(
 
   return {
     code: value["code"],
+    data: value["data"],
     detail: value["detail"],
-    errors:
-      value["errors"] == null ? undefined : (value["errors"] as Array<any>).map(ProblemErrorToJSON),
     instance: value["instance"],
     requestId: value["requestId"],
     status: value["status"],
     title: value["title"],
+    traceId: value["traceId"],
     type: value["type"],
   };
 }

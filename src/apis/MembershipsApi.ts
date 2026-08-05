@@ -2,7 +2,7 @@
 /* eslint-disable */
 /**
  * Affinity API
- * Affinity API for software platforms connecting practices to the compounder network. A practice is the customer organization, a provider is an individual clinician or prescriber, and a location is a physical practice site. The API covers practice management, catalog discovery, prescription-order submission, fulfillment tracking, and webhooks.
+ * Affinity API for software platforms connecting practices to the compounder network.
  *
  * The version of the OpenAPI document: 2026-07-29
  * Contact: support@joinaffinityai.com
@@ -42,8 +42,8 @@ import {
 
 export interface CreatePracticeMembershipOperationRequest {
   practiceId: string;
+  idempotencyKey: string;
   createPracticeMembershipRequest: CreatePracticeMembershipRequest;
-  idempotencyKey?: string;
   affinityVersion?: string;
 }
 
@@ -53,10 +53,10 @@ export interface ListPracticeMembershipsRequest {
 }
 
 export interface UpdatePracticeMembershipOperationRequest {
-  practiceId: string;
   membershipId: string;
+  practiceId: string;
+  idempotencyKey: string;
   updatePracticeMembershipRequest: UpdatePracticeMembershipRequest;
-  idempotencyKey?: string;
   affinityVersion?: string;
 }
 
@@ -77,6 +77,13 @@ export class MembershipsApi extends runtime.BaseAPI {
       );
     }
 
+    if (requestParameters["idempotencyKey"] == null) {
+      throw new runtime.RequiredError(
+        "idempotencyKey",
+        'Required parameter "idempotencyKey" was null or undefined when calling createPracticeMembership().',
+      );
+    }
+
     if (requestParameters["createPracticeMembershipRequest"] == null) {
       throw new runtime.RequiredError(
         "createPracticeMembershipRequest",
@@ -90,12 +97,12 @@ export class MembershipsApi extends runtime.BaseAPI {
 
     headerParameters["Content-Type"] = "application/json";
 
-    if (requestParameters["idempotencyKey"] != null) {
-      headerParameters["Idempotency-Key"] = String(requestParameters["idempotencyKey"]);
-    }
-
     if (requestParameters["affinityVersion"] != null) {
       headerParameters["Affinity-Version"] = String(requestParameters["affinityVersion"]);
+    }
+
+    if (requestParameters["idempotencyKey"] != null) {
+      headerParameters["Idempotency-Key"] = String(requestParameters["idempotencyKey"]);
     }
 
     if (this.configuration && this.configuration.accessToken) {
@@ -238,6 +245,13 @@ export class MembershipsApi extends runtime.BaseAPI {
   async updatePracticeMembershipRequestOpts(
     requestParameters: UpdatePracticeMembershipOperationRequest,
   ): Promise<runtime.RequestOpts> {
+    if (requestParameters["membershipId"] == null) {
+      throw new runtime.RequiredError(
+        "membershipId",
+        'Required parameter "membershipId" was null or undefined when calling updatePracticeMembership().',
+      );
+    }
+
     if (requestParameters["practiceId"] == null) {
       throw new runtime.RequiredError(
         "practiceId",
@@ -245,10 +259,10 @@ export class MembershipsApi extends runtime.BaseAPI {
       );
     }
 
-    if (requestParameters["membershipId"] == null) {
+    if (requestParameters["idempotencyKey"] == null) {
       throw new runtime.RequiredError(
-        "membershipId",
-        'Required parameter "membershipId" was null or undefined when calling updatePracticeMembership().',
+        "idempotencyKey",
+        'Required parameter "idempotencyKey" was null or undefined when calling updatePracticeMembership().',
       );
     }
 
@@ -265,12 +279,12 @@ export class MembershipsApi extends runtime.BaseAPI {
 
     headerParameters["Content-Type"] = "application/json";
 
-    if (requestParameters["idempotencyKey"] != null) {
-      headerParameters["Idempotency-Key"] = String(requestParameters["idempotencyKey"]);
-    }
-
     if (requestParameters["affinityVersion"] != null) {
       headerParameters["Affinity-Version"] = String(requestParameters["affinityVersion"]);
+    }
+
+    if (requestParameters["idempotencyKey"] != null) {
+      headerParameters["Idempotency-Key"] = String(requestParameters["idempotencyKey"]);
     }
 
     if (this.configuration && this.configuration.accessToken) {
@@ -288,12 +302,12 @@ export class MembershipsApi extends runtime.BaseAPI {
 
     let urlPath = `/v1/practices/{practiceId}/memberships/{membershipId}`;
     urlPath = urlPath.replace(
-      "{practiceId}",
-      encodeURIComponent(String(requestParameters["practiceId"])),
-    );
-    urlPath = urlPath.replace(
       "{membershipId}",
       encodeURIComponent(String(requestParameters["membershipId"])),
+    );
+    urlPath = urlPath.replace(
+      "{practiceId}",
+      encodeURIComponent(String(requestParameters["practiceId"])),
     );
 
     return {

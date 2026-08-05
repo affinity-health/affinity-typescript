@@ -4,7 +4,7 @@
 
 | Name             | Type   |
 | ---------------- | ------ |
-| `createdAt`      | Date   |
+| `createdAt`      | string |
 | `directions`     | string |
 | `id`             | string |
 | `medicationId`   | string |

@@ -5,7 +5,7 @@
 | Name           | Type   |
 | -------------- | ------ |
 | `clientSecret` | string |
-| `expiresAt`    | Date   |
+| `expiresAt`    | string |
 | `id`           | string |
 | `object`       | string |
 

@@ -2,7 +2,7 @@
 /* eslint-disable */
 /**
  * Affinity API
- * Affinity API for software platforms connecting practices to the compounder network. A practice is the customer organization, a provider is an individual clinician or prescriber, and a location is a physical practice site. The API covers practice management, catalog discovery, prescription-order submission, fulfillment tracking, and webhooks.
+ * Affinity API for software platforms connecting practices to the compounder network.
  *
  * The version of the OpenAPI document: 2026-07-29
  * Contact: support@joinaffinityai.com
@@ -13,13 +13,13 @@
  */
 
 import { mapValues } from "../runtime";
-import type { CreatePatientRequestAddress } from "./CreatePatientRequestAddress";
+import type { UpdatePatientRequestAddress } from "./UpdatePatientRequestAddress";
 import {
-  CreatePatientRequestAddressFromJSON,
-  CreatePatientRequestAddressFromJSONTyped,
-  CreatePatientRequestAddressToJSON,
-  CreatePatientRequestAddressToJSONTyped,
-} from "./CreatePatientRequestAddress";
+  UpdatePatientRequestAddressFromJSON,
+  UpdatePatientRequestAddressFromJSONTyped,
+  UpdatePatientRequestAddressToJSON,
+  UpdatePatientRequestAddressToJSONTyped,
+} from "./UpdatePatientRequestAddress";
 import type { UpdatePatientRequestName } from "./UpdatePatientRequestName";
 import {
   UpdatePatientRequestNameFromJSON,
@@ -36,22 +36,22 @@ import {
 export interface UpdatePatientRequest {
   /**
    *
-   * @type {CreatePatientRequestAddress}
+   * @type {UpdatePatientRequestAddress}
    * @memberof UpdatePatientRequest
    */
-  address?: CreatePatientRequestAddress;
+  address?: UpdatePatientRequestAddress;
+  /**
+   * a string that will be trimmed
+   * @type {string}
+   * @memberof UpdatePatientRequest
+   */
+  allergies?: string | null;
   /**
    *
    * @type {string}
    * @memberof UpdatePatientRequest
    */
-  allergies?: string;
-  /**
-   *
-   * @type {Date}
-   * @memberof UpdatePatientRequest
-   */
-  dateOfBirth?: Date;
+  dateOfBirth?: string;
   /**
    *
    * @type {string}
@@ -77,11 +77,11 @@ export interface UpdatePatientRequest {
    */
   name?: UpdatePatientRequestName;
   /**
-   *
+   * a string that will be trimmed
    * @type {string}
    * @memberof UpdatePatientRequest
    */
-  phone?: string;
+  phone?: string | null;
   /**
    *
    * @type {UpdatePatientRequestStatusEnum}
@@ -133,9 +133,9 @@ export function UpdatePatientRequestFromJSONTyped(
   }
   return {
     address:
-      json["address"] == null ? undefined : CreatePatientRequestAddressFromJSON(json["address"]),
+      json["address"] == null ? undefined : UpdatePatientRequestAddressFromJSON(json["address"]),
     allergies: json["allergies"] == null ? undefined : json["allergies"],
-    dateOfBirth: json["dateOfBirth"] == null ? undefined : new Date(json["dateOfBirth"]),
+    dateOfBirth: json["dateOfBirth"] == null ? undefined : json["dateOfBirth"],
     email: json["email"] == null ? undefined : json["email"],
     gender: json["gender"] == null ? undefined : json["gender"],
     metadata: json["metadata"] == null ? undefined : json["metadata"],
@@ -158,12 +158,9 @@ export function UpdatePatientRequestToJSONTyped(
   }
 
   return {
-    address: CreatePatientRequestAddressToJSON(value["address"]),
+    address: UpdatePatientRequestAddressToJSON(value["address"]),
     allergies: value["allergies"],
-    dateOfBirth:
-      value["dateOfBirth"] == null
-        ? value["dateOfBirth"]
-        : value["dateOfBirth"].toISOString().substring(0, 10),
+    dateOfBirth: value["dateOfBirth"],
     email: value["email"],
     gender: value["gender"],
     metadata: value["metadata"],

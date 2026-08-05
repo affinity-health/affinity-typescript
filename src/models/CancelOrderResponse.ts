@@ -2,7 +2,7 @@
 /* eslint-disable */
 /**
  * Affinity API
- * Affinity API for software platforms connecting practices to the compounder network. A practice is the customer organization, a provider is an individual clinician or prescriber, and a location is a physical practice site. The API covers practice management, catalog discovery, prescription-order submission, fulfillment tracking, and webhooks.
+ * Affinity API for software platforms connecting practices to the compounder network.
  *
  * The version of the OpenAPI document: 2026-07-29
  * Contact: support@joinaffinityai.com
@@ -13,20 +13,20 @@
  */
 
 import { mapValues } from "../runtime";
-import type { ListOrdersResponseDataInnerFulfillmentsInner } from "./ListOrdersResponseDataInnerFulfillmentsInner";
+import type { GetOrderResponseFulfillmentsInner } from "./GetOrderResponseFulfillmentsInner";
 import {
-  ListOrdersResponseDataInnerFulfillmentsInnerFromJSON,
-  ListOrdersResponseDataInnerFulfillmentsInnerFromJSONTyped,
-  ListOrdersResponseDataInnerFulfillmentsInnerToJSON,
-  ListOrdersResponseDataInnerFulfillmentsInnerToJSONTyped,
-} from "./ListOrdersResponseDataInnerFulfillmentsInner";
-import type { ListOrdersResponseDataInnerPrescriptionsInner } from "./ListOrdersResponseDataInnerPrescriptionsInner";
+  GetOrderResponseFulfillmentsInnerFromJSON,
+  GetOrderResponseFulfillmentsInnerFromJSONTyped,
+  GetOrderResponseFulfillmentsInnerToJSON,
+  GetOrderResponseFulfillmentsInnerToJSONTyped,
+} from "./GetOrderResponseFulfillmentsInner";
+import type { GetOrderResponsePrescriptionsInner } from "./GetOrderResponsePrescriptionsInner";
 import {
-  ListOrdersResponseDataInnerPrescriptionsInnerFromJSON,
-  ListOrdersResponseDataInnerPrescriptionsInnerFromJSONTyped,
-  ListOrdersResponseDataInnerPrescriptionsInnerToJSON,
-  ListOrdersResponseDataInnerPrescriptionsInnerToJSONTyped,
-} from "./ListOrdersResponseDataInnerPrescriptionsInner";
+  GetOrderResponsePrescriptionsInnerFromJSON,
+  GetOrderResponsePrescriptionsInnerFromJSONTyped,
+  GetOrderResponsePrescriptionsInnerToJSON,
+  GetOrderResponsePrescriptionsInnerToJSONTyped,
+} from "./GetOrderResponsePrescriptionsInner";
 
 /**
  *
@@ -42,10 +42,10 @@ export interface CancelOrderResponse {
   createdAt: string;
   /**
    *
-   * @type {Array<ListOrdersResponseDataInnerFulfillmentsInner>}
+   * @type {Array<GetOrderResponseFulfillmentsInner>}
    * @memberof CancelOrderResponse
    */
-  fulfillments: Array<ListOrdersResponseDataInnerFulfillmentsInner>;
+  fulfillments: Array<GetOrderResponseFulfillmentsInner>;
   /**
    *
    * @type {string}
@@ -108,10 +108,10 @@ export interface CancelOrderResponse {
   prescriberNpi: string | null;
   /**
    *
-   * @type {Array<ListOrdersResponseDataInnerPrescriptionsInner>}
+   * @type {Array<GetOrderResponsePrescriptionsInner>}
    * @memberof CancelOrderResponse
    */
-  prescriptions: Array<ListOrdersResponseDataInnerPrescriptionsInner>;
+  prescriptions: Array<GetOrderResponsePrescriptionsInner>;
   /**
    *
    * @type {CancelOrderResponseStatusEnum}
@@ -189,7 +189,7 @@ export function CancelOrderResponseFromJSONTyped(
   return {
     createdAt: json["createdAt"],
     fulfillments: (json["fulfillments"] as Array<any>).map(
-      ListOrdersResponseDataInnerFulfillmentsInnerFromJSON,
+      GetOrderResponseFulfillmentsInnerFromJSON,
     ),
     id: json["id"],
     livemode: json["livemode"],
@@ -202,7 +202,7 @@ export function CancelOrderResponseFromJSONTyped(
     prescriberName: json["prescriberName"],
     prescriberNpi: json["prescriberNpi"],
     prescriptions: (json["prescriptions"] as Array<any>).map(
-      ListOrdersResponseDataInnerPrescriptionsInnerFromJSON,
+      GetOrderResponsePrescriptionsInnerFromJSON,
     ),
     status: json["status"],
     updatedAt: json["updatedAt"],
@@ -224,7 +224,7 @@ export function CancelOrderResponseToJSONTyped(
   return {
     createdAt: value["createdAt"],
     fulfillments: (value["fulfillments"] as Array<any>).map(
-      ListOrdersResponseDataInnerFulfillmentsInnerToJSON,
+      GetOrderResponseFulfillmentsInnerToJSON,
     ),
     id: value["id"],
     livemode: value["livemode"],
@@ -237,7 +237,7 @@ export function CancelOrderResponseToJSONTyped(
     prescriberName: value["prescriberName"],
     prescriberNpi: value["prescriberNpi"],
     prescriptions: (value["prescriptions"] as Array<any>).map(
-      ListOrdersResponseDataInnerPrescriptionsInnerToJSON,
+      GetOrderResponsePrescriptionsInnerToJSON,
     ),
     status: value["status"],
     updatedAt: value["updatedAt"],

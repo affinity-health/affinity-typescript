@@ -2,7 +2,7 @@
 /* eslint-disable */
 /**
  * Affinity API
- * Affinity API for software platforms connecting practices to the compounder network. A practice is the customer organization, a provider is an individual clinician or prescriber, and a location is a physical practice site. The API covers practice management, catalog discovery, prescription-order submission, fulfillment tracking, and webhooks.
+ * Affinity API for software platforms connecting practices to the compounder network.
  *
  * The version of the OpenAPI document: 2026-07-29
  * Contact: support@joinaffinityai.com
@@ -13,27 +13,27 @@
  */
 
 import { mapValues } from "../runtime";
-import type { CreatePracticeResponsePrescribersInner } from "./CreatePracticeResponsePrescribersInner";
+import type { CreatePracticeRequestPrescribersInner } from "./CreatePracticeRequestPrescribersInner";
 import {
-  CreatePracticeResponsePrescribersInnerFromJSON,
-  CreatePracticeResponsePrescribersInnerFromJSONTyped,
-  CreatePracticeResponsePrescribersInnerToJSON,
-  CreatePracticeResponsePrescribersInnerToJSONTyped,
-} from "./CreatePracticeResponsePrescribersInner";
-import type { ListPracticesResponseDataInnerAddress } from "./ListPracticesResponseDataInnerAddress";
+  CreatePracticeRequestPrescribersInnerFromJSON,
+  CreatePracticeRequestPrescribersInnerFromJSONTyped,
+  CreatePracticeRequestPrescribersInnerToJSON,
+  CreatePracticeRequestPrescribersInnerToJSONTyped,
+} from "./CreatePracticeRequestPrescribersInner";
+import type { CreatePracticeResponseAddress } from "./CreatePracticeResponseAddress";
 import {
-  ListPracticesResponseDataInnerAddressFromJSON,
-  ListPracticesResponseDataInnerAddressFromJSONTyped,
-  ListPracticesResponseDataInnerAddressToJSON,
-  ListPracticesResponseDataInnerAddressToJSONTyped,
-} from "./ListPracticesResponseDataInnerAddress";
-import type { ListPracticesResponseDataInnerContacts } from "./ListPracticesResponseDataInnerContacts";
+  CreatePracticeResponseAddressFromJSON,
+  CreatePracticeResponseAddressFromJSONTyped,
+  CreatePracticeResponseAddressToJSON,
+  CreatePracticeResponseAddressToJSONTyped,
+} from "./CreatePracticeResponseAddress";
+import type { CreatePracticeResponseContacts } from "./CreatePracticeResponseContacts";
 import {
-  ListPracticesResponseDataInnerContactsFromJSON,
-  ListPracticesResponseDataInnerContactsFromJSONTyped,
-  ListPracticesResponseDataInnerContactsToJSON,
-  ListPracticesResponseDataInnerContactsToJSONTyped,
-} from "./ListPracticesResponseDataInnerContacts";
+  CreatePracticeResponseContactsFromJSON,
+  CreatePracticeResponseContactsFromJSONTyped,
+  CreatePracticeResponseContactsToJSON,
+  CreatePracticeResponseContactsToJSONTyped,
+} from "./CreatePracticeResponseContacts";
 
 /**
  *
@@ -43,22 +43,22 @@ import {
 export interface GetPracticeResponse {
   /**
    *
-   * @type {ListPracticesResponseDataInnerAddress}
+   * @type {CreatePracticeResponseAddress}
    * @memberof GetPracticeResponse
    */
-  address: ListPracticesResponseDataInnerAddress | null;
+  address: CreatePracticeResponseAddress | null;
   /**
    *
-   * @type {ListPracticesResponseDataInnerContacts}
+   * @type {CreatePracticeResponseContacts}
    * @memberof GetPracticeResponse
    */
-  contacts: ListPracticesResponseDataInnerContacts;
+  contacts: CreatePracticeResponseContacts;
   /**
    *
-   * @type {Date}
+   * @type {string}
    * @memberof GetPracticeResponse
    */
-  createdAt: Date;
+  createdAt: string;
   /**
    *
    * @type {string}
@@ -103,10 +103,10 @@ export interface GetPracticeResponse {
   object: GetPracticeResponseObjectEnum;
   /**
    *
-   * @type {Array<CreatePracticeResponsePrescribersInner>}
+   * @type {Array<CreatePracticeRequestPrescribersInner>}
    * @memberof GetPracticeResponse
    */
-  prescribers: Array<CreatePracticeResponsePrescribersInner>;
+  prescribers: Array<CreatePracticeRequestPrescribersInner>;
   /**
    *
    * @type {GetPracticeResponseProductionAccessEnum}
@@ -187,9 +187,9 @@ export function GetPracticeResponseFromJSONTyped(
     return json;
   }
   return {
-    address: ListPracticesResponseDataInnerAddressFromJSON(json["address"]),
-    contacts: ListPracticesResponseDataInnerContactsFromJSON(json["contacts"]),
-    createdAt: new Date(json["createdAt"]),
+    address: CreatePracticeResponseAddressFromJSON(json["address"]),
+    contacts: CreatePracticeResponseContactsFromJSON(json["contacts"]),
+    createdAt: json["createdAt"],
     externalId: json["externalId"],
     id: json["id"],
     legalName: json["legalName"],
@@ -198,7 +198,7 @@ export function GetPracticeResponseFromJSONTyped(
     name: json["name"],
     object: json["object"],
     prescribers: (json["prescribers"] as Array<any>).map(
-      CreatePracticeResponsePrescribersInnerFromJSON,
+      CreatePracticeRequestPrescribersInnerFromJSON,
     ),
     productionAccess: json["productionAccess"],
     supportEmail: json["supportEmail"],
@@ -220,9 +220,9 @@ export function GetPracticeResponseToJSONTyped(
   }
 
   return {
-    address: ListPracticesResponseDataInnerAddressToJSON(value["address"]),
-    contacts: ListPracticesResponseDataInnerContactsToJSON(value["contacts"]),
-    createdAt: value["createdAt"].toISOString(),
+    address: CreatePracticeResponseAddressToJSON(value["address"]),
+    contacts: CreatePracticeResponseContactsToJSON(value["contacts"]),
+    createdAt: value["createdAt"],
     externalId: value["externalId"],
     id: value["id"],
     legalName: value["legalName"],
@@ -231,7 +231,7 @@ export function GetPracticeResponseToJSONTyped(
     name: value["name"],
     object: value["object"],
     prescribers: (value["prescribers"] as Array<any>).map(
-      CreatePracticeResponsePrescribersInnerToJSON,
+      CreatePracticeRequestPrescribersInnerToJSON,
     ),
     productionAccess: value["productionAccess"],
     supportEmail: value["supportEmail"],

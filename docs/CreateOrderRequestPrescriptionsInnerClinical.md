@@ -3,9 +3,9 @@
 ## Properties
 
 | Name                 | Type                                                                                                                                           |
-| -------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
+| -------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------- | -------- |
 | `compoundingReason`  | [CreateOrderRequestPrescriptionsInnerClinicalCompoundingReason](CreateOrderRequestPrescriptionsInnerClinicalCompoundingReason.md)              |
-| `currentMedications` | Array&lt;string&gt;                                                                                                                            |
+| `currentMedications` | Array&lt;string                                                                                                                                | null&gt; |
 | `diagnoses`          | [Array&lt;CreateOrderRequestPrescriptionsInnerClinicalDiagnosesInner&gt;](CreateOrderRequestPrescriptionsInnerClinicalDiagnosesInner.md)       |
 | `observations`       | [Array&lt;CreateOrderRequestPrescriptionsInnerClinicalObservationsInner&gt;](CreateOrderRequestPrescriptionsInnerClinicalObservationsInner.md) |
 

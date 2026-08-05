@@ -2,7 +2,7 @@
 /* eslint-disable */
 /**
  * Affinity API
- * Affinity API for software platforms connecting practices to the compounder network. A practice is the customer organization, a provider is an individual clinician or prescriber, and a location is a physical practice site. The API covers practice management, catalog discovery, prescription-order submission, fulfillment tracking, and webhooks.
+ * Affinity API for software platforms connecting practices to the compounder network.
  *
  * The version of the OpenAPI document: 2026-07-29
  * Contact: support@joinaffinityai.com
@@ -20,41 +20,41 @@ import { mapValues } from "../runtime";
  */
 export interface CreateOrderRequestPrescriptionsInnerStructuredSig {
   /**
-   *
+   * a string that will be trimmed
    * @type {string}
    * @memberof CreateOrderRequestPrescriptionsInnerStructuredSig
    */
-  dose: string;
+  dose: string | null;
   /**
-   *
+   * a string that will be trimmed
    * @type {string}
    * @memberof CreateOrderRequestPrescriptionsInnerStructuredSig
    */
-  doseUnit: string;
+  doseUnit: string | null;
   /**
-   *
+   * a string that will be trimmed
    * @type {string}
    * @memberof CreateOrderRequestPrescriptionsInnerStructuredSig
    */
-  duration?: string;
+  duration?: string | null;
   /**
-   *
+   * a string that will be trimmed
    * @type {string}
    * @memberof CreateOrderRequestPrescriptionsInnerStructuredSig
    */
-  frequency: string;
+  frequency: string | null;
   /**
-   *
+   * a string that will be trimmed
    * @type {string}
    * @memberof CreateOrderRequestPrescriptionsInnerStructuredSig
    */
-  indication?: string;
+  indication?: string | null;
   /**
-   *
+   * a string that will be trimmed
    * @type {string}
    * @memberof CreateOrderRequestPrescriptionsInnerStructuredSig
    */
-  maxDailyUse?: string;
+  maxDailyUse?: string | null;
   /**
    *
    * @type {boolean}
@@ -62,17 +62,17 @@ export interface CreateOrderRequestPrescriptionsInnerStructuredSig {
    */
   prn?: boolean;
   /**
-   *
+   * a string that will be trimmed
    * @type {string}
    * @memberof CreateOrderRequestPrescriptionsInnerStructuredSig
    */
-  route: string;
+  route: string | null;
   /**
-   *
+   * a string that will be trimmed
    * @type {string}
    * @memberof CreateOrderRequestPrescriptionsInnerStructuredSig
    */
-  titrationSchedule?: string;
+  titrationSchedule?: string | null;
 }
 
 /**

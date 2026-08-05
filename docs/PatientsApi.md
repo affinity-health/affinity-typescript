@@ -11,7 +11,7 @@ All URIs are relative to *https://api.joinaffinityai.com*
 
 ## createPatient
 
-> CreatePatientResponse createPatient(practiceId, affinityActorId, affinityActorType, createPatientRequest, idempotencyKey, affinityVersion)
+> CreatePatientResponse createPatient(practiceId, idempotencyKey, createPatientRequest, affinityVersion, affinityActorId, affinityActorType)
 
 Create practice patient
 
@@ -39,16 +39,16 @@ async function example() {
   const body = {
     // string
     practiceId: practiceId_example,
-    // string | Stable opaque ID of the authenticated platform user or system initiating a PHI-capable request. Do not use an email address.
-    affinityActorId: affinityActorId_example,
-    // 'user' | 'system' | Whether the external actor is an authenticated platform user or an automated system process.
-    affinityActorType: affinityActorType_example,
+    // string
+    idempotencyKey: idempotencyKey_example,
     // CreatePatientRequest
     createPatientRequest: ...,
-    // string | Unique operation key required for every mutation. (optional)
-    idempotencyKey: idempotencyKey_example,
-    // string | Optional per-request override for the service account\'s pinned API version. (optional)
-    affinityVersion: 2026-07-29,
+    // string (optional)
+    affinityVersion: affinityVersion_example,
+    // string (optional)
+    affinityActorId: affinityActorId_example,
+    // string (optional)
+    affinityActorType: affinityActorType_example,
   } satisfies CreatePatientOperationRequest;
 
   try {
@@ -65,14 +65,14 @@ example().catch(console.error);
 
 ### Parameters
 
-| Name                     | Type                                            | Description                                                                                                                  | Notes                                          |
-| ------------------------ | ----------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------- |
-| **practiceId**           | `string`                                        |                                                                                                                              | [Defaults to `undefined`]                      |
-| **affinityActorId**      | `string`                                        | Stable opaque ID of the authenticated platform user or system initiating a PHI-capable request. Do not use an email address. | [Defaults to `undefined`]                      |
-| **affinityActorType**    | `user`, `system`                                | Whether the external actor is an authenticated platform user or an automated system process.                                 | [Defaults to `undefined`] [Enum: user, system] |
-| **createPatientRequest** | [CreatePatientRequest](CreatePatientRequest.md) |                                                                                                                              |                                                |
-| **idempotencyKey**       | `string`                                        | Unique operation key required for every mutation.                                                                            | [Optional] [Defaults to `undefined`]           |
-| **affinityVersion**      | `string`                                        | Optional per-request override for the service account\&#39;s pinned API version.                                             | [Optional] [Defaults to `undefined`]           |
+| Name                     | Type                                            | Description | Notes                                |
+| ------------------------ | ----------------------------------------------- | ----------- | ------------------------------------ |
+| **practiceId**           | `string`                                        |             | [Defaults to `undefined`]            |
+| **idempotencyKey**       | `string`                                        |             | [Defaults to `undefined`]            |
+| **createPatientRequest** | [CreatePatientRequest](CreatePatientRequest.md) |             |                                      |
+| **affinityVersion**      | `string`                                        |             | [Optional] [Defaults to `undefined`] |
+| **affinityActorId**      | `string`                                        |             | [Optional] [Defaults to `undefined`] |
+| **affinityActorType**    | `string`                                        |             | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 
@@ -85,30 +85,22 @@ example().catch(console.error);
 ### HTTP request headers
 
 - **Content-Type**: `application/json`
-- **Accept**: `application/json`, `application/problem+json`
+- **Accept**: `application/json`
 
 ### HTTP response details
 
-| Status code | Description           | Response headers                                                                                                              |
-| ----------- | --------------------- | ----------------------------------------------------------------------------------------------------------------------------- |
-| **200**     | Successful response   | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
-| **400**     | Bad request           | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
-| **401**     | Unauthorized          | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
-| **403**     | Forbidden             | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
-| **404**     | Not found             | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
-| **409**     | Conflict              | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
-| **413**     | Payload too large     | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
-| **422**     | Unprocessable entity  | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
-| **429**     | Too many requests     | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
-| **500**     | Internal server error | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
-| **502**     | Bad gateway           | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
-| **503**     | Service unavailable   | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
+| Status code | Description | Response headers |
+| ----------- | ----------- | ---------------- |
+| **200**     | HTTP 200    | -                |
+| **401**     | HTTP 401    | -                |
+| **403**     | HTTP 403    | -                |
+| **429**     | HTTP 429    | -                |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
 ## getPatient
 
-> GetPatientResponse getPatient(practiceId, patientId, affinityActorId, affinityActorType, affinityVersion)
+> GetPatientResponse getPatient(patientId, practiceId, affinityVersion, affinityActorId, affinityActorType)
 
 Read practice patient
 
@@ -117,11 +109,8 @@ Returns one patient owned by the platform-managed practice.
 ### Example
 
 ```ts
-import {
-  Configuration,
-  PatientsApi,
-} from '@affinity-health/sdk';
-import type { GetPatientRequest } from '@affinity-health/sdk';
+import { Configuration, PatientsApi } from "@affinity-health/sdk";
+import type { GetPatientRequest } from "@affinity-health/sdk";
 
 async function example() {
   console.log("🚀 Testing @affinity-health/sdk SDK...");
@@ -135,15 +124,15 @@ async function example() {
 
   const body = {
     // string
-    practiceId: practiceId_example,
-    // string
     patientId: patientId_example,
-    // string | Stable opaque ID of the authenticated platform user or system initiating a PHI-capable request. Do not use an email address.
+    // string
+    practiceId: practiceId_example,
+    // string (optional)
+    affinityVersion: affinityVersion_example,
+    // string (optional)
     affinityActorId: affinityActorId_example,
-    // 'user' | 'system' | Whether the external actor is an authenticated platform user or an automated system process.
+    // string (optional)
     affinityActorType: affinityActorType_example,
-    // string | Optional per-request override for the service account\'s pinned API version. (optional)
-    affinityVersion: 2026-07-29,
   } satisfies GetPatientRequest;
 
   try {
@@ -160,13 +149,13 @@ example().catch(console.error);
 
 ### Parameters
 
-| Name                  | Type             | Description                                                                                                                  | Notes                                          |
-| --------------------- | ---------------- | ---------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------- |
-| **practiceId**        | `string`         |                                                                                                                              | [Defaults to `undefined`]                      |
-| **patientId**         | `string`         |                                                                                                                              | [Defaults to `undefined`]                      |
-| **affinityActorId**   | `string`         | Stable opaque ID of the authenticated platform user or system initiating a PHI-capable request. Do not use an email address. | [Defaults to `undefined`]                      |
-| **affinityActorType** | `user`, `system` | Whether the external actor is an authenticated platform user or an automated system process.                                 | [Defaults to `undefined`] [Enum: user, system] |
-| **affinityVersion**   | `string`         | Optional per-request override for the service account\&#39;s pinned API version.                                             | [Optional] [Defaults to `undefined`]           |
+| Name                  | Type     | Description | Notes                                |
+| --------------------- | -------- | ----------- | ------------------------------------ |
+| **patientId**         | `string` |             | [Defaults to `undefined`]            |
+| **practiceId**        | `string` |             | [Defaults to `undefined`]            |
+| **affinityVersion**   | `string` |             | [Optional] [Defaults to `undefined`] |
+| **affinityActorId**   | `string` |             | [Optional] [Defaults to `undefined`] |
+| **affinityActorType** | `string` |             | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 
@@ -179,29 +168,22 @@ example().catch(console.error);
 ### HTTP request headers
 
 - **Content-Type**: Not defined
-- **Accept**: `application/json`, `application/problem+json`
+- **Accept**: `application/json`
 
 ### HTTP response details
 
-| Status code | Description           | Response headers                                                                                                              |
-| ----------- | --------------------- | ----------------------------------------------------------------------------------------------------------------------------- |
-| **200**     | Successful response   | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
-| **400**     | Bad request           | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
-| **401**     | Unauthorized          | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
-| **403**     | Forbidden             | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
-| **404**     | Not found             | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
-| **413**     | Payload too large     | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
-| **422**     | Unprocessable entity  | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
-| **429**     | Too many requests     | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
-| **500**     | Internal server error | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
-| **502**     | Bad gateway           | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
-| **503**     | Service unavailable   | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
+| Status code | Description | Response headers |
+| ----------- | ----------- | ---------------- |
+| **200**     | HTTP 200    | -                |
+| **401**     | HTTP 401    | -                |
+| **403**     | HTTP 403    | -                |
+| **429**     | HTTP 429    | -                |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
 ## listPatients
 
-> ListPatientsResponse listPatients(practiceId, affinityActorId, affinityActorType, query, limit, affinityVersion)
+> ListPatientsResponse listPatients(practiceId, limit, query, affinityVersion, affinityActorId, affinityActorType)
 
 List practice patients
 
@@ -229,16 +211,16 @@ async function example() {
   const body = {
     // string
     practiceId: practiceId_example,
-    // string | Stable opaque ID of the authenticated platform user or system initiating a PHI-capable request. Do not use an email address.
-    affinityActorId: affinityActorId_example,
-    // 'user' | 'system' | Whether the external actor is an authenticated platform user or an automated system process.
-    affinityActorType: affinityActorType_example,
+    // ListCatalogItemsLimitParameter (optional)
+    limit: ...,
     // string (optional)
     query: query_example,
-    // number (optional)
-    limit: 56,
-    // string | Optional per-request override for the service account\'s pinned API version. (optional)
-    affinityVersion: 2026-07-29,
+    // string (optional)
+    affinityVersion: affinityVersion_example,
+    // string (optional)
+    affinityActorId: affinityActorId_example,
+    // string (optional)
+    affinityActorType: affinityActorType_example,
   } satisfies ListPatientsRequest;
 
   try {
@@ -255,14 +237,14 @@ example().catch(console.error);
 
 ### Parameters
 
-| Name                  | Type             | Description                                                                                                                  | Notes                                          |
-| --------------------- | ---------------- | ---------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------- |
-| **practiceId**        | `string`         |                                                                                                                              | [Defaults to `undefined`]                      |
-| **affinityActorId**   | `string`         | Stable opaque ID of the authenticated platform user or system initiating a PHI-capable request. Do not use an email address. | [Defaults to `undefined`]                      |
-| **affinityActorType** | `user`, `system` | Whether the external actor is an authenticated platform user or an automated system process.                                 | [Defaults to `undefined`] [Enum: user, system] |
-| **query**             | `string`         |                                                                                                                              | [Optional] [Defaults to `undefined`]           |
-| **limit**             | `number`         |                                                                                                                              | [Optional] [Defaults to `25`]                  |
-| **affinityVersion**   | `string`         | Optional per-request override for the service account\&#39;s pinned API version.                                             | [Optional] [Defaults to `undefined`]           |
+| Name                  | Type     | Description | Notes                                |
+| --------------------- | -------- | ----------- | ------------------------------------ |
+| **practiceId**        | `string` |             | [Defaults to `undefined`]            |
+| **limit**             | [](.md)  |             | [Optional] [Defaults to `undefined`] |
+| **query**             | `string` |             | [Optional] [Defaults to `undefined`] |
+| **affinityVersion**   | `string` |             | [Optional] [Defaults to `undefined`] |
+| **affinityActorId**   | `string` |             | [Optional] [Defaults to `undefined`] |
+| **affinityActorType** | `string` |             | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 
@@ -275,29 +257,22 @@ example().catch(console.error);
 ### HTTP request headers
 
 - **Content-Type**: Not defined
-- **Accept**: `application/json`, `application/problem+json`
+- **Accept**: `application/json`
 
 ### HTTP response details
 
-| Status code | Description           | Response headers                                                                                                              |
-| ----------- | --------------------- | ----------------------------------------------------------------------------------------------------------------------------- |
-| **200**     | Successful response   | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
-| **400**     | Bad request           | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
-| **401**     | Unauthorized          | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
-| **403**     | Forbidden             | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
-| **404**     | Not found             | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
-| **413**     | Payload too large     | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
-| **422**     | Unprocessable entity  | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
-| **429**     | Too many requests     | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
-| **500**     | Internal server error | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
-| **502**     | Bad gateway           | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
-| **503**     | Service unavailable   | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
+| Status code | Description | Response headers |
+| ----------- | ----------- | ---------------- |
+| **200**     | HTTP 200    | -                |
+| **401**     | HTTP 401    | -                |
+| **403**     | HTTP 403    | -                |
+| **429**     | HTTP 429    | -                |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
 ## updatePatient
 
-> UpdatePatientResponse updatePatient(practiceId, patientId, affinityActorId, affinityActorType, updatePatientRequest, idempotencyKey, affinityVersion)
+> UpdatePatientResponse updatePatient(patientId, practiceId, idempotencyKey, updatePatientRequest, affinityVersion, affinityActorId, affinityActorType)
 
 Update practice patient
 
@@ -324,19 +299,19 @@ async function example() {
 
   const body = {
     // string
+    patientId: patientId_example,
+    // string
     practiceId: practiceId_example,
     // string
-    patientId: patientId_example,
-    // string | Stable opaque ID of the authenticated platform user or system initiating a PHI-capable request. Do not use an email address.
-    affinityActorId: affinityActorId_example,
-    // 'user' | 'system' | Whether the external actor is an authenticated platform user or an automated system process.
-    affinityActorType: affinityActorType_example,
+    idempotencyKey: idempotencyKey_example,
     // UpdatePatientRequest
     updatePatientRequest: ...,
-    // string | Unique operation key required for every mutation. (optional)
-    idempotencyKey: idempotencyKey_example,
-    // string | Optional per-request override for the service account\'s pinned API version. (optional)
-    affinityVersion: 2026-07-29,
+    // string (optional)
+    affinityVersion: affinityVersion_example,
+    // string (optional)
+    affinityActorId: affinityActorId_example,
+    // string (optional)
+    affinityActorType: affinityActorType_example,
   } satisfies UpdatePatientOperationRequest;
 
   try {
@@ -353,15 +328,15 @@ example().catch(console.error);
 
 ### Parameters
 
-| Name                     | Type                                            | Description                                                                                                                  | Notes                                          |
-| ------------------------ | ----------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------- |
-| **practiceId**           | `string`                                        |                                                                                                                              | [Defaults to `undefined`]                      |
-| **patientId**            | `string`                                        |                                                                                                                              | [Defaults to `undefined`]                      |
-| **affinityActorId**      | `string`                                        | Stable opaque ID of the authenticated platform user or system initiating a PHI-capable request. Do not use an email address. | [Defaults to `undefined`]                      |
-| **affinityActorType**    | `user`, `system`                                | Whether the external actor is an authenticated platform user or an automated system process.                                 | [Defaults to `undefined`] [Enum: user, system] |
-| **updatePatientRequest** | [UpdatePatientRequest](UpdatePatientRequest.md) |                                                                                                                              |                                                |
-| **idempotencyKey**       | `string`                                        | Unique operation key required for every mutation.                                                                            | [Optional] [Defaults to `undefined`]           |
-| **affinityVersion**      | `string`                                        | Optional per-request override for the service account\&#39;s pinned API version.                                             | [Optional] [Defaults to `undefined`]           |
+| Name                     | Type                                            | Description | Notes                                |
+| ------------------------ | ----------------------------------------------- | ----------- | ------------------------------------ |
+| **patientId**            | `string`                                        |             | [Defaults to `undefined`]            |
+| **practiceId**           | `string`                                        |             | [Defaults to `undefined`]            |
+| **idempotencyKey**       | `string`                                        |             | [Defaults to `undefined`]            |
+| **updatePatientRequest** | [UpdatePatientRequest](UpdatePatientRequest.md) |             |                                      |
+| **affinityVersion**      | `string`                                        |             | [Optional] [Defaults to `undefined`] |
+| **affinityActorId**      | `string`                                        |             | [Optional] [Defaults to `undefined`] |
+| **affinityActorType**    | `string`                                        |             | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 
@@ -374,23 +349,15 @@ example().catch(console.error);
 ### HTTP request headers
 
 - **Content-Type**: `application/json`
-- **Accept**: `application/json`, `application/problem+json`
+- **Accept**: `application/json`
 
 ### HTTP response details
 
-| Status code | Description           | Response headers                                                                                                              |
-| ----------- | --------------------- | ----------------------------------------------------------------------------------------------------------------------------- |
-| **200**     | Successful response   | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
-| **400**     | Bad request           | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
-| **401**     | Unauthorized          | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
-| **403**     | Forbidden             | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
-| **404**     | Not found             | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
-| **409**     | Conflict              | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
-| **413**     | Payload too large     | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
-| **422**     | Unprocessable entity  | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
-| **429**     | Too many requests     | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
-| **500**     | Internal server error | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
-| **502**     | Bad gateway           | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
-| **503**     | Service unavailable   | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
+| Status code | Description | Response headers |
+| ----------- | ----------- | ---------------- |
+| **200**     | HTTP 200    | -                |
+| **401**     | HTTP 401    | -                |
+| **403**     | HTTP 403    | -                |
+| **429**     | HTTP 429    | -                |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)

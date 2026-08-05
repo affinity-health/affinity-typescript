@@ -2,7 +2,7 @@
 /* eslint-disable */
 /**
  * Affinity API
- * Affinity API for software platforms connecting practices to the compounder network. A practice is the customer organization, a provider is an individual clinician or prescriber, and a location is a physical practice site. The API covers practice management, catalog discovery, prescription-order submission, fulfillment tracking, and webhooks.
+ * Affinity API for software platforms connecting practices to the compounder network.
  *
  * The version of the OpenAPI document: 2026-07-29
  * Contact: support@joinaffinityai.com
@@ -21,10 +21,10 @@ import { mapValues } from "../runtime";
 export interface ListUsersResponseDataInner {
   /**
    *
-   * @type {Date}
+   * @type {string}
    * @memberof ListUsersResponseDataInner
    */
-  createdAt: Date;
+  createdAt: string;
   /**
    *
    * @type {string}
@@ -75,10 +75,10 @@ export interface ListUsersResponseDataInner {
   status: ListUsersResponseDataInnerStatusEnum;
   /**
    *
-   * @type {Date}
+   * @type {string}
    * @memberof ListUsersResponseDataInner
    */
-  updatedAt: Date;
+  updatedAt: string;
 }
 
 /**
@@ -131,7 +131,7 @@ export function ListUsersResponseDataInnerFromJSONTyped(
     return json;
   }
   return {
-    createdAt: new Date(json["createdAt"]),
+    createdAt: json["createdAt"],
     email: json["email"],
     externalId: json["externalId"],
     id: json["id"],
@@ -140,7 +140,7 @@ export function ListUsersResponseDataInnerFromJSONTyped(
     name: json["name"],
     object: json["object"],
     status: json["status"],
-    updatedAt: new Date(json["updatedAt"]),
+    updatedAt: json["updatedAt"],
   };
 }
 
@@ -157,7 +157,7 @@ export function ListUsersResponseDataInnerToJSONTyped(
   }
 
   return {
-    createdAt: value["createdAt"].toISOString(),
+    createdAt: value["createdAt"],
     email: value["email"],
     externalId: value["externalId"],
     id: value["id"],
@@ -166,6 +166,6 @@ export function ListUsersResponseDataInnerToJSONTyped(
     name: value["name"],
     object: value["object"],
     status: value["status"],
-    updatedAt: value["updatedAt"].toISOString(),
+    updatedAt: value["updatedAt"],
   };
 }

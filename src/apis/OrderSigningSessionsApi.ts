@@ -2,7 +2,7 @@
 /* eslint-disable */
 /**
  * Affinity API
- * Affinity API for software platforms connecting practices to the compounder network. A practice is the customer organization, a provider is an individual clinician or prescriber, and a location is a physical practice site. The API covers practice management, catalog discovery, prescription-order submission, fulfillment tracking, and webhooks.
+ * Affinity API for software platforms connecting practices to the compounder network.
  *
  * The version of the OpenAPI document: 2026-07-29
  * Contact: support@joinaffinityai.com
@@ -26,8 +26,8 @@ import {
 import { type Problem, ProblemFromJSON, ProblemToJSON } from "../models/Problem";
 
 export interface CreateOrderSigningSessionOperationRequest {
+  idempotencyKey: string;
   createOrderSigningSessionRequest: CreateOrderSigningSessionRequest;
-  idempotencyKey?: string;
   affinityVersion?: string;
 }
 
@@ -41,6 +41,13 @@ export class OrderSigningSessionsApi extends runtime.BaseAPI {
   async createOrderSigningSessionRequestOpts(
     requestParameters: CreateOrderSigningSessionOperationRequest,
   ): Promise<runtime.RequestOpts> {
+    if (requestParameters["idempotencyKey"] == null) {
+      throw new runtime.RequiredError(
+        "idempotencyKey",
+        'Required parameter "idempotencyKey" was null or undefined when calling createOrderSigningSession().',
+      );
+    }
+
     if (requestParameters["createOrderSigningSessionRequest"] == null) {
       throw new runtime.RequiredError(
         "createOrderSigningSessionRequest",
@@ -54,12 +61,12 @@ export class OrderSigningSessionsApi extends runtime.BaseAPI {
 
     headerParameters["Content-Type"] = "application/json";
 
-    if (requestParameters["idempotencyKey"] != null) {
-      headerParameters["Idempotency-Key"] = String(requestParameters["idempotencyKey"]);
-    }
-
     if (requestParameters["affinityVersion"] != null) {
       headerParameters["Affinity-Version"] = String(requestParameters["affinityVersion"]);
+    }
+
+    if (requestParameters["idempotencyKey"] != null) {
+      headerParameters["Idempotency-Key"] = String(requestParameters["idempotencyKey"]);
     }
 
     if (this.configuration && this.configuration.accessToken) {

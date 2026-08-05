@@ -2,7 +2,7 @@
 /* eslint-disable */
 /**
  * Affinity API
- * Affinity API for software platforms connecting practices to the compounder network. A practice is the customer organization, a provider is an individual clinician or prescriber, and a location is a physical practice site. The API covers practice management, catalog discovery, prescription-order submission, fulfillment tracking, and webhooks.
+ * Affinity API for software platforms connecting practices to the compounder network.
  *
  * The version of the OpenAPI document: 2026-07-29
  * Contact: support@joinaffinityai.com
@@ -41,17 +41,17 @@ export interface CreatePatientRequest {
    */
   address: CreatePatientRequestAddress;
   /**
+   * a string that will be trimmed
+   * @type {string}
+   * @memberof CreatePatientRequest
+   */
+  allergies?: string | null;
+  /**
    *
    * @type {string}
    * @memberof CreatePatientRequest
    */
-  allergies?: string;
-  /**
-   *
-   * @type {Date}
-   * @memberof CreatePatientRequest
-   */
-  dateOfBirth: Date;
+  dateOfBirth: string;
   /**
    *
    * @type {string}
@@ -59,11 +59,11 @@ export interface CreatePatientRequest {
    */
   email?: string | null;
   /**
-   *
+   * a string that will be trimmed
    * @type {string}
    * @memberof CreatePatientRequest
    */
-  externalId: string;
+  externalId: string | null;
   /**
    *
    * @type {CreatePatientRequestGenderEnum}
@@ -83,11 +83,11 @@ export interface CreatePatientRequest {
    */
   name: CreatePatientRequestName;
   /**
-   *
+   * a string that will be trimmed
    * @type {string}
    * @memberof CreatePatientRequest
    */
-  phone: string;
+  phone: string | null;
 }
 
 /**
@@ -128,7 +128,7 @@ export function CreatePatientRequestFromJSONTyped(
   return {
     address: CreatePatientRequestAddressFromJSON(json["address"]),
     allergies: json["allergies"] == null ? undefined : json["allergies"],
-    dateOfBirth: new Date(json["dateOfBirth"]),
+    dateOfBirth: json["dateOfBirth"],
     email: json["email"] == null ? undefined : json["email"],
     externalId: json["externalId"],
     gender: json["gender"] == null ? undefined : json["gender"],
@@ -153,7 +153,7 @@ export function CreatePatientRequestToJSONTyped(
   return {
     address: CreatePatientRequestAddressToJSON(value["address"]),
     allergies: value["allergies"],
-    dateOfBirth: value["dateOfBirth"].toISOString().substring(0, 10),
+    dateOfBirth: value["dateOfBirth"],
     email: value["email"],
     externalId: value["externalId"],
     gender: value["gender"],

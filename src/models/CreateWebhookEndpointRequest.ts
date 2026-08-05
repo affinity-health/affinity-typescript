@@ -2,7 +2,7 @@
 /* eslint-disable */
 /**
  * Affinity API
- * Affinity API for software platforms connecting practices to the compounder network. A practice is the customer organization, a provider is an individual clinician or prescriber, and a location is a physical practice site. The API covers practice management, catalog discovery, prescription-order submission, fulfillment tracking, and webhooks.
+ * Affinity API for software platforms connecting practices to the compounder network.
  *
  * The version of the OpenAPI document: 2026-07-29
  * Contact: support@joinaffinityai.com
@@ -20,18 +20,40 @@ import { mapValues } from "../runtime";
  */
 export interface CreateWebhookEndpointRequest {
   /**
-   *
+   * a string that will be trimmed
    * @type {string}
    * @memberof CreateWebhookEndpointRequest
    */
-  description?: string;
+  description?: string | null;
+  /**
+   *
+   * @type {CreateWebhookEndpointRequestPayloadStyleEnum}
+   * @memberof CreateWebhookEndpointRequest
+   */
+  payloadStyle?: CreateWebhookEndpointRequestPayloadStyleEnum;
   /**
    *
    * @type {Array<string>}
    * @memberof CreateWebhookEndpointRequest
    */
   subscribedEvents?: Array<string>;
+  /**
+   *
+   * @type {string}
+   * @memberof CreateWebhookEndpointRequest
+   */
+  url: string;
 }
+
+/**
+ * @export
+ */
+export const CreateWebhookEndpointRequestPayloadStyleEnum = {
+  Thin: "thin",
+  Snapshot: "snapshot",
+} as const;
+export type CreateWebhookEndpointRequestPayloadStyleEnum =
+  (typeof CreateWebhookEndpointRequestPayloadStyleEnum)[keyof typeof CreateWebhookEndpointRequestPayloadStyleEnum];
 
 /**
  * Check if a given object implements the CreateWebhookEndpointRequest interface.
@@ -39,6 +61,7 @@ export interface CreateWebhookEndpointRequest {
 export function instanceOfCreateWebhookEndpointRequest(
   value: object,
 ): value is CreateWebhookEndpointRequest {
+  if (!("url" in value) || value["url"] === undefined) return false;
   return true;
 }
 
@@ -55,7 +78,9 @@ export function CreateWebhookEndpointRequestFromJSONTyped(
   }
   return {
     description: json["description"] == null ? undefined : json["description"],
+    payloadStyle: json["payloadStyle"] == null ? undefined : json["payloadStyle"],
     subscribedEvents: json["subscribedEvents"] == null ? undefined : json["subscribedEvents"],
+    url: json["url"],
   };
 }
 
@@ -73,6 +98,8 @@ export function CreateWebhookEndpointRequestToJSONTyped(
 
   return {
     description: value["description"],
+    payloadStyle: value["payloadStyle"],
     subscribedEvents: value["subscribedEvents"],
+    url: value["url"],
   };
 }

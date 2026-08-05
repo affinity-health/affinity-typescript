@@ -2,7 +2,7 @@
 /* eslint-disable */
 /**
  * Affinity API
- * Affinity API for software platforms connecting practices to the compounder network. A practice is the customer organization, a provider is an individual clinician or prescriber, and a location is a physical practice site. The API covers practice management, catalog discovery, prescription-order submission, fulfillment tracking, and webhooks.
+ * Affinity API for software platforms connecting practices to the compounder network.
  *
  * The version of the OpenAPI document: 2026-07-29
  * Contact: support@joinaffinityai.com
@@ -48,17 +48,17 @@ export interface CreateOrderRequestPrescriptionsInner {
    */
   clinical?: CreateOrderRequestPrescriptionsInnerClinical;
   /**
-   *
+   * a string that will be trimmed
    * @type {string}
    * @memberof CreateOrderRequestPrescriptionsInner
    */
-  compounderId?: string;
+  compounderId?: string | null;
   /**
    *
    * @type {number}
    * @memberof CreateOrderRequestPrescriptionsInner
    */
-  daysSupply: number;
+  daysSupply: number | null;
   /**
    *
    * @type {CreateOrderRequestPrescriptionsInnerDispensing}
@@ -66,11 +66,11 @@ export interface CreateOrderRequestPrescriptionsInner {
    */
   dispensing: CreateOrderRequestPrescriptionsInnerDispensing;
   /**
-   *
+   * a string that will be trimmed
    * @type {string}
    * @memberof CreateOrderRequestPrescriptionsInner
    */
-  directions: string;
+  directions: string | null;
   /**
    *
    * @type {string}
@@ -82,9 +82,9 @@ export interface CreateOrderRequestPrescriptionsInner {
    * @type {number}
    * @memberof CreateOrderRequestPrescriptionsInner
    */
-  quantity: number;
+  quantity: number | null;
   /**
-   * The provider's professional credentials, such as MD or DO.
+   * a string that will be trimmed
    * @type {string}
    * @memberof CreateOrderRequestPrescriptionsInner
    */
@@ -94,7 +94,7 @@ export interface CreateOrderRequestPrescriptionsInner {
    * @type {number}
    * @memberof CreateOrderRequestPrescriptionsInner
    */
-  refills: number;
+  refills: number | null;
   /**
    *
    * @type {CreateOrderRequestPrescriptionsInnerStructuredSig}

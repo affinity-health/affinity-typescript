@@ -2,7 +2,7 @@
 /* eslint-disable */
 /**
  * Affinity API
- * Affinity API for software platforms connecting practices to the compounder network. A practice is the customer organization, a provider is an individual clinician or prescriber, and a location is a physical practice site. The API covers practice management, catalog discovery, prescription-order submission, fulfillment tracking, and webhooks.
+ * Affinity API for software platforms connecting practices to the compounder network.
  *
  * The version of the OpenAPI document: 2026-07-29
  * Contact: support@joinaffinityai.com
@@ -20,18 +20,57 @@ import { mapValues } from "../runtime";
  */
 export interface UpdateWebhookEndpointRequest {
   /**
-   *
+   * a string that will be trimmed
    * @type {string}
    * @memberof UpdateWebhookEndpointRequest
    */
-  description: string;
+  description: string | null;
+  /**
+   *
+   * @type {UpdateWebhookEndpointRequestPayloadStyleEnum}
+   * @memberof UpdateWebhookEndpointRequest
+   */
+  payloadStyle: UpdateWebhookEndpointRequestPayloadStyleEnum;
+  /**
+   *
+   * @type {UpdateWebhookEndpointRequestStatusEnum}
+   * @memberof UpdateWebhookEndpointRequest
+   */
+  status: UpdateWebhookEndpointRequestStatusEnum;
   /**
    *
    * @type {Array<string>}
    * @memberof UpdateWebhookEndpointRequest
    */
   subscribedEvents: Array<string>;
+  /**
+   *
+   * @type {string}
+   * @memberof UpdateWebhookEndpointRequest
+   */
+  url: string;
 }
+
+/**
+ * @export
+ */
+export const UpdateWebhookEndpointRequestPayloadStyleEnum = {
+  Thin: "thin",
+  Snapshot: "snapshot",
+} as const;
+export type UpdateWebhookEndpointRequestPayloadStyleEnum =
+  (typeof UpdateWebhookEndpointRequestPayloadStyleEnum)[keyof typeof UpdateWebhookEndpointRequestPayloadStyleEnum];
+
+/**
+ * @export
+ */
+export const UpdateWebhookEndpointRequestStatusEnum = {
+  Active: "active",
+  Suspended: "suspended",
+  Disabled: "disabled",
+} as const;
+export type UpdateWebhookEndpointRequestStatusEnum =
+  (typeof UpdateWebhookEndpointRequestStatusEnum)[keyof typeof UpdateWebhookEndpointRequestStatusEnum];
 
 /**
  * Check if a given object implements the UpdateWebhookEndpointRequest interface.
@@ -40,7 +79,10 @@ export function instanceOfUpdateWebhookEndpointRequest(
   value: object,
 ): value is UpdateWebhookEndpointRequest {
   if (!("description" in value) || value["description"] === undefined) return false;
+  if (!("payloadStyle" in value) || value["payloadStyle"] === undefined) return false;
+  if (!("status" in value) || value["status"] === undefined) return false;
   if (!("subscribedEvents" in value) || value["subscribedEvents"] === undefined) return false;
+  if (!("url" in value) || value["url"] === undefined) return false;
   return true;
 }
 
@@ -57,7 +99,10 @@ export function UpdateWebhookEndpointRequestFromJSONTyped(
   }
   return {
     description: json["description"],
+    payloadStyle: json["payloadStyle"],
+    status: json["status"],
     subscribedEvents: json["subscribedEvents"],
+    url: json["url"],
   };
 }
 
@@ -75,6 +120,9 @@ export function UpdateWebhookEndpointRequestToJSONTyped(
 
   return {
     description: value["description"],
+    payloadStyle: value["payloadStyle"],
+    status: value["status"],
     subscribedEvents: value["subscribedEvents"],
+    url: value["url"],
   };
 }

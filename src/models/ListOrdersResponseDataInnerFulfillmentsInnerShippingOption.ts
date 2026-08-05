@@ -2,7 +2,7 @@
 /* eslint-disable */
 /**
  * Affinity API
- * Affinity API for software platforms connecting practices to the compounder network. A practice is the customer organization, a provider is an individual clinician or prescriber, and a location is a physical practice site. The API covers practice management, catalog discovery, prescription-order submission, fulfillment tracking, and webhooks.
+ * Affinity API for software platforms connecting practices to the compounder network.
  *
  * The version of the OpenAPI document: 2026-07-29
  * Contact: support@joinaffinityai.com
@@ -24,7 +24,7 @@ export interface ListOrdersResponseDataInnerFulfillmentsInnerShippingOption {
    * @type {number}
    * @memberof ListOrdersResponseDataInnerFulfillmentsInnerShippingOption
    */
-  amountCents: number;
+  amountCents: number | null;
   /**
    *
    * @type {ListOrdersResponseDataInnerFulfillmentsInnerShippingOptionCurrencyEnum}
@@ -42,7 +42,7 @@ export interface ListOrdersResponseDataInnerFulfillmentsInnerShippingOption {
    * @type {number}
    * @memberof ListOrdersResponseDataInnerFulfillmentsInnerShippingOption
    */
-  markupCents: number;
+  markupCents: number | null;
   /**
    *
    * @type {string}
@@ -60,7 +60,7 @@ export interface ListOrdersResponseDataInnerFulfillmentsInnerShippingOption {
    * @type {number}
    * @memberof ListOrdersResponseDataInnerFulfillmentsInnerShippingOption
    */
-  totalCents: number;
+  totalCents: number | null;
 }
 
 /**

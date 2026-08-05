@@ -2,7 +2,7 @@
 /* eslint-disable */
 /**
  * Affinity API
- * Affinity API for software platforms connecting practices to the compounder network. A practice is the customer organization, a provider is an individual clinician or prescriber, and a location is a physical practice site. The API covers practice management, catalog discovery, prescription-order submission, fulfillment tracking, and webhooks.
+ * Affinity API for software platforms connecting practices to the compounder network.
  *
  * The version of the OpenAPI document: 2026-07-29
  * Contact: support@joinaffinityai.com
@@ -34,37 +34,37 @@ export interface CreateProviderMappingRequest {
    */
   attestations: CreateProviderMappingRequestAttestations;
   /**
-   * The provider's professional credentials, such as MD or DO.
+   *
    * @type {string}
    * @memberof CreateProviderMappingRequest
    */
   credentials?: string | null;
   /**
-   * Your platform's stable identifier for this provider.
+   *
    * @type {string}
    * @memberof CreateProviderMappingRequest
    */
   externalId: string;
   /**
-   * The provider's full display name.
+   * a string that will be trimmed
    * @type {string}
    * @memberof CreateProviderMappingRequest
    */
-  name: string;
+  name: string | null;
   /**
-   * The provider's 10-digit individual National Provider Identifier (NPI).
+   *
    * @type {string}
    * @memberof CreateProviderMappingRequest
    */
   npi: string;
   /**
-   * The Affinity practice where this provider is authorized to act.
+   *
    * @type {string}
    * @memberof CreateProviderMappingRequest
    */
   practiceId: string;
   /**
-   * The Affinity user record for the person your platform authenticated.
+   *
    * @type {string}
    * @memberof CreateProviderMappingRequest
    */

@@ -4,7 +4,7 @@
 
 | Name                | Type                                                                                           |
 | ------------------- | ---------------------------------------------------------------------------------------------- |
-| `createdAt`         | Date                                                                                           |
+| `createdAt`         | string                                                                                         |
 | `id`                | string                                                                                         |
 | `livemode`          | boolean                                                                                        |
 | `object`            | string                                                                                         |

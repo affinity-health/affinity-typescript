@@ -2,7 +2,7 @@
 /* eslint-disable */
 /**
  * Affinity API
- * Affinity API for software platforms connecting practices to the compounder network. A practice is the customer organization, a provider is an individual clinician or prescriber, and a location is a physical practice site. The API covers practice management, catalog discovery, prescription-order submission, fulfillment tracking, and webhooks.
+ * Affinity API for software platforms connecting practices to the compounder network.
  *
  * The version of the OpenAPI document: 2026-07-29
  * Contact: support@joinaffinityai.com
@@ -21,10 +21,10 @@ import { mapValues } from "../runtime";
 export interface CreateHostedSessionResponse {
   /**
    *
-   * @type {Date}
+   * @type {string}
    * @memberof CreateHostedSessionResponse
    */
-  expiresAt: Date;
+  expiresAt: string;
   /**
    *
    * @type {string}
@@ -79,7 +79,7 @@ export function CreateHostedSessionResponseFromJSONTyped(
     return json;
   }
   return {
-    expiresAt: new Date(json["expiresAt"]),
+    expiresAt: json["expiresAt"],
     id: json["id"],
     object: json["object"],
     url: json["url"],
@@ -99,7 +99,7 @@ export function CreateHostedSessionResponseToJSONTyped(
   }
 
   return {
-    expiresAt: value["expiresAt"].toISOString(),
+    expiresAt: value["expiresAt"],
     id: value["id"],
     object: value["object"],
     url: value["url"],

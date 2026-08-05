@@ -6,16 +6,12 @@ import type { UpdatePracticeRoleRequest } from "../models/UpdatePracticeRoleRequ
 import type { MutationOptions } from "./request-options";
 
 export class RolesResource {
-  constructor(
-    private readonly api: RolesApi,
-    private readonly apiVersion: string,
-  ) {}
+  constructor(private readonly api: RolesApi) {}
   list(practiceId: string) {
-    return this.api.listPracticeRoles({ affinityVersion: this.apiVersion, practiceId });
+    return this.api.listPracticeRoles({ practiceId });
   }
   create(practiceId: string, params: CreatePracticeRoleRequest, options: MutationOptions) {
     return this.api.createPracticeRole({
-      affinityVersion: this.apiVersion,
       createPracticeRoleRequest: params,
       idempotencyKey: options.idempotencyKey,
       practiceId,
@@ -28,7 +24,6 @@ export class RolesResource {
     options: MutationOptions,
   ) {
     return this.api.updatePracticeRole({
-      affinityVersion: this.apiVersion,
       idempotencyKey: options.idempotencyKey,
       practiceId,
       roleId,
@@ -37,7 +32,6 @@ export class RolesResource {
   }
   delete(practiceId: string, roleId: string, options: MutationOptions) {
     return this.api.deletePracticeRole({
-      affinityVersion: this.apiVersion,
       idempotencyKey: options.idempotencyKey,
       practiceId,
       roleId,

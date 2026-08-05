@@ -6,17 +6,13 @@ import type { UpdateWebhookEndpointRequest } from "../models/UpdateWebhookEndpoi
 import type { MutationOptions } from "./request-options";
 
 export class WebhooksResource {
-  constructor(
-    private readonly api: PlatformWebhooksApi,
-    private readonly apiVersion: string,
-  ) {}
+  constructor(private readonly api: PlatformWebhooksApi) {}
   listEndpoints() {
-    return this.api.listWebhookEndpoints({ affinityVersion: this.apiVersion });
+    return this.api.listWebhookEndpoints();
   }
   createEndpoint(params: CreateWebhookEndpointRequest, options: MutationOptions) {
     return this.api.createWebhookEndpoint({
       createWebhookEndpointRequest: params,
-      affinityVersion: this.apiVersion,
       idempotencyKey: options.idempotencyKey,
     });
   }
@@ -27,14 +23,12 @@ export class WebhooksResource {
   ) {
     return this.api.updateWebhookEndpoint({
       endpointId,
-      affinityVersion: this.apiVersion,
       idempotencyKey: options.idempotencyKey,
       updateWebhookEndpointRequest: params,
     });
   }
   deleteEndpoint(endpointId: string, options: MutationOptions) {
     return this.api.deleteWebhookEndpoint({
-      affinityVersion: this.apiVersion,
       endpointId,
       idempotencyKey: options.idempotencyKey,
     });
@@ -42,19 +36,17 @@ export class WebhooksResource {
   rotateSecret(endpointId: string, options: MutationOptions) {
     return this.api.rotateWebhookEndpointSecret({
       endpointId,
-      affinityVersion: this.apiVersion,
       idempotencyKey: options.idempotencyKey,
     });
   }
-  listEvents(params: Omit<ListWebhookEventsRequest, "affinityVersion"> = {}) {
-    return this.api.listWebhookEvents({ ...params, affinityVersion: this.apiVersion });
+  listEvents(params: ListWebhookEventsRequest = {}) {
+    return this.api.listWebhookEvents(params);
   }
   retrieveEvent(eventId: string) {
-    return this.api.getWebhookEvent({ affinityVersion: this.apiVersion, eventId });
+    return this.api.getWebhookEvent({ eventId });
   }
   replayEvent(eventId: string, options: MutationOptions) {
     return this.api.replayWebhookEvent({
-      affinityVersion: this.apiVersion,
       eventId,
       idempotencyKey: options.idempotencyKey,
     });

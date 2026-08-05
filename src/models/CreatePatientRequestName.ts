@@ -2,7 +2,7 @@
 /* eslint-disable */
 /**
  * Affinity API
- * Affinity API for software platforms connecting practices to the compounder network. A practice is the customer organization, a provider is an individual clinician or prescriber, and a location is a physical practice site. The API covers practice management, catalog discovery, prescription-order submission, fulfillment tracking, and webhooks.
+ * Affinity API for software platforms connecting practices to the compounder network.
  *
  * The version of the OpenAPI document: 2026-07-29
  * Contact: support@joinaffinityai.com
@@ -20,25 +20,25 @@ import { mapValues } from "../runtime";
  */
 export interface CreatePatientRequestName {
   /**
-   *
+   * a string that will be trimmed
    * @type {string}
    * @memberof CreatePatientRequestName
    */
-  first: string;
+  first: string | null;
   /**
-   *
+   * a string that will be trimmed
    * @type {string}
    * @memberof CreatePatientRequestName
    */
-  last: string;
+  last: string | null;
   /**
-   *
+   * a string that will be trimmed
    * @type {string}
    * @memberof CreatePatientRequestName
    */
   middle?: string | null;
   /**
-   *
+   * a string that will be trimmed
    * @type {string}
    * @memberof CreatePatientRequestName
    */

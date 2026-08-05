@@ -6,30 +6,24 @@ import type { UpdateProviderMappingRequest } from "../models/UpdateProviderMappi
 import type { MutationOptions } from "./request-options";
 
 export class ProviderMappingsResource {
-  constructor(
-    private readonly api: ProviderMappingsApi,
-    private readonly apiVersion: string,
-  ) {}
+  constructor(private readonly api: ProviderMappingsApi) {}
   create(params: CreateProviderMappingRequest, options: MutationOptions) {
     return this.api.createProviderMapping({
-      affinityVersion: this.apiVersion,
       createProviderMappingRequest: params,
       idempotencyKey: options.idempotencyKey,
     });
   }
   retrieve(providerMappingId: string) {
     return this.api.getProviderMapping({
-      affinityVersion: this.apiVersion,
       providerMappingId,
     });
   }
-  list(params: Omit<ListProviderMappingsRequest, "affinityVersion"> = {}) {
-    return this.api.listProviderMappings({ ...params, affinityVersion: this.apiVersion });
+  list(params: ListProviderMappingsRequest = {}) {
+    return this.api.listProviderMappings(params);
   }
   revoke(providerMappingId: string, options: MutationOptions) {
     const params: UpdateProviderMappingRequest = { status: "revoked" };
     return this.api.updateProviderMapping({
-      affinityVersion: this.apiVersion,
       idempotencyKey: options.idempotencyKey,
       providerMappingId,
       updateProviderMappingRequest: params,

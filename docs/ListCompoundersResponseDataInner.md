@@ -4,8 +4,10 @@
 
 | Name               | Type                |
 | ------------------ | ------------------- |
+| `access`           | string              |
 | `catalogItemCount` | number              |
 | `facilityType`     | string              |
+| `id`               | string              |
 | `livemode`         | boolean             |
 | `name`             | string              |
 | `object`           | string              |

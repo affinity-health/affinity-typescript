@@ -2,14 +2,11 @@
 
 import type { CatalogApi, ListCompoundersRequest } from "../apis/CatalogApi";
 
-export type CompounderListParams = Omit<ListCompoundersRequest, "affinityVersion">;
+export type CompounderListParams = ListCompoundersRequest;
 
 export class CompoundersResource {
-  constructor(
-    private readonly api: CatalogApi,
-    private readonly apiVersion: string,
-  ) {}
+  constructor(private readonly api: CatalogApi) {}
   list(params: CompounderListParams = {}) {
-    return this.api.listCompounders({ ...params, affinityVersion: this.apiVersion });
+    return this.api.listCompounders(params);
   }
 }

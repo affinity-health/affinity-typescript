@@ -4,9 +4,9 @@
 
 | Name          | Type                                                          |
 | ------------- | ------------------------------------------------------------- |
-| `address`     | [CreatePatientRequestAddress](CreatePatientRequestAddress.md) |
+| `address`     | [UpdatePatientRequestAddress](UpdatePatientRequestAddress.md) |
 | `allergies`   | string                                                        |
-| `dateOfBirth` | Date                                                          |
+| `dateOfBirth` | string                                                        |
 | `email`       | string                                                        |
 | `gender`      | string                                                        |
 | `metadata`    | { [key: string]: any; }                                       |

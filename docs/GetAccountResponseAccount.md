@@ -3,8 +3,8 @@
 ## Properties
 
 | Name                | Type                |
-| ------------------- | ------------------- |
-| `allowedOrigins`    | Array&lt;string&gt; |
+| ------------------- | ------------------- | -------- |
+| `allowedOrigins`    | Array&lt;string     | null&gt; |
 | `allowedReturnUrls` | Array&lt;string&gt; |
 | `displayName`       | string              |
 | `id`                | string              |

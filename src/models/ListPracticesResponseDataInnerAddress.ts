@@ -2,7 +2,7 @@
 /* eslint-disable */
 /**
  * Affinity API
- * Affinity API for software platforms connecting practices to the compounder network. A practice is the customer organization, a provider is an individual clinician or prescriber, and a location is a physical practice site. The API covers practice management, catalog discovery, prescription-order submission, fulfillment tracking, and webhooks.
+ * Affinity API for software platforms connecting practices to the compounder network.
  *
  * The version of the OpenAPI document: 2026-07-29
  * Contact: support@joinaffinityai.com
@@ -20,41 +20,41 @@ import { mapValues } from "../runtime";
  */
 export interface ListPracticesResponseDataInnerAddress {
   /**
-   *
+   * a string that will be trimmed
    * @type {string}
    * @memberof ListPracticesResponseDataInnerAddress
    */
-  city: string;
+  city: string | null;
   /**
-   *
+   * a string that will be trimmed
    * @type {string}
    * @memberof ListPracticesResponseDataInnerAddress
    */
-  country: string;
+  country?: string | null;
   /**
-   *
+   * a string that will be trimmed
    * @type {string}
    * @memberof ListPracticesResponseDataInnerAddress
    */
-  line1: string;
+  line1: string | null;
   /**
-   *
+   * a string that will be trimmed
    * @type {string}
    * @memberof ListPracticesResponseDataInnerAddress
    */
-  line2: string | null;
+  line2?: string | null;
   /**
-   *
+   * a string that will be trimmed
    * @type {string}
    * @memberof ListPracticesResponseDataInnerAddress
    */
-  postalCode: string;
+  postalCode: string | null;
   /**
-   *
+   * a string that will be trimmed
    * @type {string}
    * @memberof ListPracticesResponseDataInnerAddress
    */
-  state: string;
+  state: string | null;
 }
 
 /**
@@ -64,9 +64,7 @@ export function instanceOfListPracticesResponseDataInnerAddress(
   value: object,
 ): value is ListPracticesResponseDataInnerAddress {
   if (!("city" in value) || value["city"] === undefined) return false;
-  if (!("country" in value) || value["country"] === undefined) return false;
   if (!("line1" in value) || value["line1"] === undefined) return false;
-  if (!("line2" in value) || value["line2"] === undefined) return false;
   if (!("postalCode" in value) || value["postalCode"] === undefined) return false;
   if (!("state" in value) || value["state"] === undefined) return false;
   return true;
@@ -87,9 +85,9 @@ export function ListPracticesResponseDataInnerAddressFromJSONTyped(
   }
   return {
     city: json["city"],
-    country: json["country"],
+    country: json["country"] == null ? undefined : json["country"],
     line1: json["line1"],
-    line2: json["line2"],
+    line2: json["line2"] == null ? undefined : json["line2"],
     postalCode: json["postalCode"],
     state: json["state"],
   };

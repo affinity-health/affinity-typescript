@@ -17,11 +17,8 @@ Returns the subject, mode, and scopes for the API key.
 ### Example
 
 ```ts
-import {
-  Configuration,
-  APIKeysApi,
-} from '@affinity-health/sdk';
-import type { GetApiAccessRequest } from '@affinity-health/sdk';
+import { Configuration, APIKeysApi } from "@affinity-health/sdk";
+import type { GetApiAccessRequest } from "@affinity-health/sdk";
 
 async function example() {
   console.log("🚀 Testing @affinity-health/sdk SDK...");
@@ -34,8 +31,8 @@ async function example() {
   const api = new APIKeysApi(config);
 
   const body = {
-    // string | Optional per-request override for the service account\'s pinned API version. (optional)
-    affinityVersion: 2026-07-29,
+    // string (optional)
+    affinityVersion: affinityVersion_example,
   } satisfies GetApiAccessRequest;
 
   try {
@@ -52,9 +49,9 @@ example().catch(console.error);
 
 ### Parameters
 
-| Name                | Type     | Description                                                                      | Notes                                |
-| ------------------- | -------- | -------------------------------------------------------------------------------- | ------------------------------------ |
-| **affinityVersion** | `string` | Optional per-request override for the service account\&#39;s pinned API version. | [Optional] [Defaults to `undefined`] |
+| Name                | Type     | Description | Notes                                |
+| ------------------- | -------- | ----------- | ------------------------------------ |
+| **affinityVersion** | `string` |             | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 
@@ -67,21 +64,15 @@ example().catch(console.error);
 ### HTTP request headers
 
 - **Content-Type**: Not defined
-- **Accept**: `application/json`, `application/problem+json`
+- **Accept**: `application/json`
 
 ### HTTP response details
 
-| Status code | Description           | Response headers                                                                                                              |
-| ----------- | --------------------- | ----------------------------------------------------------------------------------------------------------------------------- |
-| **200**     | Successful response   | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
-| **400**     | Bad request           | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
-| **401**     | Unauthorized          | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
-| **403**     | Forbidden             | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
-| **413**     | Payload too large     | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
-| **422**     | Unprocessable entity  | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
-| **429**     | Too many requests     | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
-| **500**     | Internal server error | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
-| **502**     | Bad gateway           | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
-| **503**     | Service unavailable   | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
+| Status code | Description | Response headers |
+| ----------- | ----------- | ---------------- |
+| **200**     | HTTP 200    | -                |
+| **401**     | HTTP 401    | -                |
+| **403**     | HTTP 403    | -                |
+| **429**     | HTTP 429    | -                |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)

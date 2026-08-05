@@ -2,7 +2,7 @@
 /* eslint-disable */
 /**
  * Affinity API
- * Affinity API for software platforms connecting practices to the compounder network. A practice is the customer organization, a provider is an individual clinician or prescriber, and a location is a physical practice site. The API covers practice management, catalog discovery, prescription-order submission, fulfillment tracking, and webhooks.
+ * Affinity API for software platforms connecting practices to the compounder network.
  *
  * The version of the OpenAPI document: 2026-07-29
  * Contact: support@joinaffinityai.com
@@ -47,15 +47,15 @@ import {
 
 export interface CreatePracticeRoleOperationRequest {
   practiceId: string;
+  idempotencyKey: string;
   createPracticeRoleRequest: CreatePracticeRoleRequest;
-  idempotencyKey?: string;
   affinityVersion?: string;
 }
 
 export interface DeletePracticeRoleRequest {
   practiceId: string;
   roleId: string;
-  idempotencyKey?: string;
+  idempotencyKey: string;
   affinityVersion?: string;
 }
 
@@ -67,8 +67,8 @@ export interface ListPracticeRolesRequest {
 export interface UpdatePracticeRoleOperationRequest {
   practiceId: string;
   roleId: string;
+  idempotencyKey: string;
   updatePracticeRoleRequest: UpdatePracticeRoleRequest;
-  idempotencyKey?: string;
   affinityVersion?: string;
 }
 
@@ -89,6 +89,13 @@ export class RolesApi extends runtime.BaseAPI {
       );
     }
 
+    if (requestParameters["idempotencyKey"] == null) {
+      throw new runtime.RequiredError(
+        "idempotencyKey",
+        'Required parameter "idempotencyKey" was null or undefined when calling createPracticeRole().',
+      );
+    }
+
     if (requestParameters["createPracticeRoleRequest"] == null) {
       throw new runtime.RequiredError(
         "createPracticeRoleRequest",
@@ -102,12 +109,12 @@ export class RolesApi extends runtime.BaseAPI {
 
     headerParameters["Content-Type"] = "application/json";
 
-    if (requestParameters["idempotencyKey"] != null) {
-      headerParameters["Idempotency-Key"] = String(requestParameters["idempotencyKey"]);
-    }
-
     if (requestParameters["affinityVersion"] != null) {
       headerParameters["Affinity-Version"] = String(requestParameters["affinityVersion"]);
+    }
+
+    if (requestParameters["idempotencyKey"] != null) {
+      headerParameters["Idempotency-Key"] = String(requestParameters["idempotencyKey"]);
     }
 
     if (this.configuration && this.configuration.accessToken) {
@@ -186,16 +193,23 @@ export class RolesApi extends runtime.BaseAPI {
       );
     }
 
+    if (requestParameters["idempotencyKey"] == null) {
+      throw new runtime.RequiredError(
+        "idempotencyKey",
+        'Required parameter "idempotencyKey" was null or undefined when calling deletePracticeRole().',
+      );
+    }
+
     const queryParameters: any = {};
 
     const headerParameters: runtime.HTTPHeaders = {};
 
-    if (requestParameters["idempotencyKey"] != null) {
-      headerParameters["Idempotency-Key"] = String(requestParameters["idempotencyKey"]);
-    }
-
     if (requestParameters["affinityVersion"] != null) {
       headerParameters["Affinity-Version"] = String(requestParameters["affinityVersion"]);
+    }
+
+    if (requestParameters["idempotencyKey"] != null) {
+      headerParameters["Idempotency-Key"] = String(requestParameters["idempotencyKey"]);
     }
 
     if (this.configuration && this.configuration.accessToken) {
@@ -350,6 +364,13 @@ export class RolesApi extends runtime.BaseAPI {
       );
     }
 
+    if (requestParameters["idempotencyKey"] == null) {
+      throw new runtime.RequiredError(
+        "idempotencyKey",
+        'Required parameter "idempotencyKey" was null or undefined when calling updatePracticeRole().',
+      );
+    }
+
     if (requestParameters["updatePracticeRoleRequest"] == null) {
       throw new runtime.RequiredError(
         "updatePracticeRoleRequest",
@@ -363,12 +384,12 @@ export class RolesApi extends runtime.BaseAPI {
 
     headerParameters["Content-Type"] = "application/json";
 
-    if (requestParameters["idempotencyKey"] != null) {
-      headerParameters["Idempotency-Key"] = String(requestParameters["idempotencyKey"]);
-    }
-
     if (requestParameters["affinityVersion"] != null) {
       headerParameters["Affinity-Version"] = String(requestParameters["affinityVersion"]);
+    }
+
+    if (requestParameters["idempotencyKey"] != null) {
+      headerParameters["Idempotency-Key"] = String(requestParameters["idempotencyKey"]);
     }
 
     if (this.configuration && this.configuration.accessToken) {

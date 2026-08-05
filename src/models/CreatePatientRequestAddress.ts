@@ -2,7 +2,7 @@
 /* eslint-disable */
 /**
  * Affinity API
- * Affinity API for software platforms connecting practices to the compounder network. A practice is the customer organization, a provider is an individual clinician or prescriber, and a location is a physical practice site. The API covers practice management, catalog discovery, prescription-order submission, fulfillment tracking, and webhooks.
+ * Affinity API for software platforms connecting practices to the compounder network.
  *
  * The version of the OpenAPI document: 2026-07-29
  * Contact: support@joinaffinityai.com
@@ -20,41 +20,41 @@ import { mapValues } from "../runtime";
  */
 export interface CreatePatientRequestAddress {
   /**
-   *
+   * a string that will be trimmed
    * @type {string}
    * @memberof CreatePatientRequestAddress
    */
-  city: string;
+  city: string | null;
+  /**
+   * a string that will be trimmed
+   * @type {string}
+   * @memberof CreatePatientRequestAddress
+   */
+  line1: string | null;
+  /**
+   * a string that will be trimmed
+   * @type {string}
+   * @memberof CreatePatientRequestAddress
+   */
+  line2?: string | null;
+  /**
+   * a string that will be trimmed
+   * @type {string}
+   * @memberof CreatePatientRequestAddress
+   */
+  postalCode: string | null;
+  /**
+   * a string that will be trimmed
+   * @type {string}
+   * @memberof CreatePatientRequestAddress
+   */
+  state: string | null;
   /**
    *
    * @type {CreatePatientRequestAddressCountryEnum}
    * @memberof CreatePatientRequestAddress
    */
   country?: CreatePatientRequestAddressCountryEnum;
-  /**
-   *
-   * @type {string}
-   * @memberof CreatePatientRequestAddress
-   */
-  line1: string;
-  /**
-   *
-   * @type {string}
-   * @memberof CreatePatientRequestAddress
-   */
-  line2?: string | null;
-  /**
-   *
-   * @type {string}
-   * @memberof CreatePatientRequestAddress
-   */
-  postalCode: string;
-  /**
-   *
-   * @type {string}
-   * @memberof CreatePatientRequestAddress
-   */
-  state: string;
 }
 
 /**
@@ -92,11 +92,11 @@ export function CreatePatientRequestAddressFromJSONTyped(
   }
   return {
     city: json["city"],
-    country: json["country"] == null ? undefined : json["country"],
     line1: json["line1"],
     line2: json["line2"] == null ? undefined : json["line2"],
     postalCode: json["postalCode"],
     state: json["state"],
+    country: json["country"] == null ? undefined : json["country"],
   };
 }
 
@@ -114,10 +114,10 @@ export function CreatePatientRequestAddressToJSONTyped(
 
   return {
     city: value["city"],
-    country: value["country"],
     line1: value["line1"],
     line2: value["line2"],
     postalCode: value["postalCode"],
     state: value["state"],
+    country: value["country"],
   };
 }

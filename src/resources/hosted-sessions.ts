@@ -5,13 +5,9 @@ import type { CreateHostedSessionRequest } from "../models/CreateHostedSessionRe
 import type { MutationOptions } from "./request-options";
 
 export class HostedSessionsResource {
-  constructor(
-    private readonly api: HostedSessionsApi,
-    private readonly apiVersion: string,
-  ) {}
+  constructor(private readonly api: HostedSessionsApi) {}
   create(params: CreateHostedSessionRequest, options: MutationOptions) {
     return this.api.createHostedSession({
-      affinityVersion: this.apiVersion,
       createHostedSessionRequest: params,
       idempotencyKey: options.idempotencyKey,
     });

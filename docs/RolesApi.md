@@ -11,7 +11,7 @@ All URIs are relative to *https://api.joinaffinityai.com*
 
 ## createPracticeRole
 
-> CreatePracticeRoleResponse createPracticeRole(practiceId, createPracticeRoleRequest, idempotencyKey, affinityVersion)
+> CreatePracticeRoleResponse createPracticeRole(practiceId, idempotencyKey, createPracticeRoleRequest, affinityVersion)
 
 Create practice role
 
@@ -39,12 +39,12 @@ async function example() {
   const body = {
     // string
     practiceId: practiceId_example,
+    // string
+    idempotencyKey: idempotencyKey_example,
     // CreatePracticeRoleRequest
     createPracticeRoleRequest: ...,
-    // string | Unique operation key required for every mutation. (optional)
-    idempotencyKey: idempotencyKey_example,
-    // string | Optional per-request override for the service account\'s pinned API version. (optional)
-    affinityVersion: 2026-07-29,
+    // string (optional)
+    affinityVersion: affinityVersion_example,
   } satisfies CreatePracticeRoleOperationRequest;
 
   try {
@@ -61,12 +61,12 @@ example().catch(console.error);
 
 ### Parameters
 
-| Name                          | Type                                                      | Description                                                                      | Notes                                |
-| ----------------------------- | --------------------------------------------------------- | -------------------------------------------------------------------------------- | ------------------------------------ |
-| **practiceId**                | `string`                                                  |                                                                                  | [Defaults to `undefined`]            |
-| **createPracticeRoleRequest** | [CreatePracticeRoleRequest](CreatePracticeRoleRequest.md) |                                                                                  |                                      |
-| **idempotencyKey**            | `string`                                                  | Unique operation key required for every mutation.                                | [Optional] [Defaults to `undefined`] |
-| **affinityVersion**           | `string`                                                  | Optional per-request override for the service account\&#39;s pinned API version. | [Optional] [Defaults to `undefined`] |
+| Name                          | Type                                                      | Description | Notes                                |
+| ----------------------------- | --------------------------------------------------------- | ----------- | ------------------------------------ |
+| **practiceId**                | `string`                                                  |             | [Defaults to `undefined`]            |
+| **idempotencyKey**            | `string`                                                  |             | [Defaults to `undefined`]            |
+| **createPracticeRoleRequest** | [CreatePracticeRoleRequest](CreatePracticeRoleRequest.md) |             |                                      |
+| **affinityVersion**           | `string`                                                  |             | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 
@@ -79,24 +79,16 @@ example().catch(console.error);
 ### HTTP request headers
 
 - **Content-Type**: `application/json`
-- **Accept**: `application/json`, `application/problem+json`
+- **Accept**: `application/json`
 
 ### HTTP response details
 
-| Status code | Description           | Response headers                                                                                                              |
-| ----------- | --------------------- | ----------------------------------------------------------------------------------------------------------------------------- |
-| **200**     | Successful response   | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
-| **400**     | Bad request           | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
-| **401**     | Unauthorized          | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
-| **403**     | Forbidden             | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
-| **404**     | Not found             | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
-| **409**     | Conflict              | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
-| **413**     | Payload too large     | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
-| **422**     | Unprocessable entity  | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
-| **429**     | Too many requests     | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
-| **500**     | Internal server error | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
-| **502**     | Bad gateway           | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
-| **503**     | Service unavailable   | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
+| Status code | Description | Response headers |
+| ----------- | ----------- | ---------------- |
+| **200**     | HTTP 200    | -                |
+| **401**     | HTTP 401    | -                |
+| **403**     | HTTP 403    | -                |
+| **429**     | HTTP 429    | -                |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
@@ -111,11 +103,8 @@ Deletes an unassigned custom role. Protected roles and roles with active assignm
 ### Example
 
 ```ts
-import {
-  Configuration,
-  RolesApi,
-} from '@affinity-health/sdk';
-import type { DeletePracticeRoleRequest } from '@affinity-health/sdk';
+import { Configuration, RolesApi } from "@affinity-health/sdk";
+import type { DeletePracticeRoleRequest } from "@affinity-health/sdk";
 
 async function example() {
   console.log("🚀 Testing @affinity-health/sdk SDK...");
@@ -132,10 +121,10 @@ async function example() {
     practiceId: practiceId_example,
     // string
     roleId: roleId_example,
-    // string | Unique operation key required for every mutation. (optional)
+    // string
     idempotencyKey: idempotencyKey_example,
-    // string | Optional per-request override for the service account\'s pinned API version. (optional)
-    affinityVersion: 2026-07-29,
+    // string (optional)
+    affinityVersion: affinityVersion_example,
   } satisfies DeletePracticeRoleRequest;
 
   try {
@@ -152,12 +141,12 @@ example().catch(console.error);
 
 ### Parameters
 
-| Name                | Type     | Description                                                                      | Notes                                |
-| ------------------- | -------- | -------------------------------------------------------------------------------- | ------------------------------------ |
-| **practiceId**      | `string` |                                                                                  | [Defaults to `undefined`]            |
-| **roleId**          | `string` |                                                                                  | [Defaults to `undefined`]            |
-| **idempotencyKey**  | `string` | Unique operation key required for every mutation.                                | [Optional] [Defaults to `undefined`] |
-| **affinityVersion** | `string` | Optional per-request override for the service account\&#39;s pinned API version. | [Optional] [Defaults to `undefined`] |
+| Name                | Type     | Description | Notes                                |
+| ------------------- | -------- | ----------- | ------------------------------------ |
+| **practiceId**      | `string` |             | [Defaults to `undefined`]            |
+| **roleId**          | `string` |             | [Defaults to `undefined`]            |
+| **idempotencyKey**  | `string` |             | [Defaults to `undefined`]            |
+| **affinityVersion** | `string` |             | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 
@@ -170,24 +159,16 @@ example().catch(console.error);
 ### HTTP request headers
 
 - **Content-Type**: Not defined
-- **Accept**: `application/json`, `application/problem+json`
+- **Accept**: `application/json`
 
 ### HTTP response details
 
-| Status code | Description           | Response headers                                                                                                              |
-| ----------- | --------------------- | ----------------------------------------------------------------------------------------------------------------------------- |
-| **200**     | Successful response   | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
-| **400**     | Bad request           | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
-| **401**     | Unauthorized          | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
-| **403**     | Forbidden             | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
-| **404**     | Not found             | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
-| **409**     | Conflict              | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
-| **413**     | Payload too large     | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
-| **422**     | Unprocessable entity  | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
-| **429**     | Too many requests     | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
-| **500**     | Internal server error | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
-| **502**     | Bad gateway           | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
-| **503**     | Service unavailable   | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
+| Status code | Description | Response headers |
+| ----------- | ----------- | ---------------- |
+| **200**     | HTTP 200    | -                |
+| **401**     | HTTP 401    | -                |
+| **403**     | HTTP 403    | -                |
+| **429**     | HTTP 429    | -                |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
@@ -202,11 +183,8 @@ Lists roles available for a platform-managed practice.
 ### Example
 
 ```ts
-import {
-  Configuration,
-  RolesApi,
-} from '@affinity-health/sdk';
-import type { ListPracticeRolesRequest } from '@affinity-health/sdk';
+import { Configuration, RolesApi } from "@affinity-health/sdk";
+import type { ListPracticeRolesRequest } from "@affinity-health/sdk";
 
 async function example() {
   console.log("🚀 Testing @affinity-health/sdk SDK...");
@@ -221,8 +199,8 @@ async function example() {
   const body = {
     // string
     practiceId: practiceId_example,
-    // string | Optional per-request override for the service account\'s pinned API version. (optional)
-    affinityVersion: 2026-07-29,
+    // string (optional)
+    affinityVersion: affinityVersion_example,
   } satisfies ListPracticeRolesRequest;
 
   try {
@@ -239,10 +217,10 @@ example().catch(console.error);
 
 ### Parameters
 
-| Name                | Type     | Description                                                                      | Notes                                |
-| ------------------- | -------- | -------------------------------------------------------------------------------- | ------------------------------------ |
-| **practiceId**      | `string` |                                                                                  | [Defaults to `undefined`]            |
-| **affinityVersion** | `string` | Optional per-request override for the service account\&#39;s pinned API version. | [Optional] [Defaults to `undefined`] |
+| Name                | Type     | Description | Notes                                |
+| ------------------- | -------- | ----------- | ------------------------------------ |
+| **practiceId**      | `string` |             | [Defaults to `undefined`]            |
+| **affinityVersion** | `string` |             | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 
@@ -255,29 +233,22 @@ example().catch(console.error);
 ### HTTP request headers
 
 - **Content-Type**: Not defined
-- **Accept**: `application/json`, `application/problem+json`
+- **Accept**: `application/json`
 
 ### HTTP response details
 
-| Status code | Description           | Response headers                                                                                                              |
-| ----------- | --------------------- | ----------------------------------------------------------------------------------------------------------------------------- |
-| **200**     | Successful response   | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
-| **400**     | Bad request           | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
-| **401**     | Unauthorized          | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
-| **403**     | Forbidden             | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
-| **404**     | Not found             | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
-| **413**     | Payload too large     | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
-| **422**     | Unprocessable entity  | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
-| **429**     | Too many requests     | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
-| **500**     | Internal server error | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
-| **502**     | Bad gateway           | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
-| **503**     | Service unavailable   | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
+| Status code | Description | Response headers |
+| ----------- | ----------- | ---------------- |
+| **200**     | HTTP 200    | -                |
+| **401**     | HTTP 401    | -                |
+| **403**     | HTTP 403    | -                |
+| **429**     | HTTP 429    | -                |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
 ## updatePracticeRole
 
-> UpdatePracticeRoleResponse updatePracticeRole(practiceId, roleId, updatePracticeRoleRequest, idempotencyKey, affinityVersion)
+> UpdatePracticeRoleResponse updatePracticeRole(practiceId, roleId, idempotencyKey, updatePracticeRoleRequest, affinityVersion)
 
 Update practice role
 
@@ -307,12 +278,12 @@ async function example() {
     practiceId: practiceId_example,
     // string
     roleId: roleId_example,
+    // string
+    idempotencyKey: idempotencyKey_example,
     // UpdatePracticeRoleRequest
     updatePracticeRoleRequest: ...,
-    // string | Unique operation key required for every mutation. (optional)
-    idempotencyKey: idempotencyKey_example,
-    // string | Optional per-request override for the service account\'s pinned API version. (optional)
-    affinityVersion: 2026-07-29,
+    // string (optional)
+    affinityVersion: affinityVersion_example,
   } satisfies UpdatePracticeRoleOperationRequest;
 
   try {
@@ -329,13 +300,13 @@ example().catch(console.error);
 
 ### Parameters
 
-| Name                          | Type                                                      | Description                                                                      | Notes                                |
-| ----------------------------- | --------------------------------------------------------- | -------------------------------------------------------------------------------- | ------------------------------------ |
-| **practiceId**                | `string`                                                  |                                                                                  | [Defaults to `undefined`]            |
-| **roleId**                    | `string`                                                  |                                                                                  | [Defaults to `undefined`]            |
-| **updatePracticeRoleRequest** | [UpdatePracticeRoleRequest](UpdatePracticeRoleRequest.md) |                                                                                  |                                      |
-| **idempotencyKey**            | `string`                                                  | Unique operation key required for every mutation.                                | [Optional] [Defaults to `undefined`] |
-| **affinityVersion**           | `string`                                                  | Optional per-request override for the service account\&#39;s pinned API version. | [Optional] [Defaults to `undefined`] |
+| Name                          | Type                                                      | Description | Notes                                |
+| ----------------------------- | --------------------------------------------------------- | ----------- | ------------------------------------ |
+| **practiceId**                | `string`                                                  |             | [Defaults to `undefined`]            |
+| **roleId**                    | `string`                                                  |             | [Defaults to `undefined`]            |
+| **idempotencyKey**            | `string`                                                  |             | [Defaults to `undefined`]            |
+| **updatePracticeRoleRequest** | [UpdatePracticeRoleRequest](UpdatePracticeRoleRequest.md) |             |                                      |
+| **affinityVersion**           | `string`                                                  |             | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 
@@ -348,23 +319,15 @@ example().catch(console.error);
 ### HTTP request headers
 
 - **Content-Type**: `application/json`
-- **Accept**: `application/json`, `application/problem+json`
+- **Accept**: `application/json`
 
 ### HTTP response details
 
-| Status code | Description           | Response headers                                                                                                              |
-| ----------- | --------------------- | ----------------------------------------------------------------------------------------------------------------------------- |
-| **200**     | Successful response   | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
-| **400**     | Bad request           | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
-| **401**     | Unauthorized          | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
-| **403**     | Forbidden             | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
-| **404**     | Not found             | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
-| **409**     | Conflict              | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
-| **413**     | Payload too large     | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
-| **422**     | Unprocessable entity  | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
-| **429**     | Too many requests     | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
-| **500**     | Internal server error | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
-| **502**     | Bad gateway           | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
-| **503**     | Service unavailable   | _ Affinity-Version - <br> _ RateLimit-Limit - <br> _ RateLimit-Remaining - <br> _ RateLimit-Reset - <br> \* Request-Id - <br> |
+| Status code | Description | Response headers |
+| ----------- | ----------- | ---------------- |
+| **200**     | HTTP 200    | -                |
+| **401**     | HTTP 401    | -                |
+| **403**     | HTTP 403    | -                |
+| **429**     | HTTP 429    | -                |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)

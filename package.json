@@ -36,13 +36,14 @@
   },
   "scripts": {
     "build": "bun run clean && tsgo -p tsconfig.json && bun build src/index.ts --outfile=dist/index.js --target=node --format=esm",
-    "check": "bun run generate:check && bun run build && bun run package:check && bun test && bun run example:check",
+    "check": "bun run generate:check && bun run build && bun run package:check && bun run package:consumer-check && bun test && bun run example:check",
     "clean": "rm -rf dist",
     "example:check": "bun build examples/quickstart.ts --target=node --outfile=/tmp/affinity-typescript-quickstart.js",
     "format": "oxfmt .",
     "generate": "bash scripts/generate.sh",
     "generate:check": "bash scripts/generate-check.sh",
     "package:check": "node scripts/check-package.mjs",
+    "package:consumer-check": "bun scripts/check-packed-package.ts",
     "pack:dry-run": "bun pm pack --dry-run",
     "prepublishOnly": "bun run check"
   },

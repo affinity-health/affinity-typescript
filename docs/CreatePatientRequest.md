@@ -6,7 +6,7 @@
 | ------------- | ------------------------------------------------------------- |
 | `address`     | [CreatePatientRequestAddress](CreatePatientRequestAddress.md) |
 | `allergies`   | string                                                        |
-| `dateOfBirth` | Date                                                          |
+| `dateOfBirth` | string                                                        |
 | `email`       | string                                                        |
 | `externalId`  | string                                                        |
 | `gender`      | string                                                        |

@@ -6,12 +6,9 @@ import type { CreatePracticePaymentSetupRequest } from "../models/CreatePractice
 import type { MutationOptions } from "./request-options";
 
 export class BillingResource {
-  constructor(
-    private readonly api: BillingApi,
-    private readonly apiVersion: string,
-  ) {}
+  constructor(private readonly api: BillingApi) {}
   retrievePaymentProfile(practiceId: string) {
-    return this.api.getPracticePaymentProfile({ affinityVersion: this.apiVersion, practiceId });
+    return this.api.getPracticePaymentProfile({ practiceId });
   }
   createPaymentSetup(
     practiceId: string,
@@ -19,7 +16,6 @@ export class BillingResource {
     options: MutationOptions,
   ) {
     return this.api.createPracticePaymentSetup({
-      affinityVersion: this.apiVersion,
       createPracticePaymentSetupRequest: params,
       idempotencyKey: options.idempotencyKey,
       practiceId,
@@ -31,7 +27,6 @@ export class BillingResource {
     options: MutationOptions,
   ) {
     return this.api.completePracticePaymentSetup({
-      affinityVersion: this.apiVersion,
       completePracticePaymentSetupRequest: params,
       idempotencyKey: options.idempotencyKey,
       practiceId,

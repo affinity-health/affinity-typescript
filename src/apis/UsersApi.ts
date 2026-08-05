@@ -2,7 +2,7 @@
 /* eslint-disable */
 /**
  * Affinity API
- * Affinity API for software platforms connecting practices to the compounder network. A practice is the customer organization, a provider is an individual clinician or prescriber, and a location is a physical practice site. The API covers practice management, catalog discovery, prescription-order submission, fulfillment tracking, and webhooks.
+ * Affinity API for software platforms connecting practices to the compounder network.
  *
  * The version of the OpenAPI document: 2026-07-29
  * Contact: support@joinaffinityai.com
@@ -29,6 +29,11 @@ import {
   GetUserResponseToJSON,
 } from "../models/GetUserResponse";
 import {
+  type ListCatalogItemsLimitParameter,
+  ListCatalogItemsLimitParameterFromJSON,
+  ListCatalogItemsLimitParameterToJSON,
+} from "../models/ListCatalogItemsLimitParameter";
+import {
   type ListUsersResponse,
   ListUsersResponseFromJSON,
   ListUsersResponseToJSON,
@@ -46,8 +51,8 @@ import {
 } from "../models/UpdateUserResponse";
 
 export interface CreateUserOperationRequest {
+  idempotencyKey: string;
   createUserRequest: CreateUserRequest;
-  idempotencyKey?: string;
   affinityVersion?: string;
 }
 
@@ -57,14 +62,14 @@ export interface GetUserRequest {
 }
 
 export interface ListUsersRequest {
-  limit?: number;
+  limit?: ListCatalogItemsLimitParameter;
   affinityVersion?: string;
 }
 
 export interface UpdateUserOperationRequest {
   userId: string;
+  idempotencyKey: string;
   updateUserRequest: UpdateUserRequest;
-  idempotencyKey?: string;
   affinityVersion?: string;
 }
 
@@ -78,6 +83,13 @@ export class UsersApi extends runtime.BaseAPI {
   async createUserRequestOpts(
     requestParameters: CreateUserOperationRequest,
   ): Promise<runtime.RequestOpts> {
+    if (requestParameters["idempotencyKey"] == null) {
+      throw new runtime.RequiredError(
+        "idempotencyKey",
+        'Required parameter "idempotencyKey" was null or undefined when calling createUser().',
+      );
+    }
+
     if (requestParameters["createUserRequest"] == null) {
       throw new runtime.RequiredError(
         "createUserRequest",
@@ -91,12 +103,12 @@ export class UsersApi extends runtime.BaseAPI {
 
     headerParameters["Content-Type"] = "application/json";
 
-    if (requestParameters["idempotencyKey"] != null) {
-      headerParameters["Idempotency-Key"] = String(requestParameters["idempotencyKey"]);
-    }
-
     if (requestParameters["affinityVersion"] != null) {
       headerParameters["Affinity-Version"] = String(requestParameters["affinityVersion"]);
+    }
+
+    if (requestParameters["idempotencyKey"] != null) {
+      headerParameters["Idempotency-Key"] = String(requestParameters["idempotencyKey"]);
     }
 
     if (this.configuration && this.configuration.accessToken) {
@@ -300,6 +312,13 @@ export class UsersApi extends runtime.BaseAPI {
       );
     }
 
+    if (requestParameters["idempotencyKey"] == null) {
+      throw new runtime.RequiredError(
+        "idempotencyKey",
+        'Required parameter "idempotencyKey" was null or undefined when calling updateUser().',
+      );
+    }
+
     if (requestParameters["updateUserRequest"] == null) {
       throw new runtime.RequiredError(
         "updateUserRequest",
@@ -313,12 +332,12 @@ export class UsersApi extends runtime.BaseAPI {
 
     headerParameters["Content-Type"] = "application/json";
 
-    if (requestParameters["idempotencyKey"] != null) {
-      headerParameters["Idempotency-Key"] = String(requestParameters["idempotencyKey"]);
-    }
-
     if (requestParameters["affinityVersion"] != null) {
       headerParameters["Affinity-Version"] = String(requestParameters["affinityVersion"]);
+    }
+
+    if (requestParameters["idempotencyKey"] != null) {
+      headerParameters["Idempotency-Key"] = String(requestParameters["idempotencyKey"]);
     }
 
     if (this.configuration && this.configuration.accessToken) {

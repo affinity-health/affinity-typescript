@@ -4,7 +4,7 @@
 
 | Name        | Type   |
 | ----------- | ------ |
-| `expiresAt` | Date   |
+| `expiresAt` | string |
 | `id`        | string |
 | `object`    | string |
 | `orderId`   | string |

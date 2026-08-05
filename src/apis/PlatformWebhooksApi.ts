@@ -2,7 +2,7 @@
 /* eslint-disable */
 /**
  * Affinity API
- * Affinity API for software platforms connecting practices to the compounder network. A practice is the customer organization, a provider is an individual clinician or prescriber, and a location is a physical practice site. The API covers practice management, catalog discovery, prescription-order submission, fulfillment tracking, and webhooks.
+ * Affinity API for software platforms connecting practices to the compounder network.
  *
  * The version of the OpenAPI document: 2026-07-29
  * Contact: support@joinaffinityai.com
@@ -33,6 +33,11 @@ import {
   GetWebhookEventResponseFromJSON,
   GetWebhookEventResponseToJSON,
 } from "../models/GetWebhookEventResponse";
+import {
+  type ListCatalogItemsLimitParameter,
+  ListCatalogItemsLimitParameterFromJSON,
+  ListCatalogItemsLimitParameterToJSON,
+} from "../models/ListCatalogItemsLimitParameter";
 import {
   type ListWebhookEndpointsResponse,
   ListWebhookEndpointsResponseFromJSON,
@@ -66,14 +71,14 @@ import {
 } from "../models/UpdateWebhookEndpointResponse";
 
 export interface CreateWebhookEndpointOperationRequest {
+  idempotencyKey: string;
   createWebhookEndpointRequest: CreateWebhookEndpointRequest;
-  idempotencyKey?: string;
   affinityVersion?: string;
 }
 
 export interface DeleteWebhookEndpointRequest {
   endpointId: string;
-  idempotencyKey?: string;
+  idempotencyKey: string;
   affinityVersion?: string;
 }
 
@@ -83,36 +88,36 @@ export interface GetWebhookEventRequest {
 }
 
 export interface ListWebhookEndpointsRequest {
-  limit?: number;
-  startingAfter?: string;
   endingBefore?: string;
+  limit?: ListCatalogItemsLimitParameter;
+  startingAfter?: string;
   affinityVersion?: string;
 }
 
 export interface ListWebhookEventsRequest {
-  limit?: number;
+  endingBefore?: string;
+  limit?: ListCatalogItemsLimitParameter;
   status?: ListWebhookEventsStatusEnum;
   startingAfter?: string;
-  endingBefore?: string;
   affinityVersion?: string;
 }
 
 export interface ReplayWebhookEventRequest {
   eventId: string;
-  idempotencyKey?: string;
+  idempotencyKey: string;
   affinityVersion?: string;
 }
 
 export interface RotateWebhookEndpointSecretRequest {
   endpointId: string;
-  idempotencyKey?: string;
+  idempotencyKey: string;
   affinityVersion?: string;
 }
 
 export interface UpdateWebhookEndpointOperationRequest {
   endpointId: string;
+  idempotencyKey: string;
   updateWebhookEndpointRequest: UpdateWebhookEndpointRequest;
-  idempotencyKey?: string;
   affinityVersion?: string;
 }
 
@@ -126,6 +131,13 @@ export class PlatformWebhooksApi extends runtime.BaseAPI {
   async createWebhookEndpointRequestOpts(
     requestParameters: CreateWebhookEndpointOperationRequest,
   ): Promise<runtime.RequestOpts> {
+    if (requestParameters["idempotencyKey"] == null) {
+      throw new runtime.RequiredError(
+        "idempotencyKey",
+        'Required parameter "idempotencyKey" was null or undefined when calling createWebhookEndpoint().',
+      );
+    }
+
     if (requestParameters["createWebhookEndpointRequest"] == null) {
       throw new runtime.RequiredError(
         "createWebhookEndpointRequest",
@@ -139,12 +151,12 @@ export class PlatformWebhooksApi extends runtime.BaseAPI {
 
     headerParameters["Content-Type"] = "application/json";
 
-    if (requestParameters["idempotencyKey"] != null) {
-      headerParameters["Idempotency-Key"] = String(requestParameters["idempotencyKey"]);
-    }
-
     if (requestParameters["affinityVersion"] != null) {
       headerParameters["Affinity-Version"] = String(requestParameters["affinityVersion"]);
+    }
+
+    if (requestParameters["idempotencyKey"] != null) {
+      headerParameters["Idempotency-Key"] = String(requestParameters["idempotencyKey"]);
     }
 
     if (this.configuration && this.configuration.accessToken) {
@@ -210,16 +222,23 @@ export class PlatformWebhooksApi extends runtime.BaseAPI {
       );
     }
 
+    if (requestParameters["idempotencyKey"] == null) {
+      throw new runtime.RequiredError(
+        "idempotencyKey",
+        'Required parameter "idempotencyKey" was null or undefined when calling deleteWebhookEndpoint().',
+      );
+    }
+
     const queryParameters: any = {};
 
     const headerParameters: runtime.HTTPHeaders = {};
 
-    if (requestParameters["idempotencyKey"] != null) {
-      headerParameters["Idempotency-Key"] = String(requestParameters["idempotencyKey"]);
-    }
-
     if (requestParameters["affinityVersion"] != null) {
       headerParameters["Affinity-Version"] = String(requestParameters["affinityVersion"]);
+    }
+
+    if (requestParameters["idempotencyKey"] != null) {
+      headerParameters["Idempotency-Key"] = String(requestParameters["idempotencyKey"]);
     }
 
     if (this.configuration && this.configuration.accessToken) {
@@ -357,16 +376,16 @@ export class PlatformWebhooksApi extends runtime.BaseAPI {
   ): Promise<runtime.RequestOpts> {
     const queryParameters: any = {};
 
+    if (requestParameters["endingBefore"] != null) {
+      queryParameters["endingBefore"] = requestParameters["endingBefore"];
+    }
+
     if (requestParameters["limit"] != null) {
       queryParameters["limit"] = requestParameters["limit"];
     }
 
     if (requestParameters["startingAfter"] != null) {
       queryParameters["startingAfter"] = requestParameters["startingAfter"];
-    }
-
-    if (requestParameters["endingBefore"] != null) {
-      queryParameters["endingBefore"] = requestParameters["endingBefore"];
     }
 
     const headerParameters: runtime.HTTPHeaders = {};
@@ -432,6 +451,10 @@ export class PlatformWebhooksApi extends runtime.BaseAPI {
   ): Promise<runtime.RequestOpts> {
     const queryParameters: any = {};
 
+    if (requestParameters["endingBefore"] != null) {
+      queryParameters["endingBefore"] = requestParameters["endingBefore"];
+    }
+
     if (requestParameters["limit"] != null) {
       queryParameters["limit"] = requestParameters["limit"];
     }
@@ -442,10 +465,6 @@ export class PlatformWebhooksApi extends runtime.BaseAPI {
 
     if (requestParameters["startingAfter"] != null) {
       queryParameters["startingAfter"] = requestParameters["startingAfter"];
-    }
-
-    if (requestParameters["endingBefore"] != null) {
-      queryParameters["endingBefore"] = requestParameters["endingBefore"];
     }
 
     const headerParameters: runtime.HTTPHeaders = {};
@@ -516,16 +535,23 @@ export class PlatformWebhooksApi extends runtime.BaseAPI {
       );
     }
 
+    if (requestParameters["idempotencyKey"] == null) {
+      throw new runtime.RequiredError(
+        "idempotencyKey",
+        'Required parameter "idempotencyKey" was null or undefined when calling replayWebhookEvent().',
+      );
+    }
+
     const queryParameters: any = {};
 
     const headerParameters: runtime.HTTPHeaders = {};
 
-    if (requestParameters["idempotencyKey"] != null) {
-      headerParameters["Idempotency-Key"] = String(requestParameters["idempotencyKey"]);
-    }
-
     if (requestParameters["affinityVersion"] != null) {
       headerParameters["Affinity-Version"] = String(requestParameters["affinityVersion"]);
+    }
+
+    if (requestParameters["idempotencyKey"] != null) {
+      headerParameters["Idempotency-Key"] = String(requestParameters["idempotencyKey"]);
     }
 
     if (this.configuration && this.configuration.accessToken) {
@@ -594,16 +620,23 @@ export class PlatformWebhooksApi extends runtime.BaseAPI {
       );
     }
 
+    if (requestParameters["idempotencyKey"] == null) {
+      throw new runtime.RequiredError(
+        "idempotencyKey",
+        'Required parameter "idempotencyKey" was null or undefined when calling rotateWebhookEndpointSecret().',
+      );
+    }
+
     const queryParameters: any = {};
 
     const headerParameters: runtime.HTTPHeaders = {};
 
-    if (requestParameters["idempotencyKey"] != null) {
-      headerParameters["Idempotency-Key"] = String(requestParameters["idempotencyKey"]);
-    }
-
     if (requestParameters["affinityVersion"] != null) {
       headerParameters["Affinity-Version"] = String(requestParameters["affinityVersion"]);
+    }
+
+    if (requestParameters["idempotencyKey"] != null) {
+      headerParameters["Idempotency-Key"] = String(requestParameters["idempotencyKey"]);
     }
 
     if (this.configuration && this.configuration.accessToken) {
@@ -672,6 +705,13 @@ export class PlatformWebhooksApi extends runtime.BaseAPI {
       );
     }
 
+    if (requestParameters["idempotencyKey"] == null) {
+      throw new runtime.RequiredError(
+        "idempotencyKey",
+        'Required parameter "idempotencyKey" was null or undefined when calling updateWebhookEndpoint().',
+      );
+    }
+
     if (requestParameters["updateWebhookEndpointRequest"] == null) {
       throw new runtime.RequiredError(
         "updateWebhookEndpointRequest",
@@ -685,12 +725,12 @@ export class PlatformWebhooksApi extends runtime.BaseAPI {
 
     headerParameters["Content-Type"] = "application/json";
 
-    if (requestParameters["idempotencyKey"] != null) {
-      headerParameters["Idempotency-Key"] = String(requestParameters["idempotencyKey"]);
-    }
-
     if (requestParameters["affinityVersion"] != null) {
       headerParameters["Affinity-Version"] = String(requestParameters["affinityVersion"]);
+    }
+
+    if (requestParameters["idempotencyKey"] != null) {
+      headerParameters["Idempotency-Key"] = String(requestParameters["idempotencyKey"]);
     }
 
     if (this.configuration && this.configuration.accessToken) {
@@ -756,7 +796,6 @@ export const ListWebhookEventsStatusEnum = {
   Delivered: "delivered",
   Failed: "failed",
   Pending: "pending",
-  Skipped: "skipped",
 } as const;
 export type ListWebhookEventsStatusEnum =
   (typeof ListWebhookEventsStatusEnum)[keyof typeof ListWebhookEventsStatusEnum];

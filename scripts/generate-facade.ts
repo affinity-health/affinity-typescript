@@ -183,39 +183,39 @@ export class Affinity {
       accessToken: apiKey,
       basePath: (baseUrl.includes("://") ? baseUrl : \`https://\${baseUrl}\`).replace(/\\/+$/, ""),
       fetchApi,
-      headers: { "Affinity-Version": apiVersion },
+      headers: {
+        "Affinity-Version": apiVersion,
+        ...(actor
+          ? { "Affinity-Actor-Id": actor.id, "Affinity-Actor-Type": actor.type }
+          : {}),
+      },
     });
     this.account = new AccountResource(
       new APIKeysApi(configuration),
       new PlatformsApi(configuration),
-      apiVersion,
     );
-    this.billing = new BillingResource(new BillingApi(configuration), apiVersion);
-    this.catalog = new CatalogResource(new CatalogApi(configuration), apiVersion);
+    this.billing = new BillingResource(new BillingApi(configuration));
+    this.catalog = new CatalogResource(new CatalogApi(configuration));
     this.componentSessions = new ComponentSessionsResource(
       new ComponentSessionsApi(configuration),
-      apiVersion,
     );
-    this.compounders = new CompoundersResource(new CatalogApi(configuration), apiVersion);
+    this.compounders = new CompoundersResource(new CatalogApi(configuration));
     this.hostedSessions = new HostedSessionsResource(
       new HostedSessionsApi(configuration),
-      apiVersion,
     );
-    this.memberships = new MembershipsResource(new MembershipsApi(configuration), apiVersion);
+    this.memberships = new MembershipsResource(new MembershipsApi(configuration));
     this.orderSigningSessions = new OrderSigningSessionsResource(
       new OrderSigningSessionsApi(configuration),
-      apiVersion,
     );
-    this.orders = new OrdersResource(new PlatformOrdersApi(configuration), apiVersion, actor);
-    this.patients = new PatientsResource(new PatientsApi(configuration), apiVersion, actor);
-    this.practices = new PracticesResource(new PracticesApi(configuration), apiVersion);
+    this.orders = new OrdersResource(new PlatformOrdersApi(configuration), actor);
+    this.patients = new PatientsResource(new PatientsApi(configuration), actor);
+    this.practices = new PracticesResource(new PracticesApi(configuration));
     this.providerMappings = new ProviderMappingsResource(
       new ProviderMappingsApi(configuration),
-      apiVersion,
     );
-    this.roles = new RolesResource(new RolesApi(configuration), apiVersion);
-    this.users = new UsersResource(new UsersApi(configuration), apiVersion);
-    this.webhooks = new WebhooksResource(new PlatformWebhooksApi(configuration), apiVersion);
+    this.roles = new RolesResource(new RolesApi(configuration));
+    this.users = new UsersResource(new UsersApi(configuration));
+    this.webhooks = new WebhooksResource(new PlatformWebhooksApi(configuration));
   }
 
   withActor(actor: AffinityActor) {
@@ -323,13 +323,12 @@ export class AccountResource {
   constructor(
     private readonly accessApi: APIKeysApi,
     private readonly platformsApi: PlatformsApi,
-    private readonly apiVersion: string,
   ) {}
   retrieveAccess() {
-    return this.accessApi.getApiAccess({ affinityVersion: this.apiVersion });
+    return this.accessApi.getApiAccess();
   }
   retrieve() {
-    return this.platformsApi.getAccount({ affinityVersion: this.apiVersion });
+    return this.platformsApi.getAccount();
   }
 }`,
 );
@@ -342,20 +341,15 @@ await output(
   ListShippingOptionsRequest,
 } from "../apis/CatalogApi";
 
-export type CatalogListParams = Omit<ListCatalogItemsRequest, "affinityVersion">;
+export type CatalogListParams = ListCatalogItemsRequest;
 
 export class CatalogResource {
-  constructor(
-    private readonly api: CatalogApi,
-    private readonly apiVersion: string,
-  ) {}
+  constructor(private readonly api: CatalogApi) {}
   list(params: CatalogListParams = {}) {
-    return this.api.listCatalogItems({ ...params, affinityVersion: this.apiVersion });
+    return this.api.listCatalogItems(params);
   }
-  listShippingOptions(
-    params: Omit<ListShippingOptionsRequest, "affinityVersion">,
-  ) {
-    return this.api.listShippingOptions({ ...params, affinityVersion: this.apiVersion });
+  listShippingOptions(params: ListShippingOptionsRequest) {
+    return this.api.listShippingOptions(params);
   }
 }`,
 );
@@ -364,15 +358,12 @@ await output(
   "src/resources/compounders.ts",
   `import type { CatalogApi, ListCompoundersRequest } from "../apis/CatalogApi";
 
-export type CompounderListParams = Omit<ListCompoundersRequest, "affinityVersion">;
+export type CompounderListParams = ListCompoundersRequest;
 
 export class CompoundersResource {
-  constructor(
-    private readonly api: CatalogApi,
-    private readonly apiVersion: string,
-  ) {}
+  constructor(private readonly api: CatalogApi) {}
   list(params: CompounderListParams = {}) {
-    return this.api.listCompounders({ ...params, affinityVersion: this.apiVersion });
+    return this.api.listCompounders(params);
   }
 }`,
 );
@@ -385,12 +376,9 @@ import type { CreatePracticePaymentSetupRequest } from "../models/CreatePractice
 import type { MutationOptions } from "./request-options";
 
 export class BillingResource {
-  constructor(
-    private readonly api: BillingApi,
-    private readonly apiVersion: string,
-  ) {}
+  constructor(private readonly api: BillingApi) {}
   retrievePaymentProfile(practiceId: string) {
-    return this.api.getPracticePaymentProfile({ affinityVersion: this.apiVersion, practiceId });
+    return this.api.getPracticePaymentProfile({ practiceId });
   }
   createPaymentSetup(
     practiceId: string,
@@ -398,7 +386,6 @@ export class BillingResource {
     options: MutationOptions,
   ) {
     return this.api.createPracticePaymentSetup({
-      affinityVersion: this.apiVersion,
       createPracticePaymentSetupRequest: params,
       idempotencyKey: options.idempotencyKey,
       practiceId,
@@ -410,7 +397,6 @@ export class BillingResource {
     options: MutationOptions,
   ) {
     return this.api.completePracticePaymentSetup({
-      affinityVersion: this.apiVersion,
       completePracticePaymentSetupRequest: params,
       idempotencyKey: options.idempotencyKey,
       practiceId,
@@ -427,26 +413,21 @@ import type { UpdatePracticeRequest } from "../models/UpdatePracticeRequest";
 import type { MutationOptions } from "./request-options";
 
 export class PracticesResource {
-  constructor(
-    private readonly api: PracticesApi,
-    private readonly apiVersion: string,
-  ) {}
-  list(params: Omit<ListPracticesRequest, "affinityVersion"> = {}) {
-    return this.api.listPractices({ ...params, affinityVersion: this.apiVersion });
+  constructor(private readonly api: PracticesApi) {}
+  list(params: ListPracticesRequest = {}) {
+    return this.api.listPractices(params);
   }
   retrieve(practiceId: string) {
-    return this.api.getPractice({ affinityVersion: this.apiVersion, practiceId });
+    return this.api.getPractice({ practiceId });
   }
   create(params: CreatePracticeRequest, options: MutationOptions) {
     return this.api.createPractice({
       createPracticeRequest: params,
-      affinityVersion: this.apiVersion,
       idempotencyKey: options.idempotencyKey,
     });
   }
   update(practiceId: string, params: UpdatePracticeRequest, options: MutationOptions) {
     return this.api.updatePractice({
-      affinityVersion: this.apiVersion,
       idempotencyKey: options.idempotencyKey,
       practiceId,
       updatePracticeRequest: params,
@@ -465,41 +446,31 @@ import type { MutationOptions } from "./request-options";
 
 export type PatientListParams = Omit<
   ListPatientsRequest,
-  "affinityActorId" | "affinityActorType" | "affinityVersion" | "practiceId"
+  "practiceId"
 >;
 
 export class PatientsResource {
   constructor(
     private readonly api: PatientsApi,
-    private readonly apiVersion: string,
     private readonly affinityActor?: AffinityActor,
   ) {}
   list(practiceId: string, params: PatientListParams = {}) {
-    const actor = requireAffinityActor(this.affinityActor);
+    requireAffinityActor(this.affinityActor);
     return this.api.listPatients({
       ...params,
-      affinityActorId: actor.id,
-      affinityActorType: actor.type,
-      affinityVersion: this.apiVersion,
       practiceId,
     });
   }
   retrieve(practiceId: string, patientId: string) {
-    const actor = requireAffinityActor(this.affinityActor);
+    requireAffinityActor(this.affinityActor);
     return this.api.getPatient({
-      affinityActorId: actor.id,
-      affinityActorType: actor.type,
-      affinityVersion: this.apiVersion,
       patientId,
       practiceId,
     });
   }
   create(practiceId: string, params: CreatePatientRequest, options: MutationOptions) {
-    const actor = requireAffinityActor(this.affinityActor);
+    requireAffinityActor(this.affinityActor);
     return this.api.createPatient({
-      affinityActorId: actor.id,
-      affinityActorType: actor.type,
-      affinityVersion: this.apiVersion,
       createPatientRequest: params,
       idempotencyKey: options.idempotencyKey,
       practiceId,
@@ -511,11 +482,8 @@ export class PatientsResource {
     params: UpdatePatientRequest,
     options: MutationOptions,
   ) {
-    const actor = requireAffinityActor(this.affinityActor);
+    requireAffinityActor(this.affinityActor);
     return this.api.updatePatient({
-      affinityActorId: actor.id,
-      affinityActorType: actor.type,
-      affinityVersion: this.apiVersion,
       idempotencyKey: options.idempotencyKey,
       patientId,
       practiceId,
@@ -533,62 +501,43 @@ import type { CreateOrderRequest } from "../models/CreateOrderRequest";
 import { type AffinityActor, requireAffinityActor } from "./actor";
 import type { MutationOptions } from "./request-options";
 
-export type OrderListParams = Omit<
-  ListOrdersRequest,
-  "affinityActorId" | "affinityActorType" | "affinityVersion"
->;
+export type OrderListParams = ListOrdersRequest;
 
 export class OrdersResource {
   constructor(
     private readonly api: PlatformOrdersApi,
-    private readonly apiVersion: string,
     private readonly affinityActor?: AffinityActor,
   ) {}
   create(params: CreateOrderRequest, options: MutationOptions) {
-    const actor = requireAffinityActor(this.affinityActor);
+    requireAffinityActor(this.affinityActor);
     return this.api.createOrder({
-      affinityActorId: actor.id,
-      affinityActorType: actor.type,
-      affinityVersion: this.apiVersion,
       createOrderRequest: params,
       idempotencyKey: options.idempotencyKey,
     });
   }
   list(params: OrderListParams = {}) {
-    const actor = requireAffinityActor(this.affinityActor);
+    requireAffinityActor(this.affinityActor);
     return this.api.listOrders({
       ...params,
-      affinityActorId: actor.id,
-      affinityActorType: actor.type,
-      affinityVersion: this.apiVersion,
     });
   }
   retrieve(orderId: string) {
-    const actor = requireAffinityActor(this.affinityActor);
+    requireAffinityActor(this.affinityActor);
     return this.api.getOrder({
-      affinityActorId: actor.id,
-      affinityActorType: actor.type,
-      affinityVersion: this.apiVersion,
       orderId,
     });
   }
   cancel(orderId: string, params: CancelOrderRequest, options: MutationOptions) {
-    const actor = requireAffinityActor(this.affinityActor);
+    requireAffinityActor(this.affinityActor);
     return this.api.cancelOrder({
-      affinityActorId: actor.id,
-      affinityActorType: actor.type,
       cancelOrderRequest: params,
-      affinityVersion: this.apiVersion,
       idempotencyKey: options.idempotencyKey,
       orderId,
     });
   }
   listEvents(orderId: string) {
-    const actor = requireAffinityActor(this.affinityActor);
+    requireAffinityActor(this.affinityActor);
     return this.api.listOrderEvents({
-      affinityActorId: actor.id,
-      affinityActorType: actor.type,
-      affinityVersion: this.apiVersion,
       orderId,
     });
   }
@@ -603,26 +552,21 @@ import type { UpdateUserRequest } from "../models/UpdateUserRequest";
 import type { MutationOptions } from "./request-options";
 
 export class UsersResource {
-  constructor(
-    private readonly api: UsersApi,
-    private readonly apiVersion: string,
-  ) {}
-  list(params: Omit<ListUsersRequest, "affinityVersion"> = {}) {
-    return this.api.listUsers({ ...params, affinityVersion: this.apiVersion });
+  constructor(private readonly api: UsersApi) {}
+  list(params: ListUsersRequest = {}) {
+    return this.api.listUsers(params);
   }
   retrieve(userId: string) {
-    return this.api.getUser({ affinityVersion: this.apiVersion, userId });
+    return this.api.getUser({ userId });
   }
   create(params: CreateUserRequest, options: MutationOptions) {
     return this.api.createUser({
-      affinityVersion: this.apiVersion,
       createUserRequest: params,
       idempotencyKey: options.idempotencyKey,
     });
   }
   update(userId: string, params: UpdateUserRequest, options: MutationOptions) {
     return this.api.updateUser({
-      affinityVersion: this.apiVersion,
       idempotencyKey: options.idempotencyKey,
       updateUserRequest: params,
       userId,
@@ -639,16 +583,12 @@ import type { UpdatePracticeRoleRequest } from "../models/UpdatePracticeRoleRequ
 import type { MutationOptions } from "./request-options";
 
 export class RolesResource {
-  constructor(
-    private readonly api: RolesApi,
-    private readonly apiVersion: string,
-  ) {}
+  constructor(private readonly api: RolesApi) {}
   list(practiceId: string) {
-    return this.api.listPracticeRoles({ affinityVersion: this.apiVersion, practiceId });
+    return this.api.listPracticeRoles({ practiceId });
   }
   create(practiceId: string, params: CreatePracticeRoleRequest, options: MutationOptions) {
     return this.api.createPracticeRole({
-      affinityVersion: this.apiVersion,
       createPracticeRoleRequest: params,
       idempotencyKey: options.idempotencyKey,
       practiceId,
@@ -661,7 +601,6 @@ export class RolesResource {
     options: MutationOptions,
   ) {
     return this.api.updatePracticeRole({
-      affinityVersion: this.apiVersion,
       idempotencyKey: options.idempotencyKey,
       practiceId,
       roleId,
@@ -670,7 +609,6 @@ export class RolesResource {
   }
   delete(practiceId: string, roleId: string, options: MutationOptions) {
     return this.api.deletePracticeRole({
-      affinityVersion: this.apiVersion,
       idempotencyKey: options.idempotencyKey,
       practiceId,
       roleId,
@@ -687,12 +625,9 @@ import type { UpdatePracticeMembershipRequest } from "../models/UpdatePracticeMe
 import type { MutationOptions } from "./request-options";
 
 export class MembershipsResource {
-  constructor(
-    private readonly api: MembershipsApi,
-    private readonly apiVersion: string,
-  ) {}
+  constructor(private readonly api: MembershipsApi) {}
   list(practiceId: string) {
-    return this.api.listPracticeMemberships({ affinityVersion: this.apiVersion, practiceId });
+    return this.api.listPracticeMemberships({ practiceId });
   }
   create(
     practiceId: string,
@@ -700,7 +635,6 @@ export class MembershipsResource {
     options: MutationOptions,
   ) {
     return this.api.createPracticeMembership({
-      affinityVersion: this.apiVersion,
       createPracticeMembershipRequest: params,
       idempotencyKey: options.idempotencyKey,
       practiceId,
@@ -713,7 +647,6 @@ export class MembershipsResource {
     options: MutationOptions,
   ) {
     return this.api.updatePracticeMembership({
-      affinityVersion: this.apiVersion,
       idempotencyKey: options.idempotencyKey,
       membershipId,
       practiceId,
@@ -731,30 +664,24 @@ import type { UpdateProviderMappingRequest } from "../models/UpdateProviderMappi
 import type { MutationOptions } from "./request-options";
 
 export class ProviderMappingsResource {
-  constructor(
-    private readonly api: ProviderMappingsApi,
-    private readonly apiVersion: string,
-  ) {}
+  constructor(private readonly api: ProviderMappingsApi) {}
   create(params: CreateProviderMappingRequest, options: MutationOptions) {
     return this.api.createProviderMapping({
-      affinityVersion: this.apiVersion,
       createProviderMappingRequest: params,
       idempotencyKey: options.idempotencyKey,
     });
   }
   retrieve(providerMappingId: string) {
     return this.api.getProviderMapping({
-      affinityVersion: this.apiVersion,
       providerMappingId,
     });
   }
-  list(params: Omit<ListProviderMappingsRequest, "affinityVersion"> = {}) {
-    return this.api.listProviderMappings({ ...params, affinityVersion: this.apiVersion });
+  list(params: ListProviderMappingsRequest = {}) {
+    return this.api.listProviderMappings(params);
   }
   revoke(providerMappingId: string, options: MutationOptions) {
     const params: UpdateProviderMappingRequest = { status: "revoked" };
     return this.api.updateProviderMapping({
-      affinityVersion: this.apiVersion,
       idempotencyKey: options.idempotencyKey,
       providerMappingId,
       updateProviderMappingRequest: params,
@@ -770,13 +697,9 @@ import type { CreateComponentSessionRequest } from "../models/CreateComponentSes
 import type { MutationOptions } from "./request-options";
 
 export class ComponentSessionsResource {
-  constructor(
-    private readonly api: ComponentSessionsApi,
-    private readonly apiVersion: string,
-  ) {}
+  constructor(private readonly api: ComponentSessionsApi) {}
   create(params: CreateComponentSessionRequest, options: MutationOptions) {
     return this.api.createComponentSession({
-      affinityVersion: this.apiVersion,
       createComponentSessionRequest: params,
       idempotencyKey: options.idempotencyKey,
     });
@@ -791,13 +714,9 @@ import type { CreateHostedSessionRequest } from "../models/CreateHostedSessionRe
 import type { MutationOptions } from "./request-options";
 
 export class HostedSessionsResource {
-  constructor(
-    private readonly api: HostedSessionsApi,
-    private readonly apiVersion: string,
-  ) {}
+  constructor(private readonly api: HostedSessionsApi) {}
   create(params: CreateHostedSessionRequest, options: MutationOptions) {
     return this.api.createHostedSession({
-      affinityVersion: this.apiVersion,
       createHostedSessionRequest: params,
       idempotencyKey: options.idempotencyKey,
     });
@@ -812,13 +731,9 @@ import type { CreateOrderSigningSessionRequest } from "../models/CreateOrderSign
 import type { MutationOptions } from "./request-options";
 
 export class OrderSigningSessionsResource {
-  constructor(
-    private readonly api: OrderSigningSessionsApi,
-    private readonly apiVersion: string,
-  ) {}
+  constructor(private readonly api: OrderSigningSessionsApi) {}
   create(params: CreateOrderSigningSessionRequest, options: MutationOptions) {
     return this.api.createOrderSigningSession({
-      affinityVersion: this.apiVersion,
       createOrderSigningSessionRequest: params,
       idempotencyKey: options.idempotencyKey,
     });
@@ -834,17 +749,13 @@ import type { UpdateWebhookEndpointRequest } from "../models/UpdateWebhookEndpoi
 import type { MutationOptions } from "./request-options";
 
 export class WebhooksResource {
-  constructor(
-    private readonly api: PlatformWebhooksApi,
-    private readonly apiVersion: string,
-  ) {}
+  constructor(private readonly api: PlatformWebhooksApi) {}
   listEndpoints() {
-    return this.api.listWebhookEndpoints({ affinityVersion: this.apiVersion });
+    return this.api.listWebhookEndpoints();
   }
   createEndpoint(params: CreateWebhookEndpointRequest, options: MutationOptions) {
     return this.api.createWebhookEndpoint({
       createWebhookEndpointRequest: params,
-      affinityVersion: this.apiVersion,
       idempotencyKey: options.idempotencyKey,
     });
   }
@@ -855,14 +766,12 @@ export class WebhooksResource {
   ) {
     return this.api.updateWebhookEndpoint({
       endpointId,
-      affinityVersion: this.apiVersion,
       idempotencyKey: options.idempotencyKey,
       updateWebhookEndpointRequest: params,
     });
   }
   deleteEndpoint(endpointId: string, options: MutationOptions) {
     return this.api.deleteWebhookEndpoint({
-      affinityVersion: this.apiVersion,
       endpointId,
       idempotencyKey: options.idempotencyKey,
     });
@@ -870,19 +779,17 @@ export class WebhooksResource {
   rotateSecret(endpointId: string, options: MutationOptions) {
     return this.api.rotateWebhookEndpointSecret({
       endpointId,
-      affinityVersion: this.apiVersion,
       idempotencyKey: options.idempotencyKey,
     });
   }
-  listEvents(params: Omit<ListWebhookEventsRequest, "affinityVersion"> = {}) {
-    return this.api.listWebhookEvents({ ...params, affinityVersion: this.apiVersion });
+  listEvents(params: ListWebhookEventsRequest = {}) {
+    return this.api.listWebhookEvents(params);
   }
   retrieveEvent(eventId: string) {
-    return this.api.getWebhookEvent({ affinityVersion: this.apiVersion, eventId });
+    return this.api.getWebhookEvent({ eventId });
   }
   replayEvent(eventId: string, options: MutationOptions) {
     return this.api.replayWebhookEvent({
-      affinityVersion: this.apiVersion,
       eventId,
       idempotencyKey: options.idempotencyKey,
     });

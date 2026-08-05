@@ -2,7 +2,7 @@
 /* eslint-disable */
 /**
  * Affinity API
- * Affinity API for software platforms connecting practices to the compounder network. A practice is the customer organization, a provider is an individual clinician or prescriber, and a location is a physical practice site. The API covers practice management, catalog discovery, prescription-order submission, fulfillment tracking, and webhooks.
+ * Affinity API for software platforms connecting practices to the compounder network.
  *
  * The version of the OpenAPI document: 2026-07-29
  * Contact: support@joinaffinityai.com
@@ -13,20 +13,20 @@
  */
 
 import { mapValues } from "../runtime";
-import type { GetWebhookEventResponseAttemptsInner } from "./GetWebhookEventResponseAttemptsInner";
+import type { ReplayWebhookEventResponseDeliveriesInner } from "./ReplayWebhookEventResponseDeliveriesInner";
 import {
-  GetWebhookEventResponseAttemptsInnerFromJSON,
-  GetWebhookEventResponseAttemptsInnerFromJSONTyped,
-  GetWebhookEventResponseAttemptsInnerToJSON,
-  GetWebhookEventResponseAttemptsInnerToJSONTyped,
-} from "./GetWebhookEventResponseAttemptsInner";
-import type { GetWebhookEventResponseDeliveriesInner } from "./GetWebhookEventResponseDeliveriesInner";
+  ReplayWebhookEventResponseDeliveriesInnerFromJSON,
+  ReplayWebhookEventResponseDeliveriesInnerFromJSONTyped,
+  ReplayWebhookEventResponseDeliveriesInnerToJSON,
+  ReplayWebhookEventResponseDeliveriesInnerToJSONTyped,
+} from "./ReplayWebhookEventResponseDeliveriesInner";
+import type { ReplayWebhookEventResponseAttemptsInner } from "./ReplayWebhookEventResponseAttemptsInner";
 import {
-  GetWebhookEventResponseDeliveriesInnerFromJSON,
-  GetWebhookEventResponseDeliveriesInnerFromJSONTyped,
-  GetWebhookEventResponseDeliveriesInnerToJSON,
-  GetWebhookEventResponseDeliveriesInnerToJSONTyped,
-} from "./GetWebhookEventResponseDeliveriesInner";
+  ReplayWebhookEventResponseAttemptsInnerFromJSON,
+  ReplayWebhookEventResponseAttemptsInnerFromJSONTyped,
+  ReplayWebhookEventResponseAttemptsInnerToJSON,
+  ReplayWebhookEventResponseAttemptsInnerToJSONTyped,
+} from "./ReplayWebhookEventResponseAttemptsInner";
 
 /**
  *
@@ -90,16 +90,16 @@ export interface ReplayWebhookEventResponse {
   status: ReplayWebhookEventResponseStatusEnum;
   /**
    *
-   * @type {Array<GetWebhookEventResponseAttemptsInner>}
+   * @type {Array<ReplayWebhookEventResponseAttemptsInner>}
    * @memberof ReplayWebhookEventResponse
    */
-  attempts: Array<GetWebhookEventResponseAttemptsInner>;
+  attempts: Array<ReplayWebhookEventResponseAttemptsInner>;
   /**
    *
-   * @type {Array<GetWebhookEventResponseDeliveriesInner>}
+   * @type {Array<ReplayWebhookEventResponseDeliveriesInner>}
    * @memberof ReplayWebhookEventResponse
    */
-  deliveries: Array<GetWebhookEventResponseDeliveriesInner>;
+  deliveries: Array<ReplayWebhookEventResponseDeliveriesInner>;
   /**
    *
    * @type {{ [key: string]: any; }}
@@ -170,9 +170,9 @@ export function ReplayWebhookEventResponseFromJSONTyped(
     resourceId: json["resourceId"],
     resourceType: json["resourceType"],
     status: json["status"],
-    attempts: (json["attempts"] as Array<any>).map(GetWebhookEventResponseAttemptsInnerFromJSON),
+    attempts: (json["attempts"] as Array<any>).map(ReplayWebhookEventResponseAttemptsInnerFromJSON),
     deliveries: (json["deliveries"] as Array<any>).map(
-      GetWebhookEventResponseDeliveriesInnerFromJSON,
+      ReplayWebhookEventResponseDeliveriesInnerFromJSON,
     ),
     payload: json["payload"],
   };
@@ -200,9 +200,9 @@ export function ReplayWebhookEventResponseToJSONTyped(
     resourceId: value["resourceId"],
     resourceType: value["resourceType"],
     status: value["status"],
-    attempts: (value["attempts"] as Array<any>).map(GetWebhookEventResponseAttemptsInnerToJSON),
+    attempts: (value["attempts"] as Array<any>).map(ReplayWebhookEventResponseAttemptsInnerToJSON),
     deliveries: (value["deliveries"] as Array<any>).map(
-      GetWebhookEventResponseDeliveriesInnerToJSON,
+      ReplayWebhookEventResponseDeliveriesInnerToJSON,
     ),
     payload: value["payload"],
   };
