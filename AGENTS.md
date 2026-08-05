@@ -13,7 +13,6 @@ This repository contains the official TypeScript SDK for the Affinity public API
 ## Package boundary
 
 - The package name is `@affinity-health/sdk`.
-- Keep the version at `0.x` until Affinity explicitly begins publishing.
 - Do not publish to npm without explicit authorization.
 - The SDK is for trusted server-side Bun, Node.js, Lambda, and worker runtimes. Never encourage API
   keys in browser or mobile code.

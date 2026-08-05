@@ -7,6 +7,24 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 
 ## [Unreleased]
 
+## [1.2.0] - 2026-08-05
+
+### Changed
+
+- Regenerated the complete SDK from Pier's canonical `2026-07-29` OpenAPI contract.
+- Centralized API-version and actor headers in the shared client configuration instead of exposing
+  transport-only headers in every generated method signature.
+- Replaced legacy generated model shapes with the canonical request and response schemas while
+  preserving the resource-oriented `Affinity` client.
+
+### Removed
+
+- Removed obsolete generated webhook union wrappers and nested problem-error models.
+
+### Security
+
+- Added a clean packed-package consumer check to every CI and release build.
+
 ## [1.1.2] - 2026-08-02
 
 ### Changed
@@ -100,7 +118,8 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 - Typed RFC 9457 problem responses, including validation, dependency, and internal failures.
 - A compile-checked Test-mode quickstart.
 
-[Unreleased]: https://github.com/affinity-health/affinity-typescript/compare/v1.1.2...HEAD
+[Unreleased]: https://github.com/affinity-health/affinity-typescript/compare/v1.2.0...HEAD
+[1.2.0]: https://github.com/affinity-health/affinity-typescript/compare/v1.1.2...v1.2.0
 [1.1.2]: https://github.com/affinity-health/affinity-typescript/compare/v1.1.1...v1.1.2
 [1.1.1]: https://github.com/affinity-health/affinity-typescript/compare/v1.1.0...v1.1.1
 [1.1.0]: https://github.com/affinity-health/affinity-typescript/compare/v1.0.1...v1.1.0
