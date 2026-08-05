@@ -57,8 +57,9 @@ Copy `.env.example` to `.env.local`. Add a Test-mode API key, then run:
 dev
 ```
 
-Open the routed URL shown by `dev`. The TanStack Start example keeps the API key on the server. It
-creates a synthetic practice and an automatically verified provider mapping with NPI `1234567893`.
+Open `http://affinity-sdk.localhost:5191`. The TanStack Start example keeps the API key on the
+server. It creates a synthetic practice and an automatically verified provider mapping with NPI
+`1234567893`.
 
 Patient and order requests require traceable actor context. Create an immutable request-scoped
 client with `withActor(...)`, using your authenticated user's stable opaque ID. Use `type: "system"`

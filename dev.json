@@ -2,7 +2,14 @@
   "$schema": "https://dev.dawson.gg/schemas/dev.v1.json",
   "name": "Affinity TypeScript SDK",
   "slug": "affinity-sdk",
+  "routes": false,
   "services": ["web"],
+  "servicePorts": {
+    "web": 5191
+  },
+  "serviceTargets": {
+    "web": "http://127.0.0.1:5191"
+  },
   "session": {
     "windows": [
       {
