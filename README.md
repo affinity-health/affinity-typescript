@@ -101,6 +101,10 @@ Use your own stable customer identifier as `externalId`; do not use email as ide
 authorization. Email is optional and can change. Affinity independently verifies the mapped
 provider and determines prescribing authority.
 
+In Test mode, use `1234567893` as the National Provider Identifier (NPI) for a synthetic provider.
+Affinity immediately returns a `verified` provider mapping. Affinity rejects this NPI in Live mode.
+The test provider must still review and sign prescriptions with the normal Affinity signing PIN.
+
 ```ts
 const user = await affinity.users.create(
   {
