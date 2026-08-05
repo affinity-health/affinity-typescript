@@ -1,0 +1,20 @@
+{
+  "$schema": "https://dev.dawson.gg/schemas/dev.v1.json",
+  "name": "Affinity TypeScript SDK",
+  "slug": "affinity-sdk",
+  "services": ["web"],
+  "session": {
+    "windows": [
+      {
+        "name": "example",
+        "panes": [
+          {
+            "name": "web",
+            "command": "bun run example:dev",
+            "services": ["web"]
+          }
+        ]
+      }
+    ]
+  }
+}

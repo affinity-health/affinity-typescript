@@ -49,6 +49,17 @@ prescription or receive the provider's Affinity signing PIN.
 The API key belongs only in your backend. Never create an `Affinity` client in browser or mobile
 code.
 
+## Run the Test practice example
+
+Copy `.env.example` to `.env.local`. Add a Test-mode API key, then run:
+
+```sh
+dev
+```
+
+Open the routed URL shown by `dev`. The TanStack Start example keeps the API key on the server. It
+creates a synthetic practice and an automatically verified provider mapping with NPI `1234567893`.
+
 Patient and order requests require traceable actor context. Create an immutable request-scoped
 client with `withActor(...)`, using your authenticated user's stable opaque ID. Use `type: "system"`
 only for an automated process with no human user. Affinity records the actor for authorization and
