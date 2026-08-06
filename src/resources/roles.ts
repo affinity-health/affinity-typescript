@@ -1,14 +1,17 @@
 // Code generated from spec/affinity.openapi.json by scripts/generate-facade.ts. DO NOT EDIT.
 
-import type { RolesApi } from "../apis/RolesApi";
+import type { ListPracticeRolesRequest, RolesApi } from "../apis/RolesApi";
 import type { CreatePracticeRoleRequest } from "../models/CreatePracticeRoleRequest";
 import type { UpdatePracticeRoleRequest } from "../models/UpdatePracticeRoleRequest";
 import type { MutationOptions } from "./request-options";
+import { cursorPage } from "./cursor-page";
+
+export type RoleListParams = Omit<ListPracticeRolesRequest, "practiceId">;
 
 export class RolesResource {
   constructor(private readonly api: RolesApi) {}
-  list(practiceId: string) {
-    return this.api.listPracticeRoles({ practiceId });
+  list(practiceId: string, params: RoleListParams = {}) {
+    return cursorPage(params, (page) => this.api.listPracticeRoles({ ...page, practiceId }));
   }
   create(practiceId: string, params: CreatePracticeRoleRequest, options: MutationOptions) {
     return this.api.createPracticeRole({

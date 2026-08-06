@@ -10,7 +10,7 @@ All URIs are relative to *https://api.joinaffinityai.com*
 
 ## listCatalogItems
 
-> ListCatalogItemsResponse listCatalogItems(availability, compounderIds, dosageForms, endingBefore, limit, orgId, query, requirement, route, startingAfter, affinityVersion)
+> ListCatalogItemsResponse listCatalogItems(availability, compounderIds, dosageForms, endingBefore, hideControlledSubstances, hideUnpriced, limit, orgId, query, requirement, routes, startingAfter, affinityVersion)
 
 List catalog items
 
@@ -44,16 +44,20 @@ async function example() {
     dosageForms: ...,
     // string (optional)
     endingBefore: endingBefore_example,
-    // ListCatalogItemsLimitParameter (optional)
-    limit: ...,
+    // boolean (optional)
+    hideControlledSubstances: true,
+    // boolean (optional)
+    hideUnpriced: true,
+    // number (optional)
+    limit: 56,
     // string (optional)
     orgId: orgId_example,
     // string (optional)
     query: query_example,
     // 'all' | 'office_use' | 'patient_specific' (optional)
     requirement: requirement_example,
-    // 'all' | 'injectable' | 'nasal' | 'oral' | 'sublingual' | 'topical' | 'unknown' (optional)
-    route: route_example,
+    // ListCatalogItemsRoutesParameter (optional)
+    routes: ...,
     // string (optional)
     startingAfter: startingAfter_example,
     // string (optional)
@@ -74,19 +78,21 @@ example().catch(console.error);
 
 ### Parameters
 
-| Name                | Type                                                                     | Description | Notes                                                                                                   |
-| ------------------- | ------------------------------------------------------------------------ | ----------- | ------------------------------------------------------------------------------------------------------- |
-| **availability**    | `all`, `orderable`, `unavailable`                                        |             | [Optional] [Defaults to `undefined`] [Enum: all, orderable, unavailable]                                |
-| **compounderIds**   | [](.md)                                                                  |             | [Optional] [Defaults to `undefined`]                                                                    |
-| **dosageForms**     | [](.md)                                                                  |             | [Optional] [Defaults to `undefined`]                                                                    |
-| **endingBefore**    | `string`                                                                 |             | [Optional] [Defaults to `undefined`]                                                                    |
-| **limit**           | [](.md)                                                                  |             | [Optional] [Defaults to `undefined`]                                                                    |
-| **orgId**           | `string`                                                                 |             | [Optional] [Defaults to `undefined`]                                                                    |
-| **query**           | `string`                                                                 |             | [Optional] [Defaults to `undefined`]                                                                    |
-| **requirement**     | `all`, `office_use`, `patient_specific`                                  |             | [Optional] [Defaults to `undefined`] [Enum: all, office_use, patient_specific]                          |
-| **route**           | `all`, `injectable`, `nasal`, `oral`, `sublingual`, `topical`, `unknown` |             | [Optional] [Defaults to `undefined`] [Enum: all, injectable, nasal, oral, sublingual, topical, unknown] |
-| **startingAfter**   | `string`                                                                 |             | [Optional] [Defaults to `undefined`]                                                                    |
-| **affinityVersion** | `string`                                                                 |             | [Optional] [Defaults to `undefined`]                                                                    |
+| Name                         | Type                                    | Description | Notes                                                                          |
+| ---------------------------- | --------------------------------------- | ----------- | ------------------------------------------------------------------------------ |
+| **availability**             | `all`, `orderable`, `unavailable`       |             | [Optional] [Defaults to `undefined`] [Enum: all, orderable, unavailable]       |
+| **compounderIds**            | [](.md)                                 |             | [Optional] [Defaults to `undefined`]                                           |
+| **dosageForms**              | [](.md)                                 |             | [Optional] [Defaults to `undefined`]                                           |
+| **endingBefore**             | `string`                                |             | [Optional] [Defaults to `undefined`]                                           |
+| **hideControlledSubstances** | `boolean`                               |             | [Optional] [Defaults to `undefined`]                                           |
+| **hideUnpriced**             | `boolean`                               |             | [Optional] [Defaults to `undefined`]                                           |
+| **limit**                    | `number`                                |             | [Optional] [Defaults to `25`]                                                  |
+| **orgId**                    | `string`                                |             | [Optional] [Defaults to `undefined`]                                           |
+| **query**                    | `string`                                |             | [Optional] [Defaults to `undefined`]                                           |
+| **requirement**              | `all`, `office_use`, `patient_specific` |             | [Optional] [Defaults to `undefined`] [Enum: all, office_use, patient_specific] |
+| **routes**                   | [](.md)                                 |             | [Optional] [Defaults to `undefined`]                                           |
+| **startingAfter**            | `string`                                |             | [Optional] [Defaults to `undefined`]                                           |
+| **affinityVersion**          | `string`                                |             | [Optional] [Defaults to `undefined`]                                           |
 
 ### Return type
 

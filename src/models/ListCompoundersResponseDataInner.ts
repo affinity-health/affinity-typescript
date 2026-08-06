@@ -13,6 +13,14 @@
  */
 
 import { mapValues } from "../runtime";
+import type { ListCompoundersResponseDataInnerShippingOptionsInner } from "./ListCompoundersResponseDataInnerShippingOptionsInner";
+import {
+  ListCompoundersResponseDataInnerShippingOptionsInnerFromJSON,
+  ListCompoundersResponseDataInnerShippingOptionsInnerFromJSONTyped,
+  ListCompoundersResponseDataInnerShippingOptionsInnerToJSON,
+  ListCompoundersResponseDataInnerShippingOptionsInnerToJSONTyped,
+} from "./ListCompoundersResponseDataInnerShippingOptionsInner";
+
 /**
  *
  * @export
@@ -69,6 +77,12 @@ export interface ListCompoundersResponseDataInner {
   restrictedStates: Array<string>;
   /**
    *
+   * @type {Array<ListCompoundersResponseDataInnerShippingOptionsInner>}
+   * @memberof ListCompoundersResponseDataInner
+   */
+  shippingOptions: Array<ListCompoundersResponseDataInnerShippingOptionsInner>;
+  /**
+   *
    * @type {Array<string>}
    * @memberof ListCompoundersResponseDataInner
    */
@@ -108,6 +122,7 @@ export function instanceOfListCompoundersResponseDataInner(
   if (!("name" in value) || value["name"] === undefined) return false;
   if (!("object" in value) || value["object"] === undefined) return false;
   if (!("restrictedStates" in value) || value["restrictedStates"] === undefined) return false;
+  if (!("shippingOptions" in value) || value["shippingOptions"] === undefined) return false;
   if (!("supportedStates" in value) || value["supportedStates"] === undefined) return false;
   return true;
 }
@@ -134,6 +149,9 @@ export function ListCompoundersResponseDataInnerFromJSONTyped(
     name: json["name"],
     object: json["object"],
     restrictedStates: json["restrictedStates"],
+    shippingOptions: (json["shippingOptions"] as Array<any>).map(
+      ListCompoundersResponseDataInnerShippingOptionsInnerFromJSON,
+    ),
     supportedStates: json["supportedStates"],
   };
 }
@@ -161,6 +179,9 @@ export function ListCompoundersResponseDataInnerToJSONTyped(
     name: value["name"],
     object: value["object"],
     restrictedStates: value["restrictedStates"],
+    shippingOptions: (value["shippingOptions"] as Array<any>).map(
+      ListCompoundersResponseDataInnerShippingOptionsInnerToJSON,
+    ),
     supportedStates: value["supportedStates"],
   };
 }

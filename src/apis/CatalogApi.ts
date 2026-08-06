@@ -24,15 +24,15 @@ import {
   ListCatalogItemsDosageFormsParameterToJSON,
 } from "../models/ListCatalogItemsDosageFormsParameter";
 import {
-  type ListCatalogItemsLimitParameter,
-  ListCatalogItemsLimitParameterFromJSON,
-  ListCatalogItemsLimitParameterToJSON,
-} from "../models/ListCatalogItemsLimitParameter";
-import {
   type ListCatalogItemsResponse,
   ListCatalogItemsResponseFromJSON,
   ListCatalogItemsResponseToJSON,
 } from "../models/ListCatalogItemsResponse";
+import {
+  type ListCatalogItemsRoutesParameter,
+  ListCatalogItemsRoutesParameterFromJSON,
+  ListCatalogItemsRoutesParameterToJSON,
+} from "../models/ListCatalogItemsRoutesParameter";
 import {
   type ListCompoundersResponse,
   ListCompoundersResponseFromJSON,
@@ -50,11 +50,13 @@ export interface ListCatalogItemsRequest {
   compounderIds?: ListCatalogItemsCompounderIdsParameter;
   dosageForms?: ListCatalogItemsDosageFormsParameter;
   endingBefore?: string;
-  limit?: ListCatalogItemsLimitParameter;
+  hideControlledSubstances?: boolean;
+  hideUnpriced?: boolean;
+  limit?: number;
   orgId?: string;
   query?: string;
   requirement?: ListCatalogItemsRequirementEnum;
-  route?: ListCatalogItemsRouteEnum;
+  routes?: ListCatalogItemsRoutesParameter;
   startingAfter?: string;
   affinityVersion?: string;
 }
@@ -100,6 +102,14 @@ export class CatalogApi extends runtime.BaseAPI {
       queryParameters["endingBefore"] = requestParameters["endingBefore"];
     }
 
+    if (requestParameters["hideControlledSubstances"] != null) {
+      queryParameters["hideControlledSubstances"] = requestParameters["hideControlledSubstances"];
+    }
+
+    if (requestParameters["hideUnpriced"] != null) {
+      queryParameters["hideUnpriced"] = requestParameters["hideUnpriced"];
+    }
+
     if (requestParameters["limit"] != null) {
       queryParameters["limit"] = requestParameters["limit"];
     }
@@ -116,8 +126,8 @@ export class CatalogApi extends runtime.BaseAPI {
       queryParameters["requirement"] = requestParameters["requirement"];
     }
 
-    if (requestParameters["route"] != null) {
-      queryParameters["route"] = requestParameters["route"];
+    if (requestParameters["routes"] != null) {
+      queryParameters["routes"] = requestParameters["routes"];
     }
 
     if (requestParameters["startingAfter"] != null) {
@@ -366,20 +376,6 @@ export const ListCatalogItemsRequirementEnum = {
 } as const;
 export type ListCatalogItemsRequirementEnum =
   (typeof ListCatalogItemsRequirementEnum)[keyof typeof ListCatalogItemsRequirementEnum];
-/**
- * @export
- */
-export const ListCatalogItemsRouteEnum = {
-  All: "all",
-  Injectable: "injectable",
-  Nasal: "nasal",
-  Oral: "oral",
-  Sublingual: "sublingual",
-  Topical: "topical",
-  Unknown: "unknown",
-} as const;
-export type ListCatalogItemsRouteEnum =
-  (typeof ListCatalogItemsRouteEnum)[keyof typeof ListCatalogItemsRouteEnum];
 /**
  * @export
  */

@@ -247,11 +247,8 @@ List webhook endpoints
 ### Example
 
 ```ts
-import {
-  Configuration,
-  PlatformWebhooksApi,
-} from '@affinity-health/sdk';
-import type { ListWebhookEndpointsRequest } from '@affinity-health/sdk';
+import { Configuration, PlatformWebhooksApi } from "@affinity-health/sdk";
+import type { ListWebhookEndpointsRequest } from "@affinity-health/sdk";
 
 async function example() {
   console.log("🚀 Testing @affinity-health/sdk SDK...");
@@ -266,8 +263,8 @@ async function example() {
   const body = {
     // string (optional)
     endingBefore: endingBefore_example,
-    // ListCatalogItemsLimitParameter (optional)
-    limit: ...,
+    // number (optional)
+    limit: 56,
     // string (optional)
     startingAfter: startingAfter_example,
     // string (optional)
@@ -291,7 +288,7 @@ example().catch(console.error);
 | Name                | Type     | Description | Notes                                |
 | ------------------- | -------- | ----------- | ------------------------------------ |
 | **endingBefore**    | `string` |             | [Optional] [Defaults to `undefined`] |
-| **limit**           | [](.md)  |             | [Optional] [Defaults to `undefined`] |
+| **limit**           | `number` |             | [Optional] [Defaults to `25`]        |
 | **startingAfter**   | `string` |             | [Optional] [Defaults to `undefined`] |
 | **affinityVersion** | `string` |             | [Optional] [Defaults to `undefined`] |
 
@@ -328,11 +325,8 @@ List webhook events
 ### Example
 
 ```ts
-import {
-  Configuration,
-  PlatformWebhooksApi,
-} from '@affinity-health/sdk';
-import type { ListWebhookEventsRequest } from '@affinity-health/sdk';
+import { Configuration, PlatformWebhooksApi } from "@affinity-health/sdk";
+import type { ListWebhookEventsRequest } from "@affinity-health/sdk";
 
 async function example() {
   console.log("🚀 Testing @affinity-health/sdk SDK...");
@@ -347,8 +341,8 @@ async function example() {
   const body = {
     // string (optional)
     endingBefore: endingBefore_example,
-    // ListCatalogItemsLimitParameter (optional)
-    limit: ...,
+    // number (optional)
+    limit: 56,
     // 'all' | 'delivered' | 'failed' | 'pending' (optional)
     status: status_example,
     // string (optional)
@@ -374,7 +368,7 @@ example().catch(console.error);
 | Name                | Type                                    | Description | Notes                                                                        |
 | ------------------- | --------------------------------------- | ----------- | ---------------------------------------------------------------------------- |
 | **endingBefore**    | `string`                                |             | [Optional] [Defaults to `undefined`]                                         |
-| **limit**           | [](.md)                                 |             | [Optional] [Defaults to `undefined`]                                         |
+| **limit**           | `number`                                |             | [Optional] [Defaults to `25`]                                                |
 | **status**          | `all`, `delivered`, `failed`, `pending` |             | [Optional] [Defaults to `undefined`] [Enum: all, delivered, failed, pending] |
 | **startingAfter**   | `string`                                |             | [Optional] [Defaults to `undefined`]                                         |
 | **affinityVersion** | `string`                                |             | [Optional] [Defaults to `undefined`]                                         |

@@ -29,11 +29,6 @@ import {
   GetPracticeResponseToJSON,
 } from "../models/GetPracticeResponse";
 import {
-  type ListCatalogItemsLimitParameter,
-  ListCatalogItemsLimitParameterFromJSON,
-  ListCatalogItemsLimitParameterToJSON,
-} from "../models/ListCatalogItemsLimitParameter";
-import {
   type ListPracticesResponse,
   ListPracticesResponseFromJSON,
   ListPracticesResponseToJSON,
@@ -63,7 +58,7 @@ export interface GetPracticeRequest {
 
 export interface ListPracticesRequest {
   endingBefore?: string;
-  limit?: ListCatalogItemsLimitParameter;
+  limit?: number;
   startingAfter?: string;
   affinityVersion?: string;
 }

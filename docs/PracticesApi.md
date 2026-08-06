@@ -174,11 +174,8 @@ Returns the practices that belong to the platform. The default Affinity-Version 
 ### Example
 
 ```ts
-import {
-  Configuration,
-  PracticesApi,
-} from '@affinity-health/sdk';
-import type { ListPracticesRequest } from '@affinity-health/sdk';
+import { Configuration, PracticesApi } from "@affinity-health/sdk";
+import type { ListPracticesRequest } from "@affinity-health/sdk";
 
 async function example() {
   console.log("🚀 Testing @affinity-health/sdk SDK...");
@@ -193,8 +190,8 @@ async function example() {
   const body = {
     // string (optional)
     endingBefore: endingBefore_example,
-    // ListCatalogItemsLimitParameter (optional)
-    limit: ...,
+    // number (optional)
+    limit: 56,
     // string (optional)
     startingAfter: startingAfter_example,
     // string (optional)
@@ -218,7 +215,7 @@ example().catch(console.error);
 | Name                | Type     | Description | Notes                                |
 | ------------------- | -------- | ----------- | ------------------------------------ |
 | **endingBefore**    | `string` |             | [Optional] [Defaults to `undefined`] |
-| **limit**           | [](.md)  |             | [Optional] [Defaults to `undefined`] |
+| **limit**           | `number` |             | [Optional] [Defaults to `25`]        |
 | **startingAfter**   | `string` |             | [Optional] [Defaults to `undefined`] |
 | **affinityVersion** | `string` |             | [Optional] [Defaults to `undefined`] |
 

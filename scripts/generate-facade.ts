@@ -315,6 +315,90 @@ await output(
 );
 
 await output(
+  "src/resources/cursor-page.ts",
+  `export interface CursorListParams {
+  endingBefore?: string;
+  limit?: number;
+  startingAfter?: string;
+}
+
+export interface CursorListResponse<Item extends { id: string }> {
+  data: Item[];
+  hasMore: boolean;
+}
+
+export type AutoPagingHandler<Item> = (item: Item) => boolean | void | Promise<boolean | void>;
+
+export class CursorPagePromise<
+  Item extends { id: string },
+  Page extends CursorListResponse<Item>,
+> implements Promise<Page>, AsyncIterable<Item> {
+  readonly [Symbol.toStringTag] = "Promise";
+  private firstPage?: Promise<Page>;
+
+  constructor(
+    private readonly params: CursorListParams,
+    private readonly fetchPage: (params: CursorListParams) => Promise<Page>,
+  ) {}
+
+  then<TResult1 = Page, TResult2 = never>(
+    onfulfilled?: ((value: Page) => TResult1 | PromiseLike<TResult1>) | null,
+    onrejected?: ((reason: unknown) => TResult2 | PromiseLike<TResult2>) | null,
+  ): Promise<TResult1 | TResult2> {
+    return this.getFirstPage().then(onfulfilled, onrejected);
+  }
+
+  catch<TResult = never>(
+    onrejected?: ((reason: unknown) => TResult | PromiseLike<TResult>) | null,
+  ): Promise<Page | TResult> {
+    return this.getFirstPage().catch(onrejected);
+  }
+
+  finally(onfinally?: (() => void) | null): Promise<Page> {
+    return this.getFirstPage().finally(onfinally);
+  }
+
+  async autoPagingEach(handler: AutoPagingHandler<Item>): Promise<void> {
+    for await (const item of this) {
+      if ((await handler(item)) === false) return;
+    }
+  }
+
+  async *[Symbol.asyncIterator](): AsyncGenerator<Item> {
+    if (this.params.endingBefore) {
+      throw new Error(
+        "Automatic pagination does not support endingBefore; use startingAfter or omit both cursors",
+      );
+    }
+    let params = { ...this.params };
+    let page = await this.getFirstPage();
+
+    while (true) {
+      for (const item of page.data) yield item;
+      if (!page.hasMore) return;
+      const lastId = page.data.at(-1)?.id;
+      if (!lastId) throw new Error("Affinity returned hasMore without a continuation item");
+      params = { ...params, endingBefore: undefined, startingAfter: lastId };
+      page = await this.fetchPage(params);
+    }
+  }
+
+  private getFirstPage() {
+    this.firstPage ??= this.fetchPage(this.params);
+    return this.firstPage;
+  }
+}
+
+export function cursorPage<
+  Item extends { id: string },
+  Page extends CursorListResponse<Item>,
+  Params extends CursorListParams,
+>(params: Params, fetchPage: (params: Params) => Promise<Page>) {
+  return new CursorPagePromise<Item, Page>(params, (next) => fetchPage(next as Params));
+}`,
+);
+
+await output(
   "src/resources/account.ts",
   `import type { APIKeysApi } from "../apis/APIKeysApi";
 import type { PlatformsApi } from "../apis/PlatformsApi";
@@ -340,13 +424,14 @@ await output(
   ListCatalogItemsRequest,
   ListShippingOptionsRequest,
 } from "../apis/CatalogApi";
+import { cursorPage } from "./cursor-page";
 
 export type CatalogListParams = ListCatalogItemsRequest;
 
 export class CatalogResource {
   constructor(private readonly api: CatalogApi) {}
   list(params: CatalogListParams = {}) {
-    return this.api.listCatalogItems(params);
+    return cursorPage(params, (page) => this.api.listCatalogItems(page));
   }
   listShippingOptions(params: ListShippingOptionsRequest) {
     return this.api.listShippingOptions(params);
@@ -411,11 +496,12 @@ await output(
 import type { CreatePracticeRequest } from "../models/CreatePracticeRequest";
 import type { UpdatePracticeRequest } from "../models/UpdatePracticeRequest";
 import type { MutationOptions } from "./request-options";
+import { cursorPage } from "./cursor-page";
 
 export class PracticesResource {
   constructor(private readonly api: PracticesApi) {}
   list(params: ListPracticesRequest = {}) {
-    return this.api.listPractices(params);
+    return cursorPage(params, (page) => this.api.listPractices(page));
   }
   retrieve(practiceId: string) {
     return this.api.getPractice({ practiceId });
@@ -442,6 +528,7 @@ await output(
 import type { CreatePatientRequest } from "../models/CreatePatientRequest";
 import type { UpdatePatientRequest } from "../models/UpdatePatientRequest";
 import { type AffinityActor, requireAffinityActor } from "./actor";
+import { cursorPage } from "./cursor-page";
 import type { MutationOptions } from "./request-options";
 
 export type PatientListParams = Omit<
@@ -456,10 +543,10 @@ export class PatientsResource {
   ) {}
   list(practiceId: string, params: PatientListParams = {}) {
     requireAffinityActor(this.affinityActor);
-    return this.api.listPatients({
-      ...params,
+    return cursorPage(params, (page) => this.api.listPatients({
+      ...page,
       practiceId,
-    });
+    }));
   }
   retrieve(practiceId: string, patientId: string) {
     requireAffinityActor(this.affinityActor);
@@ -499,6 +586,7 @@ await output(
 import type { CancelOrderRequest } from "../models/CancelOrderRequest";
 import type { CreateOrderRequest } from "../models/CreateOrderRequest";
 import { type AffinityActor, requireAffinityActor } from "./actor";
+import { cursorPage } from "./cursor-page";
 import type { MutationOptions } from "./request-options";
 
 export type OrderListParams = ListOrdersRequest;
@@ -517,9 +605,7 @@ export class OrdersResource {
   }
   list(params: OrderListParams = {}) {
     requireAffinityActor(this.affinityActor);
-    return this.api.listOrders({
-      ...params,
-    });
+    return cursorPage(params, (page) => this.api.listOrders(page));
   }
   retrieve(orderId: string) {
     requireAffinityActor(this.affinityActor);
@@ -535,11 +621,15 @@ export class OrdersResource {
       orderId,
     });
   }
-  listEvents(orderId: string) {
+  listEvents(
+    orderId: string,
+    params: Omit<import("../apis/PlatformOrdersApi").ListOrderEventsRequest, "orderId"> = {},
+  ) {
     requireAffinityActor(this.affinityActor);
-    return this.api.listOrderEvents({
+    return cursorPage(params, (page) => this.api.listOrderEvents({
+      ...page,
       orderId,
-    });
+    }));
   }
 }`,
 );
@@ -550,11 +640,12 @@ await output(
 import type { CreateUserRequest } from "../models/CreateUserRequest";
 import type { UpdateUserRequest } from "../models/UpdateUserRequest";
 import type { MutationOptions } from "./request-options";
+import { cursorPage } from "./cursor-page";
 
 export class UsersResource {
   constructor(private readonly api: UsersApi) {}
   list(params: ListUsersRequest = {}) {
-    return this.api.listUsers(params);
+    return cursorPage(params, (page) => this.api.listUsers(page));
   }
   retrieve(userId: string) {
     return this.api.getUser({ userId });
@@ -577,15 +668,18 @@ export class UsersResource {
 
 await output(
   "src/resources/roles.ts",
-  `import type { RolesApi } from "../apis/RolesApi";
+  `import type { ListPracticeRolesRequest, RolesApi } from "../apis/RolesApi";
 import type { CreatePracticeRoleRequest } from "../models/CreatePracticeRoleRequest";
 import type { UpdatePracticeRoleRequest } from "../models/UpdatePracticeRoleRequest";
 import type { MutationOptions } from "./request-options";
+import { cursorPage } from "./cursor-page";
+
+export type RoleListParams = Omit<ListPracticeRolesRequest, "practiceId">;
 
 export class RolesResource {
   constructor(private readonly api: RolesApi) {}
-  list(practiceId: string) {
-    return this.api.listPracticeRoles({ practiceId });
+  list(practiceId: string, params: RoleListParams = {}) {
+    return cursorPage(params, (page) => this.api.listPracticeRoles({ ...page, practiceId }));
   }
   create(practiceId: string, params: CreatePracticeRoleRequest, options: MutationOptions) {
     return this.api.createPracticeRole({
@@ -619,15 +713,18 @@ export class RolesResource {
 
 await output(
   "src/resources/memberships.ts",
-  `import type { MembershipsApi } from "../apis/MembershipsApi";
+  `import type { ListPracticeMembershipsRequest, MembershipsApi } from "../apis/MembershipsApi";
 import type { CreatePracticeMembershipRequest } from "../models/CreatePracticeMembershipRequest";
 import type { UpdatePracticeMembershipRequest } from "../models/UpdatePracticeMembershipRequest";
 import type { MutationOptions } from "./request-options";
+import { cursorPage } from "./cursor-page";
+
+export type MembershipListParams = Omit<ListPracticeMembershipsRequest, "practiceId">;
 
 export class MembershipsResource {
   constructor(private readonly api: MembershipsApi) {}
-  list(practiceId: string) {
-    return this.api.listPracticeMemberships({ practiceId });
+  list(practiceId: string, params: MembershipListParams = {}) {
+    return cursorPage(params, (page) => this.api.listPracticeMemberships({ ...page, practiceId }));
   }
   create(
     practiceId: string,
@@ -662,6 +759,7 @@ await output(
 import type { CreateProviderMappingRequest } from "../models/CreateProviderMappingRequest";
 import type { UpdateProviderMappingRequest } from "../models/UpdateProviderMappingRequest";
 import type { MutationOptions } from "./request-options";
+import { cursorPage } from "./cursor-page";
 
 export class ProviderMappingsResource {
   constructor(private readonly api: ProviderMappingsApi) {}
@@ -677,7 +775,7 @@ export class ProviderMappingsResource {
     });
   }
   list(params: ListProviderMappingsRequest = {}) {
-    return this.api.listProviderMappings(params);
+    return cursorPage(params, (page) => this.api.listProviderMappings(page));
   }
   revoke(providerMappingId: string, options: MutationOptions) {
     const params: UpdateProviderMappingRequest = { status: "revoked" };
@@ -743,15 +841,16 @@ export class OrderSigningSessionsResource {
 
 await output(
   "src/resources/webhooks.ts",
-  `import type { ListWebhookEventsRequest, PlatformWebhooksApi } from "../apis/PlatformWebhooksApi";
+  `import type { ListWebhookEndpointsRequest, ListWebhookEventsRequest, PlatformWebhooksApi } from "../apis/PlatformWebhooksApi";
 import type { CreateWebhookEndpointRequest } from "../models/CreateWebhookEndpointRequest";
 import type { UpdateWebhookEndpointRequest } from "../models/UpdateWebhookEndpointRequest";
 import type { MutationOptions } from "./request-options";
+import { cursorPage } from "./cursor-page";
 
 export class WebhooksResource {
   constructor(private readonly api: PlatformWebhooksApi) {}
-  listEndpoints() {
-    return this.api.listWebhookEndpoints();
+  listEndpoints(params: ListWebhookEndpointsRequest = {}) {
+    return cursorPage(params, (page) => this.api.listWebhookEndpoints(page));
   }
   createEndpoint(params: CreateWebhookEndpointRequest, options: MutationOptions) {
     return this.api.createWebhookEndpoint({
@@ -783,7 +882,7 @@ export class WebhooksResource {
     });
   }
   listEvents(params: ListWebhookEventsRequest = {}) {
-    return this.api.listWebhookEvents(params);
+    return cursorPage(params, (page) => this.api.listWebhookEvents(page));
   }
   retrieveEvent(eventId: string) {
     return this.api.getWebhookEvent({ eventId });
@@ -817,5 +916,5 @@ const indexPath = resolve(root, "src/index.ts");
 const generatedIndex = (await readFile(indexPath, "utf8")).trimEnd();
 await writeFile(
   indexPath,
-  `${generatedIndex}\n\nexport * from "./affinity";\nexport * from "./webhook-events";\nexport * from "./resources/account";\nexport * from "./resources/actor";\nexport * from "./resources/billing";\nexport * from "./resources/catalog";\nexport * from "./resources/component-sessions";\nexport * from "./resources/compounders";\nexport * from "./resources/hosted-sessions";\nexport * from "./resources/memberships";\nexport * from "./resources/order-signing-sessions";\nexport * from "./resources/orders";\nexport * from "./resources/patients";\nexport * from "./resources/practices";\nexport * from "./resources/provider-mappings";\nexport * from "./resources/request-options";\nexport * from "./resources/roles";\nexport * from "./resources/users";\nexport * from "./resources/webhooks";\n`,
+  `${generatedIndex}\n\nexport * from "./affinity";\nexport * from "./webhook-events";\nexport * from "./resources/account";\nexport * from "./resources/actor";\nexport * from "./resources/billing";\nexport * from "./resources/catalog";\nexport * from "./resources/component-sessions";\nexport * from "./resources/compounders";\nexport * from "./resources/cursor-page";\nexport * from "./resources/hosted-sessions";\nexport * from "./resources/memberships";\nexport * from "./resources/order-signing-sessions";\nexport * from "./resources/orders";\nexport * from "./resources/patients";\nexport * from "./resources/practices";\nexport * from "./resources/provider-mappings";\nexport * from "./resources/request-options";\nexport * from "./resources/roles";\nexport * from "./resources/users";\nexport * from "./resources/webhooks";\n`,
 );

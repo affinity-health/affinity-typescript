@@ -29,11 +29,6 @@ import {
   GetUserResponseToJSON,
 } from "../models/GetUserResponse";
 import {
-  type ListCatalogItemsLimitParameter,
-  ListCatalogItemsLimitParameterFromJSON,
-  ListCatalogItemsLimitParameterToJSON,
-} from "../models/ListCatalogItemsLimitParameter";
-import {
   type ListUsersResponse,
   ListUsersResponseFromJSON,
   ListUsersResponseToJSON,
@@ -62,7 +57,9 @@ export interface GetUserRequest {
 }
 
 export interface ListUsersRequest {
-  limit?: ListCatalogItemsLimitParameter;
+  endingBefore?: string;
+  limit?: number;
+  startingAfter?: string;
   affinityVersion?: string;
 }
 
@@ -238,8 +235,16 @@ export class UsersApi extends runtime.BaseAPI {
   async listUsersRequestOpts(requestParameters: ListUsersRequest): Promise<runtime.RequestOpts> {
     const queryParameters: any = {};
 
+    if (requestParameters["endingBefore"] != null) {
+      queryParameters["endingBefore"] = requestParameters["endingBefore"];
+    }
+
     if (requestParameters["limit"] != null) {
       queryParameters["limit"] = requestParameters["limit"];
+    }
+
+    if (requestParameters["startingAfter"] != null) {
+      queryParameters["startingAfter"] = requestParameters["startingAfter"];
     }
 
     const headerParameters: runtime.HTTPHeaders = {};

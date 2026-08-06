@@ -12,6 +12,7 @@ export * from "./resources/billing";
 export * from "./resources/catalog";
 export * from "./resources/component-sessions";
 export * from "./resources/compounders";
+export * from "./resources/cursor-page";
 export * from "./resources/hosted-sessions";
 export * from "./resources/memberships";
 export * from "./resources/order-signing-sessions";

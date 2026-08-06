@@ -61,6 +61,9 @@ export interface DeletePracticeRoleRequest {
 
 export interface ListPracticeRolesRequest {
   practiceId: string;
+  endingBefore?: string;
+  limit?: number;
+  startingAfter?: string;
   affinityVersion?: string;
 }
 
@@ -282,6 +285,18 @@ export class RolesApi extends runtime.BaseAPI {
     }
 
     const queryParameters: any = {};
+
+    if (requestParameters["endingBefore"] != null) {
+      queryParameters["endingBefore"] = requestParameters["endingBefore"];
+    }
+
+    if (requestParameters["limit"] != null) {
+      queryParameters["limit"] = requestParameters["limit"];
+    }
+
+    if (requestParameters["startingAfter"] != null) {
+      queryParameters["startingAfter"] = requestParameters["startingAfter"];
+    }
 
     const headerParameters: runtime.HTTPHeaders = {};
 

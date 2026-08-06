@@ -174,11 +174,8 @@ Lists the platform\&#39;s provider-to-Affinity identity mappings in the current 
 ### Example
 
 ```ts
-import {
-  Configuration,
-  ProviderMappingsApi,
-} from '@affinity-health/sdk';
-import type { ListProviderMappingsRequest } from '@affinity-health/sdk';
+import { Configuration, ProviderMappingsApi } from "@affinity-health/sdk";
+import type { ListProviderMappingsRequest } from "@affinity-health/sdk";
 
 async function example() {
   console.log("🚀 Testing @affinity-health/sdk SDK...");
@@ -195,8 +192,8 @@ async function example() {
     endingBefore: endingBefore_example,
     // string (optional)
     externalId: externalId_example,
-    // ListCatalogItemsLimitParameter (optional)
-    limit: ...,
+    // number (optional)
+    limit: 56,
     // string (optional)
     practiceId: practiceId_example,
     // string (optional)
@@ -225,7 +222,7 @@ example().catch(console.error);
 | ------------------- | -------------------------------- | ----------- | ----------------------------------------------------------------------- |
 | **endingBefore**    | `string`                         |             | [Optional] [Defaults to `undefined`]                                    |
 | **externalId**      | `string`                         |             | [Optional] [Defaults to `undefined`]                                    |
-| **limit**           | [](.md)                          |             | [Optional] [Defaults to `undefined`]                                    |
+| **limit**           | `number`                         |             | [Optional] [Defaults to `25`]                                           |
 | **practiceId**      | `string`                         |             | [Optional] [Defaults to `undefined`]                                    |
 | **startingAfter**   | `string`                         |             | [Optional] [Defaults to `undefined`]                                    |
 | **status**          | `pending`, `verified`, `revoked` |             | [Optional] [Defaults to `undefined`] [Enum: pending, verified, revoked] |

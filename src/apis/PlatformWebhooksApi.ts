@@ -34,11 +34,6 @@ import {
   GetWebhookEventResponseToJSON,
 } from "../models/GetWebhookEventResponse";
 import {
-  type ListCatalogItemsLimitParameter,
-  ListCatalogItemsLimitParameterFromJSON,
-  ListCatalogItemsLimitParameterToJSON,
-} from "../models/ListCatalogItemsLimitParameter";
-import {
   type ListWebhookEndpointsResponse,
   ListWebhookEndpointsResponseFromJSON,
   ListWebhookEndpointsResponseToJSON,
@@ -89,14 +84,14 @@ export interface GetWebhookEventRequest {
 
 export interface ListWebhookEndpointsRequest {
   endingBefore?: string;
-  limit?: ListCatalogItemsLimitParameter;
+  limit?: number;
   startingAfter?: string;
   affinityVersion?: string;
 }
 
 export interface ListWebhookEventsRequest {
   endingBefore?: string;
-  limit?: ListCatalogItemsLimitParameter;
+  limit?: number;
   status?: ListWebhookEventsStatusEnum;
   startingAfter?: string;
   affinityVersion?: string;

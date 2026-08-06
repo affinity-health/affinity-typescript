@@ -13,6 +13,13 @@
  */
 
 import { mapValues } from "../runtime";
+import type { ListCatalogItemsResponseDataInnerPrescriptionRequirements } from "./ListCatalogItemsResponseDataInnerPrescriptionRequirements";
+import {
+  ListCatalogItemsResponseDataInnerPrescriptionRequirementsFromJSON,
+  ListCatalogItemsResponseDataInnerPrescriptionRequirementsFromJSONTyped,
+  ListCatalogItemsResponseDataInnerPrescriptionRequirementsToJSON,
+  ListCatalogItemsResponseDataInnerPrescriptionRequirementsToJSONTyped,
+} from "./ListCatalogItemsResponseDataInnerPrescriptionRequirements";
 import type { ListCatalogItemsResponseDataInnerPricing } from "./ListCatalogItemsResponseDataInnerPricing";
 import {
   ListCatalogItemsResponseDataInnerPricingFromJSON,
@@ -113,6 +120,12 @@ export interface ListCatalogItemsResponseDataInner {
   patientSpecificRequired: boolean;
   /**
    *
+   * @type {ListCatalogItemsResponseDataInnerPrescriptionRequirements}
+   * @memberof ListCatalogItemsResponseDataInner
+   */
+  prescriptionRequirements: ListCatalogItemsResponseDataInnerPrescriptionRequirements;
+  /**
+   *
    * @type {ListCatalogItemsResponseDataInnerPricing}
    * @memberof ListCatalogItemsResponseDataInner
    */
@@ -167,6 +180,8 @@ export function instanceOfListCatalogItemsResponseDataInner(
   if (!("object" in value) || value["object"] === undefined) return false;
   if (!("patientSpecificRequired" in value) || value["patientSpecificRequired"] === undefined)
     return false;
+  if (!("prescriptionRequirements" in value) || value["prescriptionRequirements"] === undefined)
+    return false;
   if (!("pricing" in value) || value["pricing"] === undefined) return false;
   if (!("restrictedStates" in value) || value["restrictedStates"] === undefined) return false;
   if (!("route" in value) || value["route"] === undefined) return false;
@@ -202,6 +217,9 @@ export function ListCatalogItemsResponseDataInnerFromJSONTyped(
     name: json["name"],
     object: json["object"],
     patientSpecificRequired: json["patientSpecificRequired"],
+    prescriptionRequirements: ListCatalogItemsResponseDataInnerPrescriptionRequirementsFromJSON(
+      json["prescriptionRequirements"],
+    ),
     pricing: ListCatalogItemsResponseDataInnerPricingFromJSON(json["pricing"]),
     restrictedStates: json["restrictedStates"],
     route: json["route"],
@@ -238,6 +256,9 @@ export function ListCatalogItemsResponseDataInnerToJSONTyped(
     name: value["name"],
     object: value["object"],
     patientSpecificRequired: value["patientSpecificRequired"],
+    prescriptionRequirements: ListCatalogItemsResponseDataInnerPrescriptionRequirementsToJSON(
+      value["prescriptionRequirements"],
+    ),
     pricing: ListCatalogItemsResponseDataInnerPricingToJSON(value["pricing"]),
     restrictedStates: value["restrictedStates"],
     route: value["route"],

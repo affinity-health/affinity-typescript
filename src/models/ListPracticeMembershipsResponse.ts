@@ -35,6 +35,12 @@ export interface ListPracticeMembershipsResponse {
   data: Array<ListPracticeMembershipsResponseDataInner>;
   /**
    *
+   * @type {boolean}
+   * @memberof ListPracticeMembershipsResponse
+   */
+  hasMore: boolean;
+  /**
+   *
    * @type {ListPracticeMembershipsResponseObjectEnum}
    * @memberof ListPracticeMembershipsResponse
    */
@@ -63,6 +69,7 @@ export function instanceOfListPracticeMembershipsResponse(
   value: object,
 ): value is ListPracticeMembershipsResponse {
   if (!("data" in value) || value["data"] === undefined) return false;
+  if (!("hasMore" in value) || value["hasMore"] === undefined) return false;
   if (!("object" in value) || value["object"] === undefined) return false;
   if (!("url" in value) || value["url"] === undefined) return false;
   return true;
@@ -83,6 +90,7 @@ export function ListPracticeMembershipsResponseFromJSONTyped(
   }
   return {
     data: (json["data"] as Array<any>).map(ListPracticeMembershipsResponseDataInnerFromJSON),
+    hasMore: json["hasMore"],
     object: json["object"],
     url: json["url"],
   };
@@ -102,6 +110,7 @@ export function ListPracticeMembershipsResponseToJSONTyped(
 
   return {
     data: (value["data"] as Array<any>).map(ListPracticeMembershipsResponseDataInnerToJSON),
+    hasMore: value["hasMore"],
     object: value["object"],
     url: value["url"],
   };

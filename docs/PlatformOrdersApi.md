@@ -272,11 +272,8 @@ List order events
 ### Example
 
 ```ts
-import {
-  Configuration,
-  PlatformOrdersApi,
-} from '@affinity-health/sdk';
-import type { ListOrderEventsRequest } from '@affinity-health/sdk';
+import { Configuration, PlatformOrdersApi } from "@affinity-health/sdk";
+import type { ListOrderEventsRequest } from "@affinity-health/sdk";
 
 async function example() {
   console.log("🚀 Testing @affinity-health/sdk SDK...");
@@ -293,8 +290,8 @@ async function example() {
     orderId: orderId_example,
     // string (optional)
     endingBefore: endingBefore_example,
-    // ListCatalogItemsLimitParameter (optional)
-    limit: ...,
+    // number (optional)
+    limit: 56,
     // string (optional)
     startingAfter: startingAfter_example,
     // string (optional)
@@ -323,7 +320,7 @@ example().catch(console.error);
 | --------------------- | -------- | ----------- | ------------------------------------ |
 | **orderId**           | `string` |             | [Defaults to `undefined`]            |
 | **endingBefore**      | `string` |             | [Optional] [Defaults to `undefined`] |
-| **limit**             | [](.md)  |             | [Optional] [Defaults to `undefined`] |
+| **limit**             | `number` |             | [Optional] [Defaults to `25`]        |
 | **startingAfter**     | `string` |             | [Optional] [Defaults to `undefined`] |
 | **affinityVersion**   | `string` |             | [Optional] [Defaults to `undefined`] |
 | **affinityActorId**   | `string` |             | [Optional] [Defaults to `undefined`] |
@@ -362,11 +359,8 @@ List platform orders
 ### Example
 
 ```ts
-import {
-  Configuration,
-  PlatformOrdersApi,
-} from '@affinity-health/sdk';
-import type { ListOrdersRequest } from '@affinity-health/sdk';
+import { Configuration, PlatformOrdersApi } from "@affinity-health/sdk";
+import type { ListOrdersRequest } from "@affinity-health/sdk";
 
 async function example() {
   console.log("🚀 Testing @affinity-health/sdk SDK...");
@@ -381,8 +375,8 @@ async function example() {
   const body = {
     // string (optional)
     endingBefore: endingBefore_example,
-    // ListCatalogItemsLimitParameter (optional)
-    limit: ...,
+    // number (optional)
+    limit: 56,
     // string (optional)
     patientExternalId: patientExternalId_example,
     // string (optional)
@@ -416,7 +410,7 @@ example().catch(console.error);
 | Name                  | Type                                                                                                                                              | Description | Notes                                                                                                                                                                      |
 | --------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- | ----------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **endingBefore**      | `string`                                                                                                                                          |             | [Optional] [Defaults to `undefined`]                                                                                                                                       |
-| **limit**             | [](.md)                                                                                                                                           |             | [Optional] [Defaults to `undefined`]                                                                                                                                       |
+| **limit**             | `number`                                                                                                                                          |             | [Optional] [Defaults to `25`]                                                                                                                                              |
 | **patientExternalId** | `string`                                                                                                                                          |             | [Optional] [Defaults to `undefined`]                                                                                                                                       |
 | **practiceId**        | `string`                                                                                                                                          |             | [Optional] [Defaults to `undefined`]                                                                                                                                       |
 | **startingAfter**     | `string`                                                                                                                                          |             | [Optional] [Defaults to `undefined`]                                                                                                                                       |

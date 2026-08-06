@@ -409,18 +409,29 @@
           },
           {
             "in": "query",
+            "name": "hideControlledSubstances",
+            "required": false,
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "in": "query",
+            "name": "hideUnpriced",
+            "required": false,
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "in": "query",
             "name": "limit",
             "required": false,
             "schema": {
-              "anyOf": [
-                {
-                  "type": "number"
-                },
-                {
-                  "type": "string",
-                  "description": "a string to be decoded into a number"
-                }
-              ]
+              "default": 25,
+              "maximum": 100,
+              "minimum": 1,
+              "type": "integer"
             }
           },
           {
@@ -451,11 +462,22 @@
           },
           {
             "in": "query",
-            "name": "route",
+            "name": "routes",
             "required": false,
             "schema": {
-              "type": "string",
-              "enum": ["all", "injectable", "nasal", "oral", "sublingual", "topical", "unknown"]
+              "anyOf": [
+                {
+                  "type": "string",
+                  "enum": ["injectable", "nasal", "oral", "sublingual", "topical", "unknown"]
+                },
+                {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "enum": ["injectable", "nasal", "oral", "sublingual", "topical", "unknown"]
+                  }
+                }
+              ]
             }
           },
           {
@@ -482,7 +504,7 @@
                 "schema": {
                   "title": "ListCatalogItemsResponse",
                   "type": "object",
-                  "required": ["data", "hasMore", "object", "url"],
+                  "required": ["data", "hasMore", "object", "updatedAt", "url"],
                   "properties": {
                     "data": {
                       "type": "array",
@@ -503,6 +525,7 @@
                           "name",
                           "object",
                           "patientSpecificRequired",
+                          "prescriptionRequirements",
                           "pricing",
                           "restrictedStates",
                           "route",
@@ -555,6 +578,120 @@
                           "patientSpecificRequired": {
                             "type": "boolean"
                           },
+                          "prescriptionRequirements": {
+                            "type": "object",
+                            "required": [
+                              "compoundingReason",
+                              "diagnosis",
+                              "pharmacyNotes",
+                              "refills",
+                              "substitution"
+                            ],
+                            "properties": {
+                              "allowedDaysSupply": {
+                                "type": "array",
+                                "items": {
+                                  "type": "number"
+                                }
+                              },
+                              "allowedQuantities": {
+                                "type": "array",
+                                "items": {
+                                  "type": "object",
+                                  "required": ["label", "unit", "value"],
+                                  "properties": {
+                                    "daysSupply": {
+                                      "type": "number"
+                                    },
+                                    "label": {
+                                      "type": "string"
+                                    },
+                                    "unit": {
+                                      "type": "string"
+                                    },
+                                    "value": {
+                                      "type": "number"
+                                    }
+                                  },
+                                  "additionalProperties": false
+                                }
+                              },
+                              "allowedReasonCategories": {
+                                "type": "array",
+                                "items": {
+                                  "type": "string",
+                                  "enum": [
+                                    "drug_shortage",
+                                    "commercial_product_discontinued",
+                                    "modified_release",
+                                    "inactive_ingredient_sensitivity",
+                                    "concentration_adjustment",
+                                    "alternate_route",
+                                    "dosage_form_unavailable",
+                                    "patient_cannot_use_commercial_product",
+                                    "no_approved_product_available",
+                                    "other_patient_specific_need"
+                                  ]
+                                }
+                              },
+                              "compoundingReason": {
+                                "type": "string",
+                                "enum": ["not_required", "optional", "required"]
+                              },
+                              "controlledSchedule": {
+                                "type": "string",
+                                "enum": ["II", "III", "IV", "V"]
+                              },
+                              "defaultDaysSupply": {
+                                "type": "number"
+                              },
+                              "defaultQuantity": {
+                                "type": "object",
+                                "required": ["unit", "value"],
+                                "properties": {
+                                  "unit": {
+                                    "type": "string"
+                                  },
+                                  "value": {
+                                    "type": "number"
+                                  }
+                                },
+                                "additionalProperties": false
+                              },
+                              "defaultSigs": {
+                                "type": "array",
+                                "items": {
+                                  "type": "string"
+                                }
+                              },
+                              "diagnosis": {
+                                "type": "string",
+                                "enum": ["not_required", "optional", "required"]
+                              },
+                              "maxRefills": {
+                                "type": "number"
+                              },
+                              "notes": {
+                                "type": "array",
+                                "items": {
+                                  "type": "string"
+                                }
+                              },
+                              "pharmacyNotes": {
+                                "type": "string",
+                                "enum": ["not_supported", "optional"]
+                              },
+                              "refills": {
+                                "type": "string",
+                                "enum": ["not_supported", "optional"]
+                              },
+                              "substitution": {
+                                "type": "string",
+                                "enum": ["not_supported", "optional"]
+                              }
+                            },
+                            "additionalProperties": false
+                          },
                           "pricing": {
                             "anyOf": [
                               {
@@ -581,8 +718,7 @@
                                     "type": "number"
                                   },
                                   "serviceFeePercent": {
-                                    "type": "number",
-                                    "enum": [15]
+                                    "type": "number"
                                   }
                                 },
                                 "additionalProperties": false
@@ -621,6 +757,9 @@
                     "object": {
                       "type": "string",
                       "enum": ["list"]
+                    },
+                    "updatedAt": {
+                      "type": "string"
                     },
                     "url": {
                       "type": "string",
@@ -722,6 +861,7 @@
                           "name",
                           "object",
                           "restrictedStates",
+                          "shippingOptions",
                           "supportedStates"
                         ],
                         "properties": {
@@ -752,6 +892,87 @@
                             "type": "array",
                             "items": {
                               "type": "string"
+                            }
+                          },
+                          "shippingOptions": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "required": [
+                                "amountCents",
+                                "carrier",
+                                "currency",
+                                "destinationTypes",
+                                "estimatedDaysMax",
+                                "estimatedDaysMin",
+                                "id",
+                                "label",
+                                "serviceLevel",
+                                "temperatures"
+                              ],
+                              "properties": {
+                                "amountCents": {
+                                  "type": "number"
+                                },
+                                "carrier": {
+                                  "anyOf": [
+                                    {
+                                      "type": "string"
+                                    },
+                                    {
+                                      "type": "null"
+                                    }
+                                  ]
+                                },
+                                "currency": {
+                                  "type": "string",
+                                  "enum": ["USD"]
+                                },
+                                "destinationTypes": {
+                                  "type": "array",
+                                  "items": {
+                                    "type": "string",
+                                    "enum": ["patient", "practice"]
+                                  }
+                                },
+                                "estimatedDaysMax": {
+                                  "anyOf": [
+                                    {
+                                      "type": "number"
+                                    },
+                                    {
+                                      "type": "null"
+                                    }
+                                  ]
+                                },
+                                "estimatedDaysMin": {
+                                  "anyOf": [
+                                    {
+                                      "type": "number"
+                                    },
+                                    {
+                                      "type": "null"
+                                    }
+                                  ]
+                                },
+                                "id": {
+                                  "type": "string"
+                                },
+                                "label": {
+                                  "type": "string"
+                                },
+                                "serviceLevel": {
+                                  "type": "string"
+                                },
+                                "temperatures": {
+                                  "type": "array",
+                                  "items": {
+                                    "type": "string",
+                                    "enum": ["ambient", "refrigerated"]
+                                  }
+                                }
+                              },
+                              "additionalProperties": false
                             }
                           },
                           "supportedStates": {
@@ -1017,15 +1238,10 @@
             "name": "limit",
             "required": false,
             "schema": {
-              "anyOf": [
-                {
-                  "type": "number"
-                },
-                {
-                  "type": "string",
-                  "description": "a string to be decoded into a number"
-                }
-              ]
+              "default": 25,
+              "maximum": 100,
+              "minimum": 1,
+              "type": "integer"
             }
           },
           {
@@ -2803,15 +3019,10 @@
             "name": "limit",
             "required": false,
             "schema": {
-              "anyOf": [
-                {
-                  "type": "number"
-                },
-                {
-                  "type": "string",
-                  "description": "a string to be decoded into a number"
-                }
-              ]
+              "default": 25,
+              "maximum": 100,
+              "minimum": 1,
+              "type": "integer"
             }
           },
           {
@@ -2893,10 +3104,7 @@
                             "type": "object",
                             "required": [],
                             "properties": {},
-                            "additionalProperties": {
-                              "$id": "/schemas/unknown",
-                              "title": "unknown"
-                            }
+                            "additionalProperties": {}
                           },
                           "object": {
                             "type": "string",
@@ -2976,15 +3184,10 @@
             "name": "limit",
             "required": false,
             "schema": {
-              "anyOf": [
-                {
-                  "type": "number"
-                },
-                {
-                  "type": "string",
-                  "description": "a string to be decoded into a number"
-                }
-              ]
+              "default": 25,
+              "maximum": 100,
+              "minimum": 1,
+              "type": "integer"
             }
           },
           {
@@ -3757,15 +3960,10 @@
             "name": "limit",
             "required": false,
             "schema": {
-              "anyOf": [
-                {
-                  "type": "number"
-                },
-                {
-                  "type": "string",
-                  "description": "a string to be decoded into a number"
-                }
-              ]
+              "default": 25,
+              "maximum": 100,
+              "minimum": 1,
+              "type": "integer"
             }
           },
           {
@@ -4126,10 +4324,7 @@
                       "type": "object",
                       "required": [],
                       "properties": {},
-                      "additionalProperties": {
-                        "$id": "/schemas/unknown",
-                        "title": "unknown"
-                      }
+                      "additionalProperties": {}
                     }
                   },
                   "additionalProperties": false
@@ -4402,10 +4597,7 @@
                       "type": "object",
                       "required": [],
                       "properties": {},
-                      "additionalProperties": {
-                        "$id": "/schemas/unknown",
-                        "title": "unknown"
-                      }
+                      "additionalProperties": {}
                     }
                   },
                   "additionalProperties": false
@@ -4588,15 +4780,10 @@
             "name": "limit",
             "required": false,
             "schema": {
-              "anyOf": [
-                {
-                  "type": "number"
-                },
-                {
-                  "type": "string",
-                  "description": "a string to be decoded into a number"
-                }
-              ]
+              "default": 25,
+              "maximum": 100,
+              "minimum": 1,
+              "type": "integer"
             }
           },
           {
@@ -4796,10 +4983,7 @@
                             "type": "object",
                             "required": [],
                             "properties": {},
-                            "additionalProperties": {
-                              "$id": "/schemas/unknown",
-                              "title": "unknown"
-                            }
+                            "additionalProperties": {}
                           },
                           "name": {
                             "type": "string"
@@ -5075,10 +5259,7 @@
                     "type": "object",
                     "required": [],
                     "properties": {},
-                    "additionalProperties": {
-                      "$id": "/schemas/unknown",
-                      "title": "unknown"
-                    }
+                    "additionalProperties": {}
                   },
                   "name": {
                     "type": "string",
@@ -5357,10 +5538,7 @@
                       "type": "object",
                       "required": [],
                       "properties": {},
-                      "additionalProperties": {
-                        "$id": "/schemas/unknown",
-                        "title": "unknown"
-                      }
+                      "additionalProperties": {}
                     },
                     "name": {
                       "type": "string"
@@ -5670,10 +5848,7 @@
                       "type": "object",
                       "required": [],
                       "properties": {},
-                      "additionalProperties": {
-                        "$id": "/schemas/unknown",
-                        "title": "unknown"
-                      }
+                      "additionalProperties": {}
                     },
                     "name": {
                       "type": "string"
@@ -5941,10 +6116,7 @@
                     "type": "object",
                     "required": [],
                     "properties": {},
-                    "additionalProperties": {
-                      "$id": "/schemas/unknown",
-                      "title": "unknown"
-                    }
+                    "additionalProperties": {}
                   },
                   "name": {
                     "type": "string",
@@ -6223,10 +6395,7 @@
                       "type": "object",
                       "required": [],
                       "properties": {},
-                      "additionalProperties": {
-                        "$id": "/schemas/unknown",
-                        "title": "unknown"
-                      }
+                      "additionalProperties": {}
                     },
                     "name": {
                       "type": "string"
@@ -6347,18 +6516,21 @@
         "parameters": [
           {
             "in": "query",
+            "name": "endingBefore",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
             "name": "limit",
             "required": false,
             "schema": {
-              "anyOf": [
-                {
-                  "type": "number"
-                },
-                {
-                  "type": "string",
-                  "description": "a string to be decoded into a number"
-                }
-              ]
+              "default": 25,
+              "maximum": 100,
+              "minimum": 1,
+              "type": "integer"
             }
           },
           {
@@ -6376,6 +6548,14 @@
             "schema": {
               "type": "string",
               "description": "a string that will be trimmed"
+            }
+          },
+          {
+            "in": "query",
+            "name": "startingAfter",
+            "required": false,
+            "schema": {
+              "type": "string"
             }
           },
           {
@@ -6509,10 +6689,7 @@
                             "type": "object",
                             "required": [],
                             "properties": {},
-                            "additionalProperties": {
-                              "$id": "/schemas/unknown",
-                              "title": "unknown"
-                            }
+                            "additionalProperties": {}
                           },
                           "name": {
                             "type": "object",
@@ -6739,10 +6916,7 @@
                     "type": "object",
                     "required": [],
                     "properties": {},
-                    "additionalProperties": {
-                      "$id": "/schemas/unknown",
-                      "title": "unknown"
-                    }
+                    "additionalProperties": {}
                   },
                   "name": {
                     "type": "object",
@@ -6892,10 +7066,7 @@
                       "type": "object",
                       "required": [],
                       "properties": {},
-                      "additionalProperties": {
-                        "$id": "/schemas/unknown",
-                        "title": "unknown"
-                      }
+                      "additionalProperties": {}
                     },
                     "name": {
                       "type": "object",
@@ -7136,10 +7307,7 @@
                       "type": "object",
                       "required": [],
                       "properties": {},
-                      "additionalProperties": {
-                        "$id": "/schemas/unknown",
-                        "title": "unknown"
-                      }
+                      "additionalProperties": {}
                     },
                     "name": {
                       "type": "object",
@@ -7355,10 +7523,7 @@
                     "type": "object",
                     "required": [],
                     "properties": {},
-                    "additionalProperties": {
-                      "$id": "/schemas/unknown",
-                      "title": "unknown"
-                    }
+                    "additionalProperties": {}
                   },
                   "name": {
                     "type": "object",
@@ -7512,10 +7677,7 @@
                       "type": "object",
                       "required": [],
                       "properties": {},
-                      "additionalProperties": {
-                        "$id": "/schemas/unknown",
-                        "title": "unknown"
-                      }
+                      "additionalProperties": {}
                     },
                     "name": {
                       "type": "object",
@@ -8070,18 +8232,29 @@
         "parameters": [
           {
             "in": "query",
+            "name": "endingBefore",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
             "name": "limit",
             "required": false,
             "schema": {
-              "anyOf": [
-                {
-                  "type": "number"
-                },
-                {
-                  "type": "string",
-                  "description": "a string to be decoded into a number"
-                }
-              ]
+              "default": 25,
+              "maximum": 100,
+              "minimum": 1,
+              "type": "integer"
+            }
+          },
+          {
+            "in": "query",
+            "name": "startingAfter",
+            "required": false,
+            "schema": {
+              "type": "string"
             }
           },
           {
@@ -8145,10 +8318,7 @@
                             "type": "object",
                             "required": [],
                             "properties": {},
-                            "additionalProperties": {
-                              "$id": "/schemas/unknown",
-                              "title": "unknown"
-                            }
+                            "additionalProperties": {}
                           },
                           "name": {
                             "anyOf": [
@@ -8274,10 +8444,7 @@
                     "type": "object",
                     "required": [],
                     "properties": {},
-                    "additionalProperties": {
-                      "$id": "/schemas/unknown",
-                      "title": "unknown"
-                    }
+                    "additionalProperties": {}
                   },
                   "name": {
                     "anyOf": [
@@ -8343,10 +8510,7 @@
                       "type": "object",
                       "required": [],
                       "properties": {},
-                      "additionalProperties": {
-                        "$id": "/schemas/unknown",
-                        "title": "unknown"
-                      }
+                      "additionalProperties": {}
                     },
                     "name": {
                       "anyOf": [
@@ -8480,10 +8644,7 @@
                       "type": "object",
                       "required": [],
                       "properties": {},
-                      "additionalProperties": {
-                        "$id": "/schemas/unknown",
-                        "title": "unknown"
-                      }
+                      "additionalProperties": {}
                     },
                     "name": {
                       "anyOf": [
@@ -8597,10 +8758,7 @@
                     "type": "object",
                     "required": [],
                     "properties": {},
-                    "additionalProperties": {
-                      "$id": "/schemas/unknown",
-                      "title": "unknown"
-                    }
+                    "additionalProperties": {}
                   },
                   "name": {
                     "anyOf": [
@@ -8670,10 +8828,7 @@
                       "type": "object",
                       "required": [],
                       "properties": {},
-                      "additionalProperties": {
-                        "$id": "/schemas/unknown",
-                        "title": "unknown"
-                      }
+                      "additionalProperties": {}
                     },
                     "name": {
                       "anyOf": [
@@ -8745,9 +8900,36 @@
         "x-visibility": "public",
         "parameters": [
           {
+            "in": "query",
+            "name": "endingBefore",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "required": false,
+            "schema": {
+              "default": 25,
+              "maximum": 100,
+              "minimum": 1,
+              "type": "integer"
+            }
+          },
+          {
             "in": "path",
             "name": "practiceId",
             "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "startingAfter",
+            "required": false,
             "schema": {
               "type": "string"
             }
@@ -8768,7 +8950,7 @@
                 "schema": {
                   "title": "ListPracticeRolesResponse",
                   "type": "object",
-                  "required": ["data", "object", "url"],
+                  "required": ["data", "hasMore", "object", "url"],
                   "properties": {
                     "data": {
                       "type": "array",
@@ -8808,6 +8990,9 @@
                         },
                         "additionalProperties": false
                       }
+                    },
+                    "hasMore": {
+                      "type": "boolean"
                     },
                     "object": {
                       "type": "string",
@@ -9247,9 +9432,36 @@
         "x-visibility": "public",
         "parameters": [
           {
+            "in": "query",
+            "name": "endingBefore",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "required": false,
+            "schema": {
+              "default": 25,
+              "maximum": 100,
+              "minimum": 1,
+              "type": "integer"
+            }
+          },
+          {
             "in": "path",
             "name": "practiceId",
             "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "startingAfter",
+            "required": false,
             "schema": {
               "type": "string"
             }
@@ -9270,7 +9482,7 @@
                 "schema": {
                   "title": "ListPracticeMembershipsResponse",
                   "type": "object",
-                  "required": ["data", "object", "url"],
+                  "required": ["data", "hasMore", "object", "url"],
                   "properties": {
                     "data": {
                       "type": "array",
@@ -9323,6 +9535,9 @@
                         },
                         "additionalProperties": false
                       }
+                    },
+                    "hasMore": {
+                      "type": "boolean"
                     },
                     "object": {
                       "type": "string",
@@ -9699,15 +9914,10 @@
             "name": "limit",
             "required": false,
             "schema": {
-              "anyOf": [
-                {
-                  "type": "number"
-                },
-                {
-                  "type": "string",
-                  "description": "a string to be decoded into a number"
-                }
-              ]
+              "default": 25,
+              "maximum": 100,
+              "minimum": 1,
+              "type": "integer"
             }
           },
           {

@@ -165,7 +165,7 @@ example().catch(console.error);
 
 ## listUsers
 
-> ListUsersResponse listUsers(limit, affinityVersion)
+> ListUsersResponse listUsers(endingBefore, limit, startingAfter, affinityVersion)
 
 List users
 
@@ -174,11 +174,8 @@ Lists platform-owned user records in the current Test or Live mode.
 ### Example
 
 ```ts
-import {
-  Configuration,
-  UsersApi,
-} from '@affinity-health/sdk';
-import type { ListUsersRequest } from '@affinity-health/sdk';
+import { Configuration, UsersApi } from "@affinity-health/sdk";
+import type { ListUsersRequest } from "@affinity-health/sdk";
 
 async function example() {
   console.log("🚀 Testing @affinity-health/sdk SDK...");
@@ -191,8 +188,12 @@ async function example() {
   const api = new UsersApi(config);
 
   const body = {
-    // ListCatalogItemsLimitParameter (optional)
-    limit: ...,
+    // string (optional)
+    endingBefore: endingBefore_example,
+    // number (optional)
+    limit: 56,
+    // string (optional)
+    startingAfter: startingAfter_example,
     // string (optional)
     affinityVersion: affinityVersion_example,
   } satisfies ListUsersRequest;
@@ -213,7 +214,9 @@ example().catch(console.error);
 
 | Name                | Type     | Description | Notes                                |
 | ------------------- | -------- | ----------- | ------------------------------------ |
-| **limit**           | [](.md)  |             | [Optional] [Defaults to `undefined`] |
+| **endingBefore**    | `string` |             | [Optional] [Defaults to `undefined`] |
+| **limit**           | `number` |             | [Optional] [Defaults to `25`]        |
+| **startingAfter**   | `string` |             | [Optional] [Defaults to `undefined`] |
 | **affinityVersion** | `string` |             | [Optional] [Defaults to `undefined`] |
 
 ### Return type

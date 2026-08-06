@@ -34,12 +34,42 @@ describe("Affinity client", () => {
       maxRetries: 1,
     });
 
-    await affinity.catalog.list({ limit: 10, query: "semaglutide", route: "injectable" });
+    await affinity.catalog.list({ limit: 10, query: "semaglutide", routes: ["injectable"] });
 
     expect(requests).toHaveLength(2);
     expect(requests[1]?.url).toContain("limit=10");
     expect(requests[1]?.url).toContain("query=semaglutide");
-    expect(requests[1]?.url).toContain("route=injectable");
+    expect(requests[1]?.url).toContain("routes=injectable");
+  });
+
+  test("auto-pages typed collection results", async () => {
+    const requests: Request[] = [];
+    const affinity = new Affinity("sk_test_example", {
+      fetch: async (input, init) => {
+        const request = new Request(input, init);
+        requests.push(request);
+        const startingAfter = new URL(request.url).searchParams.get("startingAfter");
+        return Response.json({
+          data: [
+            { id: startingAfter ? "cat_3" : "cat_1" },
+            ...(startingAfter ? [] : [{ id: "cat_2" }]),
+          ],
+          hasMore: !startingAfter,
+          object: "list",
+          url: "/v1/catalog/items",
+        });
+      },
+    });
+
+    const ids: string[] = [];
+    for await (const item of affinity.catalog.list({ limit: 2, query: "semaglutide" })) {
+      ids.push(item.id);
+    }
+
+    expect(ids).toEqual(["cat_1", "cat_2", "cat_3"]);
+    expect(requests).toHaveLength(2);
+    expect(new URL(requests[1]!.url).searchParams.get("startingAfter")).toBe("cat_2");
+    expect(new URL(requests[1]!.url).searchParams.get("query")).toBe("semaglutide");
   });
 
   test("lists only the compounders available to the authenticated account", async () => {

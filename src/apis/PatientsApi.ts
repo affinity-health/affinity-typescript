@@ -29,11 +29,6 @@ import {
   GetPatientResponseToJSON,
 } from "../models/GetPatientResponse";
 import {
-  type ListCatalogItemsLimitParameter,
-  ListCatalogItemsLimitParameterFromJSON,
-  ListCatalogItemsLimitParameterToJSON,
-} from "../models/ListCatalogItemsLimitParameter";
-import {
   type ListPatientsResponse,
   ListPatientsResponseFromJSON,
   ListPatientsResponseToJSON,
@@ -69,8 +64,10 @@ export interface GetPatientRequest {
 
 export interface ListPatientsRequest {
   practiceId: string;
-  limit?: ListCatalogItemsLimitParameter;
+  endingBefore?: string;
+  limit?: number;
   query?: string;
+  startingAfter?: string;
   affinityVersion?: string;
   affinityActorId?: string;
   affinityActorType?: string;
@@ -303,12 +300,20 @@ export class PatientsApi extends runtime.BaseAPI {
 
     const queryParameters: any = {};
 
+    if (requestParameters["endingBefore"] != null) {
+      queryParameters["endingBefore"] = requestParameters["endingBefore"];
+    }
+
     if (requestParameters["limit"] != null) {
       queryParameters["limit"] = requestParameters["limit"];
     }
 
     if (requestParameters["query"] != null) {
       queryParameters["query"] = requestParameters["query"];
+    }
+
+    if (requestParameters["startingAfter"] != null) {
+      queryParameters["startingAfter"] = requestParameters["startingAfter"];
     }
 
     const headerParameters: runtime.HTTPHeaders = {};

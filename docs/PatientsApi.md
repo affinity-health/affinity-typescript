@@ -183,7 +183,7 @@ example().catch(console.error);
 
 ## listPatients
 
-> ListPatientsResponse listPatients(practiceId, limit, query, affinityVersion, affinityActorId, affinityActorType)
+> ListPatientsResponse listPatients(practiceId, endingBefore, limit, query, startingAfter, affinityVersion, affinityActorId, affinityActorType)
 
 List practice patients
 
@@ -192,11 +192,8 @@ Lists patients owned by one platform-managed practice in the current mode.
 ### Example
 
 ```ts
-import {
-  Configuration,
-  PatientsApi,
-} from '@affinity-health/sdk';
-import type { ListPatientsRequest } from '@affinity-health/sdk';
+import { Configuration, PatientsApi } from "@affinity-health/sdk";
+import type { ListPatientsRequest } from "@affinity-health/sdk";
 
 async function example() {
   console.log("🚀 Testing @affinity-health/sdk SDK...");
@@ -211,10 +208,14 @@ async function example() {
   const body = {
     // string
     practiceId: practiceId_example,
-    // ListCatalogItemsLimitParameter (optional)
-    limit: ...,
+    // string (optional)
+    endingBefore: endingBefore_example,
+    // number (optional)
+    limit: 56,
     // string (optional)
     query: query_example,
+    // string (optional)
+    startingAfter: startingAfter_example,
     // string (optional)
     affinityVersion: affinityVersion_example,
     // string (optional)
@@ -240,8 +241,10 @@ example().catch(console.error);
 | Name                  | Type     | Description | Notes                                |
 | --------------------- | -------- | ----------- | ------------------------------------ |
 | **practiceId**        | `string` |             | [Defaults to `undefined`]            |
-| **limit**             | [](.md)  |             | [Optional] [Defaults to `undefined`] |
+| **endingBefore**      | `string` |             | [Optional] [Defaults to `undefined`] |
+| **limit**             | `number` |             | [Optional] [Defaults to `25`]        |
 | **query**             | `string` |             | [Optional] [Defaults to `undefined`] |
+| **startingAfter**     | `string` |             | [Optional] [Defaults to `undefined`] |
 | **affinityVersion**   | `string` |             | [Optional] [Defaults to `undefined`] |
 | **affinityActorId**   | `string` |             | [Optional] [Defaults to `undefined`] |
 | **affinityActorType** | `string` |             | [Optional] [Defaults to `undefined`] |

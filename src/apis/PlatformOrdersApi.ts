@@ -39,11 +39,6 @@ import {
   GetOrderResponseToJSON,
 } from "../models/GetOrderResponse";
 import {
-  type ListCatalogItemsLimitParameter,
-  ListCatalogItemsLimitParameterFromJSON,
-  ListCatalogItemsLimitParameterToJSON,
-} from "../models/ListCatalogItemsLimitParameter";
-import {
   type ListOrderEventsResponse,
   ListOrderEventsResponseFromJSON,
   ListOrderEventsResponseToJSON,
@@ -82,7 +77,7 @@ export interface GetOrderRequest {
 export interface ListOrderEventsRequest {
   orderId: string;
   endingBefore?: string;
-  limit?: ListCatalogItemsLimitParameter;
+  limit?: number;
   startingAfter?: string;
   affinityVersion?: string;
   affinityActorId?: string;
@@ -91,7 +86,7 @@ export interface ListOrderEventsRequest {
 
 export interface ListOrdersRequest {
   endingBefore?: string;
-  limit?: ListCatalogItemsLimitParameter;
+  limit?: number;
   patientExternalId?: string | null;
   practiceId?: string;
   startingAfter?: string;

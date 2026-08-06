@@ -4,6 +4,7 @@ import type { ListProviderMappingsRequest, ProviderMappingsApi } from "../apis/P
 import type { CreateProviderMappingRequest } from "../models/CreateProviderMappingRequest";
 import type { UpdateProviderMappingRequest } from "../models/UpdateProviderMappingRequest";
 import type { MutationOptions } from "./request-options";
+import { cursorPage } from "./cursor-page";
 
 export class ProviderMappingsResource {
   constructor(private readonly api: ProviderMappingsApi) {}
@@ -19,7 +20,7 @@ export class ProviderMappingsResource {
     });
   }
   list(params: ListProviderMappingsRequest = {}) {
-    return this.api.listProviderMappings(params);
+    return cursorPage(params, (page) => this.api.listProviderMappings(page));
   }
   revoke(providerMappingId: string, options: MutationOptions) {
     const params: UpdateProviderMappingRequest = { status: "revoked" };

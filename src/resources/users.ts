@@ -4,11 +4,12 @@ import type { ListUsersRequest, UsersApi } from "../apis/UsersApi";
 import type { CreateUserRequest } from "../models/CreateUserRequest";
 import type { UpdateUserRequest } from "../models/UpdateUserRequest";
 import type { MutationOptions } from "./request-options";
+import { cursorPage } from "./cursor-page";
 
 export class UsersResource {
   constructor(private readonly api: UsersApi) {}
   list(params: ListUsersRequest = {}) {
-    return this.api.listUsers(params);
+    return cursorPage(params, (page) => this.api.listUsers(page));
   }
   retrieve(userId: string) {
     return this.api.getUser({ userId });

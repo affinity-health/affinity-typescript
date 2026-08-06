@@ -4,11 +4,12 @@ import type { ListPracticesRequest, PracticesApi } from "../apis/PracticesApi";
 import type { CreatePracticeRequest } from "../models/CreatePracticeRequest";
 import type { UpdatePracticeRequest } from "../models/UpdatePracticeRequest";
 import type { MutationOptions } from "./request-options";
+import { cursorPage } from "./cursor-page";
 
 export class PracticesResource {
   constructor(private readonly api: PracticesApi) {}
   list(params: ListPracticesRequest = {}) {
-    return this.api.listPractices(params);
+    return cursorPage(params, (page) => this.api.listPractices(page));
   }
   retrieve(practiceId: string) {
     return this.api.getPractice({ practiceId });

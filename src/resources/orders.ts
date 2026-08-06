@@ -4,6 +4,7 @@ import type { ListOrdersRequest, PlatformOrdersApi } from "../apis/PlatformOrder
 import type { CancelOrderRequest } from "../models/CancelOrderRequest";
 import type { CreateOrderRequest } from "../models/CreateOrderRequest";
 import { type AffinityActor, requireAffinityActor } from "./actor";
+import { cursorPage } from "./cursor-page";
 import type { MutationOptions } from "./request-options";
 
 export type OrderListParams = ListOrdersRequest;
@@ -22,9 +23,7 @@ export class OrdersResource {
   }
   list(params: OrderListParams = {}) {
     requireAffinityActor(this.affinityActor);
-    return this.api.listOrders({
-      ...params,
-    });
+    return cursorPage(params, (page) => this.api.listOrders(page));
   }
   retrieve(orderId: string) {
     requireAffinityActor(this.affinityActor);
@@ -40,10 +39,16 @@ export class OrdersResource {
       orderId,
     });
   }
-  listEvents(orderId: string) {
+  listEvents(
+    orderId: string,
+    params: Omit<import("../apis/PlatformOrdersApi").ListOrderEventsRequest, "orderId"> = {},
+  ) {
     requireAffinityActor(this.affinityActor);
-    return this.api.listOrderEvents({
-      orderId,
-    });
+    return cursorPage(params, (page) =>
+      this.api.listOrderEvents({
+        ...page,
+        orderId,
+      }),
+    );
   }
 }

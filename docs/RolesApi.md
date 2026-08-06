@@ -174,7 +174,7 @@ example().catch(console.error);
 
 ## listPracticeRoles
 
-> ListPracticeRolesResponse listPracticeRoles(practiceId, affinityVersion)
+> ListPracticeRolesResponse listPracticeRoles(practiceId, endingBefore, limit, startingAfter, affinityVersion)
 
 List practice roles
 
@@ -200,6 +200,12 @@ async function example() {
     // string
     practiceId: practiceId_example,
     // string (optional)
+    endingBefore: endingBefore_example,
+    // number (optional)
+    limit: 56,
+    // string (optional)
+    startingAfter: startingAfter_example,
+    // string (optional)
     affinityVersion: affinityVersion_example,
   } satisfies ListPracticeRolesRequest;
 
@@ -220,6 +226,9 @@ example().catch(console.error);
 | Name                | Type     | Description | Notes                                |
 | ------------------- | -------- | ----------- | ------------------------------------ |
 | **practiceId**      | `string` |             | [Defaults to `undefined`]            |
+| **endingBefore**    | `string` |             | [Optional] [Defaults to `undefined`] |
+| **limit**           | `number` |             | [Optional] [Defaults to `25`]        |
+| **startingAfter**   | `string` |             | [Optional] [Defaults to `undefined`] |
 | **affinityVersion** | `string` |             | [Optional] [Defaults to `undefined`] |
 
 ### Return type

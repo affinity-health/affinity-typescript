@@ -29,11 +29,6 @@ import {
   GetProviderMappingResponseToJSON,
 } from "../models/GetProviderMappingResponse";
 import {
-  type ListCatalogItemsLimitParameter,
-  ListCatalogItemsLimitParameterFromJSON,
-  ListCatalogItemsLimitParameterToJSON,
-} from "../models/ListCatalogItemsLimitParameter";
-import {
   type ListProviderMappingsResponse,
   ListProviderMappingsResponseFromJSON,
   ListProviderMappingsResponseToJSON,
@@ -64,7 +59,7 @@ export interface GetProviderMappingRequest {
 export interface ListProviderMappingsRequest {
   endingBefore?: string;
   externalId?: string | null;
-  limit?: ListCatalogItemsLimitParameter;
+  limit?: number;
   practiceId?: string;
   startingAfter?: string;
   status?: ListProviderMappingsStatusEnum;

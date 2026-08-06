@@ -4,6 +4,7 @@ import type { ListPatientsRequest, PatientsApi } from "../apis/PatientsApi";
 import type { CreatePatientRequest } from "../models/CreatePatientRequest";
 import type { UpdatePatientRequest } from "../models/UpdatePatientRequest";
 import { type AffinityActor, requireAffinityActor } from "./actor";
+import { cursorPage } from "./cursor-page";
 import type { MutationOptions } from "./request-options";
 
 export type PatientListParams = Omit<ListPatientsRequest, "practiceId">;
@@ -15,10 +16,12 @@ export class PatientsResource {
   ) {}
   list(practiceId: string, params: PatientListParams = {}) {
     requireAffinityActor(this.affinityActor);
-    return this.api.listPatients({
-      ...params,
-      practiceId,
-    });
+    return cursorPage(params, (page) =>
+      this.api.listPatients({
+        ...page,
+        practiceId,
+      }),
+    );
   }
   retrieve(practiceId: string, patientId: string) {
     requireAffinityActor(this.affinityActor);

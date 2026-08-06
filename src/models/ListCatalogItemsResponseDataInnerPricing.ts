@@ -45,10 +45,10 @@ export interface ListCatalogItemsResponseDataInnerPricing {
   serviceFeeCents: number | null;
   /**
    *
-   * @type {ListCatalogItemsResponseDataInnerPricingServiceFeePercentEnum}
+   * @type {number}
    * @memberof ListCatalogItemsResponseDataInnerPricing
    */
-  serviceFeePercent: ListCatalogItemsResponseDataInnerPricingServiceFeePercentEnum;
+  serviceFeePercent: number | null;
 }
 
 /**
@@ -59,15 +59,6 @@ export const ListCatalogItemsResponseDataInnerPricingCurrencyEnum = {
 } as const;
 export type ListCatalogItemsResponseDataInnerPricingCurrencyEnum =
   (typeof ListCatalogItemsResponseDataInnerPricingCurrencyEnum)[keyof typeof ListCatalogItemsResponseDataInnerPricingCurrencyEnum];
-
-/**
- * @export
- */
-export const ListCatalogItemsResponseDataInnerPricingServiceFeePercentEnum = {
-  NUMBER_15: 15,
-} as const;
-export type ListCatalogItemsResponseDataInnerPricingServiceFeePercentEnum =
-  (typeof ListCatalogItemsResponseDataInnerPricingServiceFeePercentEnum)[keyof typeof ListCatalogItemsResponseDataInnerPricingServiceFeePercentEnum];
 
 /**
  * Check if a given object implements the ListCatalogItemsResponseDataInnerPricing interface.

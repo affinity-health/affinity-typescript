@@ -93,7 +93,7 @@ example().catch(console.error);
 
 ## listPracticeMemberships
 
-> ListPracticeMembershipsResponse listPracticeMemberships(practiceId, affinityVersion)
+> ListPracticeMembershipsResponse listPracticeMemberships(practiceId, endingBefore, limit, startingAfter, affinityVersion)
 
 List practice memberships
 
@@ -119,6 +119,12 @@ async function example() {
     // string
     practiceId: practiceId_example,
     // string (optional)
+    endingBefore: endingBefore_example,
+    // number (optional)
+    limit: 56,
+    // string (optional)
+    startingAfter: startingAfter_example,
+    // string (optional)
     affinityVersion: affinityVersion_example,
   } satisfies ListPracticeMembershipsRequest;
 
@@ -139,6 +145,9 @@ example().catch(console.error);
 | Name                | Type     | Description | Notes                                |
 | ------------------- | -------- | ----------- | ------------------------------------ |
 | **practiceId**      | `string` |             | [Defaults to `undefined`]            |
+| **endingBefore**    | `string` |             | [Optional] [Defaults to `undefined`] |
+| **limit**           | `number` |             | [Optional] [Defaults to `25`]        |
+| **startingAfter**   | `string` |             | [Optional] [Defaults to `undefined`] |
 | **affinityVersion** | `string` |             | [Optional] [Defaults to `undefined`] |
 
 ### Return type

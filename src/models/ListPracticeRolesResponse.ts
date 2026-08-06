@@ -35,6 +35,12 @@ export interface ListPracticeRolesResponse {
   data: Array<ListPracticeRolesResponseDataInner>;
   /**
    *
+   * @type {boolean}
+   * @memberof ListPracticeRolesResponse
+   */
+  hasMore: boolean;
+  /**
+   *
    * @type {ListPracticeRolesResponseObjectEnum}
    * @memberof ListPracticeRolesResponse
    */
@@ -63,6 +69,7 @@ export function instanceOfListPracticeRolesResponse(
   value: object,
 ): value is ListPracticeRolesResponse {
   if (!("data" in value) || value["data"] === undefined) return false;
+  if (!("hasMore" in value) || value["hasMore"] === undefined) return false;
   if (!("object" in value) || value["object"] === undefined) return false;
   if (!("url" in value) || value["url"] === undefined) return false;
   return true;
@@ -81,6 +88,7 @@ export function ListPracticeRolesResponseFromJSONTyped(
   }
   return {
     data: (json["data"] as Array<any>).map(ListPracticeRolesResponseDataInnerFromJSON),
+    hasMore: json["hasMore"],
     object: json["object"],
     url: json["url"],
   };
@@ -100,6 +108,7 @@ export function ListPracticeRolesResponseToJSONTyped(
 
   return {
     data: (value["data"] as Array<any>).map(ListPracticeRolesResponseDataInnerToJSON),
+    hasMore: value["hasMore"],
     object: value["object"],
     url: value["url"],
   };

@@ -1,14 +1,19 @@
 // Code generated from spec/affinity.openapi.json by scripts/generate-facade.ts. DO NOT EDIT.
 
-import type { ListWebhookEventsRequest, PlatformWebhooksApi } from "../apis/PlatformWebhooksApi";
+import type {
+  ListWebhookEndpointsRequest,
+  ListWebhookEventsRequest,
+  PlatformWebhooksApi,
+} from "../apis/PlatformWebhooksApi";
 import type { CreateWebhookEndpointRequest } from "../models/CreateWebhookEndpointRequest";
 import type { UpdateWebhookEndpointRequest } from "../models/UpdateWebhookEndpointRequest";
 import type { MutationOptions } from "./request-options";
+import { cursorPage } from "./cursor-page";
 
 export class WebhooksResource {
   constructor(private readonly api: PlatformWebhooksApi) {}
-  listEndpoints() {
-    return this.api.listWebhookEndpoints();
+  listEndpoints(params: ListWebhookEndpointsRequest = {}) {
+    return cursorPage(params, (page) => this.api.listWebhookEndpoints(page));
   }
   createEndpoint(params: CreateWebhookEndpointRequest, options: MutationOptions) {
     return this.api.createWebhookEndpoint({
@@ -40,7 +45,7 @@ export class WebhooksResource {
     });
   }
   listEvents(params: ListWebhookEventsRequest = {}) {
-    return this.api.listWebhookEvents(params);
+    return cursorPage(params, (page) => this.api.listWebhookEvents(page));
   }
   retrieveEvent(eventId: string) {
     return this.api.getWebhookEvent({ eventId });

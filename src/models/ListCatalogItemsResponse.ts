@@ -47,6 +47,12 @@ export interface ListCatalogItemsResponse {
   object: ListCatalogItemsResponseObjectEnum;
   /**
    *
+   * @type {string}
+   * @memberof ListCatalogItemsResponse
+   */
+  updatedAt: string;
+  /**
+   *
    * @type {ListCatalogItemsResponseUrlEnum}
    * @memberof ListCatalogItemsResponse
    */
@@ -80,6 +86,7 @@ export function instanceOfListCatalogItemsResponse(
   if (!("data" in value) || value["data"] === undefined) return false;
   if (!("hasMore" in value) || value["hasMore"] === undefined) return false;
   if (!("object" in value) || value["object"] === undefined) return false;
+  if (!("updatedAt" in value) || value["updatedAt"] === undefined) return false;
   if (!("url" in value) || value["url"] === undefined) return false;
   return true;
 }
@@ -99,6 +106,7 @@ export function ListCatalogItemsResponseFromJSONTyped(
     data: (json["data"] as Array<any>).map(ListCatalogItemsResponseDataInnerFromJSON),
     hasMore: json["hasMore"],
     object: json["object"],
+    updatedAt: json["updatedAt"],
     url: json["url"],
   };
 }
@@ -119,6 +127,7 @@ export function ListCatalogItemsResponseToJSONTyped(
     data: (value["data"] as Array<any>).map(ListCatalogItemsResponseDataInnerToJSON),
     hasMore: value["hasMore"],
     object: value["object"],
+    updatedAt: value["updatedAt"],
     url: value["url"],
   };
 }
