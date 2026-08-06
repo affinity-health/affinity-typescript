@@ -7,6 +7,21 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 
 ## [Unreleased]
 
+## [1.3.0] - 2026-08-06
+
+### Added
+
+- Added Stripe-style automatic pagination to cursor-backed resource lists. Await a list call for
+  one typed page, use it as an async iterable, or call `autoPagingEach(...)`.
+- Added cursor parameters to role, membership, order-event, and webhook-endpoint resource methods.
+
+### Changed
+
+- Standardized public list parameters to `limit`, `startingAfter`, and `endingBefore` with a
+  default limit of 25 and a maximum of 100.
+- Regenerated catalog filters, prescription requirements, compounder shipping options, metadata,
+  and collection models from the canonical OpenAPI contract.
+
 ## [1.2.1] - 2026-08-05
 
 ### Fixed
@@ -124,7 +139,8 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 - Typed RFC 9457 problem responses, including validation, dependency, and internal failures.
 - A compile-checked Test-mode quickstart.
 
-[Unreleased]: https://github.com/affinity-health/affinity-typescript/compare/v1.2.1...HEAD
+[Unreleased]: https://github.com/affinity-health/affinity-typescript/compare/v1.3.0...HEAD
+[1.3.0]: https://github.com/affinity-health/affinity-typescript/compare/v1.2.1...v1.3.0
 [1.2.1]: https://github.com/affinity-health/affinity-typescript/compare/v1.2.0...v1.2.1
 [1.2.0]: https://github.com/affinity-health/affinity-typescript/compare/v1.1.2...v1.2.0
 [1.1.2]: https://github.com/affinity-health/affinity-typescript/compare/v1.1.1...v1.1.2

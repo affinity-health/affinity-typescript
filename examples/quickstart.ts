@@ -7,7 +7,7 @@ const affinity = new Affinity(apiKey);
 const access = await affinity.account.retrieveAccess();
 if (access.livemode) throw new Error("This quickstart only runs with a test-mode key");
 
-const catalog = await affinity.catalog.list({ limit: 10, query: "semaglutide", route: "all" });
+const catalog = await affinity.catalog.list({ limit: 10, query: "semaglutide" });
 const compounders = await affinity.compounders.list();
 console.log(`Found ${catalog.data.length} matching test catalog items`);
 console.log(`Found ${compounders.data.length} compounders available to this test account`);

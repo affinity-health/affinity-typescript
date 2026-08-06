@@ -2,7 +2,7 @@
 
 The official TypeScript SDK for the Affinity API.
 
-> **Status:** The `1.2` release uses the forward-only `2026-07-29` Affinity API contract. Use Test
+> **Status:** The `1.3` release uses the forward-only `2026-07-29` Affinity API contract. Use Test
 > mode until Affinity approves Live access.
 
 The SDK provides a small, resource-oriented interface for software platforms connecting
@@ -39,6 +39,29 @@ const actingAffinity = affinity.withActor({ id: authenticatedUser.id, type: "use
 const orders = await actingAffinity.orders.list({ practiceId: practices.data[0]?.id });
 console.log(`${compounders.data.length} compounders are available to this account`);
 ```
+
+List methods return a typed first page when awaited. Each page has `data`, `hasMore`, `object`, and
+`url`. The default page size is 25, and the maximum is 100.
+
+List methods are also async iterables. Iteration requests each next page with `startingAfter`:
+
+```ts
+for await (const practice of affinity.practices.list({ limit: 100 })) {
+  await synchronizePractice(practice);
+}
+```
+
+Use `autoPagingEach(...)` when a callback is more convenient. Return `false` to stop iteration:
+
+```ts
+await affinity.users.list().autoPagingEach(async (user) => {
+  await synchronizeUser(user);
+  if (shouldStop(user)) return false;
+});
+```
+
+Pass `startingAfter` or `endingBefore` to request one page directly. Automatic iteration supports
+forward traversal only and rejects `endingBefore`.
 
 Affinity supports three prescribing integrations: Affinity Hosted for a redirect-based workflow,
 Affinity Elements for an embedded composer, and the server-side SDK for platforms that build their
@@ -430,7 +453,7 @@ infrastructure, and compliance controls.
 ## Generation and releases
 
 This SDK is generated from Affinity's curated public API document at
-[`/openapi.json`](https://api.joinaffinityai.com/openapi.json), with a maintained resource
+[`/v1/openapi.json`](https://api.joinaffinityai.com/v1/openapi.json), with a maintained resource
 facade layered over the generated transport. Releases will be validated against the same contract
 before publication to npm.
 
