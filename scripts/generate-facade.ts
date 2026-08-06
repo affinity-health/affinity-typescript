@@ -96,6 +96,24 @@ async function output(path: string, source: string) {
   await writeFile(destination, `${generated}\n${source.trim()}\n`);
 }
 
+await output("src/errors.ts", await readFile(resolve(root, "scripts/templates/errors.ts"), "utf8"));
+
+const runtimePath = resolve(root, "src/runtime.ts");
+let runtime = await readFile(runtimePath, "utf8");
+if (!runtime.includes('import { isAffinityError } from "./errors";')) {
+  runtime = runtime.replace(
+    "/* eslint-disable */\n",
+    '/* eslint-disable */\nimport { isAffinityError } from "./errors";\n',
+  );
+}
+if (!runtime.includes("if (isAffinityError(e)) throw e;")) {
+  runtime = runtime.replace(
+    "        if (e instanceof Error) {",
+    "        if (isAffinityError(e)) throw e;\n        if (e instanceof Error) {",
+  );
+}
+await writeFile(runtimePath, runtime);
+
 await output(
   "src/affinity.ts",
   `import { APIKeysApi } from "./apis/APIKeysApi";
@@ -226,7 +244,8 @@ export class Affinity {
 
 await output(
   "src/resources/retrying-fetch.ts",
-  `import type { FetchAPI } from "../runtime";
+  `import { affinityConnectionError, affinityErrorFromResponse, isAffinityError } from "../errors";
+import type { FetchAPI } from "../runtime";
 
 type RetryOptions = { maxRetries: number; timeout: number };
 
@@ -244,7 +263,11 @@ export function createRetryingFetch(fetchApi: FetchAPI, options: RetryOptions): 
       const abortFromCaller = () => controller.abort(init?.signal?.reason);
       if (init?.signal?.aborted) abortFromCaller();
       init?.signal?.addEventListener("abort", abortFromCaller, { once: true });
-      const timer = setTimeout(() => controller.abort(new Error("Affinity request timed out")), options.timeout);
+      let timedOut = false;
+      const timer = setTimeout(() => {
+        timedOut = true;
+        controller.abort(new Error("Affinity request timed out"));
+      }, options.timeout);
       try {
         const response = await fetchApi(input, { ...init, signal: controller.signal });
         if (
@@ -252,12 +275,16 @@ export function createRetryingFetch(fetchApi: FetchAPI, options: RetryOptions): 
           attempt === options.maxRetries ||
           ![408, 429].includes(response.status) && response.status < 500
         ) {
+          if (!response.ok) throw await affinityErrorFromResponse(response);
           return response;
         }
         await waitBeforeRetry(attempt, response.headers.get("retry-after"));
       } catch (error) {
         lastError = error;
-        if (!retryableRequest || attempt === options.maxRetries || init?.signal?.aborted) throw error;
+        if (init?.signal?.aborted) throw error;
+        if (!retryableRequest || attempt === options.maxRetries) {
+          throw isAffinityError(error) ? error : affinityConnectionError(error, { timedOut });
+        }
         await waitBeforeRetry(attempt, null);
       } finally {
         clearTimeout(timer);
@@ -916,5 +943,5 @@ const indexPath = resolve(root, "src/index.ts");
 const generatedIndex = (await readFile(indexPath, "utf8")).trimEnd();
 await writeFile(
   indexPath,
-  `${generatedIndex}\n\nexport * from "./affinity";\nexport * from "./webhook-events";\nexport * from "./resources/account";\nexport * from "./resources/actor";\nexport * from "./resources/billing";\nexport * from "./resources/catalog";\nexport * from "./resources/component-sessions";\nexport * from "./resources/compounders";\nexport * from "./resources/cursor-page";\nexport * from "./resources/hosted-sessions";\nexport * from "./resources/memberships";\nexport * from "./resources/order-signing-sessions";\nexport * from "./resources/orders";\nexport * from "./resources/patients";\nexport * from "./resources/practices";\nexport * from "./resources/provider-mappings";\nexport * from "./resources/request-options";\nexport * from "./resources/roles";\nexport * from "./resources/users";\nexport * from "./resources/webhooks";\n`,
+  `${generatedIndex}\n\nexport * from "./affinity";\nexport * from "./errors";\nexport * from "./webhook-events";\nexport * from "./resources/account";\nexport * from "./resources/actor";\nexport * from "./resources/billing";\nexport * from "./resources/catalog";\nexport * from "./resources/component-sessions";\nexport * from "./resources/compounders";\nexport * from "./resources/cursor-page";\nexport * from "./resources/hosted-sessions";\nexport * from "./resources/memberships";\nexport * from "./resources/order-signing-sessions";\nexport * from "./resources/orders";\nexport * from "./resources/patients";\nexport * from "./resources/practices";\nexport * from "./resources/provider-mappings";\nexport * from "./resources/request-options";\nexport * from "./resources/roles";\nexport * from "./resources/users";\nexport * from "./resources/webhooks";\n`,
 );

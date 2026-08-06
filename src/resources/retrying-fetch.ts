@@ -1,5 +1,6 @@
 // Code generated from spec/affinity.openapi.json by scripts/generate-facade.ts. DO NOT EDIT.
 
+import { affinityConnectionError, affinityErrorFromResponse, isAffinityError } from "../errors";
 import type { FetchAPI } from "../runtime";
 
 type RetryOptions = { maxRetries: number; timeout: number };
@@ -20,10 +21,11 @@ export function createRetryingFetch(fetchApi: FetchAPI, options: RetryOptions): 
       const abortFromCaller = () => controller.abort(init?.signal?.reason);
       if (init?.signal?.aborted) abortFromCaller();
       init?.signal?.addEventListener("abort", abortFromCaller, { once: true });
-      const timer = setTimeout(
-        () => controller.abort(new Error("Affinity request timed out")),
-        options.timeout,
-      );
+      let timedOut = false;
+      const timer = setTimeout(() => {
+        timedOut = true;
+        controller.abort(new Error("Affinity request timed out"));
+      }, options.timeout);
       try {
         const response = await fetchApi(input, { ...init, signal: controller.signal });
         if (
@@ -31,13 +33,16 @@ export function createRetryingFetch(fetchApi: FetchAPI, options: RetryOptions): 
           attempt === options.maxRetries ||
           (![408, 429].includes(response.status) && response.status < 500)
         ) {
+          if (!response.ok) throw await affinityErrorFromResponse(response);
           return response;
         }
         await waitBeforeRetry(attempt, response.headers.get("retry-after"));
       } catch (error) {
         lastError = error;
-        if (!retryableRequest || attempt === options.maxRetries || init?.signal?.aborted)
-          throw error;
+        if (init?.signal?.aborted) throw error;
+        if (!retryableRequest || attempt === options.maxRetries) {
+          throw isAffinityError(error) ? error : affinityConnectionError(error, { timedOut });
+        }
         await waitBeforeRetry(attempt, null);
       } finally {
         clearTimeout(timer);

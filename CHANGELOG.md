@@ -11,6 +11,8 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 
 ### Added
 
+- Added dependency-free typed API, authentication, permission, validation, idempotency, rate-limit,
+  connection, and server errors with parsed RFC 9457 details and safe serialization.
 - Added Stripe-style automatic pagination to cursor-backed resource lists. Await a list call for
   one typed page, use it as an async iterable, or call `autoPagingEach(...)`.
 - Added cursor parameters to role, membership, order-event, and webhook-endpoint resource methods.

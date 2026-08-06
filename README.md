@@ -421,21 +421,48 @@ partner directory.
 
 ## Errors
 
-API failures use RFC 9457 problem details. Branch on the stable lowercase `code`, and include
-`requestId` when contacting Affinity support. A `500` means an unexpected Affinity failure; bounded
-retries are appropriate for `408`, `429`, `502`, and `503`, but not an unlimited retry loop.
+API failures use RFC 9457 problem details. The SDK parses them and throws an `AffinityError`; callers
+never need to read or cast `response.json()`. Branch on the stable lowercase `code`, and include
+`requestId` when contacting Affinity support. The broader `category` is useful for shared handling.
 
 ```ts
-import { ResponseError, type Problem } from "@affinity-health/sdk";
+import {
+  AffinityError,
+  AffinityRateLimitError,
+} from "@affinity-health/sdk";
 
 try {
   await affinity.catalog.list();
 } catch (error) {
-  if (!(error instanceof ResponseError)) throw error;
-  const problem = (await error.response.json()) as Problem;
-  console.error(problem.code, problem.requestId);
+  if (!(error instanceof AffinityError)) throw error;
+
+  console.error(error.code, error.requestId, error.message);
+  if (error instanceof AffinityRateLimitError) {
+    // The SDK has exhausted its configured bounded retries.
+  }
 }
 ```
+
+`AffinityAuthenticationError`, `AffinityPermissionError`, `AffinityInvalidRequestError`,
+`AffinityIdempotencyError`, `AffinityRateLimitError`, `AffinityApiError`, and
+`AffinityConnectionError` support `instanceof` narrowing. Every `AffinityError` also has
+`statusCode`, `retryable`, the parsed `problem`, and the original `response` as an escape hatch.
+
+TanStack Query works with the same Promise API without an adapter or another dependency:
+
+```ts
+const catalog = useQuery({
+  queryKey: ["catalog"],
+  queryFn: () => affinity.catalog.list(),
+  retry: (_count, error) => error instanceof AffinityError && error.retryable,
+});
+```
+
+The SDK is server-only because it uses a service API key. If an error crosses from a backend to a
+browser, return `error.toJSON()` instead of serializing the Error, stack, or raw response. Display
+the public `message` for actionable request errors, use a generic message for API and connection
+failures, and log the `requestId` for support. Effect and Result libraries can wrap these Promise
+methods in applications that use them, but they are intentionally not SDK dependencies.
 
 Each clinical order belongs to one practice. A platform can list orders across its practices or use
 `practiceId` to scope the operational view. The practice payment profile returns only safe card
