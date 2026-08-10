@@ -11,6 +11,7 @@
 | `prescriptionId`      | string                                                                                    |
 | `status`              | string                                                                                    |
 | `trackingNumber`      | string                                                                                    |
+| `trackingStatus`      | string                                                                                    |
 | `shippedAt`           | string                                                                                    |
 | `deliveredAt`         | string                                                                                    |
 | `estimatedDeliveryAt` | string                                                                                    |

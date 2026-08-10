@@ -74,6 +74,12 @@ export interface ListOrdersResponseDataInnerFulfillmentsInner {
    * @type {string}
    * @memberof ListOrdersResponseDataInnerFulfillmentsInner
    */
+  trackingStatus: string | null;
+  /**
+   *
+   * @type {string}
+   * @memberof ListOrdersResponseDataInnerFulfillmentsInner
+   */
   shippedAt: string | null;
   /**
    *
@@ -120,6 +126,7 @@ export function instanceOfListOrdersResponseDataInnerFulfillmentsInner(
   if (!("prescriptionId" in value) || value["prescriptionId"] === undefined) return false;
   if (!("status" in value) || value["status"] === undefined) return false;
   if (!("trackingNumber" in value) || value["trackingNumber"] === undefined) return false;
+  if (!("trackingStatus" in value) || value["trackingStatus"] === undefined) return false;
   if (!("shippedAt" in value) || value["shippedAt"] === undefined) return false;
   if (!("deliveredAt" in value) || value["deliveredAt"] === undefined) return false;
   if (!("estimatedDeliveryAt" in value) || value["estimatedDeliveryAt"] === undefined) return false;
@@ -150,6 +157,7 @@ export function ListOrdersResponseDataInnerFulfillmentsInnerFromJSONTyped(
     prescriptionId: json["prescriptionId"],
     status: json["status"],
     trackingNumber: json["trackingNumber"],
+    trackingStatus: json["trackingStatus"],
     shippedAt: json["shippedAt"],
     deliveredAt: json["deliveredAt"],
     estimatedDeliveryAt: json["estimatedDeliveryAt"],
@@ -181,6 +189,7 @@ export function ListOrdersResponseDataInnerFulfillmentsInnerToJSONTyped(
     prescriptionId: value["prescriptionId"],
     status: value["status"],
     trackingNumber: value["trackingNumber"],
+    trackingStatus: value["trackingStatus"],
     shippedAt: value["shippedAt"],
     deliveredAt: value["deliveredAt"],
     estimatedDeliveryAt: value["estimatedDeliveryAt"],

@@ -120,7 +120,7 @@ example().catch(console.error);
 
 ## listCompounders
 
-> ListCompoundersResponse listCompounders(orgId, query, affinityVersion)
+> ListCompoundersResponse listCompounders(endingBefore, limit, orgId, query, startingAfter, affinityVersion)
 
 List available compounders
 
@@ -144,9 +144,15 @@ async function example() {
 
   const body = {
     // string (optional)
+    endingBefore: endingBefore_example,
+    // number (optional)
+    limit: 56,
+    // string (optional)
     orgId: orgId_example,
     // string (optional)
     query: query_example,
+    // string (optional)
+    startingAfter: startingAfter_example,
     // string (optional)
     affinityVersion: affinityVersion_example,
   } satisfies ListCompoundersRequest;
@@ -167,8 +173,11 @@ example().catch(console.error);
 
 | Name                | Type     | Description | Notes                                |
 | ------------------- | -------- | ----------- | ------------------------------------ |
+| **endingBefore**    | `string` |             | [Optional] [Defaults to `undefined`] |
+| **limit**           | `number` |             | [Optional] [Defaults to `25`]        |
 | **orgId**           | `string` |             | [Optional] [Defaults to `undefined`] |
 | **query**           | `string` |             | [Optional] [Defaults to `undefined`] |
+| **startingAfter**   | `string` |             | [Optional] [Defaults to `undefined`] |
 | **affinityVersion** | `string` |             | [Optional] [Defaults to `undefined`] |
 
 ### Return type
@@ -197,11 +206,11 @@ example().catch(console.error);
 
 ## listShippingOptions
 
-> ListShippingOptionsResponse listShippingOptions(catalogItemId, destinationState, destinationType, affinityVersion)
+> Array&lt;ListShippingOptionsResponseInner&gt; listShippingOptions(catalogItemId, destinationState, destinationType, affinityVersion)
 
 List shipping options
 
-Lists reviewed shipping services eligible for a catalog item, destination, and API mode.
+Returns at most 50 reviewed shipping services eligible for a catalog item, destination, and API mode.
 
 ### Example
 
@@ -253,7 +262,7 @@ example().catch(console.error);
 
 ### Return type
 
-[**ListShippingOptionsResponse**](ListShippingOptionsResponse.md)
+[**Array&lt;ListShippingOptionsResponseInner&gt;**](ListShippingOptionsResponseInner.md)
 
 ### Authorization
 

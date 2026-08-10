@@ -72,24 +72,82 @@ describe("Affinity client", () => {
     expect(new URL(requests[1]!.url).searchParams.get("query")).toBe("semaglutide");
   });
 
-  test("lists only the compounders available to the authenticated account", async () => {
-    let request: Request | undefined;
+  test("auto-pages only the compounders available to the authenticated account", async () => {
+    const requests: Request[] = [];
     const affinity = new Affinity("sk_test_example", {
       fetch: async (input, init) => {
-        request = new Request(input, init);
+        const request = new Request(input, init);
+        requests.push(request);
+        const startingAfter = new URL(request.url).searchParams.get("startingAfter");
+        const compounder = (id: string, name: string) => ({
+          access: "network",
+          catalogItemCount: 1,
+          facilityType: "503a",
+          id,
+          livemode: false,
+          name,
+          object: "compounder",
+          restrictedStates: [],
+          shippingOptions: [],
+          supportedStates: ["CA"],
+        });
         return Response.json({
-          data: [],
-          hasMore: false,
+          data: startingAfter
+            ? [compounder("cmp_3", "Example C")]
+            : [compounder("cmp_1", "Example A"), compounder("cmp_2", "Example B")],
+          hasMore: !startingAfter,
           object: "list",
           url: "/v1/compounders",
         });
       },
     });
 
-    await affinity.compounders.list({ query: "example" });
+    const ids: string[] = [];
+    for await (const compounder of affinity.compounders.list({ limit: 2, query: "example" })) {
+      ids.push(compounder.id);
+    }
 
-    expect(request?.url).toBe("https://api.joinaffinityai.com/v1/compounders?query=example");
-    expect(request?.headers.get("affinity-version")).toBe("2026-07-29");
+    expect(ids).toEqual(["cmp_1", "cmp_2", "cmp_3"]);
+    expect(requests).toHaveLength(2);
+    expect(new URL(requests[0]!.url).searchParams.get("limit")).toBe("2");
+    expect(new URL(requests[1]!.url).searchParams.get("startingAfter")).toBe("cmp_2");
+    expect(new URL(requests[1]!.url).searchParams.get("query")).toBe("example");
+    expect(requests[1]?.headers.get("affinity-version")).toBe("2026-07-29");
+  });
+
+  test("returns the complete bounded shipping choice array without a fake cursor envelope", async () => {
+    let request: Request | undefined;
+    const affinity = new Affinity("sk_test_example", {
+      fetch: async (input, init) => {
+        request = new Request(input, init);
+        return Response.json([
+          {
+            amountCents: 1_500,
+            carrier: "UPS",
+            currency: "USD",
+            estimatedDaysMax: 3,
+            estimatedDaysMin: 1,
+            id: "shp_1",
+            label: "Next day",
+            markupCents: 0,
+            serviceLevel: "next_day",
+            temperature: "ambient",
+            totalCents: 1_500,
+          },
+        ]);
+      },
+    });
+
+    const options = await affinity.catalog.listShippingOptions({
+      catalogItemId: "cat_1",
+      destinationState: "CA",
+      destinationType: "patient",
+    });
+
+    expect(options).toHaveLength(1);
+    expect(options[0]?.id).toBe("shp_1");
+    expect(request?.url).toContain("/v1/catalog/items/cat_1/shipping-options");
+    expect(request?.url).toContain("destinationState=CA");
   });
 
   test("validates retry and timeout options", () => {

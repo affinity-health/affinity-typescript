@@ -815,6 +815,25 @@
         "parameters": [
           {
             "in": "query",
+            "name": "endingBefore",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "required": false,
+            "schema": {
+              "default": 25,
+              "maximum": 100,
+              "minimum": 1,
+              "type": "integer"
+            }
+          },
+          {
+            "in": "query",
             "name": "orgId",
             "required": false,
             "schema": {
@@ -828,6 +847,14 @@
             "schema": {
               "type": "string",
               "description": "a string that will be trimmed"
+            }
+          },
+          {
+            "in": "query",
+            "name": "startingAfter",
+            "required": false,
+            "schema": {
+              "type": "string"
             }
           },
           {
@@ -986,8 +1013,7 @@
                       }
                     },
                     "hasMore": {
-                      "type": "boolean",
-                      "enum": [false]
+                      "type": "boolean"
                     },
                     "object": {
                       "type": "string",
@@ -1040,7 +1066,7 @@
     "/v1/catalog/items/{catalogItemId}/shipping-options": {
       "get": {
         "operationId": "listShippingOptions",
-        "description": "Lists reviewed shipping services eligible for a catalog item, destination, and API mode.",
+        "description": "Returns at most 50 reviewed shipping services eligible for a catalog item, destination, and API mode.",
         "summary": "List shipping options",
         "tags": ["Catalog"],
         "x-visibility": "public",
@@ -1086,100 +1112,83 @@
               "application/json": {
                 "schema": {
                   "title": "ListShippingOptionsResponse",
-                  "type": "object",
-                  "required": ["data", "hasMore", "object", "url"],
-                  "properties": {
-                    "data": {
-                      "type": "array",
-                      "items": {
-                        "type": "object",
-                        "required": [
-                          "amountCents",
-                          "carrier",
-                          "currency",
-                          "estimatedDaysMax",
-                          "estimatedDaysMin",
-                          "id",
-                          "label",
-                          "markupCents",
-                          "serviceLevel",
-                          "temperature",
-                          "totalCents"
-                        ],
-                        "properties": {
-                          "amountCents": {
-                            "type": "number"
-                          },
-                          "carrier": {
-                            "anyOf": [
-                              {
-                                "type": "string"
-                              },
-                              {
-                                "type": "null"
-                              }
-                            ]
-                          },
-                          "currency": {
-                            "type": "string",
-                            "enum": ["USD"]
-                          },
-                          "estimatedDaysMax": {
-                            "anyOf": [
-                              {
-                                "type": "number"
-                              },
-                              {
-                                "type": "null"
-                              }
-                            ]
-                          },
-                          "estimatedDaysMin": {
-                            "anyOf": [
-                              {
-                                "type": "number"
-                              },
-                              {
-                                "type": "null"
-                              }
-                            ]
-                          },
-                          "id": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "required": [
+                      "amountCents",
+                      "carrier",
+                      "currency",
+                      "estimatedDaysMax",
+                      "estimatedDaysMin",
+                      "id",
+                      "label",
+                      "markupCents",
+                      "serviceLevel",
+                      "temperature",
+                      "totalCents"
+                    ],
+                    "properties": {
+                      "amountCents": {
+                        "type": "number"
+                      },
+                      "carrier": {
+                        "anyOf": [
+                          {
                             "type": "string"
                           },
-                          "label": {
-                            "type": "string"
-                          },
-                          "markupCents": {
-                            "type": "number"
-                          },
-                          "serviceLevel": {
-                            "type": "string"
-                          },
-                          "temperature": {
-                            "type": "string",
-                            "enum": ["ambient", "refrigerated"]
-                          },
-                          "totalCents": {
-                            "type": "number"
+                          {
+                            "type": "null"
                           }
-                        },
-                        "additionalProperties": false
+                        ]
+                      },
+                      "currency": {
+                        "type": "string",
+                        "enum": ["USD"]
+                      },
+                      "estimatedDaysMax": {
+                        "anyOf": [
+                          {
+                            "type": "number"
+                          },
+                          {
+                            "type": "null"
+                          }
+                        ]
+                      },
+                      "estimatedDaysMin": {
+                        "anyOf": [
+                          {
+                            "type": "number"
+                          },
+                          {
+                            "type": "null"
+                          }
+                        ]
+                      },
+                      "id": {
+                        "type": "string"
+                      },
+                      "label": {
+                        "type": "string"
+                      },
+                      "markupCents": {
+                        "type": "number"
+                      },
+                      "serviceLevel": {
+                        "type": "string"
+                      },
+                      "temperature": {
+                        "type": "string",
+                        "enum": ["ambient", "refrigerated"]
+                      },
+                      "totalCents": {
+                        "type": "number"
                       }
                     },
-                    "hasMore": {
-                      "type": "boolean",
-                      "enum": [false]
-                    },
-                    "object": {
-                      "type": "string",
-                      "enum": ["list"]
-                    },
-                    "url": {
-                      "type": "string"
-                    }
+                    "additionalProperties": false
                   },
-                  "additionalProperties": false
+                  "maxItems": 50
                 }
               }
             },
@@ -1360,6 +1369,7 @@
                                 "prescriptionId",
                                 "status",
                                 "trackingNumber",
+                                "trackingStatus",
                                 "shippedAt",
                                 "deliveredAt",
                                 "estimatedDeliveryAt",
@@ -1401,6 +1411,16 @@
                                   "type": "string"
                                 },
                                 "trackingNumber": {
+                                  "anyOf": [
+                                    {
+                                      "type": "string"
+                                    },
+                                    {
+                                      "type": "null"
+                                    }
+                                  ]
+                                },
+                                "trackingStatus": {
                                   "anyOf": [
                                     {
                                       "type": "string"
@@ -2194,6 +2214,7 @@
                           "prescriptionId",
                           "status",
                           "trackingNumber",
+                          "trackingStatus",
                           "shippedAt",
                           "deliveredAt",
                           "estimatedDeliveryAt",
@@ -2235,6 +2256,16 @@
                             "type": "string"
                           },
                           "trackingNumber": {
+                            "anyOf": [
+                              {
+                                "type": "string"
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          },
+                          "trackingStatus": {
                             "anyOf": [
                               {
                                 "type": "string"
@@ -2650,6 +2681,7 @@
                           "prescriptionId",
                           "status",
                           "trackingNumber",
+                          "trackingStatus",
                           "shippedAt",
                           "deliveredAt",
                           "estimatedDeliveryAt",
@@ -2691,6 +2723,16 @@
                             "type": "string"
                           },
                           "trackingNumber": {
+                            "anyOf": [
+                              {
+                                "type": "string"
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          },
+                          "trackingStatus": {
                             "anyOf": [
                               {
                                 "type": "string"

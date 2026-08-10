@@ -35,10 +35,10 @@ export interface ListCompoundersResponse {
   data: Array<ListCompoundersResponseDataInner>;
   /**
    *
-   * @type {ListCompoundersResponseHasMoreEnum}
+   * @type {boolean}
    * @memberof ListCompoundersResponse
    */
-  hasMore: ListCompoundersResponseHasMoreEnum;
+  hasMore: boolean;
   /**
    *
    * @type {ListCompoundersResponseObjectEnum}
@@ -52,15 +52,6 @@ export interface ListCompoundersResponse {
    */
   url: ListCompoundersResponseUrlEnum;
 }
-
-/**
- * @export
- */
-export const ListCompoundersResponseHasMoreEnum = {
-  False: false,
-} as const;
-export type ListCompoundersResponseHasMoreEnum =
-  (typeof ListCompoundersResponseHasMoreEnum)[keyof typeof ListCompoundersResponseHasMoreEnum];
 
 /**
  * @export

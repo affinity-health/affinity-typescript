@@ -40,14 +40,18 @@ const orders = await actingAffinity.orders.list({ practiceId: practices.data[0]?
 console.log(`${compounders.data.length} compounders are available to this account`);
 ```
 
-List methods return a typed first page when awaited. Each page has `data`, `hasMore`, `object`, and
-`url`. The default page size is 25, and the maximum is 100.
+Cursor-backed list methods return a typed first page when awaited. Each page has `data`, `hasMore`,
+`object`, and `url`. The default page size is 25, and the maximum is 100.
 
-List methods are also async iterables. Iteration requests each next page with `startingAfter`:
+Those methods are also async iterables. Iteration requests each next page with `startingAfter`:
 
 ```ts
 for await (const practice of affinity.practices.list({ limit: 100 })) {
   await synchronizePractice(practice);
+}
+
+for await (const compounder of affinity.compounders.list({ limit: 100 })) {
+  await synchronizeCompounder(compounder);
 }
 ```
 
@@ -62,6 +66,9 @@ await affinity.users.list().autoPagingEach(async (user) => {
 
 Pass `startingAfter` or `endingBefore` to request one page directly. Automatic iteration supports
 forward traversal only and rejects `endingBefore`.
+
+`catalog.listShippingOptions(...)` returns the complete eligible choice array directly. That
+bounded decision set contains at most 50 options and does not use cursors.
 
 Affinity supports three prescribing integrations: Affinity Hosted for a redirect-based workflow,
 Affinity Elements for an embedded composer, and the server-side SDK for platforms that build their

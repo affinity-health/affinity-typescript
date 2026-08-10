@@ -39,10 +39,10 @@ import {
   ListCompoundersResponseToJSON,
 } from "../models/ListCompoundersResponse";
 import {
-  type ListShippingOptionsResponse,
-  ListShippingOptionsResponseFromJSON,
-  ListShippingOptionsResponseToJSON,
-} from "../models/ListShippingOptionsResponse";
+  type ListShippingOptionsResponseInner,
+  ListShippingOptionsResponseInnerFromJSON,
+  ListShippingOptionsResponseInnerToJSON,
+} from "../models/ListShippingOptionsResponseInner";
 import { type Problem, ProblemFromJSON, ProblemToJSON } from "../models/Problem";
 
 export interface ListCatalogItemsRequest {
@@ -62,8 +62,11 @@ export interface ListCatalogItemsRequest {
 }
 
 export interface ListCompoundersRequest {
+  endingBefore?: string;
+  limit?: number;
   orgId?: string;
   query?: string;
+  startingAfter?: string;
   affinityVersion?: string;
 }
 
@@ -199,12 +202,24 @@ export class CatalogApi extends runtime.BaseAPI {
   ): Promise<runtime.RequestOpts> {
     const queryParameters: any = {};
 
+    if (requestParameters["endingBefore"] != null) {
+      queryParameters["endingBefore"] = requestParameters["endingBefore"];
+    }
+
+    if (requestParameters["limit"] != null) {
+      queryParameters["limit"] = requestParameters["limit"];
+    }
+
     if (requestParameters["orgId"] != null) {
       queryParameters["orgId"] = requestParameters["orgId"];
     }
 
     if (requestParameters["query"] != null) {
       queryParameters["query"] = requestParameters["query"];
+    }
+
+    if (requestParameters["startingAfter"] != null) {
+      queryParameters["startingAfter"] = requestParameters["startingAfter"];
     }
 
     const headerParameters: runtime.HTTPHeaders = {};
@@ -328,29 +343,29 @@ export class CatalogApi extends runtime.BaseAPI {
   }
 
   /**
-   * Lists reviewed shipping services eligible for a catalog item, destination, and API mode.
+   * Returns at most 50 reviewed shipping services eligible for a catalog item, destination, and API mode.
    * List shipping options
    */
   async listShippingOptionsRaw(
     requestParameters: ListShippingOptionsRequest,
     initOverrides?: RequestInit | runtime.InitOverrideFunction,
-  ): Promise<runtime.ApiResponse<ListShippingOptionsResponse>> {
+  ): Promise<runtime.ApiResponse<Array<ListShippingOptionsResponseInner>>> {
     const requestOptions = await this.listShippingOptionsRequestOpts(requestParameters);
     const response = await this.request(requestOptions, initOverrides);
 
     return new runtime.JSONApiResponse(response, (jsonValue) =>
-      ListShippingOptionsResponseFromJSON(jsonValue),
+      jsonValue.map(ListShippingOptionsResponseInnerFromJSON),
     );
   }
 
   /**
-   * Lists reviewed shipping services eligible for a catalog item, destination, and API mode.
+   * Returns at most 50 reviewed shipping services eligible for a catalog item, destination, and API mode.
    * List shipping options
    */
   async listShippingOptions(
     requestParameters: ListShippingOptionsRequest,
     initOverrides?: RequestInit | runtime.InitOverrideFunction,
-  ): Promise<ListShippingOptionsResponse> {
+  ): Promise<Array<ListShippingOptionsResponseInner>> {
     const response = await this.listShippingOptionsRaw(requestParameters, initOverrides);
     return await response.value();
   }

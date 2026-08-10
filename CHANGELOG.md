@@ -15,14 +15,17 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
   connection, and server errors with parsed RFC 9457 details and safe serialization.
 - Added Stripe-style automatic pagination to cursor-backed resource lists. Await a list call for
   one typed page, use it as an async iterable, or call `autoPagingEach(...)`.
-- Added cursor parameters to role, membership, order-event, and webhook-endpoint resource methods.
+- Added cursor parameters to compounder, role, membership, order-event, and webhook-endpoint
+  resource methods.
 
 ### Changed
 
 - Standardized public list parameters to `limit`, `startingAfter`, and `endingBefore` with a
   default limit of 25 and a maximum of 100.
+- Changed eligible shipping options to a direct, typed array with a documented maximum of 50
+  choices instead of a non-advancing list envelope.
 - Regenerated catalog filters, prescription requirements, compounder shipping options, metadata,
-  and collection models from the canonical OpenAPI contract.
+  order fulfillment tracking status, and collection models from the canonical OpenAPI contract.
 
 ## [1.2.1] - 2026-08-05
 

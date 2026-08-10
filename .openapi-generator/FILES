@@ -120,8 +120,7 @@ docs/ListPracticesResponseDataInnerContactsPrimary.md
 docs/ListPracticesResponseDataInnerPrescribersInner.md
 docs/ListProviderMappingsResponse.md
 docs/ListProviderMappingsResponseDataInner.md
-docs/ListShippingOptionsResponse.md
-docs/ListShippingOptionsResponseDataInner.md
+docs/ListShippingOptionsResponseInner.md
 docs/ListUsersResponse.md
 docs/ListUsersResponseDataInner.md
 docs/ListWebhookEndpointsResponse.md
@@ -291,8 +290,7 @@ src/models/ListPracticesResponseDataInnerContactsPrimary.ts
 src/models/ListPracticesResponseDataInnerPrescribersInner.ts
 src/models/ListProviderMappingsResponse.ts
 src/models/ListProviderMappingsResponseDataInner.ts
-src/models/ListShippingOptionsResponse.ts
-src/models/ListShippingOptionsResponseDataInner.ts
+src/models/ListShippingOptionsResponseInner.ts
 src/models/ListUsersResponse.ts
 src/models/ListUsersResponseDataInner.ts
 src/models/ListWebhookEndpointsResponse.ts

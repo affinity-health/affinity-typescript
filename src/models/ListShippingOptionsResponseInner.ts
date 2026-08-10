@@ -16,73 +16,73 @@ import { mapValues } from "../runtime";
 /**
  *
  * @export
- * @interface ListShippingOptionsResponseDataInner
+ * @interface ListShippingOptionsResponseInner
  */
-export interface ListShippingOptionsResponseDataInner {
+export interface ListShippingOptionsResponseInner {
   /**
    *
    * @type {number}
-   * @memberof ListShippingOptionsResponseDataInner
+   * @memberof ListShippingOptionsResponseInner
    */
   amountCents: number | null;
   /**
    *
    * @type {string}
-   * @memberof ListShippingOptionsResponseDataInner
+   * @memberof ListShippingOptionsResponseInner
    */
   carrier: string | null;
   /**
    *
-   * @type {ListShippingOptionsResponseDataInnerCurrencyEnum}
-   * @memberof ListShippingOptionsResponseDataInner
+   * @type {ListShippingOptionsResponseInnerCurrencyEnum}
+   * @memberof ListShippingOptionsResponseInner
    */
-  currency: ListShippingOptionsResponseDataInnerCurrencyEnum;
+  currency: ListShippingOptionsResponseInnerCurrencyEnum;
   /**
    *
    * @type {number}
-   * @memberof ListShippingOptionsResponseDataInner
+   * @memberof ListShippingOptionsResponseInner
    */
   estimatedDaysMax: number | null;
   /**
    *
    * @type {number}
-   * @memberof ListShippingOptionsResponseDataInner
+   * @memberof ListShippingOptionsResponseInner
    */
   estimatedDaysMin: number | null;
   /**
    *
    * @type {string}
-   * @memberof ListShippingOptionsResponseDataInner
+   * @memberof ListShippingOptionsResponseInner
    */
   id: string;
   /**
    *
    * @type {string}
-   * @memberof ListShippingOptionsResponseDataInner
+   * @memberof ListShippingOptionsResponseInner
    */
   label: string;
   /**
    *
    * @type {number}
-   * @memberof ListShippingOptionsResponseDataInner
+   * @memberof ListShippingOptionsResponseInner
    */
   markupCents: number | null;
   /**
    *
    * @type {string}
-   * @memberof ListShippingOptionsResponseDataInner
+   * @memberof ListShippingOptionsResponseInner
    */
   serviceLevel: string;
   /**
    *
-   * @type {ListShippingOptionsResponseDataInnerTemperatureEnum}
-   * @memberof ListShippingOptionsResponseDataInner
+   * @type {ListShippingOptionsResponseInnerTemperatureEnum}
+   * @memberof ListShippingOptionsResponseInner
    */
-  temperature: ListShippingOptionsResponseDataInnerTemperatureEnum;
+  temperature: ListShippingOptionsResponseInnerTemperatureEnum;
   /**
    *
    * @type {number}
-   * @memberof ListShippingOptionsResponseDataInner
+   * @memberof ListShippingOptionsResponseInner
    */
   totalCents: number | null;
 }
@@ -90,28 +90,28 @@ export interface ListShippingOptionsResponseDataInner {
 /**
  * @export
  */
-export const ListShippingOptionsResponseDataInnerCurrencyEnum = {
+export const ListShippingOptionsResponseInnerCurrencyEnum = {
   Usd: "USD",
 } as const;
-export type ListShippingOptionsResponseDataInnerCurrencyEnum =
-  (typeof ListShippingOptionsResponseDataInnerCurrencyEnum)[keyof typeof ListShippingOptionsResponseDataInnerCurrencyEnum];
+export type ListShippingOptionsResponseInnerCurrencyEnum =
+  (typeof ListShippingOptionsResponseInnerCurrencyEnum)[keyof typeof ListShippingOptionsResponseInnerCurrencyEnum];
 
 /**
  * @export
  */
-export const ListShippingOptionsResponseDataInnerTemperatureEnum = {
+export const ListShippingOptionsResponseInnerTemperatureEnum = {
   Ambient: "ambient",
   Refrigerated: "refrigerated",
 } as const;
-export type ListShippingOptionsResponseDataInnerTemperatureEnum =
-  (typeof ListShippingOptionsResponseDataInnerTemperatureEnum)[keyof typeof ListShippingOptionsResponseDataInnerTemperatureEnum];
+export type ListShippingOptionsResponseInnerTemperatureEnum =
+  (typeof ListShippingOptionsResponseInnerTemperatureEnum)[keyof typeof ListShippingOptionsResponseInnerTemperatureEnum];
 
 /**
- * Check if a given object implements the ListShippingOptionsResponseDataInner interface.
+ * Check if a given object implements the ListShippingOptionsResponseInner interface.
  */
-export function instanceOfListShippingOptionsResponseDataInner(
+export function instanceOfListShippingOptionsResponseInner(
   value: object,
-): value is ListShippingOptionsResponseDataInner {
+): value is ListShippingOptionsResponseInner {
   if (!("amountCents" in value) || value["amountCents"] === undefined) return false;
   if (!("carrier" in value) || value["carrier"] === undefined) return false;
   if (!("currency" in value) || value["currency"] === undefined) return false;
@@ -126,16 +126,16 @@ export function instanceOfListShippingOptionsResponseDataInner(
   return true;
 }
 
-export function ListShippingOptionsResponseDataInnerFromJSON(
+export function ListShippingOptionsResponseInnerFromJSON(
   json: any,
-): ListShippingOptionsResponseDataInner {
-  return ListShippingOptionsResponseDataInnerFromJSONTyped(json, false);
+): ListShippingOptionsResponseInner {
+  return ListShippingOptionsResponseInnerFromJSONTyped(json, false);
 }
 
-export function ListShippingOptionsResponseDataInnerFromJSONTyped(
+export function ListShippingOptionsResponseInnerFromJSONTyped(
   json: any,
   ignoreDiscriminator: boolean,
-): ListShippingOptionsResponseDataInner {
+): ListShippingOptionsResponseInner {
   if (json == null) {
     return json;
   }
@@ -154,14 +154,14 @@ export function ListShippingOptionsResponseDataInnerFromJSONTyped(
   };
 }
 
-export function ListShippingOptionsResponseDataInnerToJSON(
+export function ListShippingOptionsResponseInnerToJSON(
   json: any,
-): ListShippingOptionsResponseDataInner {
-  return ListShippingOptionsResponseDataInnerToJSONTyped(json, false);
+): ListShippingOptionsResponseInner {
+  return ListShippingOptionsResponseInnerToJSONTyped(json, false);
 }
 
-export function ListShippingOptionsResponseDataInnerToJSONTyped(
-  value?: ListShippingOptionsResponseDataInner | null,
+export function ListShippingOptionsResponseInnerToJSONTyped(
+  value?: ListShippingOptionsResponseInner | null,
   ignoreDiscriminator: boolean = false,
 ): any {
   if (value == null) {
