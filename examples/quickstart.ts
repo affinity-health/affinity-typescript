@@ -46,7 +46,7 @@ if (process.env.RUN_AFFINITY_MUTATION_EXAMPLE === "1") {
         postalCode: "90001",
         state: "CA",
       },
-      dateOfBirth: new Date("1990-01-01"),
+      dateOfBirth: "1990-01-01",
       email: "patient@example.com",
       externalId: `patient_${runId}`,
       name: { first: "Demo", last: "Patient" },

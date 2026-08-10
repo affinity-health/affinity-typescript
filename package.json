@@ -40,7 +40,7 @@
     "clean": "rm -rf dist",
     "dev": "dev up --cwd .",
     "example:dev": "vite --config examples/tanstack-start/vite.config.ts",
-    "example:check": "bun build examples/quickstart.ts --target=node --outfile=/tmp/affinity-typescript-quickstart.js && vite build --config examples/tanstack-start/vite.config.ts && tsgo --noEmit -p examples/tanstack-start/tsconfig.json",
+    "example:check": "bun build examples/quickstart.ts --target=node --outfile=/tmp/affinity-typescript-quickstart.js && tsgo --noEmit -p examples/tsconfig.json && vite build --config examples/tanstack-start/vite.config.ts && tsgo --noEmit -p examples/tanstack-start/tsconfig.json",
     "format": "oxfmt .",
     "generate": "bash scripts/generate.sh",
     "generate:check": "bash scripts/generate-check.sh",

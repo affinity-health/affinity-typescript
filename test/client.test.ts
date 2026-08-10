@@ -197,7 +197,7 @@ describe("Affinity client", () => {
           postalCode: "90001",
           state: "CA",
         },
-        dateOfBirth: new Date("1990-01-01"),
+        dateOfBirth: "1990-01-01",
         externalId: "patient_4821",
         name: { first: "Jordan", last: "Lee" },
         phone: "+13105550100",
@@ -300,7 +300,7 @@ describe("Affinity client", () => {
     const consent = {
       authorizedProviderAccess: true as const,
       minimumNecessaryPhi: true as const,
-      recordedAt: new Date("2026-07-29T12:00:00.000Z"),
+      recordedAt: "2026-07-29T12:00:00.000Z",
     };
 
     await affinity.componentSessions.create(
@@ -489,7 +489,7 @@ describe("Affinity client", () => {
         consent: {
           authorizedProviderAccess: true,
           minimumNecessaryPhi: true,
-          recordedAt: new Date("2026-08-01T12:00:00.000Z"),
+          recordedAt: "2026-08-01T12:00:00.000Z",
         },
         orderId: "ord_01k123456789abcdefghjkmnp",
         practiceId: "prac_01k123456789abcdefghjkmnp",

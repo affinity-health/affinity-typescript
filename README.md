@@ -196,7 +196,7 @@ if (providerMapping.status !== "verified") {
 const consent = {
   authorizedProviderAccess: true as const,
   minimumNecessaryPhi: true as const,
-  recordedAt: new Date(),
+  recordedAt: new Date().toISOString(),
 };
 
 const componentSession = await affinity.componentSessions.create(
@@ -359,7 +359,7 @@ const patient = await actingAffinity.patients.create(
       postalCode: "90001",
       state: "CA",
     },
-    dateOfBirth: new Date("1990-01-01"),
+    dateOfBirth: "1990-01-01",
     externalId: "patient_991",
     name: { first: "Demo", last: "Patient" },
     phone: "+13135550100",
@@ -426,10 +426,7 @@ never need to read or cast `response.json()`. Branch on the stable lowercase `co
 `requestId` when contacting Affinity support. The broader `category` is useful for shared handling.
 
 ```ts
-import {
-  AffinityError,
-  AffinityRateLimitError,
-} from "@affinity-health/sdk";
+import { AffinityError, AffinityRateLimitError } from "@affinity-health/sdk";
 
 try {
   await affinity.catalog.list();
