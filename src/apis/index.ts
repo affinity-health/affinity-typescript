@@ -1,7 +1,6 @@
 /* tslint:disable */
 /* eslint-disable */
 export * from "./APIKeysApi";
-export * from "./BillingApi";
 export * from "./CatalogApi";
 export * from "./ComponentSessionsApi";
 export * from "./HostedSessionsApi";

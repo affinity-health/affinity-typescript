@@ -9,7 +9,6 @@ export * from "./errors";
 export * from "./webhook-events";
 export * from "./resources/account";
 export * from "./resources/actor";
-export * from "./resources/billing";
 export * from "./resources/catalog";
 export * from "./resources/component-sessions";
 export * from "./resources/compounders";

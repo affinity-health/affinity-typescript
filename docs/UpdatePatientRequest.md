@@ -5,7 +5,6 @@
 | Name          | Type                                                          |
 | ------------- | ------------------------------------------------------------- |
 | `address`     | [UpdatePatientRequestAddress](UpdatePatientRequestAddress.md) |
-| `allergies`   | string                                                        |
 | `dateOfBirth` | string                                                        |
 | `email`       | string                                                        |
 | `gender`      | string                                                        |

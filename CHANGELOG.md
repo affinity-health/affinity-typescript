@@ -7,6 +7,31 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 
 ## [Unreleased]
 
+## [1.4.0] - 2026-08-11
+
+### Added
+
+- Added typed `patients.retrieveAllergies(...)` and `patients.replaceAllergies(...)` methods for
+  explicit no-known-allergy acknowledgement and structured allergy records.
+- Added practice-scoped catalog pricing through `catalog.list({ practiceId })`, including platform
+  price inheritance and practice overrides.
+
+### Changed
+
+- Advanced the SDK's pinned `Affinity-Version` header and generated types to the forward-only
+  `2026-08-11` API contract.
+- New patients begin with `allergyReviewStatus: "not_reviewed"`; unsigned drafts remain available,
+  while review, signing, and release require an explicit allergy review.
+- Shipping choices now expose `amountCents` as the final customer price without an internal markup
+  or service-fee breakdown.
+- Catalog pricing exposes the medication price without presenting it as a complete order total
+  before a shipping option has been selected.
+
+### Removed
+
+- Removed the public Stripe payment-profile and `billing` resource from the current API contract.
+  Commercial billing is managed outside the platform integration API.
+
 ## [1.3.1] - 2026-08-10
 
 ### Changed
@@ -151,7 +176,9 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 - Typed RFC 9457 problem responses, including validation, dependency, and internal failures.
 - A compile-checked Test-mode quickstart.
 
-[Unreleased]: https://github.com/affinity-health/affinity-typescript/compare/v1.3.0...HEAD
+[Unreleased]: https://github.com/affinity-health/affinity-typescript/compare/v1.4.0...HEAD
+[1.4.0]: https://github.com/affinity-health/affinity-typescript/compare/v1.3.1...v1.4.0
+[1.3.1]: https://github.com/affinity-health/affinity-typescript/compare/v1.3.0...v1.3.1
 [1.3.0]: https://github.com/affinity-health/affinity-typescript/compare/v1.2.1...v1.3.0
 [1.2.1]: https://github.com/affinity-health/affinity-typescript/compare/v1.2.0...v1.2.1
 [1.2.0]: https://github.com/affinity-health/affinity-typescript/compare/v1.1.2...v1.2.0

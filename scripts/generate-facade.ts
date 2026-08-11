@@ -35,7 +35,6 @@ const operationIds = Object.values(
   .sort();
 const supportedOperations = [
   "cancelOrder",
-  "completePracticePaymentSetup",
   "createComponentSession",
   "createHostedSession",
   "createOrder",
@@ -43,7 +42,6 @@ const supportedOperations = [
   "createPatient",
   "createPractice",
   "createPracticeMembership",
-  "createPracticePaymentSetup",
   "createPracticeRole",
   "createProviderMapping",
   "createUser",
@@ -54,8 +52,8 @@ const supportedOperations = [
   "getAccount",
   "getOrder",
   "getPatient",
+  "getPatientAllergies",
   "getPractice",
-  "getPracticePaymentProfile",
   "getProviderMapping",
   "getUser",
   "getWebhookEvent",
@@ -73,6 +71,7 @@ const supportedOperations = [
   "listWebhookEndpoints",
   "listWebhookEvents",
   "replayWebhookEvent",
+  "replacePatientAllergies",
   "rotateWebhookEndpointSecret",
   "updatePatient",
   "updatePractice",
@@ -117,7 +116,6 @@ await writeFile(runtimePath, runtime);
 await output(
   "src/affinity.ts",
   `import { APIKeysApi } from "./apis/APIKeysApi";
-import { BillingApi } from "./apis/BillingApi";
 import { CatalogApi } from "./apis/CatalogApi";
 import { ComponentSessionsApi } from "./apis/ComponentSessionsApi";
 import { HostedSessionsApi } from "./apis/HostedSessionsApi";
@@ -133,7 +131,6 @@ import { RolesApi } from "./apis/RolesApi";
 import { UsersApi } from "./apis/UsersApi";
 import { Configuration, type FetchAPI } from "./runtime";
 import { AccountResource } from "./resources/account";
-import { BillingResource } from "./resources/billing";
 import { CatalogResource } from "./resources/catalog";
 import { ComponentSessionsResource } from "./resources/component-sessions";
 import { CompoundersResource } from "./resources/compounders";
@@ -161,7 +158,6 @@ export interface AffinityOptions {
 
 export class Affinity {
   readonly account: AccountResource;
-  readonly billing: BillingResource;
   readonly catalog: CatalogResource;
   readonly componentSessions: ComponentSessionsResource;
   readonly compounders: CompoundersResource;
@@ -212,7 +208,6 @@ export class Affinity {
       new APIKeysApi(configuration),
       new PlatformsApi(configuration),
     );
-    this.billing = new BillingResource(new BillingApi(configuration));
     this.catalog = new CatalogResource(new CatalogApi(configuration));
     this.componentSessions = new ComponentSessionsResource(
       new ComponentSessionsApi(configuration),
@@ -482,43 +477,6 @@ export class CompoundersResource {
 );
 
 await output(
-  "src/resources/billing.ts",
-  `import type { BillingApi } from "../apis/BillingApi";
-import type { CompletePracticePaymentSetupRequest } from "../models/CompletePracticePaymentSetupRequest";
-import type { CreatePracticePaymentSetupRequest } from "../models/CreatePracticePaymentSetupRequest";
-import type { MutationOptions } from "./request-options";
-
-export class BillingResource {
-  constructor(private readonly api: BillingApi) {}
-  retrievePaymentProfile(practiceId: string) {
-    return this.api.getPracticePaymentProfile({ practiceId });
-  }
-  createPaymentSetup(
-    practiceId: string,
-    params: CreatePracticePaymentSetupRequest,
-    options: MutationOptions,
-  ) {
-    return this.api.createPracticePaymentSetup({
-      createPracticePaymentSetupRequest: params,
-      idempotencyKey: options.idempotencyKey,
-      practiceId,
-    });
-  }
-  completePaymentSetup(
-    practiceId: string,
-    params: CompletePracticePaymentSetupRequest,
-    options: MutationOptions,
-  ) {
-    return this.api.completePracticePaymentSetup({
-      completePracticePaymentSetupRequest: params,
-      idempotencyKey: options.idempotencyKey,
-      practiceId,
-    });
-  }
-}`,
-);
-
-await output(
   "src/resources/practices.ts",
   `import type { ListPracticesRequest, PracticesApi } from "../apis/PracticesApi";
 import type { CreatePracticeRequest } from "../models/CreatePracticeRequest";
@@ -554,6 +512,7 @@ await output(
   "src/resources/patients.ts",
   `import type { ListPatientsRequest, PatientsApi } from "../apis/PatientsApi";
 import type { CreatePatientRequest } from "../models/CreatePatientRequest";
+import type { ReplacePatientAllergiesRequest } from "../models/ReplacePatientAllergiesRequest";
 import type { UpdatePatientRequest } from "../models/UpdatePatientRequest";
 import { type AffinityActor, requireAffinityActor } from "./actor";
 import { cursorPage } from "./cursor-page";
@@ -583,6 +542,13 @@ export class PatientsResource {
       practiceId,
     });
   }
+  retrieveAllergies(practiceId: string, patientId: string) {
+    requireAffinityActor(this.affinityActor);
+    return this.api.getPatientAllergies({
+      patientId,
+      practiceId,
+    });
+  }
   create(practiceId: string, params: CreatePatientRequest, options: MutationOptions) {
     requireAffinityActor(this.affinityActor);
     return this.api.createPatient({
@@ -603,6 +569,20 @@ export class PatientsResource {
       patientId,
       practiceId,
       updatePatientRequest: params,
+    });
+  }
+  replaceAllergies(
+    practiceId: string,
+    patientId: string,
+    params: ReplacePatientAllergiesRequest,
+    options: MutationOptions,
+  ) {
+    requireAffinityActor(this.affinityActor);
+    return this.api.replacePatientAllergies({
+      idempotencyKey: options.idempotencyKey,
+      patientId,
+      practiceId,
+      replacePatientAllergiesRequest: params,
     });
   }
 }`,
@@ -944,5 +924,5 @@ const indexPath = resolve(root, "src/index.ts");
 const generatedIndex = (await readFile(indexPath, "utf8")).trimEnd();
 await writeFile(
   indexPath,
-  `${generatedIndex}\n\nexport * from "./affinity";\nexport * from "./errors";\nexport * from "./webhook-events";\nexport * from "./resources/account";\nexport * from "./resources/actor";\nexport * from "./resources/billing";\nexport * from "./resources/catalog";\nexport * from "./resources/component-sessions";\nexport * from "./resources/compounders";\nexport * from "./resources/cursor-page";\nexport * from "./resources/hosted-sessions";\nexport * from "./resources/memberships";\nexport * from "./resources/order-signing-sessions";\nexport * from "./resources/orders";\nexport * from "./resources/patients";\nexport * from "./resources/practices";\nexport * from "./resources/provider-mappings";\nexport * from "./resources/request-options";\nexport * from "./resources/roles";\nexport * from "./resources/users";\nexport * from "./resources/webhooks";\n`,
+  `${generatedIndex}\n\nexport * from "./affinity";\nexport * from "./errors";\nexport * from "./webhook-events";\nexport * from "./resources/account";\nexport * from "./resources/actor";\nexport * from "./resources/catalog";\nexport * from "./resources/component-sessions";\nexport * from "./resources/compounders";\nexport * from "./resources/cursor-page";\nexport * from "./resources/hosted-sessions";\nexport * from "./resources/memberships";\nexport * from "./resources/order-signing-sessions";\nexport * from "./resources/orders";\nexport * from "./resources/patients";\nexport * from "./resources/practices";\nexport * from "./resources/provider-mappings";\nexport * from "./resources/request-options";\nexport * from "./resources/roles";\nexport * from "./resources/users";\nexport * from "./resources/webhooks";\n`,
 );

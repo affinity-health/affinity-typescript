@@ -54,22 +54,22 @@ if (process.env.RUN_AFFINITY_MUTATION_EXAMPLE === "1") {
     },
     { idempotencyKey: crypto.randomUUID() },
   );
+  await actingAffinity.patients.replaceAllergies(
+    practice.id,
+    patient.id,
+    { allergies: [], reviewStatus: "no_known" },
+    { idempotencyKey: crypto.randomUUID() },
+  );
 
-  const paymentProfile = await affinity.billing.retrievePaymentProfile(practice.id);
-  if (paymentProfile.status === "setup_required") {
-    const setup = await affinity.billing.createPaymentSetup(
-      practice.id,
-      { consentAccepted: true },
-      { idempotencyKey: crypto.randomUUID() },
-    );
-    console.log(
-      `Send the ${setup.publishableKey} publishable key and one-time client secret to an authenticated Stripe.js setup view`,
-    );
-  }
+  const practiceCatalog = await affinity.catalog.list({
+    limit: 10,
+    practiceId: practice.id,
+    query: "semaglutide",
+  });
 
   const practiceOrders = await actingAffinity.orders.list({ practiceId: practice.id });
   console.log(
-    `Created patient ${patient.id} for practice ${practice.id}; ${practiceOrders.data.length} orders are visible`,
+    `Created and allergy-reviewed patient ${patient.id} for practice ${practice.id}; ${practiceCatalog.data.length} priced catalog items and ${practiceOrders.data.length} orders are visible`,
   );
 
   console.log(

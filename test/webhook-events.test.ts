@@ -10,7 +10,7 @@ const timestamp = 1_785_323_400;
 const now = new Date(timestamp * 1_000);
 const secret = "whsec_test_example_signing_secret";
 const event = {
-  api_version: "2026-08-10",
+  api_version: "2026-08-11",
   created: timestamp,
   data: {
     object: {

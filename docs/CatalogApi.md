@@ -10,11 +10,11 @@ All URIs are relative to *https://api.joinaffinityai.com*
 
 ## listCatalogItems
 
-> ListCatalogItemsResponse listCatalogItems(availability, compounderIds, dosageForms, endingBefore, hideControlledSubstances, hideUnpriced, limit, orgId, query, requirement, routes, startingAfter, affinityVersion)
+> ListCatalogItemsResponse listCatalogItems(availability, compounderIds, dosageForms, endingBefore, hideControlledSubstances, hideUnpriced, limit, orgId, practiceId, query, requirement, routes, startingAfter, affinityVersion)
 
 List catalog items
 
-Lists the catalog items that are eligible for the authenticated account and mode.
+Lists catalog items for the authenticated account and mode. When practiceId is supplied, a practice price overrides the platform price and missing overrides inherit the platform price.
 
 ### Example
 
@@ -53,6 +53,8 @@ async function example() {
     // string (optional)
     orgId: orgId_example,
     // string (optional)
+    practiceId: practiceId_example,
+    // string (optional)
     query: query_example,
     // 'all' | 'office_use' | 'patient_specific' (optional)
     requirement: requirement_example,
@@ -88,6 +90,7 @@ example().catch(console.error);
 | **hideUnpriced**             | `boolean`                               |             | [Optional] [Defaults to `undefined`]                                           |
 | **limit**                    | `number`                                |             | [Optional] [Defaults to `25`]                                                  |
 | **orgId**                    | `string`                                |             | [Optional] [Defaults to `undefined`]                                           |
+| **practiceId**               | `string`                                |             | [Optional] [Defaults to `undefined`]                                           |
 | **query**                    | `string`                                |             | [Optional] [Defaults to `undefined`]                                           |
 | **requirement**              | `all`, `office_use`, `patient_specific` |             | [Optional] [Defaults to `undefined`] [Enum: all, office_use, patient_specific] |
 | **routes**                   | [](.md)                                 |             | [Optional] [Defaults to `undefined`]                                           |

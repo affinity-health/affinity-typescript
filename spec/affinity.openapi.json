@@ -65,7 +65,7 @@
       "url": "https://www.apache.org/licenses/LICENSE-2.0.html"
     },
     "title": "Affinity API",
-    "version": "2026-08-10"
+    "version": "2026-08-11"
   },
   "security": [
     {
@@ -82,7 +82,7 @@
     }
   ],
   "x-affinity-webhooks": {
-    "apiVersion": "2026-08-10",
+    "apiVersion": "2026-08-11",
     "eventTypes": [
       "webhook_endpoint.test",
       "order.created",
@@ -219,6 +219,8 @@
                           "items": {
                             "type": "string",
                             "enum": [
+                              "billing:manage",
+                              "billing:read",
                               "manage_api",
                               "manage_orders",
                               "manage_organization",
@@ -327,7 +329,7 @@
     "/v1/catalog/items": {
       "get": {
         "operationId": "listCatalogItems",
-        "description": "Lists the catalog items that are eligible for the authenticated account and mode.",
+        "description": "Lists catalog items for the authenticated account and mode. When practiceId is supplied, a practice price overrides the platform price and missing overrides inherit the platform price.",
         "summary": "List catalog items",
         "tags": ["Catalog"],
         "x-visibility": "public",
@@ -444,6 +446,14 @@
           },
           {
             "in": "query",
+            "name": "practiceId",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
             "name": "query",
             "required": false,
             "schema": {
@@ -520,6 +530,8 @@
                           "dosageForm",
                           "facilityType",
                           "id",
+                          "imageUrl",
+                          "imageUrls",
                           "isOrderable",
                           "livemode",
                           "name",
@@ -529,7 +541,9 @@
                           "pricing",
                           "restrictedStates",
                           "route",
-                          "strength"
+                          "shippingOptions",
+                          "strength",
+                          "unit"
                         ],
                         "properties": {
                           "allowedStates": {
@@ -561,6 +575,22 @@
                           },
                           "id": {
                             "type": "string"
+                          },
+                          "imageUrl": {
+                            "anyOf": [
+                              {
+                                "type": "string"
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          },
+                          "imageUrls": {
+                            "type": "array",
+                            "items": {
+                              "type": "string"
+                            }
                           },
                           "isOrderable": {
                             "type": "boolean"
@@ -696,28 +726,13 @@
                             "anyOf": [
                               {
                                 "type": "object",
-                                "required": [
-                                  "currency",
-                                  "medicationSubtotalCents",
-                                  "orderTotalCents",
-                                  "serviceFeeCents",
-                                  "serviceFeePercent"
-                                ],
+                                "required": ["currency", "medicationSubtotalCents"],
                                 "properties": {
                                   "currency": {
                                     "type": "string",
                                     "enum": ["USD"]
                                   },
                                   "medicationSubtotalCents": {
-                                    "type": "number"
-                                  },
-                                  "orderTotalCents": {
-                                    "type": "number"
-                                  },
-                                  "serviceFeeCents": {
-                                    "type": "number"
-                                  },
-                                  "serviceFeePercent": {
                                     "type": "number"
                                   }
                                 },
@@ -737,7 +752,98 @@
                           "route": {
                             "type": "string"
                           },
+                          "shippingOptions": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "required": [
+                                "amountCents",
+                                "carrier",
+                                "currency",
+                                "destinationTypes",
+                                "estimatedDaysMax",
+                                "estimatedDaysMin",
+                                "id",
+                                "label",
+                                "serviceLevel",
+                                "temperatures"
+                              ],
+                              "properties": {
+                                "amountCents": {
+                                  "type": "number"
+                                },
+                                "carrier": {
+                                  "anyOf": [
+                                    {
+                                      "type": "string"
+                                    },
+                                    {
+                                      "type": "null"
+                                    }
+                                  ]
+                                },
+                                "currency": {
+                                  "type": "string",
+                                  "enum": ["USD"]
+                                },
+                                "destinationTypes": {
+                                  "type": "array",
+                                  "items": {
+                                    "type": "string",
+                                    "enum": ["patient", "practice"]
+                                  }
+                                },
+                                "estimatedDaysMax": {
+                                  "anyOf": [
+                                    {
+                                      "type": "number"
+                                    },
+                                    {
+                                      "type": "null"
+                                    }
+                                  ]
+                                },
+                                "estimatedDaysMin": {
+                                  "anyOf": [
+                                    {
+                                      "type": "number"
+                                    },
+                                    {
+                                      "type": "null"
+                                    }
+                                  ]
+                                },
+                                "id": {
+                                  "type": "string"
+                                },
+                                "label": {
+                                  "type": "string"
+                                },
+                                "serviceLevel": {
+                                  "type": "string"
+                                },
+                                "temperatures": {
+                                  "type": "array",
+                                  "items": {
+                                    "type": "string",
+                                    "enum": ["ambient", "refrigerated"]
+                                  }
+                                }
+                              },
+                              "additionalProperties": false
+                            }
+                          },
                           "strength": {
+                            "anyOf": [
+                              {
+                                "type": "string"
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          },
+                          "unit": {
                             "anyOf": [
                               {
                                 "type": "string"
@@ -883,10 +989,14 @@
                           "access",
                           "catalogItemCount",
                           "facilityType",
+                          "facilityLocations",
                           "id",
                           "livemode",
+                          "logoUrl",
                           "name",
                           "object",
+                          "prescriptionsLast30Days",
+                          "profile",
                           "restrictedStates",
                           "shippingOptions",
                           "supportedStates"
@@ -902,11 +1012,64 @@
                           "facilityType": {
                             "type": "string"
                           },
+                          "facilityLocations": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "required": ["city", "country", "name", "state"],
+                              "properties": {
+                                "city": {
+                                  "anyOf": [
+                                    {
+                                      "type": "string"
+                                    },
+                                    {
+                                      "type": "null"
+                                    }
+                                  ]
+                                },
+                                "country": {
+                                  "anyOf": [
+                                    {
+                                      "type": "string"
+                                    },
+                                    {
+                                      "type": "null"
+                                    }
+                                  ]
+                                },
+                                "name": {
+                                  "type": "string"
+                                },
+                                "state": {
+                                  "anyOf": [
+                                    {
+                                      "type": "string"
+                                    },
+                                    {
+                                      "type": "null"
+                                    }
+                                  ]
+                                }
+                              },
+                              "additionalProperties": false
+                            }
+                          },
                           "id": {
                             "type": "string"
                           },
                           "livemode": {
                             "type": "boolean"
+                          },
+                          "logoUrl": {
+                            "anyOf": [
+                              {
+                                "type": "string"
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
                           },
                           "name": {
                             "type": "string"
@@ -914,6 +1077,87 @@
                           "object": {
                             "type": "string",
                             "enum": ["compounder"]
+                          },
+                          "prescriptionsLast30Days": {
+                            "type": "number"
+                          },
+                          "profile": {
+                            "anyOf": [
+                              {
+                                "type": "object",
+                                "required": [
+                                  "description",
+                                  "effectiveAt",
+                                  "monthlyPrescriptionVolume",
+                                  "rating",
+                                  "ratingBasis",
+                                  "ratingReviewCount",
+                                  "recommendedRank"
+                                ],
+                                "properties": {
+                                  "description": {
+                                    "type": "string"
+                                  },
+                                  "effectiveAt": {
+                                    "type": "string"
+                                  },
+                                  "monthlyPrescriptionVolume": {
+                                    "anyOf": [
+                                      {
+                                        "type": "number"
+                                      },
+                                      {
+                                        "type": "null"
+                                      }
+                                    ]
+                                  },
+                                  "rating": {
+                                    "anyOf": [
+                                      {
+                                        "type": "number"
+                                      },
+                                      {
+                                        "type": "null"
+                                      }
+                                    ]
+                                  },
+                                  "ratingBasis": {
+                                    "anyOf": [
+                                      {
+                                        "type": "string"
+                                      },
+                                      {
+                                        "type": "null"
+                                      }
+                                    ]
+                                  },
+                                  "ratingReviewCount": {
+                                    "anyOf": [
+                                      {
+                                        "type": "number"
+                                      },
+                                      {
+                                        "type": "null"
+                                      }
+                                    ]
+                                  },
+                                  "recommendedRank": {
+                                    "anyOf": [
+                                      {
+                                        "type": "number"
+                                      },
+                                      {
+                                        "type": "null"
+                                      }
+                                    ]
+                                  }
+                                },
+                                "additionalProperties": false
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
                           },
                           "restrictedStates": {
                             "type": "array",
@@ -1123,10 +1367,8 @@
                       "estimatedDaysMin",
                       "id",
                       "label",
-                      "markupCents",
                       "serviceLevel",
-                      "temperature",
-                      "totalCents"
+                      "temperature"
                     ],
                     "properties": {
                       "amountCents": {
@@ -1172,18 +1414,12 @@
                       "label": {
                         "type": "string"
                       },
-                      "markupCents": {
-                        "type": "number"
-                      },
                       "serviceLevel": {
                         "type": "string"
                       },
                       "temperature": {
                         "type": "string",
                         "enum": ["ambient", "refrigerated"]
-                      },
-                      "totalCents": {
-                        "type": "number"
                       }
                     },
                     "additionalProperties": false
@@ -1486,10 +1722,8 @@
                                             "amountCents",
                                             "currency",
                                             "label",
-                                            "markupCents",
                                             "serviceLevel",
-                                            "temperature",
-                                            "totalCents"
+                                            "temperature"
                                           ],
                                           "properties": {
                                             "amountCents": {
@@ -1502,18 +1736,12 @@
                                             "label": {
                                               "type": "string"
                                             },
-                                            "markupCents": {
-                                              "type": "number"
-                                            },
                                             "serviceLevel": {
                                               "type": "string"
                                             },
                                             "temperature": {
                                               "type": "string",
                                               "enum": ["ambient", "refrigerated"]
-                                            },
-                                            "totalCents": {
-                                              "type": "number"
                                             }
                                           },
                                           "additionalProperties": false
@@ -2331,10 +2559,8 @@
                                       "amountCents",
                                       "currency",
                                       "label",
-                                      "markupCents",
                                       "serviceLevel",
-                                      "temperature",
-                                      "totalCents"
+                                      "temperature"
                                     ],
                                     "properties": {
                                       "amountCents": {
@@ -2347,18 +2573,12 @@
                                       "label": {
                                         "type": "string"
                                       },
-                                      "markupCents": {
-                                        "type": "number"
-                                      },
                                       "serviceLevel": {
                                         "type": "string"
                                       },
                                       "temperature": {
                                         "type": "string",
                                         "enum": ["ambient", "refrigerated"]
-                                      },
-                                      "totalCents": {
-                                        "type": "number"
                                       }
                                     },
                                     "additionalProperties": false
@@ -2798,10 +3018,8 @@
                                       "amountCents",
                                       "currency",
                                       "label",
-                                      "markupCents",
                                       "serviceLevel",
-                                      "temperature",
-                                      "totalCents"
+                                      "temperature"
                                     ],
                                     "properties": {
                                       "amountCents": {
@@ -2814,18 +3032,12 @@
                                       "label": {
                                         "type": "string"
                                       },
-                                      "markupCents": {
-                                        "type": "number"
-                                      },
                                       "serviceLevel": {
                                         "type": "string"
                                       },
                                       "temperature": {
                                         "type": "string",
                                         "enum": ["ambient", "refrigerated"]
-                                      },
-                                      "totalCents": {
-                                        "type": "number"
                                       }
                                     },
                                     "additionalProperties": false
@@ -4743,7 +4955,7 @@
                       "properties": {
                         "apiVersion": {
                           "type": "string",
-                          "enum": ["2026-08-10"]
+                          "enum": ["2026-08-11"]
                         },
                         "id": {
                           "type": "string"
@@ -4804,7 +5016,7 @@
     "/v1/practices": {
       "get": {
         "operationId": "listPractices",
-        "description": "Returns the practices that belong to the platform. The default Affinity-Version is 2026-08-10.",
+        "description": "Returns the practices that belong to the platform. The default Affinity-Version is 2026-08-11.",
         "summary": "List practices",
         "tags": ["Practices"],
         "x-visibility": "public",
@@ -6640,7 +6852,8 @@
                         "type": "object",
                         "required": [
                           "address",
-                          "allergies",
+                          "allergyReviewStatus",
+                          "allergySummary",
                           "createdAt",
                           "dateOfBirth",
                           "email",
@@ -6695,8 +6908,32 @@
                             },
                             "additionalProperties": false
                           },
-                          "allergies": {
-                            "type": "string"
+                          "allergyReviewStatus": {
+                            "type": "string",
+                            "enum": ["not_reviewed", "no_known", "recorded"]
+                          },
+                          "allergySummary": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "required": ["reaction", "substance"],
+                              "properties": {
+                                "reaction": {
+                                  "anyOf": [
+                                    {
+                                      "type": "string"
+                                    },
+                                    {
+                                      "type": "null"
+                                    }
+                                  ]
+                                },
+                                "substance": {
+                                  "type": "string"
+                                }
+                              },
+                              "additionalProperties": false
+                            }
                           },
                           "createdAt": {
                             "type": "string"
@@ -6929,10 +7166,6 @@
                     },
                     "additionalProperties": false
                   },
-                  "allergies": {
-                    "type": "string",
-                    "description": "a string that will be trimmed"
-                  },
                   "dateOfBirth": {
                     "type": "string"
                   },
@@ -7017,7 +7250,8 @@
                   "type": "object",
                   "required": [
                     "address",
-                    "allergies",
+                    "allergyReviewStatus",
+                    "allergySummary",
                     "createdAt",
                     "dateOfBirth",
                     "email",
@@ -7072,8 +7306,32 @@
                       },
                       "additionalProperties": false
                     },
-                    "allergies": {
-                      "type": "string"
+                    "allergyReviewStatus": {
+                      "type": "string",
+                      "enum": ["not_reviewed", "no_known", "recorded"]
+                    },
+                    "allergySummary": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "required": ["reaction", "substance"],
+                        "properties": {
+                          "reaction": {
+                            "anyOf": [
+                              {
+                                "type": "string"
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          },
+                          "substance": {
+                            "type": "string"
+                          }
+                        },
+                        "additionalProperties": false
+                      }
                     },
                     "createdAt": {
                       "type": "string"
@@ -7258,7 +7516,8 @@
                   "type": "object",
                   "required": [
                     "address",
-                    "allergies",
+                    "allergyReviewStatus",
+                    "allergySummary",
                     "createdAt",
                     "dateOfBirth",
                     "email",
@@ -7313,8 +7572,32 @@
                       },
                       "additionalProperties": false
                     },
-                    "allergies": {
-                      "type": "string"
+                    "allergyReviewStatus": {
+                      "type": "string",
+                      "enum": ["not_reviewed", "no_known", "recorded"]
+                    },
+                    "allergySummary": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "required": ["reaction", "substance"],
+                        "properties": {
+                          "reaction": {
+                            "anyOf": [
+                              {
+                                "type": "string"
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          },
+                          "substance": {
+                            "type": "string"
+                          }
+                        },
+                        "additionalProperties": false
+                      }
                     },
                     "createdAt": {
                       "type": "string"
@@ -7540,10 +7823,6 @@
                     },
                     "additionalProperties": false
                   },
-                  "allergies": {
-                    "type": "string",
-                    "description": "a string that will be trimmed"
-                  },
                   "dateOfBirth": {
                     "type": "string"
                   },
@@ -7628,7 +7907,8 @@
                   "type": "object",
                   "required": [
                     "address",
-                    "allergies",
+                    "allergyReviewStatus",
+                    "allergySummary",
                     "createdAt",
                     "dateOfBirth",
                     "email",
@@ -7683,8 +7963,32 @@
                       },
                       "additionalProperties": false
                     },
-                    "allergies": {
-                      "type": "string"
+                    "allergyReviewStatus": {
+                      "type": "string",
+                      "enum": ["not_reviewed", "no_known", "recorded"]
+                    },
+                    "allergySummary": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "required": ["reaction", "substance"],
+                        "properties": {
+                          "reaction": {
+                            "anyOf": [
+                              {
+                                "type": "string"
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          },
+                          "substance": {
+                            "type": "string"
+                          }
+                        },
+                        "additionalProperties": false
+                      }
                     },
                     "createdAt": {
                       "type": "string"
@@ -7811,14 +8115,22 @@
         }
       }
     },
-    "/v1/practices/{practiceId}/payment-profile": {
+    "/v1/practices/{practiceId}/patients/{patientId}/allergies": {
       "get": {
-        "operationId": "getPracticePaymentProfile",
-        "description": "Returns payment-method readiness for this practice in the current mode.",
-        "summary": "Read practice payment profile",
-        "tags": ["Billing"],
+        "operationId": "getPatientAllergies",
+        "description": "Returns the patient's structured allergy entries and review status. A not_reviewed status is not a no-known-allergies assertion and blocks clinical review and signing.",
+        "summary": "Read patient allergies",
+        "tags": ["Patients"],
         "x-visibility": "public",
         "parameters": [
+          {
+            "in": "path",
+            "name": "patientId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
           {
             "in": "path",
             "name": "practiceId",
@@ -7834,6 +8146,22 @@
             "schema": {
               "type": "string"
             }
+          },
+          {
+            "in": "header",
+            "name": "Affinity-Actor-Id",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "header",
+            "name": "Affinity-Actor-Type",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "responses": {
@@ -7841,94 +8169,140 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "title": "GetPracticePaymentProfileResponse",
+                  "title": "GetPatientAllergiesResponse",
                   "type": "object",
-                  "required": [
-                    "consentVersion",
-                    "environment",
-                    "paymentMethod",
-                    "paymentMethods",
-                    "portalAvailable",
-                    "status"
-                  ],
+                  "required": ["allergies", "reviewStatus"],
                   "properties": {
-                    "consentVersion": {
-                      "type": "string"
-                    },
-                    "environment": {
-                      "type": "string",
-                      "enum": ["sandbox", "production"]
-                    },
-                    "paymentMethod": {
-                      "anyOf": [
-                        {
-                          "type": "object",
-                          "required": ["brand", "last4", "type"],
-                          "properties": {
-                            "brand": {
-                              "type": "string"
-                            },
-                            "last4": {
-                              "type": "string"
-                            },
-                            "type": {
-                              "type": "string",
-                              "enum": ["card"]
-                            }
-                          },
-                          "additionalProperties": false
-                        },
-                        {
-                          "type": "null"
-                        }
-                      ]
-                    },
-                    "paymentMethods": {
+                    "allergies": {
                       "type": "array",
                       "items": {
                         "type": "object",
                         "required": [
-                          "brand",
-                          "expMonth",
-                          "expYear",
+                          "category",
+                          "code",
+                          "codeSystem",
                           "id",
-                          "isPrimary",
-                          "last4",
-                          "type"
+                          "reactions",
+                          "severity",
+                          "source",
+                          "substance",
+                          "type",
+                          "verificationStatus"
                         ],
                         "properties": {
-                          "brand": {
-                            "type": "string"
+                          "category": {
+                            "type": "string",
+                            "enum": [
+                              "drug",
+                              "food",
+                              "insect",
+                              "latex",
+                              "mold",
+                              "pet",
+                              "pollen",
+                              "environmental",
+                              "biologic",
+                              "other"
+                            ]
                           },
-                          "expMonth": {
-                            "type": "number"
+                          "code": {
+                            "anyOf": [
+                              {
+                                "type": "string"
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
                           },
-                          "expYear": {
-                            "type": "number"
+                          "codeSystem": {
+                            "anyOf": [
+                              {
+                                "type": "string",
+                                "enum": ["rxnorm", "snomed-ct"]
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
                           },
                           "id": {
                             "type": "string"
                           },
-                          "isPrimary": {
-                            "type": "boolean"
+                          "reactions": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "required": ["code", "codeSystem", "display"],
+                              "properties": {
+                                "code": {
+                                  "anyOf": [
+                                    {
+                                      "type": "string"
+                                    },
+                                    {
+                                      "type": "null"
+                                    }
+                                  ]
+                                },
+                                "codeSystem": {
+                                  "anyOf": [
+                                    {
+                                      "type": "string",
+                                      "enum": ["snomed-ct"]
+                                    },
+                                    {
+                                      "type": "null"
+                                    }
+                                  ]
+                                },
+                                "display": {
+                                  "type": "string"
+                                }
+                              },
+                              "additionalProperties": false
+                            }
                           },
-                          "last4": {
+                          "severity": {
+                            "anyOf": [
+                              {
+                                "type": "string",
+                                "enum": ["mild", "moderate", "severe", "unknown"]
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          },
+                          "source": {
+                            "type": "string",
+                            "enum": ["Doctor", "Patient", "Patient Agent/Guardian", "Pharmacist"]
+                          },
+                          "substance": {
                             "type": "string"
                           },
                           "type": {
+                            "anyOf": [
+                              {
+                                "type": "string",
+                                "enum": ["allergy", "intolerance"]
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          },
+                          "verificationStatus": {
                             "type": "string",
-                            "enum": ["card"]
+                            "enum": ["unconfirmed", "presumed", "confirmed"]
                           }
                         },
                         "additionalProperties": false
                       }
                     },
-                    "portalAvailable": {
-                      "type": "boolean"
-                    },
-                    "status": {
+                    "reviewStatus": {
                       "type": "string",
-                      "enum": ["setup_required", "ready", "action_required", "disabled"]
+                      "enum": ["not_reviewed", "no_known", "recorded"]
                     }
                   },
                   "additionalProperties": false
@@ -7968,16 +8342,22 @@
             "description": "HTTP 429"
           }
         }
-      }
-    },
-    "/v1/practices/{practiceId}/payment-profile/setup": {
-      "post": {
-        "operationId": "createPracticePaymentSetup",
-        "description": "Starts Stripe card setup after the practice accepts the current off-session collection terms.",
-        "summary": "Start practice card setup",
-        "tags": ["Billing"],
+      },
+      "put": {
+        "operationId": "replacePatientAllergies",
+        "description": "Replaces the patient's structured allergy record. Sending no_known is the explicit no-known-allergies acknowledgement; recorded requires at least one entry. Idempotency-Key is required.",
+        "summary": "Replace patient allergies",
+        "tags": ["Patients"],
         "x-visibility": "public",
         "parameters": [
+          {
+            "in": "path",
+            "name": "patientId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
           {
             "in": "path",
             "name": "practiceId",
@@ -8001,6 +8381,22 @@
             "schema": {
               "type": "string"
             }
+          },
+          {
+            "in": "header",
+            "name": "Affinity-Actor-Id",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "header",
+            "name": "Affinity-Actor-Type",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "requestBody": {
@@ -8008,120 +8404,149 @@
             "application/json": {
               "schema": {
                 "type": "object",
-                "required": ["consentAccepted"],
+                "required": ["allergies", "reviewStatus"],
                 "properties": {
-                  "consentAccepted": {
-                    "type": "boolean",
-                    "enum": [true]
-                  }
-                },
-                "additionalProperties": false
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "title": "CreatePracticePaymentSetupResponse",
-                  "type": "object",
-                  "required": ["clientSecret", "consentVersion", "publishableKey"],
-                  "properties": {
-                    "clientSecret": {
-                      "type": "string"
-                    },
-                    "consentVersion": {
-                      "type": "string"
-                    },
-                    "publishableKey": {
-                      "type": "string"
+                  "allergies": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "required": [
+                        "category",
+                        "reactions",
+                        "source",
+                        "substance",
+                        "type",
+                        "verificationStatus"
+                      ],
+                      "properties": {
+                        "category": {
+                          "type": "string",
+                          "enum": [
+                            "drug",
+                            "food",
+                            "insect",
+                            "latex",
+                            "mold",
+                            "pet",
+                            "pollen",
+                            "environmental",
+                            "biologic",
+                            "other"
+                          ]
+                        },
+                        "code": {
+                          "anyOf": [
+                            {
+                              "type": "string",
+                              "description": "a string that will be trimmed"
+                            },
+                            {
+                              "type": "null"
+                            }
+                          ]
+                        },
+                        "codeSystem": {
+                          "anyOf": [
+                            {
+                              "anyOf": [
+                                {
+                                  "type": "string",
+                                  "enum": ["rxnorm", "snomed-ct"]
+                                },
+                                {
+                                  "type": "null"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "null"
+                            }
+                          ]
+                        },
+                        "reactions": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "required": ["display"],
+                            "properties": {
+                              "code": {
+                                "anyOf": [
+                                  {
+                                    "type": "string",
+                                    "description": "a string that will be trimmed"
+                                  },
+                                  {
+                                    "type": "null"
+                                  }
+                                ]
+                              },
+                              "codeSystem": {
+                                "anyOf": [
+                                  {
+                                    "type": "string",
+                                    "enum": ["snomed-ct"]
+                                  },
+                                  {
+                                    "type": "null"
+                                  }
+                                ]
+                              },
+                              "display": {
+                                "type": "string",
+                                "description": "a string that will be trimmed"
+                              }
+                            },
+                            "additionalProperties": false
+                          }
+                        },
+                        "severity": {
+                          "anyOf": [
+                            {
+                              "anyOf": [
+                                {
+                                  "type": "string",
+                                  "enum": ["mild", "moderate", "severe", "unknown"]
+                                },
+                                {
+                                  "type": "null"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "null"
+                            }
+                          ]
+                        },
+                        "source": {
+                          "type": "string",
+                          "enum": ["Doctor", "Patient", "Patient Agent/Guardian", "Pharmacist"]
+                        },
+                        "substance": {
+                          "type": "string",
+                          "description": "a string that will be trimmed"
+                        },
+                        "type": {
+                          "anyOf": [
+                            {
+                              "type": "string",
+                              "enum": ["allergy", "intolerance"]
+                            },
+                            {
+                              "type": "null"
+                            }
+                          ]
+                        },
+                        "verificationStatus": {
+                          "type": "string",
+                          "enum": ["unconfirmed", "presumed", "confirmed"]
+                        }
+                      },
+                      "additionalProperties": false
                     }
                   },
-                  "additionalProperties": false
-                }
-              }
-            },
-            "description": "HTTP 200"
-          },
-          "401": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Problem"
-                }
-              }
-            },
-            "description": "HTTP 401"
-          },
-          "403": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Problem"
-                }
-              }
-            },
-            "description": "HTTP 403"
-          },
-          "429": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Problem"
-                }
-              }
-            },
-            "description": "HTTP 429"
-          }
-        }
-      }
-    },
-    "/v1/practices/{practiceId}/payment-profile/setup/complete": {
-      "post": {
-        "operationId": "completePracticePaymentSetup",
-        "description": "Finalizes a succeeded Stripe SetupIntent and makes its card the practice's primary payment method.",
-        "summary": "Complete practice card setup",
-        "tags": ["Billing"],
-        "x-visibility": "public",
-        "parameters": [
-          {
-            "in": "path",
-            "name": "practiceId",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "in": "header",
-            "name": "Affinity-Version",
-            "required": false,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "in": "header",
-            "name": "Idempotency-Key",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "required": ["setupIntentId"],
-                "properties": {
-                  "setupIntentId": {
+                  "reviewStatus": {
                     "type": "string",
-                    "description": "a string that will be trimmed"
+                    "enum": ["not_reviewed", "no_known", "recorded"]
                   }
                 },
                 "additionalProperties": false
@@ -8135,94 +8560,140 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "title": "CompletePracticePaymentSetupResponse",
+                  "title": "ReplacePatientAllergiesResponse",
                   "type": "object",
-                  "required": [
-                    "consentVersion",
-                    "environment",
-                    "paymentMethod",
-                    "paymentMethods",
-                    "portalAvailable",
-                    "status"
-                  ],
+                  "required": ["allergies", "reviewStatus"],
                   "properties": {
-                    "consentVersion": {
-                      "type": "string"
-                    },
-                    "environment": {
-                      "type": "string",
-                      "enum": ["sandbox", "production"]
-                    },
-                    "paymentMethod": {
-                      "anyOf": [
-                        {
-                          "type": "object",
-                          "required": ["brand", "last4", "type"],
-                          "properties": {
-                            "brand": {
-                              "type": "string"
-                            },
-                            "last4": {
-                              "type": "string"
-                            },
-                            "type": {
-                              "type": "string",
-                              "enum": ["card"]
-                            }
-                          },
-                          "additionalProperties": false
-                        },
-                        {
-                          "type": "null"
-                        }
-                      ]
-                    },
-                    "paymentMethods": {
+                    "allergies": {
                       "type": "array",
                       "items": {
                         "type": "object",
                         "required": [
-                          "brand",
-                          "expMonth",
-                          "expYear",
+                          "category",
+                          "code",
+                          "codeSystem",
                           "id",
-                          "isPrimary",
-                          "last4",
-                          "type"
+                          "reactions",
+                          "severity",
+                          "source",
+                          "substance",
+                          "type",
+                          "verificationStatus"
                         ],
                         "properties": {
-                          "brand": {
-                            "type": "string"
+                          "category": {
+                            "type": "string",
+                            "enum": [
+                              "drug",
+                              "food",
+                              "insect",
+                              "latex",
+                              "mold",
+                              "pet",
+                              "pollen",
+                              "environmental",
+                              "biologic",
+                              "other"
+                            ]
                           },
-                          "expMonth": {
-                            "type": "number"
+                          "code": {
+                            "anyOf": [
+                              {
+                                "type": "string"
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
                           },
-                          "expYear": {
-                            "type": "number"
+                          "codeSystem": {
+                            "anyOf": [
+                              {
+                                "type": "string",
+                                "enum": ["rxnorm", "snomed-ct"]
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
                           },
                           "id": {
                             "type": "string"
                           },
-                          "isPrimary": {
-                            "type": "boolean"
+                          "reactions": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "required": ["code", "codeSystem", "display"],
+                              "properties": {
+                                "code": {
+                                  "anyOf": [
+                                    {
+                                      "type": "string"
+                                    },
+                                    {
+                                      "type": "null"
+                                    }
+                                  ]
+                                },
+                                "codeSystem": {
+                                  "anyOf": [
+                                    {
+                                      "type": "string",
+                                      "enum": ["snomed-ct"]
+                                    },
+                                    {
+                                      "type": "null"
+                                    }
+                                  ]
+                                },
+                                "display": {
+                                  "type": "string"
+                                }
+                              },
+                              "additionalProperties": false
+                            }
                           },
-                          "last4": {
+                          "severity": {
+                            "anyOf": [
+                              {
+                                "type": "string",
+                                "enum": ["mild", "moderate", "severe", "unknown"]
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          },
+                          "source": {
+                            "type": "string",
+                            "enum": ["Doctor", "Patient", "Patient Agent/Guardian", "Pharmacist"]
+                          },
+                          "substance": {
                             "type": "string"
                           },
                           "type": {
+                            "anyOf": [
+                              {
+                                "type": "string",
+                                "enum": ["allergy", "intolerance"]
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          },
+                          "verificationStatus": {
                             "type": "string",
-                            "enum": ["card"]
+                            "enum": ["unconfirmed", "presumed", "confirmed"]
                           }
                         },
                         "additionalProperties": false
                       }
                     },
-                    "portalAvailable": {
-                      "type": "boolean"
-                    },
-                    "status": {
+                    "reviewStatus": {
                       "type": "string",
-                      "enum": ["setup_required", "ready", "action_required", "disabled"]
+                      "enum": ["not_reviewed", "no_known", "recorded"]
                     }
                   },
                   "additionalProperties": false

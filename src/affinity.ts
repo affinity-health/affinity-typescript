@@ -1,7 +1,6 @@
 // Code generated from spec/affinity.openapi.json by scripts/generate-facade.ts. DO NOT EDIT.
 
 import { APIKeysApi } from "./apis/APIKeysApi";
-import { BillingApi } from "./apis/BillingApi";
 import { CatalogApi } from "./apis/CatalogApi";
 import { ComponentSessionsApi } from "./apis/ComponentSessionsApi";
 import { HostedSessionsApi } from "./apis/HostedSessionsApi";
@@ -17,7 +16,6 @@ import { RolesApi } from "./apis/RolesApi";
 import { UsersApi } from "./apis/UsersApi";
 import { Configuration, type FetchAPI } from "./runtime";
 import { AccountResource } from "./resources/account";
-import { BillingResource } from "./resources/billing";
 import { CatalogResource } from "./resources/catalog";
 import { ComponentSessionsResource } from "./resources/component-sessions";
 import { CompoundersResource } from "./resources/compounders";
@@ -45,7 +43,6 @@ export interface AffinityOptions {
 
 export class Affinity {
   readonly account: AccountResource;
-  readonly billing: BillingResource;
   readonly catalog: CatalogResource;
   readonly componentSessions: ComponentSessionsResource;
   readonly compounders: CompoundersResource;
@@ -66,7 +63,7 @@ export class Affinity {
     if (!apiKey.trim()) throw new Error("Affinity requires a service API key");
     const actor = options.actor ? validateAffinityActor(options.actor) : undefined;
     const baseUrl = options.baseUrl ?? "https://api.joinaffinityai.com";
-    const apiVersion = options.apiVersion ?? "2026-08-10";
+    const apiVersion = options.apiVersion ?? "2026-08-11";
     const timeout = options.timeout ?? 30_000;
     const maxRetries = options.maxRetries ?? 2;
     if (!Number.isFinite(timeout) || timeout <= 0) {
@@ -94,7 +91,6 @@ export class Affinity {
       new APIKeysApi(configuration),
       new PlatformsApi(configuration),
     );
-    this.billing = new BillingResource(new BillingApi(configuration));
     this.catalog = new CatalogResource(new CatalogApi(configuration));
     this.componentSessions = new ComponentSessionsResource(new ComponentSessionsApi(configuration));
     this.compounders = new CompoundersResource(new CatalogApi(configuration));

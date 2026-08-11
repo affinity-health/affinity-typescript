@@ -2,7 +2,7 @@
 
 The official TypeScript SDK for the Affinity API.
 
-> **Status:** The `1.3.1` release uses the forward-only `2026-08-10` Affinity API contract. Use Test
+> **Status:** The `1.4.0` release uses the forward-only `2026-08-11` Affinity API contract. Use Test
 > mode until Affinity approves Live access.
 
 The SDK provides a small, resource-oriented interface for software platforms connecting
@@ -25,18 +25,23 @@ const affinity = new Affinity(process.env.AFFINITY_API_KEY!);
 const access = await affinity.account.retrieveAccess();
 if (access.livemode) throw new Error("Use a test-mode key during sandbox development");
 
-const catalog = await affinity.catalog.list({ query: "semaglutide", limit: 10 });
+const practices = await affinity.practices.list();
+const practice = practices.data[0];
+if (!practice) throw new Error("Create a practice before browsing its catalog");
+
+const catalog = await affinity.catalog.list({
+  practiceId: practice.id,
+  query: "semaglutide",
+  limit: 10,
+});
 const compounders = await affinity.compounders.list();
 const item = catalog.data[0];
 if (item) {
   console.log(item.pricing.medicationSubtotalCents);
-  console.log(item.pricing.serviceFeeCents);
-  console.log(item.pricing.orderTotalCents);
 }
 
-const practices = await affinity.practices.list();
 const actingAffinity = affinity.withActor({ id: authenticatedUser.id, type: "user" });
-const orders = await actingAffinity.orders.list({ practiceId: practices.data[0]?.id });
+const orders = await actingAffinity.orders.list({ practiceId: practice.id });
 console.log(`${compounders.data.length} compounders are available to this account`);
 ```
 
@@ -68,7 +73,9 @@ Pass `startingAfter` or `endingBefore` to request one page directly. Automatic i
 forward traversal only and rejects `endingBefore`.
 
 `catalog.listShippingOptions(...)` returns the complete eligible choice array directly. That
-bounded decision set contains at most 50 options and does not use cursors.
+bounded decision set contains at most 50 options and does not use cursors. Each option's
+`amountCents` is the final customer shipping price; vendor cost, Affinity margin, and internal fee
+breakdowns are not part of the public contract.
 
 Affinity supports three prescribing integrations: Affinity Hosted for a redirect-based workflow,
 Affinity Elements for an embedded composer, and the server-side SDK for platforms that build their
@@ -349,7 +356,7 @@ The signing session is server-bound to the platform, Test or Live mode, practice
 provider, and complete order. The provider reviews every prescription, enters their PIN only
 inside Affinity, and selects shipping for each prescription before Affinity transmits them.
 
-## Patients and card setup
+## Patients and allergy review
 
 Create each patient inside its owning practice. Use your stable patient identifier for
 `externalId`.
@@ -374,29 +381,25 @@ const patient = await actingAffinity.patients.create(
   { idempotencyKey: "patient:patient_991" },
 );
 
-const setup = await affinity.billing.createPaymentSetup(
+// A new patient is intentionally not assumed to have no allergies. Record the result of an
+// explicit review before a provider reviews or signs the order.
+await actingAffinity.patients.replaceAllergies(
   practice.id,
-  { consentAccepted: true },
-  { idempotencyKey: `payment-setup:${practice.id}` },
+  patient.id,
+  { allergies: [], reviewStatus: "no_known" },
+  { idempotencyKey: `patient-allergies:${patient.id}:no-known` },
 );
 ```
 
-Return `setup.publishableKey` and `setup.clientSecret` only to an authenticated practice billing
-view. Confirm the SetupIntent with Stripe.js. Send only its `seti_...` ID back to your backend.
+Use `reviewStatus: "recorded"` with one or more structured allergy entries when the patient has an
+allergy or intolerance. Do not infer `no_known` from an empty import, a missing field, or a newly
+created patient. Platform keys may create unsigned drafts while the status is `not_reviewed`, but
+clinical review, signing, and release remain blocked until this explicit step is complete.
 
 ```ts
-const paymentProfile = await affinity.billing.completePaymentSetup(
-  practice.id,
-  { setupIntentId },
-  { idempotencyKey: `payment-setup-complete:${setupIntentId}` },
-);
-
-if (paymentProfile.status !== "ready") {
-  throw new Error("The practice payment profile is not ready");
-}
+const allergyRecord = await actingAffinity.patients.retrieveAllergies(practice.id, patient.id);
+console.log(allergyRecord.reviewStatus, allergyRecord.allergies);
 ```
-
-Do not log the SetupIntent client secret or send it to another practice.
 
 ## Resource model
 
@@ -407,8 +410,7 @@ The client surface is organized around these resources:
 - `compounders` — list the compounders available to the authenticated account and mode
 - `users` — provision platform-owned user records by stable external ID
 - `practices` — create and manage customer practices
-- `patients` — create and manage patients inside one practice
-- `billing` — start and complete Stripe card setup and read the safe payment profile
+- `patients` — create and manage patients and their explicit allergy review inside one practice
 - `roles` — list and manage custom practice roles
 - `memberships` — create consent-bound practice role grants
 - `providerMappings` — connect, inspect, and revoke platform identities mapped to independently
@@ -469,8 +471,8 @@ failures, and log the `requestId` for support. Effect and Result libraries can w
 methods in applications that use them, but they are intentionally not SDK dependencies.
 
 Each clinical order belongs to one practice. A platform can list orders across its practices or use
-`practiceId` to scope the operational view. The practice payment profile returns only safe card
-metadata. The platform must not receive raw card data.
+`practiceId` to scope the operational view and catalog pricing. Commercial billing is outside the
+platform API surface.
 
 ## Safety
 

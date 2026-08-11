@@ -5,7 +5,6 @@ const sdk = await import("../dist/index.js");
 const client = new sdk.Affinity("sk_test_package_check");
 
 for (const resource of [
-  "billing",
   "componentSessions",
   "compounders",
   "hostedSessions",
@@ -23,8 +22,19 @@ for (const webhookExport of ["parseAffinityWebhookEvent", "verifyAffinityWebhook
   }
 }
 
-for (const legacyResource of ["portalSessions", "prescriptions", "prescriptionSigningSessions"]) {
+for (const legacyResource of [
+  "billing",
+  "portalSessions",
+  "prescriptions",
+  "prescriptionSigningSessions",
+]) {
   if (legacyResource in client) throw new Error(`legacy ${legacyResource} resource remains`);
+}
+
+for (const method of ["retrieveAllergies", "replaceAllergies"]) {
+  if (typeof client.patients[method] !== "function") {
+    throw new Error(`patients.${method} method missing`);
+  }
 }
 
 for (const legacyMethod of ["createRoutingDecision", "submit", "update"]) {

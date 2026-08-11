@@ -15,7 +15,7 @@ describe("Affinity client", () => {
 
     expect(request?.url).toBe("https://api.joinaffinityai.com/v1/auth/access");
     expect(request?.headers.get("authorization")).toBe("Bearer sk_test_example");
-    expect(request?.headers.get("affinity-version")).toBe("2026-08-10");
+    expect(request?.headers.get("affinity-version")).toBe("2026-08-11");
   });
 
   test("retries safe reads and preserves list filters", async () => {
@@ -34,11 +34,17 @@ describe("Affinity client", () => {
       maxRetries: 1,
     });
 
-    await affinity.catalog.list({ limit: 10, query: "semaglutide", routes: ["injectable"] });
+    await affinity.catalog.list({
+      limit: 10,
+      practiceId: "prac_01k123456789abcdefghjkmnp",
+      query: "semaglutide",
+      routes: ["injectable"],
+    });
 
     expect(requests).toHaveLength(2);
     expect(requests[1]?.url).toContain("limit=10");
     expect(requests[1]?.url).toContain("query=semaglutide");
+    expect(requests[1]?.url).toContain("practiceId=prac_01k123456789abcdefghjkmnp");
     expect(requests[1]?.url).toContain("routes=injectable");
   });
 
@@ -49,10 +55,41 @@ describe("Affinity client", () => {
         const request = new Request(input, init);
         requests.push(request);
         const startingAfter = new URL(request.url).searchParams.get("startingAfter");
+        const catalogItem = (id: string) => ({
+          allowedStates: ["CA"],
+          catalogKind: "prescription",
+          coldShip: false,
+          compounderId: "cmp_1",
+          compounderName: "Example Pharmacy",
+          description: "Synthetic catalog fixture",
+          dosageForm: "vial",
+          facilityType: "503a",
+          id,
+          imageUrl: null,
+          imageUrls: [],
+          isOrderable: true,
+          livemode: false,
+          name: "Example medication",
+          object: "catalog_item",
+          patientSpecificRequired: true,
+          prescriptionRequirements: {
+            compoundingReason: "not_required",
+            diagnosis: "optional",
+            pharmacyNotes: "optional",
+            refills: "optional",
+            substitution: "optional",
+          },
+          pricing: { currency: "USD", medicationSubtotalCents: 5_000, orderTotalCents: 5_000 },
+          restrictedStates: [],
+          route: "injectable",
+          shippingOptions: [],
+          strength: "5 mg/mL",
+          unit: "1 mL vial",
+        });
         return Response.json({
           data: [
-            { id: startingAfter ? "cat_3" : "cat_1" },
-            ...(startingAfter ? [] : [{ id: "cat_2" }]),
+            catalogItem(startingAfter ? "cat_3" : "cat_1"),
+            ...(startingAfter ? [] : [catalogItem("cat_2")]),
           ],
           hasMore: !startingAfter,
           object: "list",
@@ -83,10 +120,14 @@ describe("Affinity client", () => {
           access: "network",
           catalogItemCount: 1,
           facilityType: "503a",
+          facilityLocations: [],
           id,
           livemode: false,
+          logoUrl: null,
           name,
           object: "compounder",
+          prescriptionsLast30Days: null,
+          profile: null,
           restrictedStates: [],
           shippingOptions: [],
           supportedStates: ["CA"],
@@ -112,7 +153,7 @@ describe("Affinity client", () => {
     expect(new URL(requests[0]!.url).searchParams.get("limit")).toBe("2");
     expect(new URL(requests[1]!.url).searchParams.get("startingAfter")).toBe("cmp_2");
     expect(new URL(requests[1]!.url).searchParams.get("query")).toBe("example");
-    expect(requests[1]?.headers.get("affinity-version")).toBe("2026-08-10");
+    expect(requests[1]?.headers.get("affinity-version")).toBe("2026-08-11");
   });
 
   test("returns the complete bounded shipping choice array without a fake cursor envelope", async () => {
@@ -129,10 +170,8 @@ describe("Affinity client", () => {
             estimatedDaysMin: 1,
             id: "shp_1",
             label: "Next day",
-            markupCents: 0,
             serviceLevel: "next_day",
             temperature: "ambient",
-            totalCents: 1_500,
           },
         ]);
       },
@@ -146,6 +185,7 @@ describe("Affinity client", () => {
 
     expect(options).toHaveLength(1);
     expect(options[0]?.id).toBe("shp_1");
+    expect(options[0]?.amountCents).toBe(1_500);
     expect(request?.url).toContain("/v1/catalog/items/cat_1/shipping-options");
     expect(request?.url).toContain("destinationState=CA");
   });
@@ -216,7 +256,8 @@ describe("Affinity client", () => {
         postalCode: "90001",
         state: "CA",
       },
-      allergies: "NKDA",
+      allergyReviewStatus: "not_reviewed",
+      allergySummary: [],
       createdAt: "2026-07-31T12:00:00.000Z",
       dateOfBirth: "1990-01-01",
       email: null,
@@ -238,6 +279,9 @@ describe("Affinity client", () => {
         requests.push(request);
         if (request.method === "GET" && new URL(request.url).pathname.endsWith("/patients")) {
           return Response.json({ data: [], hasMore: false, object: "list", url: request.url });
+        }
+        if (new URL(request.url).pathname.endsWith("/allergies")) {
+          return Response.json({ allergies: [], reviewStatus: "no_known" });
         }
         return Response.json(patient);
       },
@@ -268,6 +312,13 @@ describe("Affinity client", () => {
       { status: "inactive" },
       { idempotencyKey: "patient-update-4821" },
     );
+    await affinity.patients.retrieveAllergies(practiceId, patientId);
+    await affinity.patients.replaceAllergies(
+      practiceId,
+      patientId,
+      { allergies: [], reviewStatus: "no_known" },
+      { idempotencyKey: "patient-allergies-4821" },
+    );
 
     expect(requests.map((request) => `${request.method} ${new URL(request.url).pathname}`)).toEqual(
       [
@@ -275,6 +326,8 @@ describe("Affinity client", () => {
         `GET /v1/practices/${practiceId}/patients/${patientId}`,
         `POST /v1/practices/${practiceId}/patients`,
         `PATCH /v1/practices/${practiceId}/patients/${patientId}`,
+        `GET /v1/practices/${practiceId}/patients/${patientId}/allergies`,
+        `PUT /v1/practices/${practiceId}/patients/${patientId}/allergies`,
       ],
     );
     const patientListUrl = new URL(requests[0]?.url ?? "https://invalid.example");
@@ -282,69 +335,17 @@ describe("Affinity client", () => {
     expect(patientListUrl.searchParams.get("query")).toBe("Jordan");
     expect(requests[2]?.headers.get("idempotency-key")).toBe("patient-create-4821");
     expect(requests[3]?.headers.get("idempotency-key")).toBe("patient-update-4821");
-    expect(requests.map((request) => request.headers.get("affinity-actor-id"))).toEqual([
-      "platform-user-4821",
-      "platform-user-4821",
-      "platform-user-4821",
-      "platform-user-4821",
-    ]);
-    expect(requests.map((request) => request.headers.get("affinity-actor-type"))).toEqual([
-      "user",
-      "user",
-      "user",
-      "user",
-    ]);
+    expect(requests[5]?.headers.get("idempotency-key")).toBe("patient-allergies-4821");
+    expect(
+      requests.every(
+        (request) => request.headers.get("affinity-actor-id") === "platform-user-4821",
+      ),
+    ).toBe(true);
+    expect(requests.every((request) => request.headers.get("affinity-actor-type") === "user")).toBe(
+      true,
+    );
     expect(await requests[3]?.json()).toEqual({ status: "inactive" });
-  });
-
-  test("creates and completes practice payment setup without exposing card data", async () => {
-    const requests: Request[] = [];
-    const affinity = new Affinity("sk_test_example", {
-      fetch: async (input, init) => {
-        const request = new Request(input, init);
-        requests.push(request);
-        if (new URL(request.url).pathname.endsWith("/setup")) {
-          return Response.json({
-            clientSecret: "seti_test_4821_secret_example",
-            consentVersion: "2026-07-31",
-            publishableKey: "pk_test_example",
-          });
-        }
-        return Response.json({
-          consentVersion: "2026-07-31",
-          environment: "sandbox",
-          paymentMethod: null,
-          paymentMethods: [],
-          portalAvailable: true,
-          status: "ready",
-        });
-      },
-    });
-    const practiceId = "prac_01k123456789abcdefghjkmnp";
-
-    await affinity.billing.retrievePaymentProfile(practiceId);
-    await affinity.billing.createPaymentSetup(
-      practiceId,
-      { consentAccepted: true },
-      { idempotencyKey: "billing-create-4821" },
-    );
-    await affinity.billing.completePaymentSetup(
-      practiceId,
-      { setupIntentId: "seti_test_4821" },
-      { idempotencyKey: "billing-complete-4821" },
-    );
-
-    expect(requests.map((request) => `${request.method} ${new URL(request.url).pathname}`)).toEqual(
-      [
-        `GET /v1/practices/${practiceId}/payment-profile`,
-        `POST /v1/practices/${practiceId}/payment-profile/setup`,
-        `POST /v1/practices/${practiceId}/payment-profile/setup/complete`,
-      ],
-    );
-    expect(requests[1]?.headers.get("idempotency-key")).toBe("billing-create-4821");
-    expect(await requests[1]?.json()).toEqual({ consentAccepted: true });
-    expect(requests[2]?.headers.get("idempotency-key")).toBe("billing-complete-4821");
-    expect(await requests[2]?.json()).toEqual({ setupIntentId: "seti_test_4821" });
+    expect(await requests[5]?.json()).toEqual({ allergies: [], reviewStatus: "no_known" });
   });
 
   test("creates component and hosted sessions through separate resources", async () => {

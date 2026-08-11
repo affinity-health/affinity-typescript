@@ -5,7 +5,6 @@
 | Name          | Type                                                          |
 | ------------- | ------------------------------------------------------------- |
 | `address`     | [CreatePatientRequestAddress](CreatePatientRequestAddress.md) |
-| `allergies`   | string                                                        |
 | `dateOfBirth` | string                                                        |
 | `email`       | string                                                        |
 | `externalId`  | string                                                        |

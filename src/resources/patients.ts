@@ -2,6 +2,7 @@
 
 import type { ListPatientsRequest, PatientsApi } from "../apis/PatientsApi";
 import type { CreatePatientRequest } from "../models/CreatePatientRequest";
+import type { ReplacePatientAllergiesRequest } from "../models/ReplacePatientAllergiesRequest";
 import type { UpdatePatientRequest } from "../models/UpdatePatientRequest";
 import { type AffinityActor, requireAffinityActor } from "./actor";
 import { cursorPage } from "./cursor-page";
@@ -30,6 +31,13 @@ export class PatientsResource {
       practiceId,
     });
   }
+  retrieveAllergies(practiceId: string, patientId: string) {
+    requireAffinityActor(this.affinityActor);
+    return this.api.getPatientAllergies({
+      patientId,
+      practiceId,
+    });
+  }
   create(practiceId: string, params: CreatePatientRequest, options: MutationOptions) {
     requireAffinityActor(this.affinityActor);
     return this.api.createPatient({
@@ -50,6 +58,20 @@ export class PatientsResource {
       patientId,
       practiceId,
       updatePatientRequest: params,
+    });
+  }
+  replaceAllergies(
+    practiceId: string,
+    patientId: string,
+    params: ReplacePatientAllergiesRequest,
+    options: MutationOptions,
+  ) {
+    requireAffinityActor(this.affinityActor);
+    return this.api.replacePatientAllergies({
+      idempotencyKey: options.idempotencyKey,
+      patientId,
+      practiceId,
+      replacePatientAllergiesRequest: params,
     });
   }
 }
