@@ -15,7 +15,7 @@ describe("Affinity client", () => {
 
     expect(request?.url).toBe("https://api.joinaffinityai.com/v1/auth/access");
     expect(request?.headers.get("authorization")).toBe("Bearer sk_test_example");
-    expect(request?.headers.get("affinity-version")).toBe("2026-07-29");
+    expect(request?.headers.get("affinity-version")).toBe("2026-08-10");
   });
 
   test("retries safe reads and preserves list filters", async () => {
@@ -112,7 +112,7 @@ describe("Affinity client", () => {
     expect(new URL(requests[0]!.url).searchParams.get("limit")).toBe("2");
     expect(new URL(requests[1]!.url).searchParams.get("startingAfter")).toBe("cmp_2");
     expect(new URL(requests[1]!.url).searchParams.get("query")).toBe("example");
-    expect(requests[1]?.headers.get("affinity-version")).toBe("2026-07-29");
+    expect(requests[1]?.headers.get("affinity-version")).toBe("2026-08-10");
   });
 
   test("returns the complete bounded shipping choice array without a fake cursor envelope", async () => {

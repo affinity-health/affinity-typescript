@@ -7,6 +7,13 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 
 ## [Unreleased]
 
+## [1.3.1] - 2026-08-10
+
+### Changed
+
+- Advanced the SDK's pinned `Affinity-Version` header and generated types to the forward-only
+  `2026-08-10` API contract.
+
 ## [1.3.0] - 2026-08-10
 
 ### Added

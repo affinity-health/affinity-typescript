@@ -66,7 +66,7 @@ export class Affinity {
     if (!apiKey.trim()) throw new Error("Affinity requires a service API key");
     const actor = options.actor ? validateAffinityActor(options.actor) : undefined;
     const baseUrl = options.baseUrl ?? "https://api.joinaffinityai.com";
-    const apiVersion = options.apiVersion ?? "2026-07-29";
+    const apiVersion = options.apiVersion ?? "2026-08-10";
     const timeout = options.timeout ?? 30_000;
     const maxRetries = options.maxRetries ?? 2;
     if (!Number.isFinite(timeout) || timeout <= 0) {

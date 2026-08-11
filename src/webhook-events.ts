@@ -1,6 +1,6 @@
 // Code generated from spec/affinity.openapi.json by scripts/generate-facade.ts. DO NOT EDIT.
 
-export const affinityWebhookApiVersion = "2026-07-29" as const;
+export const affinityWebhookApiVersion = "2026-08-10" as const;
 export const affinityWebhookEventTypes = [
   "webhook_endpoint.test",
   "order.created",

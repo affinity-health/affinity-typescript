@@ -65,7 +65,7 @@
       "url": "https://www.apache.org/licenses/LICENSE-2.0.html"
     },
     "title": "Affinity API",
-    "version": "2026-07-29"
+    "version": "2026-08-10"
   },
   "security": [
     {
@@ -82,7 +82,7 @@
     }
   ],
   "x-affinity-webhooks": {
-    "apiVersion": "2026-07-29",
+    "apiVersion": "2026-08-10",
     "eventTypes": [
       "webhook_endpoint.test",
       "order.created",
@@ -4743,7 +4743,7 @@
                       "properties": {
                         "apiVersion": {
                           "type": "string",
-                          "enum": ["2026-07-29"]
+                          "enum": ["2026-08-10"]
                         },
                         "id": {
                           "type": "string"
@@ -4804,7 +4804,7 @@
     "/v1/practices": {
       "get": {
         "operationId": "listPractices",
-        "description": "Returns the practices that belong to the platform. The default Affinity-Version is 2026-07-29.",
+        "description": "Returns the practices that belong to the platform. The default Affinity-Version is 2026-08-10.",
         "summary": "List practices",
         "tags": ["Practices"],
         "x-visibility": "public",
