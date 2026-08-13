@@ -1,4 +1,4 @@
-# CreateOrderRequestPrescriptionsInnerClinicalCompoundingReason
+# CreateOrdersRequestPatientOrdersInnerPrescriptionsInnerClinicalCompoundingReason
 
 ## Properties
 

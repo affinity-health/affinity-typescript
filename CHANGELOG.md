@@ -7,6 +7,22 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 
 ## [Unreleased]
 
+## [1.5.0] - 2026-08-13
+
+### Added
+
+- Added typed multi-patient checkout through `orders.create({ patientOrders, ... })`; each returned
+  patient order remains independently reviewable and signable.
+
+### Changed
+
+- Regenerated the SDK from the current `2026-08-11` contract, including exact order-ID filtering.
+
+### Deprecated
+
+- Deprecated the former single-patient `orders.create({ patientId, prescriptions, ... })` input.
+  The 1.x SDK continues to translate it to a one-patient batch and returns that patient order.
+
 ## [1.4.0] - 2026-08-11
 
 ### Added
@@ -176,7 +192,8 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 - Typed RFC 9457 problem responses, including validation, dependency, and internal failures.
 - A compile-checked Test-mode quickstart.
 
-[Unreleased]: https://github.com/affinity-health/affinity-typescript/compare/v1.4.0...HEAD
+[Unreleased]: https://github.com/affinity-health/affinity-typescript/compare/v1.5.0...HEAD
+[1.5.0]: https://github.com/affinity-health/affinity-typescript/compare/v1.4.0...v1.5.0
 [1.4.0]: https://github.com/affinity-health/affinity-typescript/compare/v1.3.1...v1.4.0
 [1.3.1]: https://github.com/affinity-health/affinity-typescript/compare/v1.3.0...v1.3.1
 [1.3.0]: https://github.com/affinity-health/affinity-typescript/compare/v1.2.1...v1.3.0

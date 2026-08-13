@@ -2,13 +2,13 @@
 
 All URIs are relative to *https://api.joinaffinityai.com*
 
-| Method                                                       | HTTP request                         | Description          |
-| ------------------------------------------------------------ | ------------------------------------ | -------------------- |
-| [**cancelOrder**](PlatformOrdersApi.md#cancelorderoperation) | **POST** /v1/orders/{orderId}/cancel | Cancel order         |
-| [**createOrder**](PlatformOrdersApi.md#createorderoperation) | **POST** /v1/orders                  | Create patient order |
-| [**getOrder**](PlatformOrdersApi.md#getorder)                | **GET** /v1/orders/{orderId}         | Read order           |
-| [**listOrderEvents**](PlatformOrdersApi.md#listorderevents)  | **GET** /v1/orders/{orderId}/events  | List order events    |
-| [**listOrders**](PlatformOrdersApi.md#listorders)            | **GET** /v1/orders                   | List platform orders |
+| Method                                                         | HTTP request                         | Description           |
+| -------------------------------------------------------------- | ------------------------------------ | --------------------- |
+| [**cancelOrder**](PlatformOrdersApi.md#cancelorderoperation)   | **POST** /v1/orders/{orderId}/cancel | Cancel order          |
+| [**createOrders**](PlatformOrdersApi.md#createordersoperation) | **POST** /v1/orders                  | Create patient orders |
+| [**getOrder**](PlatformOrdersApi.md#getorder)                  | **GET** /v1/orders/{orderId}         | Read order            |
+| [**listOrderEvents**](PlatformOrdersApi.md#listorderevents)    | **GET** /v1/orders/{orderId}/events  | List order events     |
+| [**listOrders**](PlatformOrdersApi.md#listorders)              | **GET** /v1/orders                   | List platform orders  |
 
 ## cancelOrder
 
@@ -99,13 +99,13 @@ example().catch(console.error);
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
-## createOrder
+## createOrders
 
-> CreateOrderResponse createOrder(idempotencyKey, createOrderRequest, affinityVersion, affinityActorId, affinityActorType)
+> CreateOrdersResponse createOrders(idempotencyKey, createOrdersRequest, affinityVersion, affinityActorId, affinityActorType)
 
-Create patient order
+Create patient orders
 
-Creates one patient order containing one or more unsigned prescription drafts. A platform API key cannot sign them; create a provider-bound order signing session next. Idempotency-Key and actor context are required.
+Creates one or more patient orders for one practice and verified provider mapping. Each patient order contains 1–20 unsigned prescription drafts and remains independently reviewable and signable. A platform API key cannot sign them; create a provider-bound order signing session for each returned order. Idempotency-Key and actor context are required.
 
 ### Example
 
@@ -114,7 +114,7 @@ import {
   Configuration,
   PlatformOrdersApi,
 } from '@affinity-health/sdk';
-import type { CreateOrderOperationRequest } from '@affinity-health/sdk';
+import type { CreateOrdersOperationRequest } from '@affinity-health/sdk';
 
 async function example() {
   console.log("🚀 Testing @affinity-health/sdk SDK...");
@@ -129,18 +129,18 @@ async function example() {
   const body = {
     // string
     idempotencyKey: idempotencyKey_example,
-    // CreateOrderRequest
-    createOrderRequest: ...,
+    // CreateOrdersRequest
+    createOrdersRequest: ...,
     // string (optional)
     affinityVersion: affinityVersion_example,
     // string (optional)
     affinityActorId: affinityActorId_example,
     // string (optional)
     affinityActorType: affinityActorType_example,
-  } satisfies CreateOrderOperationRequest;
+  } satisfies CreateOrdersOperationRequest;
 
   try {
-    const data = await api.createOrder(body);
+    const data = await api.createOrders(body);
     console.log(data);
   } catch (error) {
     console.error(error);
@@ -153,17 +153,17 @@ example().catch(console.error);
 
 ### Parameters
 
-| Name                   | Type                                        | Description | Notes                                |
-| ---------------------- | ------------------------------------------- | ----------- | ------------------------------------ |
-| **idempotencyKey**     | `string`                                    |             | [Defaults to `undefined`]            |
-| **createOrderRequest** | [CreateOrderRequest](CreateOrderRequest.md) |             |                                      |
-| **affinityVersion**    | `string`                                    |             | [Optional] [Defaults to `undefined`] |
-| **affinityActorId**    | `string`                                    |             | [Optional] [Defaults to `undefined`] |
-| **affinityActorType**  | `string`                                    |             | [Optional] [Defaults to `undefined`] |
+| Name                    | Type                                          | Description | Notes                                |
+| ----------------------- | --------------------------------------------- | ----------- | ------------------------------------ |
+| **idempotencyKey**      | `string`                                      |             | [Defaults to `undefined`]            |
+| **createOrdersRequest** | [CreateOrdersRequest](CreateOrdersRequest.md) |             |                                      |
+| **affinityVersion**     | `string`                                      |             | [Optional] [Defaults to `undefined`] |
+| **affinityActorId**     | `string`                                      |             | [Optional] [Defaults to `undefined`] |
+| **affinityActorType**   | `string`                                      |             | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 
-[**CreateOrderResponse**](CreateOrderResponse.md)
+[**CreateOrdersResponse**](CreateOrdersResponse.md)
 
 ### Authorization
 
@@ -352,7 +352,7 @@ example().catch(console.error);
 
 ## listOrders
 
-> ListOrdersResponse listOrders(endingBefore, limit, patientExternalId, practiceId, startingAfter, status, affinityVersion, affinityActorId, affinityActorType)
+> ListOrdersResponse listOrders(endingBefore, limit, orderId, patientExternalId, practiceId, startingAfter, status, affinityVersion, affinityActorId, affinityActorType)
 
 List platform orders
 
@@ -377,6 +377,8 @@ async function example() {
     endingBefore: endingBefore_example,
     // number (optional)
     limit: 56,
+    // string (optional)
+    orderId: orderId_example,
     // string (optional)
     patientExternalId: patientExternalId_example,
     // string (optional)
@@ -411,6 +413,7 @@ example().catch(console.error);
 | --------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- | ----------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **endingBefore**      | `string`                                                                                                                                          |             | [Optional] [Defaults to `undefined`]                                                                                                                                       |
 | **limit**             | `number`                                                                                                                                          |             | [Optional] [Defaults to `25`]                                                                                                                                              |
+| **orderId**           | `string`                                                                                                                                          |             | [Optional] [Defaults to `undefined`]                                                                                                                                       |
 | **patientExternalId** | `string`                                                                                                                                          |             | [Optional] [Defaults to `undefined`]                                                                                                                                       |
 | **practiceId**        | `string`                                                                                                                                          |             | [Optional] [Defaults to `undefined`]                                                                                                                                       |
 | **startingAfter**     | `string`                                                                                                                                          |             | [Optional] [Defaults to `undefined`]                                                                                                                                       |

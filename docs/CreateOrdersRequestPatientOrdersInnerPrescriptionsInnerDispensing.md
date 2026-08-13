@@ -1,4 +1,4 @@
-# CreateOrderRequestPrescriptionsInnerDispensing
+# CreateOrdersRequestPatientOrdersInnerPrescriptionsInnerDispensing
 
 ## Properties
 

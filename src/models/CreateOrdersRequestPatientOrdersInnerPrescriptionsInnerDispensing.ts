@@ -16,54 +16,57 @@ import { mapValues } from "../runtime";
 /**
  *
  * @export
- * @interface CreateOrderRequestPrescriptionsInnerDispensing
+ * @interface CreateOrdersRequestPatientOrdersInnerPrescriptionsInnerDispensing
  */
-export interface CreateOrderRequestPrescriptionsInnerDispensing {
+export interface CreateOrdersRequestPatientOrdersInnerPrescriptionsInnerDispensing {
   /**
    *
    * @type {boolean}
-   * @memberof CreateOrderRequestPrescriptionsInnerDispensing
+   * @memberof CreateOrdersRequestPatientOrdersInnerPrescriptionsInnerDispensing
    */
   dispenseUponAcceptance?: boolean;
   /**
    * a string that will be trimmed
    * @type {string}
-   * @memberof CreateOrderRequestPrescriptionsInnerDispensing
+   * @memberof CreateOrdersRequestPatientOrdersInnerPrescriptionsInnerDispensing
    */
   pharmacyNotes?: string | null;
   /**
    *
    * @type {string}
-   * @memberof CreateOrderRequestPrescriptionsInnerDispensing
+   * @memberof CreateOrdersRequestPatientOrdersInnerPrescriptionsInnerDispensing
    */
   requestedFillDate?: string;
   /**
    *
    * @type {boolean}
-   * @memberof CreateOrderRequestPrescriptionsInnerDispensing
+   * @memberof CreateOrdersRequestPatientOrdersInnerPrescriptionsInnerDispensing
    */
   substitutionPermitted?: boolean;
 }
 
 /**
- * Check if a given object implements the CreateOrderRequestPrescriptionsInnerDispensing interface.
+ * Check if a given object implements the CreateOrdersRequestPatientOrdersInnerPrescriptionsInnerDispensing interface.
  */
-export function instanceOfCreateOrderRequestPrescriptionsInnerDispensing(
+export function instanceOfCreateOrdersRequestPatientOrdersInnerPrescriptionsInnerDispensing(
   value: object,
-): value is CreateOrderRequestPrescriptionsInnerDispensing {
+): value is CreateOrdersRequestPatientOrdersInnerPrescriptionsInnerDispensing {
   return true;
 }
 
-export function CreateOrderRequestPrescriptionsInnerDispensingFromJSON(
+export function CreateOrdersRequestPatientOrdersInnerPrescriptionsInnerDispensingFromJSON(
   json: any,
-): CreateOrderRequestPrescriptionsInnerDispensing {
-  return CreateOrderRequestPrescriptionsInnerDispensingFromJSONTyped(json, false);
+): CreateOrdersRequestPatientOrdersInnerPrescriptionsInnerDispensing {
+  return CreateOrdersRequestPatientOrdersInnerPrescriptionsInnerDispensingFromJSONTyped(
+    json,
+    false,
+  );
 }
 
-export function CreateOrderRequestPrescriptionsInnerDispensingFromJSONTyped(
+export function CreateOrdersRequestPatientOrdersInnerPrescriptionsInnerDispensingFromJSONTyped(
   json: any,
   ignoreDiscriminator: boolean,
-): CreateOrderRequestPrescriptionsInnerDispensing {
+): CreateOrdersRequestPatientOrdersInnerPrescriptionsInnerDispensing {
   if (json == null) {
     return json;
   }
@@ -77,14 +80,14 @@ export function CreateOrderRequestPrescriptionsInnerDispensingFromJSONTyped(
   };
 }
 
-export function CreateOrderRequestPrescriptionsInnerDispensingToJSON(
+export function CreateOrdersRequestPatientOrdersInnerPrescriptionsInnerDispensingToJSON(
   json: any,
-): CreateOrderRequestPrescriptionsInnerDispensing {
-  return CreateOrderRequestPrescriptionsInnerDispensingToJSONTyped(json, false);
+): CreateOrdersRequestPatientOrdersInnerPrescriptionsInnerDispensing {
+  return CreateOrdersRequestPatientOrdersInnerPrescriptionsInnerDispensingToJSONTyped(json, false);
 }
 
-export function CreateOrderRequestPrescriptionsInnerDispensingToJSONTyped(
-  value?: CreateOrderRequestPrescriptionsInnerDispensing | null,
+export function CreateOrdersRequestPatientOrdersInnerPrescriptionsInnerDispensingToJSONTyped(
+  value?: CreateOrdersRequestPatientOrdersInnerPrescriptionsInnerDispensing | null,
   ignoreDiscriminator: boolean = false,
 ): any {
   if (value == null) {

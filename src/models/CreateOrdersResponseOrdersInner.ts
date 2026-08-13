@@ -13,98 +13,100 @@
  */
 
 import { mapValues } from "../runtime";
-import type { CreateOrderResponsePrescriptionsInner } from "./CreateOrderResponsePrescriptionsInner";
+import type { CreateOrdersResponseOrdersInnerPrescriptionsInner } from "./CreateOrdersResponseOrdersInnerPrescriptionsInner";
 import {
-  CreateOrderResponsePrescriptionsInnerFromJSON,
-  CreateOrderResponsePrescriptionsInnerFromJSONTyped,
-  CreateOrderResponsePrescriptionsInnerToJSON,
-  CreateOrderResponsePrescriptionsInnerToJSONTyped,
-} from "./CreateOrderResponsePrescriptionsInner";
+  CreateOrdersResponseOrdersInnerPrescriptionsInnerFromJSON,
+  CreateOrdersResponseOrdersInnerPrescriptionsInnerFromJSONTyped,
+  CreateOrdersResponseOrdersInnerPrescriptionsInnerToJSON,
+  CreateOrdersResponseOrdersInnerPrescriptionsInnerToJSONTyped,
+} from "./CreateOrdersResponseOrdersInnerPrescriptionsInner";
 
 /**
  *
  * @export
- * @interface CreateOrderResponse
+ * @interface CreateOrdersResponseOrdersInner
  */
-export interface CreateOrderResponse {
+export interface CreateOrdersResponseOrdersInner {
   /**
    *
    * @type {string}
-   * @memberof CreateOrderResponse
+   * @memberof CreateOrdersResponseOrdersInner
    */
   createdAt: string;
   /**
    *
    * @type {string}
-   * @memberof CreateOrderResponse
+   * @memberof CreateOrdersResponseOrdersInner
    */
   id: string;
   /**
    *
    * @type {boolean}
-   * @memberof CreateOrderResponse
+   * @memberof CreateOrdersResponseOrdersInner
    */
   livemode: boolean;
   /**
    *
-   * @type {CreateOrderResponseObjectEnum}
-   * @memberof CreateOrderResponse
+   * @type {CreateOrdersResponseOrdersInnerObjectEnum}
+   * @memberof CreateOrdersResponseOrdersInner
    */
-  object: CreateOrderResponseObjectEnum;
+  object: CreateOrdersResponseOrdersInnerObjectEnum;
   /**
    *
    * @type {string}
-   * @memberof CreateOrderResponse
+   * @memberof CreateOrdersResponseOrdersInner
    */
   patientId: string;
   /**
    *
    * @type {string}
-   * @memberof CreateOrderResponse
+   * @memberof CreateOrdersResponseOrdersInner
    */
   practiceId: string;
   /**
    *
-   * @type {Array<CreateOrderResponsePrescriptionsInner>}
-   * @memberof CreateOrderResponse
+   * @type {Array<CreateOrdersResponseOrdersInnerPrescriptionsInner>}
+   * @memberof CreateOrdersResponseOrdersInner
    */
-  prescriptions: Array<CreateOrderResponsePrescriptionsInner>;
+  prescriptions: Array<CreateOrdersResponseOrdersInnerPrescriptionsInner>;
   /**
    *
    * @type {string}
-   * @memberof CreateOrderResponse
+   * @memberof CreateOrdersResponseOrdersInner
    */
   providerMappingId: string;
   /**
    *
-   * @type {CreateOrderResponseStatusEnum}
-   * @memberof CreateOrderResponse
+   * @type {CreateOrdersResponseOrdersInnerStatusEnum}
+   * @memberof CreateOrdersResponseOrdersInner
    */
-  status: CreateOrderResponseStatusEnum;
+  status: CreateOrdersResponseOrdersInnerStatusEnum;
 }
 
 /**
  * @export
  */
-export const CreateOrderResponseObjectEnum = {
+export const CreateOrdersResponseOrdersInnerObjectEnum = {
   Order: "order",
 } as const;
-export type CreateOrderResponseObjectEnum =
-  (typeof CreateOrderResponseObjectEnum)[keyof typeof CreateOrderResponseObjectEnum];
+export type CreateOrdersResponseOrdersInnerObjectEnum =
+  (typeof CreateOrdersResponseOrdersInnerObjectEnum)[keyof typeof CreateOrdersResponseOrdersInnerObjectEnum];
 
 /**
  * @export
  */
-export const CreateOrderResponseStatusEnum = {
+export const CreateOrdersResponseOrdersInnerStatusEnum = {
   RequiresProviderSignature: "requires_provider_signature",
 } as const;
-export type CreateOrderResponseStatusEnum =
-  (typeof CreateOrderResponseStatusEnum)[keyof typeof CreateOrderResponseStatusEnum];
+export type CreateOrdersResponseOrdersInnerStatusEnum =
+  (typeof CreateOrdersResponseOrdersInnerStatusEnum)[keyof typeof CreateOrdersResponseOrdersInnerStatusEnum];
 
 /**
- * Check if a given object implements the CreateOrderResponse interface.
+ * Check if a given object implements the CreateOrdersResponseOrdersInner interface.
  */
-export function instanceOfCreateOrderResponse(value: object): value is CreateOrderResponse {
+export function instanceOfCreateOrdersResponseOrdersInner(
+  value: object,
+): value is CreateOrdersResponseOrdersInner {
   if (!("createdAt" in value) || value["createdAt"] === undefined) return false;
   if (!("id" in value) || value["id"] === undefined) return false;
   if (!("livemode" in value) || value["livemode"] === undefined) return false;
@@ -117,14 +119,16 @@ export function instanceOfCreateOrderResponse(value: object): value is CreateOrd
   return true;
 }
 
-export function CreateOrderResponseFromJSON(json: any): CreateOrderResponse {
-  return CreateOrderResponseFromJSONTyped(json, false);
+export function CreateOrdersResponseOrdersInnerFromJSON(
+  json: any,
+): CreateOrdersResponseOrdersInner {
+  return CreateOrdersResponseOrdersInnerFromJSONTyped(json, false);
 }
 
-export function CreateOrderResponseFromJSONTyped(
+export function CreateOrdersResponseOrdersInnerFromJSONTyped(
   json: any,
   ignoreDiscriminator: boolean,
-): CreateOrderResponse {
+): CreateOrdersResponseOrdersInner {
   if (json == null) {
     return json;
   }
@@ -136,19 +140,19 @@ export function CreateOrderResponseFromJSONTyped(
     patientId: json["patientId"],
     practiceId: json["practiceId"],
     prescriptions: (json["prescriptions"] as Array<any>).map(
-      CreateOrderResponsePrescriptionsInnerFromJSON,
+      CreateOrdersResponseOrdersInnerPrescriptionsInnerFromJSON,
     ),
     providerMappingId: json["providerMappingId"],
     status: json["status"],
   };
 }
 
-export function CreateOrderResponseToJSON(json: any): CreateOrderResponse {
-  return CreateOrderResponseToJSONTyped(json, false);
+export function CreateOrdersResponseOrdersInnerToJSON(json: any): CreateOrdersResponseOrdersInner {
+  return CreateOrdersResponseOrdersInnerToJSONTyped(json, false);
 }
 
-export function CreateOrderResponseToJSONTyped(
-  value?: CreateOrderResponse | null,
+export function CreateOrdersResponseOrdersInnerToJSONTyped(
+  value?: CreateOrdersResponseOrdersInner | null,
   ignoreDiscriminator: boolean = false,
 ): any {
   if (value == null) {
@@ -163,7 +167,7 @@ export function CreateOrderResponseToJSONTyped(
     patientId: value["patientId"],
     practiceId: value["practiceId"],
     prescriptions: (value["prescriptions"] as Array<any>).map(
-      CreateOrderResponsePrescriptionsInnerToJSON,
+      CreateOrdersResponseOrdersInnerPrescriptionsInnerToJSON,
     ),
     providerMappingId: value["providerMappingId"],
     status: value["status"],

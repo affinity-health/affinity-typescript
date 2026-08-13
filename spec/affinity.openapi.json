@@ -1491,6 +1491,14 @@
           },
           {
             "in": "query",
+            "name": "orderId",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
             "name": "patientExternalId",
             "required": false,
             "schema": {
@@ -1972,9 +1980,9 @@
         }
       },
       "post": {
-        "operationId": "createOrder",
-        "description": "Creates one patient order containing one or more unsigned prescription drafts. A platform API key cannot sign them; create a provider-bound order signing session next. Idempotency-Key and actor context are required.",
-        "summary": "Create patient order",
+        "operationId": "createOrders",
+        "description": "Creates one or more patient orders for one practice and verified provider mapping. Each patient order contains 1–20 unsigned prescription drafts and remains independently reviewable and signable. A platform API key cannot sign them; create a provider-bound order signing session for each returned order. Idempotency-Key and actor context are required.",
+        "summary": "Create patient orders",
         "tags": ["Platform Orders"],
         "x-visibility": "public",
         "parameters": [
@@ -2016,196 +2024,206 @@
             "application/json": {
               "schema": {
                 "type": "object",
-                "required": ["patientId", "practiceId", "prescriptions", "providerMappingId"],
+                "required": ["patientOrders", "practiceId", "providerMappingId"],
                 "properties": {
-                  "patientId": {
-                    "type": "string"
-                  },
-                  "practiceId": {
-                    "type": "string"
-                  },
-                  "prescriptions": {
+                  "patientOrders": {
                     "type": "array",
                     "items": {
                       "type": "object",
-                      "required": [
-                        "daysSupply",
-                        "dispensing",
-                        "directions",
-                        "medicationId",
-                        "quantity",
-                        "quantityUnit",
-                        "refills",
-                        "structuredSig"
-                      ],
+                      "required": ["patientId", "prescriptions"],
                       "properties": {
-                        "clinical": {
-                          "type": "object",
-                          "required": [],
-                          "properties": {
-                            "compoundingReason": {
-                              "type": "object",
-                              "required": ["category", "context"],
-                              "properties": {
-                                "category": {
-                                  "type": "string",
-                                  "enum": [
-                                    "drug_shortage",
-                                    "commercial_product_discontinued",
-                                    "modified_release",
-                                    "inactive_ingredient_sensitivity",
-                                    "concentration_adjustment",
-                                    "alternate_route",
-                                    "dosage_form_unavailable",
-                                    "patient_cannot_use_commercial_product",
-                                    "no_approved_product_available",
-                                    "other_patient_specific_need"
-                                  ]
-                                },
-                                "context": {
-                                  "type": "string",
-                                  "description": "a string that will be trimmed"
-                                }
-                              },
-                              "additionalProperties": false
-                            },
-                            "currentMedications": {
-                              "type": "array",
-                              "items": {
-                                "type": "string",
-                                "description": "a string that will be trimmed"
-                              }
-                            },
-                            "diagnoses": {
-                              "type": "array",
-                              "items": {
-                                "type": "object",
-                                "required": ["code", "display"],
-                                "properties": {
-                                  "code": {
-                                    "type": "string"
-                                  },
-                                  "display": {
-                                    "type": "string",
-                                    "description": "a string that will be trimmed"
-                                  }
-                                },
-                                "additionalProperties": false
-                              }
-                            },
-                            "observations": {
-                              "type": "array",
-                              "items": {
-                                "type": "object",
-                                "required": ["display", "unit", "value"],
-                                "properties": {
-                                  "display": {
-                                    "type": "string",
-                                    "description": "a string that will be trimmed"
-                                  },
-                                  "unit": {
-                                    "type": "string",
-                                    "description": "a string that will be trimmed"
-                                  },
-                                  "value": {
-                                    "type": "number"
-                                  }
-                                },
-                                "additionalProperties": false
-                              }
-                            }
-                          },
-                          "additionalProperties": false
-                        },
-                        "compounderId": {
-                          "type": "string",
-                          "description": "a string that will be trimmed"
-                        },
-                        "daysSupply": {
-                          "type": "number"
-                        },
-                        "dispensing": {
-                          "type": "object",
-                          "required": [],
-                          "properties": {
-                            "dispenseUponAcceptance": {
-                              "type": "boolean"
-                            },
-                            "pharmacyNotes": {
-                              "type": "string",
-                              "description": "a string that will be trimmed"
-                            },
-                            "requestedFillDate": {
-                              "type": "string"
-                            },
-                            "substitutionPermitted": {
-                              "type": "boolean"
-                            }
-                          },
-                          "additionalProperties": false
-                        },
-                        "directions": {
-                          "type": "string",
-                          "description": "a string that will be trimmed"
-                        },
-                        "medicationId": {
+                        "patientId": {
                           "type": "string"
                         },
-                        "quantity": {
-                          "type": "number"
-                        },
-                        "quantityUnit": {
-                          "type": "string",
-                          "description": "a string that will be trimmed"
-                        },
-                        "refills": {
-                          "type": "number"
-                        },
-                        "structuredSig": {
-                          "type": "object",
-                          "required": ["dose", "doseUnit", "frequency", "route"],
-                          "properties": {
-                            "dose": {
-                              "type": "string",
-                              "description": "a string that will be trimmed"
+                        "prescriptions": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "required": [
+                              "daysSupply",
+                              "dispensing",
+                              "directions",
+                              "medicationId",
+                              "quantity",
+                              "quantityUnit",
+                              "refills",
+                              "structuredSig"
+                            ],
+                            "properties": {
+                              "clinical": {
+                                "type": "object",
+                                "required": [],
+                                "properties": {
+                                  "compoundingReason": {
+                                    "type": "object",
+                                    "required": ["category", "context"],
+                                    "properties": {
+                                      "category": {
+                                        "type": "string",
+                                        "enum": [
+                                          "drug_shortage",
+                                          "commercial_product_discontinued",
+                                          "modified_release",
+                                          "inactive_ingredient_sensitivity",
+                                          "concentration_adjustment",
+                                          "alternate_route",
+                                          "dosage_form_unavailable",
+                                          "patient_cannot_use_commercial_product",
+                                          "no_approved_product_available",
+                                          "other_patient_specific_need"
+                                        ]
+                                      },
+                                      "context": {
+                                        "type": "string",
+                                        "description": "a string that will be trimmed"
+                                      }
+                                    },
+                                    "additionalProperties": false
+                                  },
+                                  "currentMedications": {
+                                    "type": "array",
+                                    "items": {
+                                      "type": "string",
+                                      "description": "a string that will be trimmed"
+                                    }
+                                  },
+                                  "diagnoses": {
+                                    "type": "array",
+                                    "items": {
+                                      "type": "object",
+                                      "required": ["code", "display"],
+                                      "properties": {
+                                        "code": {
+                                          "type": "string"
+                                        },
+                                        "display": {
+                                          "type": "string",
+                                          "description": "a string that will be trimmed"
+                                        }
+                                      },
+                                      "additionalProperties": false
+                                    }
+                                  },
+                                  "observations": {
+                                    "type": "array",
+                                    "items": {
+                                      "type": "object",
+                                      "required": ["display", "unit", "value"],
+                                      "properties": {
+                                        "display": {
+                                          "type": "string",
+                                          "description": "a string that will be trimmed"
+                                        },
+                                        "unit": {
+                                          "type": "string",
+                                          "description": "a string that will be trimmed"
+                                        },
+                                        "value": {
+                                          "type": "number"
+                                        }
+                                      },
+                                      "additionalProperties": false
+                                    }
+                                  }
+                                },
+                                "additionalProperties": false
+                              },
+                              "compounderId": {
+                                "type": "string",
+                                "description": "a string that will be trimmed"
+                              },
+                              "daysSupply": {
+                                "type": "number"
+                              },
+                              "dispensing": {
+                                "type": "object",
+                                "required": [],
+                                "properties": {
+                                  "dispenseUponAcceptance": {
+                                    "type": "boolean"
+                                  },
+                                  "pharmacyNotes": {
+                                    "type": "string",
+                                    "description": "a string that will be trimmed"
+                                  },
+                                  "requestedFillDate": {
+                                    "type": "string"
+                                  },
+                                  "substitutionPermitted": {
+                                    "type": "boolean"
+                                  }
+                                },
+                                "additionalProperties": false
+                              },
+                              "directions": {
+                                "type": "string",
+                                "description": "a string that will be trimmed"
+                              },
+                              "medicationId": {
+                                "type": "string"
+                              },
+                              "quantity": {
+                                "type": "number"
+                              },
+                              "quantityUnit": {
+                                "type": "string",
+                                "description": "a string that will be trimmed"
+                              },
+                              "refills": {
+                                "type": "number"
+                              },
+                              "structuredSig": {
+                                "type": "object",
+                                "required": ["dose", "doseUnit", "frequency", "route"],
+                                "properties": {
+                                  "dose": {
+                                    "type": "string",
+                                    "description": "a string that will be trimmed"
+                                  },
+                                  "doseUnit": {
+                                    "type": "string",
+                                    "description": "a string that will be trimmed"
+                                  },
+                                  "duration": {
+                                    "type": "string",
+                                    "description": "a string that will be trimmed"
+                                  },
+                                  "frequency": {
+                                    "type": "string",
+                                    "description": "a string that will be trimmed"
+                                  },
+                                  "indication": {
+                                    "type": "string",
+                                    "description": "a string that will be trimmed"
+                                  },
+                                  "maxDailyUse": {
+                                    "type": "string",
+                                    "description": "a string that will be trimmed"
+                                  },
+                                  "prn": {
+                                    "type": "boolean"
+                                  },
+                                  "route": {
+                                    "type": "string",
+                                    "description": "a string that will be trimmed"
+                                  },
+                                  "titrationSchedule": {
+                                    "type": "string",
+                                    "description": "a string that will be trimmed"
+                                  }
+                                },
+                                "additionalProperties": false
+                              }
                             },
-                            "doseUnit": {
-                              "type": "string",
-                              "description": "a string that will be trimmed"
-                            },
-                            "duration": {
-                              "type": "string",
-                              "description": "a string that will be trimmed"
-                            },
-                            "frequency": {
-                              "type": "string",
-                              "description": "a string that will be trimmed"
-                            },
-                            "indication": {
-                              "type": "string",
-                              "description": "a string that will be trimmed"
-                            },
-                            "maxDailyUse": {
-                              "type": "string",
-                              "description": "a string that will be trimmed"
-                            },
-                            "prn": {
-                              "type": "boolean"
-                            },
-                            "route": {
-                              "type": "string",
-                              "description": "a string that will be trimmed"
-                            },
-                            "titrationSchedule": {
-                              "type": "string",
-                              "description": "a string that will be trimmed"
-                            }
-                          },
-                          "additionalProperties": false
+                            "additionalProperties": false
+                          }
                         }
                       },
                       "additionalProperties": false
                     }
+                  },
+                  "practiceId": {
+                    "type": "string"
                   },
                   "providerMappingId": {
                     "type": "string"
@@ -2222,90 +2240,114 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "title": "CreateOrderResponse",
+                  "title": "CreateOrdersResponse",
                   "type": "object",
-                  "required": [
-                    "createdAt",
-                    "id",
-                    "livemode",
-                    "object",
-                    "patientId",
-                    "practiceId",
-                    "prescriptions",
-                    "providerMappingId",
-                    "status"
-                  ],
+                  "required": ["livemode", "object", "orders", "practiceId", "providerMappingId"],
                   "properties": {
-                    "createdAt": {
-                      "type": "string"
-                    },
-                    "id": {
-                      "type": "string"
-                    },
                     "livemode": {
                       "type": "boolean"
                     },
                     "object": {
                       "type": "string",
-                      "enum": ["order"]
+                      "enum": ["order_batch"]
                     },
-                    "patientId": {
-                      "type": "string"
-                    },
-                    "practiceId": {
-                      "type": "string"
-                    },
-                    "prescriptions": {
+                    "orders": {
                       "type": "array",
                       "items": {
                         "type": "object",
                         "required": [
                           "createdAt",
-                          "directions",
                           "id",
-                          "medicationId",
-                          "medicationName",
+                          "livemode",
                           "object",
-                          "quantity",
-                          "quantityUnit",
-                          "refills",
+                          "patientId",
+                          "practiceId",
+                          "prescriptions",
+                          "providerMappingId",
                           "status"
                         ],
                         "properties": {
                           "createdAt": {
                             "type": "string"
                           },
-                          "directions": {
-                            "type": "string"
-                          },
                           "id": {
                             "type": "string"
                           },
-                          "medicationId": {
-                            "anyOf": [
-                              {
-                                "type": "string"
-                              },
-                              {
-                                "type": "null"
-                              }
-                            ]
-                          },
-                          "medicationName": {
-                            "type": "string"
+                          "livemode": {
+                            "type": "boolean"
                           },
                           "object": {
                             "type": "string",
-                            "enum": ["prescription"]
+                            "enum": ["order"]
                           },
-                          "quantity": {
-                            "type": "number"
-                          },
-                          "quantityUnit": {
+                          "patientId": {
                             "type": "string"
                           },
-                          "refills": {
-                            "type": "number"
+                          "practiceId": {
+                            "type": "string"
+                          },
+                          "prescriptions": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "required": [
+                                "createdAt",
+                                "directions",
+                                "id",
+                                "medicationId",
+                                "medicationName",
+                                "object",
+                                "quantity",
+                                "quantityUnit",
+                                "refills",
+                                "status"
+                              ],
+                              "properties": {
+                                "createdAt": {
+                                  "type": "string"
+                                },
+                                "directions": {
+                                  "type": "string"
+                                },
+                                "id": {
+                                  "type": "string"
+                                },
+                                "medicationId": {
+                                  "anyOf": [
+                                    {
+                                      "type": "string"
+                                    },
+                                    {
+                                      "type": "null"
+                                    }
+                                  ]
+                                },
+                                "medicationName": {
+                                  "type": "string"
+                                },
+                                "object": {
+                                  "type": "string",
+                                  "enum": ["prescription"]
+                                },
+                                "quantity": {
+                                  "type": "number"
+                                },
+                                "quantityUnit": {
+                                  "type": "string"
+                                },
+                                "refills": {
+                                  "type": "number"
+                                },
+                                "status": {
+                                  "type": "string",
+                                  "enum": ["requires_provider_signature"]
+                                }
+                              },
+                              "additionalProperties": false
+                            }
+                          },
+                          "providerMappingId": {
+                            "type": "string"
                           },
                           "status": {
                             "type": "string",
@@ -2315,12 +2357,11 @@
                         "additionalProperties": false
                       }
                     },
-                    "providerMappingId": {
+                    "practiceId": {
                       "type": "string"
                     },
-                    "status": {
-                      "type": "string",
-                      "enum": ["requires_provider_signature"]
+                    "providerMappingId": {
+                      "type": "string"
                     }
                   },
                   "additionalProperties": false

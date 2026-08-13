@@ -24,15 +24,15 @@ import {
   CancelOrderResponseToJSON,
 } from "../models/CancelOrderResponse";
 import {
-  type CreateOrderRequest,
-  CreateOrderRequestFromJSON,
-  CreateOrderRequestToJSON,
-} from "../models/CreateOrderRequest";
+  type CreateOrdersRequest,
+  CreateOrdersRequestFromJSON,
+  CreateOrdersRequestToJSON,
+} from "../models/CreateOrdersRequest";
 import {
-  type CreateOrderResponse,
-  CreateOrderResponseFromJSON,
-  CreateOrderResponseToJSON,
-} from "../models/CreateOrderResponse";
+  type CreateOrdersResponse,
+  CreateOrdersResponseFromJSON,
+  CreateOrdersResponseToJSON,
+} from "../models/CreateOrdersResponse";
 import {
   type GetOrderResponse,
   GetOrderResponseFromJSON,
@@ -59,9 +59,9 @@ export interface CancelOrderOperationRequest {
   affinityActorType?: string;
 }
 
-export interface CreateOrderOperationRequest {
+export interface CreateOrdersOperationRequest {
   idempotencyKey: string;
-  createOrderRequest: CreateOrderRequest;
+  createOrdersRequest: CreateOrdersRequest;
   affinityVersion?: string;
   affinityActorId?: string;
   affinityActorType?: string;
@@ -87,6 +87,7 @@ export interface ListOrderEventsRequest {
 export interface ListOrdersRequest {
   endingBefore?: string;
   limit?: number;
+  orderId?: string;
   patientExternalId?: string | null;
   practiceId?: string;
   startingAfter?: string;
@@ -206,22 +207,22 @@ export class PlatformOrdersApi extends runtime.BaseAPI {
   }
 
   /**
-   * Creates request options for createOrder without sending the request
+   * Creates request options for createOrders without sending the request
    */
-  async createOrderRequestOpts(
-    requestParameters: CreateOrderOperationRequest,
+  async createOrdersRequestOpts(
+    requestParameters: CreateOrdersOperationRequest,
   ): Promise<runtime.RequestOpts> {
     if (requestParameters["idempotencyKey"] == null) {
       throw new runtime.RequiredError(
         "idempotencyKey",
-        'Required parameter "idempotencyKey" was null or undefined when calling createOrder().',
+        'Required parameter "idempotencyKey" was null or undefined when calling createOrders().',
       );
     }
 
-    if (requestParameters["createOrderRequest"] == null) {
+    if (requestParameters["createOrdersRequest"] == null) {
       throw new runtime.RequiredError(
-        "createOrderRequest",
-        'Required parameter "createOrderRequest" was null or undefined when calling createOrder().',
+        "createOrdersRequest",
+        'Required parameter "createOrdersRequest" was null or undefined when calling createOrders().',
       );
     }
 
@@ -267,35 +268,35 @@ export class PlatformOrdersApi extends runtime.BaseAPI {
       method: "POST",
       headers: headerParameters,
       query: queryParameters,
-      body: CreateOrderRequestToJSON(requestParameters["createOrderRequest"]),
+      body: CreateOrdersRequestToJSON(requestParameters["createOrdersRequest"]),
     };
   }
 
   /**
-   * Creates one patient order containing one or more unsigned prescription drafts. A platform API key cannot sign them; create a provider-bound order signing session next. Idempotency-Key and actor context are required.
-   * Create patient order
+   * Creates one or more patient orders for one practice and verified provider mapping. Each patient order contains 1–20 unsigned prescription drafts and remains independently reviewable and signable. A platform API key cannot sign them; create a provider-bound order signing session for each returned order. Idempotency-Key and actor context are required.
+   * Create patient orders
    */
-  async createOrderRaw(
-    requestParameters: CreateOrderOperationRequest,
+  async createOrdersRaw(
+    requestParameters: CreateOrdersOperationRequest,
     initOverrides?: RequestInit | runtime.InitOverrideFunction,
-  ): Promise<runtime.ApiResponse<CreateOrderResponse>> {
-    const requestOptions = await this.createOrderRequestOpts(requestParameters);
+  ): Promise<runtime.ApiResponse<CreateOrdersResponse>> {
+    const requestOptions = await this.createOrdersRequestOpts(requestParameters);
     const response = await this.request(requestOptions, initOverrides);
 
     return new runtime.JSONApiResponse(response, (jsonValue) =>
-      CreateOrderResponseFromJSON(jsonValue),
+      CreateOrdersResponseFromJSON(jsonValue),
     );
   }
 
   /**
-   * Creates one patient order containing one or more unsigned prescription drafts. A platform API key cannot sign them; create a provider-bound order signing session next. Idempotency-Key and actor context are required.
-   * Create patient order
+   * Creates one or more patient orders for one practice and verified provider mapping. Each patient order contains 1–20 unsigned prescription drafts and remains independently reviewable and signable. A platform API key cannot sign them; create a provider-bound order signing session for each returned order. Idempotency-Key and actor context are required.
+   * Create patient orders
    */
-  async createOrder(
-    requestParameters: CreateOrderOperationRequest,
+  async createOrders(
+    requestParameters: CreateOrdersOperationRequest,
     initOverrides?: RequestInit | runtime.InitOverrideFunction,
-  ): Promise<CreateOrderResponse> {
-    const response = await this.createOrderRaw(requestParameters, initOverrides);
+  ): Promise<CreateOrdersResponse> {
+    const response = await this.createOrdersRaw(requestParameters, initOverrides);
     return await response.value();
   }
 
@@ -485,6 +486,10 @@ export class PlatformOrdersApi extends runtime.BaseAPI {
 
     if (requestParameters["limit"] != null) {
       queryParameters["limit"] = requestParameters["limit"];
+    }
+
+    if (requestParameters["orderId"] != null) {
+      queryParameters["orderId"] = requestParameters["orderId"];
     }
 
     if (requestParameters["patientExternalId"] != null) {

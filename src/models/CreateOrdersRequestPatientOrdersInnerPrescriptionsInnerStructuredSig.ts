@@ -16,71 +16,71 @@ import { mapValues } from "../runtime";
 /**
  *
  * @export
- * @interface CreateOrderRequestPrescriptionsInnerStructuredSig
+ * @interface CreateOrdersRequestPatientOrdersInnerPrescriptionsInnerStructuredSig
  */
-export interface CreateOrderRequestPrescriptionsInnerStructuredSig {
+export interface CreateOrdersRequestPatientOrdersInnerPrescriptionsInnerStructuredSig {
   /**
    * a string that will be trimmed
    * @type {string}
-   * @memberof CreateOrderRequestPrescriptionsInnerStructuredSig
+   * @memberof CreateOrdersRequestPatientOrdersInnerPrescriptionsInnerStructuredSig
    */
   dose: string | null;
   /**
    * a string that will be trimmed
    * @type {string}
-   * @memberof CreateOrderRequestPrescriptionsInnerStructuredSig
+   * @memberof CreateOrdersRequestPatientOrdersInnerPrescriptionsInnerStructuredSig
    */
   doseUnit: string | null;
   /**
    * a string that will be trimmed
    * @type {string}
-   * @memberof CreateOrderRequestPrescriptionsInnerStructuredSig
+   * @memberof CreateOrdersRequestPatientOrdersInnerPrescriptionsInnerStructuredSig
    */
   duration?: string | null;
   /**
    * a string that will be trimmed
    * @type {string}
-   * @memberof CreateOrderRequestPrescriptionsInnerStructuredSig
+   * @memberof CreateOrdersRequestPatientOrdersInnerPrescriptionsInnerStructuredSig
    */
   frequency: string | null;
   /**
    * a string that will be trimmed
    * @type {string}
-   * @memberof CreateOrderRequestPrescriptionsInnerStructuredSig
+   * @memberof CreateOrdersRequestPatientOrdersInnerPrescriptionsInnerStructuredSig
    */
   indication?: string | null;
   /**
    * a string that will be trimmed
    * @type {string}
-   * @memberof CreateOrderRequestPrescriptionsInnerStructuredSig
+   * @memberof CreateOrdersRequestPatientOrdersInnerPrescriptionsInnerStructuredSig
    */
   maxDailyUse?: string | null;
   /**
    *
    * @type {boolean}
-   * @memberof CreateOrderRequestPrescriptionsInnerStructuredSig
+   * @memberof CreateOrdersRequestPatientOrdersInnerPrescriptionsInnerStructuredSig
    */
   prn?: boolean;
   /**
    * a string that will be trimmed
    * @type {string}
-   * @memberof CreateOrderRequestPrescriptionsInnerStructuredSig
+   * @memberof CreateOrdersRequestPatientOrdersInnerPrescriptionsInnerStructuredSig
    */
   route: string | null;
   /**
    * a string that will be trimmed
    * @type {string}
-   * @memberof CreateOrderRequestPrescriptionsInnerStructuredSig
+   * @memberof CreateOrdersRequestPatientOrdersInnerPrescriptionsInnerStructuredSig
    */
   titrationSchedule?: string | null;
 }
 
 /**
- * Check if a given object implements the CreateOrderRequestPrescriptionsInnerStructuredSig interface.
+ * Check if a given object implements the CreateOrdersRequestPatientOrdersInnerPrescriptionsInnerStructuredSig interface.
  */
-export function instanceOfCreateOrderRequestPrescriptionsInnerStructuredSig(
+export function instanceOfCreateOrdersRequestPatientOrdersInnerPrescriptionsInnerStructuredSig(
   value: object,
-): value is CreateOrderRequestPrescriptionsInnerStructuredSig {
+): value is CreateOrdersRequestPatientOrdersInnerPrescriptionsInnerStructuredSig {
   if (!("dose" in value) || value["dose"] === undefined) return false;
   if (!("doseUnit" in value) || value["doseUnit"] === undefined) return false;
   if (!("frequency" in value) || value["frequency"] === undefined) return false;
@@ -88,16 +88,19 @@ export function instanceOfCreateOrderRequestPrescriptionsInnerStructuredSig(
   return true;
 }
 
-export function CreateOrderRequestPrescriptionsInnerStructuredSigFromJSON(
+export function CreateOrdersRequestPatientOrdersInnerPrescriptionsInnerStructuredSigFromJSON(
   json: any,
-): CreateOrderRequestPrescriptionsInnerStructuredSig {
-  return CreateOrderRequestPrescriptionsInnerStructuredSigFromJSONTyped(json, false);
+): CreateOrdersRequestPatientOrdersInnerPrescriptionsInnerStructuredSig {
+  return CreateOrdersRequestPatientOrdersInnerPrescriptionsInnerStructuredSigFromJSONTyped(
+    json,
+    false,
+  );
 }
 
-export function CreateOrderRequestPrescriptionsInnerStructuredSigFromJSONTyped(
+export function CreateOrdersRequestPatientOrdersInnerPrescriptionsInnerStructuredSigFromJSONTyped(
   json: any,
   ignoreDiscriminator: boolean,
-): CreateOrderRequestPrescriptionsInnerStructuredSig {
+): CreateOrdersRequestPatientOrdersInnerPrescriptionsInnerStructuredSig {
   if (json == null) {
     return json;
   }
@@ -114,14 +117,17 @@ export function CreateOrderRequestPrescriptionsInnerStructuredSigFromJSONTyped(
   };
 }
 
-export function CreateOrderRequestPrescriptionsInnerStructuredSigToJSON(
+export function CreateOrdersRequestPatientOrdersInnerPrescriptionsInnerStructuredSigToJSON(
   json: any,
-): CreateOrderRequestPrescriptionsInnerStructuredSig {
-  return CreateOrderRequestPrescriptionsInnerStructuredSigToJSONTyped(json, false);
+): CreateOrdersRequestPatientOrdersInnerPrescriptionsInnerStructuredSig {
+  return CreateOrdersRequestPatientOrdersInnerPrescriptionsInnerStructuredSigToJSONTyped(
+    json,
+    false,
+  );
 }
 
-export function CreateOrderRequestPrescriptionsInnerStructuredSigToJSONTyped(
-  value?: CreateOrderRequestPrescriptionsInnerStructuredSig | null,
+export function CreateOrdersRequestPatientOrdersInnerPrescriptionsInnerStructuredSigToJSONTyped(
+  value?: CreateOrdersRequestPatientOrdersInnerPrescriptionsInnerStructuredSig | null,
   ignoreDiscriminator: boolean = false,
 ): any {
   if (value == null) {

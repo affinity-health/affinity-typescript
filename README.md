@@ -2,7 +2,7 @@
 
 The official TypeScript SDK for the Affinity API.
 
-> **Status:** The `1.4.0` release uses the forward-only `2026-08-11` Affinity API contract. Use Test
+> **Status:** The `1.5.0` release uses the forward-only `2026-08-11` Affinity API contract. Use Test
 > mode until Affinity approves Live access.
 
 The SDK provides a small, resource-oriented interface for software platforms connecting
@@ -267,10 +267,10 @@ log, analytics event, or persistent storage.
 
 ## Headless order flow
 
-Use the request-scoped actor client when your backend creates an order from your own UI. Each order
-belongs to exactly one patient and contains one or more prescriptions. `orders.create(...)` creates
-unsigned drafts; it does not sign or transmit them. Then create one signing session for the complete
-order and send its URL only to the authenticated provider represented by the provider mapping.
+Use the request-scoped actor client when your backend creates orders from its own UI. One
+`orders.create(...)` call can group multiple patients into a checkout, but Affinity creates one
+independent order per patient. Each order contains 1–20 unsigned prescription drafts and must be
+reviewed and signed separately by the authenticated provider represented by the provider mapping.
 
 ```ts
 const actingAffinity = affinity.withActor({ id: authenticatedUser.id, type: "user" });
@@ -278,61 +278,66 @@ const [semaglutide] = (await actingAffinity.catalog.list({ query: "semaglutide",
 const [vitaminB12] = (await actingAffinity.catalog.list({ query: "vitamin b12", limit: 10 })).data;
 if (!semaglutide || !vitaminB12) throw new Error("Required formulations are unavailable");
 
-const order = await actingAffinity.orders.create(
+const orderBatch = await actingAffinity.orders.create(
   {
-    patientId: patient.id,
     practiceId: practice.id,
     providerMappingId: providerMapping.id,
-    prescriptions: [
+    patientOrders: [
       {
-        clinical: {
-          currentMedications: [],
-          diagnoses: [{ code: "E66.9", display: "Obesity, unspecified" }],
-          observations: [],
-        },
-        daysSupply: 30,
-        dispensing: { dispenseUponAcceptance: true, substitutionPermitted: false },
-        directions: "Inject 0.25 mL subcutaneously once weekly",
-        medicationId: semaglutide.id,
-        quantity: 1,
-        quantityUnit: "mL",
-        refills: 0,
-        structuredSig: {
-          dose: "0.25",
-          doseUnit: "mL",
-          frequency: "once weekly",
-          prn: false,
-          route: "subcutaneous",
-        },
-      },
-      {
-        clinical: {
-          currentMedications: [],
-          diagnoses: [{ code: "E53.8", display: "Other specified vitamin B deficiency" }],
-          observations: [],
-        },
-        daysSupply: 30,
-        dispensing: { dispenseUponAcceptance: true, substitutionPermitted: false },
-        directions: "Inject 1 mL intramuscularly once weekly",
-        medicationId: vitaminB12.id,
-        quantity: 4,
-        quantityUnit: "mL",
-        refills: 0,
-        structuredSig: {
-          dose: "1",
-          doseUnit: "mL",
-          frequency: "once weekly",
-          prn: false,
-          route: "intramuscular",
-        },
+        patientId: patient.id,
+        prescriptions: [
+          {
+            clinical: {
+              currentMedications: [],
+              diagnoses: [{ code: "E66.9", display: "Obesity, unspecified" }],
+              observations: [],
+            },
+            daysSupply: 30,
+            dispensing: { dispenseUponAcceptance: true, substitutionPermitted: false },
+            directions: "Inject 0.25 mL subcutaneously once weekly",
+            medicationId: semaglutide.id,
+            quantity: 1,
+            quantityUnit: "mL",
+            refills: 0,
+            structuredSig: {
+              dose: "0.25",
+              doseUnit: "mL",
+              frequency: "once weekly",
+              prn: false,
+              route: "subcutaneous",
+            },
+          },
+          {
+            clinical: {
+              currentMedications: [],
+              diagnoses: [{ code: "E53.8", display: "Other specified vitamin B deficiency" }],
+              observations: [],
+            },
+            daysSupply: 30,
+            dispensing: { dispenseUponAcceptance: true, substitutionPermitted: false },
+            directions: "Inject 1 mL intramuscularly once weekly",
+            medicationId: vitaminB12.id,
+            quantity: 4,
+            quantityUnit: "mL",
+            refills: 0,
+            structuredSig: {
+              dose: "1",
+              doseUnit: "mL",
+              frequency: "once weekly",
+              prn: false,
+              route: "intramuscular",
+            },
+          },
+        ],
       },
     ],
   },
-  { idempotencyKey: `order:${encounter.id}` },
+  { idempotencyKey: `order-batch:${encounter.id}` },
 );
 
-if (order.status !== "requires_provider_signature") {
-  throw new Error("Unexpected order state");
+const [order] = orderBatch.orders;
+if (!order || order.status !== "requires_provider_signature") {
+  throw new Error("Unexpected order batch response");
 }
 
 const signingSession = await affinity.orderSigningSessions.create(
@@ -351,6 +356,10 @@ const signingSession = await affinity.orderSigningSessions.create(
 // Redirect or open a popup for the authenticated provider. The URL is single-use and expires.
 console.log(signingSession.url);
 ```
+
+Existing 1.x callers may still pass the former single-patient shape with `patientId` and
+`prescriptions`; the SDK converts it to a one-item batch and returns that patient order. New code
+should use `patientOrders` and handle the batch response.
 
 The signing session is server-bound to the platform, Test or Live mode, practice, patient,
 provider, and complete order. The provider reviews every prescription, enters their PIN only
