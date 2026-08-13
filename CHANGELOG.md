@@ -14,8 +14,7 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 
 ### Changed
 
-- Regenerated the SDK from the current `2026-08-11` contract, including exact order-ID filtering
-  and patient status filtering.
+- Regenerated the SDK from the current `2026-08-11` contract, including exact order-ID filtering.
 
 ### Deprecated
 

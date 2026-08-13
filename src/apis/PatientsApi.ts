@@ -91,7 +91,6 @@ export interface ListPatientsRequest {
   limit?: number;
   query?: string;
   startingAfter?: string;
-  status?: ListPatientsStatusEnum;
   affinityVersion?: string;
   affinityActorId?: string;
   affinityActorType?: string;
@@ -445,10 +444,6 @@ export class PatientsApi extends runtime.BaseAPI {
       queryParameters["startingAfter"] = requestParameters["startingAfter"];
     }
 
-    if (requestParameters["status"] != null) {
-      queryParameters["status"] = requestParameters["status"];
-    }
-
     const headerParameters: runtime.HTTPHeaders = {};
 
     if (requestParameters["affinityVersion"] != null) {
@@ -752,14 +747,3 @@ export class PatientsApi extends runtime.BaseAPI {
     return await response.value();
   }
 }
-
-/**
- * @export
- */
-export const ListPatientsStatusEnum = {
-  Active: "active",
-  Inactive: "inactive",
-  NeedsReview: "needs_review",
-} as const;
-export type ListPatientsStatusEnum =
-  (typeof ListPatientsStatusEnum)[keyof typeof ListPatientsStatusEnum];

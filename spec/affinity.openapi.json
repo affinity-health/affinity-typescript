@@ -6854,15 +6854,6 @@
             }
           },
           {
-            "in": "query",
-            "name": "status",
-            "required": false,
-            "schema": {
-              "type": "string",
-              "enum": ["active", "inactive", "needs_review"]
-            }
-          },
-          {
             "in": "header",
             "name": "Affinity-Version",
             "required": false,
