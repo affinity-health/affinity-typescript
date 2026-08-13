@@ -1,4 +1,4 @@
-# CreateOrderRequestPrescriptionsInnerStructuredSig
+# CreateOrdersRequestPatientOrdersInnerPrescriptionsInnerStructuredSig
 
 ## Properties
 

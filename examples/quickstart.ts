@@ -73,6 +73,6 @@ if (process.env.RUN_AFFINITY_MUTATION_EXAMPLE === "1") {
   );
 
   console.log(
-    "For a verified provider, call actingAffinity.orders.create(...) with one patient's prescriptions and then affinity.orderSigningSessions.create(...) to obtain the one-time provider signing URL.",
+    "For a verified provider, call actingAffinity.orders.create(...) with a patientOrders batch, then create one Affinity signing session for each returned patient order.",
   );
 }

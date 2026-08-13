@@ -7,6 +7,21 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 
 ## [Unreleased]
 
+### Added
+
+- Added typed multi-patient checkout through `orders.create({ patientOrders, ... })`; each returned
+  patient order remains independently reviewable and signable.
+
+### Changed
+
+- Regenerated the SDK from the current `2026-08-11` contract, including exact order-ID filtering
+  and patient status filtering.
+
+### Deprecated
+
+- Deprecated the former single-patient `orders.create({ patientId, prescriptions, ... })` input.
+  The 1.x SDK continues to translate it to a one-patient batch and returns that patient order.
+
 ## [1.4.0] - 2026-08-11
 
 ### Added

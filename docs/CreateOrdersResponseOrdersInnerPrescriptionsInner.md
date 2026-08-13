@@ -1,4 +1,4 @@
-# CreateOrderResponsePrescriptionsInner
+# CreateOrdersResponseOrdersInnerPrescriptionsInner
 
 ## Properties
 

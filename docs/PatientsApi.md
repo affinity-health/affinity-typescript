@@ -268,7 +268,7 @@ example().catch(console.error);
 
 ## listPatients
 
-> ListPatientsResponse listPatients(practiceId, endingBefore, limit, query, startingAfter, affinityVersion, affinityActorId, affinityActorType)
+> ListPatientsResponse listPatients(practiceId, endingBefore, limit, query, startingAfter, status, affinityVersion, affinityActorId, affinityActorType)
 
 List practice patients
 
@@ -301,6 +301,8 @@ async function example() {
     query: query_example,
     // string (optional)
     startingAfter: startingAfter_example,
+    // 'active' | 'inactive' | 'needs_review' (optional)
+    status: status_example,
     // string (optional)
     affinityVersion: affinityVersion_example,
     // string (optional)
@@ -323,16 +325,17 @@ example().catch(console.error);
 
 ### Parameters
 
-| Name                  | Type     | Description | Notes                                |
-| --------------------- | -------- | ----------- | ------------------------------------ |
-| **practiceId**        | `string` |             | [Defaults to `undefined`]            |
-| **endingBefore**      | `string` |             | [Optional] [Defaults to `undefined`] |
-| **limit**             | `number` |             | [Optional] [Defaults to `25`]        |
-| **query**             | `string` |             | [Optional] [Defaults to `undefined`] |
-| **startingAfter**     | `string` |             | [Optional] [Defaults to `undefined`] |
-| **affinityVersion**   | `string` |             | [Optional] [Defaults to `undefined`] |
-| **affinityActorId**   | `string` |             | [Optional] [Defaults to `undefined`] |
-| **affinityActorType** | `string` |             | [Optional] [Defaults to `undefined`] |
+| Name                  | Type                                 | Description | Notes                                                                       |
+| --------------------- | ------------------------------------ | ----------- | --------------------------------------------------------------------------- |
+| **practiceId**        | `string`                             |             | [Defaults to `undefined`]                                                   |
+| **endingBefore**      | `string`                             |             | [Optional] [Defaults to `undefined`]                                        |
+| **limit**             | `number`                             |             | [Optional] [Defaults to `25`]                                               |
+| **query**             | `string`                             |             | [Optional] [Defaults to `undefined`]                                        |
+| **startingAfter**     | `string`                             |             | [Optional] [Defaults to `undefined`]                                        |
+| **status**            | `active`, `inactive`, `needs_review` |             | [Optional] [Defaults to `undefined`] [Enum: active, inactive, needs_review] |
+| **affinityVersion**   | `string`                             |             | [Optional] [Defaults to `undefined`]                                        |
+| **affinityActorId**   | `string`                             |             | [Optional] [Defaults to `undefined`]                                        |
+| **affinityActorType** | `string`                             |             | [Optional] [Defaults to `undefined`]                                        |
 
 ### Return type
 

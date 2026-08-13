@@ -463,28 +463,36 @@ describe("Affinity client", () => {
         requests.push(request);
         if (new URL(request.url).pathname === "/v1/orders") {
           return Response.json({
-            createdAt: "2026-08-01T12:00:00.000Z",
-            id: "ord_01k123456789abcdefghjkmnp",
             livemode: false,
-            object: "order",
-            patientId: "pat_01k123456789abcdefghjkmnp",
-            practiceId: "prac_01k123456789abcdefghjkmnp",
-            prescriptions: [
+            object: "order_batch",
+            orders: [
               {
                 createdAt: "2026-08-01T12:00:00.000Z",
-                directions: "Inject once weekly",
-                id: "rx_01k123456789abcdefghjkmnp",
-                medicationId: "cat_01k123456789abcdefghjkmnp",
-                medicationName: "Semaglutide",
-                object: "prescription",
-                quantity: 1,
-                quantityUnit: "mL",
-                refills: 0,
+                id: "ord_01k123456789abcdefghjkmnp",
+                livemode: false,
+                object: "order",
+                patientId: "pat_01k123456789abcdefghjkmnp",
+                practiceId: "prac_01k123456789abcdefghjkmnp",
+                prescriptions: [
+                  {
+                    createdAt: "2026-08-01T12:00:00.000Z",
+                    directions: "Inject once weekly",
+                    id: "rx_01k123456789abcdefghjkmnp",
+                    medicationId: "cat_01k123456789abcdefghjkmnp",
+                    medicationName: "Semaglutide",
+                    object: "prescription",
+                    quantity: 1,
+                    quantityUnit: "mL",
+                    refills: 0,
+                    status: "requires_provider_signature",
+                  },
+                ],
+                providerMappingId: "pmap_01k123456789abcdefghjkmnp",
                 status: "requires_provider_signature",
               },
             ],
+            practiceId: "prac_01k123456789abcdefghjkmnp",
             providerMappingId: "pmap_01k123456789abcdefghjkmnp",
-            status: "requires_provider_signature",
           });
         }
         return Response.json({
@@ -498,7 +506,7 @@ describe("Affinity client", () => {
     });
     const actingAffinity = affinity.withActor({ id: "platform-user-4821", type: "user" });
 
-    await actingAffinity.orders.create(
+    const order = await actingAffinity.orders.create(
       {
         patientId: "pat_01k123456789abcdefghjkmnp",
         practiceId: "prac_01k123456789abcdefghjkmnp",
@@ -543,6 +551,7 @@ describe("Affinity client", () => {
       },
       { idempotencyKey: "order-example" },
     );
+    expect(order.id).toBe("ord_01k123456789abcdefghjkmnp");
     await affinity.orderSigningSessions.create(
       {
         consent: {
@@ -564,13 +573,87 @@ describe("Affinity client", () => {
     ]);
     expect(requests[0]?.headers.get("affinity-actor-id")).toBe("platform-user-4821");
     expect(requests[0]?.headers.get("affinity-actor-type")).toBe("user");
-    expect((await requests[0]?.clone().json()).prescriptions[0].clinical.diagnoses).toEqual([
+    const requestBody = await requests[0]?.clone().json();
+    expect(requestBody.patientOrders[0].prescriptions[0].clinical.diagnoses).toEqual([
       { code: "E66.9", display: "Obesity, unspecified" },
     ]);
     expect(requests.map((request) => request.headers.get("idempotency-key"))).toEqual([
       "order-example",
       "order-signing-example",
     ]);
-    expect((await requests[0]!.clone().json()).prescriptions).toHaveLength(2);
+    expect(requestBody.patientOrders).toHaveLength(1);
+    expect(requestBody.patientOrders[0].prescriptions).toHaveLength(2);
+  });
+
+  test("creates a typed multi-patient order batch", async () => {
+    let request: Request | undefined;
+    const affinity = new Affinity("sk_test_example", {
+      fetch: async (input, init) => {
+        request = new Request(input, init);
+        return Response.json({
+          livemode: false,
+          object: "order_batch",
+          orders: [
+            {
+              createdAt: "2026-08-13T12:00:00.000Z",
+              id: "ord_01k123456789abcdefghjkmnp",
+              livemode: false,
+              object: "order",
+              patientId: "pat_01k123456789abcdefghjkmnp",
+              practiceId: "prac_01k123456789abcdefghjkmnp",
+              prescriptions: [],
+              providerMappingId: "pmap_01k123456789abcdefghjkmnp",
+              status: "requires_provider_signature",
+            },
+            {
+              createdAt: "2026-08-13T12:00:00.000Z",
+              id: "ord_01k123456789abcdefghjkmnq",
+              livemode: false,
+              object: "order",
+              patientId: "pat_01k123456789abcdefghjkmnq",
+              practiceId: "prac_01k123456789abcdefghjkmnp",
+              prescriptions: [],
+              providerMappingId: "pmap_01k123456789abcdefghjkmnp",
+              status: "requires_provider_signature",
+            },
+          ],
+          practiceId: "prac_01k123456789abcdefghjkmnp",
+          providerMappingId: "pmap_01k123456789abcdefghjkmnp",
+        });
+      },
+    });
+    const actingAffinity = affinity.withActor({ id: "platform-user-4821", type: "user" });
+    const prescription = {
+      daysSupply: 30,
+      directions: "Take one capsule by mouth daily",
+      dispensing: { dispenseUponAcceptance: true, substitutionPermitted: false },
+      medicationId: "cat_01k123456789abcdefghjkmnp",
+      quantity: 30,
+      quantityUnit: "capsule",
+      refills: 0,
+      structuredSig: {
+        dose: "1",
+        doseUnit: "capsule",
+        frequency: "daily",
+        route: "oral",
+      },
+    };
+
+    const batch = await actingAffinity.orders.create(
+      {
+        patientOrders: [
+          { patientId: "pat_01k123456789abcdefghjkmnp", prescriptions: [prescription] },
+          { patientId: "pat_01k123456789abcdefghjkmnq", prescriptions: [prescription] },
+        ],
+        practiceId: "prac_01k123456789abcdefghjkmnp",
+        providerMappingId: "pmap_01k123456789abcdefghjkmnp",
+      },
+      { idempotencyKey: "order-batch-example" },
+    );
+
+    expect(batch.object).toBe("order_batch");
+    expect(batch.orders).toHaveLength(2);
+    expect((await request?.clone().json()).patientOrders).toHaveLength(2);
+    expect(request?.headers.get("idempotency-key")).toBe("order-batch-example");
   });
 });

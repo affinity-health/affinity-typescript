@@ -16,95 +16,95 @@ import { mapValues } from "../runtime";
 /**
  *
  * @export
- * @interface CreateOrderResponsePrescriptionsInner
+ * @interface CreateOrdersResponseOrdersInnerPrescriptionsInner
  */
-export interface CreateOrderResponsePrescriptionsInner {
+export interface CreateOrdersResponseOrdersInnerPrescriptionsInner {
   /**
    *
    * @type {string}
-   * @memberof CreateOrderResponsePrescriptionsInner
+   * @memberof CreateOrdersResponseOrdersInnerPrescriptionsInner
    */
   createdAt: string;
   /**
    *
    * @type {string}
-   * @memberof CreateOrderResponsePrescriptionsInner
+   * @memberof CreateOrdersResponseOrdersInnerPrescriptionsInner
    */
   directions: string;
   /**
    *
    * @type {string}
-   * @memberof CreateOrderResponsePrescriptionsInner
+   * @memberof CreateOrdersResponseOrdersInnerPrescriptionsInner
    */
   id: string;
   /**
    *
    * @type {string}
-   * @memberof CreateOrderResponsePrescriptionsInner
+   * @memberof CreateOrdersResponseOrdersInnerPrescriptionsInner
    */
   medicationId: string | null;
   /**
    *
    * @type {string}
-   * @memberof CreateOrderResponsePrescriptionsInner
+   * @memberof CreateOrdersResponseOrdersInnerPrescriptionsInner
    */
   medicationName: string;
   /**
    *
-   * @type {CreateOrderResponsePrescriptionsInnerObjectEnum}
-   * @memberof CreateOrderResponsePrescriptionsInner
+   * @type {CreateOrdersResponseOrdersInnerPrescriptionsInnerObjectEnum}
+   * @memberof CreateOrdersResponseOrdersInnerPrescriptionsInner
    */
-  object: CreateOrderResponsePrescriptionsInnerObjectEnum;
+  object: CreateOrdersResponseOrdersInnerPrescriptionsInnerObjectEnum;
   /**
    *
    * @type {number}
-   * @memberof CreateOrderResponsePrescriptionsInner
+   * @memberof CreateOrdersResponseOrdersInnerPrescriptionsInner
    */
   quantity: number | null;
   /**
    *
    * @type {string}
-   * @memberof CreateOrderResponsePrescriptionsInner
+   * @memberof CreateOrdersResponseOrdersInnerPrescriptionsInner
    */
   quantityUnit: string;
   /**
    *
    * @type {number}
-   * @memberof CreateOrderResponsePrescriptionsInner
+   * @memberof CreateOrdersResponseOrdersInnerPrescriptionsInner
    */
   refills: number | null;
   /**
    *
-   * @type {CreateOrderResponsePrescriptionsInnerStatusEnum}
-   * @memberof CreateOrderResponsePrescriptionsInner
+   * @type {CreateOrdersResponseOrdersInnerPrescriptionsInnerStatusEnum}
+   * @memberof CreateOrdersResponseOrdersInnerPrescriptionsInner
    */
-  status: CreateOrderResponsePrescriptionsInnerStatusEnum;
+  status: CreateOrdersResponseOrdersInnerPrescriptionsInnerStatusEnum;
 }
 
 /**
  * @export
  */
-export const CreateOrderResponsePrescriptionsInnerObjectEnum = {
+export const CreateOrdersResponseOrdersInnerPrescriptionsInnerObjectEnum = {
   Prescription: "prescription",
 } as const;
-export type CreateOrderResponsePrescriptionsInnerObjectEnum =
-  (typeof CreateOrderResponsePrescriptionsInnerObjectEnum)[keyof typeof CreateOrderResponsePrescriptionsInnerObjectEnum];
+export type CreateOrdersResponseOrdersInnerPrescriptionsInnerObjectEnum =
+  (typeof CreateOrdersResponseOrdersInnerPrescriptionsInnerObjectEnum)[keyof typeof CreateOrdersResponseOrdersInnerPrescriptionsInnerObjectEnum];
 
 /**
  * @export
  */
-export const CreateOrderResponsePrescriptionsInnerStatusEnum = {
+export const CreateOrdersResponseOrdersInnerPrescriptionsInnerStatusEnum = {
   RequiresProviderSignature: "requires_provider_signature",
 } as const;
-export type CreateOrderResponsePrescriptionsInnerStatusEnum =
-  (typeof CreateOrderResponsePrescriptionsInnerStatusEnum)[keyof typeof CreateOrderResponsePrescriptionsInnerStatusEnum];
+export type CreateOrdersResponseOrdersInnerPrescriptionsInnerStatusEnum =
+  (typeof CreateOrdersResponseOrdersInnerPrescriptionsInnerStatusEnum)[keyof typeof CreateOrdersResponseOrdersInnerPrescriptionsInnerStatusEnum];
 
 /**
- * Check if a given object implements the CreateOrderResponsePrescriptionsInner interface.
+ * Check if a given object implements the CreateOrdersResponseOrdersInnerPrescriptionsInner interface.
  */
-export function instanceOfCreateOrderResponsePrescriptionsInner(
+export function instanceOfCreateOrdersResponseOrdersInnerPrescriptionsInner(
   value: object,
-): value is CreateOrderResponsePrescriptionsInner {
+): value is CreateOrdersResponseOrdersInnerPrescriptionsInner {
   if (!("createdAt" in value) || value["createdAt"] === undefined) return false;
   if (!("directions" in value) || value["directions"] === undefined) return false;
   if (!("id" in value) || value["id"] === undefined) return false;
@@ -118,16 +118,16 @@ export function instanceOfCreateOrderResponsePrescriptionsInner(
   return true;
 }
 
-export function CreateOrderResponsePrescriptionsInnerFromJSON(
+export function CreateOrdersResponseOrdersInnerPrescriptionsInnerFromJSON(
   json: any,
-): CreateOrderResponsePrescriptionsInner {
-  return CreateOrderResponsePrescriptionsInnerFromJSONTyped(json, false);
+): CreateOrdersResponseOrdersInnerPrescriptionsInner {
+  return CreateOrdersResponseOrdersInnerPrescriptionsInnerFromJSONTyped(json, false);
 }
 
-export function CreateOrderResponsePrescriptionsInnerFromJSONTyped(
+export function CreateOrdersResponseOrdersInnerPrescriptionsInnerFromJSONTyped(
   json: any,
   ignoreDiscriminator: boolean,
-): CreateOrderResponsePrescriptionsInner {
+): CreateOrdersResponseOrdersInnerPrescriptionsInner {
   if (json == null) {
     return json;
   }
@@ -145,14 +145,14 @@ export function CreateOrderResponsePrescriptionsInnerFromJSONTyped(
   };
 }
 
-export function CreateOrderResponsePrescriptionsInnerToJSON(
+export function CreateOrdersResponseOrdersInnerPrescriptionsInnerToJSON(
   json: any,
-): CreateOrderResponsePrescriptionsInner {
-  return CreateOrderResponsePrescriptionsInnerToJSONTyped(json, false);
+): CreateOrdersResponseOrdersInnerPrescriptionsInner {
+  return CreateOrdersResponseOrdersInnerPrescriptionsInnerToJSONTyped(json, false);
 }
 
-export function CreateOrderResponsePrescriptionsInnerToJSONTyped(
-  value?: CreateOrderResponsePrescriptionsInner | null,
+export function CreateOrdersResponseOrdersInnerPrescriptionsInnerToJSONTyped(
+  value?: CreateOrdersResponseOrdersInnerPrescriptionsInner | null,
   ignoreDiscriminator: boolean = false,
 ): any {
   if (value == null) {
