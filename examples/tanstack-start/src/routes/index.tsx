@@ -28,8 +28,8 @@ function Example() {
       <p className="eyebrow">Affinity TypeScript SDK</p>
       <h1>Create a complete Test practice.</h1>
       <p className="lede">
-        This server-side example creates a synthetic practice, provider user, role, membership, and
-        verified provider mapping with Test NPI <code>1234567893</code>.
+        This server-side example creates a synthetic practice and registers a prescriber with Test
+        NPI <code>1234567893</code>.
       </p>
       <button disabled={pending} onClick={create} type="button">
         {pending ? "Creating…" : "Create Test practice"}
@@ -42,7 +42,7 @@ function Example() {
             {Object.entries(result).map(([key, value]) => (
               <div key={key}>
                 <dt>{key}</dt>
-                <dd>{value}</dd>
+                <dd>{typeof value === "object" ? JSON.stringify(value) : String(value)}</dd>
               </div>
             ))}
           </dl>
