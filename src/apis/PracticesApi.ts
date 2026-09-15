@@ -2,7 +2,7 @@
 /* eslint-disable */
 /**
  * Affinity API
- * Affinity API for software platforms connecting practices to the compounder network.
+ * Affinity API for practices and software platforms connecting to the pharmacy network.
  *
  * The version of the OpenAPI document: 2026-08-11
  * Contact: support@joinaffinityai.com
@@ -57,9 +57,10 @@ export interface GetPracticeRequest {
 }
 
 export interface ListPracticesRequest {
-  endingBefore?: string;
+  search?: string | null;
+  endingBefore?: string | null;
   limit?: number;
-  startingAfter?: string;
+  startingAfter?: string | null;
   affinityVersion?: string;
 }
 
@@ -243,6 +244,10 @@ export class PracticesApi extends runtime.BaseAPI {
     requestParameters: ListPracticesRequest,
   ): Promise<runtime.RequestOpts> {
     const queryParameters: any = {};
+
+    if (requestParameters["search"] != null) {
+      queryParameters["search"] = requestParameters["search"];
+    }
 
     if (requestParameters["endingBefore"] != null) {
       queryParameters["endingBefore"] = requestParameters["endingBefore"];

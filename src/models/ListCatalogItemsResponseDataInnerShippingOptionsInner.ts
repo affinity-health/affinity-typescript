@@ -2,7 +2,7 @@
 /* eslint-disable */
 /**
  * Affinity API
- * Affinity API for software platforms connecting practices to the compounder network.
+ * Affinity API for practices and software platforms connecting to the pharmacy network.
  *
  * The version of the OpenAPI document: 2026-08-11
  * Contact: support@joinaffinityai.com
@@ -24,7 +24,7 @@ export interface ListCatalogItemsResponseDataInnerShippingOptionsInner {
    * @type {number}
    * @memberof ListCatalogItemsResponseDataInnerShippingOptionsInner
    */
-  amountCents: number | null;
+  amountCents: number;
   /**
    *
    * @type {string}
@@ -62,17 +62,17 @@ export interface ListCatalogItemsResponseDataInnerShippingOptionsInner {
    */
   id: string;
   /**
-   *
+   * Match this integration's external identity in the API key's mode.
    * @type {string}
    * @memberof ListCatalogItemsResponseDataInnerShippingOptionsInner
    */
-  label: string;
+  label: string | null;
   /**
-   *
+   * Match this integration's external identity in the API key's mode.
    * @type {string}
    * @memberof ListCatalogItemsResponseDataInnerShippingOptionsInner
    */
-  serviceLevel: string;
+  serviceLevel: string | null;
   /**
    *
    * @type {Array<ListCatalogItemsResponseDataInnerShippingOptionsInnerTemperaturesEnum>}

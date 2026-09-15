@@ -2,7 +2,7 @@
 /* eslint-disable */
 /**
  * Affinity API
- * Affinity API for software platforms connecting practices to the compounder network.
+ * Affinity API for practices and software platforms connecting to the pharmacy network.
  *
  * The version of the OpenAPI document: 2026-08-11
  * Contact: support@joinaffinityai.com
@@ -42,11 +42,11 @@ import {
  */
 export interface CreateComponentSessionRequest {
   /**
-   *
+   * Match this integration's external identity in the API key's mode.
    * @type {string}
    * @memberof CreateComponentSessionRequest
    */
-  allowedOrigin: string;
+  allowedOrigin: string | null;
   /**
    *
    * @type {CreateComponentSessionRequestComponents}
@@ -70,19 +70,7 @@ export interface CreateComponentSessionRequest {
    * @type {string}
    * @memberof CreateComponentSessionRequest
    */
-  membershipId?: string;
-  /**
-   *
-   * @type {string}
-   * @memberof CreateComponentSessionRequest
-   */
-  practiceId: string;
-  /**
-   *
-   * @type {string}
-   * @memberof CreateComponentSessionRequest
-   */
-  providerMappingId: string;
+  practiceId: string | null;
   /**
    *
    * @type {string}
@@ -102,7 +90,6 @@ export function instanceOfCreateComponentSessionRequest(
   if (!("consent" in value) || value["consent"] === undefined) return false;
   if (!("context" in value) || value["context"] === undefined) return false;
   if (!("practiceId" in value) || value["practiceId"] === undefined) return false;
-  if (!("providerMappingId" in value) || value["providerMappingId"] === undefined) return false;
   if (!("userId" in value) || value["userId"] === undefined) return false;
   return true;
 }
@@ -123,9 +110,7 @@ export function CreateComponentSessionRequestFromJSONTyped(
     components: CreateComponentSessionRequestComponentsFromJSON(json["components"]),
     consent: CreateComponentSessionRequestConsentFromJSON(json["consent"]),
     context: CreateComponentSessionRequestContextFromJSON(json["context"]),
-    membershipId: json["membershipId"] == null ? undefined : json["membershipId"],
     practiceId: json["practiceId"],
-    providerMappingId: json["providerMappingId"],
     userId: json["userId"],
   };
 }
@@ -147,9 +132,7 @@ export function CreateComponentSessionRequestToJSONTyped(
     components: CreateComponentSessionRequestComponentsToJSON(value["components"]),
     consent: CreateComponentSessionRequestConsentToJSON(value["consent"]),
     context: CreateComponentSessionRequestContextToJSON(value["context"]),
-    membershipId: value["membershipId"],
     practiceId: value["practiceId"],
-    providerMappingId: value["providerMappingId"],
     userId: value["userId"],
   };
 }

@@ -2,7 +2,7 @@
 /* eslint-disable */
 /**
  * Affinity API
- * Affinity API for software platforms connecting practices to the compounder network.
+ * Affinity API for practices and software platforms connecting to the pharmacy network.
  *
  * The version of the OpenAPI document: 2026-08-11
  * Contact: support@joinaffinityai.com
@@ -20,17 +20,17 @@ import { mapValues } from "../runtime";
  */
 export interface ListOrderEventsResponseDataInner {
   /**
-   *
+   * Match this integration's external identity in the API key's mode.
    * @type {string}
    * @memberof ListOrderEventsResponseDataInner
    */
-  createdAt: string;
+  createdAt: string | null;
   /**
-   *
+   * Match this integration's external identity in the API key's mode.
    * @type {string}
    * @memberof ListOrderEventsResponseDataInner
    */
-  eventType: string;
+  eventType: string | null;
   /**
    *
    * @type {string}
@@ -38,17 +38,17 @@ export interface ListOrderEventsResponseDataInner {
    */
   id: string;
   /**
-   *
+   * Match this integration's external identity in the API key's mode.
    * @type {string}
    * @memberof ListOrderEventsResponseDataInner
    */
-  message: string;
+  message: string | null;
   /**
    *
-   * @type {{ [key: string]: any; }}
+   * @type {object}
    * @memberof ListOrderEventsResponseDataInner
    */
-  metadata: { [key: string]: any };
+  metadata: object;
   /**
    *
    * @type {ListOrderEventsResponseDataInnerObjectEnum}

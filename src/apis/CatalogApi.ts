@@ -2,7 +2,7 @@
 /* eslint-disable */
 /**
  * Affinity API
- * Affinity API for software platforms connecting practices to the compounder network.
+ * Affinity API for practices and software platforms connecting to the pharmacy network.
  *
  * The version of the OpenAPI document: 2026-08-11
  * Contact: support@joinaffinityai.com
@@ -14,15 +14,15 @@
 
 import * as runtime from "../runtime";
 import {
-  type ListCatalogItemsCompounderIdsParameter,
-  ListCatalogItemsCompounderIdsParameterFromJSON,
-  ListCatalogItemsCompounderIdsParameterToJSON,
-} from "../models/ListCatalogItemsCompounderIdsParameter";
-import {
   type ListCatalogItemsDosageFormsParameter,
   ListCatalogItemsDosageFormsParameterFromJSON,
   ListCatalogItemsDosageFormsParameterToJSON,
 } from "../models/ListCatalogItemsDosageFormsParameter";
+import {
+  type ListCatalogItemsPharmacyIdsParameter,
+  ListCatalogItemsPharmacyIdsParameterFromJSON,
+  ListCatalogItemsPharmacyIdsParameterToJSON,
+} from "../models/ListCatalogItemsPharmacyIdsParameter";
 import {
   type ListCatalogItemsResponse,
   ListCatalogItemsResponseFromJSON,
@@ -34,10 +34,10 @@ import {
   ListCatalogItemsRoutesParameterToJSON,
 } from "../models/ListCatalogItemsRoutesParameter";
 import {
-  type ListCompoundersResponse,
-  ListCompoundersResponseFromJSON,
-  ListCompoundersResponseToJSON,
-} from "../models/ListCompoundersResponse";
+  type ListPharmaciesResponse,
+  ListPharmaciesResponseFromJSON,
+  ListPharmaciesResponseToJSON,
+} from "../models/ListPharmaciesResponse";
 import {
   type ListShippingOptionsResponseInner,
   ListShippingOptionsResponseInnerFromJSON,
@@ -46,28 +46,31 @@ import {
 import { type Problem, ProblemFromJSON, ProblemToJSON } from "../models/Problem";
 
 export interface ListCatalogItemsRequest {
+  sort?: ListCatalogItemsSortEnum;
+  catalogItemId?: string | null;
   availability?: ListCatalogItemsAvailabilityEnum;
-  compounderIds?: ListCatalogItemsCompounderIdsParameter;
-  dosageForms?: ListCatalogItemsDosageFormsParameter;
-  endingBefore?: string;
+  pharmacyIds?: ListCatalogItemsPharmacyIdsParameter | null;
+  dosageForms?: ListCatalogItemsDosageFormsParameter | null;
+  endingBefore?: string | null;
   hideControlledSubstances?: boolean;
   hideUnpriced?: boolean;
   limit?: number;
-  orgId?: string;
-  practiceId?: string;
-  query?: string;
+  orgId?: string | null;
+  practiceId?: string | null;
+  query?: string | null;
   requirement?: ListCatalogItemsRequirementEnum;
-  routes?: ListCatalogItemsRoutesParameter;
-  startingAfter?: string;
+  routes?: ListCatalogItemsRoutesParameter | null;
+  startingAfter?: string | null;
   affinityVersion?: string;
 }
 
-export interface ListCompoundersRequest {
-  endingBefore?: string;
+export interface ListPharmaciesRequest {
+  endingBefore?: string | null;
   limit?: number;
-  orgId?: string;
-  query?: string;
-  startingAfter?: string;
+  orgId?: string | null;
+  query?: string | null;
+  shipsToState?: string | null;
+  startingAfter?: string | null;
   affinityVersion?: string;
 }
 
@@ -90,12 +93,20 @@ export class CatalogApi extends runtime.BaseAPI {
   ): Promise<runtime.RequestOpts> {
     const queryParameters: any = {};
 
+    if (requestParameters["sort"] != null) {
+      queryParameters["sort"] = requestParameters["sort"];
+    }
+
+    if (requestParameters["catalogItemId"] != null) {
+      queryParameters["catalogItemId"] = requestParameters["catalogItemId"];
+    }
+
     if (requestParameters["availability"] != null) {
       queryParameters["availability"] = requestParameters["availability"];
     }
 
-    if (requestParameters["compounderIds"] != null) {
-      queryParameters["compounderIds"] = requestParameters["compounderIds"];
+    if (requestParameters["pharmacyIds"] != null) {
+      queryParameters["pharmacyIds"] = requestParameters["pharmacyIds"];
     }
 
     if (requestParameters["dosageForms"] != null) {
@@ -200,10 +211,10 @@ export class CatalogApi extends runtime.BaseAPI {
   }
 
   /**
-   * Creates request options for listCompounders without sending the request
+   * Creates request options for listPharmacies without sending the request
    */
-  async listCompoundersRequestOpts(
-    requestParameters: ListCompoundersRequest,
+  async listPharmaciesRequestOpts(
+    requestParameters: ListPharmaciesRequest,
   ): Promise<runtime.RequestOpts> {
     const queryParameters: any = {};
 
@@ -221,6 +232,10 @@ export class CatalogApi extends runtime.BaseAPI {
 
     if (requestParameters["query"] != null) {
       queryParameters["query"] = requestParameters["query"];
+    }
+
+    if (requestParameters["shipsToState"] != null) {
+      queryParameters["shipsToState"] = requestParameters["shipsToState"];
     }
 
     if (requestParameters["startingAfter"] != null) {
@@ -246,7 +261,7 @@ export class CatalogApi extends runtime.BaseAPI {
         await this.configuration.apiKey("x-affinity-api-key"); // affinityApiKey authentication
     }
 
-    let urlPath = `/v1/compounders`;
+    let urlPath = `/v1/pharmacies`;
 
     return {
       path: urlPath,
@@ -257,30 +272,30 @@ export class CatalogApi extends runtime.BaseAPI {
   }
 
   /**
-   * Lists compounders available to the authenticated account, including approved invite-only relationships.
-   * List available compounders
+   * Lists pharmacies available to the authenticated account, including approved invite-only relationships.
+   * List pharmacies
    */
-  async listCompoundersRaw(
-    requestParameters: ListCompoundersRequest,
+  async listPharmaciesRaw(
+    requestParameters: ListPharmaciesRequest,
     initOverrides?: RequestInit | runtime.InitOverrideFunction,
-  ): Promise<runtime.ApiResponse<ListCompoundersResponse>> {
-    const requestOptions = await this.listCompoundersRequestOpts(requestParameters);
+  ): Promise<runtime.ApiResponse<ListPharmaciesResponse>> {
+    const requestOptions = await this.listPharmaciesRequestOpts(requestParameters);
     const response = await this.request(requestOptions, initOverrides);
 
     return new runtime.JSONApiResponse(response, (jsonValue) =>
-      ListCompoundersResponseFromJSON(jsonValue),
+      ListPharmaciesResponseFromJSON(jsonValue),
     );
   }
 
   /**
-   * Lists compounders available to the authenticated account, including approved invite-only relationships.
-   * List available compounders
+   * Lists pharmacies available to the authenticated account, including approved invite-only relationships.
+   * List pharmacies
    */
-  async listCompounders(
-    requestParameters: ListCompoundersRequest = {},
+  async listPharmacies(
+    requestParameters: ListPharmaciesRequest = {},
     initOverrides?: RequestInit | runtime.InitOverrideFunction,
-  ): Promise<ListCompoundersResponse> {
-    const response = await this.listCompoundersRaw(requestParameters, initOverrides);
+  ): Promise<ListPharmaciesResponse> {
+    const response = await this.listPharmaciesRaw(requestParameters, initOverrides);
     return await response.value();
   }
 
@@ -376,6 +391,16 @@ export class CatalogApi extends runtime.BaseAPI {
   }
 }
 
+/**
+ * @export
+ */
+export const ListCatalogItemsSortEnum = {
+  Relevance: "relevance",
+  NameAsc: "name_asc",
+  NameDesc: "name_desc",
+} as const;
+export type ListCatalogItemsSortEnum =
+  (typeof ListCatalogItemsSortEnum)[keyof typeof ListCatalogItemsSortEnum];
 /**
  * @export
  */

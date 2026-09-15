@@ -83,6 +83,7 @@ example().catch(console.error);
 | Status code | Description | Response headers |
 | ----------- | ----------- | ---------------- |
 | **200**     | HTTP 200    | -                |
+| **400**     | HTTP 400    | -                |
 | **401**     | HTTP 401    | -                |
 | **403**     | HTTP 403    | -                |
 | **429**     | HTTP 429    | -                |
@@ -157,6 +158,7 @@ example().catch(console.error);
 | Status code | Description | Response headers |
 | ----------- | ----------- | ---------------- |
 | **200**     | HTTP 200    | -                |
+| **400**     | HTTP 400    | -                |
 | **401**     | HTTP 401    | -                |
 | **403**     | HTTP 403    | -                |
 | **429**     | HTTP 429    | -                |
@@ -165,7 +167,7 @@ example().catch(console.error);
 
 ## listPractices
 
-> ListPracticesResponse listPractices(endingBefore, limit, startingAfter, affinityVersion)
+> ListPracticesResponse listPractices(search, endingBefore, limit, startingAfter, affinityVersion)
 
 List practices
 
@@ -188,6 +190,8 @@ async function example() {
   const api = new PracticesApi(config);
 
   const body = {
+    // string (optional)
+    search: search_example,
     // string (optional)
     endingBefore: endingBefore_example,
     // number (optional)
@@ -214,6 +218,7 @@ example().catch(console.error);
 
 | Name                | Type     | Description | Notes                                |
 | ------------------- | -------- | ----------- | ------------------------------------ |
+| **search**          | `string` |             | [Optional] [Defaults to `undefined`] |
 | **endingBefore**    | `string` |             | [Optional] [Defaults to `undefined`] |
 | **limit**           | `number` |             | [Optional] [Defaults to `25`]        |
 | **startingAfter**   | `string` |             | [Optional] [Defaults to `undefined`] |
@@ -237,6 +242,7 @@ example().catch(console.error);
 | Status code | Description | Response headers |
 | ----------- | ----------- | ---------------- |
 | **200**     | HTTP 200    | -                |
+| **400**     | HTTP 400    | -                |
 | **401**     | HTTP 401    | -                |
 | **403**     | HTTP 403    | -                |
 | **429**     | HTTP 429    | -                |
@@ -320,6 +326,7 @@ example().catch(console.error);
 | Status code | Description | Response headers |
 | ----------- | ----------- | ---------------- |
 | **200**     | HTTP 200    | -                |
+| **400**     | HTTP 400    | -                |
 | **401**     | HTTP 401    | -                |
 | **403**     | HTTP 403    | -                |
 | **429**     | HTTP 429    | -                |

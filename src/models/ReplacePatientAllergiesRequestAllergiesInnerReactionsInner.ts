@@ -2,7 +2,7 @@
 /* eslint-disable */
 /**
  * Affinity API
- * Affinity API for software platforms connecting practices to the compounder network.
+ * Affinity API for practices and software platforms connecting to the pharmacy network.
  *
  * The version of the OpenAPI document: 2026-08-11
  * Contact: support@joinaffinityai.com
@@ -20,7 +20,7 @@ import { mapValues } from "../runtime";
  */
 export interface ReplacePatientAllergiesRequestAllergiesInnerReactionsInner {
   /**
-   * a string that will be trimmed
+   *
    * @type {string}
    * @memberof ReplacePatientAllergiesRequestAllergiesInnerReactionsInner
    */
@@ -32,7 +32,7 @@ export interface ReplacePatientAllergiesRequestAllergiesInnerReactionsInner {
    */
   codeSystem?: ReplacePatientAllergiesRequestAllergiesInnerReactionsInnerCodeSystemEnum | null;
   /**
-   * a string that will be trimmed
+   * Match this integration's external identity in the API key's mode.
    * @type {string}
    * @memberof ReplacePatientAllergiesRequestAllergiesInnerReactionsInner
    */

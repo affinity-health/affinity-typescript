@@ -2,7 +2,7 @@
 /* eslint-disable */
 /**
  * Affinity API
- * Affinity API for software platforms connecting practices to the compounder network.
+ * Affinity API for practices and software platforms connecting to the pharmacy network.
  *
  * The version of the OpenAPI document: 2026-08-11
  * Contact: support@joinaffinityai.com
@@ -13,12 +13,110 @@
  */
 
 import { mapValues } from "../runtime";
+import type { ListCatalogItemsResponseDataInnerPrescriptionRequirementsAllowedQuantitiesInnerValue } from "./ListCatalogItemsResponseDataInnerPrescriptionRequirementsAllowedQuantitiesInnerValue";
+import {
+  ListCatalogItemsResponseDataInnerPrescriptionRequirementsAllowedQuantitiesInnerValueFromJSON,
+  ListCatalogItemsResponseDataInnerPrescriptionRequirementsAllowedQuantitiesInnerValueFromJSONTyped,
+  ListCatalogItemsResponseDataInnerPrescriptionRequirementsAllowedQuantitiesInnerValueToJSON,
+  ListCatalogItemsResponseDataInnerPrescriptionRequirementsAllowedQuantitiesInnerValueToJSONTyped,
+} from "./ListCatalogItemsResponseDataInnerPrescriptionRequirementsAllowedQuantitiesInnerValue";
+import type { GetOrderResponsePrescriptionsInnerClinical } from "./GetOrderResponsePrescriptionsInnerClinical";
+import {
+  GetOrderResponsePrescriptionsInnerClinicalFromJSON,
+  GetOrderResponsePrescriptionsInnerClinicalFromJSONTyped,
+  GetOrderResponsePrescriptionsInnerClinicalToJSON,
+  GetOrderResponsePrescriptionsInnerClinicalToJSONTyped,
+} from "./GetOrderResponsePrescriptionsInnerClinical";
+import type { GetOrderResponsePrescriptionsInnerPatientSnapshot } from "./GetOrderResponsePrescriptionsInnerPatientSnapshot";
+import {
+  GetOrderResponsePrescriptionsInnerPatientSnapshotFromJSON,
+  GetOrderResponsePrescriptionsInnerPatientSnapshotFromJSONTyped,
+  GetOrderResponsePrescriptionsInnerPatientSnapshotToJSON,
+  GetOrderResponsePrescriptionsInnerPatientSnapshotToJSONTyped,
+} from "./GetOrderResponsePrescriptionsInnerPatientSnapshot";
+import type { CancelOrderResponsePrescriptionsInnerDispensing } from "./CancelOrderResponsePrescriptionsInnerDispensing";
+import {
+  CancelOrderResponsePrescriptionsInnerDispensingFromJSON,
+  CancelOrderResponsePrescriptionsInnerDispensingFromJSONTyped,
+  CancelOrderResponsePrescriptionsInnerDispensingToJSON,
+  CancelOrderResponsePrescriptionsInnerDispensingToJSONTyped,
+} from "./CancelOrderResponsePrescriptionsInnerDispensing";
+import type { GetOrderResponsePrescriptionsInnerStructuredSig } from "./GetOrderResponsePrescriptionsInnerStructuredSig";
+import {
+  GetOrderResponsePrescriptionsInnerStructuredSigFromJSON,
+  GetOrderResponsePrescriptionsInnerStructuredSigFromJSONTyped,
+  GetOrderResponsePrescriptionsInnerStructuredSigToJSON,
+  GetOrderResponsePrescriptionsInnerStructuredSigToJSONTyped,
+} from "./GetOrderResponsePrescriptionsInnerStructuredSig";
+import type { GetOrderResponsePrescriptionsInnerProviderSnapshot } from "./GetOrderResponsePrescriptionsInnerProviderSnapshot";
+import {
+  GetOrderResponsePrescriptionsInnerProviderSnapshotFromJSON,
+  GetOrderResponsePrescriptionsInnerProviderSnapshotFromJSONTyped,
+  GetOrderResponsePrescriptionsInnerProviderSnapshotToJSON,
+  GetOrderResponsePrescriptionsInnerProviderSnapshotToJSONTyped,
+} from "./GetOrderResponsePrescriptionsInnerProviderSnapshot";
+import type { ListCatalogItemsResponseDataInnerPrescriptionRequirementsQuantityIncrementMax } from "./ListCatalogItemsResponseDataInnerPrescriptionRequirementsQuantityIncrementMax";
+import {
+  ListCatalogItemsResponseDataInnerPrescriptionRequirementsQuantityIncrementMaxFromJSON,
+  ListCatalogItemsResponseDataInnerPrescriptionRequirementsQuantityIncrementMaxFromJSONTyped,
+  ListCatalogItemsResponseDataInnerPrescriptionRequirementsQuantityIncrementMaxToJSON,
+  ListCatalogItemsResponseDataInnerPrescriptionRequirementsQuantityIncrementMaxToJSONTyped,
+} from "./ListCatalogItemsResponseDataInnerPrescriptionRequirementsQuantityIncrementMax";
+
 /**
  *
  * @export
  * @interface GetOrderResponsePrescriptionsInner
  */
 export interface GetOrderResponsePrescriptionsInner {
+  /**
+   *
+   * @type {number}
+   * @memberof GetOrderResponsePrescriptionsInner
+   */
+  version: number;
+  /**
+   *
+   * @type {ListCatalogItemsResponseDataInnerPrescriptionRequirementsQuantityIncrementMax}
+   * @memberof GetOrderResponsePrescriptionsInner
+   */
+  daysSupply: ListCatalogItemsResponseDataInnerPrescriptionRequirementsQuantityIncrementMax | null;
+  /**
+   *
+   * @type {GetOrderResponsePrescriptionsInnerPatientSnapshot}
+   * @memberof GetOrderResponsePrescriptionsInner
+   */
+  patientSnapshot: GetOrderResponsePrescriptionsInnerPatientSnapshot;
+  /**
+   *
+   * @type {GetOrderResponsePrescriptionsInnerProviderSnapshot}
+   * @memberof GetOrderResponsePrescriptionsInner
+   */
+  providerSnapshot: GetOrderResponsePrescriptionsInnerProviderSnapshot | null;
+  /**
+   *
+   * @type {GetOrderResponsePrescriptionsInnerClinical}
+   * @memberof GetOrderResponsePrescriptionsInner
+   */
+  clinical: GetOrderResponsePrescriptionsInnerClinical | null;
+  /**
+   *
+   * @type {CancelOrderResponsePrescriptionsInnerDispensing}
+   * @memberof GetOrderResponsePrescriptionsInner
+   */
+  dispensing: CancelOrderResponsePrescriptionsInnerDispensing | null;
+  /**
+   *
+   * @type {GetOrderResponsePrescriptionsInnerStructuredSig}
+   * @memberof GetOrderResponsePrescriptionsInner
+   */
+  structuredSig: GetOrderResponsePrescriptionsInnerStructuredSig | null;
+  /**
+   *
+   * @type {string}
+   * @memberof GetOrderResponsePrescriptionsInner
+   */
+  externalPrescriptionId: string | null;
   /**
    *
    * @type {string}
@@ -30,7 +128,7 @@ export interface GetOrderResponsePrescriptionsInner {
    * @type {string}
    * @memberof GetOrderResponsePrescriptionsInner
    */
-  compounderId: string | null;
+  pharmacyId: string | null;
   /**
    *
    * @type {string}
@@ -57,10 +155,10 @@ export interface GetOrderResponsePrescriptionsInner {
   medicationName: string;
   /**
    *
-   * @type {number}
+   * @type {ListCatalogItemsResponseDataInnerPrescriptionRequirementsAllowedQuantitiesInnerValue}
    * @memberof GetOrderResponsePrescriptionsInner
    */
-  quantity: number;
+  quantity: ListCatalogItemsResponseDataInnerPrescriptionRequirementsAllowedQuantitiesInnerValue;
   /**
    *
    * @type {string}
@@ -93,8 +191,17 @@ export interface GetOrderResponsePrescriptionsInner {
 export function instanceOfGetOrderResponsePrescriptionsInner(
   value: object,
 ): value is GetOrderResponsePrescriptionsInner {
+  if (!("version" in value) || value["version"] === undefined) return false;
+  if (!("daysSupply" in value) || value["daysSupply"] === undefined) return false;
+  if (!("patientSnapshot" in value) || value["patientSnapshot"] === undefined) return false;
+  if (!("providerSnapshot" in value) || value["providerSnapshot"] === undefined) return false;
+  if (!("clinical" in value) || value["clinical"] === undefined) return false;
+  if (!("dispensing" in value) || value["dispensing"] === undefined) return false;
+  if (!("structuredSig" in value) || value["structuredSig"] === undefined) return false;
+  if (!("externalPrescriptionId" in value) || value["externalPrescriptionId"] === undefined)
+    return false;
   if (!("catalogItemId" in value) || value["catalogItemId"] === undefined) return false;
-  if (!("compounderId" in value) || value["compounderId"] === undefined) return false;
+  if (!("pharmacyId" in value) || value["pharmacyId"] === undefined) return false;
   if (!("directions" in value) || value["directions"] === undefined) return false;
   if (!("dosageForm" in value) || value["dosageForm"] === undefined) return false;
   if (!("id" in value) || value["id"] === undefined) return false;
@@ -121,13 +228,31 @@ export function GetOrderResponsePrescriptionsInnerFromJSONTyped(
     return json;
   }
   return {
+    version: json["version"],
+    daysSupply:
+      ListCatalogItemsResponseDataInnerPrescriptionRequirementsQuantityIncrementMaxFromJSON(
+        json["daysSupply"],
+      ),
+    patientSnapshot: GetOrderResponsePrescriptionsInnerPatientSnapshotFromJSON(
+      json["patientSnapshot"],
+    ),
+    providerSnapshot: GetOrderResponsePrescriptionsInnerProviderSnapshotFromJSON(
+      json["providerSnapshot"],
+    ),
+    clinical: GetOrderResponsePrescriptionsInnerClinicalFromJSON(json["clinical"]),
+    dispensing: CancelOrderResponsePrescriptionsInnerDispensingFromJSON(json["dispensing"]),
+    structuredSig: GetOrderResponsePrescriptionsInnerStructuredSigFromJSON(json["structuredSig"]),
+    externalPrescriptionId: json["externalPrescriptionId"],
     catalogItemId: json["catalogItemId"],
-    compounderId: json["compounderId"],
+    pharmacyId: json["pharmacyId"],
     directions: json["directions"],
     dosageForm: json["dosageForm"],
     id: json["id"],
     medicationName: json["medicationName"],
-    quantity: json["quantity"],
+    quantity:
+      ListCatalogItemsResponseDataInnerPrescriptionRequirementsAllowedQuantitiesInnerValueFromJSON(
+        json["quantity"],
+      ),
     quantityUnit: json["quantityUnit"],
     refills: json["refills"],
     status: json["status"],
@@ -150,13 +275,30 @@ export function GetOrderResponsePrescriptionsInnerToJSONTyped(
   }
 
   return {
+    version: value["version"],
+    daysSupply: ListCatalogItemsResponseDataInnerPrescriptionRequirementsQuantityIncrementMaxToJSON(
+      value["daysSupply"],
+    ),
+    patientSnapshot: GetOrderResponsePrescriptionsInnerPatientSnapshotToJSON(
+      value["patientSnapshot"],
+    ),
+    providerSnapshot: GetOrderResponsePrescriptionsInnerProviderSnapshotToJSON(
+      value["providerSnapshot"],
+    ),
+    clinical: GetOrderResponsePrescriptionsInnerClinicalToJSON(value["clinical"]),
+    dispensing: CancelOrderResponsePrescriptionsInnerDispensingToJSON(value["dispensing"]),
+    structuredSig: GetOrderResponsePrescriptionsInnerStructuredSigToJSON(value["structuredSig"]),
+    externalPrescriptionId: value["externalPrescriptionId"],
     catalogItemId: value["catalogItemId"],
-    compounderId: value["compounderId"],
+    pharmacyId: value["pharmacyId"],
     directions: value["directions"],
     dosageForm: value["dosageForm"],
     id: value["id"],
     medicationName: value["medicationName"],
-    quantity: value["quantity"],
+    quantity:
+      ListCatalogItemsResponseDataInnerPrescriptionRequirementsAllowedQuantitiesInnerValueToJSON(
+        value["quantity"],
+      ),
     quantityUnit: value["quantityUnit"],
     refills: value["refills"],
     status: value["status"],

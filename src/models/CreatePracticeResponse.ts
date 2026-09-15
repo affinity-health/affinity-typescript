@@ -2,7 +2,7 @@
 /* eslint-disable */
 /**
  * Affinity API
- * Affinity API for software platforms connecting practices to the compounder network.
+ * Affinity API for practices and software platforms connecting to the pharmacy network.
  *
  * The version of the OpenAPI document: 2026-08-11
  * Contact: support@joinaffinityai.com
@@ -13,20 +13,20 @@
  */
 
 import { mapValues } from "../runtime";
-import type { CreatePracticeRequestPrescribersInner } from "./CreatePracticeRequestPrescribersInner";
+import type { UpdatePatientAddressResponseAddress } from "./UpdatePatientAddressResponseAddress";
 import {
-  CreatePracticeRequestPrescribersInnerFromJSON,
-  CreatePracticeRequestPrescribersInnerFromJSONTyped,
-  CreatePracticeRequestPrescribersInnerToJSON,
-  CreatePracticeRequestPrescribersInnerToJSONTyped,
-} from "./CreatePracticeRequestPrescribersInner";
-import type { CreatePracticeResponseAddress } from "./CreatePracticeResponseAddress";
+  UpdatePatientAddressResponseAddressFromJSON,
+  UpdatePatientAddressResponseAddressFromJSONTyped,
+  UpdatePatientAddressResponseAddressToJSON,
+  UpdatePatientAddressResponseAddressToJSONTyped,
+} from "./UpdatePatientAddressResponseAddress";
+import type { CreatePracticeResponsePrescribersInner } from "./CreatePracticeResponsePrescribersInner";
 import {
-  CreatePracticeResponseAddressFromJSON,
-  CreatePracticeResponseAddressFromJSONTyped,
-  CreatePracticeResponseAddressToJSON,
-  CreatePracticeResponseAddressToJSONTyped,
-} from "./CreatePracticeResponseAddress";
+  CreatePracticeResponsePrescribersInnerFromJSON,
+  CreatePracticeResponsePrescribersInnerFromJSONTyped,
+  CreatePracticeResponsePrescribersInnerToJSON,
+  CreatePracticeResponsePrescribersInnerToJSONTyped,
+} from "./CreatePracticeResponsePrescribersInner";
 import type { CreatePracticeResponseContacts } from "./CreatePracticeResponseContacts";
 import {
   CreatePracticeResponseContactsFromJSON,
@@ -43,10 +43,10 @@ import {
 export interface CreatePracticeResponse {
   /**
    *
-   * @type {CreatePracticeResponseAddress}
+   * @type {UpdatePatientAddressResponseAddress}
    * @memberof CreatePracticeResponse
    */
-  address: CreatePracticeResponseAddress | null;
+  address: UpdatePatientAddressResponseAddress | null;
   /**
    *
    * @type {CreatePracticeResponseContacts}
@@ -54,11 +54,11 @@ export interface CreatePracticeResponse {
    */
   contacts: CreatePracticeResponseContacts;
   /**
-   *
+   * Match this integration's external identity in the API key's mode.
    * @type {string}
    * @memberof CreatePracticeResponse
    */
-  createdAt: string;
+  createdAt: string | null;
   /**
    *
    * @type {string}
@@ -70,7 +70,7 @@ export interface CreatePracticeResponse {
    * @type {string}
    * @memberof CreatePracticeResponse
    */
-  id: string;
+  id: string | null;
   /**
    *
    * @type {string}
@@ -85,16 +85,16 @@ export interface CreatePracticeResponse {
   livemode: boolean;
   /**
    *
-   * @type {{ [key: string]: any; }}
+   * @type {object}
    * @memberof CreatePracticeResponse
    */
-  metadata: { [key: string]: any };
+  metadata: object;
   /**
-   *
+   * Match this integration's external identity in the API key's mode.
    * @type {string}
    * @memberof CreatePracticeResponse
    */
-  name: string;
+  name: string | null;
   /**
    *
    * @type {CreatePracticeResponseObjectEnum}
@@ -103,10 +103,10 @@ export interface CreatePracticeResponse {
   object: CreatePracticeResponseObjectEnum;
   /**
    *
-   * @type {Array<CreatePracticeRequestPrescribersInner>}
+   * @type {Array<CreatePracticeResponsePrescribersInner>}
    * @memberof CreatePracticeResponse
    */
-  prescribers: Array<CreatePracticeRequestPrescribersInner>;
+  prescribers: Array<CreatePracticeResponsePrescribersInner>;
   /**
    *
    * @type {CreatePracticeResponseProductionAccessEnum}
@@ -126,11 +126,11 @@ export interface CreatePracticeResponse {
    */
   supportPhone: string | null;
   /**
-   *
+   * Match this integration's external identity in the API key's mode.
    * @type {string}
    * @memberof CreatePracticeResponse
    */
-  timezone: string;
+  timezone: string | null;
 }
 
 /**
@@ -187,7 +187,7 @@ export function CreatePracticeResponseFromJSONTyped(
     return json;
   }
   return {
-    address: CreatePracticeResponseAddressFromJSON(json["address"]),
+    address: UpdatePatientAddressResponseAddressFromJSON(json["address"]),
     contacts: CreatePracticeResponseContactsFromJSON(json["contacts"]),
     createdAt: json["createdAt"],
     externalId: json["externalId"],
@@ -198,7 +198,7 @@ export function CreatePracticeResponseFromJSONTyped(
     name: json["name"],
     object: json["object"],
     prescribers: (json["prescribers"] as Array<any>).map(
-      CreatePracticeRequestPrescribersInnerFromJSON,
+      CreatePracticeResponsePrescribersInnerFromJSON,
     ),
     productionAccess: json["productionAccess"],
     supportEmail: json["supportEmail"],
@@ -220,7 +220,7 @@ export function CreatePracticeResponseToJSONTyped(
   }
 
   return {
-    address: CreatePracticeResponseAddressToJSON(value["address"]),
+    address: UpdatePatientAddressResponseAddressToJSON(value["address"]),
     contacts: CreatePracticeResponseContactsToJSON(value["contacts"]),
     createdAt: value["createdAt"],
     externalId: value["externalId"],
@@ -231,7 +231,7 @@ export function CreatePracticeResponseToJSONTyped(
     name: value["name"],
     object: value["object"],
     prescribers: (value["prescribers"] as Array<any>).map(
-      CreatePracticeRequestPrescribersInnerToJSON,
+      CreatePracticeResponsePrescribersInnerToJSON,
     ),
     productionAccess: value["productionAccess"],
     supportEmail: value["supportEmail"],

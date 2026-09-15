@@ -1,114 +1,59 @@
 // Code generated from spec/affinity.openapi.json by scripts/generate-facade.ts. DO NOT EDIT.
 
+import { AccountApi } from "./apis/AccountApi";
 import { APIKeysApi } from "./apis/APIKeysApi";
 import { CatalogApi } from "./apis/CatalogApi";
-import { ComponentSessionsApi } from "./apis/ComponentSessionsApi";
-import { HostedSessionsApi } from "./apis/HostedSessionsApi";
-import { MembershipsApi } from "./apis/MembershipsApi";
-import { OrderSigningSessionsApi } from "./apis/OrderSigningSessionsApi";
+import { LocationsApi } from "./apis/LocationsApi";
+import { OrdersApi } from "./apis/OrdersApi";
 import { PatientsApi } from "./apis/PatientsApi";
-import { PlatformOrdersApi } from "./apis/PlatformOrdersApi";
-import { PlatformWebhooksApi } from "./apis/PlatformWebhooksApi";
-import { PlatformsApi } from "./apis/PlatformsApi";
+import { PlatformPricingApi } from "./apis/PlatformPricingApi";
 import { PracticesApi } from "./apis/PracticesApi";
-import { ProviderMappingsApi } from "./apis/ProviderMappingsApi";
-import { RolesApi } from "./apis/RolesApi";
-import { UsersApi } from "./apis/UsersApi";
+import { SessionsApi } from "./apis/SessionsApi";
+import { TeamApi } from "./apis/TeamApi";
+import { WebhooksApi } from "./apis/WebhooksApi";
 import { Configuration, type FetchAPI } from "./runtime";
-import { AccountResource } from "./resources/account";
-import { CatalogResource } from "./resources/catalog";
-import { ComponentSessionsResource } from "./resources/component-sessions";
-import { CompoundersResource } from "./resources/compounders";
-import { HostedSessionsResource } from "./resources/hosted-sessions";
-import { MembershipsResource } from "./resources/memberships";
-import { OrderSigningSessionsResource } from "./resources/order-signing-sessions";
-import { OrdersResource } from "./resources/orders";
-import { PatientsResource } from "./resources/patients";
-import { PracticesResource } from "./resources/practices";
-import { ProviderMappingsResource } from "./resources/provider-mappings";
-import { createRetryingFetch } from "./resources/retrying-fetch";
-import { RolesResource } from "./resources/roles";
-import { UsersResource } from "./resources/users";
-import { WebhooksResource } from "./resources/webhooks";
-import { type AffinityActor, validateAffinityActor } from "./resources/actor";
 
 export interface AffinityOptions {
-  actor?: AffinityActor;
   apiVersion?: string;
   baseUrl?: string;
   fetch?: FetchAPI;
-  maxRetries?: number;
-  timeout?: number;
+  headers?: Record<string, string>;
 }
 
 export class Affinity {
-  readonly account: AccountResource;
-  readonly catalog: CatalogResource;
-  readonly componentSessions: ComponentSessionsResource;
-  readonly compounders: CompoundersResource;
-  readonly hostedSessions: HostedSessionsResource;
-  readonly memberships: MembershipsResource;
-  readonly orderSigningSessions: OrderSigningSessionsResource;
-  readonly orders: OrdersResource;
-  readonly patients: PatientsResource;
-  readonly practices: PracticesResource;
-  readonly providerMappings: ProviderMappingsResource;
-  readonly roles: RolesResource;
-  readonly users: UsersResource;
-  readonly webhooks: WebhooksResource;
-  private readonly apiKey: string;
-  private readonly options: AffinityOptions;
+  readonly account: AccountApi;
+  readonly apiKeys: APIKeysApi;
+  readonly catalog: CatalogApi;
+  readonly locations: LocationsApi;
+  readonly orders: OrdersApi;
+  readonly patients: PatientsApi;
+  readonly platformPricing: PlatformPricingApi;
+  readonly practices: PracticesApi;
+  readonly sessions: SessionsApi;
+  readonly team: TeamApi;
+  readonly webhooks: WebhooksApi;
 
   constructor(apiKey: string, options: AffinityOptions = {}) {
     if (!apiKey.trim()) throw new Error("Affinity requires a service API key");
-    const actor = options.actor ? validateAffinityActor(options.actor) : undefined;
-    const baseUrl = options.baseUrl ?? "https://api.joinaffinityai.com";
-    const apiVersion = options.apiVersion ?? "2026-08-11";
-    const timeout = options.timeout ?? 30_000;
-    const maxRetries = options.maxRetries ?? 2;
-    if (!Number.isFinite(timeout) || timeout <= 0) {
-      throw new Error("Affinity timeout must be a positive number of milliseconds");
-    }
-    if (!Number.isInteger(maxRetries) || maxRetries < 0) {
-      throw new Error("Affinity maxRetries must be a non-negative integer");
-    }
-    this.apiKey = apiKey;
-    this.options = { ...options, ...(actor ? { actor } : {}) };
-    const fetchApi = createRetryingFetch(options.fetch ?? globalThis.fetch, {
-      maxRetries,
-      timeout,
-    });
     const configuration = new Configuration({
       accessToken: apiKey,
-      basePath: (baseUrl.includes("://") ? baseUrl : `https://${baseUrl}`).replace(/\/+$/, ""),
-      fetchApi,
+      basePath: (options.baseUrl ?? "https://api.joinaffinityai.com").replace(/\/+$/, ""),
+      fetchApi: options.fetch,
       headers: {
-        "Affinity-Version": apiVersion,
-        ...(actor ? { "Affinity-Actor-Id": actor.id, "Affinity-Actor-Type": actor.type } : {}),
+        "Affinity-Version": options.apiVersion ?? "2026-08-11",
+        ...options.headers,
       },
     });
-    this.account = new AccountResource(
-      new APIKeysApi(configuration),
-      new PlatformsApi(configuration),
-    );
-    this.catalog = new CatalogResource(new CatalogApi(configuration));
-    this.componentSessions = new ComponentSessionsResource(new ComponentSessionsApi(configuration));
-    this.compounders = new CompoundersResource(new CatalogApi(configuration));
-    this.hostedSessions = new HostedSessionsResource(new HostedSessionsApi(configuration));
-    this.memberships = new MembershipsResource(new MembershipsApi(configuration));
-    this.orderSigningSessions = new OrderSigningSessionsResource(
-      new OrderSigningSessionsApi(configuration),
-    );
-    this.orders = new OrdersResource(new PlatformOrdersApi(configuration), actor);
-    this.patients = new PatientsResource(new PatientsApi(configuration), actor);
-    this.practices = new PracticesResource(new PracticesApi(configuration));
-    this.providerMappings = new ProviderMappingsResource(new ProviderMappingsApi(configuration));
-    this.roles = new RolesResource(new RolesApi(configuration));
-    this.users = new UsersResource(new UsersApi(configuration));
-    this.webhooks = new WebhooksResource(new PlatformWebhooksApi(configuration));
-  }
-
-  withActor(actor: AffinityActor) {
-    return new Affinity(this.apiKey, { ...this.options, actor });
+    this.account = new AccountApi(configuration);
+    this.apiKeys = new APIKeysApi(configuration);
+    this.catalog = new CatalogApi(configuration);
+    this.locations = new LocationsApi(configuration);
+    this.orders = new OrdersApi(configuration);
+    this.patients = new PatientsApi(configuration);
+    this.platformPricing = new PlatformPricingApi(configuration);
+    this.practices = new PracticesApi(configuration);
+    this.sessions = new SessionsApi(configuration);
+    this.team = new TeamApi(configuration);
+    this.webhooks = new WebhooksApi(configuration);
   }
 }

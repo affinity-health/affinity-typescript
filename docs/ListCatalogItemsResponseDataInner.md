@@ -4,11 +4,14 @@
 
 | Name                       | Type                                                                                                                           |
 | -------------------------- | ------------------------------------------------------------------------------------------------------------------------------ |
+| `composition`              | [ListCatalogItemsResponseDataInnerComposition](ListCatalogItemsResponseDataInnerComposition.md)                                |
 | `allowedStates`            | Array&lt;string&gt;                                                                                                            |
+| `availability`             | string                                                                                                                         |
 | `catalogKind`              | string                                                                                                                         |
+| `category`                 | string                                                                                                                         |
 | `coldShip`                 | boolean                                                                                                                        |
-| `compounderId`             | string                                                                                                                         |
-| `compounderName`           | string                                                                                                                         |
+| `pharmacyId`               | string                                                                                                                         |
+| `pharmacyName`             | string                                                                                                                         |
 | `description`              | string                                                                                                                         |
 | `dosageForm`               | string                                                                                                                         |
 | `facilityType`             | string                                                                                                                         |
@@ -20,6 +23,7 @@
 | `name`                     | string                                                                                                                         |
 | `object`                   | string                                                                                                                         |
 | `patientSpecificRequired`  | boolean                                                                                                                        |
+| `quantityConstraint`       | [ListCatalogItemsResponseDataInnerQuantityConstraint](ListCatalogItemsResponseDataInnerQuantityConstraint.md)                  |
 | `prescriptionRequirements` | [ListCatalogItemsResponseDataInnerPrescriptionRequirements](ListCatalogItemsResponseDataInnerPrescriptionRequirements.md)      |
 | `pricing`                  | [ListCatalogItemsResponseDataInnerPricing](ListCatalogItemsResponseDataInnerPricing.md)                                        |
 | `restrictedStates`         | Array&lt;string&gt;                                                                                                            |

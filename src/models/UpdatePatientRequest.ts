@@ -2,7 +2,7 @@
 /* eslint-disable */
 /**
  * Affinity API
- * Affinity API for software platforms connecting practices to the compounder network.
+ * Affinity API for practices and software platforms connecting to the pharmacy network.
  *
  * The version of the OpenAPI document: 2026-08-11
  * Contact: support@joinaffinityai.com
@@ -13,13 +13,55 @@
  */
 
 import { mapValues } from "../runtime";
-import type { UpdatePatientRequestAddress } from "./UpdatePatientRequestAddress";
+import type { CreatePatientRequestAddressesInner } from "./CreatePatientRequestAddressesInner";
 import {
-  UpdatePatientRequestAddressFromJSON,
-  UpdatePatientRequestAddressFromJSONTyped,
-  UpdatePatientRequestAddressToJSON,
-  UpdatePatientRequestAddressToJSONTyped,
-} from "./UpdatePatientRequestAddress";
+  CreatePatientRequestAddressesInnerFromJSON,
+  CreatePatientRequestAddressesInnerFromJSONTyped,
+  CreatePatientRequestAddressesInnerToJSON,
+  CreatePatientRequestAddressesInnerToJSONTyped,
+} from "./CreatePatientRequestAddressesInner";
+import type { CreatePatientRequestEncountersInner } from "./CreatePatientRequestEncountersInner";
+import {
+  CreatePatientRequestEncountersInnerFromJSON,
+  CreatePatientRequestEncountersInnerFromJSONTyped,
+  CreatePatientRequestEncountersInnerToJSON,
+  CreatePatientRequestEncountersInnerToJSONTyped,
+} from "./CreatePatientRequestEncountersInner";
+import type { CreatePatientRequestMeasurementsInner } from "./CreatePatientRequestMeasurementsInner";
+import {
+  CreatePatientRequestMeasurementsInnerFromJSON,
+  CreatePatientRequestMeasurementsInnerFromJSONTyped,
+  CreatePatientRequestMeasurementsInnerToJSON,
+  CreatePatientRequestMeasurementsInnerToJSONTyped,
+} from "./CreatePatientRequestMeasurementsInner";
+import type { UpdatePatientAddressRequestAddress } from "./UpdatePatientAddressRequestAddress";
+import {
+  UpdatePatientAddressRequestAddressFromJSON,
+  UpdatePatientAddressRequestAddressFromJSONTyped,
+  UpdatePatientAddressRequestAddressToJSON,
+  UpdatePatientAddressRequestAddressToJSONTyped,
+} from "./UpdatePatientAddressRequestAddress";
+import type { CreatePatientRequestExternalIdentitiesInner } from "./CreatePatientRequestExternalIdentitiesInner";
+import {
+  CreatePatientRequestExternalIdentitiesInnerFromJSON,
+  CreatePatientRequestExternalIdentitiesInnerFromJSONTyped,
+  CreatePatientRequestExternalIdentitiesInnerToJSON,
+  CreatePatientRequestExternalIdentitiesInnerToJSONTyped,
+} from "./CreatePatientRequestExternalIdentitiesInner";
+import type { CreatePatientRequestProgramsInner } from "./CreatePatientRequestProgramsInner";
+import {
+  CreatePatientRequestProgramsInnerFromJSON,
+  CreatePatientRequestProgramsInnerFromJSONTyped,
+  CreatePatientRequestProgramsInnerToJSON,
+  CreatePatientRequestProgramsInnerToJSONTyped,
+} from "./CreatePatientRequestProgramsInner";
+import type { UpdatePatientRequestClinicalProfile } from "./UpdatePatientRequestClinicalProfile";
+import {
+  UpdatePatientRequestClinicalProfileFromJSON,
+  UpdatePatientRequestClinicalProfileFromJSONTyped,
+  UpdatePatientRequestClinicalProfileToJSON,
+  UpdatePatientRequestClinicalProfileToJSONTyped,
+} from "./UpdatePatientRequestClinicalProfile";
 import type { UpdatePatientRequestName } from "./UpdatePatientRequestName";
 import {
   UpdatePatientRequestNameFromJSON,
@@ -36,16 +78,22 @@ import {
 export interface UpdatePatientRequest {
   /**
    *
-   * @type {UpdatePatientRequestAddress}
+   * @type {UpdatePatientAddressRequestAddress}
    * @memberof UpdatePatientRequest
    */
-  address?: UpdatePatientRequestAddress;
+  address?: UpdatePatientAddressRequestAddress | null;
+  /**
+   *
+   * @type {UpdatePatientRequestClinicalProfile}
+   * @memberof UpdatePatientRequest
+   */
+  clinicalProfile?: UpdatePatientRequestClinicalProfile | null;
   /**
    *
    * @type {string}
    * @memberof UpdatePatientRequest
    */
-  dateOfBirth?: string;
+  dateOfBirth?: string | null;
   /**
    *
    * @type {string}
@@ -54,24 +102,66 @@ export interface UpdatePatientRequest {
   email?: string | null;
   /**
    *
+   * @type {Array<CreatePatientRequestExternalIdentitiesInner>}
+   * @memberof UpdatePatientRequest
+   */
+  externalIdentities?: Array<CreatePatientRequestExternalIdentitiesInner> | null;
+  /**
+   *
+   * @type {Array<CreatePatientRequestAddressesInner>}
+   * @memberof UpdatePatientRequest
+   */
+  addresses?: Array<CreatePatientRequestAddressesInner> | null;
+  /**
+   *
+   * @type {Array<CreatePatientRequestEncountersInner>}
+   * @memberof UpdatePatientRequest
+   */
+  encounters?: Array<CreatePatientRequestEncountersInner> | null;
+  /**
+   *
    * @type {UpdatePatientRequestGenderEnum}
    * @memberof UpdatePatientRequest
    */
-  gender?: UpdatePatientRequestGenderEnum;
+  gender?: UpdatePatientRequestGenderEnum | null;
   /**
    *
-   * @type {{ [key: string]: any; }}
+   * @type {string}
    * @memberof UpdatePatientRequest
    */
-  metadata?: { [key: string]: any };
+  locationId?: string | null;
+  /**
+   *
+   * @type {object}
+   * @memberof UpdatePatientRequest
+   */
+  metadata?: object | null;
+  /**
+   *
+   * @type {string}
+   * @memberof UpdatePatientRequest
+   */
+  medicalRecordNumber?: string | null;
+  /**
+   *
+   * @type {Array<CreatePatientRequestMeasurementsInner>}
+   * @memberof UpdatePatientRequest
+   */
+  measurements?: Array<CreatePatientRequestMeasurementsInner> | null;
   /**
    *
    * @type {UpdatePatientRequestName}
    * @memberof UpdatePatientRequest
    */
-  name?: UpdatePatientRequestName;
+  name?: UpdatePatientRequestName | null;
   /**
-   * a string that will be trimmed
+   *
+   * @type {Array<CreatePatientRequestProgramsInner>}
+   * @memberof UpdatePatientRequest
+   */
+  programs?: Array<CreatePatientRequestProgramsInner> | null;
+  /**
+   *
    * @type {string}
    * @memberof UpdatePatientRequest
    */
@@ -81,7 +171,7 @@ export interface UpdatePatientRequest {
    * @type {UpdatePatientRequestStatusEnum}
    * @memberof UpdatePatientRequest
    */
-  status?: UpdatePatientRequestStatusEnum;
+  status?: UpdatePatientRequestStatusEnum | null;
 }
 
 /**
@@ -102,7 +192,6 @@ export type UpdatePatientRequestGenderEnum =
 export const UpdatePatientRequestStatusEnum = {
   Active: "active",
   Inactive: "inactive",
-  NeedsReview: "needs_review",
 } as const;
 export type UpdatePatientRequestStatusEnum =
   (typeof UpdatePatientRequestStatusEnum)[keyof typeof UpdatePatientRequestStatusEnum];
@@ -127,12 +216,43 @@ export function UpdatePatientRequestFromJSONTyped(
   }
   return {
     address:
-      json["address"] == null ? undefined : UpdatePatientRequestAddressFromJSON(json["address"]),
+      json["address"] == null
+        ? undefined
+        : UpdatePatientAddressRequestAddressFromJSON(json["address"]),
+    clinicalProfile:
+      json["clinicalProfile"] == null
+        ? undefined
+        : UpdatePatientRequestClinicalProfileFromJSON(json["clinicalProfile"]),
     dateOfBirth: json["dateOfBirth"] == null ? undefined : json["dateOfBirth"],
     email: json["email"] == null ? undefined : json["email"],
+    externalIdentities:
+      json["externalIdentities"] == null
+        ? undefined
+        : (json["externalIdentities"] as Array<any>).map(
+            CreatePatientRequestExternalIdentitiesInnerFromJSON,
+          ),
+    addresses:
+      json["addresses"] == null
+        ? undefined
+        : (json["addresses"] as Array<any>).map(CreatePatientRequestAddressesInnerFromJSON),
+    encounters:
+      json["encounters"] == null
+        ? undefined
+        : (json["encounters"] as Array<any>).map(CreatePatientRequestEncountersInnerFromJSON),
     gender: json["gender"] == null ? undefined : json["gender"],
+    locationId: json["locationId"] == null ? undefined : json["locationId"],
     metadata: json["metadata"] == null ? undefined : json["metadata"],
+    medicalRecordNumber:
+      json["medicalRecordNumber"] == null ? undefined : json["medicalRecordNumber"],
+    measurements:
+      json["measurements"] == null
+        ? undefined
+        : (json["measurements"] as Array<any>).map(CreatePatientRequestMeasurementsInnerFromJSON),
     name: json["name"] == null ? undefined : UpdatePatientRequestNameFromJSON(json["name"]),
+    programs:
+      json["programs"] == null
+        ? undefined
+        : (json["programs"] as Array<any>).map(CreatePatientRequestProgramsInnerFromJSON),
     phone: json["phone"] == null ? undefined : json["phone"],
     status: json["status"] == null ? undefined : json["status"],
   };
@@ -151,12 +271,37 @@ export function UpdatePatientRequestToJSONTyped(
   }
 
   return {
-    address: UpdatePatientRequestAddressToJSON(value["address"]),
+    address: UpdatePatientAddressRequestAddressToJSON(value["address"]),
+    clinicalProfile: UpdatePatientRequestClinicalProfileToJSON(value["clinicalProfile"]),
     dateOfBirth: value["dateOfBirth"],
     email: value["email"],
+    externalIdentities:
+      value["externalIdentities"] == null
+        ? undefined
+        : (value["externalIdentities"] as Array<any>).map(
+            CreatePatientRequestExternalIdentitiesInnerToJSON,
+          ),
+    addresses:
+      value["addresses"] == null
+        ? undefined
+        : (value["addresses"] as Array<any>).map(CreatePatientRequestAddressesInnerToJSON),
+    encounters:
+      value["encounters"] == null
+        ? undefined
+        : (value["encounters"] as Array<any>).map(CreatePatientRequestEncountersInnerToJSON),
     gender: value["gender"],
+    locationId: value["locationId"],
     metadata: value["metadata"],
+    medicalRecordNumber: value["medicalRecordNumber"],
+    measurements:
+      value["measurements"] == null
+        ? undefined
+        : (value["measurements"] as Array<any>).map(CreatePatientRequestMeasurementsInnerToJSON),
     name: UpdatePatientRequestNameToJSON(value["name"]),
+    programs:
+      value["programs"] == null
+        ? undefined
+        : (value["programs"] as Array<any>).map(CreatePatientRequestProgramsInnerToJSON),
     phone: value["phone"],
     status: value["status"],
   };

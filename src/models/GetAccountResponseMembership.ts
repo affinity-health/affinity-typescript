@@ -2,7 +2,7 @@
 /* eslint-disable */
 /**
  * Affinity API
- * Affinity API for software platforms connecting practices to the compounder network.
+ * Affinity API for practices and software platforms connecting to the pharmacy network.
  *
  * The version of the OpenAPI document: 2026-08-11
  * Contact: support@joinaffinityai.com
@@ -32,7 +32,7 @@ export interface GetAccountResponseMembership {
    */
   role: GetAccountResponseMembershipRoleEnum;
   /**
-   *
+   * Match this integration's external identity in the API key's mode.
    * @type {string}
    * @memberof GetAccountResponseMembership
    */
@@ -65,6 +65,7 @@ export type GetAccountResponseMembershipPermissionsEnum =
  * @export
  */
 export const GetAccountResponseMembershipRoleEnum = {
+  Administrator: "administrator",
   ClinicalReviewer: "clinical_reviewer",
   Developer: "developer",
   Operations: "operations",

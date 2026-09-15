@@ -2,7 +2,7 @@
 /* eslint-disable */
 /**
  * Affinity API
- * Affinity API for software platforms connecting practices to the compounder network.
+ * Affinity API for practices and software platforms connecting to the pharmacy network.
  *
  * The version of the OpenAPI document: 2026-08-11
  * Contact: support@joinaffinityai.com
@@ -24,25 +24,37 @@ export interface ListWebhookEndpointsResponseDataInner {
    * @type {string}
    * @memberof ListWebhookEndpointsResponseDataInner
    */
-  apiVersion: string;
+  organizationId: string;
+  /**
+   *
+   * @type {Array<string>}
+   * @memberof ListWebhookEndpointsResponseDataInner
+   */
+  practiceIds: Array<string>;
+  /**
+   * Match this integration's external identity in the API key's mode.
+   * @type {string}
+   * @memberof ListWebhookEndpointsResponseDataInner
+   */
+  apiVersion: string | null;
   /**
    *
    * @type {number}
    * @memberof ListWebhookEndpointsResponseDataInner
    */
-  consecutiveFailures: number | null;
+  consecutiveFailures: number;
   /**
-   *
+   * Match this integration's external identity in the API key's mode.
    * @type {string}
    * @memberof ListWebhookEndpointsResponseDataInner
    */
-  createdAt: string;
+  createdAt: string | null;
   /**
-   *
+   * Match this integration's external identity in the API key's mode.
    * @type {string}
    * @memberof ListWebhookEndpointsResponseDataInner
    */
-  description: string;
+  description: string | null;
   /**
    *
    * @type {string}
@@ -80,17 +92,17 @@ export interface ListWebhookEndpointsResponseDataInner {
    */
   subscribedEvents: Array<string>;
   /**
-   *
+   * Match this integration's external identity in the API key's mode.
    * @type {string}
    * @memberof ListWebhookEndpointsResponseDataInner
    */
-  updatedAt: string;
+  updatedAt: string | null;
   /**
-   *
+   * Match this integration's external identity in the API key's mode.
    * @type {string}
    * @memberof ListWebhookEndpointsResponseDataInner
    */
-  url: string;
+  url: string | null;
 }
 
 /**
@@ -129,6 +141,8 @@ export type ListWebhookEndpointsResponseDataInnerStatusEnum =
 export function instanceOfListWebhookEndpointsResponseDataInner(
   value: object,
 ): value is ListWebhookEndpointsResponseDataInner {
+  if (!("organizationId" in value) || value["organizationId"] === undefined) return false;
+  if (!("practiceIds" in value) || value["practiceIds"] === undefined) return false;
   if (!("apiVersion" in value) || value["apiVersion"] === undefined) return false;
   if (!("consecutiveFailures" in value) || value["consecutiveFailures"] === undefined) return false;
   if (!("createdAt" in value) || value["createdAt"] === undefined) return false;
@@ -158,6 +172,8 @@ export function ListWebhookEndpointsResponseDataInnerFromJSONTyped(
     return json;
   }
   return {
+    organizationId: json["organizationId"],
+    practiceIds: json["practiceIds"],
     apiVersion: json["apiVersion"],
     consecutiveFailures: json["consecutiveFailures"],
     createdAt: json["createdAt"],
@@ -188,6 +204,8 @@ export function ListWebhookEndpointsResponseDataInnerToJSONTyped(
   }
 
   return {
+    organizationId: value["organizationId"],
+    practiceIds: value["practiceIds"],
     apiVersion: value["apiVersion"],
     consecutiveFailures: value["consecutiveFailures"],
     createdAt: value["createdAt"],

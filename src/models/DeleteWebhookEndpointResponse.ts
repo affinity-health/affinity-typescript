@@ -2,7 +2,7 @@
 /* eslint-disable */
 /**
  * Affinity API
- * Affinity API for software platforms connecting practices to the compounder network.
+ * Affinity API for practices and software platforms connecting to the pharmacy network.
  *
  * The version of the OpenAPI document: 2026-08-11
  * Contact: support@joinaffinityai.com
@@ -24,13 +24,25 @@ export interface DeleteWebhookEndpointResponse {
    * @type {string}
    * @memberof DeleteWebhookEndpointResponse
    */
+  organizationId: string;
+  /**
+   *
+   * @type {Array<string>}
+   * @memberof DeleteWebhookEndpointResponse
+   */
+  practiceIds: Array<string>;
+  /**
+   *
+   * @type {string}
+   * @memberof DeleteWebhookEndpointResponse
+   */
   apiVersion: string;
   /**
    *
    * @type {number}
    * @memberof DeleteWebhookEndpointResponse
    */
-  consecutiveFailures: number | null;
+  consecutiveFailures: number;
   /**
    *
    * @type {string}
@@ -129,6 +141,8 @@ export type DeleteWebhookEndpointResponseStatusEnum =
 export function instanceOfDeleteWebhookEndpointResponse(
   value: object,
 ): value is DeleteWebhookEndpointResponse {
+  if (!("organizationId" in value) || value["organizationId"] === undefined) return false;
+  if (!("practiceIds" in value) || value["practiceIds"] === undefined) return false;
   if (!("apiVersion" in value) || value["apiVersion"] === undefined) return false;
   if (!("consecutiveFailures" in value) || value["consecutiveFailures"] === undefined) return false;
   if (!("createdAt" in value) || value["createdAt"] === undefined) return false;
@@ -156,6 +170,8 @@ export function DeleteWebhookEndpointResponseFromJSONTyped(
     return json;
   }
   return {
+    organizationId: json["organizationId"],
+    practiceIds: json["practiceIds"],
     apiVersion: json["apiVersion"],
     consecutiveFailures: json["consecutiveFailures"],
     createdAt: json["createdAt"],
@@ -184,6 +200,8 @@ export function DeleteWebhookEndpointResponseToJSONTyped(
   }
 
   return {
+    organizationId: value["organizationId"],
+    practiceIds: value["practiceIds"],
     apiVersion: value["apiVersion"],
     consecutiveFailures: value["consecutiveFailures"],
     createdAt: value["createdAt"],

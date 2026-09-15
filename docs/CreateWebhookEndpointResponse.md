@@ -4,6 +4,8 @@
 
 | Name                  | Type                |
 | --------------------- | ------------------- |
+| `organizationId`      | string              |
+| `practiceIds`         | Array&lt;string&gt; |
 | `apiVersion`          | string              |
 | `consecutiveFailures` | number              |
 | `createdAt`           | string              |

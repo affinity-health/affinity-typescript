@@ -1,659 +1,106 @@
 import { describe, expect, test } from "bun:test";
-import { Affinity } from "../src";
+import { Affinity, Configuration, OrdersApi } from "../src";
 
-describe("Affinity client", () => {
-  test("uses the production API, dated contract, and bearer key by default", async () => {
+const apiAccess = {
+  apiKey: { id: "key_123", keyPrefix: "sk_test", object: "api_key" },
+  livemode: false,
+  object: "api_access",
+  scopes: ["orders:read"],
+  serviceAccount: { id: "sa_123", name: "Test service account", object: "service_account" },
+};
+
+describe("generated Affinity client", () => {
+  test("configures the production API, dated contract, and bearer key", async () => {
     let request: Request | undefined;
     const affinity = new Affinity("sk_test_example", {
       fetch: async (input, init) => {
         request = new Request(input, init);
-        return Response.json({ apiKey: {}, livemode: false, scopes: [], serviceAccount: {} });
+        return Response.json(apiAccess);
       },
     });
 
-    await affinity.account.retrieveAccess();
+    const access = await affinity.apiKeys.getApiAccess();
 
+    expect(access.livemode).toBe(false);
     expect(request?.url).toBe("https://api.joinaffinityai.com/v1/auth/access");
     expect(request?.headers.get("authorization")).toBe("Bearer sk_test_example");
     expect(request?.headers.get("affinity-version")).toBe("2026-08-11");
   });
 
-  test("retries safe reads and preserves list filters", async () => {
-    const requests: Request[] = [];
+  test("preserves generated list filters and parses typed responses", async () => {
+    let request: Request | undefined;
     const affinity = new Affinity("sk_test_example", {
       fetch: async (input, init) => {
-        requests.push(new Request(input, init));
-        if (requests.length === 1) return new Response(null, { status: 503 });
+        request = new Request(input, init);
         return Response.json({
           data: [],
           hasMore: false,
           object: "list",
+          updatedAt: null,
           url: "/v1/catalog/items",
         });
       },
-      maxRetries: 1,
     });
 
-    await affinity.catalog.list({
+    const result = await affinity.catalog.listCatalogItems({
       limit: 10,
       practiceId: "prac_01k123456789abcdefghjkmnp",
       query: "semaglutide",
       routes: ["injectable"],
     });
 
-    expect(requests).toHaveLength(2);
-    expect(requests[1]?.url).toContain("limit=10");
-    expect(requests[1]?.url).toContain("query=semaglutide");
-    expect(requests[1]?.url).toContain("practiceId=prac_01k123456789abcdefghjkmnp");
-    expect(requests[1]?.url).toContain("routes=injectable");
+    const url = new URL(request!.url);
+    expect(result.data).toEqual([]);
+    expect(url.pathname).toBe("/v1/catalog/items");
+    expect(url.searchParams.get("limit")).toBe("10");
+    expect(url.searchParams.get("practiceId")).toBe("prac_01k123456789abcdefghjkmnp");
+    expect(url.searchParams.get("query")).toBe("semaglutide");
+    expect(url.searchParams.get("routes")).toBe("injectable");
   });
 
-  test("auto-pages typed collection results", async () => {
-    const requests: Request[] = [];
-    const affinity = new Affinity("sk_test_example", {
-      fetch: async (input, init) => {
-        const request = new Request(input, init);
-        requests.push(request);
-        const startingAfter = new URL(request.url).searchParams.get("startingAfter");
-        const catalogItem = (id: string) => ({
-          allowedStates: ["CA"],
-          catalogKind: "prescription",
-          coldShip: false,
-          compounderId: "cmp_1",
-          compounderName: "Example Pharmacy",
-          description: "Synthetic catalog fixture",
-          dosageForm: "vial",
-          facilityType: "503a",
-          id,
-          imageUrl: null,
-          imageUrls: [],
-          isOrderable: true,
-          livemode: false,
-          name: "Example medication",
-          object: "catalog_item",
-          patientSpecificRequired: true,
-          prescriptionRequirements: {
-            compoundingReason: "not_required",
-            diagnosis: "optional",
-            pharmacyNotes: "optional",
-            refills: "optional",
-            substitution: "optional",
-          },
-          pricing: { currency: "USD", medicationSubtotalCents: 5_000, orderTotalCents: 5_000 },
-          restrictedStates: [],
-          route: "injectable",
-          shippingOptions: [],
-          strength: "5 mg/mL",
-          unit: "1 mL vial",
-        });
-        return Response.json({
-          data: [
-            catalogItem(startingAfter ? "cat_3" : "cat_1"),
-            ...(startingAfter ? [] : [catalogItem("cat_2")]),
-          ],
-          hasMore: !startingAfter,
-          object: "list",
-          url: "/v1/catalog/items",
-        });
-      },
-    });
-
-    const ids: string[] = [];
-    for await (const item of affinity.catalog.list({ limit: 2, query: "semaglutide" })) {
-      ids.push(item.id);
-    }
-
-    expect(ids).toEqual(["cat_1", "cat_2", "cat_3"]);
-    expect(requests).toHaveLength(2);
-    expect(new URL(requests[1]!.url).searchParams.get("startingAfter")).toBe("cat_2");
-    expect(new URL(requests[1]!.url).searchParams.get("query")).toBe("semaglutide");
-  });
-
-  test("auto-pages only the compounders available to the authenticated account", async () => {
-    const requests: Request[] = [];
-    const affinity = new Affinity("sk_test_example", {
-      fetch: async (input, init) => {
-        const request = new Request(input, init);
-        requests.push(request);
-        const startingAfter = new URL(request.url).searchParams.get("startingAfter");
-        const compounder = (id: string, name: string) => ({
-          access: "network",
-          catalogItemCount: 1,
-          facilityType: "503a",
-          facilityLocations: [],
-          id,
-          livemode: false,
-          logoUrl: null,
-          name,
-          object: "compounder",
-          prescriptionsLast30Days: null,
-          profile: null,
-          restrictedStates: [],
-          shippingOptions: [],
-          supportedStates: ["CA"],
-        });
-        return Response.json({
-          data: startingAfter
-            ? [compounder("cmp_3", "Example C")]
-            : [compounder("cmp_1", "Example A"), compounder("cmp_2", "Example B")],
-          hasMore: !startingAfter,
-          object: "list",
-          url: "/v1/compounders",
-        });
-      },
-    });
-
-    const ids: string[] = [];
-    for await (const compounder of affinity.compounders.list({ limit: 2, query: "example" })) {
-      ids.push(compounder.id);
-    }
-
-    expect(ids).toEqual(["cmp_1", "cmp_2", "cmp_3"]);
-    expect(requests).toHaveLength(2);
-    expect(new URL(requests[0]!.url).searchParams.get("limit")).toBe("2");
-    expect(new URL(requests[1]!.url).searchParams.get("startingAfter")).toBe("cmp_2");
-    expect(new URL(requests[1]!.url).searchParams.get("query")).toBe("example");
-    expect(requests[1]?.headers.get("affinity-version")).toBe("2026-08-11");
-  });
-
-  test("returns the complete bounded shipping choice array without a fake cursor envelope", async () => {
+  test("serializes generated mutation bodies and required audit headers", async () => {
     let request: Request | undefined;
-    const affinity = new Affinity("sk_test_example", {
-      fetch: async (input, init) => {
-        request = new Request(input, init);
-        return Response.json([
-          {
-            amountCents: 1_500,
-            carrier: "UPS",
-            currency: "USD",
-            estimatedDaysMax: 3,
-            estimatedDaysMin: 1,
-            id: "shp_1",
-            label: "Next day",
-            serviceLevel: "next_day",
-            temperature: "ambient",
-          },
-        ]);
-      },
-    });
-
-    const options = await affinity.catalog.listShippingOptions({
-      catalogItemId: "cat_1",
-      destinationState: "CA",
-      destinationType: "patient",
-    });
-
-    expect(options).toHaveLength(1);
-    expect(options[0]?.id).toBe("shp_1");
-    expect(options[0]?.amountCents).toBe(1_500);
-    expect(request?.url).toContain("/v1/catalog/items/cat_1/shipping-options");
-    expect(request?.url).toContain("destinationState=CA");
-  });
-
-  test("validates retry and timeout options", () => {
-    expect(() => new Affinity("sk_test_example", { maxRetries: -1 })).toThrow();
-    expect(() => new Affinity("sk_test_example", { timeout: 0 })).toThrow();
-    expect(() => new Affinity("sk_test_example").withActor({ id: "", type: "user" })).toThrow();
-  });
-
-  test("requires and sends traceable actor context for PHI-capable requests", async () => {
-    let request: Request | undefined;
-    const affinity = new Affinity("sk_test_example", {
-      fetch: async (input, init) => {
-        request = new Request(input, init);
-        return Response.json({ data: [], hasMore: false, object: "list", url: "/v1/orders" });
-      },
-    });
-
-    expect(() => affinity.orders.list()).toThrow("call affinity.withActor(...) first");
-    await affinity.withActor({ id: "sync-job-4821", type: "system" }).orders.list();
-
-    expect(request?.headers.get("affinity-actor-id")).toBe("sync-job-4821");
-    expect(request?.headers.get("affinity-actor-type")).toBe("system");
-  });
-
-  test("creates hosted identity resources with idempotency", async () => {
-    const requests: Request[] = [];
     const affinity = new Affinity("sk_test_example", {
       baseUrl: "http://api.affinity.localhost",
       fetch: async (input, init) => {
-        requests.push(new Request(input, init));
+        request = new Request(input, init);
         return Response.json({
-          createdAt: new Date().toISOString(),
-          email: null,
-          externalId: "customer_123",
-          id: "usr_01k123456789abcdefghjkmnp",
+          id: "ord_01k123456789abcdefghjkmnp",
           livemode: false,
-          metadata: {},
-          name: "Jordan Lee",
-          object: "user",
-          status: "active",
-          updatedAt: new Date().toISOString(),
+          object: "order",
+          patientId: "pat_01k123456789abcdefghjkmnp",
+          practiceId: "prac_01k123456789abcdefghjkmnp",
+          prescriptions: [],
         });
       },
     });
 
-    await affinity.users.create(
-      { email: null, externalId: "customer_123", metadata: {}, name: "Jordan Lee" },
-      { idempotencyKey: "provision-customer-123" },
-    );
-
-    expect(requests[0]?.url).toBe("http://api.affinity.localhost/v1/users");
-    expect(requests[0]?.headers.get("idempotency-key")).toBe("provision-customer-123");
-    expect(await requests[0]?.json()).toMatchObject({ externalId: "customer_123" });
-  });
-
-  test("manages practice patients with scoped paths and idempotency", async () => {
-    const requests: Request[] = [];
-    const practiceId = "prac_01k123456789abcdefghjkmnp";
-    const patientId = "pat_01k123456789abcdefghjkmnp";
-    const patient = {
-      address: {
-        city: "Los Angeles",
-        country: "US",
-        line1: "100 Test Avenue",
-        line2: null,
-        postalCode: "90001",
-        state: "CA",
-      },
-      allergyReviewStatus: "not_reviewed",
-      allergySummary: [],
-      createdAt: "2026-07-31T12:00:00.000Z",
-      dateOfBirth: "1990-01-01",
-      email: null,
-      externalId: "patient_4821",
-      gender: "u",
-      id: patientId,
-      livemode: false,
-      metadata: {},
-      name: { first: "Jordan", last: "Lee", middle: null, preferred: null },
-      object: "patient",
-      phone: "+13105550100",
-      practiceId,
-      status: "active",
-      updatedAt: "2026-07-31T12:00:00.000Z",
-    };
-    const affinity = new Affinity("sk_test_example", {
-      fetch: async (input, init) => {
-        const request = new Request(input, init);
-        requests.push(request);
-        if (request.method === "GET" && new URL(request.url).pathname.endsWith("/patients")) {
-          return Response.json({ data: [], hasMore: false, object: "list", url: request.url });
-        }
-        if (new URL(request.url).pathname.endsWith("/allergies")) {
-          return Response.json({ allergies: [], reviewStatus: "no_known" });
-        }
-        return Response.json(patient);
-      },
-    }).withActor({ id: "platform-user-4821", type: "user" });
-
-    await affinity.patients.list(practiceId, { limit: 10, query: "Jordan" });
-    await affinity.patients.retrieve(practiceId, patientId);
-    await affinity.patients.create(
-      practiceId,
-      {
-        address: {
-          city: "Los Angeles",
-          country: "US",
-          line1: "100 Test Avenue",
-          postalCode: "90001",
-          state: "CA",
-        },
-        dateOfBirth: "1990-01-01",
-        externalId: "patient_4821",
-        name: { first: "Jordan", last: "Lee" },
-        phone: "+13105550100",
-      },
-      { idempotencyKey: "patient-create-4821" },
-    );
-    await affinity.patients.update(
-      practiceId,
-      patientId,
-      { status: "inactive" },
-      { idempotencyKey: "patient-update-4821" },
-    );
-    await affinity.patients.retrieveAllergies(practiceId, patientId);
-    await affinity.patients.replaceAllergies(
-      practiceId,
-      patientId,
-      { allergies: [], reviewStatus: "no_known" },
-      { idempotencyKey: "patient-allergies-4821" },
-    );
-
-    expect(requests.map((request) => `${request.method} ${new URL(request.url).pathname}`)).toEqual(
-      [
-        `GET /v1/practices/${practiceId}/patients`,
-        `GET /v1/practices/${practiceId}/patients/${patientId}`,
-        `POST /v1/practices/${practiceId}/patients`,
-        `PATCH /v1/practices/${practiceId}/patients/${patientId}`,
-        `GET /v1/practices/${practiceId}/patients/${patientId}/allergies`,
-        `PUT /v1/practices/${practiceId}/patients/${patientId}/allergies`,
-      ],
-    );
-    const patientListUrl = new URL(requests[0]?.url ?? "https://invalid.example");
-    expect(patientListUrl.searchParams.get("limit")).toBe("10");
-    expect(patientListUrl.searchParams.get("query")).toBe("Jordan");
-    expect(requests[2]?.headers.get("idempotency-key")).toBe("patient-create-4821");
-    expect(requests[3]?.headers.get("idempotency-key")).toBe("patient-update-4821");
-    expect(requests[5]?.headers.get("idempotency-key")).toBe("patient-allergies-4821");
-    expect(
-      requests.every(
-        (request) => request.headers.get("affinity-actor-id") === "platform-user-4821",
-      ),
-    ).toBe(true);
-    expect(requests.every((request) => request.headers.get("affinity-actor-type") === "user")).toBe(
-      true,
-    );
-    expect(await requests[3]?.json()).toEqual({ status: "inactive" });
-    expect(await requests[5]?.json()).toEqual({ allergies: [], reviewStatus: "no_known" });
-  });
-
-  test("creates component and hosted sessions through separate resources", async () => {
-    const requests: Request[] = [];
-    const affinity = new Affinity("sk_test_example", {
-      fetch: async (input, init) => {
-        requests.push(new Request(input, init));
-        return Response.json({});
-      },
-    });
-    const consent = {
-      authorizedProviderAccess: true as const,
-      minimumNecessaryPhi: true as const,
-      recordedAt: "2026-07-29T12:00:00.000Z",
-    };
-
-    await affinity.componentSessions.create(
-      {
-        allowedOrigin: "https://platform.example.com",
-        components: {
-          prescriptionComposer: {
-            enabled: true,
-            features: {
-              changePatient: false,
-              createDraft: true,
-              sign: false,
-              viewHistory: true,
-            },
-          },
-        },
-        consent,
-        context: { patientSelection: "search" },
-        practiceId: "prac_01k123456789abcdefghjkmnp",
-        providerMappingId: "pmap_01k123456789abcdefghjkmnp",
-        userId: "usr_01k123456789abcdefghjkmnp",
-      },
-      { idempotencyKey: "component-example" },
-    );
-    await affinity.hostedSessions.create(
-      {
-        consent,
-        flow: "provider_verification",
-        practiceId: "prac_01k123456789abcdefghjkmnp",
-        providerMappingId: "pmap_01k123456789abcdefghjkmnp",
-        returnUrl: "https://platform.example.com/affinity/return",
-        userId: "usr_01k123456789abcdefghjkmnp",
-      },
-      { idempotencyKey: "hosted-example" },
-    );
-
-    expect(requests.map((request) => new URL(request.url).pathname)).toEqual([
-      "/v1/component-sessions",
-      "/v1/hosted-sessions",
-    ]);
-    expect(requests.map((request) => request.headers.get("idempotency-key"))).toEqual([
-      "component-example",
-      "hosted-example",
-    ]);
-  });
-
-  test("revokes provider mappings with an idempotent mutation", async () => {
-    let request: Request | undefined;
-    const affinity = new Affinity("sk_test_example", {
-      fetch: async (input, init) => {
-        request = new Request(input, init);
-        return Response.json({});
-      },
-    });
-
-    await affinity.providerMappings.revoke("pmap_01k123456789abcdefghjkmnp", {
-      idempotencyKey: "provider-revoke-example",
-    });
-
-    expect(request?.method).toBe("PATCH");
-    expect(new URL(request?.url ?? "").pathname).toBe(
-      "/v1/provider-mappings/pmap_01k123456789abcdefghjkmnp",
-    );
-    expect(request?.headers.get("idempotency-key")).toBe("provider-revoke-example");
-    expect(await request?.json()).toEqual({ status: "revoked" });
-  });
-
-  test("lists provider mappings with platform identity filters", async () => {
-    let request: Request | undefined;
-    const affinity = new Affinity("sk_test_example", {
-      fetch: async (input, init) => {
-        request = new Request(input, init);
-        return Response.json({
-          data: [],
-          hasMore: false,
-          object: "list",
-          url: "/v1/provider-mappings",
-        });
-      },
-    });
-
-    await affinity.providerMappings.list({
-      externalId: "provider_4821",
-      practiceId: "prac_01k123456789abcdefghjkmnp",
-      status: "verified",
-    });
-
-    expect(request?.url).toBe(
-      "https://api.joinaffinityai.com/v1/provider-mappings" +
-        "?externalId=provider_4821" +
-        "&practiceId=prac_01k123456789abcdefghjkmnp" +
-        "&status=verified",
-    );
-  });
-
-  test("creates a multi-prescription order and a provider-bound signing session", async () => {
-    const requests: Request[] = [];
-    const affinity = new Affinity("sk_test_example", {
-      fetch: async (input, init) => {
-        const request = new Request(input, init);
-        requests.push(request);
-        if (new URL(request.url).pathname === "/v1/orders") {
-          return Response.json({
-            livemode: false,
-            object: "order_batch",
-            orders: [
-              {
-                createdAt: "2026-08-01T12:00:00.000Z",
-                id: "ord_01k123456789abcdefghjkmnp",
-                livemode: false,
-                object: "order",
-                patientId: "pat_01k123456789abcdefghjkmnp",
-                practiceId: "prac_01k123456789abcdefghjkmnp",
-                prescriptions: [
-                  {
-                    createdAt: "2026-08-01T12:00:00.000Z",
-                    directions: "Inject once weekly",
-                    id: "rx_01k123456789abcdefghjkmnp",
-                    medicationId: "cat_01k123456789abcdefghjkmnp",
-                    medicationName: "Semaglutide",
-                    object: "prescription",
-                    quantity: 1,
-                    quantityUnit: "mL",
-                    refills: 0,
-                    status: "requires_provider_signature",
-                  },
-                ],
-                providerMappingId: "pmap_01k123456789abcdefghjkmnp",
-                status: "requires_provider_signature",
-              },
-            ],
-            practiceId: "prac_01k123456789abcdefghjkmnp",
-            providerMappingId: "pmap_01k123456789abcdefghjkmnp",
-          });
-        }
-        return Response.json({
-          expiresAt: "2026-08-01T12:15:00.000Z",
-          id: "oss_01k123456789abcdefghjkmnp",
-          object: "order_signing_session",
-          orderId: "ord_01k123456789abcdefghjkmnp",
-          url: "https://connect.joinaffinityai.com/sign/example",
-        });
-      },
-    });
-    const actingAffinity = affinity.withActor({ id: "platform-user-4821", type: "user" });
-
-    const order = await actingAffinity.orders.create(
-      {
+    await affinity.orders.createOrder({
+      affinityActorId: "integration-user-123",
+      affinityActorType: "system",
+      createOrderRequest: {
         patientId: "pat_01k123456789abcdefghjkmnp",
         practiceId: "prac_01k123456789abcdefghjkmnp",
-        providerMappingId: "pmap_01k123456789abcdefghjkmnp",
-        prescriptions: [
-          {
-            clinical: {
-              currentMedications: [],
-              diagnoses: [{ code: "E66.9", display: "Obesity, unspecified" }],
-              observations: [],
-            },
-            daysSupply: 30,
-            dispensing: { dispenseUponAcceptance: true, substitutionPermitted: false },
-            directions: "Inject 0.25 mL subcutaneously once weekly",
-            medicationId: "cat_01k123456789abcdefghjkmnp",
-            quantity: 1,
-            quantityUnit: "mL",
-            refills: 0,
-            structuredSig: {
-              dose: "0.25",
-              doseUnit: "mL",
-              frequency: "once weekly",
-              prn: false,
-              route: "subcutaneous",
-            },
-          },
-          {
-            clinical: {
-              currentMedications: [],
-              diagnoses: [{ code: "E53.8", display: "Other specified vitamin B deficiency" }],
-              observations: [],
-            },
-            daysSupply: 30,
-            dispensing: { dispenseUponAcceptance: true, substitutionPermitted: false },
-            directions: "Inject 1 mL intramuscularly once weekly",
-            medicationId: "cat_01k123456789abcdefghjkmnq",
-            quantity: 4,
-            quantityUnit: "mL",
-            refills: 0,
-          },
-        ],
+        prescriptions: [],
       },
-      { idempotencyKey: "order-example" },
-    );
-    expect(order.id).toBe("ord_01k123456789abcdefghjkmnp");
-    await affinity.orderSigningSessions.create(
-      {
-        consent: {
-          authorizedProviderAccess: true,
-          minimumNecessaryPhi: true,
-          recordedAt: "2026-08-01T12:00:00.000Z",
-        },
-        orderId: "ord_01k123456789abcdefghjkmnp",
-        practiceId: "prac_01k123456789abcdefghjkmnp",
-        providerMappingId: "pmap_01k123456789abcdefghjkmnp",
-        userId: "usr_01k123456789abcdefghjkmnp",
-      },
-      { idempotencyKey: "order-signing-example" },
-    );
+      idempotencyKey: "order-create-123",
+    });
 
-    expect(requests.map((request) => new URL(request.url).pathname)).toEqual([
-      "/v1/orders",
-      "/v1/order-signing-sessions",
-    ]);
-    expect(requests[0]?.headers.get("affinity-actor-id")).toBe("platform-user-4821");
-    expect(requests[0]?.headers.get("affinity-actor-type")).toBe("user");
-    const requestBody = await requests[0]?.clone().json();
-    expect(requestBody.patientOrders[0].prescriptions[0].clinical.diagnoses).toEqual([
-      { code: "E66.9", display: "Obesity, unspecified" },
-    ]);
-    expect(requests.map((request) => request.headers.get("idempotency-key"))).toEqual([
-      "order-example",
-      "order-signing-example",
-    ]);
-    expect(requestBody.patientOrders).toHaveLength(1);
-    expect(requestBody.patientOrders[0].prescriptions).toHaveLength(2);
+    expect(request?.url).toBe("http://api.affinity.localhost/v1/orders");
+    expect(request?.headers.get("affinity-actor-id")).toBe("integration-user-123");
+    expect(request?.headers.get("affinity-actor-type")).toBe("system");
+    expect(request?.headers.get("idempotency-key")).toBe("order-create-123");
+    expect(await request?.json()).toEqual({
+      patientId: "pat_01k123456789abcdefghjkmnp",
+      practiceId: "prac_01k123456789abcdefghjkmnp",
+      prescriptions: [],
+    });
   });
 
-  test("creates a typed multi-patient order batch", async () => {
-    let request: Request | undefined;
-    const affinity = new Affinity("sk_test_example", {
-      fetch: async (input, init) => {
-        request = new Request(input, init);
-        return Response.json({
-          livemode: false,
-          object: "order_batch",
-          orders: [
-            {
-              createdAt: "2026-08-13T12:00:00.000Z",
-              id: "ord_01k123456789abcdefghjkmnp",
-              livemode: false,
-              object: "order",
-              patientId: "pat_01k123456789abcdefghjkmnp",
-              practiceId: "prac_01k123456789abcdefghjkmnp",
-              prescriptions: [],
-              providerMappingId: "pmap_01k123456789abcdefghjkmnp",
-              status: "requires_provider_signature",
-            },
-            {
-              createdAt: "2026-08-13T12:00:00.000Z",
-              id: "ord_01k123456789abcdefghjkmnq",
-              livemode: false,
-              object: "order",
-              patientId: "pat_01k123456789abcdefghjkmnq",
-              practiceId: "prac_01k123456789abcdefghjkmnp",
-              prescriptions: [],
-              providerMappingId: "pmap_01k123456789abcdefghjkmnp",
-              status: "requires_provider_signature",
-            },
-          ],
-          practiceId: "prac_01k123456789abcdefghjkmnp",
-          providerMappingId: "pmap_01k123456789abcdefghjkmnp",
-        });
-      },
-    });
-    const actingAffinity = affinity.withActor({ id: "platform-user-4821", type: "user" });
-    const prescription = {
-      daysSupply: 30,
-      directions: "Take one capsule by mouth daily",
-      dispensing: { dispenseUponAcceptance: true, substitutionPermitted: false },
-      medicationId: "cat_01k123456789abcdefghjkmnp",
-      quantity: 30,
-      quantityUnit: "capsule",
-      refills: 0,
-      structuredSig: {
-        dose: "1",
-        doseUnit: "capsule",
-        frequency: "daily",
-        route: "oral",
-      },
-    };
-
-    const batch = await actingAffinity.orders.create(
-      {
-        patientOrders: [
-          { patientId: "pat_01k123456789abcdefghjkmnp", prescriptions: [prescription] },
-          { patientId: "pat_01k123456789abcdefghjkmnq", prescriptions: [prescription] },
-        ],
-        practiceId: "prac_01k123456789abcdefghjkmnp",
-        providerMappingId: "pmap_01k123456789abcdefghjkmnp",
-      },
-      { idempotencyKey: "order-batch-example" },
+  test("exposes the generated API classes for custom configuration", () => {
+    const orders = new OrdersApi(
+      new Configuration({ accessToken: "sk_test_example", basePath: "https://example.test" }),
     );
-
-    expect(batch.object).toBe("order_batch");
-    expect(batch.orders).toHaveLength(2);
-    expect((await request?.clone().json()).patientOrders).toHaveLength(2);
-    expect(request?.headers.get("idempotency-key")).toBe("order-batch-example");
+    expect(orders).toBeInstanceOf(OrdersApi);
   });
 });

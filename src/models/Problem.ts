@@ -2,7 +2,7 @@
 /* eslint-disable */
 /**
  * Affinity API
- * Affinity API for software platforms connecting practices to the compounder network.
+ * Affinity API for practices and software platforms connecting to the pharmacy network.
  *
  * The version of the OpenAPI document: 2026-08-11
  * Contact: support@joinaffinityai.com
@@ -20,11 +20,11 @@ import { mapValues } from "../runtime";
  */
 export interface Problem {
   /**
-   *
+   * Match this integration's external identity in the API key's mode.
    * @type {string}
    * @memberof Problem
    */
-  code: string;
+  code: string | null;
   /**
    *
    * @type {{ [key: string]: any; }}
@@ -32,23 +32,23 @@ export interface Problem {
    */
   data?: { [key: string]: any };
   /**
-   *
+   * Match this integration's external identity in the API key's mode.
    * @type {string}
    * @memberof Problem
    */
-  detail: string;
+  detail: string | null;
   /**
-   *
+   * Match this integration's external identity in the API key's mode.
    * @type {string}
    * @memberof Problem
    */
-  instance: string;
+  instance: string | null;
   /**
-   *
+   * Match this integration's external identity in the API key's mode.
    * @type {string}
    * @memberof Problem
    */
-  requestId: string;
+  requestId: string | null;
   /**
    *
    * @type {number}
@@ -56,17 +56,17 @@ export interface Problem {
    */
   status: number;
   /**
-   *
+   * Match this integration's external identity in the API key's mode.
    * @type {string}
    * @memberof Problem
    */
-  title: string;
+  title: string | null;
   /**
-   *
+   * Match this integration's external identity in the API key's mode.
    * @type {string}
    * @memberof Problem
    */
-  traceId?: string;
+  traceId?: string | null;
   /**
    *
    * @type {string}

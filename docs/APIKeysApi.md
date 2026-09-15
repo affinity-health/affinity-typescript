@@ -71,6 +71,7 @@ example().catch(console.error);
 | Status code | Description | Response headers |
 | ----------- | ----------- | ---------------- |
 | **200**     | HTTP 200    | -                |
+| **400**     | HTTP 400    | -                |
 | **401**     | HTTP 401    | -                |
 | **403**     | HTTP 403    | -                |
 | **429**     | HTTP 429    | -                |

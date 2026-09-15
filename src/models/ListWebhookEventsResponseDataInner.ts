@@ -2,7 +2,7 @@
 /* eslint-disable */
 /**
  * Affinity API
- * Affinity API for software platforms connecting practices to the compounder network.
+ * Affinity API for practices and software platforms connecting to the pharmacy network.
  *
  * The version of the OpenAPI document: 2026-08-11
  * Contact: support@joinaffinityai.com
@@ -20,23 +20,23 @@ import { mapValues } from "../runtime";
  */
 export interface ListWebhookEventsResponseDataInner {
   /**
-   *
+   * Match this integration's external identity in the API key's mode.
    * @type {string}
    * @memberof ListWebhookEventsResponseDataInner
    */
-  apiVersion: string;
+  apiVersion: string | null;
   /**
-   *
+   * Match this integration's external identity in the API key's mode.
    * @type {string}
    * @memberof ListWebhookEventsResponseDataInner
    */
-  createdAt: string;
+  createdAt: string | null;
   /**
-   *
+   * Match this integration's external identity in the API key's mode.
    * @type {string}
    * @memberof ListWebhookEventsResponseDataInner
    */
-  eventType: string;
+  eventType: string | null;
   /**
    *
    * @type {string}
@@ -56,17 +56,17 @@ export interface ListWebhookEventsResponseDataInner {
    */
   object: ListWebhookEventsResponseDataInnerObjectEnum;
   /**
-   *
+   * Match this integration's external identity in the API key's mode.
    * @type {string}
    * @memberof ListWebhookEventsResponseDataInner
    */
-  resourceId: string;
+  resourceId: string | null;
   /**
-   *
+   * Match this integration's external identity in the API key's mode.
    * @type {string}
    * @memberof ListWebhookEventsResponseDataInner
    */
-  resourceType: string;
+  resourceType: string | null;
   /**
    *
    * @type {ListWebhookEventsResponseDataInnerStatusEnum}

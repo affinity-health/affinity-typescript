@@ -2,7 +2,7 @@
 /* eslint-disable */
 /**
  * Affinity API
- * Affinity API for software platforms connecting practices to the compounder network.
+ * Affinity API for practices and software platforms connecting to the pharmacy network.
  *
  * The version of the OpenAPI document: 2026-08-11
  * Contact: support@joinaffinityai.com
@@ -20,6 +20,13 @@ import {
   GetOrderResponseFulfillmentsInnerToJSON,
   GetOrderResponseFulfillmentsInnerToJSONTyped,
 } from "./GetOrderResponseFulfillmentsInner";
+import type { GetOrderResponseReview } from "./GetOrderResponseReview";
+import {
+  GetOrderResponseReviewFromJSON,
+  GetOrderResponseReviewFromJSONTyped,
+  GetOrderResponseReviewToJSON,
+  GetOrderResponseReviewToJSONTyped,
+} from "./GetOrderResponseReview";
 import type { GetOrderResponsePrescriptionsInner } from "./GetOrderResponsePrescriptionsInner";
 import {
   GetOrderResponsePrescriptionsInnerFromJSON,
@@ -27,6 +34,13 @@ import {
   GetOrderResponsePrescriptionsInnerToJSON,
   GetOrderResponsePrescriptionsInnerToJSONTyped,
 } from "./GetOrderResponsePrescriptionsInner";
+import type { GetOrderResponseLifecycleEventsInner } from "./GetOrderResponseLifecycleEventsInner";
+import {
+  GetOrderResponseLifecycleEventsInnerFromJSON,
+  GetOrderResponseLifecycleEventsInnerFromJSONTyped,
+  GetOrderResponseLifecycleEventsInnerToJSON,
+  GetOrderResponseLifecycleEventsInnerToJSONTyped,
+} from "./GetOrderResponseLifecycleEventsInner";
 
 /**
  *
@@ -35,11 +49,29 @@ import {
  */
 export interface GetOrderResponse {
   /**
+   * Snapshot of the practice-facing medication total. Null until every prescription has recorded submission pricing. Excludes shipping and supplies.
+   * @type {number}
+   * @memberof GetOrderResponse
+   */
+  practiceMedicationTotalCents: number | null;
+  /**
    *
    * @type {string}
    * @memberof GetOrderResponse
    */
-  createdAt: string;
+  externalOrderId: string | null;
+  /**
+   *
+   * @type {any}
+   * @memberof GetOrderResponse
+   */
+  metadata: any | null;
+  /**
+   * Match this integration's external identity in the API key's mode.
+   * @type {string}
+   * @memberof GetOrderResponse
+   */
+  createdAt: string | null;
   /**
    *
    * @type {Array<GetOrderResponseFulfillmentsInner>}
@@ -51,7 +83,13 @@ export interface GetOrderResponse {
    * @type {string}
    * @memberof GetOrderResponse
    */
-  id: string;
+  id: string | null;
+  /**
+   *
+   * @type {Array<GetOrderResponseLifecycleEventsInner>}
+   * @memberof GetOrderResponse
+   */
+  lifecycleEvents: Array<GetOrderResponseLifecycleEventsInner>;
   /**
    *
    * @type {boolean}
@@ -65,11 +103,11 @@ export interface GetOrderResponse {
    */
   object: GetOrderResponseObjectEnum;
   /**
-   *
+   * Match this integration's external identity in the API key's mode.
    * @type {string}
    * @memberof GetOrderResponse
    */
-  patientExternalId: string;
+  patientExternalId: string | null;
   /**
    *
    * @type {string}
@@ -77,23 +115,23 @@ export interface GetOrderResponse {
    */
   patientId: string;
   /**
-   *
+   * Match this integration's external identity in the API key's mode.
    * @type {string}
    * @memberof GetOrderResponse
    */
-  patientName: string;
+  patientName: string | null;
+  /**
+   * Match this integration's external identity in the API key's mode.
+   * @type {string}
+   * @memberof GetOrderResponse
+   */
+  patientState: string | null;
   /**
    *
    * @type {string}
    * @memberof GetOrderResponse
    */
-  patientState: string;
-  /**
-   *
-   * @type {string}
-   * @memberof GetOrderResponse
-   */
-  practiceId: string;
+  practiceId: string | null;
   /**
    *
    * @type {string}
@@ -108,6 +146,12 @@ export interface GetOrderResponse {
   prescriberNpi: string | null;
   /**
    *
+   * @type {GetOrderResponseReview}
+   * @memberof GetOrderResponse
+   */
+  review: GetOrderResponseReview | null;
+  /**
+   *
    * @type {Array<GetOrderResponsePrescriptionsInner>}
    * @memberof GetOrderResponse
    */
@@ -117,13 +161,13 @@ export interface GetOrderResponse {
    * @type {GetOrderResponseStatusEnum}
    * @memberof GetOrderResponse
    */
-  status: GetOrderResponseStatusEnum;
+  status: GetOrderResponseStatusEnum | null;
   /**
-   *
+   * Match this integration's external identity in the API key's mode.
    * @type {string}
    * @memberof GetOrderResponse
    */
-  updatedAt: string;
+  updatedAt: string | null;
 }
 
 /**
@@ -146,6 +190,7 @@ export const GetOrderResponseStatusEnum = {
   PartiallySubmitted: "partially_submitted",
   Processing: "processing",
   Ready: "ready",
+  Rejected: "rejected",
   RequiresProviderSignature: "requires_provider_signature",
   Shipped: "shipped",
   Submitted: "submitted",
@@ -157,9 +202,17 @@ export type GetOrderResponseStatusEnum =
  * Check if a given object implements the GetOrderResponse interface.
  */
 export function instanceOfGetOrderResponse(value: object): value is GetOrderResponse {
+  if (
+    !("practiceMedicationTotalCents" in value) ||
+    value["practiceMedicationTotalCents"] === undefined
+  )
+    return false;
+  if (!("externalOrderId" in value) || value["externalOrderId"] === undefined) return false;
+  if (!("metadata" in value) || value["metadata"] === undefined) return false;
   if (!("createdAt" in value) || value["createdAt"] === undefined) return false;
   if (!("fulfillments" in value) || value["fulfillments"] === undefined) return false;
   if (!("id" in value) || value["id"] === undefined) return false;
+  if (!("lifecycleEvents" in value) || value["lifecycleEvents"] === undefined) return false;
   if (!("livemode" in value) || value["livemode"] === undefined) return false;
   if (!("object" in value) || value["object"] === undefined) return false;
   if (!("patientExternalId" in value) || value["patientExternalId"] === undefined) return false;
@@ -169,6 +222,7 @@ export function instanceOfGetOrderResponse(value: object): value is GetOrderResp
   if (!("practiceId" in value) || value["practiceId"] === undefined) return false;
   if (!("prescriberName" in value) || value["prescriberName"] === undefined) return false;
   if (!("prescriberNpi" in value) || value["prescriberNpi"] === undefined) return false;
+  if (!("review" in value) || value["review"] === undefined) return false;
   if (!("prescriptions" in value) || value["prescriptions"] === undefined) return false;
   if (!("status" in value) || value["status"] === undefined) return false;
   if (!("updatedAt" in value) || value["updatedAt"] === undefined) return false;
@@ -187,11 +241,17 @@ export function GetOrderResponseFromJSONTyped(
     return json;
   }
   return {
+    practiceMedicationTotalCents: json["practiceMedicationTotalCents"],
+    externalOrderId: json["externalOrderId"],
+    metadata: json["metadata"],
     createdAt: json["createdAt"],
     fulfillments: (json["fulfillments"] as Array<any>).map(
       GetOrderResponseFulfillmentsInnerFromJSON,
     ),
     id: json["id"],
+    lifecycleEvents: (json["lifecycleEvents"] as Array<any>).map(
+      GetOrderResponseLifecycleEventsInnerFromJSON,
+    ),
     livemode: json["livemode"],
     object: json["object"],
     patientExternalId: json["patientExternalId"],
@@ -201,6 +261,7 @@ export function GetOrderResponseFromJSONTyped(
     practiceId: json["practiceId"],
     prescriberName: json["prescriberName"],
     prescriberNpi: json["prescriberNpi"],
+    review: GetOrderResponseReviewFromJSON(json["review"]),
     prescriptions: (json["prescriptions"] as Array<any>).map(
       GetOrderResponsePrescriptionsInnerFromJSON,
     ),
@@ -222,11 +283,17 @@ export function GetOrderResponseToJSONTyped(
   }
 
   return {
+    practiceMedicationTotalCents: value["practiceMedicationTotalCents"],
+    externalOrderId: value["externalOrderId"],
+    metadata: value["metadata"],
     createdAt: value["createdAt"],
     fulfillments: (value["fulfillments"] as Array<any>).map(
       GetOrderResponseFulfillmentsInnerToJSON,
     ),
     id: value["id"],
+    lifecycleEvents: (value["lifecycleEvents"] as Array<any>).map(
+      GetOrderResponseLifecycleEventsInnerToJSON,
+    ),
     livemode: value["livemode"],
     object: value["object"],
     patientExternalId: value["patientExternalId"],
@@ -236,6 +303,7 @@ export function GetOrderResponseToJSONTyped(
     practiceId: value["practiceId"],
     prescriberName: value["prescriberName"],
     prescriberNpi: value["prescriberNpi"],
+    review: GetOrderResponseReviewToJSON(value["review"]),
     prescriptions: (value["prescriptions"] as Array<any>).map(
       GetOrderResponsePrescriptionsInnerToJSON,
     ),

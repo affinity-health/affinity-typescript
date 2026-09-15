@@ -7,6 +7,23 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 
 ## [Unreleased]
 
+## [1.6.0] - 2026-09-15
+
+### Changed
+
+- Regenerated the TypeScript SDK from the deployed `2026-08-11` OpenAPI contract.
+- Replaced the previous resource facade with the generated API groups from the current contract.
+
+### Added
+
+- Added generated clients and models for locations, team management, patient addresses, order
+  lifecycle operations, platform pricing, pharmacies, and webhook grants.
+
+### Removed
+
+- Removed generated operations no longer present in the deployed contract, including provider
+  mappings, standalone users, roles, memberships, compounder listing, and order-signing sessions.
+
 ## [1.5.0] - 2026-08-13
 
 ### Added

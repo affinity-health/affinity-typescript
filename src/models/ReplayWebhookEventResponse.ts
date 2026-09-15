@@ -2,7 +2,7 @@
 /* eslint-disable */
 /**
  * Affinity API
- * Affinity API for software platforms connecting practices to the compounder network.
+ * Affinity API for practices and software platforms connecting to the pharmacy network.
  *
  * The version of the OpenAPI document: 2026-08-11
  * Contact: support@joinaffinityai.com
@@ -13,13 +13,6 @@
  */
 
 import { mapValues } from "../runtime";
-import type { ReplayWebhookEventResponseDeliveriesInner } from "./ReplayWebhookEventResponseDeliveriesInner";
-import {
-  ReplayWebhookEventResponseDeliveriesInnerFromJSON,
-  ReplayWebhookEventResponseDeliveriesInnerFromJSONTyped,
-  ReplayWebhookEventResponseDeliveriesInnerToJSON,
-  ReplayWebhookEventResponseDeliveriesInnerToJSONTyped,
-} from "./ReplayWebhookEventResponseDeliveriesInner";
 import type { ReplayWebhookEventResponseAttemptsInner } from "./ReplayWebhookEventResponseAttemptsInner";
 import {
   ReplayWebhookEventResponseAttemptsInnerFromJSON,
@@ -27,6 +20,13 @@ import {
   ReplayWebhookEventResponseAttemptsInnerToJSON,
   ReplayWebhookEventResponseAttemptsInnerToJSONTyped,
 } from "./ReplayWebhookEventResponseAttemptsInner";
+import type { GetWebhookEventResponseDeliveriesInner } from "./GetWebhookEventResponseDeliveriesInner";
+import {
+  GetWebhookEventResponseDeliveriesInnerFromJSON,
+  GetWebhookEventResponseDeliveriesInnerFromJSONTyped,
+  GetWebhookEventResponseDeliveriesInnerToJSON,
+  GetWebhookEventResponseDeliveriesInnerToJSONTyped,
+} from "./GetWebhookEventResponseDeliveriesInner";
 
 /**
  *
@@ -35,23 +35,23 @@ import {
  */
 export interface ReplayWebhookEventResponse {
   /**
-   *
+   * Match this integration's external identity in the API key's mode.
    * @type {string}
    * @memberof ReplayWebhookEventResponse
    */
-  apiVersion: string;
+  apiVersion: string | null;
   /**
-   *
+   * Match this integration's external identity in the API key's mode.
    * @type {string}
    * @memberof ReplayWebhookEventResponse
    */
-  createdAt: string;
+  createdAt: string | null;
   /**
-   *
+   * Match this integration's external identity in the API key's mode.
    * @type {string}
    * @memberof ReplayWebhookEventResponse
    */
-  eventType: string;
+  eventType: string | null;
   /**
    *
    * @type {string}
@@ -71,17 +71,17 @@ export interface ReplayWebhookEventResponse {
    */
   object: ReplayWebhookEventResponseObjectEnum;
   /**
-   *
+   * Match this integration's external identity in the API key's mode.
    * @type {string}
    * @memberof ReplayWebhookEventResponse
    */
-  resourceId: string;
+  resourceId: string | null;
   /**
-   *
+   * Match this integration's external identity in the API key's mode.
    * @type {string}
    * @memberof ReplayWebhookEventResponse
    */
-  resourceType: string;
+  resourceType: string | null;
   /**
    *
    * @type {ReplayWebhookEventResponseStatusEnum}
@@ -96,16 +96,16 @@ export interface ReplayWebhookEventResponse {
   attempts: Array<ReplayWebhookEventResponseAttemptsInner>;
   /**
    *
-   * @type {Array<ReplayWebhookEventResponseDeliveriesInner>}
+   * @type {Array<GetWebhookEventResponseDeliveriesInner>}
    * @memberof ReplayWebhookEventResponse
    */
-  deliveries: Array<ReplayWebhookEventResponseDeliveriesInner>;
+  deliveries: Array<GetWebhookEventResponseDeliveriesInner>;
   /**
    *
-   * @type {{ [key: string]: any; }}
+   * @type {object}
    * @memberof ReplayWebhookEventResponse
    */
-  payload: { [key: string]: any };
+  payload: object;
 }
 
 /**
@@ -172,7 +172,7 @@ export function ReplayWebhookEventResponseFromJSONTyped(
     status: json["status"],
     attempts: (json["attempts"] as Array<any>).map(ReplayWebhookEventResponseAttemptsInnerFromJSON),
     deliveries: (json["deliveries"] as Array<any>).map(
-      ReplayWebhookEventResponseDeliveriesInnerFromJSON,
+      GetWebhookEventResponseDeliveriesInnerFromJSON,
     ),
     payload: json["payload"],
   };
@@ -202,7 +202,7 @@ export function ReplayWebhookEventResponseToJSONTyped(
     status: value["status"],
     attempts: (value["attempts"] as Array<any>).map(ReplayWebhookEventResponseAttemptsInnerToJSON),
     deliveries: (value["deliveries"] as Array<any>).map(
-      ReplayWebhookEventResponseDeliveriesInnerToJSON,
+      GetWebhookEventResponseDeliveriesInnerToJSON,
     ),
     payload: value["payload"],
   };

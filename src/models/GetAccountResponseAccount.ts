@@ -2,7 +2,7 @@
 /* eslint-disable */
 /**
  * Affinity API
- * Affinity API for software platforms connecting practices to the compounder network.
+ * Affinity API for practices and software platforms connecting to the pharmacy network.
  *
  * The version of the OpenAPI document: 2026-08-11
  * Contact: support@joinaffinityai.com
@@ -21,10 +21,10 @@ import { mapValues } from "../runtime";
 export interface GetAccountResponseAccount {
   /**
    *
-   * @type {Array<string | null>}
+   * @type {Array<string>}
    * @memberof GetAccountResponseAccount
    */
-  allowedOrigins: Array<string | null>;
+  allowedOrigins: Array<string>;
   /**
    *
    * @type {Array<string>}
@@ -32,7 +32,7 @@ export interface GetAccountResponseAccount {
    */
   allowedReturnUrls: Array<string>;
   /**
-   *
+   * Match this integration's external identity in the API key's mode.
    * @type {string}
    * @memberof GetAccountResponseAccount
    */
@@ -42,7 +42,7 @@ export interface GetAccountResponseAccount {
    * @type {string}
    * @memberof GetAccountResponseAccount
    */
-  id: string | null;
+  id: string;
   /**
    *
    * @type {GetAccountResponseAccountObjectEnum}
@@ -50,7 +50,7 @@ export interface GetAccountResponseAccount {
    */
   object: GetAccountResponseAccountObjectEnum;
   /**
-   *
+   * Match this integration's external identity in the API key's mode.
    * @type {string}
    * @memberof GetAccountResponseAccount
    */

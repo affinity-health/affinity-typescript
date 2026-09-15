@@ -2,7 +2,7 @@
 /* eslint-disable */
 /**
  * Affinity API
- * Affinity API for software platforms connecting practices to the compounder network.
+ * Affinity API for practices and software platforms connecting to the pharmacy network.
  *
  * The version of the OpenAPI document: 2026-08-11
  * Contact: support@joinaffinityai.com
@@ -13,6 +13,13 @@
  */
 
 import { mapValues } from "../runtime";
+import type { ListCatalogItemsResponseDataInnerPrescriptionRequirementsQuantityIncrement } from "./ListCatalogItemsResponseDataInnerPrescriptionRequirementsQuantityIncrement";
+import {
+  ListCatalogItemsResponseDataInnerPrescriptionRequirementsQuantityIncrementFromJSON,
+  ListCatalogItemsResponseDataInnerPrescriptionRequirementsQuantityIncrementFromJSONTyped,
+  ListCatalogItemsResponseDataInnerPrescriptionRequirementsQuantityIncrementToJSON,
+  ListCatalogItemsResponseDataInnerPrescriptionRequirementsQuantityIncrementToJSONTyped,
+} from "./ListCatalogItemsResponseDataInnerPrescriptionRequirementsQuantityIncrement";
 import type { ListCatalogItemsResponseDataInnerPrescriptionRequirementsAllowedQuantitiesInner } from "./ListCatalogItemsResponseDataInnerPrescriptionRequirementsAllowedQuantitiesInner";
 import {
   ListCatalogItemsResponseDataInnerPrescriptionRequirementsAllowedQuantitiesInnerFromJSON,
@@ -39,19 +46,25 @@ export interface ListCatalogItemsResponseDataInnerPrescriptionRequirements {
    * @type {Array<number>}
    * @memberof ListCatalogItemsResponseDataInnerPrescriptionRequirements
    */
-  allowedDaysSupply?: Array<number>;
+  allowedDaysSupply?: Array<number> | null;
   /**
    *
    * @type {Array<ListCatalogItemsResponseDataInnerPrescriptionRequirementsAllowedQuantitiesInner>}
    * @memberof ListCatalogItemsResponseDataInnerPrescriptionRequirements
    */
-  allowedQuantities?: Array<ListCatalogItemsResponseDataInnerPrescriptionRequirementsAllowedQuantitiesInner>;
+  allowedQuantities?: Array<ListCatalogItemsResponseDataInnerPrescriptionRequirementsAllowedQuantitiesInner> | null;
   /**
    *
    * @type {Array<ListCatalogItemsResponseDataInnerPrescriptionRequirementsAllowedReasonCategoriesEnum>}
    * @memberof ListCatalogItemsResponseDataInnerPrescriptionRequirements
    */
-  allowedReasonCategories?: Array<ListCatalogItemsResponseDataInnerPrescriptionRequirementsAllowedReasonCategoriesEnum>;
+  allowedReasonCategories?: Array<ListCatalogItemsResponseDataInnerPrescriptionRequirementsAllowedReasonCategoriesEnum> | null;
+  /**
+   *
+   * @type {{ [key: string]: string; }}
+   * @memberof ListCatalogItemsResponseDataInnerPrescriptionRequirements
+   */
+  reasonCategoryLabels?: { [key: string]: string } | null;
   /**
    *
    * @type {ListCatalogItemsResponseDataInnerPrescriptionRequirementsCompoundingReasonEnum}
@@ -60,10 +73,16 @@ export interface ListCatalogItemsResponseDataInnerPrescriptionRequirements {
   compoundingReason: ListCatalogItemsResponseDataInnerPrescriptionRequirementsCompoundingReasonEnum;
   /**
    *
+   * @type {ListCatalogItemsResponseDataInnerPrescriptionRequirementsCompoundingReasonContextEnum}
+   * @memberof ListCatalogItemsResponseDataInnerPrescriptionRequirements
+   */
+  compoundingReasonContext?: ListCatalogItemsResponseDataInnerPrescriptionRequirementsCompoundingReasonContextEnum | null;
+  /**
+   *
    * @type {ListCatalogItemsResponseDataInnerPrescriptionRequirementsControlledScheduleEnum}
    * @memberof ListCatalogItemsResponseDataInnerPrescriptionRequirements
    */
-  controlledSchedule?: ListCatalogItemsResponseDataInnerPrescriptionRequirementsControlledScheduleEnum;
+  controlledSchedule?: ListCatalogItemsResponseDataInnerPrescriptionRequirementsControlledScheduleEnum | null;
   /**
    *
    * @type {number}
@@ -75,13 +94,19 @@ export interface ListCatalogItemsResponseDataInnerPrescriptionRequirements {
    * @type {ListCatalogItemsResponseDataInnerPrescriptionRequirementsDefaultQuantity}
    * @memberof ListCatalogItemsResponseDataInnerPrescriptionRequirements
    */
-  defaultQuantity?: ListCatalogItemsResponseDataInnerPrescriptionRequirementsDefaultQuantity;
+  defaultQuantity?: ListCatalogItemsResponseDataInnerPrescriptionRequirementsDefaultQuantity | null;
+  /**
+   *
+   * @type {ListCatalogItemsResponseDataInnerPrescriptionRequirementsQuantityIncrement}
+   * @memberof ListCatalogItemsResponseDataInnerPrescriptionRequirements
+   */
+  quantityIncrement?: ListCatalogItemsResponseDataInnerPrescriptionRequirementsQuantityIncrement | null;
   /**
    *
    * @type {Array<string>}
    * @memberof ListCatalogItemsResponseDataInnerPrescriptionRequirements
    */
-  defaultSigs?: Array<string>;
+  defaultSigs?: Array<string> | null;
   /**
    *
    * @type {ListCatalogItemsResponseDataInnerPrescriptionRequirementsDiagnosisEnum}
@@ -99,7 +124,7 @@ export interface ListCatalogItemsResponseDataInnerPrescriptionRequirements {
    * @type {Array<string>}
    * @memberof ListCatalogItemsResponseDataInnerPrescriptionRequirements
    */
-  notes?: Array<string>;
+  notes?: Array<string> | null;
   /**
    *
    * @type {ListCatalogItemsResponseDataInnerPrescriptionRequirementsPharmacyNotesEnum}
@@ -125,15 +150,20 @@ export interface ListCatalogItemsResponseDataInnerPrescriptionRequirements {
  */
 export const ListCatalogItemsResponseDataInnerPrescriptionRequirementsAllowedReasonCategoriesEnum =
   {
+    AlcoholFree: "alcohol_free",
     DrugShortage: "drug_shortage",
     CommercialProductDiscontinued: "commercial_product_discontinued",
     ModifiedRelease: "modified_release",
     InactiveIngredientSensitivity: "inactive_ingredient_sensitivity",
+    InactiveIngredientToxicity: "inactive_ingredient_toxicity",
     ConcentrationAdjustment: "concentration_adjustment",
     AlternateRoute: "alternate_route",
     DosageFormUnavailable: "dosage_form_unavailable",
+    FlavorAdjustment: "flavor_adjustment",
+    TabletBurden: "tablet_burden",
     PatientCannotUseCommercialProduct: "patient_cannot_use_commercial_product",
     NoApprovedProductAvailable: "no_approved_product_available",
+    NoRationaleRequired: "no_rationale_required",
     OtherPatientSpecificNeed: "other_patient_specific_need",
   } as const;
 export type ListCatalogItemsResponseDataInnerPrescriptionRequirementsAllowedReasonCategoriesEnum =
@@ -149,6 +179,18 @@ export const ListCatalogItemsResponseDataInnerPrescriptionRequirementsCompoundin
 } as const;
 export type ListCatalogItemsResponseDataInnerPrescriptionRequirementsCompoundingReasonEnum =
   (typeof ListCatalogItemsResponseDataInnerPrescriptionRequirementsCompoundingReasonEnum)[keyof typeof ListCatalogItemsResponseDataInnerPrescriptionRequirementsCompoundingReasonEnum];
+
+/**
+ * @export
+ */
+export const ListCatalogItemsResponseDataInnerPrescriptionRequirementsCompoundingReasonContextEnum =
+  {
+    NotSupported: "not_supported",
+    Optional: "optional",
+    Required: "required",
+  } as const;
+export type ListCatalogItemsResponseDataInnerPrescriptionRequirementsCompoundingReasonContextEnum =
+  (typeof ListCatalogItemsResponseDataInnerPrescriptionRequirementsCompoundingReasonContextEnum)[keyof typeof ListCatalogItemsResponseDataInnerPrescriptionRequirementsCompoundingReasonContextEnum];
 
 /**
  * @export
@@ -240,7 +282,11 @@ export function ListCatalogItemsResponseDataInnerPrescriptionRequirementsFromJSO
           ),
     allowedReasonCategories:
       json["allowedReasonCategories"] == null ? undefined : json["allowedReasonCategories"],
+    reasonCategoryLabels:
+      json["reasonCategoryLabels"] == null ? undefined : json["reasonCategoryLabels"],
     compoundingReason: json["compoundingReason"],
+    compoundingReasonContext:
+      json["compoundingReasonContext"] == null ? undefined : json["compoundingReasonContext"],
     controlledSchedule: json["controlledSchedule"] == null ? undefined : json["controlledSchedule"],
     defaultDaysSupply: json["defaultDaysSupply"] == null ? undefined : json["defaultDaysSupply"],
     defaultQuantity:
@@ -248,6 +294,12 @@ export function ListCatalogItemsResponseDataInnerPrescriptionRequirementsFromJSO
         ? undefined
         : ListCatalogItemsResponseDataInnerPrescriptionRequirementsDefaultQuantityFromJSON(
             json["defaultQuantity"],
+          ),
+    quantityIncrement:
+      json["quantityIncrement"] == null
+        ? undefined
+        : ListCatalogItemsResponseDataInnerPrescriptionRequirementsQuantityIncrementFromJSON(
+            json["quantityIncrement"],
           ),
     defaultSigs: json["defaultSigs"] == null ? undefined : json["defaultSigs"],
     diagnosis: json["diagnosis"],
@@ -282,12 +334,18 @@ export function ListCatalogItemsResponseDataInnerPrescriptionRequirementsToJSONT
             ListCatalogItemsResponseDataInnerPrescriptionRequirementsAllowedQuantitiesInnerToJSON,
           ),
     allowedReasonCategories: value["allowedReasonCategories"],
+    reasonCategoryLabels: value["reasonCategoryLabels"],
     compoundingReason: value["compoundingReason"],
+    compoundingReasonContext: value["compoundingReasonContext"],
     controlledSchedule: value["controlledSchedule"],
     defaultDaysSupply: value["defaultDaysSupply"],
     defaultQuantity: ListCatalogItemsResponseDataInnerPrescriptionRequirementsDefaultQuantityToJSON(
       value["defaultQuantity"],
     ),
+    quantityIncrement:
+      ListCatalogItemsResponseDataInnerPrescriptionRequirementsQuantityIncrementToJSON(
+        value["quantityIncrement"],
+      ),
     defaultSigs: value["defaultSigs"],
     diagnosis: value["diagnosis"],
     maxRefills: value["maxRefills"],

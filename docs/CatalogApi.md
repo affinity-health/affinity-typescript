@@ -2,15 +2,15 @@
 
 All URIs are relative to *https://api.joinaffinityai.com*
 
-| Method                                                       | HTTP request                                               | Description                |
-| ------------------------------------------------------------ | ---------------------------------------------------------- | -------------------------- |
-| [**listCatalogItems**](CatalogApi.md#listcatalogitems)       | **GET** /v1/catalog/items                                  | List catalog items         |
-| [**listCompounders**](CatalogApi.md#listcompounders)         | **GET** /v1/compounders                                    | List available compounders |
-| [**listShippingOptions**](CatalogApi.md#listshippingoptions) | **GET** /v1/catalog/items/{catalogItemId}/shipping-options | List shipping options      |
+| Method                                                       | HTTP request                                               | Description           |
+| ------------------------------------------------------------ | ---------------------------------------------------------- | --------------------- |
+| [**listCatalogItems**](CatalogApi.md#listcatalogitems)       | **GET** /v1/catalog/items                                  | List catalog items    |
+| [**listPharmacies**](CatalogApi.md#listpharmacies)           | **GET** /v1/pharmacies                                     | List pharmacies       |
+| [**listShippingOptions**](CatalogApi.md#listshippingoptions) | **GET** /v1/catalog/items/{catalogItemId}/shipping-options | List shipping options |
 
 ## listCatalogItems
 
-> ListCatalogItemsResponse listCatalogItems(availability, compounderIds, dosageForms, endingBefore, hideControlledSubstances, hideUnpriced, limit, orgId, practiceId, query, requirement, routes, startingAfter, affinityVersion)
+> ListCatalogItemsResponse listCatalogItems(sort, catalogItemId, availability, pharmacyIds, dosageForms, endingBefore, hideControlledSubstances, hideUnpriced, limit, orgId, practiceId, query, requirement, routes, startingAfter, affinityVersion)
 
 List catalog items
 
@@ -36,10 +36,14 @@ async function example() {
   const api = new CatalogApi(config);
 
   const body = {
+    // 'relevance' | 'name_asc' | 'name_desc' (optional)
+    sort: sort_example,
+    // string (optional)
+    catalogItemId: catalogItemId_example,
     // 'all' | 'orderable' | 'unavailable' (optional)
     availability: availability_example,
-    // ListCatalogItemsCompounderIdsParameter (optional)
-    compounderIds: ...,
+    // ListCatalogItemsPharmacyIdsParameter (optional)
+    pharmacyIds: ...,
     // ListCatalogItemsDosageFormsParameter (optional)
     dosageForms: ...,
     // string (optional)
@@ -82,8 +86,10 @@ example().catch(console.error);
 
 | Name                         | Type                                    | Description | Notes                                                                          |
 | ---------------------------- | --------------------------------------- | ----------- | ------------------------------------------------------------------------------ |
+| **sort**                     | `relevance`, `name_asc`, `name_desc`    |             | [Optional] [Defaults to `undefined`] [Enum: relevance, name_asc, name_desc]    |
+| **catalogItemId**            | `string`                                |             | [Optional] [Defaults to `undefined`]                                           |
 | **availability**             | `all`, `orderable`, `unavailable`       |             | [Optional] [Defaults to `undefined`] [Enum: all, orderable, unavailable]       |
-| **compounderIds**            | [](.md)                                 |             | [Optional] [Defaults to `undefined`]                                           |
+| **pharmacyIds**              | [](.md)                                 |             | [Optional] [Defaults to `undefined`]                                           |
 | **dosageForms**              | [](.md)                                 |             | [Optional] [Defaults to `undefined`]                                           |
 | **endingBefore**             | `string`                                |             | [Optional] [Defaults to `undefined`]                                           |
 | **hideControlledSubstances** | `boolean`                               |             | [Optional] [Defaults to `undefined`]                                           |
@@ -115,25 +121,26 @@ example().catch(console.error);
 | Status code | Description | Response headers |
 | ----------- | ----------- | ---------------- |
 | **200**     | HTTP 200    | -                |
+| **400**     | HTTP 400    | -                |
 | **401**     | HTTP 401    | -                |
 | **403**     | HTTP 403    | -                |
 | **429**     | HTTP 429    | -                |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
-## listCompounders
+## listPharmacies
 
-> ListCompoundersResponse listCompounders(endingBefore, limit, orgId, query, startingAfter, affinityVersion)
+> ListPharmaciesResponse listPharmacies(endingBefore, limit, orgId, query, shipsToState, startingAfter, affinityVersion)
 
-List available compounders
+List pharmacies
 
-Lists compounders available to the authenticated account, including approved invite-only relationships.
+Lists pharmacies available to the authenticated account, including approved invite-only relationships.
 
 ### Example
 
 ```ts
 import { Configuration, CatalogApi } from "@affinity-health/sdk";
-import type { ListCompoundersRequest } from "@affinity-health/sdk";
+import type { ListPharmaciesRequest } from "@affinity-health/sdk";
 
 async function example() {
   console.log("🚀 Testing @affinity-health/sdk SDK...");
@@ -155,13 +162,15 @@ async function example() {
     // string (optional)
     query: query_example,
     // string (optional)
+    shipsToState: shipsToState_example,
+    // string (optional)
     startingAfter: startingAfter_example,
     // string (optional)
     affinityVersion: affinityVersion_example,
-  } satisfies ListCompoundersRequest;
+  } satisfies ListPharmaciesRequest;
 
   try {
-    const data = await api.listCompounders(body);
+    const data = await api.listPharmacies(body);
     console.log(data);
   } catch (error) {
     console.error(error);
@@ -180,12 +189,13 @@ example().catch(console.error);
 | **limit**           | `number` |             | [Optional] [Defaults to `25`]        |
 | **orgId**           | `string` |             | [Optional] [Defaults to `undefined`] |
 | **query**           | `string` |             | [Optional] [Defaults to `undefined`] |
+| **shipsToState**    | `string` |             | [Optional] [Defaults to `undefined`] |
 | **startingAfter**   | `string` |             | [Optional] [Defaults to `undefined`] |
 | **affinityVersion** | `string` |             | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 
-[**ListCompoundersResponse**](ListCompoundersResponse.md)
+[**ListPharmaciesResponse**](ListPharmaciesResponse.md)
 
 ### Authorization
 
@@ -201,6 +211,7 @@ example().catch(console.error);
 | Status code | Description | Response headers |
 | ----------- | ----------- | ---------------- |
 | **200**     | HTTP 200    | -                |
+| **400**     | HTTP 400    | -                |
 | **401**     | HTTP 401    | -                |
 | **403**     | HTTP 403    | -                |
 | **429**     | HTTP 429    | -                |
@@ -281,6 +292,7 @@ example().catch(console.error);
 | Status code | Description | Response headers |
 | ----------- | ----------- | ---------------- |
 | **200**     | HTTP 200    | -                |
+| **400**     | HTTP 400    | -                |
 | **401**     | HTTP 401    | -                |
 | **403**     | HTTP 403    | -                |
 | **429**     | HTTP 429    | -                |

@@ -2,7 +2,7 @@
 /* eslint-disable */
 /**
  * Affinity API
- * Affinity API for software platforms connecting practices to the compounder network.
+ * Affinity API for practices and software platforms connecting to the pharmacy network.
  *
  * The version of the OpenAPI document: 2026-08-11
  * Contact: support@joinaffinityai.com
@@ -13,20 +13,34 @@
  */
 
 import { mapValues } from "../runtime";
-import type { GetOrderResponseFulfillmentsInner } from "./GetOrderResponseFulfillmentsInner";
+import type { CancelOrderResponseFulfillmentsInner } from "./CancelOrderResponseFulfillmentsInner";
 import {
-  GetOrderResponseFulfillmentsInnerFromJSON,
-  GetOrderResponseFulfillmentsInnerFromJSONTyped,
-  GetOrderResponseFulfillmentsInnerToJSON,
-  GetOrderResponseFulfillmentsInnerToJSONTyped,
-} from "./GetOrderResponseFulfillmentsInner";
-import type { GetOrderResponsePrescriptionsInner } from "./GetOrderResponsePrescriptionsInner";
+  CancelOrderResponseFulfillmentsInnerFromJSON,
+  CancelOrderResponseFulfillmentsInnerFromJSONTyped,
+  CancelOrderResponseFulfillmentsInnerToJSON,
+  CancelOrderResponseFulfillmentsInnerToJSONTyped,
+} from "./CancelOrderResponseFulfillmentsInner";
+import type { CancelOrderResponsePrescriptionsInner } from "./CancelOrderResponsePrescriptionsInner";
 import {
-  GetOrderResponsePrescriptionsInnerFromJSON,
-  GetOrderResponsePrescriptionsInnerFromJSONTyped,
-  GetOrderResponsePrescriptionsInnerToJSON,
-  GetOrderResponsePrescriptionsInnerToJSONTyped,
-} from "./GetOrderResponsePrescriptionsInner";
+  CancelOrderResponsePrescriptionsInnerFromJSON,
+  CancelOrderResponsePrescriptionsInnerFromJSONTyped,
+  CancelOrderResponsePrescriptionsInnerToJSON,
+  CancelOrderResponsePrescriptionsInnerToJSONTyped,
+} from "./CancelOrderResponsePrescriptionsInner";
+import type { CancelOrderResponseLifecycleEventsInner } from "./CancelOrderResponseLifecycleEventsInner";
+import {
+  CancelOrderResponseLifecycleEventsInnerFromJSON,
+  CancelOrderResponseLifecycleEventsInnerFromJSONTyped,
+  CancelOrderResponseLifecycleEventsInnerToJSON,
+  CancelOrderResponseLifecycleEventsInnerToJSONTyped,
+} from "./CancelOrderResponseLifecycleEventsInner";
+import type { CancelOrderResponseReview } from "./CancelOrderResponseReview";
+import {
+  CancelOrderResponseReviewFromJSON,
+  CancelOrderResponseReviewFromJSONTyped,
+  CancelOrderResponseReviewToJSON,
+  CancelOrderResponseReviewToJSONTyped,
+} from "./CancelOrderResponseReview";
 
 /**
  *
@@ -35,23 +49,47 @@ import {
  */
 export interface CancelOrderResponse {
   /**
-   *
-   * @type {string}
+   * Snapshot of the practice-facing medication total. Null until every prescription has recorded submission pricing. Excludes shipping and supplies.
+   * @type {number}
    * @memberof CancelOrderResponse
    */
-  createdAt: string;
-  /**
-   *
-   * @type {Array<GetOrderResponseFulfillmentsInner>}
-   * @memberof CancelOrderResponse
-   */
-  fulfillments: Array<GetOrderResponseFulfillmentsInner>;
+  practiceMedicationTotalCents: number | null;
   /**
    *
    * @type {string}
    * @memberof CancelOrderResponse
    */
-  id: string;
+  externalOrderId: string | null;
+  /**
+   *
+   * @type {any}
+   * @memberof CancelOrderResponse
+   */
+  metadata: any | null;
+  /**
+   * Match this integration's external identity in the API key's mode.
+   * @type {string}
+   * @memberof CancelOrderResponse
+   */
+  createdAt: string | null;
+  /**
+   *
+   * @type {Array<CancelOrderResponseFulfillmentsInner>}
+   * @memberof CancelOrderResponse
+   */
+  fulfillments: Array<CancelOrderResponseFulfillmentsInner>;
+  /**
+   *
+   * @type {string}
+   * @memberof CancelOrderResponse
+   */
+  id: string | null;
+  /**
+   *
+   * @type {Array<CancelOrderResponseLifecycleEventsInner>}
+   * @memberof CancelOrderResponse
+   */
+  lifecycleEvents: Array<CancelOrderResponseLifecycleEventsInner>;
   /**
    *
    * @type {boolean}
@@ -65,11 +103,11 @@ export interface CancelOrderResponse {
    */
   object: CancelOrderResponseObjectEnum;
   /**
-   *
+   * Match this integration's external identity in the API key's mode.
    * @type {string}
    * @memberof CancelOrderResponse
    */
-  patientExternalId: string;
+  patientExternalId: string | null;
   /**
    *
    * @type {string}
@@ -77,23 +115,23 @@ export interface CancelOrderResponse {
    */
   patientId: string;
   /**
-   *
+   * Match this integration's external identity in the API key's mode.
    * @type {string}
    * @memberof CancelOrderResponse
    */
-  patientName: string;
+  patientName: string | null;
+  /**
+   * Match this integration's external identity in the API key's mode.
+   * @type {string}
+   * @memberof CancelOrderResponse
+   */
+  patientState: string | null;
   /**
    *
    * @type {string}
    * @memberof CancelOrderResponse
    */
-  patientState: string;
-  /**
-   *
-   * @type {string}
-   * @memberof CancelOrderResponse
-   */
-  practiceId: string;
+  practiceId: string | null;
   /**
    *
    * @type {string}
@@ -108,22 +146,28 @@ export interface CancelOrderResponse {
   prescriberNpi: string | null;
   /**
    *
-   * @type {Array<GetOrderResponsePrescriptionsInner>}
+   * @type {CancelOrderResponseReview}
    * @memberof CancelOrderResponse
    */
-  prescriptions: Array<GetOrderResponsePrescriptionsInner>;
+  review: CancelOrderResponseReview | null;
+  /**
+   *
+   * @type {Array<CancelOrderResponsePrescriptionsInner>}
+   * @memberof CancelOrderResponse
+   */
+  prescriptions: Array<CancelOrderResponsePrescriptionsInner>;
   /**
    *
    * @type {CancelOrderResponseStatusEnum}
    * @memberof CancelOrderResponse
    */
-  status: CancelOrderResponseStatusEnum;
+  status: CancelOrderResponseStatusEnum | null;
   /**
-   *
+   * Match this integration's external identity in the API key's mode.
    * @type {string}
    * @memberof CancelOrderResponse
    */
-  updatedAt: string;
+  updatedAt: string | null;
 }
 
 /**
@@ -146,6 +190,7 @@ export const CancelOrderResponseStatusEnum = {
   PartiallySubmitted: "partially_submitted",
   Processing: "processing",
   Ready: "ready",
+  Rejected: "rejected",
   RequiresProviderSignature: "requires_provider_signature",
   Shipped: "shipped",
   Submitted: "submitted",
@@ -157,9 +202,17 @@ export type CancelOrderResponseStatusEnum =
  * Check if a given object implements the CancelOrderResponse interface.
  */
 export function instanceOfCancelOrderResponse(value: object): value is CancelOrderResponse {
+  if (
+    !("practiceMedicationTotalCents" in value) ||
+    value["practiceMedicationTotalCents"] === undefined
+  )
+    return false;
+  if (!("externalOrderId" in value) || value["externalOrderId"] === undefined) return false;
+  if (!("metadata" in value) || value["metadata"] === undefined) return false;
   if (!("createdAt" in value) || value["createdAt"] === undefined) return false;
   if (!("fulfillments" in value) || value["fulfillments"] === undefined) return false;
   if (!("id" in value) || value["id"] === undefined) return false;
+  if (!("lifecycleEvents" in value) || value["lifecycleEvents"] === undefined) return false;
   if (!("livemode" in value) || value["livemode"] === undefined) return false;
   if (!("object" in value) || value["object"] === undefined) return false;
   if (!("patientExternalId" in value) || value["patientExternalId"] === undefined) return false;
@@ -169,6 +222,7 @@ export function instanceOfCancelOrderResponse(value: object): value is CancelOrd
   if (!("practiceId" in value) || value["practiceId"] === undefined) return false;
   if (!("prescriberName" in value) || value["prescriberName"] === undefined) return false;
   if (!("prescriberNpi" in value) || value["prescriberNpi"] === undefined) return false;
+  if (!("review" in value) || value["review"] === undefined) return false;
   if (!("prescriptions" in value) || value["prescriptions"] === undefined) return false;
   if (!("status" in value) || value["status"] === undefined) return false;
   if (!("updatedAt" in value) || value["updatedAt"] === undefined) return false;
@@ -187,11 +241,17 @@ export function CancelOrderResponseFromJSONTyped(
     return json;
   }
   return {
+    practiceMedicationTotalCents: json["practiceMedicationTotalCents"],
+    externalOrderId: json["externalOrderId"],
+    metadata: json["metadata"],
     createdAt: json["createdAt"],
     fulfillments: (json["fulfillments"] as Array<any>).map(
-      GetOrderResponseFulfillmentsInnerFromJSON,
+      CancelOrderResponseFulfillmentsInnerFromJSON,
     ),
     id: json["id"],
+    lifecycleEvents: (json["lifecycleEvents"] as Array<any>).map(
+      CancelOrderResponseLifecycleEventsInnerFromJSON,
+    ),
     livemode: json["livemode"],
     object: json["object"],
     patientExternalId: json["patientExternalId"],
@@ -201,8 +261,9 @@ export function CancelOrderResponseFromJSONTyped(
     practiceId: json["practiceId"],
     prescriberName: json["prescriberName"],
     prescriberNpi: json["prescriberNpi"],
+    review: CancelOrderResponseReviewFromJSON(json["review"]),
     prescriptions: (json["prescriptions"] as Array<any>).map(
-      GetOrderResponsePrescriptionsInnerFromJSON,
+      CancelOrderResponsePrescriptionsInnerFromJSON,
     ),
     status: json["status"],
     updatedAt: json["updatedAt"],
@@ -222,11 +283,17 @@ export function CancelOrderResponseToJSONTyped(
   }
 
   return {
+    practiceMedicationTotalCents: value["practiceMedicationTotalCents"],
+    externalOrderId: value["externalOrderId"],
+    metadata: value["metadata"],
     createdAt: value["createdAt"],
     fulfillments: (value["fulfillments"] as Array<any>).map(
-      GetOrderResponseFulfillmentsInnerToJSON,
+      CancelOrderResponseFulfillmentsInnerToJSON,
     ),
     id: value["id"],
+    lifecycleEvents: (value["lifecycleEvents"] as Array<any>).map(
+      CancelOrderResponseLifecycleEventsInnerToJSON,
+    ),
     livemode: value["livemode"],
     object: value["object"],
     patientExternalId: value["patientExternalId"],
@@ -236,8 +303,9 @@ export function CancelOrderResponseToJSONTyped(
     practiceId: value["practiceId"],
     prescriberName: value["prescriberName"],
     prescriberNpi: value["prescriberNpi"],
+    review: CancelOrderResponseReviewToJSON(value["review"]),
     prescriptions: (value["prescriptions"] as Array<any>).map(
-      GetOrderResponsePrescriptionsInnerToJSON,
+      CancelOrderResponsePrescriptionsInnerToJSON,
     ),
     status: value["status"],
     updatedAt: value["updatedAt"],

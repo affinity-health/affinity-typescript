@@ -2,7 +2,7 @@
 /* eslint-disable */
 /**
  * Affinity API
- * Affinity API for software platforms connecting practices to the compounder network.
+ * Affinity API for practices and software platforms connecting to the pharmacy network.
  *
  * The version of the OpenAPI document: 2026-08-11
  * Contact: support@joinaffinityai.com
@@ -13,6 +13,14 @@
  */
 
 import { mapValues } from "../runtime";
+import type { ListCatalogItemsResponseDataInnerPrescriptionRequirementsAllowedQuantitiesInnerValue } from "./ListCatalogItemsResponseDataInnerPrescriptionRequirementsAllowedQuantitiesInnerValue";
+import {
+  ListCatalogItemsResponseDataInnerPrescriptionRequirementsAllowedQuantitiesInnerValueFromJSON,
+  ListCatalogItemsResponseDataInnerPrescriptionRequirementsAllowedQuantitiesInnerValueFromJSONTyped,
+  ListCatalogItemsResponseDataInnerPrescriptionRequirementsAllowedQuantitiesInnerValueToJSON,
+  ListCatalogItemsResponseDataInnerPrescriptionRequirementsAllowedQuantitiesInnerValueToJSONTyped,
+} from "./ListCatalogItemsResponseDataInnerPrescriptionRequirementsAllowedQuantitiesInnerValue";
+
 /**
  *
  * @export
@@ -26,23 +34,23 @@ export interface ListCatalogItemsResponseDataInnerPrescriptionRequirementsAllowe
    */
   daysSupply?: number | null;
   /**
-   *
+   * Match this integration's external identity in the API key's mode.
    * @type {string}
    * @memberof ListCatalogItemsResponseDataInnerPrescriptionRequirementsAllowedQuantitiesInner
    */
-  label: string;
+  label: string | null;
   /**
-   *
+   * Match this integration's external identity in the API key's mode.
    * @type {string}
    * @memberof ListCatalogItemsResponseDataInnerPrescriptionRequirementsAllowedQuantitiesInner
    */
-  unit: string;
+  unit: string | null;
   /**
    *
-   * @type {number}
+   * @type {ListCatalogItemsResponseDataInnerPrescriptionRequirementsAllowedQuantitiesInnerValue}
    * @memberof ListCatalogItemsResponseDataInnerPrescriptionRequirementsAllowedQuantitiesInner
    */
-  value: number | null;
+  value: ListCatalogItemsResponseDataInnerPrescriptionRequirementsAllowedQuantitiesInnerValue;
 }
 
 /**
@@ -77,7 +85,10 @@ export function ListCatalogItemsResponseDataInnerPrescriptionRequirementsAllowed
     daysSupply: json["daysSupply"] == null ? undefined : json["daysSupply"],
     label: json["label"],
     unit: json["unit"],
-    value: json["value"],
+    value:
+      ListCatalogItemsResponseDataInnerPrescriptionRequirementsAllowedQuantitiesInnerValueFromJSON(
+        json["value"],
+      ),
   };
 }
 
@@ -102,6 +113,9 @@ export function ListCatalogItemsResponseDataInnerPrescriptionRequirementsAllowed
     daysSupply: value["daysSupply"],
     label: value["label"],
     unit: value["unit"],
-    value: value["value"],
+    value:
+      ListCatalogItemsResponseDataInnerPrescriptionRequirementsAllowedQuantitiesInnerValueToJSON(
+        value["value"],
+      ),
   };
 }

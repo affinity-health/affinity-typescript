@@ -4,14 +4,14 @@
 
 | Name               | Type                                                                                                             |
 | ------------------ | ---------------------------------------------------------------------------------------------------------------- |
-| `address`          | [ListPracticesResponseDataInnerAddress](ListPracticesResponseDataInnerAddress.md)                                |
-| `contacts`         | [ListPracticesResponseDataInnerContacts](ListPracticesResponseDataInnerContacts.md)                              |
+| `address`          | [UpdatePatientAddressResponseAddress](UpdatePatientAddressResponseAddress.md)                                    |
+| `contacts`         | [CreatePracticeResponseContacts](CreatePracticeResponseContacts.md)                                              |
 | `createdAt`        | string                                                                                                           |
 | `externalId`       | string                                                                                                           |
 | `id`               | string                                                                                                           |
 | `legalName`        | string                                                                                                           |
 | `livemode`         | boolean                                                                                                          |
-| `metadata`         | { [key: string]: any; }                                                                                          |
+| `metadata`         | object                                                                                                           |
 | `name`             | string                                                                                                           |
 | `object`           | string                                                                                                           |
 | `prescribers`      | [Array&lt;ListPracticesResponseDataInnerPrescribersInner&gt;](ListPracticesResponseDataInnerPrescribersInner.md) |

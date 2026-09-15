@@ -2,7 +2,7 @@
 /* eslint-disable */
 /**
  * Affinity API
- * Affinity API for software platforms connecting practices to the compounder network.
+ * Affinity API for practices and software platforms connecting to the pharmacy network.
  *
  * The version of the OpenAPI document: 2026-08-11
  * Contact: support@joinaffinityai.com
@@ -20,20 +20,20 @@ import {
   ListPracticesResponseDataInnerPrescribersInnerToJSON,
   ListPracticesResponseDataInnerPrescribersInnerToJSONTyped,
 } from "./ListPracticesResponseDataInnerPrescribersInner";
-import type { ListPracticesResponseDataInnerAddress } from "./ListPracticesResponseDataInnerAddress";
+import type { UpdatePatientAddressResponseAddress } from "./UpdatePatientAddressResponseAddress";
 import {
-  ListPracticesResponseDataInnerAddressFromJSON,
-  ListPracticesResponseDataInnerAddressFromJSONTyped,
-  ListPracticesResponseDataInnerAddressToJSON,
-  ListPracticesResponseDataInnerAddressToJSONTyped,
-} from "./ListPracticesResponseDataInnerAddress";
-import type { ListPracticesResponseDataInnerContacts } from "./ListPracticesResponseDataInnerContacts";
+  UpdatePatientAddressResponseAddressFromJSON,
+  UpdatePatientAddressResponseAddressFromJSONTyped,
+  UpdatePatientAddressResponseAddressToJSON,
+  UpdatePatientAddressResponseAddressToJSONTyped,
+} from "./UpdatePatientAddressResponseAddress";
+import type { CreatePracticeResponseContacts } from "./CreatePracticeResponseContacts";
 import {
-  ListPracticesResponseDataInnerContactsFromJSON,
-  ListPracticesResponseDataInnerContactsFromJSONTyped,
-  ListPracticesResponseDataInnerContactsToJSON,
-  ListPracticesResponseDataInnerContactsToJSONTyped,
-} from "./ListPracticesResponseDataInnerContacts";
+  CreatePracticeResponseContactsFromJSON,
+  CreatePracticeResponseContactsFromJSONTyped,
+  CreatePracticeResponseContactsToJSON,
+  CreatePracticeResponseContactsToJSONTyped,
+} from "./CreatePracticeResponseContacts";
 
 /**
  *
@@ -43,22 +43,22 @@ import {
 export interface ListPracticesResponseDataInner {
   /**
    *
-   * @type {ListPracticesResponseDataInnerAddress}
+   * @type {UpdatePatientAddressResponseAddress}
    * @memberof ListPracticesResponseDataInner
    */
-  address: ListPracticesResponseDataInnerAddress | null;
+  address: UpdatePatientAddressResponseAddress | null;
   /**
    *
-   * @type {ListPracticesResponseDataInnerContacts}
+   * @type {CreatePracticeResponseContacts}
    * @memberof ListPracticesResponseDataInner
    */
-  contacts: ListPracticesResponseDataInnerContacts;
+  contacts: CreatePracticeResponseContacts;
   /**
-   *
+   * Match this integration's external identity in the API key's mode.
    * @type {string}
    * @memberof ListPracticesResponseDataInner
    */
-  createdAt: string;
+  createdAt: string | null;
   /**
    *
    * @type {string}
@@ -70,7 +70,7 @@ export interface ListPracticesResponseDataInner {
    * @type {string}
    * @memberof ListPracticesResponseDataInner
    */
-  id: string;
+  id: string | null;
   /**
    *
    * @type {string}
@@ -85,16 +85,16 @@ export interface ListPracticesResponseDataInner {
   livemode: boolean;
   /**
    *
-   * @type {{ [key: string]: any; }}
+   * @type {object}
    * @memberof ListPracticesResponseDataInner
    */
-  metadata: { [key: string]: any };
+  metadata: object;
   /**
-   *
+   * Match this integration's external identity in the API key's mode.
    * @type {string}
    * @memberof ListPracticesResponseDataInner
    */
-  name: string;
+  name: string | null;
   /**
    *
    * @type {ListPracticesResponseDataInnerObjectEnum}
@@ -126,11 +126,11 @@ export interface ListPracticesResponseDataInner {
    */
   supportPhone: string | null;
   /**
-   *
+   * Match this integration's external identity in the API key's mode.
    * @type {string}
    * @memberof ListPracticesResponseDataInner
    */
-  timezone: string;
+  timezone: string | null;
 }
 
 /**
@@ -189,8 +189,8 @@ export function ListPracticesResponseDataInnerFromJSONTyped(
     return json;
   }
   return {
-    address: ListPracticesResponseDataInnerAddressFromJSON(json["address"]),
-    contacts: ListPracticesResponseDataInnerContactsFromJSON(json["contacts"]),
+    address: UpdatePatientAddressResponseAddressFromJSON(json["address"]),
+    contacts: CreatePracticeResponseContactsFromJSON(json["contacts"]),
     createdAt: json["createdAt"],
     externalId: json["externalId"],
     id: json["id"],
@@ -222,8 +222,8 @@ export function ListPracticesResponseDataInnerToJSONTyped(
   }
 
   return {
-    address: ListPracticesResponseDataInnerAddressToJSON(value["address"]),
-    contacts: ListPracticesResponseDataInnerContactsToJSON(value["contacts"]),
+    address: UpdatePatientAddressResponseAddressToJSON(value["address"]),
+    contacts: CreatePracticeResponseContactsToJSON(value["contacts"]),
     createdAt: value["createdAt"],
     externalId: value["externalId"],
     id: value["id"],

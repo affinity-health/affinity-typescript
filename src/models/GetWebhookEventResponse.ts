@@ -2,7 +2,7 @@
 /* eslint-disable */
 /**
  * Affinity API
- * Affinity API for software platforms connecting practices to the compounder network.
+ * Affinity API for practices and software platforms connecting to the pharmacy network.
  *
  * The version of the OpenAPI document: 2026-08-11
  * Contact: support@joinaffinityai.com
@@ -35,23 +35,23 @@ import {
  */
 export interface GetWebhookEventResponse {
   /**
-   *
+   * Match this integration's external identity in the API key's mode.
    * @type {string}
    * @memberof GetWebhookEventResponse
    */
-  apiVersion: string;
+  apiVersion: string | null;
   /**
-   *
+   * Match this integration's external identity in the API key's mode.
    * @type {string}
    * @memberof GetWebhookEventResponse
    */
-  createdAt: string;
+  createdAt: string | null;
   /**
-   *
+   * Match this integration's external identity in the API key's mode.
    * @type {string}
    * @memberof GetWebhookEventResponse
    */
-  eventType: string;
+  eventType: string | null;
   /**
    *
    * @type {string}
@@ -71,17 +71,17 @@ export interface GetWebhookEventResponse {
    */
   object: GetWebhookEventResponseObjectEnum;
   /**
-   *
+   * Match this integration's external identity in the API key's mode.
    * @type {string}
    * @memberof GetWebhookEventResponse
    */
-  resourceId: string;
+  resourceId: string | null;
   /**
-   *
+   * Match this integration's external identity in the API key's mode.
    * @type {string}
    * @memberof GetWebhookEventResponse
    */
-  resourceType: string;
+  resourceType: string | null;
   /**
    *
    * @type {GetWebhookEventResponseStatusEnum}
@@ -102,10 +102,10 @@ export interface GetWebhookEventResponse {
   deliveries: Array<GetWebhookEventResponseDeliveriesInner>;
   /**
    *
-   * @type {{ [key: string]: any; }}
+   * @type {object}
    * @memberof GetWebhookEventResponse
    */
-  payload: { [key: string]: any };
+  payload: object;
 }
 
 /**

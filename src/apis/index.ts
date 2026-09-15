@@ -1,16 +1,13 @@
 /* tslint:disable */
 /* eslint-disable */
 export * from "./APIKeysApi";
+export * from "./AccountApi";
 export * from "./CatalogApi";
-export * from "./ComponentSessionsApi";
-export * from "./HostedSessionsApi";
-export * from "./MembershipsApi";
-export * from "./OrderSigningSessionsApi";
+export * from "./LocationsApi";
+export * from "./OrdersApi";
 export * from "./PatientsApi";
-export * from "./PlatformOrdersApi";
-export * from "./PlatformWebhooksApi";
-export * from "./PlatformsApi";
+export * from "./PlatformPricingApi";
 export * from "./PracticesApi";
-export * from "./ProviderMappingsApi";
-export * from "./RolesApi";
-export * from "./UsersApi";
+export * from "./SessionsApi";
+export * from "./TeamApi";
+export * from "./WebhooksApi";

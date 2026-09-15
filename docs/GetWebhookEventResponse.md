@@ -15,6 +15,6 @@
 | `status`       | string                                                                                           |
 | `attempts`     | [Array&lt;GetWebhookEventResponseAttemptsInner&gt;](GetWebhookEventResponseAttemptsInner.md)     |
 | `deliveries`   | [Array&lt;GetWebhookEventResponseDeliveriesInner&gt;](GetWebhookEventResponseDeliveriesInner.md) |
-| `payload`      | { [key: string]: any; }                                                                          |
+| `payload`      | object                                                                                           |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)

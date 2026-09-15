@@ -2,7 +2,7 @@
 /* eslint-disable */
 /**
  * Affinity API
- * Affinity API for software platforms connecting practices to the compounder network.
+ * Affinity API for practices and software platforms connecting to the pharmacy network.
  *
  * The version of the OpenAPI document: 2026-08-11
  * Contact: support@joinaffinityai.com
@@ -13,12 +13,32 @@
  */
 
 import { mapValues } from "../runtime";
+import type { ListCatalogItemsResponseDataInnerPricingBasis } from "./ListCatalogItemsResponseDataInnerPricingBasis";
+import {
+  ListCatalogItemsResponseDataInnerPricingBasisFromJSON,
+  ListCatalogItemsResponseDataInnerPricingBasisFromJSONTyped,
+  ListCatalogItemsResponseDataInnerPricingBasisToJSON,
+  ListCatalogItemsResponseDataInnerPricingBasisToJSONTyped,
+} from "./ListCatalogItemsResponseDataInnerPricingBasis";
+
 /**
  *
  * @export
  * @interface ListCatalogItemsResponseDataInnerPricing
  */
 export interface ListCatalogItemsResponseDataInnerPricing {
+  /**
+   *
+   * @type {number}
+   * @memberof ListCatalogItemsResponseDataInnerPricing
+   */
+  amountCents: number;
+  /**
+   *
+   * @type {ListCatalogItemsResponseDataInnerPricingBasis}
+   * @memberof ListCatalogItemsResponseDataInnerPricing
+   */
+  basis: ListCatalogItemsResponseDataInnerPricingBasis;
   /**
    *
    * @type {ListCatalogItemsResponseDataInnerPricingCurrencyEnum}
@@ -30,7 +50,7 @@ export interface ListCatalogItemsResponseDataInnerPricing {
    * @type {number}
    * @memberof ListCatalogItemsResponseDataInnerPricing
    */
-  medicationSubtotalCents: number | null;
+  medicationSubtotalCents: number;
 }
 
 /**
@@ -48,6 +68,8 @@ export type ListCatalogItemsResponseDataInnerPricingCurrencyEnum =
 export function instanceOfListCatalogItemsResponseDataInnerPricing(
   value: object,
 ): value is ListCatalogItemsResponseDataInnerPricing {
+  if (!("amountCents" in value) || value["amountCents"] === undefined) return false;
+  if (!("basis" in value) || value["basis"] === undefined) return false;
   if (!("currency" in value) || value["currency"] === undefined) return false;
   if (!("medicationSubtotalCents" in value) || value["medicationSubtotalCents"] === undefined)
     return false;
@@ -68,6 +90,8 @@ export function ListCatalogItemsResponseDataInnerPricingFromJSONTyped(
     return json;
   }
   return {
+    amountCents: json["amountCents"],
+    basis: ListCatalogItemsResponseDataInnerPricingBasisFromJSON(json["basis"]),
     currency: json["currency"],
     medicationSubtotalCents: json["medicationSubtotalCents"],
   };
@@ -88,6 +112,8 @@ export function ListCatalogItemsResponseDataInnerPricingToJSONTyped(
   }
 
   return {
+    amountCents: value["amountCents"],
+    basis: ListCatalogItemsResponseDataInnerPricingBasisToJSON(value["basis"]),
     currency: value["currency"],
     medicationSubtotalCents: value["medicationSubtotalCents"],
   };

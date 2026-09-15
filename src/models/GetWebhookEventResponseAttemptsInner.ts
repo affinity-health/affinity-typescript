@@ -2,7 +2,7 @@
 /* eslint-disable */
 /**
  * Affinity API
- * Affinity API for software platforms connecting practices to the compounder network.
+ * Affinity API for practices and software platforms connecting to the pharmacy network.
  *
  * The version of the OpenAPI document: 2026-08-11
  * Contact: support@joinaffinityai.com
@@ -13,6 +13,14 @@
  */
 
 import { mapValues } from "../runtime";
+import type { ListCatalogItemsResponseDataInnerPrescriptionRequirementsQuantityIncrementMax } from "./ListCatalogItemsResponseDataInnerPrescriptionRequirementsQuantityIncrementMax";
+import {
+  ListCatalogItemsResponseDataInnerPrescriptionRequirementsQuantityIncrementMaxFromJSON,
+  ListCatalogItemsResponseDataInnerPrescriptionRequirementsQuantityIncrementMaxFromJSONTyped,
+  ListCatalogItemsResponseDataInnerPrescriptionRequirementsQuantityIncrementMaxToJSON,
+  ListCatalogItemsResponseDataInnerPrescriptionRequirementsQuantityIncrementMaxToJSONTyped,
+} from "./ListCatalogItemsResponseDataInnerPrescriptionRequirementsQuantityIncrementMax";
+
 /**
  *
  * @export
@@ -24,7 +32,7 @@ export interface GetWebhookEventResponseAttemptsInner {
    * @type {number}
    * @memberof GetWebhookEventResponseAttemptsInner
    */
-  attemptNumber: number | null;
+  attemptNumber: number;
   /**
    *
    * @type {string}
@@ -33,10 +41,10 @@ export interface GetWebhookEventResponseAttemptsInner {
   completedAt: string | null;
   /**
    *
-   * @type {number}
+   * @type {ListCatalogItemsResponseDataInnerPrescriptionRequirementsQuantityIncrementMax}
    * @memberof GetWebhookEventResponseAttemptsInner
    */
-  durationMs: number | null;
+  durationMs: ListCatalogItemsResponseDataInnerPrescriptionRequirementsQuantityIncrementMax | null;
   /**
    *
    * @type {string}
@@ -56,17 +64,17 @@ export interface GetWebhookEventResponseAttemptsInner {
    */
   id: string;
   /**
-   *
+   * Match this integration's external identity in the API key's mode.
    * @type {string}
    * @memberof GetWebhookEventResponseAttemptsInner
    */
-  requestedAt: string;
+  requestedAt: string | null;
   /**
    *
-   * @type {number}
+   * @type {ListCatalogItemsResponseDataInnerPrescriptionRequirementsQuantityIncrementMax}
    * @memberof GetWebhookEventResponseAttemptsInner
    */
-  responseStatus: number | null;
+  responseStatus: ListCatalogItemsResponseDataInnerPrescriptionRequirementsQuantityIncrementMax | null;
   /**
    *
    * @type {GetWebhookEventResponseAttemptsInnerTriggerEnum}
@@ -120,12 +128,18 @@ export function GetWebhookEventResponseAttemptsInnerFromJSONTyped(
   return {
     attemptNumber: json["attemptNumber"],
     completedAt: json["completedAt"],
-    durationMs: json["durationMs"],
+    durationMs:
+      ListCatalogItemsResponseDataInnerPrescriptionRequirementsQuantityIncrementMaxFromJSON(
+        json["durationMs"],
+      ),
     errorCode: json["errorCode"],
     errorMessage: json["errorMessage"],
     id: json["id"],
     requestedAt: json["requestedAt"],
-    responseStatus: json["responseStatus"],
+    responseStatus:
+      ListCatalogItemsResponseDataInnerPrescriptionRequirementsQuantityIncrementMaxFromJSON(
+        json["responseStatus"],
+      ),
     trigger: json["trigger"],
   };
 }
@@ -147,12 +161,17 @@ export function GetWebhookEventResponseAttemptsInnerToJSONTyped(
   return {
     attemptNumber: value["attemptNumber"],
     completedAt: value["completedAt"],
-    durationMs: value["durationMs"],
+    durationMs: ListCatalogItemsResponseDataInnerPrescriptionRequirementsQuantityIncrementMaxToJSON(
+      value["durationMs"],
+    ),
     errorCode: value["errorCode"],
     errorMessage: value["errorMessage"],
     id: value["id"],
     requestedAt: value["requestedAt"],
-    responseStatus: value["responseStatus"],
+    responseStatus:
+      ListCatalogItemsResponseDataInnerPrescriptionRequirementsQuantityIncrementMaxToJSON(
+        value["responseStatus"],
+      ),
     trigger: value["trigger"],
   };
 }

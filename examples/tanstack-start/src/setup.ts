@@ -8,13 +8,13 @@ export const createTestPractice = createServerFn({ method: "POST" }).handler(asy
   if (!apiKey) throw new Error("Set AFFINITY_API_KEY in .env.local to a Test-mode API key.");
 
   const affinity = new Affinity(apiKey);
-  const access = await affinity.account.retrieveAccess();
+  const access = await affinity.apiKeys.getApiAccess();
   if (access.livemode) throw new Error("This example accepts only a Test-mode API key.");
 
   const runId = crypto.randomUUID();
   const providerName = "Dr. Alex Morgan";
-  const practice = await affinity.practices.create(
-    {
+  const practice = await affinity.practices.createPractice({
+    createPracticeRequest: {
       address: {
         city: "Detroit",
         country: "US",
@@ -42,51 +42,26 @@ export const createTestPractice = createServerFn({ method: "POST" }).handler(asy
       primaryContact: { email: "ops@example.com", name: "Test Operations" },
       timezone: "America/Detroit",
     },
-    { idempotencyKey: `practice:${runId}` },
-  );
-  const user = await affinity.users.create(
-    {
+    idempotencyKey: `practice:${runId}`,
+  });
+  const user = await affinity.team.registerUser({
+    practiceId: practice.id!,
+    registerUserRequest: {
       email: "alex.morgan@example.com",
       externalId: `sdk_example_provider_${runId}`,
       name: providerName,
-    },
-    { idempotencyKey: `user:${runId}` },
-  );
-  const role = await affinity.roles.create(
-    practice.id,
-    {
-      description: "Synthetic prescribing provider for the SDK example.",
-      name: "Prescribing provider",
-      permissions: ["prescriptions:write"],
-    },
-    { idempotencyKey: `role:${runId}` },
-  );
-  const membership = await affinity.memberships.create(
-    practice.id,
-    { roleId: role.id, termsVersion: "test-2026-08-05", userId: user.id },
-    { idempotencyKey: `membership:${runId}` },
-  );
-  const providerMapping = await affinity.providerMappings.create(
-    {
-      attestations: {
-        authorizedProviderRelationship: true,
-        providerDataAccuracy: true,
-      },
-      credentials: "MD",
-      externalId: `sdk_example_provider_${runId}`,
-      name: providerName,
+      role: "prescriber",
+      identityAttestation: true,
       npi: TEST_PROVIDER_NPI,
-      practiceId: practice.id,
-      userId: user.id,
+      credentials: "MD",
     },
-    { idempotencyKey: `provider:${runId}` },
-  );
+    idempotencyKey: `user:${runId}`,
+  });
+  const team = await affinity.team.getPracticeTeam({ practiceId: practice.id! });
 
   return {
-    membershipId: membership.id,
     practiceId: practice.id,
-    providerMappingId: providerMapping.id,
-    providerStatus: providerMapping.status,
+    team,
     testNpi: TEST_PROVIDER_NPI,
     userId: user.id,
   };

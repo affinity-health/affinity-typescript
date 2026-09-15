@@ -2,7 +2,7 @@
 /* eslint-disable */
 /**
  * Affinity API
- * Affinity API for software platforms connecting practices to the compounder network.
+ * Affinity API for practices and software platforms connecting to the pharmacy network.
  *
  * The version of the OpenAPI document: 2026-08-11
  * Contact: support@joinaffinityai.com
@@ -13,6 +13,13 @@
  */
 
 import { mapValues } from "../runtime";
+import type { GetOrderResponseFulfillmentsInnerShipmentsInner } from "./GetOrderResponseFulfillmentsInnerShipmentsInner";
+import {
+  GetOrderResponseFulfillmentsInnerShipmentsInnerFromJSON,
+  GetOrderResponseFulfillmentsInnerShipmentsInnerFromJSONTyped,
+  GetOrderResponseFulfillmentsInnerShipmentsInnerToJSON,
+  GetOrderResponseFulfillmentsInnerShipmentsInnerToJSONTyped,
+} from "./GetOrderResponseFulfillmentsInnerShipmentsInner";
 import type { GetOrderResponseFulfillmentsInnerShipping } from "./GetOrderResponseFulfillmentsInnerShipping";
 import {
   GetOrderResponseFulfillmentsInnerShippingFromJSON,
@@ -20,6 +27,20 @@ import {
   GetOrderResponseFulfillmentsInnerShippingToJSON,
   GetOrderResponseFulfillmentsInnerShippingToJSONTyped,
 } from "./GetOrderResponseFulfillmentsInnerShipping";
+import type { GetOrderResponseFulfillmentsInnerExceptionsInner } from "./GetOrderResponseFulfillmentsInnerExceptionsInner";
+import {
+  GetOrderResponseFulfillmentsInnerExceptionsInnerFromJSON,
+  GetOrderResponseFulfillmentsInnerExceptionsInnerFromJSONTyped,
+  GetOrderResponseFulfillmentsInnerExceptionsInnerToJSON,
+  GetOrderResponseFulfillmentsInnerExceptionsInnerToJSONTyped,
+} from "./GetOrderResponseFulfillmentsInnerExceptionsInner";
+import type { GetOrderResponseFulfillmentsInnerCancellationsInner } from "./GetOrderResponseFulfillmentsInnerCancellationsInner";
+import {
+  GetOrderResponseFulfillmentsInnerCancellationsInnerFromJSON,
+  GetOrderResponseFulfillmentsInnerCancellationsInnerFromJSONTyped,
+  GetOrderResponseFulfillmentsInnerCancellationsInnerToJSON,
+  GetOrderResponseFulfillmentsInnerCancellationsInnerToJSONTyped,
+} from "./GetOrderResponseFulfillmentsInnerCancellationsInner";
 
 /**
  *
@@ -35,10 +56,16 @@ export interface GetOrderResponseFulfillmentsInner {
   carrier: string | null;
   /**
    *
+   * @type {Array<GetOrderResponseFulfillmentsInnerCancellationsInner>}
+   * @memberof GetOrderResponseFulfillmentsInner
+   */
+  cancellations: Array<GetOrderResponseFulfillmentsInnerCancellationsInner>;
+  /**
+   *
    * @type {string}
    * @memberof GetOrderResponseFulfillmentsInner
    */
-  compounderId: string | null;
+  pharmacyId: string | null;
   /**
    *
    * @type {string}
@@ -95,10 +122,22 @@ export interface GetOrderResponseFulfillmentsInner {
   estimatedDeliveryAt: string | null;
   /**
    *
+   * @type {Array<GetOrderResponseFulfillmentsInnerExceptionsInner>}
+   * @memberof GetOrderResponseFulfillmentsInner
+   */
+  exceptions: Array<GetOrderResponseFulfillmentsInnerExceptionsInner>;
+  /**
+   *
    * @type {GetOrderResponseFulfillmentsInnerShipping}
    * @memberof GetOrderResponseFulfillmentsInner
    */
   shipping: GetOrderResponseFulfillmentsInnerShipping;
+  /**
+   *
+   * @type {Array<GetOrderResponseFulfillmentsInnerShipmentsInner>}
+   * @memberof GetOrderResponseFulfillmentsInner
+   */
+  shipments: Array<GetOrderResponseFulfillmentsInnerShipmentsInner>;
   /**
    *
    * @type {string}
@@ -120,7 +159,8 @@ export function instanceOfGetOrderResponseFulfillmentsInner(
   value: object,
 ): value is GetOrderResponseFulfillmentsInner {
   if (!("carrier" in value) || value["carrier"] === undefined) return false;
-  if (!("compounderId" in value) || value["compounderId"] === undefined) return false;
+  if (!("cancellations" in value) || value["cancellations"] === undefined) return false;
+  if (!("pharmacyId" in value) || value["pharmacyId"] === undefined) return false;
   if (!("createdAt" in value) || value["createdAt"] === undefined) return false;
   if (!("id" in value) || value["id"] === undefined) return false;
   if (!("prescriptionId" in value) || value["prescriptionId"] === undefined) return false;
@@ -130,7 +170,9 @@ export function instanceOfGetOrderResponseFulfillmentsInner(
   if (!("shippedAt" in value) || value["shippedAt"] === undefined) return false;
   if (!("deliveredAt" in value) || value["deliveredAt"] === undefined) return false;
   if (!("estimatedDeliveryAt" in value) || value["estimatedDeliveryAt"] === undefined) return false;
+  if (!("exceptions" in value) || value["exceptions"] === undefined) return false;
   if (!("shipping" in value) || value["shipping"] === undefined) return false;
+  if (!("shipments" in value) || value["shipments"] === undefined) return false;
   if (!("trackingUrl" in value) || value["trackingUrl"] === undefined) return false;
   if (!("updatedAt" in value) || value["updatedAt"] === undefined) return false;
   return true;
@@ -151,7 +193,10 @@ export function GetOrderResponseFulfillmentsInnerFromJSONTyped(
   }
   return {
     carrier: json["carrier"],
-    compounderId: json["compounderId"],
+    cancellations: (json["cancellations"] as Array<any>).map(
+      GetOrderResponseFulfillmentsInnerCancellationsInnerFromJSON,
+    ),
+    pharmacyId: json["pharmacyId"],
     createdAt: json["createdAt"],
     id: json["id"],
     prescriptionId: json["prescriptionId"],
@@ -161,7 +206,13 @@ export function GetOrderResponseFulfillmentsInnerFromJSONTyped(
     shippedAt: json["shippedAt"],
     deliveredAt: json["deliveredAt"],
     estimatedDeliveryAt: json["estimatedDeliveryAt"],
+    exceptions: (json["exceptions"] as Array<any>).map(
+      GetOrderResponseFulfillmentsInnerExceptionsInnerFromJSON,
+    ),
     shipping: GetOrderResponseFulfillmentsInnerShippingFromJSON(json["shipping"]),
+    shipments: (json["shipments"] as Array<any>).map(
+      GetOrderResponseFulfillmentsInnerShipmentsInnerFromJSON,
+    ),
     trackingUrl: json["trackingUrl"],
     updatedAt: json["updatedAt"],
   };
@@ -183,7 +234,10 @@ export function GetOrderResponseFulfillmentsInnerToJSONTyped(
 
   return {
     carrier: value["carrier"],
-    compounderId: value["compounderId"],
+    cancellations: (value["cancellations"] as Array<any>).map(
+      GetOrderResponseFulfillmentsInnerCancellationsInnerToJSON,
+    ),
+    pharmacyId: value["pharmacyId"],
     createdAt: value["createdAt"],
     id: value["id"],
     prescriptionId: value["prescriptionId"],
@@ -193,7 +247,13 @@ export function GetOrderResponseFulfillmentsInnerToJSONTyped(
     shippedAt: value["shippedAt"],
     deliveredAt: value["deliveredAt"],
     estimatedDeliveryAt: value["estimatedDeliveryAt"],
+    exceptions: (value["exceptions"] as Array<any>).map(
+      GetOrderResponseFulfillmentsInnerExceptionsInnerToJSON,
+    ),
     shipping: GetOrderResponseFulfillmentsInnerShippingToJSON(value["shipping"]),
+    shipments: (value["shipments"] as Array<any>).map(
+      GetOrderResponseFulfillmentsInnerShipmentsInnerToJSON,
+    ),
     trackingUrl: value["trackingUrl"],
     updatedAt: value["updatedAt"],
   };

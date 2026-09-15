@@ -2,7 +2,7 @@
 /* eslint-disable */
 /**
  * Affinity API
- * Affinity API for software platforms connecting practices to the compounder network.
+ * Affinity API for practices and software platforms connecting to the pharmacy network.
  *
  * The version of the OpenAPI document: 2026-08-11
  * Contact: support@joinaffinityai.com
@@ -14,6 +14,21 @@
 
 import * as runtime from "../runtime";
 import {
+  type ArchivePatientAddressResponse,
+  ArchivePatientAddressResponseFromJSON,
+  ArchivePatientAddressResponseToJSON,
+} from "../models/ArchivePatientAddressResponse";
+import {
+  type CreatePatientAddressRequest,
+  CreatePatientAddressRequestFromJSON,
+  CreatePatientAddressRequestToJSON,
+} from "../models/CreatePatientAddressRequest";
+import {
+  type CreatePatientAddressResponse,
+  CreatePatientAddressResponseFromJSON,
+  CreatePatientAddressResponseToJSON,
+} from "../models/CreatePatientAddressResponse";
+import {
   type CreatePatientRequest,
   CreatePatientRequestFromJSON,
   CreatePatientRequestToJSON,
@@ -24,6 +39,11 @@ import {
   CreatePatientResponseToJSON,
 } from "../models/CreatePatientResponse";
 import {
+  type DeletePatientResponse,
+  DeletePatientResponseFromJSON,
+  DeletePatientResponseToJSON,
+} from "../models/DeletePatientResponse";
+import {
   type GetPatientAllergiesResponse,
   GetPatientAllergiesResponseFromJSON,
   GetPatientAllergiesResponseToJSON,
@@ -33,6 +53,11 @@ import {
   GetPatientResponseFromJSON,
   GetPatientResponseToJSON,
 } from "../models/GetPatientResponse";
+import {
+  type ListPatientAddressesResponse,
+  ListPatientAddressesResponseFromJSON,
+  ListPatientAddressesResponseToJSON,
+} from "../models/ListPatientAddressesResponse";
 import {
   type ListPatientsResponse,
   ListPatientsResponseFromJSON,
@@ -50,6 +75,21 @@ import {
   ReplacePatientAllergiesResponseToJSON,
 } from "../models/ReplacePatientAllergiesResponse";
 import {
+  type SetDefaultPatientAddressResponse,
+  SetDefaultPatientAddressResponseFromJSON,
+  SetDefaultPatientAddressResponseToJSON,
+} from "../models/SetDefaultPatientAddressResponse";
+import {
+  type UpdatePatientAddressRequest,
+  UpdatePatientAddressRequestFromJSON,
+  UpdatePatientAddressRequestToJSON,
+} from "../models/UpdatePatientAddressRequest";
+import {
+  type UpdatePatientAddressResponse,
+  UpdatePatientAddressResponseFromJSON,
+  UpdatePatientAddressResponseToJSON,
+} from "../models/UpdatePatientAddressResponse";
+import {
   type UpdatePatientRequest,
   UpdatePatientRequestFromJSON,
   UpdatePatientRequestToJSON,
@@ -60,66 +100,268 @@ import {
   UpdatePatientResponseToJSON,
 } from "../models/UpdatePatientResponse";
 
+export interface ArchivePatientAddressRequest {
+  practiceId: string;
+  patientId: string;
+  addressId: string;
+  idempotencyKey: string;
+  affinityActorId: string;
+  affinityActorType: string;
+  affinityVersion?: string;
+}
+
 export interface CreatePatientOperationRequest {
   practiceId: string;
   idempotencyKey: string;
+  affinityActorId: string;
+  affinityActorType: string;
   createPatientRequest: CreatePatientRequest;
   affinityVersion?: string;
-  affinityActorId?: string;
-  affinityActorType?: string;
+}
+
+export interface CreatePatientAddressOperationRequest {
+  practiceId: string;
+  patientId: string;
+  idempotencyKey: string;
+  affinityActorId: string;
+  affinityActorType: string;
+  createPatientAddressRequest: CreatePatientAddressRequest;
+  affinityVersion?: string;
+}
+
+export interface DeletePatientRequest {
+  patientId: string;
+  practiceId: string;
+  idempotencyKey: string;
+  affinityActorId: string;
+  affinityActorType: string;
+  affinityVersion?: string;
 }
 
 export interface GetPatientRequest {
   patientId: string;
   practiceId: string;
+  affinityActorId: string;
+  affinityActorType: string;
   affinityVersion?: string;
-  affinityActorId?: string;
-  affinityActorType?: string;
 }
 
 export interface GetPatientAllergiesRequest {
   patientId: string;
   practiceId: string;
+  affinityActorId: string;
+  affinityActorType: string;
   affinityVersion?: string;
-  affinityActorId?: string;
-  affinityActorType?: string;
+}
+
+export interface ListPatientAddressesRequest {
+  practiceId: string;
+  patientId: string;
+  affinityActorId: string;
+  affinityActorType: string;
+  status?: ListPatientAddressesStatusEnum;
+  startingAfter?: string | null;
+  endingBefore?: string | null;
+  limit?: number;
+  affinityVersion?: string;
 }
 
 export interface ListPatientsRequest {
   practiceId: string;
-  endingBefore?: string;
+  affinityActorId: string;
+  affinityActorType: string;
+  endingBefore?: string | null;
+  externalIdentitySource?: string | null;
+  externalIdentityValue?: string | null;
+  gender?: ListPatientsGenderEnum;
+  lastOrderAfter?: string | null;
+  lastOrderBefore?: string | null;
   limit?: number;
-  query?: string;
-  startingAfter?: string;
+  program?: string | null;
+  query?: string | null;
+  sort?: ListPatientsSortEnum;
+  startingAfter?: string | null;
+  states?: string | null;
+  status?: ListPatientsStatusEnum;
   affinityVersion?: string;
-  affinityActorId?: string;
-  affinityActorType?: string;
 }
 
 export interface ReplacePatientAllergiesOperationRequest {
   patientId: string;
   practiceId: string;
   idempotencyKey: string;
+  affinityActorId: string;
+  affinityActorType: string;
   replacePatientAllergiesRequest: ReplacePatientAllergiesRequest;
   affinityVersion?: string;
-  affinityActorId?: string;
-  affinityActorType?: string;
+}
+
+export interface SetDefaultPatientAddressRequest {
+  practiceId: string;
+  patientId: string;
+  addressId: string;
+  idempotencyKey: string;
+  affinityActorId: string;
+  affinityActorType: string;
+  affinityVersion?: string;
 }
 
 export interface UpdatePatientOperationRequest {
   patientId: string;
   practiceId: string;
   idempotencyKey: string;
+  affinityActorId: string;
+  affinityActorType: string;
   updatePatientRequest: UpdatePatientRequest;
   affinityVersion?: string;
-  affinityActorId?: string;
-  affinityActorType?: string;
+}
+
+export interface UpdatePatientAddressOperationRequest {
+  practiceId: string;
+  patientId: string;
+  addressId: string;
+  idempotencyKey: string;
+  affinityActorId: string;
+  affinityActorType: string;
+  updatePatientAddressRequest: UpdatePatientAddressRequest;
+  affinityVersion?: string;
 }
 
 /**
  *
  */
 export class PatientsApi extends runtime.BaseAPI {
+  /**
+   * Creates request options for archivePatientAddress without sending the request
+   */
+  async archivePatientAddressRequestOpts(
+    requestParameters: ArchivePatientAddressRequest,
+  ): Promise<runtime.RequestOpts> {
+    if (requestParameters["practiceId"] == null) {
+      throw new runtime.RequiredError(
+        "practiceId",
+        'Required parameter "practiceId" was null or undefined when calling archivePatientAddress().',
+      );
+    }
+
+    if (requestParameters["patientId"] == null) {
+      throw new runtime.RequiredError(
+        "patientId",
+        'Required parameter "patientId" was null or undefined when calling archivePatientAddress().',
+      );
+    }
+
+    if (requestParameters["addressId"] == null) {
+      throw new runtime.RequiredError(
+        "addressId",
+        'Required parameter "addressId" was null or undefined when calling archivePatientAddress().',
+      );
+    }
+
+    if (requestParameters["idempotencyKey"] == null) {
+      throw new runtime.RequiredError(
+        "idempotencyKey",
+        'Required parameter "idempotencyKey" was null or undefined when calling archivePatientAddress().',
+      );
+    }
+
+    if (requestParameters["affinityActorId"] == null) {
+      throw new runtime.RequiredError(
+        "affinityActorId",
+        'Required parameter "affinityActorId" was null or undefined when calling archivePatientAddress().',
+      );
+    }
+
+    if (requestParameters["affinityActorType"] == null) {
+      throw new runtime.RequiredError(
+        "affinityActorType",
+        'Required parameter "affinityActorType" was null or undefined when calling archivePatientAddress().',
+      );
+    }
+
+    const queryParameters: any = {};
+
+    const headerParameters: runtime.HTTPHeaders = {};
+
+    if (requestParameters["affinityVersion"] != null) {
+      headerParameters["Affinity-Version"] = String(requestParameters["affinityVersion"]);
+    }
+
+    if (requestParameters["idempotencyKey"] != null) {
+      headerParameters["Idempotency-Key"] = String(requestParameters["idempotencyKey"]);
+    }
+
+    if (requestParameters["affinityActorId"] != null) {
+      headerParameters["Affinity-Actor-Id"] = String(requestParameters["affinityActorId"]);
+    }
+
+    if (requestParameters["affinityActorType"] != null) {
+      headerParameters["Affinity-Actor-Type"] = String(requestParameters["affinityActorType"]);
+    }
+
+    if (this.configuration && this.configuration.accessToken) {
+      const token = this.configuration.accessToken;
+      const tokenString = await token("bearerAuth", []);
+
+      if (tokenString) {
+        headerParameters["Authorization"] = `Bearer ${tokenString}`;
+      }
+    }
+    if (this.configuration && this.configuration.apiKey) {
+      headerParameters["x-affinity-api-key"] =
+        await this.configuration.apiKey("x-affinity-api-key"); // affinityApiKey authentication
+    }
+
+    let urlPath = `/v1/practices/{practiceId}/patients/{patientId}/addresses/{addressId}`;
+    urlPath = urlPath.replace(
+      "{practiceId}",
+      encodeURIComponent(String(requestParameters["practiceId"])),
+    );
+    urlPath = urlPath.replace(
+      "{patientId}",
+      encodeURIComponent(String(requestParameters["patientId"])),
+    );
+    urlPath = urlPath.replace(
+      "{addressId}",
+      encodeURIComponent(String(requestParameters["addressId"])),
+    );
+
+    return {
+      path: urlPath,
+      method: "DELETE",
+      headers: headerParameters,
+      query: queryParameters,
+    };
+  }
+
+  /**
+   * Preserves the address ID and history. Archiving the default selects the oldest remaining active address. Existing orders remain unchanged.
+   * Archive delivery address
+   */
+  async archivePatientAddressRaw(
+    requestParameters: ArchivePatientAddressRequest,
+    initOverrides?: RequestInit | runtime.InitOverrideFunction,
+  ): Promise<runtime.ApiResponse<ArchivePatientAddressResponse>> {
+    const requestOptions = await this.archivePatientAddressRequestOpts(requestParameters);
+    const response = await this.request(requestOptions, initOverrides);
+
+    return new runtime.JSONApiResponse(response, (jsonValue) =>
+      ArchivePatientAddressResponseFromJSON(jsonValue),
+    );
+  }
+
+  /**
+   * Preserves the address ID and history. Archiving the default selects the oldest remaining active address. Existing orders remain unchanged.
+   * Archive delivery address
+   */
+  async archivePatientAddress(
+    requestParameters: ArchivePatientAddressRequest,
+    initOverrides?: RequestInit | runtime.InitOverrideFunction,
+  ): Promise<ArchivePatientAddressResponse> {
+    const response = await this.archivePatientAddressRaw(requestParameters, initOverrides);
+    return await response.value();
+  }
+
   /**
    * Creates request options for createPatient without sending the request
    */
@@ -137,6 +379,20 @@ export class PatientsApi extends runtime.BaseAPI {
       throw new runtime.RequiredError(
         "idempotencyKey",
         'Required parameter "idempotencyKey" was null or undefined when calling createPatient().',
+      );
+    }
+
+    if (requestParameters["affinityActorId"] == null) {
+      throw new runtime.RequiredError(
+        "affinityActorId",
+        'Required parameter "affinityActorId" was null or undefined when calling createPatient().',
+      );
+    }
+
+    if (requestParameters["affinityActorType"] == null) {
+      throw new runtime.RequiredError(
+        "affinityActorType",
+        'Required parameter "affinityActorType" was null or undefined when calling createPatient().',
       );
     }
 
@@ -198,8 +454,8 @@ export class PatientsApi extends runtime.BaseAPI {
   }
 
   /**
-   * Creates or returns a synthetic or real patient by the platform\'s stable external ID. Idempotency-Key is required.
-   * Create practice patient
+   * Creates a patient or resolves matching external identifiers within this practice and mode. Resolution preserves existing demographics; use PATCH to update them. Conflicting identifiers return 409. Email never merges patients. API keys require Idempotency-Key.
+   * Create patient
    */
   async createPatientRaw(
     requestParameters: CreatePatientOperationRequest,
@@ -214,14 +470,264 @@ export class PatientsApi extends runtime.BaseAPI {
   }
 
   /**
-   * Creates or returns a synthetic or real patient by the platform\'s stable external ID. Idempotency-Key is required.
-   * Create practice patient
+   * Creates a patient or resolves matching external identifiers within this practice and mode. Resolution preserves existing demographics; use PATCH to update them. Conflicting identifiers return 409. Email never merges patients. API keys require Idempotency-Key.
+   * Create patient
    */
   async createPatient(
     requestParameters: CreatePatientOperationRequest,
     initOverrides?: RequestInit | runtime.InitOverrideFunction,
   ): Promise<CreatePatientResponse> {
     const response = await this.createPatientRaw(requestParameters, initOverrides);
+    return await response.value();
+  }
+
+  /**
+   * Creates request options for createPatientAddress without sending the request
+   */
+  async createPatientAddressRequestOpts(
+    requestParameters: CreatePatientAddressOperationRequest,
+  ): Promise<runtime.RequestOpts> {
+    if (requestParameters["practiceId"] == null) {
+      throw new runtime.RequiredError(
+        "practiceId",
+        'Required parameter "practiceId" was null or undefined when calling createPatientAddress().',
+      );
+    }
+
+    if (requestParameters["patientId"] == null) {
+      throw new runtime.RequiredError(
+        "patientId",
+        'Required parameter "patientId" was null or undefined when calling createPatientAddress().',
+      );
+    }
+
+    if (requestParameters["idempotencyKey"] == null) {
+      throw new runtime.RequiredError(
+        "idempotencyKey",
+        'Required parameter "idempotencyKey" was null or undefined when calling createPatientAddress().',
+      );
+    }
+
+    if (requestParameters["affinityActorId"] == null) {
+      throw new runtime.RequiredError(
+        "affinityActorId",
+        'Required parameter "affinityActorId" was null or undefined when calling createPatientAddress().',
+      );
+    }
+
+    if (requestParameters["affinityActorType"] == null) {
+      throw new runtime.RequiredError(
+        "affinityActorType",
+        'Required parameter "affinityActorType" was null or undefined when calling createPatientAddress().',
+      );
+    }
+
+    if (requestParameters["createPatientAddressRequest"] == null) {
+      throw new runtime.RequiredError(
+        "createPatientAddressRequest",
+        'Required parameter "createPatientAddressRequest" was null or undefined when calling createPatientAddress().',
+      );
+    }
+
+    const queryParameters: any = {};
+
+    const headerParameters: runtime.HTTPHeaders = {};
+
+    headerParameters["Content-Type"] = "application/json";
+
+    if (requestParameters["affinityVersion"] != null) {
+      headerParameters["Affinity-Version"] = String(requestParameters["affinityVersion"]);
+    }
+
+    if (requestParameters["idempotencyKey"] != null) {
+      headerParameters["Idempotency-Key"] = String(requestParameters["idempotencyKey"]);
+    }
+
+    if (requestParameters["affinityActorId"] != null) {
+      headerParameters["Affinity-Actor-Id"] = String(requestParameters["affinityActorId"]);
+    }
+
+    if (requestParameters["affinityActorType"] != null) {
+      headerParameters["Affinity-Actor-Type"] = String(requestParameters["affinityActorType"]);
+    }
+
+    if (this.configuration && this.configuration.accessToken) {
+      const token = this.configuration.accessToken;
+      const tokenString = await token("bearerAuth", []);
+
+      if (tokenString) {
+        headerParameters["Authorization"] = `Bearer ${tokenString}`;
+      }
+    }
+    if (this.configuration && this.configuration.apiKey) {
+      headerParameters["x-affinity-api-key"] =
+        await this.configuration.apiKey("x-affinity-api-key"); // affinityApiKey authentication
+    }
+
+    let urlPath = `/v1/practices/{practiceId}/patients/{patientId}/addresses`;
+    urlPath = urlPath.replace(
+      "{practiceId}",
+      encodeURIComponent(String(requestParameters["practiceId"])),
+    );
+    urlPath = urlPath.replace(
+      "{patientId}",
+      encodeURIComponent(String(requestParameters["patientId"])),
+    );
+
+    return {
+      path: urlPath,
+      method: "POST",
+      headers: headerParameters,
+      query: queryParameters,
+      body: CreatePatientAddressRequestToJSON(requestParameters["createPatientAddressRequest"]),
+    };
+  }
+
+  /**
+   * Returns the existing active address for a normalized duplicate. The first address becomes the default. API keys require Idempotency-Key.
+   * Save delivery address
+   */
+  async createPatientAddressRaw(
+    requestParameters: CreatePatientAddressOperationRequest,
+    initOverrides?: RequestInit | runtime.InitOverrideFunction,
+  ): Promise<runtime.ApiResponse<CreatePatientAddressResponse>> {
+    const requestOptions = await this.createPatientAddressRequestOpts(requestParameters);
+    const response = await this.request(requestOptions, initOverrides);
+
+    return new runtime.JSONApiResponse(response, (jsonValue) =>
+      CreatePatientAddressResponseFromJSON(jsonValue),
+    );
+  }
+
+  /**
+   * Returns the existing active address for a normalized duplicate. The first address becomes the default. API keys require Idempotency-Key.
+   * Save delivery address
+   */
+  async createPatientAddress(
+    requestParameters: CreatePatientAddressOperationRequest,
+    initOverrides?: RequestInit | runtime.InitOverrideFunction,
+  ): Promise<CreatePatientAddressResponse> {
+    const response = await this.createPatientAddressRaw(requestParameters, initOverrides);
+    return await response.value();
+  }
+
+  /**
+   * Creates request options for deletePatient without sending the request
+   */
+  async deletePatientRequestOpts(
+    requestParameters: DeletePatientRequest,
+  ): Promise<runtime.RequestOpts> {
+    if (requestParameters["patientId"] == null) {
+      throw new runtime.RequiredError(
+        "patientId",
+        'Required parameter "patientId" was null or undefined when calling deletePatient().',
+      );
+    }
+
+    if (requestParameters["practiceId"] == null) {
+      throw new runtime.RequiredError(
+        "practiceId",
+        'Required parameter "practiceId" was null or undefined when calling deletePatient().',
+      );
+    }
+
+    if (requestParameters["idempotencyKey"] == null) {
+      throw new runtime.RequiredError(
+        "idempotencyKey",
+        'Required parameter "idempotencyKey" was null or undefined when calling deletePatient().',
+      );
+    }
+
+    if (requestParameters["affinityActorId"] == null) {
+      throw new runtime.RequiredError(
+        "affinityActorId",
+        'Required parameter "affinityActorId" was null or undefined when calling deletePatient().',
+      );
+    }
+
+    if (requestParameters["affinityActorType"] == null) {
+      throw new runtime.RequiredError(
+        "affinityActorType",
+        'Required parameter "affinityActorType" was null or undefined when calling deletePatient().',
+      );
+    }
+
+    const queryParameters: any = {};
+
+    const headerParameters: runtime.HTTPHeaders = {};
+
+    if (requestParameters["affinityVersion"] != null) {
+      headerParameters["Affinity-Version"] = String(requestParameters["affinityVersion"]);
+    }
+
+    if (requestParameters["idempotencyKey"] != null) {
+      headerParameters["Idempotency-Key"] = String(requestParameters["idempotencyKey"]);
+    }
+
+    if (requestParameters["affinityActorId"] != null) {
+      headerParameters["Affinity-Actor-Id"] = String(requestParameters["affinityActorId"]);
+    }
+
+    if (requestParameters["affinityActorType"] != null) {
+      headerParameters["Affinity-Actor-Type"] = String(requestParameters["affinityActorType"]);
+    }
+
+    if (this.configuration && this.configuration.accessToken) {
+      const token = this.configuration.accessToken;
+      const tokenString = await token("bearerAuth", []);
+
+      if (tokenString) {
+        headerParameters["Authorization"] = `Bearer ${tokenString}`;
+      }
+    }
+    if (this.configuration && this.configuration.apiKey) {
+      headerParameters["x-affinity-api-key"] =
+        await this.configuration.apiKey("x-affinity-api-key"); // affinityApiKey authentication
+    }
+
+    let urlPath = `/v1/practices/{practiceId}/patients/{patientId}`;
+    urlPath = urlPath.replace(
+      "{patientId}",
+      encodeURIComponent(String(requestParameters["patientId"])),
+    );
+    urlPath = urlPath.replace(
+      "{practiceId}",
+      encodeURIComponent(String(requestParameters["practiceId"])),
+    );
+
+    return {
+      path: urlPath,
+      method: "DELETE",
+      headers: headerParameters,
+      query: queryParameters,
+    };
+  }
+
+  /**
+   * Requires patients:write and Idempotency-Key for API keys. Permanently deletes a patient with no order history. Any order history returns 409; use Update patient with status archived instead. Available to practice keys and authorized platform keys. Reusing the same idempotency key returns the original deletion result.
+   * Delete patient
+   */
+  async deletePatientRaw(
+    requestParameters: DeletePatientRequest,
+    initOverrides?: RequestInit | runtime.InitOverrideFunction,
+  ): Promise<runtime.ApiResponse<DeletePatientResponse>> {
+    const requestOptions = await this.deletePatientRequestOpts(requestParameters);
+    const response = await this.request(requestOptions, initOverrides);
+
+    return new runtime.JSONApiResponse(response, (jsonValue) =>
+      DeletePatientResponseFromJSON(jsonValue),
+    );
+  }
+
+  /**
+   * Requires patients:write and Idempotency-Key for API keys. Permanently deletes a patient with no order history. Any order history returns 409; use Update patient with status archived instead. Available to practice keys and authorized platform keys. Reusing the same idempotency key returns the original deletion result.
+   * Delete patient
+   */
+  async deletePatient(
+    requestParameters: DeletePatientRequest,
+    initOverrides?: RequestInit | runtime.InitOverrideFunction,
+  ): Promise<DeletePatientResponse> {
+    const response = await this.deletePatientRaw(requestParameters, initOverrides);
     return await response.value();
   }
 
@@ -240,6 +746,20 @@ export class PatientsApi extends runtime.BaseAPI {
       throw new runtime.RequiredError(
         "practiceId",
         'Required parameter "practiceId" was null or undefined when calling getPatient().',
+      );
+    }
+
+    if (requestParameters["affinityActorId"] == null) {
+      throw new runtime.RequiredError(
+        "affinityActorId",
+        'Required parameter "affinityActorId" was null or undefined when calling getPatient().',
+      );
+    }
+
+    if (requestParameters["affinityActorType"] == null) {
+      throw new runtime.RequiredError(
+        "affinityActorType",
+        'Required parameter "affinityActorType" was null or undefined when calling getPatient().',
       );
     }
 
@@ -291,8 +811,8 @@ export class PatientsApi extends runtime.BaseAPI {
   }
 
   /**
-   * Returns one patient owned by the platform-managed practice.
-   * Read practice patient
+   * Returns one patient in the authorized practice and mode.
+   * Read patient
    */
   async getPatientRaw(
     requestParameters: GetPatientRequest,
@@ -307,8 +827,8 @@ export class PatientsApi extends runtime.BaseAPI {
   }
 
   /**
-   * Returns one patient owned by the platform-managed practice.
-   * Read practice patient
+   * Returns one patient in the authorized practice and mode.
+   * Read patient
    */
   async getPatient(
     requestParameters: GetPatientRequest,
@@ -335,6 +855,20 @@ export class PatientsApi extends runtime.BaseAPI {
       throw new runtime.RequiredError(
         "practiceId",
         'Required parameter "practiceId" was null or undefined when calling getPatientAllergies().',
+      );
+    }
+
+    if (requestParameters["affinityActorId"] == null) {
+      throw new runtime.RequiredError(
+        "affinityActorId",
+        'Required parameter "affinityActorId" was null or undefined when calling getPatientAllergies().',
+      );
+    }
+
+    if (requestParameters["affinityActorType"] == null) {
+      throw new runtime.RequiredError(
+        "affinityActorType",
+        'Required parameter "affinityActorType" was null or undefined when calling getPatientAllergies().',
       );
     }
 
@@ -387,7 +921,7 @@ export class PatientsApi extends runtime.BaseAPI {
 
   /**
    * Returns the patient\'s structured allergy entries and review status. A not_reviewed status is not a no-known-allergies assertion and blocks clinical review and signing.
-   * Read patient allergies
+   * Read allergies
    */
   async getPatientAllergiesRaw(
     requestParameters: GetPatientAllergiesRequest,
@@ -403,13 +937,136 @@ export class PatientsApi extends runtime.BaseAPI {
 
   /**
    * Returns the patient\'s structured allergy entries and review status. A not_reviewed status is not a no-known-allergies assertion and blocks clinical review and signing.
-   * Read patient allergies
+   * Read allergies
    */
   async getPatientAllergies(
     requestParameters: GetPatientAllergiesRequest,
     initOverrides?: RequestInit | runtime.InitOverrideFunction,
   ): Promise<GetPatientAllergiesResponse> {
     const response = await this.getPatientAllergiesRaw(requestParameters, initOverrides);
+    return await response.value();
+  }
+
+  /**
+   * Creates request options for listPatientAddresses without sending the request
+   */
+  async listPatientAddressesRequestOpts(
+    requestParameters: ListPatientAddressesRequest,
+  ): Promise<runtime.RequestOpts> {
+    if (requestParameters["practiceId"] == null) {
+      throw new runtime.RequiredError(
+        "practiceId",
+        'Required parameter "practiceId" was null or undefined when calling listPatientAddresses().',
+      );
+    }
+
+    if (requestParameters["patientId"] == null) {
+      throw new runtime.RequiredError(
+        "patientId",
+        'Required parameter "patientId" was null or undefined when calling listPatientAddresses().',
+      );
+    }
+
+    if (requestParameters["affinityActorId"] == null) {
+      throw new runtime.RequiredError(
+        "affinityActorId",
+        'Required parameter "affinityActorId" was null or undefined when calling listPatientAddresses().',
+      );
+    }
+
+    if (requestParameters["affinityActorType"] == null) {
+      throw new runtime.RequiredError(
+        "affinityActorType",
+        'Required parameter "affinityActorType" was null or undefined when calling listPatientAddresses().',
+      );
+    }
+
+    const queryParameters: any = {};
+
+    if (requestParameters["status"] != null) {
+      queryParameters["status"] = requestParameters["status"];
+    }
+
+    if (requestParameters["startingAfter"] != null) {
+      queryParameters["startingAfter"] = requestParameters["startingAfter"];
+    }
+
+    if (requestParameters["endingBefore"] != null) {
+      queryParameters["endingBefore"] = requestParameters["endingBefore"];
+    }
+
+    if (requestParameters["limit"] != null) {
+      queryParameters["limit"] = requestParameters["limit"];
+    }
+
+    const headerParameters: runtime.HTTPHeaders = {};
+
+    if (requestParameters["affinityVersion"] != null) {
+      headerParameters["Affinity-Version"] = String(requestParameters["affinityVersion"]);
+    }
+
+    if (requestParameters["affinityActorId"] != null) {
+      headerParameters["Affinity-Actor-Id"] = String(requestParameters["affinityActorId"]);
+    }
+
+    if (requestParameters["affinityActorType"] != null) {
+      headerParameters["Affinity-Actor-Type"] = String(requestParameters["affinityActorType"]);
+    }
+
+    if (this.configuration && this.configuration.accessToken) {
+      const token = this.configuration.accessToken;
+      const tokenString = await token("bearerAuth", []);
+
+      if (tokenString) {
+        headerParameters["Authorization"] = `Bearer ${tokenString}`;
+      }
+    }
+    if (this.configuration && this.configuration.apiKey) {
+      headerParameters["x-affinity-api-key"] =
+        await this.configuration.apiKey("x-affinity-api-key"); // affinityApiKey authentication
+    }
+
+    let urlPath = `/v1/practices/{practiceId}/patients/{patientId}/addresses`;
+    urlPath = urlPath.replace(
+      "{practiceId}",
+      encodeURIComponent(String(requestParameters["practiceId"])),
+    );
+    urlPath = urlPath.replace(
+      "{patientId}",
+      encodeURIComponent(String(requestParameters["patientId"])),
+    );
+
+    return {
+      path: urlPath,
+      method: "GET",
+      headers: headerParameters,
+      query: queryParameters,
+    };
+  }
+
+  /**
+   * List delivery addresses
+   */
+  async listPatientAddressesRaw(
+    requestParameters: ListPatientAddressesRequest,
+    initOverrides?: RequestInit | runtime.InitOverrideFunction,
+  ): Promise<runtime.ApiResponse<ListPatientAddressesResponse>> {
+    const requestOptions = await this.listPatientAddressesRequestOpts(requestParameters);
+    const response = await this.request(requestOptions, initOverrides);
+
+    return new runtime.JSONApiResponse(response, (jsonValue) =>
+      ListPatientAddressesResponseFromJSON(jsonValue),
+    );
+  }
+
+  /**
+   * List delivery addresses
+   */
+  async listPatientAddresses(
+    requestParameters: ListPatientAddressesRequest,
+    initOverrides?: RequestInit | runtime.InitOverrideFunction,
+  ): Promise<ListPatientAddressesResponse> {
+    const response = await this.listPatientAddressesRaw(requestParameters, initOverrides);
     return await response.value();
   }
 
@@ -426,22 +1083,72 @@ export class PatientsApi extends runtime.BaseAPI {
       );
     }
 
+    if (requestParameters["affinityActorId"] == null) {
+      throw new runtime.RequiredError(
+        "affinityActorId",
+        'Required parameter "affinityActorId" was null or undefined when calling listPatients().',
+      );
+    }
+
+    if (requestParameters["affinityActorType"] == null) {
+      throw new runtime.RequiredError(
+        "affinityActorType",
+        'Required parameter "affinityActorType" was null or undefined when calling listPatients().',
+      );
+    }
+
     const queryParameters: any = {};
 
     if (requestParameters["endingBefore"] != null) {
       queryParameters["endingBefore"] = requestParameters["endingBefore"];
     }
 
+    if (requestParameters["externalIdentitySource"] != null) {
+      queryParameters["externalIdentitySource"] = requestParameters["externalIdentitySource"];
+    }
+
+    if (requestParameters["externalIdentityValue"] != null) {
+      queryParameters["externalIdentityValue"] = requestParameters["externalIdentityValue"];
+    }
+
+    if (requestParameters["gender"] != null) {
+      queryParameters["gender"] = requestParameters["gender"];
+    }
+
+    if (requestParameters["lastOrderAfter"] != null) {
+      queryParameters["lastOrderAfter"] = requestParameters["lastOrderAfter"];
+    }
+
+    if (requestParameters["lastOrderBefore"] != null) {
+      queryParameters["lastOrderBefore"] = requestParameters["lastOrderBefore"];
+    }
+
     if (requestParameters["limit"] != null) {
       queryParameters["limit"] = requestParameters["limit"];
+    }
+
+    if (requestParameters["program"] != null) {
+      queryParameters["program"] = requestParameters["program"];
     }
 
     if (requestParameters["query"] != null) {
       queryParameters["query"] = requestParameters["query"];
     }
 
+    if (requestParameters["sort"] != null) {
+      queryParameters["sort"] = requestParameters["sort"];
+    }
+
     if (requestParameters["startingAfter"] != null) {
       queryParameters["startingAfter"] = requestParameters["startingAfter"];
+    }
+
+    if (requestParameters["states"] != null) {
+      queryParameters["states"] = requestParameters["states"];
+    }
+
+    if (requestParameters["status"] != null) {
+      queryParameters["status"] = requestParameters["status"];
     }
 
     const headerParameters: runtime.HTTPHeaders = {};
@@ -486,8 +1193,8 @@ export class PatientsApi extends runtime.BaseAPI {
   }
 
   /**
-   * Lists patients owned by one platform-managed practice in the current mode.
-   * List practice patients
+   * Lists patients in one practice and mode. Provide externalIdentitySource and externalIdentityValue together for an exact, case-sensitive identity match after trimming whitespace. Other filters also apply. Available to that practice\'s API key or an authorized platform key.
+   * List patients
    */
   async listPatientsRaw(
     requestParameters: ListPatientsRequest,
@@ -502,8 +1209,8 @@ export class PatientsApi extends runtime.BaseAPI {
   }
 
   /**
-   * Lists patients owned by one platform-managed practice in the current mode.
-   * List practice patients
+   * Lists patients in one practice and mode. Provide externalIdentitySource and externalIdentityValue together for an exact, case-sensitive identity match after trimming whitespace. Other filters also apply. Available to that practice\'s API key or an authorized platform key.
+   * List patients
    */
   async listPatients(
     requestParameters: ListPatientsRequest,
@@ -537,6 +1244,20 @@ export class PatientsApi extends runtime.BaseAPI {
       throw new runtime.RequiredError(
         "idempotencyKey",
         'Required parameter "idempotencyKey" was null or undefined when calling replacePatientAllergies().',
+      );
+    }
+
+    if (requestParameters["affinityActorId"] == null) {
+      throw new runtime.RequiredError(
+        "affinityActorId",
+        'Required parameter "affinityActorId" was null or undefined when calling replacePatientAllergies().',
+      );
+    }
+
+    if (requestParameters["affinityActorType"] == null) {
+      throw new runtime.RequiredError(
+        "affinityActorType",
+        'Required parameter "affinityActorType" was null or undefined when calling replacePatientAllergies().',
       );
     }
 
@@ -605,7 +1326,7 @@ export class PatientsApi extends runtime.BaseAPI {
 
   /**
    * Replaces the patient\'s structured allergy record. Sending no_known is the explicit no-known-allergies acknowledgement; recorded requires at least one entry. Idempotency-Key is required.
-   * Replace patient allergies
+   * Replace allergies
    */
   async replacePatientAllergiesRaw(
     requestParameters: ReplacePatientAllergiesOperationRequest,
@@ -621,13 +1342,144 @@ export class PatientsApi extends runtime.BaseAPI {
 
   /**
    * Replaces the patient\'s structured allergy record. Sending no_known is the explicit no-known-allergies acknowledgement; recorded requires at least one entry. Idempotency-Key is required.
-   * Replace patient allergies
+   * Replace allergies
    */
   async replacePatientAllergies(
     requestParameters: ReplacePatientAllergiesOperationRequest,
     initOverrides?: RequestInit | runtime.InitOverrideFunction,
   ): Promise<ReplacePatientAllergiesResponse> {
     const response = await this.replacePatientAllergiesRaw(requestParameters, initOverrides);
+    return await response.value();
+  }
+
+  /**
+   * Creates request options for setDefaultPatientAddress without sending the request
+   */
+  async setDefaultPatientAddressRequestOpts(
+    requestParameters: SetDefaultPatientAddressRequest,
+  ): Promise<runtime.RequestOpts> {
+    if (requestParameters["practiceId"] == null) {
+      throw new runtime.RequiredError(
+        "practiceId",
+        'Required parameter "practiceId" was null or undefined when calling setDefaultPatientAddress().',
+      );
+    }
+
+    if (requestParameters["patientId"] == null) {
+      throw new runtime.RequiredError(
+        "patientId",
+        'Required parameter "patientId" was null or undefined when calling setDefaultPatientAddress().',
+      );
+    }
+
+    if (requestParameters["addressId"] == null) {
+      throw new runtime.RequiredError(
+        "addressId",
+        'Required parameter "addressId" was null or undefined when calling setDefaultPatientAddress().',
+      );
+    }
+
+    if (requestParameters["idempotencyKey"] == null) {
+      throw new runtime.RequiredError(
+        "idempotencyKey",
+        'Required parameter "idempotencyKey" was null or undefined when calling setDefaultPatientAddress().',
+      );
+    }
+
+    if (requestParameters["affinityActorId"] == null) {
+      throw new runtime.RequiredError(
+        "affinityActorId",
+        'Required parameter "affinityActorId" was null or undefined when calling setDefaultPatientAddress().',
+      );
+    }
+
+    if (requestParameters["affinityActorType"] == null) {
+      throw new runtime.RequiredError(
+        "affinityActorType",
+        'Required parameter "affinityActorType" was null or undefined when calling setDefaultPatientAddress().',
+      );
+    }
+
+    const queryParameters: any = {};
+
+    const headerParameters: runtime.HTTPHeaders = {};
+
+    if (requestParameters["affinityVersion"] != null) {
+      headerParameters["Affinity-Version"] = String(requestParameters["affinityVersion"]);
+    }
+
+    if (requestParameters["idempotencyKey"] != null) {
+      headerParameters["Idempotency-Key"] = String(requestParameters["idempotencyKey"]);
+    }
+
+    if (requestParameters["affinityActorId"] != null) {
+      headerParameters["Affinity-Actor-Id"] = String(requestParameters["affinityActorId"]);
+    }
+
+    if (requestParameters["affinityActorType"] != null) {
+      headerParameters["Affinity-Actor-Type"] = String(requestParameters["affinityActorType"]);
+    }
+
+    if (this.configuration && this.configuration.accessToken) {
+      const token = this.configuration.accessToken;
+      const tokenString = await token("bearerAuth", []);
+
+      if (tokenString) {
+        headerParameters["Authorization"] = `Bearer ${tokenString}`;
+      }
+    }
+    if (this.configuration && this.configuration.apiKey) {
+      headerParameters["x-affinity-api-key"] =
+        await this.configuration.apiKey("x-affinity-api-key"); // affinityApiKey authentication
+    }
+
+    let urlPath = `/v1/practices/{practiceId}/patients/{patientId}/addresses/{addressId}/default`;
+    urlPath = urlPath.replace(
+      "{practiceId}",
+      encodeURIComponent(String(requestParameters["practiceId"])),
+    );
+    urlPath = urlPath.replace(
+      "{patientId}",
+      encodeURIComponent(String(requestParameters["patientId"])),
+    );
+    urlPath = urlPath.replace(
+      "{addressId}",
+      encodeURIComponent(String(requestParameters["addressId"])),
+    );
+
+    return {
+      path: urlPath,
+      method: "PUT",
+      headers: headerParameters,
+      query: queryParameters,
+    };
+  }
+
+  /**
+   * Changes delivery selection for future drafts, without changing patient clinical location or existing signed orders.
+   * Set default delivery address
+   */
+  async setDefaultPatientAddressRaw(
+    requestParameters: SetDefaultPatientAddressRequest,
+    initOverrides?: RequestInit | runtime.InitOverrideFunction,
+  ): Promise<runtime.ApiResponse<SetDefaultPatientAddressResponse>> {
+    const requestOptions = await this.setDefaultPatientAddressRequestOpts(requestParameters);
+    const response = await this.request(requestOptions, initOverrides);
+
+    return new runtime.JSONApiResponse(response, (jsonValue) =>
+      SetDefaultPatientAddressResponseFromJSON(jsonValue),
+    );
+  }
+
+  /**
+   * Changes delivery selection for future drafts, without changing patient clinical location or existing signed orders.
+   * Set default delivery address
+   */
+  async setDefaultPatientAddress(
+    requestParameters: SetDefaultPatientAddressRequest,
+    initOverrides?: RequestInit | runtime.InitOverrideFunction,
+  ): Promise<SetDefaultPatientAddressResponse> {
+    const response = await this.setDefaultPatientAddressRaw(requestParameters, initOverrides);
     return await response.value();
   }
 
@@ -655,6 +1507,20 @@ export class PatientsApi extends runtime.BaseAPI {
       throw new runtime.RequiredError(
         "idempotencyKey",
         'Required parameter "idempotencyKey" was null or undefined when calling updatePatient().',
+      );
+    }
+
+    if (requestParameters["affinityActorId"] == null) {
+      throw new runtime.RequiredError(
+        "affinityActorId",
+        'Required parameter "affinityActorId" was null or undefined when calling updatePatient().',
+      );
+    }
+
+    if (requestParameters["affinityActorType"] == null) {
+      throw new runtime.RequiredError(
+        "affinityActorType",
+        'Required parameter "affinityActorType" was null or undefined when calling updatePatient().',
       );
     }
 
@@ -720,8 +1586,8 @@ export class PatientsApi extends runtime.BaseAPI {
   }
 
   /**
-   * Updates one patient owned by the platform-managed practice.
-   * Update practice patient
+   * Updates a patient in the current practice and mode. Omitted fields remain unchanged; null clears an optional field. External identifiers cannot be reassigned from another patient. API keys require Idempotency-Key.
+   * Update patient
    */
   async updatePatientRaw(
     requestParameters: UpdatePatientOperationRequest,
@@ -736,8 +1602,8 @@ export class PatientsApi extends runtime.BaseAPI {
   }
 
   /**
-   * Updates one patient owned by the platform-managed practice.
-   * Update practice patient
+   * Updates a patient in the current practice and mode. Omitted fields remain unchanged; null clears an optional field. External identifiers cannot be reassigned from another patient. API keys require Idempotency-Key.
+   * Update patient
    */
   async updatePatient(
     requestParameters: UpdatePatientOperationRequest,
@@ -746,4 +1612,182 @@ export class PatientsApi extends runtime.BaseAPI {
     const response = await this.updatePatientRaw(requestParameters, initOverrides);
     return await response.value();
   }
+
+  /**
+   * Creates request options for updatePatientAddress without sending the request
+   */
+  async updatePatientAddressRequestOpts(
+    requestParameters: UpdatePatientAddressOperationRequest,
+  ): Promise<runtime.RequestOpts> {
+    if (requestParameters["practiceId"] == null) {
+      throw new runtime.RequiredError(
+        "practiceId",
+        'Required parameter "practiceId" was null or undefined when calling updatePatientAddress().',
+      );
+    }
+
+    if (requestParameters["patientId"] == null) {
+      throw new runtime.RequiredError(
+        "patientId",
+        'Required parameter "patientId" was null or undefined when calling updatePatientAddress().',
+      );
+    }
+
+    if (requestParameters["addressId"] == null) {
+      throw new runtime.RequiredError(
+        "addressId",
+        'Required parameter "addressId" was null or undefined when calling updatePatientAddress().',
+      );
+    }
+
+    if (requestParameters["idempotencyKey"] == null) {
+      throw new runtime.RequiredError(
+        "idempotencyKey",
+        'Required parameter "idempotencyKey" was null or undefined when calling updatePatientAddress().',
+      );
+    }
+
+    if (requestParameters["affinityActorId"] == null) {
+      throw new runtime.RequiredError(
+        "affinityActorId",
+        'Required parameter "affinityActorId" was null or undefined when calling updatePatientAddress().',
+      );
+    }
+
+    if (requestParameters["affinityActorType"] == null) {
+      throw new runtime.RequiredError(
+        "affinityActorType",
+        'Required parameter "affinityActorType" was null or undefined when calling updatePatientAddress().',
+      );
+    }
+
+    if (requestParameters["updatePatientAddressRequest"] == null) {
+      throw new runtime.RequiredError(
+        "updatePatientAddressRequest",
+        'Required parameter "updatePatientAddressRequest" was null or undefined when calling updatePatientAddress().',
+      );
+    }
+
+    const queryParameters: any = {};
+
+    const headerParameters: runtime.HTTPHeaders = {};
+
+    headerParameters["Content-Type"] = "application/json";
+
+    if (requestParameters["affinityVersion"] != null) {
+      headerParameters["Affinity-Version"] = String(requestParameters["affinityVersion"]);
+    }
+
+    if (requestParameters["idempotencyKey"] != null) {
+      headerParameters["Idempotency-Key"] = String(requestParameters["idempotencyKey"]);
+    }
+
+    if (requestParameters["affinityActorId"] != null) {
+      headerParameters["Affinity-Actor-Id"] = String(requestParameters["affinityActorId"]);
+    }
+
+    if (requestParameters["affinityActorType"] != null) {
+      headerParameters["Affinity-Actor-Type"] = String(requestParameters["affinityActorType"]);
+    }
+
+    if (this.configuration && this.configuration.accessToken) {
+      const token = this.configuration.accessToken;
+      const tokenString = await token("bearerAuth", []);
+
+      if (tokenString) {
+        headerParameters["Authorization"] = `Bearer ${tokenString}`;
+      }
+    }
+    if (this.configuration && this.configuration.apiKey) {
+      headerParameters["x-affinity-api-key"] =
+        await this.configuration.apiKey("x-affinity-api-key"); // affinityApiKey authentication
+    }
+
+    let urlPath = `/v1/practices/{practiceId}/patients/{patientId}/addresses/{addressId}`;
+    urlPath = urlPath.replace(
+      "{practiceId}",
+      encodeURIComponent(String(requestParameters["practiceId"])),
+    );
+    urlPath = urlPath.replace(
+      "{patientId}",
+      encodeURIComponent(String(requestParameters["patientId"])),
+    );
+    urlPath = urlPath.replace(
+      "{addressId}",
+      encodeURIComponent(String(requestParameters["addressId"])),
+    );
+
+    return {
+      path: urlPath,
+      method: "PATCH",
+      headers: headerParameters,
+      query: queryParameters,
+      body: UpdatePatientAddressRequestToJSON(requestParameters["updatePatientAddressRequest"]),
+    };
+  }
+
+  /**
+   * Update delivery address
+   */
+  async updatePatientAddressRaw(
+    requestParameters: UpdatePatientAddressOperationRequest,
+    initOverrides?: RequestInit | runtime.InitOverrideFunction,
+  ): Promise<runtime.ApiResponse<UpdatePatientAddressResponse>> {
+    const requestOptions = await this.updatePatientAddressRequestOpts(requestParameters);
+    const response = await this.request(requestOptions, initOverrides);
+
+    return new runtime.JSONApiResponse(response, (jsonValue) =>
+      UpdatePatientAddressResponseFromJSON(jsonValue),
+    );
+  }
+
+  /**
+   * Update delivery address
+   */
+  async updatePatientAddress(
+    requestParameters: UpdatePatientAddressOperationRequest,
+    initOverrides?: RequestInit | runtime.InitOverrideFunction,
+  ): Promise<UpdatePatientAddressResponse> {
+    const response = await this.updatePatientAddressRaw(requestParameters, initOverrides);
+    return await response.value();
+  }
 }
+
+/**
+ * @export
+ */
+export const ListPatientAddressesStatusEnum = {
+  Active: "active",
+  Archived: "archived",
+  All: "all",
+} as const;
+export type ListPatientAddressesStatusEnum =
+  (typeof ListPatientAddressesStatusEnum)[keyof typeof ListPatientAddressesStatusEnum];
+/**
+ * @export
+ */
+export const ListPatientsGenderEnum = {
+  F: "f",
+  M: "m",
+  O: "o",
+  U: "u",
+} as const;
+export type ListPatientsGenderEnum =
+  (typeof ListPatientsGenderEnum)[keyof typeof ListPatientsGenderEnum];
+/**
+ * @export
+ */
+export const ListPatientsSortEnum = {
+  Created: "created",
+  Name: "name",
+} as const;
+export type ListPatientsSortEnum = (typeof ListPatientsSortEnum)[keyof typeof ListPatientsSortEnum];
+/**
+ * @export
+ */
+export const ListPatientsStatusEnum = {
+  Active: "active",
+  Inactive: "inactive",
+} as const;
+export type ListPatientsStatusEnum =
+  (typeof ListPatientsStatusEnum)[keyof typeof ListPatientsStatusEnum];

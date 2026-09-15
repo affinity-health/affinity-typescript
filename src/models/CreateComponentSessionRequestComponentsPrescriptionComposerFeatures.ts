@@ -2,7 +2,7 @@
 /* eslint-disable */
 /**
  * Affinity API
- * Affinity API for software platforms connecting practices to the compounder network.
+ * Affinity API for practices and software platforms connecting to the pharmacy network.
  *
  * The version of the OpenAPI document: 2026-08-11
  * Contact: support@joinaffinityai.com
@@ -24,25 +24,13 @@ export interface CreateComponentSessionRequestComponentsPrescriptionComposerFeat
    * @type {boolean}
    * @memberof CreateComponentSessionRequestComponentsPrescriptionComposerFeatures
    */
-  changePatient?: boolean;
+  changePatient?: boolean | null;
   /**
    *
    * @type {boolean}
    * @memberof CreateComponentSessionRequestComponentsPrescriptionComposerFeatures
    */
-  createDraft?: boolean;
-  /**
-   *
-   * @type {boolean}
-   * @memberof CreateComponentSessionRequestComponentsPrescriptionComposerFeatures
-   */
-  sign?: boolean;
-  /**
-   *
-   * @type {boolean}
-   * @memberof CreateComponentSessionRequestComponentsPrescriptionComposerFeatures
-   */
-  viewHistory?: boolean;
+  createDraft?: boolean | null;
 }
 
 /**
@@ -73,8 +61,6 @@ export function CreateComponentSessionRequestComponentsPrescriptionComposerFeatu
   return {
     changePatient: json["changePatient"] == null ? undefined : json["changePatient"],
     createDraft: json["createDraft"] == null ? undefined : json["createDraft"],
-    sign: json["sign"] == null ? undefined : json["sign"],
-    viewHistory: json["viewHistory"] == null ? undefined : json["viewHistory"],
   };
 }
 
@@ -98,7 +84,5 @@ export function CreateComponentSessionRequestComponentsPrescriptionComposerFeatu
   return {
     changePatient: value["changePatient"],
     createDraft: value["createDraft"],
-    sign: value["sign"],
-    viewHistory: value["viewHistory"],
   };
 }

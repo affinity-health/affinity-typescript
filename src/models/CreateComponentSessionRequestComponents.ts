@@ -2,7 +2,7 @@
 /* eslint-disable */
 /**
  * Affinity API
- * Affinity API for software platforms connecting practices to the compounder network.
+ * Affinity API for practices and software platforms connecting to the pharmacy network.
  *
  * The version of the OpenAPI document: 2026-08-11
  * Contact: support@joinaffinityai.com
@@ -32,7 +32,7 @@ export interface CreateComponentSessionRequestComponents {
    * @type {CreateComponentSessionRequestComponentsPrescriptionComposer}
    * @memberof CreateComponentSessionRequestComponents
    */
-  prescriptionComposer?: CreateComponentSessionRequestComponentsPrescriptionComposer;
+  prescriptionComposer?: CreateComponentSessionRequestComponentsPrescriptionComposer | null;
 }
 
 /**

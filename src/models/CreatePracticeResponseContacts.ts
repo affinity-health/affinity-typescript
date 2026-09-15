@@ -2,7 +2,7 @@
 /* eslint-disable */
 /**
  * Affinity API
- * Affinity API for software platforms connecting practices to the compounder network.
+ * Affinity API for practices and software platforms connecting to the pharmacy network.
  *
  * The version of the OpenAPI document: 2026-08-11
  * Contact: support@joinaffinityai.com
@@ -13,13 +13,13 @@
  */
 
 import { mapValues } from "../runtime";
-import type { ListPracticesResponseDataInnerContactsPrimary } from "./ListPracticesResponseDataInnerContactsPrimary";
+import type { CreatePracticeRequestPrimaryContact } from "./CreatePracticeRequestPrimaryContact";
 import {
-  ListPracticesResponseDataInnerContactsPrimaryFromJSON,
-  ListPracticesResponseDataInnerContactsPrimaryFromJSONTyped,
-  ListPracticesResponseDataInnerContactsPrimaryToJSON,
-  ListPracticesResponseDataInnerContactsPrimaryToJSONTyped,
-} from "./ListPracticesResponseDataInnerContactsPrimary";
+  CreatePracticeRequestPrimaryContactFromJSON,
+  CreatePracticeRequestPrimaryContactFromJSONTyped,
+  CreatePracticeRequestPrimaryContactToJSON,
+  CreatePracticeRequestPrimaryContactToJSONTyped,
+} from "./CreatePracticeRequestPrimaryContact";
 
 /**
  *
@@ -29,16 +29,16 @@ import {
 export interface CreatePracticeResponseContacts {
   /**
    *
-   * @type {ListPracticesResponseDataInnerContactsPrimary}
+   * @type {CreatePracticeRequestPrimaryContact}
    * @memberof CreatePracticeResponseContacts
    */
-  compliance: ListPracticesResponseDataInnerContactsPrimary | null;
+  compliance: CreatePracticeRequestPrimaryContact | null;
   /**
    *
-   * @type {ListPracticesResponseDataInnerContactsPrimary}
+   * @type {CreatePracticeRequestPrimaryContact}
    * @memberof CreatePracticeResponseContacts
    */
-  primary: ListPracticesResponseDataInnerContactsPrimary | null;
+  primary: CreatePracticeRequestPrimaryContact | null;
 }
 
 /**
@@ -64,8 +64,8 @@ export function CreatePracticeResponseContactsFromJSONTyped(
     return json;
   }
   return {
-    compliance: ListPracticesResponseDataInnerContactsPrimaryFromJSON(json["compliance"]),
-    primary: ListPracticesResponseDataInnerContactsPrimaryFromJSON(json["primary"]),
+    compliance: CreatePracticeRequestPrimaryContactFromJSON(json["compliance"]),
+    primary: CreatePracticeRequestPrimaryContactFromJSON(json["primary"]),
   };
 }
 
@@ -82,7 +82,7 @@ export function CreatePracticeResponseContactsToJSONTyped(
   }
 
   return {
-    compliance: ListPracticesResponseDataInnerContactsPrimaryToJSON(value["compliance"]),
-    primary: ListPracticesResponseDataInnerContactsPrimaryToJSON(value["primary"]),
+    compliance: CreatePracticeRequestPrimaryContactToJSON(value["compliance"]),
+    primary: CreatePracticeRequestPrimaryContactToJSON(value["primary"]),
   };
 }

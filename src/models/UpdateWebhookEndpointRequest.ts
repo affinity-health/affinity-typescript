@@ -2,7 +2,7 @@
 /* eslint-disable */
 /**
  * Affinity API
- * Affinity API for software platforms connecting practices to the compounder network.
+ * Affinity API for practices and software platforms connecting to the pharmacy network.
  *
  * The version of the OpenAPI document: 2026-08-11
  * Contact: support@joinaffinityai.com
@@ -20,11 +20,17 @@ import { mapValues } from "../runtime";
  */
 export interface UpdateWebhookEndpointRequest {
   /**
-   * a string that will be trimmed
+   *
+   * @type {Array<string>}
+   * @memberof UpdateWebhookEndpointRequest
+   */
+  practiceIds?: Array<string> | null;
+  /**
+   *
    * @type {string}
    * @memberof UpdateWebhookEndpointRequest
    */
-  description: string | null;
+  description: string;
   /**
    *
    * @type {UpdateWebhookEndpointRequestPayloadStyleEnum}
@@ -98,6 +104,7 @@ export function UpdateWebhookEndpointRequestFromJSONTyped(
     return json;
   }
   return {
+    practiceIds: json["practiceIds"] == null ? undefined : json["practiceIds"],
     description: json["description"],
     payloadStyle: json["payloadStyle"],
     status: json["status"],
@@ -119,6 +126,7 @@ export function UpdateWebhookEndpointRequestToJSONTyped(
   }
 
   return {
+    practiceIds: value["practiceIds"],
     description: value["description"],
     payloadStyle: value["payloadStyle"],
     status: value["status"],

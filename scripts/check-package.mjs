@@ -5,40 +5,35 @@ const sdk = await import("../dist/index.js");
 const client = new sdk.Affinity("sk_test_package_check");
 
 for (const resource of [
-  "componentSessions",
-  "compounders",
-  "hostedSessions",
+  "account",
+  "apiKeys",
+  "catalog",
+  "locations",
   "orders",
-  "orderSigningSessions",
   "patients",
-  "providerMappings",
+  "platformPricing",
+  "practices",
+  "sessions",
+  "team",
+  "webhooks",
 ]) {
   if (!(resource in client)) throw new Error(`${resource} resource missing`);
 }
 
-for (const webhookExport of ["parseAffinityWebhookEvent", "verifyAffinityWebhook"]) {
-  if (typeof sdk[webhookExport] !== "function") {
-    throw new Error(`${webhookExport} export missing`);
-  }
-}
-
-for (const legacyResource of [
-  "billing",
-  "portalSessions",
-  "prescriptions",
-  "prescriptionSigningSessions",
+for (const [group, method] of [
+  ["apiKeys", "getApiAccess"],
+  ["catalog", "listCatalogItems"],
+  ["locations", "listPracticeLocations"],
+  ["orders", "listOrders"],
+  ["patients", "listPatients"],
+  ["practices", "listPractices"],
+  ["sessions", "createHostedSession"],
+  ["team", "getPracticeTeam"],
+  ["webhooks", "listWebhookEndpoints"],
 ]) {
-  if (legacyResource in client) throw new Error(`legacy ${legacyResource} resource remains`);
-}
-
-for (const method of ["retrieveAllergies", "replaceAllergies"]) {
-  if (typeof client.patients[method] !== "function") {
-    throw new Error(`patients.${method} method missing`);
+  if (typeof client[group][method] !== "function") {
+    throw new Error(`${group}.${method} method missing`);
   }
-}
-
-for (const legacyMethod of ["createRoutingDecision", "submit", "update"]) {
-  if (legacyMethod in client.orders) throw new Error(`legacy orders.${legacyMethod} remains`);
 }
 
 const docsRoot = new URL("../docs/", import.meta.url);

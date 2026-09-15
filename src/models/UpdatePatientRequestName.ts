@@ -2,7 +2,7 @@
 /* eslint-disable */
 /**
  * Affinity API
- * Affinity API for software platforms connecting practices to the compounder network.
+ * Affinity API for practices and software platforms connecting to the pharmacy network.
  *
  * The version of the OpenAPI document: 2026-08-11
  * Contact: support@joinaffinityai.com
@@ -20,25 +20,25 @@ import { mapValues } from "../runtime";
  */
 export interface UpdatePatientRequestName {
   /**
-   * a string that will be trimmed
+   *
    * @type {string}
    * @memberof UpdatePatientRequestName
    */
   first?: string | null;
   /**
-   * a string that will be trimmed
+   *
    * @type {string}
    * @memberof UpdatePatientRequestName
    */
   last?: string | null;
   /**
-   * a string that will be trimmed
+   *
    * @type {string}
    * @memberof UpdatePatientRequestName
    */
   middle?: string | null;
   /**
-   * a string that will be trimmed
+   *
    * @type {string}
    * @memberof UpdatePatientRequestName
    */

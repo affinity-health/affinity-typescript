@@ -2,7 +2,7 @@
 /* eslint-disable */
 /**
  * Affinity API
- * Affinity API for software platforms connecting practices to the compounder network.
+ * Affinity API for practices and software platforms connecting to the pharmacy network.
  *
  * The version of the OpenAPI document: 2026-08-11
  * Contact: support@joinaffinityai.com
@@ -13,13 +13,55 @@
  */
 
 import { mapValues } from "../runtime";
-import type { CreatePatientRequestAddress } from "./CreatePatientRequestAddress";
+import type { CreateOrderRequestPatientClinicalProfile } from "./CreateOrderRequestPatientClinicalProfile";
 import {
-  CreatePatientRequestAddressFromJSON,
-  CreatePatientRequestAddressFromJSONTyped,
-  CreatePatientRequestAddressToJSON,
-  CreatePatientRequestAddressToJSONTyped,
-} from "./CreatePatientRequestAddress";
+  CreateOrderRequestPatientClinicalProfileFromJSON,
+  CreateOrderRequestPatientClinicalProfileFromJSONTyped,
+  CreateOrderRequestPatientClinicalProfileToJSON,
+  CreateOrderRequestPatientClinicalProfileToJSONTyped,
+} from "./CreateOrderRequestPatientClinicalProfile";
+import type { CreatePatientRequestAddressesInner } from "./CreatePatientRequestAddressesInner";
+import {
+  CreatePatientRequestAddressesInnerFromJSON,
+  CreatePatientRequestAddressesInnerFromJSONTyped,
+  CreatePatientRequestAddressesInnerToJSON,
+  CreatePatientRequestAddressesInnerToJSONTyped,
+} from "./CreatePatientRequestAddressesInner";
+import type { CreatePatientRequestEncountersInner } from "./CreatePatientRequestEncountersInner";
+import {
+  CreatePatientRequestEncountersInnerFromJSON,
+  CreatePatientRequestEncountersInnerFromJSONTyped,
+  CreatePatientRequestEncountersInnerToJSON,
+  CreatePatientRequestEncountersInnerToJSONTyped,
+} from "./CreatePatientRequestEncountersInner";
+import type { CreatePatientRequestMeasurementsInner } from "./CreatePatientRequestMeasurementsInner";
+import {
+  CreatePatientRequestMeasurementsInnerFromJSON,
+  CreatePatientRequestMeasurementsInnerFromJSONTyped,
+  CreatePatientRequestMeasurementsInnerToJSON,
+  CreatePatientRequestMeasurementsInnerToJSONTyped,
+} from "./CreatePatientRequestMeasurementsInner";
+import type { UpdatePatientAddressRequestAddress } from "./UpdatePatientAddressRequestAddress";
+import {
+  UpdatePatientAddressRequestAddressFromJSON,
+  UpdatePatientAddressRequestAddressFromJSONTyped,
+  UpdatePatientAddressRequestAddressToJSON,
+  UpdatePatientAddressRequestAddressToJSONTyped,
+} from "./UpdatePatientAddressRequestAddress";
+import type { CreatePatientRequestExternalIdentitiesInner } from "./CreatePatientRequestExternalIdentitiesInner";
+import {
+  CreatePatientRequestExternalIdentitiesInnerFromJSON,
+  CreatePatientRequestExternalIdentitiesInnerFromJSONTyped,
+  CreatePatientRequestExternalIdentitiesInnerToJSON,
+  CreatePatientRequestExternalIdentitiesInnerToJSONTyped,
+} from "./CreatePatientRequestExternalIdentitiesInner";
+import type { CreatePatientRequestProgramsInner } from "./CreatePatientRequestProgramsInner";
+import {
+  CreatePatientRequestProgramsInnerFromJSON,
+  CreatePatientRequestProgramsInnerFromJSONTyped,
+  CreatePatientRequestProgramsInnerToJSON,
+  CreatePatientRequestProgramsInnerToJSONTyped,
+} from "./CreatePatientRequestProgramsInner";
 import type { CreatePatientRequestName } from "./CreatePatientRequestName";
 import {
   CreatePatientRequestNameFromJSON,
@@ -36,10 +78,16 @@ import {
 export interface CreatePatientRequest {
   /**
    *
-   * @type {CreatePatientRequestAddress}
+   * @type {UpdatePatientAddressRequestAddress}
    * @memberof CreatePatientRequest
    */
-  address: CreatePatientRequestAddress;
+  address?: UpdatePatientAddressRequestAddress | null;
+  /**
+   *
+   * @type {CreateOrderRequestPatientClinicalProfile}
+   * @memberof CreatePatientRequest
+   */
+  clinicalProfile?: CreateOrderRequestPatientClinicalProfile | null;
   /**
    *
    * @type {string}
@@ -53,23 +101,53 @@ export interface CreatePatientRequest {
    */
   email?: string | null;
   /**
-   * a string that will be trimmed
-   * @type {string}
+   *
+   * @type {Array<CreatePatientRequestExternalIdentitiesInner>}
    * @memberof CreatePatientRequest
    */
-  externalId: string | null;
+  externalIdentities?: Array<CreatePatientRequestExternalIdentitiesInner> | null;
+  /**
+   *
+   * @type {Array<CreatePatientRequestAddressesInner>}
+   * @memberof CreatePatientRequest
+   */
+  addresses?: Array<CreatePatientRequestAddressesInner> | null;
+  /**
+   *
+   * @type {Array<CreatePatientRequestEncountersInner>}
+   * @memberof CreatePatientRequest
+   */
+  encounters?: Array<CreatePatientRequestEncountersInner> | null;
   /**
    *
    * @type {CreatePatientRequestGenderEnum}
    * @memberof CreatePatientRequest
    */
-  gender?: CreatePatientRequestGenderEnum;
+  gender?: CreatePatientRequestGenderEnum | null;
   /**
    *
-   * @type {{ [key: string]: any; }}
+   * @type {string}
    * @memberof CreatePatientRequest
    */
-  metadata?: { [key: string]: any };
+  locationId?: string | null;
+  /**
+   *
+   * @type {object}
+   * @memberof CreatePatientRequest
+   */
+  metadata?: object | null;
+  /**
+   *
+   * @type {string}
+   * @memberof CreatePatientRequest
+   */
+  medicalRecordNumber?: string | null;
+  /**
+   *
+   * @type {Array<CreatePatientRequestMeasurementsInner>}
+   * @memberof CreatePatientRequest
+   */
+  measurements?: Array<CreatePatientRequestMeasurementsInner> | null;
   /**
    *
    * @type {CreatePatientRequestName}
@@ -77,11 +155,17 @@ export interface CreatePatientRequest {
    */
   name: CreatePatientRequestName;
   /**
-   * a string that will be trimmed
+   *
    * @type {string}
    * @memberof CreatePatientRequest
    */
-  phone: string | null;
+  phone?: string | null;
+  /**
+   *
+   * @type {Array<CreatePatientRequestProgramsInner>}
+   * @memberof CreatePatientRequest
+   */
+  programs?: Array<CreatePatientRequestProgramsInner> | null;
 }
 
 /**
@@ -100,11 +184,8 @@ export type CreatePatientRequestGenderEnum =
  * Check if a given object implements the CreatePatientRequest interface.
  */
 export function instanceOfCreatePatientRequest(value: object): value is CreatePatientRequest {
-  if (!("address" in value) || value["address"] === undefined) return false;
   if (!("dateOfBirth" in value) || value["dateOfBirth"] === undefined) return false;
-  if (!("externalId" in value) || value["externalId"] === undefined) return false;
   if (!("name" in value) || value["name"] === undefined) return false;
-  if (!("phone" in value) || value["phone"] === undefined) return false;
   return true;
 }
 
@@ -120,14 +201,45 @@ export function CreatePatientRequestFromJSONTyped(
     return json;
   }
   return {
-    address: CreatePatientRequestAddressFromJSON(json["address"]),
+    address:
+      json["address"] == null
+        ? undefined
+        : UpdatePatientAddressRequestAddressFromJSON(json["address"]),
+    clinicalProfile:
+      json["clinicalProfile"] == null
+        ? undefined
+        : CreateOrderRequestPatientClinicalProfileFromJSON(json["clinicalProfile"]),
     dateOfBirth: json["dateOfBirth"],
     email: json["email"] == null ? undefined : json["email"],
-    externalId: json["externalId"],
+    externalIdentities:
+      json["externalIdentities"] == null
+        ? undefined
+        : (json["externalIdentities"] as Array<any>).map(
+            CreatePatientRequestExternalIdentitiesInnerFromJSON,
+          ),
+    addresses:
+      json["addresses"] == null
+        ? undefined
+        : (json["addresses"] as Array<any>).map(CreatePatientRequestAddressesInnerFromJSON),
+    encounters:
+      json["encounters"] == null
+        ? undefined
+        : (json["encounters"] as Array<any>).map(CreatePatientRequestEncountersInnerFromJSON),
     gender: json["gender"] == null ? undefined : json["gender"],
+    locationId: json["locationId"] == null ? undefined : json["locationId"],
     metadata: json["metadata"] == null ? undefined : json["metadata"],
+    medicalRecordNumber:
+      json["medicalRecordNumber"] == null ? undefined : json["medicalRecordNumber"],
+    measurements:
+      json["measurements"] == null
+        ? undefined
+        : (json["measurements"] as Array<any>).map(CreatePatientRequestMeasurementsInnerFromJSON),
     name: CreatePatientRequestNameFromJSON(json["name"]),
-    phone: json["phone"],
+    phone: json["phone"] == null ? undefined : json["phone"],
+    programs:
+      json["programs"] == null
+        ? undefined
+        : (json["programs"] as Array<any>).map(CreatePatientRequestProgramsInnerFromJSON),
   };
 }
 
@@ -144,13 +256,37 @@ export function CreatePatientRequestToJSONTyped(
   }
 
   return {
-    address: CreatePatientRequestAddressToJSON(value["address"]),
+    address: UpdatePatientAddressRequestAddressToJSON(value["address"]),
+    clinicalProfile: CreateOrderRequestPatientClinicalProfileToJSON(value["clinicalProfile"]),
     dateOfBirth: value["dateOfBirth"],
     email: value["email"],
-    externalId: value["externalId"],
+    externalIdentities:
+      value["externalIdentities"] == null
+        ? undefined
+        : (value["externalIdentities"] as Array<any>).map(
+            CreatePatientRequestExternalIdentitiesInnerToJSON,
+          ),
+    addresses:
+      value["addresses"] == null
+        ? undefined
+        : (value["addresses"] as Array<any>).map(CreatePatientRequestAddressesInnerToJSON),
+    encounters:
+      value["encounters"] == null
+        ? undefined
+        : (value["encounters"] as Array<any>).map(CreatePatientRequestEncountersInnerToJSON),
     gender: value["gender"],
+    locationId: value["locationId"],
     metadata: value["metadata"],
+    medicalRecordNumber: value["medicalRecordNumber"],
+    measurements:
+      value["measurements"] == null
+        ? undefined
+        : (value["measurements"] as Array<any>).map(CreatePatientRequestMeasurementsInnerToJSON),
     name: CreatePatientRequestNameToJSON(value["name"]),
     phone: value["phone"],
+    programs:
+      value["programs"] == null
+        ? undefined
+        : (value["programs"] as Array<any>).map(CreatePatientRequestProgramsInnerToJSON),
   };
 }

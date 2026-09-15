@@ -4,6 +4,7 @@
 
 | Name               | Type                |
 | ------------------ | ------------------- |
+| `practiceIds`      | Array&lt;string&gt; |
 | `description`      | string              |
 | `payloadStyle`     | string              |
 | `status`           | string              |

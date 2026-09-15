@@ -2,7 +2,7 @@
 /* eslint-disable */
 /**
  * Affinity API
- * Affinity API for software platforms connecting practices to the compounder network.
+ * Affinity API for practices and software platforms connecting to the pharmacy network.
  *
  * The version of the OpenAPI document: 2026-08-11
  * Contact: support@joinaffinityai.com
@@ -34,6 +34,20 @@ import {
   ListCatalogItemsResponseDataInnerShippingOptionsInnerToJSON,
   ListCatalogItemsResponseDataInnerShippingOptionsInnerToJSONTyped,
 } from "./ListCatalogItemsResponseDataInnerShippingOptionsInner";
+import type { ListCatalogItemsResponseDataInnerQuantityConstraint } from "./ListCatalogItemsResponseDataInnerQuantityConstraint";
+import {
+  ListCatalogItemsResponseDataInnerQuantityConstraintFromJSON,
+  ListCatalogItemsResponseDataInnerQuantityConstraintFromJSONTyped,
+  ListCatalogItemsResponseDataInnerQuantityConstraintToJSON,
+  ListCatalogItemsResponseDataInnerQuantityConstraintToJSONTyped,
+} from "./ListCatalogItemsResponseDataInnerQuantityConstraint";
+import type { ListCatalogItemsResponseDataInnerComposition } from "./ListCatalogItemsResponseDataInnerComposition";
+import {
+  ListCatalogItemsResponseDataInnerCompositionFromJSON,
+  ListCatalogItemsResponseDataInnerCompositionFromJSONTyped,
+  ListCatalogItemsResponseDataInnerCompositionToJSON,
+  ListCatalogItemsResponseDataInnerCompositionToJSONTyped,
+} from "./ListCatalogItemsResponseDataInnerComposition";
 
 /**
  *
@@ -43,16 +57,34 @@ import {
 export interface ListCatalogItemsResponseDataInner {
   /**
    *
+   * @type {ListCatalogItemsResponseDataInnerComposition}
+   * @memberof ListCatalogItemsResponseDataInner
+   */
+  composition: ListCatalogItemsResponseDataInnerComposition;
+  /**
+   *
    * @type {Array<string>}
    * @memberof ListCatalogItemsResponseDataInner
    */
   allowedStates: Array<string>;
   /**
    *
+   * @type {ListCatalogItemsResponseDataInnerAvailabilityEnum}
+   * @memberof ListCatalogItemsResponseDataInner
+   */
+  availability: ListCatalogItemsResponseDataInnerAvailabilityEnum;
+  /**
+   * Match this integration's external identity in the API key's mode.
    * @type {string}
    * @memberof ListCatalogItemsResponseDataInner
    */
-  catalogKind: string;
+  catalogKind: string | null;
+  /**
+   *
+   * @type {string}
+   * @memberof ListCatalogItemsResponseDataInner
+   */
+  category: string | null;
   /**
    *
    * @type {boolean}
@@ -64,31 +96,31 @@ export interface ListCatalogItemsResponseDataInner {
    * @type {string}
    * @memberof ListCatalogItemsResponseDataInner
    */
-  compounderId: string;
+  pharmacyId: string;
   /**
-   *
+   * Match this integration's external identity in the API key's mode.
    * @type {string}
    * @memberof ListCatalogItemsResponseDataInner
    */
-  compounderName: string;
+  pharmacyName: string | null;
   /**
-   *
+   * Match this integration's external identity in the API key's mode.
    * @type {string}
    * @memberof ListCatalogItemsResponseDataInner
    */
-  description: string;
+  description: string | null;
   /**
-   *
+   * Match this integration's external identity in the API key's mode.
    * @type {string}
    * @memberof ListCatalogItemsResponseDataInner
    */
-  dosageForm: string;
+  dosageForm: string | null;
   /**
-   *
+   * Match this integration's external identity in the API key's mode.
    * @type {string}
    * @memberof ListCatalogItemsResponseDataInner
    */
-  facilityType: string;
+  facilityType: string | null;
   /**
    *
    * @type {string}
@@ -120,11 +152,11 @@ export interface ListCatalogItemsResponseDataInner {
    */
   livemode: boolean;
   /**
-   *
+   * Match this integration's external identity in the API key's mode.
    * @type {string}
    * @memberof ListCatalogItemsResponseDataInner
    */
-  name: string;
+  name: string | null;
   /**
    *
    * @type {ListCatalogItemsResponseDataInnerObjectEnum}
@@ -137,6 +169,12 @@ export interface ListCatalogItemsResponseDataInner {
    * @memberof ListCatalogItemsResponseDataInner
    */
   patientSpecificRequired: boolean;
+  /**
+   *
+   * @type {ListCatalogItemsResponseDataInnerQuantityConstraint}
+   * @memberof ListCatalogItemsResponseDataInner
+   */
+  quantityConstraint: ListCatalogItemsResponseDataInnerQuantityConstraint | null;
   /**
    *
    * @type {ListCatalogItemsResponseDataInnerPrescriptionRequirements}
@@ -156,11 +194,11 @@ export interface ListCatalogItemsResponseDataInner {
    */
   restrictedStates: Array<string>;
   /**
-   *
+   * Match this integration's external identity in the API key's mode.
    * @type {string}
    * @memberof ListCatalogItemsResponseDataInner
    */
-  route: string;
+  route: string | null;
   /**
    *
    * @type {Array<ListCatalogItemsResponseDataInnerShippingOptionsInner>}
@@ -184,6 +222,18 @@ export interface ListCatalogItemsResponseDataInner {
 /**
  * @export
  */
+export const ListCatalogItemsResponseDataInnerAvailabilityEnum = {
+  Available: "available",
+  Backordered: "backordered",
+  Unavailable: "unavailable",
+  Unknown: "unknown",
+} as const;
+export type ListCatalogItemsResponseDataInnerAvailabilityEnum =
+  (typeof ListCatalogItemsResponseDataInnerAvailabilityEnum)[keyof typeof ListCatalogItemsResponseDataInnerAvailabilityEnum];
+
+/**
+ * @export
+ */
 export const ListCatalogItemsResponseDataInnerObjectEnum = {
   CatalogItem: "catalog_item",
 } as const;
@@ -196,11 +246,14 @@ export type ListCatalogItemsResponseDataInnerObjectEnum =
 export function instanceOfListCatalogItemsResponseDataInner(
   value: object,
 ): value is ListCatalogItemsResponseDataInner {
+  if (!("composition" in value) || value["composition"] === undefined) return false;
   if (!("allowedStates" in value) || value["allowedStates"] === undefined) return false;
+  if (!("availability" in value) || value["availability"] === undefined) return false;
   if (!("catalogKind" in value) || value["catalogKind"] === undefined) return false;
+  if (!("category" in value) || value["category"] === undefined) return false;
   if (!("coldShip" in value) || value["coldShip"] === undefined) return false;
-  if (!("compounderId" in value) || value["compounderId"] === undefined) return false;
-  if (!("compounderName" in value) || value["compounderName"] === undefined) return false;
+  if (!("pharmacyId" in value) || value["pharmacyId"] === undefined) return false;
+  if (!("pharmacyName" in value) || value["pharmacyName"] === undefined) return false;
   if (!("description" in value) || value["description"] === undefined) return false;
   if (!("dosageForm" in value) || value["dosageForm"] === undefined) return false;
   if (!("facilityType" in value) || value["facilityType"] === undefined) return false;
@@ -213,6 +266,7 @@ export function instanceOfListCatalogItemsResponseDataInner(
   if (!("object" in value) || value["object"] === undefined) return false;
   if (!("patientSpecificRequired" in value) || value["patientSpecificRequired"] === undefined)
     return false;
+  if (!("quantityConstraint" in value) || value["quantityConstraint"] === undefined) return false;
   if (!("prescriptionRequirements" in value) || value["prescriptionRequirements"] === undefined)
     return false;
   if (!("pricing" in value) || value["pricing"] === undefined) return false;
@@ -238,11 +292,14 @@ export function ListCatalogItemsResponseDataInnerFromJSONTyped(
     return json;
   }
   return {
+    composition: ListCatalogItemsResponseDataInnerCompositionFromJSON(json["composition"]),
     allowedStates: json["allowedStates"],
+    availability: json["availability"],
     catalogKind: json["catalogKind"],
+    category: json["category"],
     coldShip: json["coldShip"],
-    compounderId: json["compounderId"],
-    compounderName: json["compounderName"],
+    pharmacyId: json["pharmacyId"],
+    pharmacyName: json["pharmacyName"],
     description: json["description"],
     dosageForm: json["dosageForm"],
     facilityType: json["facilityType"],
@@ -254,6 +311,9 @@ export function ListCatalogItemsResponseDataInnerFromJSONTyped(
     name: json["name"],
     object: json["object"],
     patientSpecificRequired: json["patientSpecificRequired"],
+    quantityConstraint: ListCatalogItemsResponseDataInnerQuantityConstraintFromJSON(
+      json["quantityConstraint"],
+    ),
     prescriptionRequirements: ListCatalogItemsResponseDataInnerPrescriptionRequirementsFromJSON(
       json["prescriptionRequirements"],
     ),
@@ -283,11 +343,14 @@ export function ListCatalogItemsResponseDataInnerToJSONTyped(
   }
 
   return {
+    composition: ListCatalogItemsResponseDataInnerCompositionToJSON(value["composition"]),
     allowedStates: value["allowedStates"],
+    availability: value["availability"],
     catalogKind: value["catalogKind"],
+    category: value["category"],
     coldShip: value["coldShip"],
-    compounderId: value["compounderId"],
-    compounderName: value["compounderName"],
+    pharmacyId: value["pharmacyId"],
+    pharmacyName: value["pharmacyName"],
     description: value["description"],
     dosageForm: value["dosageForm"],
     facilityType: value["facilityType"],
@@ -299,6 +362,9 @@ export function ListCatalogItemsResponseDataInnerToJSONTyped(
     name: value["name"],
     object: value["object"],
     patientSpecificRequired: value["patientSpecificRequired"],
+    quantityConstraint: ListCatalogItemsResponseDataInnerQuantityConstraintToJSON(
+      value["quantityConstraint"],
+    ),
     prescriptionRequirements: ListCatalogItemsResponseDataInnerPrescriptionRequirementsToJSON(
       value["prescriptionRequirements"],
     ),

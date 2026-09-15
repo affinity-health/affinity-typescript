@@ -2,7 +2,7 @@
 /* eslint-disable */
 /**
  * Affinity API
- * Affinity API for software platforms connecting practices to the compounder network.
+ * Affinity API for practices and software platforms connecting to the pharmacy network.
  *
  * The version of the OpenAPI document: 2026-08-11
  * Contact: support@joinaffinityai.com
@@ -13,26 +13,12 @@
  */
 
 import { mapValues } from "../runtime";
-import type { CreateHostedSessionRequestConsent } from "./CreateHostedSessionRequestConsent";
-import {
-  CreateHostedSessionRequestConsentFromJSON,
-  CreateHostedSessionRequestConsentFromJSONTyped,
-  CreateHostedSessionRequestConsentToJSON,
-  CreateHostedSessionRequestConsentToJSONTyped,
-} from "./CreateHostedSessionRequestConsent";
-
 /**
  *
  * @export
  * @interface CreateHostedSessionRequest
  */
 export interface CreateHostedSessionRequest {
-  /**
-   *
-   * @type {CreateHostedSessionRequestConsent}
-   * @memberof CreateHostedSessionRequest
-   */
-  consent: CreateHostedSessionRequestConsent;
   /**
    *
    * @type {CreateHostedSessionRequestFlowEnum}
@@ -44,13 +30,7 @@ export interface CreateHostedSessionRequest {
    * @type {string}
    * @memberof CreateHostedSessionRequest
    */
-  membershipId?: string;
-  /**
-   *
-   * @type {string}
-   * @memberof CreateHostedSessionRequest
-   */
-  patientId?: string;
+  orderId: string;
   /**
    *
    * @type {string}
@@ -62,33 +42,20 @@ export interface CreateHostedSessionRequest {
    * @type {string}
    * @memberof CreateHostedSessionRequest
    */
-  orderId?: string;
-  /**
-   *
-   * @type {string}
-   * @memberof CreateHostedSessionRequest
-   */
-  providerMappingId: string;
-  /**
-   *
-   * @type {string}
-   * @memberof CreateHostedSessionRequest
-   */
   returnUrl?: string | null;
   /**
-   *
+   * An optional Team integration identity whose accepted Affinity account must open this review.
    * @type {string}
    * @memberof CreateHostedSessionRequest
    */
-  userId: string;
+  userId?: string | null;
 }
 
 /**
  * @export
  */
 export const CreateHostedSessionRequestFlowEnum = {
-  ProviderVerification: "provider_verification",
-  PrescriptionComposer: "prescription_composer",
+  OrderReview: "order_review",
 } as const;
 export type CreateHostedSessionRequestFlowEnum =
   (typeof CreateHostedSessionRequestFlowEnum)[keyof typeof CreateHostedSessionRequestFlowEnum];
@@ -99,11 +66,9 @@ export type CreateHostedSessionRequestFlowEnum =
 export function instanceOfCreateHostedSessionRequest(
   value: object,
 ): value is CreateHostedSessionRequest {
-  if (!("consent" in value) || value["consent"] === undefined) return false;
   if (!("flow" in value) || value["flow"] === undefined) return false;
+  if (!("orderId" in value) || value["orderId"] === undefined) return false;
   if (!("practiceId" in value) || value["practiceId"] === undefined) return false;
-  if (!("providerMappingId" in value) || value["providerMappingId"] === undefined) return false;
-  if (!("userId" in value) || value["userId"] === undefined) return false;
   return true;
 }
 
@@ -119,15 +84,11 @@ export function CreateHostedSessionRequestFromJSONTyped(
     return json;
   }
   return {
-    consent: CreateHostedSessionRequestConsentFromJSON(json["consent"]),
     flow: json["flow"],
-    membershipId: json["membershipId"] == null ? undefined : json["membershipId"],
-    patientId: json["patientId"] == null ? undefined : json["patientId"],
+    orderId: json["orderId"],
     practiceId: json["practiceId"],
-    orderId: json["orderId"] == null ? undefined : json["orderId"],
-    providerMappingId: json["providerMappingId"],
     returnUrl: json["returnUrl"] == null ? undefined : json["returnUrl"],
-    userId: json["userId"],
+    userId: json["userId"] == null ? undefined : json["userId"],
   };
 }
 
@@ -144,13 +105,9 @@ export function CreateHostedSessionRequestToJSONTyped(
   }
 
   return {
-    consent: CreateHostedSessionRequestConsentToJSON(value["consent"]),
     flow: value["flow"],
-    membershipId: value["membershipId"],
-    patientId: value["patientId"],
-    practiceId: value["practiceId"],
     orderId: value["orderId"],
-    providerMappingId: value["providerMappingId"],
+    practiceId: value["practiceId"],
     returnUrl: value["returnUrl"],
     userId: value["userId"],
   };

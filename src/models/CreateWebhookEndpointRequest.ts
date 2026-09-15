@@ -2,7 +2,7 @@
 /* eslint-disable */
 /**
  * Affinity API
- * Affinity API for software platforms connecting practices to the compounder network.
+ * Affinity API for practices and software platforms connecting to the pharmacy network.
  *
  * The version of the OpenAPI document: 2026-08-11
  * Contact: support@joinaffinityai.com
@@ -20,7 +20,13 @@ import { mapValues } from "../runtime";
  */
 export interface CreateWebhookEndpointRequest {
   /**
-   * a string that will be trimmed
+   *
+   * @type {Array<string>}
+   * @memberof CreateWebhookEndpointRequest
+   */
+  practiceIds?: Array<string> | null;
+  /**
+   *
    * @type {string}
    * @memberof CreateWebhookEndpointRequest
    */
@@ -30,13 +36,13 @@ export interface CreateWebhookEndpointRequest {
    * @type {CreateWebhookEndpointRequestPayloadStyleEnum}
    * @memberof CreateWebhookEndpointRequest
    */
-  payloadStyle?: CreateWebhookEndpointRequestPayloadStyleEnum;
+  payloadStyle?: CreateWebhookEndpointRequestPayloadStyleEnum | null;
   /**
    *
    * @type {Array<string>}
    * @memberof CreateWebhookEndpointRequest
    */
-  subscribedEvents?: Array<string>;
+  subscribedEvents?: Array<string> | null;
   /**
    *
    * @type {string}
@@ -77,6 +83,7 @@ export function CreateWebhookEndpointRequestFromJSONTyped(
     return json;
   }
   return {
+    practiceIds: json["practiceIds"] == null ? undefined : json["practiceIds"],
     description: json["description"] == null ? undefined : json["description"],
     payloadStyle: json["payloadStyle"] == null ? undefined : json["payloadStyle"],
     subscribedEvents: json["subscribedEvents"] == null ? undefined : json["subscribedEvents"],
@@ -97,6 +104,7 @@ export function CreateWebhookEndpointRequestToJSONTyped(
   }
 
   return {
+    practiceIds: value["practiceIds"],
     description: value["description"],
     payloadStyle: value["payloadStyle"],
     subscribedEvents: value["subscribedEvents"],

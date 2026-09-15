@@ -20,61 +20,20 @@ export async function provisionProvider({
   practiceId,
   practiceTermsVersion,
 }: ProvisionProviderOptions) {
-  const user = await affinity.users.create(
-    {
+  const user = await affinity.team.registerUser({
+    practiceId,
+    registerUserRequest: {
       email: externalProvider.email,
       externalId: externalProvider.id,
       name: externalProvider.name,
-    },
-    { idempotencyKey: `user:${externalProvider.id}` },
-  );
-
-  const roles = await affinity.roles.list(practiceId, { limit: 100 });
-  const role = roles.data.find((item) => item.name === "Prescriber");
-  if (!role) throw new Error("Choose an approved practice role");
-
-  const membership = await affinity.memberships.create(
-    practiceId,
-    {
-      roleId: role.id,
-      termsVersion: practiceTermsVersion,
-      userId: user.id,
-    },
-    { idempotencyKey: `membership:${practiceId}:${user.id}` },
-  );
-
-  const providerMapping = await affinity.providerMappings.create(
-    {
-      attestations: {
-        authorizedProviderRelationship: true,
-        providerDataAccuracy: true,
-      },
-      credentials: "MD",
-      externalId: externalProvider.id,
-      name: externalProvider.name,
+      role: "prescriber",
+      identityAttestation: true,
       npi: externalProvider.npi,
-      practiceId,
-      userId: user.id,
+      credentials: "MD",
     },
-    { idempotencyKey: `provider-mapping:${practiceId}:${externalProvider.id}` },
-  );
+    idempotencyKey: `user:${externalProvider.id}`,
+  });
 
-  const verification = await affinity.hostedSessions.create(
-    {
-      consent: {
-        authorizedProviderAccess: true,
-        minimumNecessaryPhi: true,
-        recordedAt: new Date().toISOString(),
-      },
-      flow: "provider_verification",
-      membershipId: membership.id,
-      practiceId,
-      providerMappingId: providerMapping.id,
-      returnUrl: "https://app.example.com/affinity/return",
-      userId: user.id,
-    },
-    { idempotencyKey: `verify:${providerMapping.id}` },
-  );
-
-  return { membership, providerMapping, user, verification };
+  const team = await affinity.team.getPracticeTeam({ practiceId });
+  return { team, user, practiceTermsVersion };
 }
