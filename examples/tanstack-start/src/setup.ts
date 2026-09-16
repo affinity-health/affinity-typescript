@@ -8,13 +8,13 @@ export const createTestPractice = createServerFn({ method: "POST" }).handler(asy
   if (!apiKey) throw new Error("Set AFFINITY_API_KEY in .env.local to a Test-mode API key.");
 
   const affinity = new Affinity(apiKey);
-  const access = await affinity.apiKeys.getApiAccess();
+  const access = await affinity.apiKeys.retrieve();
   if (access.livemode) throw new Error("This example accepts only a Test-mode API key.");
 
   const runId = crypto.randomUUID();
   const providerName = "Dr. Alex Morgan";
-  const practice = await affinity.practices.createPractice({
-    createPracticeRequest: {
+  const practice = await affinity.practices.create(
+    {
       address: {
         city: "Detroit",
         country: "US",
@@ -42,11 +42,11 @@ export const createTestPractice = createServerFn({ method: "POST" }).handler(asy
       primaryContact: { email: "ops@example.com", name: "Test Operations" },
       timezone: "America/Detroit",
     },
-    idempotencyKey: `practice:${runId}`,
-  });
-  const user = await affinity.team.registerUser({
-    practiceId: practice.id!,
-    registerUserRequest: {
+    { idempotencyKey: `practice:${runId}` },
+  );
+  const user = await affinity.team.createUser(
+    practice.id!,
+    {
       email: "alex.morgan@example.com",
       externalId: `sdk_example_provider_${runId}`,
       name: providerName,
@@ -55,9 +55,9 @@ export const createTestPractice = createServerFn({ method: "POST" }).handler(asy
       npi: TEST_PROVIDER_NPI,
       credentials: "MD",
     },
-    idempotencyKey: `user:${runId}`,
-  });
-  const team = await affinity.team.getPracticeTeam({ practiceId: practice.id! });
+    { idempotencyKey: `user:${runId}` },
+  );
+  const team = await affinity.team.retrieve(practice.id!);
 
   return {
     practiceId: practice.id,

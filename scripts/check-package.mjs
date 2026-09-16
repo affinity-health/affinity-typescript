@@ -4,6 +4,19 @@ import { resolve } from "node:path";
 const sdk = await import("../dist/index.js");
 const client = new sdk.Affinity("sk_test_package_check");
 
+for (const name of [
+  "OrdersApi",
+  "Configuration",
+  "CreateOrderRequestToJSON",
+  "CreateOrderRequestFromJSON",
+]) {
+  if (name in sdk) throw new Error(`generated transport export leaked from package root: ${name}`);
+}
+for (const name of ["ResponseError", "FetchError", "RequiredError"]) {
+  if (typeof sdk[name] !== "function") throw new Error(`transport error export missing: ${name}`);
+}
+if ("raw" in client) throw new Error("raw transport namespace must not be exposed");
+
 for (const resource of [
   "account",
   "apiKeys",
@@ -21,18 +34,40 @@ for (const resource of [
 }
 
 for (const [group, method] of [
+  ["account", "retrieve"],
+  ["apiKeys", "retrieve"],
+  ["catalog", "list"],
+  ["locations", "list"],
+  ["orders", "list"],
+  ["patients", "list"],
+  ["patients", "retrieveAllergies"],
+  ["practices", "list"],
+  ["sessions", "createHosted"],
+  ["team", "retrieve"],
+  ["team", "createUser"],
+  ["webhooks", "list"],
+]) {
+  if (typeof client[group][method] !== "function") {
+    throw new Error(`${group}.${method} method missing`);
+  }
+}
+
+for (const [group, method] of [
   ["apiKeys", "getApiAccess"],
   ["catalog", "listCatalogItems"],
   ["locations", "listPracticeLocations"],
   ["orders", "listOrders"],
+  ["patients", "getPatientAllergies"],
   ["patients", "listPatients"],
+  ["practices", "createPractice"],
   ["practices", "listPractices"],
   ["sessions", "createHostedSession"],
   ["team", "getPracticeTeam"],
+  ["team", "registerUser"],
   ["webhooks", "listWebhookEndpoints"],
 ]) {
-  if (typeof client[group][method] !== "function") {
-    throw new Error(`${group}.${method} method missing`);
+  if (method in client[group]) {
+    throw new Error(`generated method leaked into public ${group}: ${method}`);
   }
 }
 

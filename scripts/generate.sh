@@ -20,4 +20,4 @@ trap 'rm -rf "$generated"' EXIT
 bun "$root/scripts/replace-generated.ts" "$generated" "$root"
 bun "$root/scripts/clean-generated-docs.ts" "$root/docs"
 bun "$root/scripts/generate-facade.ts"
-oxfmt "$root/src" "$root/docs" "$root/scripts" "$root/examples" "$root/test"
+oxfmt "$root/src" "$root/docs"

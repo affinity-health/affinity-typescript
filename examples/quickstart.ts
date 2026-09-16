@@ -4,10 +4,10 @@ const apiKey = process.env.AFFINITY_API_KEY;
 if (!apiKey) throw new Error("Set AFFINITY_API_KEY to a test-mode service key");
 
 const affinity = new Affinity(apiKey);
-const access = await affinity.apiKeys.getApiAccess();
+const access = await affinity.apiKeys.retrieve();
 if (access.livemode) throw new Error("This quickstart only runs with a test-mode key");
 
-const catalog = await affinity.catalog.listCatalogItems({ limit: 10, query: "semaglutide" });
+const catalog = await affinity.catalog.list({ limit: 10, query: "semaglutide" });
 const pharmacies = await affinity.catalog.listPharmacies({ limit: 10 });
 console.log(`Found ${catalog.data.length} matching test catalog items`);
 console.log(`Found ${pharmacies.data.length} pharmacies available to this test account`);
@@ -15,8 +15,8 @@ console.log(`Found ${pharmacies.data.length} pharmacies available to this test a
 if (process.env.RUN_AFFINITY_MUTATION_EXAMPLE === "1") {
   const runId = crypto.randomUUID();
   const actingAffinity = affinity;
-  const practice = await affinity.practices.createPractice({
-    createPracticeRequest: {
+  const practice = await affinity.practices.create(
+    {
       address: {
         city: "Los Angeles",
         country: "US",
@@ -34,12 +34,11 @@ if (process.env.RUN_AFFINITY_MUTATION_EXAMPLE === "1") {
       name: "Northstar Wellness",
       primaryContact: { email: "ops@example.com", name: "Clinical Operations" },
     },
-    idempotencyKey: crypto.randomUUID(),
-  });
-  const patient = await actingAffinity.patients.createPatient({
-    affinityActorId: "quickstart-system",
-    affinityActorType: "system",
-    createPatientRequest: {
+    { idempotencyKey: crypto.randomUUID() },
+  );
+  const patient = await actingAffinity.patients.create(
+    practice.id!,
+    {
       address: {
         city: "Los Angeles",
         country: "US",
@@ -53,34 +52,33 @@ if (process.env.RUN_AFFINITY_MUTATION_EXAMPLE === "1") {
       name: { first: "Demo", last: "Patient" },
       phone: "+13135550100",
     },
-    idempotencyKey: crypto.randomUUID(),
-    practiceId: practice.id!,
-  });
-  await actingAffinity.patients.replacePatientAllergies({
-    affinityActorId: "quickstart-system",
-    affinityActorType: "system",
-    idempotencyKey: crypto.randomUUID(),
-    patientId: patient.id!,
-    practiceId: practice.id!,
-    replacePatientAllergiesRequest: { allergies: [], reviewStatus: "no_known" },
+    { actor: { id: "quickstart-system", type: "system" }, idempotencyKey: crypto.randomUUID() },
+  );
+  await actingAffinity.patients.replaceAllergies(
+    practice.id!,
+    patient.id!,
+    { allergies: [], reviewStatus: "no_known" },
+    { actor: { id: "quickstart-system", type: "system" }, idempotencyKey: crypto.randomUUID() },
+  );
+  const allergies = await actingAffinity.patients.retrieveAllergies(practice.id!, patient.id!, {
+    actor: { id: "quickstart-system", type: "system" },
   });
 
-  const practiceCatalog = await affinity.catalog.listCatalogItems({
+  const practiceCatalog = await affinity.catalog.list({
     limit: 10,
     practiceId: practice.id!,
     query: "semaglutide",
   });
 
-  const practiceOrders = await actingAffinity.orders.listOrders({
-    affinityActorId: "quickstart-system",
-    affinityActorType: "system",
-    practiceId: practice.id!,
-  });
+  const practiceOrders = await actingAffinity.orders.list(
+    { practiceId: practice.id! },
+    { actor: { id: "quickstart-system", type: "system" } },
+  );
   console.log(
-    `Created and allergy-reviewed patient ${patient.id} for practice ${practice.id}; ${practiceCatalog.data.length} priced catalog items and ${practiceOrders.data.length} orders are visible`,
+    `Created and allergy-reviewed patient ${patient.id} for practice ${practice.id}; ${allergies.allergies?.length ?? 0} allergies, ${practiceCatalog.data.length} priced catalog items, and ${practiceOrders.data.length} orders are visible`,
   );
 
   console.log(
-    "For a verified provider, call actingAffinity.orders.createOrder(...) with an unsigned order, then use the order lifecycle operations as permitted by the account.",
+    "For a verified provider, call actingAffinity.orders.create(...) with an unsigned order, then use the order lifecycle operations as permitted by the account.",
   );
 }

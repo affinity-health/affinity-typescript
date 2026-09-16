@@ -1,9 +1,7 @@
-/* tslint:disable */
-/* eslint-disable */
-export * from "./runtime";
-export * from "./apis/index";
-export * from "./models/index";
+// Code generated from spec/affinity.openapi.json by scripts/generate-facade.ts. DO NOT EDIT.
 
 export * from "./affinity";
 export * from "./errors";
+export { ResponseError, FetchError, RequiredError } from "./runtime";
+export type * from "./resources";
 export * from "./webhook-events";

@@ -7,6 +7,20 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 
 ## [Unreleased]
 
+## [1.7.0] - 2026-09-16
+
+### Changed
+
+- **Breaking:** Resource methods now use `create`, `retrieve`, `list`, and other direct names with flattened request bodies and separate path identifiers. Generated operation names, clients, model exports, and the `raw` namespace are not public APIs.
+- All 69 operations in the `2026-08-11` contract have typed public resource methods. Regeneration rejects missing or stale operation mappings.
+- Client and request options consistently handle actor attribution, idempotency, API versions, organization selection, custom headers, and abort signals. Managed headers must use typed options.
+- Order creation requires exactly one patient reference and 1–20 prescriptions, with the same checks for each order in a batch.
+
+### Fixed
+
+- Corrected public order input types and packaged declarations for NodeNext and bundler consumers.
+- Preserved custom headers and abort signals on patient list requests.
+
 ## [1.6.0] - 2026-09-15
 
 ### Changed
@@ -209,7 +223,9 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 - Typed RFC 9457 problem responses, including validation, dependency, and internal failures.
 - A compile-checked Test-mode quickstart.
 
-[Unreleased]: https://github.com/affinity-health/affinity-typescript/compare/v1.5.0...HEAD
+[Unreleased]: https://github.com/affinity-health/affinity-typescript/compare/v1.7.0...HEAD
+[1.7.0]: https://github.com/affinity-health/affinity-typescript/compare/v1.6.0...v1.7.0
+[1.6.0]: https://github.com/affinity-health/affinity-typescript/compare/v1.5.0...v1.6.0
 [1.5.0]: https://github.com/affinity-health/affinity-typescript/compare/v1.4.0...v1.5.0
 [1.4.0]: https://github.com/affinity-health/affinity-typescript/compare/v1.3.1...v1.4.0
 [1.3.1]: https://github.com/affinity-health/affinity-typescript/compare/v1.3.0...v1.3.1

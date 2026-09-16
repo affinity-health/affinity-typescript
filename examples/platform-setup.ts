@@ -20,9 +20,9 @@ export async function provisionProvider({
   practiceId,
   practiceTermsVersion,
 }: ProvisionProviderOptions) {
-  const user = await affinity.team.registerUser({
+  const user = await affinity.team.createUser(
     practiceId,
-    registerUserRequest: {
+    {
       email: externalProvider.email,
       externalId: externalProvider.id,
       name: externalProvider.name,
@@ -31,9 +31,9 @@ export async function provisionProvider({
       npi: externalProvider.npi,
       credentials: "MD",
     },
-    idempotencyKey: `user:${externalProvider.id}`,
-  });
+    { idempotencyKey: `user:${externalProvider.id}` },
+  );
 
-  const team = await affinity.team.getPracticeTeam({ practiceId });
+  const team = await affinity.team.retrieve(practiceId);
   return { team, user, practiceTermsVersion };
 }

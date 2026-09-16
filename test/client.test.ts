@@ -1,5 +1,6 @@
 import { describe, expect, test } from "bun:test";
-import { Affinity, Configuration, OrdersApi } from "../src";
+import * as sdk from "../src";
+import { Affinity } from "../src";
 
 const apiAccess = {
   apiKey: { id: "key_123", keyPrefix: "sk_test", object: "api_key" },
@@ -9,7 +10,23 @@ const apiAccess = {
   serviceAccount: { id: "sa_123", name: "Test service account", object: "service_account" },
 };
 
-describe("generated Affinity client", () => {
+const prescription = {
+  daysSupply: 30,
+  dispensing: {},
+  directions: "Take one tablet by mouth daily",
+  medicationId: "cat_01k123456789abcdefghjkmnpq",
+  quantity: 30,
+  quantityUnit: "tablet",
+  refills: 0,
+  structuredSig: {
+    dose: "1",
+    doseUnit: "tablet",
+    frequency: "once daily",
+    route: "oral",
+  },
+};
+
+describe("Affinity client", () => {
   test("configures the production API, dated contract, and bearer key", async () => {
     let request: Request | undefined;
     const affinity = new Affinity("sk_test_example", {
@@ -19,7 +36,7 @@ describe("generated Affinity client", () => {
       },
     });
 
-    const access = await affinity.apiKeys.getApiAccess();
+    const access = await affinity.apiKeys.retrieve();
 
     expect(access.livemode).toBe(false);
     expect(request?.url).toBe("https://api.joinaffinityai.com/v1/auth/access");
@@ -42,7 +59,7 @@ describe("generated Affinity client", () => {
       },
     });
 
-    const result = await affinity.catalog.listCatalogItems({
+    const result = await affinity.catalog.list({
       limit: 10,
       practiceId: "prac_01k123456789abcdefghjkmnp",
       query: "semaglutide",
@@ -75,16 +92,17 @@ describe("generated Affinity client", () => {
       },
     });
 
-    await affinity.orders.createOrder({
-      affinityActorId: "integration-user-123",
-      affinityActorType: "system",
-      createOrderRequest: {
+    await affinity.orders.create(
+      {
         patientId: "pat_01k123456789abcdefghjkmnp",
         practiceId: "prac_01k123456789abcdefghjkmnp",
-        prescriptions: [],
+        prescriptions: [prescription],
       },
-      idempotencyKey: "order-create-123",
-    });
+      {
+        actor: { id: "integration-user-123", type: "system" },
+        idempotencyKey: "order-create-123",
+      },
+    );
 
     expect(request?.url).toBe("http://api.affinity.localhost/v1/orders");
     expect(request?.headers.get("affinity-actor-id")).toBe("integration-user-123");
@@ -93,14 +111,23 @@ describe("generated Affinity client", () => {
     expect(await request?.json()).toEqual({
       patientId: "pat_01k123456789abcdefghjkmnp",
       practiceId: "prac_01k123456789abcdefghjkmnp",
-      prescriptions: [],
+      prescriptions: [prescription],
     });
   });
 
-  test("exposes the generated API classes for custom configuration", () => {
-    const orders = new OrdersApi(
-      new Configuration({ accessToken: "sk_test_example", basePath: "https://example.test" }),
-    );
-    expect(orders).toBeInstanceOf(OrdersApi);
+  test("keeps generated transport and models out of the public surface", async () => {
+    const affinity = new Affinity("sk_test_example");
+    expect("raw" in affinity).toBe(false);
+    for (const name of [
+      "OrdersApi",
+      "Configuration",
+      "CreateOrderRequestToJSON",
+      "CreateOrderRequestFromJSON",
+    ]) {
+      expect(name in sdk).toBe(false);
+    }
+    for (const name of ["ResponseError", "FetchError", "RequiredError"]) {
+      expect(typeof sdk[name as keyof typeof sdk]).toBe("function");
+    }
   });
 });
