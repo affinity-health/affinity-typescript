@@ -115,10 +115,10 @@ describe("Affinity client", () => {
     });
   });
 
-  test("keeps generated transport and models behind the raw escape hatch", async () => {
+  test("keeps generated transport and models private", async () => {
     const affinity = new Affinity("sk_test_example");
-    expect(typeof affinity.raw.orders.getOrder).toBe("function");
-    expect(typeof affinity.raw.orders.getOrderRaw).toBe("function");
+    expect("raw" in affinity).toBe(false);
+    expect(typeof affinity.rawRequest).toBe("function");
     for (const name of [
       "OrdersApi",
       "Configuration",
@@ -132,48 +132,98 @@ describe("Affinity client", () => {
     }
   });
 
-  test("uses the client transport configuration for raw generated calls", async () => {
+  test("uses client and request configuration for raw requests", async () => {
     let request: Request | undefined;
     const affinity = new Affinity("sk_test_example", {
       baseUrl: "https://api.affinity.localhost",
+      actor: { id: "default-actor", type: "system" },
+      organizationId: "org_default",
+      headers: { "X-Client-Header": "client" },
       fetch: async (input, init) => {
         request = new Request(input, init);
-        return Response.json({
-          practiceMedicationTotalCents: null,
-          externalOrderId: null,
-          metadata: null,
-          createdAt: null,
-          fulfillments: [],
-          id: "ord_01k123456789abcdefghjkmnpq",
-          lifecycleEvents: [],
-          livemode: false,
-          object: "order",
-          patientId: "pat_01k123456789abcdefghjkmnpq",
-          patientExternalId: null,
-          patientName: null,
-          patientState: null,
-          practiceId: "prac_01k123456789abcdefghjkmnpq",
-          prescriberName: null,
-          prescriberNpi: null,
-          review: null,
-          prescriptions: [],
-          status: "draft",
-          updatedAt: null,
-        });
+        return Response.json({ object: "preview", received: true });
       },
     });
 
-    await affinity.raw.orders.getOrder({
-      orderId: "ord_01k123456789abcdefghjkmnpq",
-      affinityActorId: "raw-check",
-      affinityActorType: "system",
+    const result = await affinity.rawRequest<{ object: string; received: boolean }>(
+      "POST",
+      "/v1/beta_endpoint",
+      { value: 123 },
+      {
+        actor: { id: "raw-check", type: "user" },
+        apiVersion: "2026-09-01.preview",
+        organizationId: "org_request",
+        idempotencyKey: "raw-request-123",
+        headers: { "X-Request-Header": "request" },
+      },
+    );
+
+    expect(result).toEqual({ object: "preview", received: true });
+    expect(request?.url).toBe("https://api.affinity.localhost/v1/beta_endpoint");
+    expect(request?.method).toBe("POST");
+    expect(request?.headers.get("authorization")).toBe("Bearer sk_test_example");
+    expect(request?.headers.get("affinity-version")).toBe("2026-09-01.preview");
+    expect(request?.headers.get("affinity-actor-id")).toBe("raw-check");
+    expect(request?.headers.get("affinity-actor-type")).toBe("user");
+    expect(request?.headers.get("x-affinity-organization-id")).toBe("org_request");
+    expect(request?.headers.get("idempotency-key")).toBe("raw-request-123");
+    expect(request?.headers.get("x-client-header")).toBe("client");
+    expect(request?.headers.get("x-request-header")).toBe("request");
+    expect(request?.headers.get("content-type")).toBe("application/json");
+    expect(await request?.json()).toEqual({ value: 123 });
+  });
+
+  test("supports query strings and rejects unsafe raw request inputs", async () => {
+    let request: Request | undefined;
+    const affinity = new Affinity("sk_test_example", {
+      fetch: async (input, init) => {
+        request = new Request(input, init);
+        return Response.json({ data: [] });
+      },
     });
 
-    expect(request?.url).toBe(
-      "https://api.affinity.localhost/v1/orders/ord_01k123456789abcdefghjkmnpq",
+    await affinity.rawRequest("GET", "/v1/beta_endpoint?limit=10", {});
+    expect(request?.url).toBe("https://api.joinaffinityai.com/v1/beta_endpoint?limit=10");
+
+    await expect(affinity.rawRequest("GET", "/v1/beta_endpoint", { limit: 10 })).rejects.toThrow(
+      /only supports params on POST, PUT, and PATCH/,
     );
-    expect(request?.headers.get("authorization")).toBe("Bearer sk_test_example");
-    expect(request?.headers.get("affinity-version")).toBe("2026-08-11");
-    expect(request?.headers.get("affinity-actor-id")).toBe("raw-check");
+    for (const path of [
+      "https://evil.example/v1/leak",
+      "//evil.example/v1/leak",
+      "/\\evil.example/v1/leak",
+    ])
+      await expect(affinity.rawRequest("GET", path)).rejects.toThrow(/single forward slash/);
+    await expect(
+      affinity.rawRequest("GET", "/v1/beta_endpoint", undefined, {
+        headers: { Authorization: "Bearer leaked" },
+      }),
+    ).rejects.toThrow(/typed Affinity options/);
+  });
+
+  test("preserves transport errors for raw requests", async () => {
+    const failedResponse = Response.json(
+      { code: "preview_failed", detail: "Preview failed" },
+      { status: 422 },
+    );
+    const rejected = new Affinity("sk_test_example", {
+      fetch: async () => failedResponse,
+    });
+    try {
+      await rejected.rawRequest("POST", "/v1/beta_endpoint", {});
+      throw new Error("Expected raw request to fail");
+    } catch (error) {
+      expect(error).toBeInstanceOf(sdk.ResponseError);
+      expect((error as InstanceType<typeof sdk.ResponseError>).response).toBe(failedResponse);
+    }
+
+    const disconnected = new Affinity("sk_test_example", {
+      fetch: async () => {
+        throw new TypeError("fetch failed");
+      },
+    });
+    await expect(disconnected.rawRequest("GET", "/v1/beta_endpoint")).rejects.toBeInstanceOf(
+      sdk.FetchError,
+    );
   });
 });

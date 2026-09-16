@@ -121,28 +121,40 @@ The public resource groups are `account`, `apiKeys`, `catalog`, `locations`, `or
 
 All 69 current contract operations are represented by an intentional public resource method. The
 generated OpenAPI transport and models remain private implementation details of the package root.
-When lower-level control is needed, generated clients are available through the explicit `raw`
-namespace:
+Use `rawRequest` to call a preview endpoint or another API path that the installed SDK version does
+not support yet:
 
 ```ts
-const rawOrder = await affinity.raw.orders.getOrder({
-  orderId: "ord_...",
-  affinityActorId: "system-sync",
-  affinityActorType: "system",
-});
+const preview = await affinity.rawRequest(
+  "POST",
+  "/v1/beta_endpoint",
+  { value: 123 },
+  {
+    actor: { id: "system-sync", type: "system" },
+    idempotencyKey: crypto.randomUUID(),
+  },
+);
 ```
 
-Use the public resources for normal application code. `affinity.raw` uses generated operation names
-and request envelopes as a lower-level escape hatch. Generated API classes, `Configuration`, model
-serializers, and transport request envelopes are not root exports or package subpaths.
+Like Stripe's custom-request interface, `rawRequest` takes the HTTP method, a relative path, optional
+request parameters, and request options. It returns the parsed JSON response without a contract
+type. Pass query parameters in the path. Request parameters are supported for `POST`, `PUT`, and
+`PATCH`. The method reuses the client's authentication, API version, base URL, custom transport, and
+default headers. Request options can override `apiVersion`, `organizationId`, `actor`, `headers`, and
+`signal`, or supply an `idempotencyKey`.
+
+Use public resources for documented endpoints. They validate inputs and return contract types.
+`rawRequest` rejects absolute and authority-relative URLs so it cannot send the API key to another
+host. Generated API classes, `Configuration`, model serializers, and transport request envelopes are
+not root exports or package subpaths.
 
 ## Compatibility
 
 The resource properties previously exposed generated operation names such as `getApiAccess`,
 `listCatalogItems`, `createPractice`, `listOrders`, and `getPracticeTeam`. This release intentionally
 breaks those generated method exports; migrate calls to the resource names documented above, such
-as `retrieve`, `list`, or `create`. Code that needs generated transport behavior can use
-`affinity.raw` explicitly.
+as `retrieve`, `list`, or `create`. Use `rawRequest` only when the installed SDK does not yet have a
+documented endpoint.
 
 ## Authentication and safety
 

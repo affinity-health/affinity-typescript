@@ -15,8 +15,8 @@ for (const name of [
 for (const name of ["ResponseError", "FetchError", "RequiredError"]) {
   if (typeof sdk[name] !== "function") throw new Error(`transport error export missing: ${name}`);
 }
-if (typeof client.raw?.orders?.getOrder !== "function") {
-  throw new Error("raw transport namespace is unavailable");
+if ("raw" in client || typeof client.rawRequest !== "function") {
+  throw new Error("rawRequest is unavailable or generated raw clients are public");
 }
 
 for (const resource of [

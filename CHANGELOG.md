@@ -7,6 +7,16 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 
 ## [Unreleased]
 
+### Added
+
+- Added Stripe-style `rawRequest(method, path, params?, options?)` for preview or newly released API
+  paths that the installed SDK does not support yet.
+
+### Removed
+
+- **Breaking:** Removed the generated clients under `affinity.raw`. Generated OpenAPI operation
+  names and request envelopes are private implementation details again.
+
 ## [1.8.0] - 2026-09-16
 
 ### Added
