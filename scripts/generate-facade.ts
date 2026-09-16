@@ -133,6 +133,7 @@ async function operationEntries(): Promise<OperationDetails[]> {
         );
       const mapping = facadeOperationMap[operationId as keyof typeof facadeOperationMap];
       if (!mapping) continue;
+      if ("rawOnly" in mapping) continue;
       const parameters = [...inherited, ...(operation.parameters ?? [])].map(resolveParameter);
       if (parameters.some((parameter) => !parameter.name || !parameter.in))
         throw new Error(`Facade encountered an unnamed OpenAPI parameter for ${operationId}`);
@@ -543,12 +544,29 @@ await output(
 
 await rm(resolve(root, "src/raw.ts"), { force: true });
 
-await output(
-  "src/affinity.ts",
-  `import { Configuration, type FetchAPI } from "./runtime";
+const rawClientSource = `import type { Configuration } from "./runtime";
 ${Object.values(resourceDefinitions)
   .map(({ apiClass, apiFile }) => `import { ${apiClass} } from "./apis/${apiFile}";`)
   .join("\n")}
+
+/** The generated OpenAPI clients, available for lower-level escape-hatch use. */
+export class RawClient {
+${Object.entries(resourceDefinitions)
+  .map(([resource, { apiClass }]) => `  readonly ${resource}: ${apiClass};`)
+  .join("\n")}
+
+  constructor(configuration: Configuration) {
+${Object.entries(resourceDefinitions)
+  .map(([resource, { apiClass }]) => `    this.${resource} = new ${apiClass}(configuration);`)
+  .join("\n")}
+  }
+}`;
+await output("src/raw.ts", rawClientSource);
+
+await output(
+  "src/affinity.ts",
+  `import { Configuration, type FetchAPI } from "./runtime";
+import { RawClient } from "./raw";
 import {
   AccountResource,
   APIKeysResource,
@@ -579,6 +597,7 @@ export interface AffinityOptions {
 }
 
 export class Affinity {
+  readonly raw: RawClient;
   readonly account: AccountResource;
   readonly apiKeys: APIKeysResource;
   readonly catalog: CatalogResource;
@@ -623,10 +642,12 @@ export class Affinity {
         ...(organizationId ? { "X-Affinity-Organization-Id": organizationId } : {}),
       },
     });
+    const raw = new RawClient(configuration);
+    this.raw = raw;
 ${Object.entries(resourceDefinitions)
   .map(
     ([resource, { className, apiClass }]) =>
-      `    this.${resource} = new ${className}(new ${apiClass}(configuration)${grouped.get(resource as keyof typeof resourceDefinitions)?.some((operation) => operation.requiredHeaders.some((header) => headerName(header) === "affinity-actor-id")) ? ", actor" : ""});`,
+      `    this.${resource} = new ${className}(raw.${resource}${grouped.get(resource as keyof typeof resourceDefinitions)?.some((operation) => operation.requiredHeaders.some((header) => headerName(header) === "affinity-actor-id")) ? ", actor" : ""});`,
   )
   .join("\n")}
   }

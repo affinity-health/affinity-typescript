@@ -81,14 +81,30 @@ export const facadeOperationMap = {
   },
 } as const;
 
-export type FacadeOperationMap = Record<
-  string,
-  { readonly resource: string; readonly method: string }
->;
+export const facadeResources = [
+  "account",
+  "apiKeys",
+  "catalog",
+  "locations",
+  "orders",
+  "patients",
+  "platformPricing",
+  "practices",
+  "sessions",
+  "team",
+  "webhooks",
+] as const;
+
+export type FacadeResource = (typeof facadeResources)[number];
+export type FacadeOperationMapEntry =
+  | { readonly resource: FacadeResource; readonly method: string }
+  | { readonly resource: FacadeResource; readonly rawOnly: true };
+export type FacadeOperationMap = Record<string, FacadeOperationMapEntry>;
 
 export interface FacadeCoverage {
   contractOperations: string[];
   mappedOperations: string[];
+  rawOnlyOperations: string[];
   duplicateContractOperations: string[];
   missingOperations: string[];
   unknownMappedOperations: string[];
@@ -106,6 +122,7 @@ const supportedRequiredHeaders = new Set([
 ]);
 
 type ContractSpec = { paths?: Record<string, Record<string, unknown>> };
+const resourceSet = new Set<string>(facadeResources);
 
 function contractOperations(
   spec: ContractSpec,
@@ -148,20 +165,30 @@ export function validateFacadeCoverage(
   const contractSet = new Set(contractNames);
   const mappedNames = Object.keys(map);
   const allNames = new Set(mappedNames);
+  const rawOnlyOperations = Object.entries(map)
+    .filter(([, mapping]) => "rawOnly" in mapping)
+    .map(([operationId]) => operationId);
   const duplicateContractOperations = contractNames.filter(
     (operationId, index) => contractNames.indexOf(operationId) !== index,
   );
   const duplicateMethods = Object.entries(map)
-    .filter(([, mapping], index, entries) =>
-      entries.some(
-        ([otherOperation, otherMapping], otherIndex) =>
-          index !== otherIndex &&
-          mapping.resource === otherMapping.resource &&
-          mapping.method === otherMapping.method &&
-          otherOperation !== undefined,
-      ),
+    .filter(
+      ([, mapping], index, entries) =>
+        "method" in mapping &&
+        entries.some(
+          ([otherOperation, otherMapping], otherIndex) =>
+            index !== otherIndex &&
+            "method" in otherMapping &&
+            mapping.resource === otherMapping.resource &&
+            mapping.method === otherMapping.method &&
+            otherOperation !== undefined,
+        ),
     )
-    .map(([operationId, mapping]) => `${mapping.resource}.${mapping.method} (${operationId})`);
+    .map(([operationId, mapping]) =>
+      "method" in mapping
+        ? `${mapping.resource}.${mapping.method} (${operationId})`
+        : `${mapping.resource} (raw-only ${operationId})`,
+    );
   const unsupportedRequiredHeaders = contract.flatMap(({ operationId, requiredHeaders }) =>
     requiredHeaders
       .filter((header) => !supportedRequiredHeaders.has(header.toLowerCase()))
@@ -170,6 +197,7 @@ export function validateFacadeCoverage(
   return {
     contractOperations: contractNames,
     mappedOperations: mappedNames,
+    rawOnlyOperations,
     duplicateContractOperations,
     missingOperations: contractNames.filter((operationId) => !allNames.has(operationId)),
     unknownMappedOperations: mappedNames.filter((operationId) => !contractSet.has(operationId)),
@@ -201,6 +229,12 @@ export function validateFacadeOperationCoverage(
           .map(({ operationId, header }) => `${operationId} (${header})`)
           .join(", ")}`
       : undefined,
+    ...Object.entries(map)
+      .filter(([, mapping]) => !resourceSet.has(mapping.resource))
+      .map(([operationId, mapping]) => `unknown resources: ${operationId} (${mapping.resource})`),
+    ...Object.entries(map)
+      .filter(([, mapping]) => "method" in mapping && !mapping.method.trim())
+      .map(([operationId]) => `empty public methods: ${operationId}`),
   ].filter((problem): problem is string => Boolean(problem));
   if (problems.length > 0)
     throw new Error(`Invalid facade operation coverage: ${problems.join("; ")}`);

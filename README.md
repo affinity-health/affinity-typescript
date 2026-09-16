@@ -120,17 +120,29 @@ The public resource groups are `account`, `apiKeys`, `catalog`, `locations`, `or
 `platformPricing`, `practices`, `sessions`, `team`, and `webhooks`.
 
 All 69 current contract operations are represented by an intentional public resource method. The
-generated OpenAPI transport and models remain private implementation details of the package. The
-public entrypoint exports `Affinity`, resource parameter types, the typed request options, errors,
-and webhook utilities; generated API classes, `Configuration`, model serializers, and transport
-request envelopes are not root exports or package subpaths.
+generated OpenAPI transport and models remain private implementation details of the package root.
+When lower-level control is needed, generated clients are available through the explicit `raw`
+namespace:
+
+```ts
+const rawOrder = await affinity.raw.orders.getOrder({
+  orderId: "ord_...",
+  affinityActorId: "system-sync",
+  affinityActorType: "system",
+});
+```
+
+Use the public resources for normal application code. `affinity.raw` uses generated operation names
+and request envelopes as a lower-level escape hatch. Generated API classes, `Configuration`, model
+serializers, and transport request envelopes are not root exports or package subpaths.
 
 ## Compatibility
 
 The resource properties previously exposed generated operation names such as `getApiAccess`,
 `listCatalogItems`, `createPractice`, `listOrders`, and `getPracticeTeam`. This release intentionally
-breaks those generated client and method exports; migrate calls to the resource names documented
-above, such as `retrieve`, `list`, or `create`.
+breaks those generated method exports; migrate calls to the resource names documented above, such
+as `retrieve`, `list`, or `create`. Code that needs generated transport behavior can use
+`affinity.raw` explicitly.
 
 ## Authentication and safety
 

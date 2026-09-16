@@ -42,10 +42,8 @@ const sdk = new Affinity("sk_test_packed_consumer", {
   apiVersion: "2026-08-11",
   organizationId: "acct_01j2y8m6jcc9tt24af5pw9x1bc",
 });
-// @ts-expect-error generated transport is not exposed through the public client
-void sdk.raw;
-// @ts-expect-error generated transport helpers are not exposed through the public client
-void sdk.rawRequest;
+void sdk.raw.orders.getOrder;
+void sdk.raw.orders.getOrderRaw;
 const mutationOptions: MutationOptions = {
   actor,
   idempotencyKey: "packed-check-order",
@@ -162,7 +160,7 @@ try {
 
   const nodeImport = String.raw`import { Affinity, ResponseError, FetchError, RequiredError } from "@affinity-health/sdk";
 const sdk = new Affinity("sk_test_packed_consumer");
-if (!sdk.orders || sdk.raw || typeof ResponseError !== "function" || typeof FetchError !== "function" || typeof RequiredError !== "function") throw new Error("Node package exports are unavailable");
+if (!sdk.orders || typeof sdk.raw?.orders?.getOrder !== "function" || typeof ResponseError !== "function" || typeof FetchError !== "function" || typeof RequiredError !== "function") throw new Error("Node package exports are unavailable");
 for (const path of ["@affinity-health/sdk/dist/apis/OrdersApi.js", "@affinity-health/sdk/dist/models/CreateOrderRequest.js"]) {
   try { await import(path); throw new Error("forbidden package subpath resolved: " + path); } catch (error) {
     if (
@@ -178,7 +176,7 @@ for (const path of ["@affinity-health/sdk/dist/apis/OrdersApi.js", "@affinity-he
 
   const bunImport = String.raw`import { Affinity, ResponseError, FetchError, RequiredError } from "@affinity-health/sdk";
 const sdk = new Affinity("sk_test_packed_consumer");
-if (!sdk.orders || sdk.raw || typeof ResponseError !== "function" || typeof FetchError !== "function" || typeof RequiredError !== "function") throw new Error("Bun package exports are unavailable");
+if (!sdk.orders || typeof sdk.raw?.orders?.getOrder !== "function" || typeof ResponseError !== "function" || typeof FetchError !== "function" || typeof RequiredError !== "function") throw new Error("Bun package exports are unavailable");
 for (const path of ["@affinity-health/sdk/dist/apis/OrdersApi.js", "@affinity-health/sdk/dist/models/CreateOrderRequest.js"]) {
   try { await import(path); throw new Error("forbidden package subpath resolved: " + path); } catch (error) {
     if (

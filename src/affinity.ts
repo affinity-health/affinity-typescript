@@ -1,17 +1,7 @@
 // Code generated from spec/affinity.openapi.json by scripts/generate-facade.ts. DO NOT EDIT.
 
 import { Configuration, type FetchAPI } from "./runtime";
-import { AccountApi } from "./apis/AccountApi";
-import { APIKeysApi } from "./apis/APIKeysApi";
-import { CatalogApi } from "./apis/CatalogApi";
-import { LocationsApi } from "./apis/LocationsApi";
-import { OrdersApi } from "./apis/OrdersApi";
-import { PatientsApi } from "./apis/PatientsApi";
-import { PlatformPricingApi } from "./apis/PlatformPricingApi";
-import { PracticesApi } from "./apis/PracticesApi";
-import { SessionsApi } from "./apis/SessionsApi";
-import { TeamApi } from "./apis/TeamApi";
-import { WebhooksApi } from "./apis/WebhooksApi";
+import { RawClient } from "./raw";
 import {
   AccountResource,
   APIKeysResource,
@@ -42,6 +32,7 @@ export interface AffinityOptions {
 }
 
 export class Affinity {
+  readonly raw: RawClient;
   readonly account: AccountResource;
   readonly apiKeys: APIKeysResource;
   readonly catalog: CatalogResource;
@@ -88,17 +79,19 @@ export class Affinity {
         ...(organizationId ? { "X-Affinity-Organization-Id": organizationId } : {}),
       },
     });
-    this.account = new AccountResource(new AccountApi(configuration));
-    this.apiKeys = new APIKeysResource(new APIKeysApi(configuration));
-    this.catalog = new CatalogResource(new CatalogApi(configuration));
-    this.locations = new LocationsResource(new LocationsApi(configuration));
-    this.orders = new OrdersResource(new OrdersApi(configuration), actor);
-    this.patients = new PatientsResource(new PatientsApi(configuration), actor);
-    this.platformPricing = new PlatformPricingResource(new PlatformPricingApi(configuration));
-    this.practices = new PracticesResource(new PracticesApi(configuration));
-    this.sessions = new SessionsResource(new SessionsApi(configuration));
-    this.team = new TeamResource(new TeamApi(configuration));
-    this.webhooks = new WebhooksResource(new WebhooksApi(configuration));
+    const raw = new RawClient(configuration);
+    this.raw = raw;
+    this.account = new AccountResource(raw.account);
+    this.apiKeys = new APIKeysResource(raw.apiKeys);
+    this.catalog = new CatalogResource(raw.catalog);
+    this.locations = new LocationsResource(raw.locations);
+    this.orders = new OrdersResource(raw.orders, actor);
+    this.patients = new PatientsResource(raw.patients, actor);
+    this.platformPricing = new PlatformPricingResource(raw.platformPricing);
+    this.practices = new PracticesResource(raw.practices);
+    this.sessions = new SessionsResource(raw.sessions);
+    this.team = new TeamResource(raw.team);
+    this.webhooks = new WebhooksResource(raw.webhooks);
   }
 
   withActor(actor: AffinityActor): Affinity {

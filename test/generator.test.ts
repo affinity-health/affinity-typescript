@@ -11,6 +11,7 @@ describe("facade contract coverage", () => {
     const coverage = validateFacadeOperationCoverage(spec);
     expect(coverage.contractOperations).toHaveLength(69);
     expect(coverage.mappedOperations).toHaveLength(69);
+    expect(coverage.rawOnlyOperations).toHaveLength(0);
   });
 
   test("new operations require an explicit public mapping", () => {
@@ -23,6 +24,17 @@ describe("facade contract coverage", () => {
         futureOperation: { resource: "account", method: "future" },
       }).mappedOperations,
     ).toContain("futureOperation");
+  });
+
+  test("permits an explicit raw-only mapping for an operation without a facade method", () => {
+    const changed = contract();
+    changed.paths["/v1/future"] = { get: { operationId: "futureOperation" } };
+    const coverage = validateFacadeOperationCoverage(changed, {
+      ...facadeOperationMap,
+      futureOperation: { resource: "orders", rawOnly: true },
+    });
+    expect(coverage.missingOperations).not.toContain("futureOperation");
+    expect(coverage.rawOnlyOperations).toContain("futureOperation");
   });
 
   test("removed operations leave an invalid stale mapping", () => {
@@ -38,6 +50,15 @@ describe("facade contract coverage", () => {
         getApiAccess: facadeOperationMap.getAccount,
       }),
     ).toThrow(/duplicate public methods/i);
+  });
+
+  test("rejects invalid resource mappings", () => {
+    expect(() =>
+      validateFacadeOperationCoverage(spec, {
+        ...facadeOperationMap,
+        getAccount: { resource: "future", method: "retrieve" },
+      } as any),
+    ).toThrow(/unknown resources/i);
   });
 
   test("unknown required headers need explicit handling", () => {

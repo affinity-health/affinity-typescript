@@ -115,9 +115,10 @@ describe("Affinity client", () => {
     });
   });
 
-  test("keeps generated transport and models out of the public surface", async () => {
+  test("keeps generated transport and models behind the raw escape hatch", async () => {
     const affinity = new Affinity("sk_test_example");
-    expect("raw" in affinity).toBe(false);
+    expect(typeof affinity.raw.orders.getOrder).toBe("function");
+    expect(typeof affinity.raw.orders.getOrderRaw).toBe("function");
     for (const name of [
       "OrdersApi",
       "Configuration",
@@ -129,5 +130,50 @@ describe("Affinity client", () => {
     for (const name of ["ResponseError", "FetchError", "RequiredError"]) {
       expect(typeof sdk[name as keyof typeof sdk]).toBe("function");
     }
+  });
+
+  test("uses the client transport configuration for raw generated calls", async () => {
+    let request: Request | undefined;
+    const affinity = new Affinity("sk_test_example", {
+      baseUrl: "https://api.affinity.localhost",
+      fetch: async (input, init) => {
+        request = new Request(input, init);
+        return Response.json({
+          practiceMedicationTotalCents: null,
+          externalOrderId: null,
+          metadata: null,
+          createdAt: null,
+          fulfillments: [],
+          id: "ord_01k123456789abcdefghjkmnpq",
+          lifecycleEvents: [],
+          livemode: false,
+          object: "order",
+          patientId: "pat_01k123456789abcdefghjkmnpq",
+          patientExternalId: null,
+          patientName: null,
+          patientState: null,
+          practiceId: "prac_01k123456789abcdefghjkmnpq",
+          prescriberName: null,
+          prescriberNpi: null,
+          review: null,
+          prescriptions: [],
+          status: "draft",
+          updatedAt: null,
+        });
+      },
+    });
+
+    await affinity.raw.orders.getOrder({
+      orderId: "ord_01k123456789abcdefghjkmnpq",
+      affinityActorId: "raw-check",
+      affinityActorType: "system",
+    });
+
+    expect(request?.url).toBe(
+      "https://api.affinity.localhost/v1/orders/ord_01k123456789abcdefghjkmnpq",
+    );
+    expect(request?.headers.get("authorization")).toBe("Bearer sk_test_example");
+    expect(request?.headers.get("affinity-version")).toBe("2026-08-11");
+    expect(request?.headers.get("affinity-actor-id")).toBe("raw-check");
   });
 });
