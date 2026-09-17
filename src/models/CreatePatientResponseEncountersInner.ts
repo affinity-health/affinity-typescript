@@ -26,11 +26,11 @@ export interface CreatePatientResponseEncountersInner {
    */
   notes: string | null;
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof CreatePatientResponseEncountersInner
    */
-  occurredAt: string | null;
+  occurredAt: string;
   /**
    *
    * @type {string}
@@ -38,11 +38,11 @@ export interface CreatePatientResponseEncountersInner {
    */
   providerName: string | null;
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof CreatePatientResponseEncountersInner
    */
-  type: string | null;
+  type: string;
 }
 
 /**

@@ -2,18 +2,18 @@
 
 import type {
   WebhooksApi,
-  CreateWebhookEndpointOperationRequest,
   ListWebhookEndpointsRequest,
-  DeleteWebhookEndpointRequest,
+  CreateWebhookEndpointOperationRequest,
   UpdateWebhookEndpointOperationRequest,
+  DeleteWebhookEndpointRequest,
   RotateWebhookEndpointSecretRequest,
   TestWebhookEndpointRequest,
+  ListWebhookEventsRequest,
   GetWebhookEventRequest,
   ReplayWebhookEventRequest,
-  ListWebhookEventsRequest,
-  RevokeWebhookGrantRequest,
-  SaveWebhookGrantOperationRequest,
   ListWebhookGrantsRequest,
+  SaveWebhookGrantOperationRequest,
+  RevokeWebhookGrantRequest,
 } from "../apis/WebhooksApi";
 import type { CreateWebhookEndpointRequest } from "../models/CreateWebhookEndpointRequest";
 import type { UpdateWebhookEndpointRequest } from "../models/UpdateWebhookEndpointRequest";
@@ -27,9 +27,6 @@ import {
   organizationHeader,
 } from "./shared";
 
-export type CreateWebhookEndpointParams = Omit<CreateWebhookEndpointRequest, "url"> & {
-  url: NonNullable<CreateWebhookEndpointRequest["url"]>;
-};
 export type ListWebhookEndpointsParams = Omit<
   ListWebhookEndpointsRequest,
   | "affinityVersion"
@@ -38,6 +35,9 @@ export type ListWebhookEndpointsParams = Omit<
   | "affinityActorType"
   | "xAffinityOrganizationId"
 >;
+export type CreateWebhookEndpointParams = Omit<CreateWebhookEndpointRequest, "url"> & {
+  url: NonNullable<CreateWebhookEndpointRequest["url"]>;
+};
 export type UpdateWebhookEndpointParams = Omit<
   UpdateWebhookEndpointRequest,
   "description" | "payloadStyle" | "status" | "subscribedEvents" | "url"
@@ -56,9 +56,6 @@ export type ListWebhookEventsParams = Omit<
   | "affinityActorType"
   | "xAffinityOrganizationId"
 >;
-export type SaveWebhookGrantParams = Omit<SaveWebhookGrantRequest, "scopes"> & {
-  scopes: NonNullable<SaveWebhookGrantRequest["scopes"]>;
-};
 export type ListWebhookGrantsParams = Omit<
   ListWebhookGrantsRequest,
   | "affinityVersion"
@@ -67,23 +64,12 @@ export type ListWebhookGrantsParams = Omit<
   | "affinityActorType"
   | "xAffinityOrganizationId"
 >;
+export type SaveWebhookGrantParams = Omit<SaveWebhookGrantRequest, "scopes"> & {
+  scopes: NonNullable<SaveWebhookGrantRequest["scopes"]>;
+};
 
 export class WebhooksResource {
   constructor(private readonly api: WebhooksApi) {}
-  create(
-    params: CreateWebhookEndpointParams,
-    options: MutationOptions,
-  ): ReturnType<WebhooksApi["createWebhookEndpoint"]> {
-    return this.api.createWebhookEndpoint(
-      {
-        createWebhookEndpointRequest: params,
-        ...commonHeaders(options),
-        idempotencyKey: requiredIdempotencyKey(options),
-        ...organizationHeader(options),
-      },
-      requestOverrides(options),
-    );
-  }
   list(
     params: ListWebhookEndpointsParams = {},
     options?: RequestOptions,
@@ -93,13 +79,13 @@ export class WebhooksResource {
       requestOverrides(options),
     );
   }
-  delete(
-    endpointId: string,
+  create(
+    params: CreateWebhookEndpointParams,
     options: MutationOptions,
-  ): ReturnType<WebhooksApi["deleteWebhookEndpoint"]> {
-    return this.api.deleteWebhookEndpoint(
+  ): ReturnType<WebhooksApi["createWebhookEndpoint"]> {
+    return this.api.createWebhookEndpoint(
       {
-        endpointId: endpointId,
+        createWebhookEndpointRequest: params,
         ...commonHeaders(options),
         idempotencyKey: requiredIdempotencyKey(options),
         ...organizationHeader(options),
@@ -116,6 +102,20 @@ export class WebhooksResource {
       {
         endpointId: endpointId,
         updateWebhookEndpointRequest: params,
+        ...commonHeaders(options),
+        idempotencyKey: requiredIdempotencyKey(options),
+        ...organizationHeader(options),
+      },
+      requestOverrides(options),
+    );
+  }
+  delete(
+    endpointId: string,
+    options: MutationOptions,
+  ): ReturnType<WebhooksApi["deleteWebhookEndpoint"]> {
+    return this.api.deleteWebhookEndpoint(
+      {
+        endpointId: endpointId,
         ...commonHeaders(options),
         idempotencyKey: requiredIdempotencyKey(options),
         ...organizationHeader(options),
@@ -151,6 +151,15 @@ export class WebhooksResource {
       requestOverrides(options),
     );
   }
+  listEvents(
+    params: ListWebhookEventsParams = {},
+    options?: RequestOptions,
+  ): ReturnType<WebhooksApi["listWebhookEvents"]> {
+    return this.api.listWebhookEvents(
+      { ...params, ...commonHeaders(options), ...organizationHeader(options) },
+      requestOverrides(options),
+    );
+  }
   retrieveEvent(
     eventId: string,
     options?: RequestOptions,
@@ -174,25 +183,12 @@ export class WebhooksResource {
       requestOverrides(options),
     );
   }
-  listEvents(
-    params: ListWebhookEventsParams = {},
+  listGrants(
+    params: ListWebhookGrantsParams = {},
     options?: RequestOptions,
-  ): ReturnType<WebhooksApi["listWebhookEvents"]> {
-    return this.api.listWebhookEvents(
-      { ...params, ...commonHeaders(options), ...organizationHeader(options) },
-      requestOverrides(options),
-    );
-  }
-  revokeGrant(
-    platformId: string,
-    options: MutationOptions,
-  ): ReturnType<WebhooksApi["revokeWebhookGrant"]> {
-    return this.api.revokeWebhookGrant(
-      {
-        platformId: platformId,
-        ...commonHeaders(options),
-        idempotencyKey: requiredIdempotencyKey(options),
-      },
+  ): ReturnType<WebhooksApi["listWebhookGrants"]> {
+    return this.api.listWebhookGrants(
+      { ...params, ...commonHeaders(options) },
       requestOverrides(options),
     );
   }
@@ -211,12 +207,16 @@ export class WebhooksResource {
       requestOverrides(options),
     );
   }
-  listGrants(
-    params: ListWebhookGrantsParams = {},
-    options?: RequestOptions,
-  ): ReturnType<WebhooksApi["listWebhookGrants"]> {
-    return this.api.listWebhookGrants(
-      { ...params, ...commonHeaders(options) },
+  revokeGrant(
+    platformId: string,
+    options: MutationOptions,
+  ): ReturnType<WebhooksApi["revokeWebhookGrant"]> {
+    return this.api.revokeWebhookGrant(
+      {
+        platformId: platformId,
+        ...commonHeaders(options),
+        idempotencyKey: requiredIdempotencyKey(options),
+      },
       requestOverrides(options),
     );
   }

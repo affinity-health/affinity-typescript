@@ -208,7 +208,7 @@ export interface ResendPracticeTeamInvitationRequest {
 
 export interface RevokePracticeTeamInvitationRequest {
   practiceId: string;
-  invitationId: string | null;
+  invitationId: string;
   idempotencyKey: string;
   affinityVersion?: string;
 }

@@ -50,7 +50,7 @@ export interface AddOrderPrescriptionResponse {
    * @type {string}
    * @memberof AddOrderPrescriptionResponse
    */
-  orderId: string | null;
+  orderId: string;
   /**
    *
    * @type {string}

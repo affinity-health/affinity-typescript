@@ -13,13 +13,13 @@
  */
 
 import { mapValues } from "../runtime";
-import type { UpdatePatientAddressResponseAddress } from "./UpdatePatientAddressResponseAddress";
+import type { ListPatientAddressesResponseDataInnerAddress } from "./ListPatientAddressesResponseDataInnerAddress";
 import {
-  UpdatePatientAddressResponseAddressFromJSON,
-  UpdatePatientAddressResponseAddressFromJSONTyped,
-  UpdatePatientAddressResponseAddressToJSON,
-  UpdatePatientAddressResponseAddressToJSONTyped,
-} from "./UpdatePatientAddressResponseAddress";
+  ListPatientAddressesResponseDataInnerAddressFromJSON,
+  ListPatientAddressesResponseDataInnerAddressFromJSONTyped,
+  ListPatientAddressesResponseDataInnerAddressToJSON,
+  ListPatientAddressesResponseDataInnerAddressToJSONTyped,
+} from "./ListPatientAddressesResponseDataInnerAddress";
 
 /**
  *
@@ -35,10 +35,10 @@ export interface ListPatientAddressesResponseDataInner {
   id: string;
   /**
    *
-   * @type {UpdatePatientAddressResponseAddress}
+   * @type {ListPatientAddressesResponseDataInnerAddress}
    * @memberof ListPatientAddressesResponseDataInner
    */
-  address: UpdatePatientAddressResponseAddress | null;
+  address: ListPatientAddressesResponseDataInnerAddress;
   /**
    * Match this integration's external identity in the API key's mode.
    * @type {string}
@@ -95,7 +95,7 @@ export function ListPatientAddressesResponseDataInnerFromJSONTyped(
   }
   return {
     id: json["id"],
-    address: UpdatePatientAddressResponseAddressFromJSON(json["address"]),
+    address: ListPatientAddressesResponseDataInnerAddressFromJSON(json["address"]),
     label: json["label"],
     preferredShipping: json["preferredShipping"],
     recipientName: json["recipientName"],
@@ -119,7 +119,7 @@ export function ListPatientAddressesResponseDataInnerToJSONTyped(
 
   return {
     id: value["id"],
-    address: UpdatePatientAddressResponseAddressToJSON(value["address"]),
+    address: ListPatientAddressesResponseDataInnerAddressToJSON(value["address"]),
     label: value["label"],
     preferredShipping: value["preferredShipping"],
     recipientName: value["recipientName"],

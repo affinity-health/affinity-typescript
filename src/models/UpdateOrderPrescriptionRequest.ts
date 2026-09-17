@@ -13,13 +13,13 @@
  */
 
 import { mapValues } from "../runtime";
-import type { RejectOrderRequestExpectedVersionsInner } from "./RejectOrderRequestExpectedVersionsInner";
+import type { SignOrderRequestExpectedVersionsInner } from "./SignOrderRequestExpectedVersionsInner";
 import {
-  RejectOrderRequestExpectedVersionsInnerFromJSON,
-  RejectOrderRequestExpectedVersionsInnerFromJSONTyped,
-  RejectOrderRequestExpectedVersionsInnerToJSON,
-  RejectOrderRequestExpectedVersionsInnerToJSONTyped,
-} from "./RejectOrderRequestExpectedVersionsInner";
+  SignOrderRequestExpectedVersionsInnerFromJSON,
+  SignOrderRequestExpectedVersionsInnerFromJSONTyped,
+  SignOrderRequestExpectedVersionsInnerToJSON,
+  SignOrderRequestExpectedVersionsInnerToJSONTyped,
+} from "./SignOrderRequestExpectedVersionsInner";
 import type { CreateOrderRequestMetadataValue } from "./CreateOrderRequestMetadataValue";
 import {
   CreateOrderRequestMetadataValueFromJSON,
@@ -55,10 +55,10 @@ export interface UpdateOrderPrescriptionRequest {
   practiceId: string | null;
   /**
    *
-   * @type {Array<RejectOrderRequestExpectedVersionsInner>}
+   * @type {Array<SignOrderRequestExpectedVersionsInner>}
    * @memberof UpdateOrderPrescriptionRequest
    */
-  expectedVersions: Array<RejectOrderRequestExpectedVersionsInner>;
+  expectedVersions: Array<SignOrderRequestExpectedVersionsInner>;
   /**
    *
    * @type {UpdateOrderPrescriptionRequestPrescription}
@@ -97,7 +97,7 @@ export function UpdateOrderPrescriptionRequestFromJSONTyped(
         : mapValues(json["metadata"], CreateOrderRequestMetadataValueFromJSON),
     practiceId: json["practiceId"],
     expectedVersions: (json["expectedVersions"] as Array<any>).map(
-      RejectOrderRequestExpectedVersionsInnerFromJSON,
+      SignOrderRequestExpectedVersionsInnerFromJSON,
     ),
     prescription: UpdateOrderPrescriptionRequestPrescriptionFromJSON(json["prescription"]),
   };
@@ -122,7 +122,7 @@ export function UpdateOrderPrescriptionRequestToJSONTyped(
         : mapValues(value["metadata"], CreateOrderRequestMetadataValueToJSON),
     practiceId: value["practiceId"],
     expectedVersions: (value["expectedVersions"] as Array<any>).map(
-      RejectOrderRequestExpectedVersionsInnerToJSON,
+      SignOrderRequestExpectedVersionsInnerToJSON,
     ),
     prescription: UpdateOrderPrescriptionRequestPrescriptionToJSON(value["prescription"]),
   };

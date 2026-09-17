@@ -26,11 +26,11 @@ export interface CreatePatientResponseAllergySummaryInner {
    */
   reaction: string | null;
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof CreatePatientResponseAllergySummaryInner
    */
-  substance: string | null;
+  substance: string;
 }
 
 /**

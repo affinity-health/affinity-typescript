@@ -13,13 +13,13 @@
  */
 
 import { mapValues } from "../runtime";
-import type { CreatePracticeRequestPrimaryContact } from "./CreatePracticeRequestPrimaryContact";
+import type { ListPracticesResponseDataInnerContactsPrimary } from "./ListPracticesResponseDataInnerContactsPrimary";
 import {
-  CreatePracticeRequestPrimaryContactFromJSON,
-  CreatePracticeRequestPrimaryContactFromJSONTyped,
-  CreatePracticeRequestPrimaryContactToJSON,
-  CreatePracticeRequestPrimaryContactToJSONTyped,
-} from "./CreatePracticeRequestPrimaryContact";
+  ListPracticesResponseDataInnerContactsPrimaryFromJSON,
+  ListPracticesResponseDataInnerContactsPrimaryFromJSONTyped,
+  ListPracticesResponseDataInnerContactsPrimaryToJSON,
+  ListPracticesResponseDataInnerContactsPrimaryToJSONTyped,
+} from "./ListPracticesResponseDataInnerContactsPrimary";
 
 /**
  *
@@ -29,16 +29,16 @@ import {
 export interface CreatePracticeResponseContacts {
   /**
    *
-   * @type {CreatePracticeRequestPrimaryContact}
+   * @type {ListPracticesResponseDataInnerContactsPrimary}
    * @memberof CreatePracticeResponseContacts
    */
-  compliance: CreatePracticeRequestPrimaryContact | null;
+  compliance: ListPracticesResponseDataInnerContactsPrimary | null;
   /**
    *
-   * @type {CreatePracticeRequestPrimaryContact}
+   * @type {ListPracticesResponseDataInnerContactsPrimary}
    * @memberof CreatePracticeResponseContacts
    */
-  primary: CreatePracticeRequestPrimaryContact | null;
+  primary: ListPracticesResponseDataInnerContactsPrimary | null;
 }
 
 /**
@@ -64,8 +64,8 @@ export function CreatePracticeResponseContactsFromJSONTyped(
     return json;
   }
   return {
-    compliance: CreatePracticeRequestPrimaryContactFromJSON(json["compliance"]),
-    primary: CreatePracticeRequestPrimaryContactFromJSON(json["primary"]),
+    compliance: ListPracticesResponseDataInnerContactsPrimaryFromJSON(json["compliance"]),
+    primary: ListPracticesResponseDataInnerContactsPrimaryFromJSON(json["primary"]),
   };
 }
 
@@ -82,7 +82,7 @@ export function CreatePracticeResponseContactsToJSONTyped(
   }
 
   return {
-    compliance: CreatePracticeRequestPrimaryContactToJSON(value["compliance"]),
-    primary: CreatePracticeRequestPrimaryContactToJSON(value["primary"]),
+    compliance: ListPracticesResponseDataInnerContactsPrimaryToJSON(value["compliance"]),
+    primary: ListPracticesResponseDataInnerContactsPrimaryToJSON(value["primary"]),
   };
 }

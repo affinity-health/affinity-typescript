@@ -13,20 +13,6 @@
  */
 
 import { mapValues } from "../runtime";
-import type { UpdatePatientAddressResponseAddress } from "./UpdatePatientAddressResponseAddress";
-import {
-  UpdatePatientAddressResponseAddressFromJSON,
-  UpdatePatientAddressResponseAddressFromJSONTyped,
-  UpdatePatientAddressResponseAddressToJSON,
-  UpdatePatientAddressResponseAddressToJSONTyped,
-} from "./UpdatePatientAddressResponseAddress";
-import type { CreatePracticeRequestPrimaryContact } from "./CreatePracticeRequestPrimaryContact";
-import {
-  CreatePracticeRequestPrimaryContactFromJSON,
-  CreatePracticeRequestPrimaryContactFromJSONTyped,
-  CreatePracticeRequestPrimaryContactToJSON,
-  CreatePracticeRequestPrimaryContactToJSONTyped,
-} from "./CreatePracticeRequestPrimaryContact";
 import type { UpdatePracticeRequestAttestations } from "./UpdatePracticeRequestAttestations";
 import {
   UpdatePracticeRequestAttestationsFromJSON,
@@ -41,6 +27,20 @@ import {
   UpdatePracticeRequestPrescribersInnerToJSON,
   UpdatePracticeRequestPrescribersInnerToJSONTyped,
 } from "./UpdatePracticeRequestPrescribersInner";
+import type { CreatePatientAddressResponseAddress } from "./CreatePatientAddressResponseAddress";
+import {
+  CreatePatientAddressResponseAddressFromJSON,
+  CreatePatientAddressResponseAddressFromJSONTyped,
+  CreatePatientAddressResponseAddressToJSON,
+  CreatePatientAddressResponseAddressToJSONTyped,
+} from "./CreatePatientAddressResponseAddress";
+import type { ListPracticesResponseDataInnerContactsPrimary } from "./ListPracticesResponseDataInnerContactsPrimary";
+import {
+  ListPracticesResponseDataInnerContactsPrimaryFromJSON,
+  ListPracticesResponseDataInnerContactsPrimaryFromJSONTyped,
+  ListPracticesResponseDataInnerContactsPrimaryToJSON,
+  ListPracticesResponseDataInnerContactsPrimaryToJSONTyped,
+} from "./ListPracticesResponseDataInnerContactsPrimary";
 
 /**
  *
@@ -50,10 +50,10 @@ import {
 export interface UpdatePracticeRequest {
   /**
    *
-   * @type {UpdatePatientAddressResponseAddress}
+   * @type {CreatePatientAddressResponseAddress}
    * @memberof UpdatePracticeRequest
    */
-  address?: UpdatePatientAddressResponseAddress | null;
+  address?: CreatePatientAddressResponseAddress | null;
   /**
    *
    * @type {UpdatePracticeRequestAttestations}
@@ -62,10 +62,10 @@ export interface UpdatePracticeRequest {
   attestations?: UpdatePracticeRequestAttestations | null;
   /**
    *
-   * @type {CreatePracticeRequestPrimaryContact}
+   * @type {ListPracticesResponseDataInnerContactsPrimary}
    * @memberof UpdatePracticeRequest
    */
-  complianceContact?: CreatePracticeRequestPrimaryContact | null;
+  complianceContact?: ListPracticesResponseDataInnerContactsPrimary | null;
   /**
    *
    * @type {string}
@@ -98,10 +98,10 @@ export interface UpdatePracticeRequest {
   prescribers?: Array<UpdatePracticeRequestPrescribersInner> | null;
   /**
    *
-   * @type {CreatePracticeRequestPrimaryContact}
+   * @type {ListPracticesResponseDataInnerContactsPrimary}
    * @memberof UpdatePracticeRequest
    */
-  primaryContact?: CreatePracticeRequestPrimaryContact | null;
+  primaryContact?: ListPracticesResponseDataInnerContactsPrimary | null;
   /**
    *
    * @type {string}
@@ -144,7 +144,7 @@ export function UpdatePracticeRequestFromJSONTyped(
     address:
       json["address"] == null
         ? undefined
-        : UpdatePatientAddressResponseAddressFromJSON(json["address"]),
+        : CreatePatientAddressResponseAddressFromJSON(json["address"]),
     attestations:
       json["attestations"] == null
         ? undefined
@@ -152,7 +152,7 @@ export function UpdatePracticeRequestFromJSONTyped(
     complianceContact:
       json["complianceContact"] == null
         ? undefined
-        : CreatePracticeRequestPrimaryContactFromJSON(json["complianceContact"]),
+        : ListPracticesResponseDataInnerContactsPrimaryFromJSON(json["complianceContact"]),
     externalId: json["externalId"] == null ? undefined : json["externalId"],
     legalName: json["legalName"] == null ? undefined : json["legalName"],
     metadata: json["metadata"] == null ? undefined : json["metadata"],
@@ -164,7 +164,7 @@ export function UpdatePracticeRequestFromJSONTyped(
     primaryContact:
       json["primaryContact"] == null
         ? undefined
-        : CreatePracticeRequestPrimaryContactFromJSON(json["primaryContact"]),
+        : ListPracticesResponseDataInnerContactsPrimaryFromJSON(json["primaryContact"]),
     supportEmail: json["supportEmail"] == null ? undefined : json["supportEmail"],
     supportPhone: json["supportPhone"] == null ? undefined : json["supportPhone"],
     timezone: json["timezone"] == null ? undefined : json["timezone"],
@@ -184,9 +184,11 @@ export function UpdatePracticeRequestToJSONTyped(
   }
 
   return {
-    address: UpdatePatientAddressResponseAddressToJSON(value["address"]),
+    address: CreatePatientAddressResponseAddressToJSON(value["address"]),
     attestations: UpdatePracticeRequestAttestationsToJSON(value["attestations"]),
-    complianceContact: CreatePracticeRequestPrimaryContactToJSON(value["complianceContact"]),
+    complianceContact: ListPracticesResponseDataInnerContactsPrimaryToJSON(
+      value["complianceContact"],
+    ),
     externalId: value["externalId"],
     legalName: value["legalName"],
     metadata: value["metadata"],
@@ -195,7 +197,7 @@ export function UpdatePracticeRequestToJSONTyped(
       value["prescribers"] == null
         ? undefined
         : (value["prescribers"] as Array<any>).map(UpdatePracticeRequestPrescribersInnerToJSON),
-    primaryContact: CreatePracticeRequestPrimaryContactToJSON(value["primaryContact"]),
+    primaryContact: ListPracticesResponseDataInnerContactsPrimaryToJSON(value["primaryContact"]),
     supportEmail: value["supportEmail"],
     supportPhone: value["supportPhone"],
     timezone: value["timezone"],

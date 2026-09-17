@@ -50,7 +50,7 @@ export interface CreateOrderBatchResponseOrdersInner {
    * @type {string}
    * @memberof CreateOrderBatchResponseOrdersInner
    */
-  id: string | null;
+  id: string;
   /**
    *
    * @type {boolean}

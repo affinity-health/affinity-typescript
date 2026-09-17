@@ -13,20 +13,20 @@
  */
 
 import { mapValues } from "../runtime";
-import type { RevokePracticeTeamInvitationResponsePerson } from "./RevokePracticeTeamInvitationResponsePerson";
+import type { InvitePracticeTeamPersonResponsePersonAccountRolesInner } from "./InvitePracticeTeamPersonResponsePersonAccountRolesInner";
 import {
-  RevokePracticeTeamInvitationResponsePersonFromJSON,
-  RevokePracticeTeamInvitationResponsePersonFromJSONTyped,
-  RevokePracticeTeamInvitationResponsePersonToJSON,
-  RevokePracticeTeamInvitationResponsePersonToJSONTyped,
-} from "./RevokePracticeTeamInvitationResponsePerson";
-import type { GetPracticeTeamInvitationResponsePersonInvitationRolesInner } from "./GetPracticeTeamInvitationResponsePersonInvitationRolesInner";
+  InvitePracticeTeamPersonResponsePersonAccountRolesInnerFromJSON,
+  InvitePracticeTeamPersonResponsePersonAccountRolesInnerFromJSONTyped,
+  InvitePracticeTeamPersonResponsePersonAccountRolesInnerToJSON,
+  InvitePracticeTeamPersonResponsePersonAccountRolesInnerToJSONTyped,
+} from "./InvitePracticeTeamPersonResponsePersonAccountRolesInner";
+import type { ListPracticeTeamInvitationsResponseDataInnerPerson } from "./ListPracticeTeamInvitationsResponseDataInnerPerson";
 import {
-  GetPracticeTeamInvitationResponsePersonInvitationRolesInnerFromJSON,
-  GetPracticeTeamInvitationResponsePersonInvitationRolesInnerFromJSONTyped,
-  GetPracticeTeamInvitationResponsePersonInvitationRolesInnerToJSON,
-  GetPracticeTeamInvitationResponsePersonInvitationRolesInnerToJSONTyped,
-} from "./GetPracticeTeamInvitationResponsePersonInvitationRolesInner";
+  ListPracticeTeamInvitationsResponseDataInnerPersonFromJSON,
+  ListPracticeTeamInvitationsResponseDataInnerPersonFromJSONTyped,
+  ListPracticeTeamInvitationsResponseDataInnerPersonToJSON,
+  ListPracticeTeamInvitationsResponseDataInnerPersonToJSONTyped,
+} from "./ListPracticeTeamInvitationsResponseDataInnerPerson";
 
 /**
  *
@@ -39,7 +39,7 @@ export interface RevokePracticeTeamInvitationResponse {
    * @type {string}
    * @memberof RevokePracticeTeamInvitationResponse
    */
-  id: string | null;
+  id: string;
   /**
    *
    * @type {RevokePracticeTeamInvitationResponseObjectEnum}
@@ -63,13 +63,13 @@ export interface RevokePracticeTeamInvitationResponse {
    * @type {RevokePracticeTeamInvitationResponseStatusEnum}
    * @memberof RevokePracticeTeamInvitationResponse
    */
-  status: RevokePracticeTeamInvitationResponseStatusEnum | null;
+  status: RevokePracticeTeamInvitationResponseStatusEnum;
   /**
    *
-   * @type {Array<GetPracticeTeamInvitationResponsePersonInvitationRolesInner>}
+   * @type {Array<InvitePracticeTeamPersonResponsePersonAccountRolesInner>}
    * @memberof RevokePracticeTeamInvitationResponse
    */
-  roles: Array<GetPracticeTeamInvitationResponsePersonInvitationRolesInner>;
+  roles: Array<InvitePracticeTeamPersonResponsePersonAccountRolesInner>;
   /**
    *
    * @type {Array<string>}
@@ -120,10 +120,10 @@ export interface RevokePracticeTeamInvitationResponse {
   prescriberId: string | null;
   /**
    *
-   * @type {RevokePracticeTeamInvitationResponsePerson}
+   * @type {ListPracticeTeamInvitationsResponseDataInnerPerson}
    * @memberof RevokePracticeTeamInvitationResponse
    */
-  person: RevokePracticeTeamInvitationResponsePerson | null;
+  person: ListPracticeTeamInvitationsResponseDataInnerPerson | null;
 }
 
 /**
@@ -192,7 +192,7 @@ export function RevokePracticeTeamInvitationResponseFromJSONTyped(
     name: json["name"],
     status: json["status"],
     roles: (json["roles"] as Array<any>).map(
-      GetPracticeTeamInvitationResponsePersonInvitationRolesInnerFromJSON,
+      InvitePracticeTeamPersonResponsePersonAccountRolesInnerFromJSON,
     ),
     locationIds: json["locationIds"],
     createdAt: json["createdAt"],
@@ -202,7 +202,7 @@ export function RevokePracticeTeamInvitationResponseFromJSONTyped(
     externalId: json["externalId"],
     memberId: json["memberId"],
     prescriberId: json["prescriberId"],
-    person: RevokePracticeTeamInvitationResponsePersonFromJSON(json["person"]),
+    person: ListPracticeTeamInvitationsResponseDataInnerPersonFromJSON(json["person"]),
   };
 }
 
@@ -227,7 +227,7 @@ export function RevokePracticeTeamInvitationResponseToJSONTyped(
     name: value["name"],
     status: value["status"],
     roles: (value["roles"] as Array<any>).map(
-      GetPracticeTeamInvitationResponsePersonInvitationRolesInnerToJSON,
+      InvitePracticeTeamPersonResponsePersonAccountRolesInnerToJSON,
     ),
     locationIds: value["locationIds"],
     createdAt: value["createdAt"],
@@ -237,6 +237,6 @@ export function RevokePracticeTeamInvitationResponseToJSONTyped(
     externalId: value["externalId"],
     memberId: value["memberId"],
     prescriberId: value["prescriberId"],
-    person: RevokePracticeTeamInvitationResponsePersonToJSON(value["person"]),
+    person: ListPracticeTeamInvitationsResponseDataInnerPersonToJSON(value["person"]),
   };
 }

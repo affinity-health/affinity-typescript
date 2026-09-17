@@ -13,13 +13,13 @@
  */
 
 import { mapValues } from "../runtime";
-import type { RejectOrderRequestExpectedVersionsInner } from "./RejectOrderRequestExpectedVersionsInner";
+import type { SignOrderRequestExpectedVersionsInner } from "./SignOrderRequestExpectedVersionsInner";
 import {
-  RejectOrderRequestExpectedVersionsInnerFromJSON,
-  RejectOrderRequestExpectedVersionsInnerFromJSONTyped,
-  RejectOrderRequestExpectedVersionsInnerToJSON,
-  RejectOrderRequestExpectedVersionsInnerToJSONTyped,
-} from "./RejectOrderRequestExpectedVersionsInner";
+  SignOrderRequestExpectedVersionsInnerFromJSON,
+  SignOrderRequestExpectedVersionsInnerFromJSONTyped,
+  SignOrderRequestExpectedVersionsInnerToJSON,
+  SignOrderRequestExpectedVersionsInnerToJSONTyped,
+} from "./SignOrderRequestExpectedVersionsInner";
 
 /**
  *
@@ -47,10 +47,10 @@ export interface SignOrderRequest {
   signatureAttestation: SignOrderRequestSignatureAttestationEnum;
   /**
    *
-   * @type {Array<RejectOrderRequestExpectedVersionsInner>}
+   * @type {Array<SignOrderRequestExpectedVersionsInner>}
    * @memberof SignOrderRequest
    */
-  expectedVersions: Array<RejectOrderRequestExpectedVersionsInner>;
+  expectedVersions: Array<SignOrderRequestExpectedVersionsInner>;
 }
 
 /**
@@ -90,7 +90,7 @@ export function SignOrderRequestFromJSONTyped(
     userId: json["userId"],
     signatureAttestation: json["signatureAttestation"],
     expectedVersions: (json["expectedVersions"] as Array<any>).map(
-      RejectOrderRequestExpectedVersionsInnerFromJSON,
+      SignOrderRequestExpectedVersionsInnerFromJSON,
     ),
   };
 }
@@ -112,7 +112,7 @@ export function SignOrderRequestToJSONTyped(
     userId: value["userId"],
     signatureAttestation: value["signatureAttestation"],
     expectedVersions: (value["expectedVersions"] as Array<any>).map(
-      RejectOrderRequestExpectedVersionsInnerToJSON,
+      SignOrderRequestExpectedVersionsInnerToJSON,
     ),
   };
 }

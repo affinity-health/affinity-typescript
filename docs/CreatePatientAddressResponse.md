@@ -5,7 +5,7 @@
 | Name                | Type                                                                          |
 | ------------------- | ----------------------------------------------------------------------------- |
 | `id`                | string                                                                        |
-| `address`           | [UpdatePatientAddressResponseAddress](UpdatePatientAddressResponseAddress.md) |
+| `address`           | [CreatePatientAddressResponseAddress](CreatePatientAddressResponseAddress.md) |
 | `label`             | string                                                                        |
 | `preferredShipping` | boolean                                                                       |
 | `recipientName`     | string                                                                        |

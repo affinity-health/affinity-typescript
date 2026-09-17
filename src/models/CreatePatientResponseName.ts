@@ -20,17 +20,17 @@ import { mapValues } from "../runtime";
  */
 export interface CreatePatientResponseName {
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof CreatePatientResponseName
    */
-  first: string | null;
+  first: string;
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof CreatePatientResponseName
    */
-  last: string | null;
+  last: string;
   /**
    *
    * @type {string}

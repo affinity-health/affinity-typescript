@@ -13,13 +13,6 @@
  */
 
 import { mapValues } from "../runtime";
-import type { UpdatePatientAddressResponseAddress } from "./UpdatePatientAddressResponseAddress";
-import {
-  UpdatePatientAddressResponseAddressFromJSON,
-  UpdatePatientAddressResponseAddressFromJSONTyped,
-  UpdatePatientAddressResponseAddressToJSON,
-  UpdatePatientAddressResponseAddressToJSONTyped,
-} from "./UpdatePatientAddressResponseAddress";
 import type { CreatePatientResponseMeasurementsInner } from "./CreatePatientResponseMeasurementsInner";
 import {
   CreatePatientResponseMeasurementsInnerFromJSON,
@@ -27,13 +20,20 @@ import {
   CreatePatientResponseMeasurementsInnerToJSON,
   CreatePatientResponseMeasurementsInnerToJSONTyped,
 } from "./CreatePatientResponseMeasurementsInner";
-import type { CreatePatientResponseClinicalProfile } from "./CreatePatientResponseClinicalProfile";
+import type { ListPatientsResponseDataInnerClinicalProfile } from "./ListPatientsResponseDataInnerClinicalProfile";
 import {
-  CreatePatientResponseClinicalProfileFromJSON,
-  CreatePatientResponseClinicalProfileFromJSONTyped,
-  CreatePatientResponseClinicalProfileToJSON,
-  CreatePatientResponseClinicalProfileToJSONTyped,
-} from "./CreatePatientResponseClinicalProfile";
+  ListPatientsResponseDataInnerClinicalProfileFromJSON,
+  ListPatientsResponseDataInnerClinicalProfileFromJSONTyped,
+  ListPatientsResponseDataInnerClinicalProfileToJSON,
+  ListPatientsResponseDataInnerClinicalProfileToJSONTyped,
+} from "./ListPatientsResponseDataInnerClinicalProfile";
+import type { ListPatientsResponseDataInnerAddressesInner } from "./ListPatientsResponseDataInnerAddressesInner";
+import {
+  ListPatientsResponseDataInnerAddressesInnerFromJSON,
+  ListPatientsResponseDataInnerAddressesInnerFromJSONTyped,
+  ListPatientsResponseDataInnerAddressesInnerToJSON,
+  ListPatientsResponseDataInnerAddressesInnerToJSONTyped,
+} from "./ListPatientsResponseDataInnerAddressesInner";
 import type { CreatePatientResponseAllergySummaryInner } from "./CreatePatientResponseAllergySummaryInner";
 import {
   CreatePatientResponseAllergySummaryInnerFromJSON,
@@ -41,27 +41,20 @@ import {
   CreatePatientResponseAllergySummaryInnerToJSON,
   CreatePatientResponseAllergySummaryInnerToJSONTyped,
 } from "./CreatePatientResponseAllergySummaryInner";
-import type { CreatePatientRequestExternalIdentitiesInner } from "./CreatePatientRequestExternalIdentitiesInner";
+import type { CreatePatientAddressResponseAddress } from "./CreatePatientAddressResponseAddress";
 import {
-  CreatePatientRequestExternalIdentitiesInnerFromJSON,
-  CreatePatientRequestExternalIdentitiesInnerFromJSONTyped,
-  CreatePatientRequestExternalIdentitiesInnerToJSON,
-  CreatePatientRequestExternalIdentitiesInnerToJSONTyped,
-} from "./CreatePatientRequestExternalIdentitiesInner";
-import type { CreatePatientRequestProgramsInner } from "./CreatePatientRequestProgramsInner";
+  CreatePatientAddressResponseAddressFromJSON,
+  CreatePatientAddressResponseAddressFromJSONTyped,
+  CreatePatientAddressResponseAddressToJSON,
+  CreatePatientAddressResponseAddressToJSONTyped,
+} from "./CreatePatientAddressResponseAddress";
+import type { ListPatientsResponseDataInnerProgramsInner } from "./ListPatientsResponseDataInnerProgramsInner";
 import {
-  CreatePatientRequestProgramsInnerFromJSON,
-  CreatePatientRequestProgramsInnerFromJSONTyped,
-  CreatePatientRequestProgramsInnerToJSON,
-  CreatePatientRequestProgramsInnerToJSONTyped,
-} from "./CreatePatientRequestProgramsInner";
-import type { CreatePatientResponseAddressesInner } from "./CreatePatientResponseAddressesInner";
-import {
-  CreatePatientResponseAddressesInnerFromJSON,
-  CreatePatientResponseAddressesInnerFromJSONTyped,
-  CreatePatientResponseAddressesInnerToJSON,
-  CreatePatientResponseAddressesInnerToJSONTyped,
-} from "./CreatePatientResponseAddressesInner";
+  ListPatientsResponseDataInnerProgramsInnerFromJSON,
+  ListPatientsResponseDataInnerProgramsInnerFromJSONTyped,
+  ListPatientsResponseDataInnerProgramsInnerToJSON,
+  ListPatientsResponseDataInnerProgramsInnerToJSONTyped,
+} from "./ListPatientsResponseDataInnerProgramsInner";
 import type { CreatePatientResponseEncountersInner } from "./CreatePatientResponseEncountersInner";
 import {
   CreatePatientResponseEncountersInnerFromJSON,
@@ -83,6 +76,13 @@ import {
   CreatePatientResponseLocationToJSON,
   CreatePatientResponseLocationToJSONTyped,
 } from "./CreatePatientResponseLocation";
+import type { ListPatientsResponseDataInnerExternalIdentitiesInner } from "./ListPatientsResponseDataInnerExternalIdentitiesInner";
+import {
+  ListPatientsResponseDataInnerExternalIdentitiesInnerFromJSON,
+  ListPatientsResponseDataInnerExternalIdentitiesInnerFromJSONTyped,
+  ListPatientsResponseDataInnerExternalIdentitiesInnerToJSON,
+  ListPatientsResponseDataInnerExternalIdentitiesInnerToJSONTyped,
+} from "./ListPatientsResponseDataInnerExternalIdentitiesInner";
 
 /**
  *
@@ -92,10 +92,10 @@ import {
 export interface CreatePatientResponse {
   /**
    *
-   * @type {UpdatePatientAddressResponseAddress}
+   * @type {CreatePatientAddressResponseAddress}
    * @memberof CreatePatientResponse
    */
-  address: UpdatePatientAddressResponseAddress | null;
+  address: CreatePatientAddressResponseAddress | null;
   /**
    *
    * @type {string}
@@ -104,10 +104,10 @@ export interface CreatePatientResponse {
   defaultShippingAddressId: string | null;
   /**
    *
-   * @type {UpdatePatientAddressResponseAddress}
+   * @type {CreatePatientAddressResponseAddress}
    * @memberof CreatePatientResponse
    */
-  shippingAddress: UpdatePatientAddressResponseAddress | null;
+  shippingAddress: CreatePatientAddressResponseAddress | null;
   /**
    *
    * @type {CreatePatientResponseAllergyReviewStatusEnum}
@@ -128,10 +128,10 @@ export interface CreatePatientResponse {
   createdAt: string | null;
   /**
    *
-   * @type {CreatePatientResponseClinicalProfile}
+   * @type {ListPatientsResponseDataInnerClinicalProfile}
    * @memberof CreatePatientResponse
    */
-  clinicalProfile: CreatePatientResponseClinicalProfile;
+  clinicalProfile: ListPatientsResponseDataInnerClinicalProfile;
   /**
    *
    * @type {string}
@@ -146,16 +146,22 @@ export interface CreatePatientResponse {
   email: string | null;
   /**
    *
-   * @type {Array<CreatePatientRequestExternalIdentitiesInner>}
+   * @type {string}
    * @memberof CreatePatientResponse
    */
-  externalIdentities: Array<CreatePatientRequestExternalIdentitiesInner>;
+  externalId: string | null;
   /**
    *
-   * @type {Array<CreatePatientResponseAddressesInner>}
+   * @type {Array<ListPatientsResponseDataInnerExternalIdentitiesInner>}
    * @memberof CreatePatientResponse
    */
-  addresses: Array<CreatePatientResponseAddressesInner>;
+  externalIdentities: Array<ListPatientsResponseDataInnerExternalIdentitiesInner>;
+  /**
+   *
+   * @type {Array<ListPatientsResponseDataInnerAddressesInner>}
+   * @memberof CreatePatientResponse
+   */
+  addresses: Array<ListPatientsResponseDataInnerAddressesInner>;
   /**
    *
    * @type {Array<CreatePatientResponseEncountersInner>}
@@ -230,10 +236,10 @@ export interface CreatePatientResponse {
   phone: string | null;
   /**
    *
-   * @type {Array<CreatePatientRequestProgramsInner>}
+   * @type {Array<ListPatientsResponseDataInnerProgramsInner>}
    * @memberof CreatePatientResponse
    */
-  programs: Array<CreatePatientRequestProgramsInner>;
+  programs: Array<ListPatientsResponseDataInnerProgramsInner>;
   /**
    *
    * @type {string}
@@ -310,6 +316,7 @@ export function instanceOfCreatePatientResponse(value: object): value is CreateP
   if (!("clinicalProfile" in value) || value["clinicalProfile"] === undefined) return false;
   if (!("dateOfBirth" in value) || value["dateOfBirth"] === undefined) return false;
   if (!("email" in value) || value["email"] === undefined) return false;
+  if (!("externalId" in value) || value["externalId"] === undefined) return false;
   if (!("externalIdentities" in value) || value["externalIdentities"] === undefined) return false;
   if (!("addresses" in value) || value["addresses"] === undefined) return false;
   if (!("encounters" in value) || value["encounters"] === undefined) return false;
@@ -343,21 +350,24 @@ export function CreatePatientResponseFromJSONTyped(
     return json;
   }
   return {
-    address: UpdatePatientAddressResponseAddressFromJSON(json["address"]),
+    address: CreatePatientAddressResponseAddressFromJSON(json["address"]),
     defaultShippingAddressId: json["defaultShippingAddressId"],
-    shippingAddress: UpdatePatientAddressResponseAddressFromJSON(json["shippingAddress"]),
+    shippingAddress: CreatePatientAddressResponseAddressFromJSON(json["shippingAddress"]),
     allergyReviewStatus: json["allergyReviewStatus"],
     allergySummary: (json["allergySummary"] as Array<any>).map(
       CreatePatientResponseAllergySummaryInnerFromJSON,
     ),
     createdAt: json["createdAt"],
-    clinicalProfile: CreatePatientResponseClinicalProfileFromJSON(json["clinicalProfile"]),
+    clinicalProfile: ListPatientsResponseDataInnerClinicalProfileFromJSON(json["clinicalProfile"]),
     dateOfBirth: json["dateOfBirth"],
     email: json["email"],
+    externalId: json["externalId"],
     externalIdentities: (json["externalIdentities"] as Array<any>).map(
-      CreatePatientRequestExternalIdentitiesInnerFromJSON,
+      ListPatientsResponseDataInnerExternalIdentitiesInnerFromJSON,
     ),
-    addresses: (json["addresses"] as Array<any>).map(CreatePatientResponseAddressesInnerFromJSON),
+    addresses: (json["addresses"] as Array<any>).map(
+      ListPatientsResponseDataInnerAddressesInnerFromJSON,
+    ),
     encounters: (json["encounters"] as Array<any>).map(
       CreatePatientResponseEncountersInnerFromJSON,
     ),
@@ -374,7 +384,9 @@ export function CreatePatientResponseFromJSONTyped(
     name: CreatePatientResponseNameFromJSON(json["name"]),
     object: json["object"],
     phone: json["phone"],
-    programs: (json["programs"] as Array<any>).map(CreatePatientRequestProgramsInnerFromJSON),
+    programs: (json["programs"] as Array<any>).map(
+      ListPatientsResponseDataInnerProgramsInnerFromJSON,
+    ),
     practiceId: json["practiceId"],
     status: json["status"],
     updatedAt: json["updatedAt"],
@@ -394,21 +406,24 @@ export function CreatePatientResponseToJSONTyped(
   }
 
   return {
-    address: UpdatePatientAddressResponseAddressToJSON(value["address"]),
+    address: CreatePatientAddressResponseAddressToJSON(value["address"]),
     defaultShippingAddressId: value["defaultShippingAddressId"],
-    shippingAddress: UpdatePatientAddressResponseAddressToJSON(value["shippingAddress"]),
+    shippingAddress: CreatePatientAddressResponseAddressToJSON(value["shippingAddress"]),
     allergyReviewStatus: value["allergyReviewStatus"],
     allergySummary: (value["allergySummary"] as Array<any>).map(
       CreatePatientResponseAllergySummaryInnerToJSON,
     ),
     createdAt: value["createdAt"],
-    clinicalProfile: CreatePatientResponseClinicalProfileToJSON(value["clinicalProfile"]),
+    clinicalProfile: ListPatientsResponseDataInnerClinicalProfileToJSON(value["clinicalProfile"]),
     dateOfBirth: value["dateOfBirth"],
     email: value["email"],
+    externalId: value["externalId"],
     externalIdentities: (value["externalIdentities"] as Array<any>).map(
-      CreatePatientRequestExternalIdentitiesInnerToJSON,
+      ListPatientsResponseDataInnerExternalIdentitiesInnerToJSON,
     ),
-    addresses: (value["addresses"] as Array<any>).map(CreatePatientResponseAddressesInnerToJSON),
+    addresses: (value["addresses"] as Array<any>).map(
+      ListPatientsResponseDataInnerAddressesInnerToJSON,
+    ),
     encounters: (value["encounters"] as Array<any>).map(CreatePatientResponseEncountersInnerToJSON),
     gender: value["gender"],
     id: value["id"],
@@ -423,7 +438,9 @@ export function CreatePatientResponseToJSONTyped(
     name: CreatePatientResponseNameToJSON(value["name"]),
     object: value["object"],
     phone: value["phone"],
-    programs: (value["programs"] as Array<any>).map(CreatePatientRequestProgramsInnerToJSON),
+    programs: (value["programs"] as Array<any>).map(
+      ListPatientsResponseDataInnerProgramsInnerToJSON,
+    ),
     practiceId: value["practiceId"],
     status: value["status"],
     updatedAt: value["updatedAt"],

@@ -50,7 +50,7 @@ export interface CreateOrderResponse {
    * @type {string}
    * @memberof CreateOrderResponse
    */
-  id: string | null;
+  id: string;
   /**
    *
    * @type {boolean}

@@ -69,6 +69,11 @@ import {
   GetOrderResponseToJSON,
 } from "../models/GetOrderResponse";
 import {
+  type GetOrderTestSimulationResponse,
+  GetOrderTestSimulationResponseFromJSON,
+  GetOrderTestSimulationResponseToJSON,
+} from "../models/GetOrderTestSimulationResponse";
+import {
   type ListOrderEventsResponse,
   ListOrderEventsResponseFromJSON,
   ListOrderEventsResponseToJSON,
@@ -119,71 +124,84 @@ import {
   UpdateOrderPrescriptionResponseFromJSON,
   UpdateOrderPrescriptionResponseToJSON,
 } from "../models/UpdateOrderPrescriptionResponse";
+import {
+  type UpdateOrderTestSimulationRequest,
+  UpdateOrderTestSimulationRequestFromJSON,
+  UpdateOrderTestSimulationRequestToJSON,
+} from "../models/UpdateOrderTestSimulationRequest";
+import {
+  type UpdateOrderTestSimulationResponse,
+  UpdateOrderTestSimulationResponseFromJSON,
+  UpdateOrderTestSimulationResponseToJSON,
+} from "../models/UpdateOrderTestSimulationResponse";
 
 export interface ActOnOrderExceptionOperationRequest {
   exceptionId: string;
   orderId: string;
   idempotencyKey: string;
-  affinityActorId: string;
-  affinityActorType: string;
   actOnOrderExceptionRequest: ActOnOrderExceptionRequest;
   affinityVersion?: string;
+  affinityActorId?: string;
+  affinityActorType?: string;
 }
 
 export interface AddOrderPrescriptionOperationRequest {
   orderId: string;
   idempotencyKey: string;
-  affinityActorId: string;
-  affinityActorType: string;
   addOrderPrescriptionRequest: AddOrderPrescriptionRequest;
   affinityVersion?: string;
+  affinityActorId?: string;
+  affinityActorType?: string;
 }
 
 export interface CancelOrderOperationRequest {
   orderId: string;
   idempotencyKey: string;
-  affinityActorId: string | null;
-  affinityActorType: string | null;
   cancelOrderRequest: CancelOrderRequest;
   affinityVersion?: string;
+  affinityActorId?: string;
+  affinityActorType?: string;
 }
 
 export interface CreateOrderOperationRequest {
   idempotencyKey: string;
-  affinityActorId: string;
-  affinityActorType: string;
   createOrderRequest: CreateOrderRequest;
   affinityVersion?: string;
+  affinityActorId?: string;
+  affinityActorType?: string;
 }
 
 export interface CreateOrderBatchOperationRequest {
   idempotencyKey: string;
-  affinityActorId: string;
-  affinityActorType: string;
   createOrderBatchRequest: CreateOrderBatchRequest;
   affinityVersion?: string;
+  affinityActorId?: string;
+  affinityActorType?: string;
 }
 
 export interface GetOrderRequest {
   orderId: string;
-  affinityActorId: string;
-  affinityActorType: string;
+  affinityVersion?: string;
+  affinityActorId?: string;
+  affinityActorType?: string;
+}
+
+export interface GetOrderTestSimulationRequest {
+  orderId: string;
   affinityVersion?: string;
 }
 
 export interface ListOrderEventsRequest {
   orderId: string;
-  affinityActorId: string;
-  affinityActorType: string;
   endingBefore?: string | null;
   limit?: number;
   startingAfter?: string | null;
   affinityVersion?: string;
+  affinityActorId?: string;
+  affinityActorType?: string;
 }
 
 export interface ListOrdersRequest {
-  affinityActorId: string;
-  affinityActorType: string;
   query?: string | null;
   externalOrderId?: string | null;
   createdAfter?: string | null;
@@ -198,6 +216,8 @@ export interface ListOrdersRequest {
   startingAfter?: string | null;
   status?: ListOrdersStatusEnum;
   affinityVersion?: string;
+  affinityActorId?: string | null;
+  affinityActorType?: string | null;
 }
 
 export interface RejectOrderOperationRequest {
@@ -225,9 +245,16 @@ export interface UpdateOrderPrescriptionOperationRequest {
   orderId: string;
   prescriptionId: string;
   idempotencyKey: string;
-  affinityActorId: string;
-  affinityActorType: string;
   updateOrderPrescriptionRequest: UpdateOrderPrescriptionRequest;
+  affinityVersion?: string;
+  affinityActorId?: string;
+  affinityActorType?: string;
+}
+
+export interface UpdateOrderTestSimulationOperationRequest {
+  orderId: string;
+  idempotencyKey: string;
+  updateOrderTestSimulationRequest: UpdateOrderTestSimulationRequest;
   affinityVersion?: string;
 }
 
@@ -259,20 +286,6 @@ export class OrdersApi extends runtime.BaseAPI {
       throw new runtime.RequiredError(
         "idempotencyKey",
         'Required parameter "idempotencyKey" was null or undefined when calling actOnOrderException().',
-      );
-    }
-
-    if (requestParameters["affinityActorId"] == null) {
-      throw new runtime.RequiredError(
-        "affinityActorId",
-        'Required parameter "affinityActorId" was null or undefined when calling actOnOrderException().',
-      );
-    }
-
-    if (requestParameters["affinityActorType"] == null) {
-      throw new runtime.RequiredError(
-        "affinityActorType",
-        'Required parameter "affinityActorType" was null or undefined when calling actOnOrderException().',
       );
     }
 
@@ -385,20 +398,6 @@ export class OrdersApi extends runtime.BaseAPI {
       );
     }
 
-    if (requestParameters["affinityActorId"] == null) {
-      throw new runtime.RequiredError(
-        "affinityActorId",
-        'Required parameter "affinityActorId" was null or undefined when calling addOrderPrescription().',
-      );
-    }
-
-    if (requestParameters["affinityActorType"] == null) {
-      throw new runtime.RequiredError(
-        "affinityActorType",
-        'Required parameter "affinityActorType" was null or undefined when calling addOrderPrescription().',
-      );
-    }
-
     if (requestParameters["addOrderPrescriptionRequest"] == null) {
       throw new runtime.RequiredError(
         "addOrderPrescriptionRequest",
@@ -457,7 +456,7 @@ export class OrdersApi extends runtime.BaseAPI {
   }
 
   /**
-   * Requires orders:write, actor context, Idempotency-Key and the current expectedVersions for every prescription. Adds a complete prescription to an unsigned Order and returns all new versions. Patient and prescriber attribution stay fixed. Signed orders cannot be amended through this endpoint. Signing and submission require orders:sign through their separate endpoints.
+   * Requires orders:write, Idempotency-Key and the current expectedVersions for every prescription. Adds a complete prescription to an unsigned Order and returns all new versions. Omitted actor context defaults to the authenticated service account as a system actor. Patient and prescriber attribution stay fixed. Signed orders cannot be amended through this endpoint. Signing and submission require orders:sign through their separate endpoints.
    * Add prescription to order
    */
   async addOrderPrescriptionRaw(
@@ -473,7 +472,7 @@ export class OrdersApi extends runtime.BaseAPI {
   }
 
   /**
-   * Requires orders:write, actor context, Idempotency-Key and the current expectedVersions for every prescription. Adds a complete prescription to an unsigned Order and returns all new versions. Patient and prescriber attribution stay fixed. Signed orders cannot be amended through this endpoint. Signing and submission require orders:sign through their separate endpoints.
+   * Requires orders:write, Idempotency-Key and the current expectedVersions for every prescription. Adds a complete prescription to an unsigned Order and returns all new versions. Omitted actor context defaults to the authenticated service account as a system actor. Patient and prescriber attribution stay fixed. Signed orders cannot be amended through this endpoint. Signing and submission require orders:sign through their separate endpoints.
    * Add prescription to order
    */
   async addOrderPrescription(
@@ -501,20 +500,6 @@ export class OrdersApi extends runtime.BaseAPI {
       throw new runtime.RequiredError(
         "idempotencyKey",
         'Required parameter "idempotencyKey" was null or undefined when calling cancelOrder().',
-      );
-    }
-
-    if (requestParameters["affinityActorId"] == null) {
-      throw new runtime.RequiredError(
-        "affinityActorId",
-        'Required parameter "affinityActorId" was null or undefined when calling cancelOrder().',
-      );
-    }
-
-    if (requestParameters["affinityActorType"] == null) {
-      throw new runtime.RequiredError(
-        "affinityActorType",
-        'Required parameter "affinityActorType" was null or undefined when calling cancelOrder().',
       );
     }
 
@@ -616,20 +601,6 @@ export class OrdersApi extends runtime.BaseAPI {
       );
     }
 
-    if (requestParameters["affinityActorId"] == null) {
-      throw new runtime.RequiredError(
-        "affinityActorId",
-        'Required parameter "affinityActorId" was null or undefined when calling createOrder().',
-      );
-    }
-
-    if (requestParameters["affinityActorType"] == null) {
-      throw new runtime.RequiredError(
-        "affinityActorType",
-        'Required parameter "affinityActorType" was null or undefined when calling createOrder().',
-      );
-    }
-
     if (requestParameters["createOrderRequest"] == null) {
       throw new runtime.RequiredError(
         "createOrderRequest",
@@ -684,7 +655,7 @@ export class OrdersApi extends runtime.BaseAPI {
   }
 
   /**
-   * Creates one unsigned order with 1–20 prescriptions for one patient in one practice. Supply exactly one of patientId or patient; inline patient creation additionally requires patients:write and commits atomically with the order. External identities resolve within the practice and mode; email does not merge patients. Omit userId for an unassigned draft or select a registered or accepted clinician. Use the sign and submit endpoints after collecting clinician attestation. Idempotency-Key and actor context are required.
+   * Creates one unsigned order with 1–20 prescriptions for one patient in one practice. Supply exactly one of patientId or patient; inline patient creation additionally requires patients:write and commits atomically with the order. External identities resolve within the practice and mode; email does not merge patients. Omit userId for an unassigned draft or select a registered or accepted clinician. Use the sign and submit endpoints after collecting clinician attestation. Idempotency-Key is required. Omitted actor context defaults to the authenticated service account as a system actor.
    * Create order
    */
   async createOrderRaw(
@@ -700,7 +671,7 @@ export class OrdersApi extends runtime.BaseAPI {
   }
 
   /**
-   * Creates one unsigned order with 1–20 prescriptions for one patient in one practice. Supply exactly one of patientId or patient; inline patient creation additionally requires patients:write and commits atomically with the order. External identities resolve within the practice and mode; email does not merge patients. Omit userId for an unassigned draft or select a registered or accepted clinician. Use the sign and submit endpoints after collecting clinician attestation. Idempotency-Key and actor context are required.
+   * Creates one unsigned order with 1–20 prescriptions for one patient in one practice. Supply exactly one of patientId or patient; inline patient creation additionally requires patients:write and commits atomically with the order. External identities resolve within the practice and mode; email does not merge patients. Omit userId for an unassigned draft or select a registered or accepted clinician. Use the sign and submit endpoints after collecting clinician attestation. Idempotency-Key is required. Omitted actor context defaults to the authenticated service account as a system actor.
    * Create order
    */
   async createOrder(
@@ -721,20 +692,6 @@ export class OrdersApi extends runtime.BaseAPI {
       throw new runtime.RequiredError(
         "idempotencyKey",
         'Required parameter "idempotencyKey" was null or undefined when calling createOrderBatch().',
-      );
-    }
-
-    if (requestParameters["affinityActorId"] == null) {
-      throw new runtime.RequiredError(
-        "affinityActorId",
-        'Required parameter "affinityActorId" was null or undefined when calling createOrderBatch().',
-      );
-    }
-
-    if (requestParameters["affinityActorType"] == null) {
-      throw new runtime.RequiredError(
-        "affinityActorType",
-        'Required parameter "affinityActorType" was null or undefined when calling createOrderBatch().',
       );
     }
 
@@ -792,7 +749,7 @@ export class OrdersApi extends runtime.BaseAPI {
   }
 
   /**
-   * Creates 1–20 orders for distinct patients in one practice, each with 1–20 prescriptions. Each accepts patientId or inline patient details. Orders and newly created patients commit atomically; any failure saves none. Requires orders:write, actor headers, and Idempotency-Key; inline patients also require patients:write. Sign and submit each resulting order separately using orders:sign.
+   * Creates 1–20 orders for distinct patients in one practice, each with 1–20 prescriptions. Each accepts patientId or inline patient details. Orders and newly created patients commit atomically; any failure saves none. Requires orders:write and Idempotency-Key; inline patients also require patients:write. Omitted actor context defaults to the authenticated service account as a system actor. Sign and submit each resulting order separately using orders:sign.
    * Create order batch
    */
   async createOrderBatchRaw(
@@ -808,7 +765,7 @@ export class OrdersApi extends runtime.BaseAPI {
   }
 
   /**
-   * Creates 1–20 orders for distinct patients in one practice, each with 1–20 prescriptions. Each accepts patientId or inline patient details. Orders and newly created patients commit atomically; any failure saves none. Requires orders:write, actor headers, and Idempotency-Key; inline patients also require patients:write. Sign and submit each resulting order separately using orders:sign.
+   * Creates 1–20 orders for distinct patients in one practice, each with 1–20 prescriptions. Each accepts patientId or inline patient details. Orders and newly created patients commit atomically; any failure saves none. Requires orders:write and Idempotency-Key; inline patients also require patients:write. Omitted actor context defaults to the authenticated service account as a system actor. Sign and submit each resulting order separately using orders:sign.
    * Create order batch
    */
   async createOrderBatch(
@@ -827,20 +784,6 @@ export class OrdersApi extends runtime.BaseAPI {
       throw new runtime.RequiredError(
         "orderId",
         'Required parameter "orderId" was null or undefined when calling getOrder().',
-      );
-    }
-
-    if (requestParameters["affinityActorId"] == null) {
-      throw new runtime.RequiredError(
-        "affinityActorId",
-        'Required parameter "affinityActorId" was null or undefined when calling getOrder().',
-      );
-    }
-
-    if (requestParameters["affinityActorType"] == null) {
-      throw new runtime.RequiredError(
-        "affinityActorType",
-        'Required parameter "affinityActorType" was null or undefined when calling getOrder().',
       );
     }
 
@@ -914,6 +857,82 @@ export class OrdersApi extends runtime.BaseAPI {
   }
 
   /**
+   * Creates request options for getOrderTestSimulation without sending the request
+   */
+  async getOrderTestSimulationRequestOpts(
+    requestParameters: GetOrderTestSimulationRequest,
+  ): Promise<runtime.RequestOpts> {
+    if (requestParameters["orderId"] == null) {
+      throw new runtime.RequiredError(
+        "orderId",
+        'Required parameter "orderId" was null or undefined when calling getOrderTestSimulation().',
+      );
+    }
+
+    const queryParameters: any = {};
+
+    const headerParameters: runtime.HTTPHeaders = {};
+
+    if (requestParameters["affinityVersion"] != null) {
+      headerParameters["Affinity-Version"] = String(requestParameters["affinityVersion"]);
+    }
+
+    if (this.configuration && this.configuration.accessToken) {
+      const token = this.configuration.accessToken;
+      const tokenString = await token("bearerAuth", []);
+
+      if (tokenString) {
+        headerParameters["Authorization"] = `Bearer ${tokenString}`;
+      }
+    }
+    if (this.configuration && this.configuration.apiKey) {
+      headerParameters["x-affinity-api-key"] =
+        await this.configuration.apiKey("x-affinity-api-key"); // affinityApiKey authentication
+    }
+
+    let urlPath = `/v1/orders/{orderId}/test-simulation`;
+    urlPath = urlPath.replace(
+      "{orderId}",
+      encodeURIComponent(String(requestParameters["orderId"])),
+    );
+
+    return {
+      path: urlPath,
+      method: "GET",
+      headers: headerParameters,
+      query: queryParameters,
+    };
+  }
+
+  /**
+   * Requires orders:write. Available only in Test mode.
+   * Read Test order controls
+   */
+  async getOrderTestSimulationRaw(
+    requestParameters: GetOrderTestSimulationRequest,
+    initOverrides?: RequestInit | runtime.InitOverrideFunction,
+  ): Promise<runtime.ApiResponse<GetOrderTestSimulationResponse>> {
+    const requestOptions = await this.getOrderTestSimulationRequestOpts(requestParameters);
+    const response = await this.request(requestOptions, initOverrides);
+
+    return new runtime.JSONApiResponse(response, (jsonValue) =>
+      GetOrderTestSimulationResponseFromJSON(jsonValue),
+    );
+  }
+
+  /**
+   * Requires orders:write. Available only in Test mode.
+   * Read Test order controls
+   */
+  async getOrderTestSimulation(
+    requestParameters: GetOrderTestSimulationRequest,
+    initOverrides?: RequestInit | runtime.InitOverrideFunction,
+  ): Promise<GetOrderTestSimulationResponse> {
+    const response = await this.getOrderTestSimulationRaw(requestParameters, initOverrides);
+    return await response.value();
+  }
+
+  /**
    * Creates request options for listOrderEvents without sending the request
    */
   async listOrderEventsRequestOpts(
@@ -923,20 +942,6 @@ export class OrdersApi extends runtime.BaseAPI {
       throw new runtime.RequiredError(
         "orderId",
         'Required parameter "orderId" was null or undefined when calling listOrderEvents().',
-      );
-    }
-
-    if (requestParameters["affinityActorId"] == null) {
-      throw new runtime.RequiredError(
-        "affinityActorId",
-        'Required parameter "affinityActorId" was null or undefined when calling listOrderEvents().',
-      );
-    }
-
-    if (requestParameters["affinityActorType"] == null) {
-      throw new runtime.RequiredError(
-        "affinityActorType",
-        'Required parameter "affinityActorType" was null or undefined when calling listOrderEvents().',
       );
     }
 
@@ -1025,20 +1030,6 @@ export class OrdersApi extends runtime.BaseAPI {
    * Creates request options for listOrders without sending the request
    */
   async listOrdersRequestOpts(requestParameters: ListOrdersRequest): Promise<runtime.RequestOpts> {
-    if (requestParameters["affinityActorId"] == null) {
-      throw new runtime.RequiredError(
-        "affinityActorId",
-        'Required parameter "affinityActorId" was null or undefined when calling listOrders().',
-      );
-    }
-
-    if (requestParameters["affinityActorType"] == null) {
-      throw new runtime.RequiredError(
-        "affinityActorType",
-        'Required parameter "affinityActorType" was null or undefined when calling listOrders().',
-      );
-    }
-
     const queryParameters: any = {};
 
     if (requestParameters["query"] != null) {
@@ -1149,7 +1140,7 @@ export class OrdersApi extends runtime.BaseAPI {
    * List orders
    */
   async listOrders(
-    requestParameters: ListOrdersRequest,
+    requestParameters: ListOrdersRequest = {},
     initOverrides?: RequestInit | runtime.InitOverrideFunction,
   ): Promise<ListOrdersResponse> {
     const response = await this.listOrdersRaw(requestParameters, initOverrides);
@@ -1474,20 +1465,6 @@ export class OrdersApi extends runtime.BaseAPI {
       );
     }
 
-    if (requestParameters["affinityActorId"] == null) {
-      throw new runtime.RequiredError(
-        "affinityActorId",
-        'Required parameter "affinityActorId" was null or undefined when calling updateOrderPrescription().',
-      );
-    }
-
-    if (requestParameters["affinityActorType"] == null) {
-      throw new runtime.RequiredError(
-        "affinityActorType",
-        'Required parameter "affinityActorType" was null or undefined when calling updateOrderPrescription().',
-      );
-    }
-
     if (requestParameters["updateOrderPrescriptionRequest"] == null) {
       throw new runtime.RequiredError(
         "updateOrderPrescriptionRequest",
@@ -1552,7 +1529,7 @@ export class OrdersApi extends runtime.BaseAPI {
   }
 
   /**
-   * Requires orders:write, actor context, Idempotency-Key and the current expectedVersions for every prescription. Replaces one prescription with complete medication instructions and returns all new versions. Patient and prescriber attribution stay fixed. Signed orders cannot be amended through this endpoint. Signing and submission require orders:sign through their separate endpoints.
+   * Requires orders:write, Idempotency-Key and the current expectedVersions for every prescription. Replaces one prescription with complete medication instructions and returns all new versions. Omitted actor context defaults to the authenticated service account as a system actor. Patient and prescriber attribution stay fixed. Signed orders cannot be amended through this endpoint. Signing and submission require orders:sign through their separate endpoints.
    * Update prescription in order
    */
   async updateOrderPrescriptionRaw(
@@ -1568,7 +1545,7 @@ export class OrdersApi extends runtime.BaseAPI {
   }
 
   /**
-   * Requires orders:write, actor context, Idempotency-Key and the current expectedVersions for every prescription. Replaces one prescription with complete medication instructions and returns all new versions. Patient and prescriber attribution stay fixed. Signed orders cannot be amended through this endpoint. Signing and submission require orders:sign through their separate endpoints.
+   * Requires orders:write, Idempotency-Key and the current expectedVersions for every prescription. Replaces one prescription with complete medication instructions and returns all new versions. Omitted actor context defaults to the authenticated service account as a system actor. Patient and prescriber attribution stay fixed. Signed orders cannot be amended through this endpoint. Signing and submission require orders:sign through their separate endpoints.
    * Update prescription in order
    */
   async updateOrderPrescription(
@@ -1576,6 +1553,105 @@ export class OrdersApi extends runtime.BaseAPI {
     initOverrides?: RequestInit | runtime.InitOverrideFunction,
   ): Promise<UpdateOrderPrescriptionResponse> {
     const response = await this.updateOrderPrescriptionRaw(requestParameters, initOverrides);
+    return await response.value();
+  }
+
+  /**
+   * Creates request options for updateOrderTestSimulation without sending the request
+   */
+  async updateOrderTestSimulationRequestOpts(
+    requestParameters: UpdateOrderTestSimulationOperationRequest,
+  ): Promise<runtime.RequestOpts> {
+    if (requestParameters["orderId"] == null) {
+      throw new runtime.RequiredError(
+        "orderId",
+        'Required parameter "orderId" was null or undefined when calling updateOrderTestSimulation().',
+      );
+    }
+
+    if (requestParameters["idempotencyKey"] == null) {
+      throw new runtime.RequiredError(
+        "idempotencyKey",
+        'Required parameter "idempotencyKey" was null or undefined when calling updateOrderTestSimulation().',
+      );
+    }
+
+    if (requestParameters["updateOrderTestSimulationRequest"] == null) {
+      throw new runtime.RequiredError(
+        "updateOrderTestSimulationRequest",
+        'Required parameter "updateOrderTestSimulationRequest" was null or undefined when calling updateOrderTestSimulation().',
+      );
+    }
+
+    const queryParameters: any = {};
+
+    const headerParameters: runtime.HTTPHeaders = {};
+
+    headerParameters["Content-Type"] = "application/json";
+
+    if (requestParameters["affinityVersion"] != null) {
+      headerParameters["Affinity-Version"] = String(requestParameters["affinityVersion"]);
+    }
+
+    if (requestParameters["idempotencyKey"] != null) {
+      headerParameters["Idempotency-Key"] = String(requestParameters["idempotencyKey"]);
+    }
+
+    if (this.configuration && this.configuration.accessToken) {
+      const token = this.configuration.accessToken;
+      const tokenString = await token("bearerAuth", []);
+
+      if (tokenString) {
+        headerParameters["Authorization"] = `Bearer ${tokenString}`;
+      }
+    }
+    if (this.configuration && this.configuration.apiKey) {
+      headerParameters["x-affinity-api-key"] =
+        await this.configuration.apiKey("x-affinity-api-key"); // affinityApiKey authentication
+    }
+
+    let urlPath = `/v1/orders/{orderId}/test-simulation`;
+    urlPath = urlPath.replace(
+      "{orderId}",
+      encodeURIComponent(String(requestParameters["orderId"])),
+    );
+
+    return {
+      path: urlPath,
+      method: "PUT",
+      headers: headerParameters,
+      query: queryParameters,
+      body: UpdateOrderTestSimulationRequestToJSON(
+        requestParameters["updateOrderTestSimulationRequest"],
+      ),
+    };
+  }
+
+  /**
+   * Requires orders:write and Idempotency-Key. Configure before submission or queue a valid pharmacy event in manual mode. Events use normal order history and Test webhooks. Live requests are rejected.
+   * Configure Test order simulation
+   */
+  async updateOrderTestSimulationRaw(
+    requestParameters: UpdateOrderTestSimulationOperationRequest,
+    initOverrides?: RequestInit | runtime.InitOverrideFunction,
+  ): Promise<runtime.ApiResponse<UpdateOrderTestSimulationResponse>> {
+    const requestOptions = await this.updateOrderTestSimulationRequestOpts(requestParameters);
+    const response = await this.request(requestOptions, initOverrides);
+
+    return new runtime.JSONApiResponse(response, (jsonValue) =>
+      UpdateOrderTestSimulationResponseFromJSON(jsonValue),
+    );
+  }
+
+  /**
+   * Requires orders:write and Idempotency-Key. Configure before submission or queue a valid pharmacy event in manual mode. Events use normal order history and Test webhooks. Live requests are rejected.
+   * Configure Test order simulation
+   */
+  async updateOrderTestSimulation(
+    requestParameters: UpdateOrderTestSimulationOperationRequest,
+    initOverrides?: RequestInit | runtime.InitOverrideFunction,
+  ): Promise<UpdateOrderTestSimulationResponse> {
+    const response = await this.updateOrderTestSimulationRaw(requestParameters, initOverrides);
     return await response.value();
   }
 }

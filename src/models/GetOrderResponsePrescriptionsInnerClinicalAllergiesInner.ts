@@ -13,13 +13,13 @@
  */
 
 import { mapValues } from "../runtime";
-import type { CancelOrderResponsePrescriptionsInnerClinicalConditionsInner } from "./CancelOrderResponsePrescriptionsInnerClinicalConditionsInner";
+import type { ListOrdersResponseDataInnerPrescriptionsInnerClinicalConditionsInner } from "./ListOrdersResponseDataInnerPrescriptionsInnerClinicalConditionsInner";
 import {
-  CancelOrderResponsePrescriptionsInnerClinicalConditionsInnerFromJSON,
-  CancelOrderResponsePrescriptionsInnerClinicalConditionsInnerFromJSONTyped,
-  CancelOrderResponsePrescriptionsInnerClinicalConditionsInnerToJSON,
-  CancelOrderResponsePrescriptionsInnerClinicalConditionsInnerToJSONTyped,
-} from "./CancelOrderResponsePrescriptionsInnerClinicalConditionsInner";
+  ListOrdersResponseDataInnerPrescriptionsInnerClinicalConditionsInnerFromJSON,
+  ListOrdersResponseDataInnerPrescriptionsInnerClinicalConditionsInnerFromJSONTyped,
+  ListOrdersResponseDataInnerPrescriptionsInnerClinicalConditionsInnerToJSON,
+  ListOrdersResponseDataInnerPrescriptionsInnerClinicalConditionsInnerToJSONTyped,
+} from "./ListOrdersResponseDataInnerPrescriptionsInnerClinicalConditionsInner";
 
 /**
  *
@@ -77,10 +77,10 @@ export interface GetOrderResponsePrescriptionsInnerClinicalAllergiesInner {
   verificationStatus?: string | null;
   /**
    *
-   * @type {Array<CancelOrderResponsePrescriptionsInnerClinicalConditionsInner>}
+   * @type {Array<ListOrdersResponseDataInnerPrescriptionsInnerClinicalConditionsInner>}
    * @memberof GetOrderResponsePrescriptionsInnerClinicalAllergiesInner
    */
-  reactions?: Array<CancelOrderResponsePrescriptionsInnerClinicalConditionsInner> | null;
+  reactions?: Array<ListOrdersResponseDataInnerPrescriptionsInnerClinicalConditionsInner> | null;
 }
 
 /**
@@ -119,7 +119,7 @@ export function GetOrderResponsePrescriptionsInnerClinicalAllergiesInnerFromJSON
       json["reactions"] == null
         ? undefined
         : (json["reactions"] as Array<any>).map(
-            CancelOrderResponsePrescriptionsInnerClinicalConditionsInnerFromJSON,
+            ListOrdersResponseDataInnerPrescriptionsInnerClinicalConditionsInnerFromJSON,
           ),
   };
 }
@@ -151,7 +151,7 @@ export function GetOrderResponsePrescriptionsInnerClinicalAllergiesInnerToJSONTy
       value["reactions"] == null
         ? undefined
         : (value["reactions"] as Array<any>).map(
-            CancelOrderResponsePrescriptionsInnerClinicalConditionsInnerToJSON,
+            ListOrdersResponseDataInnerPrescriptionsInnerClinicalConditionsInnerToJSON,
           ),
   };
 }

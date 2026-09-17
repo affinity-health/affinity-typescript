@@ -26,11 +26,11 @@ export interface CreatePatientResponseLocation {
    */
   id: string;
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof CreatePatientResponseLocation
    */
-  name: string | null;
+  name: string;
   /**
    *
    * @type {string}
@@ -42,7 +42,7 @@ export interface CreatePatientResponseLocation {
    * @type {CreatePatientResponseLocationStatusEnum}
    * @memberof CreatePatientResponseLocation
    */
-  status: CreatePatientResponseLocationStatusEnum | null;
+  status: CreatePatientResponseLocationStatusEnum;
 }
 
 /**

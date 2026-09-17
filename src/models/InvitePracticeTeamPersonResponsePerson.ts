@@ -13,20 +13,20 @@
  */
 
 import { mapValues } from "../runtime";
-import type { RevokePracticeTeamInvitationResponsePersonAccount } from "./RevokePracticeTeamInvitationResponsePersonAccount";
+import type { InvitePracticeTeamPersonResponsePersonAccount } from "./InvitePracticeTeamPersonResponsePersonAccount";
 import {
-  RevokePracticeTeamInvitationResponsePersonAccountFromJSON,
-  RevokePracticeTeamInvitationResponsePersonAccountFromJSONTyped,
-  RevokePracticeTeamInvitationResponsePersonAccountToJSON,
-  RevokePracticeTeamInvitationResponsePersonAccountToJSONTyped,
-} from "./RevokePracticeTeamInvitationResponsePersonAccount";
-import type { RevokePracticeTeamInvitationResponsePersonInvitation } from "./RevokePracticeTeamInvitationResponsePersonInvitation";
+  InvitePracticeTeamPersonResponsePersonAccountFromJSON,
+  InvitePracticeTeamPersonResponsePersonAccountFromJSONTyped,
+  InvitePracticeTeamPersonResponsePersonAccountToJSON,
+  InvitePracticeTeamPersonResponsePersonAccountToJSONTyped,
+} from "./InvitePracticeTeamPersonResponsePersonAccount";
+import type { InvitePracticeTeamPersonResponsePersonInvitation } from "./InvitePracticeTeamPersonResponsePersonInvitation";
 import {
-  RevokePracticeTeamInvitationResponsePersonInvitationFromJSON,
-  RevokePracticeTeamInvitationResponsePersonInvitationFromJSONTyped,
-  RevokePracticeTeamInvitationResponsePersonInvitationToJSON,
-  RevokePracticeTeamInvitationResponsePersonInvitationToJSONTyped,
-} from "./RevokePracticeTeamInvitationResponsePersonInvitation";
+  InvitePracticeTeamPersonResponsePersonInvitationFromJSON,
+  InvitePracticeTeamPersonResponsePersonInvitationFromJSONTyped,
+  InvitePracticeTeamPersonResponsePersonInvitationToJSON,
+  InvitePracticeTeamPersonResponsePersonInvitationToJSONTyped,
+} from "./InvitePracticeTeamPersonResponsePersonInvitation";
 
 /**
  *
@@ -47,11 +47,11 @@ export interface InvitePracticeTeamPersonResponsePerson {
    */
   object: InvitePracticeTeamPersonResponsePersonObjectEnum;
   /**
-   *
+   * Match this integration's external identity in the API key's mode.
    * @type {string}
    * @memberof InvitePracticeTeamPersonResponsePerson
    */
-  externalId: string;
+  externalId: string | null;
   /**
    *
    * @type {string}
@@ -65,23 +65,23 @@ export interface InvitePracticeTeamPersonResponsePerson {
    */
   name: string | null;
   /**
-   *
+   * Match this integration's external identity in the API key's mode.
    * @type {string}
    * @memberof InvitePracticeTeamPersonResponsePerson
    */
-  status: string;
+  status: string | null;
   /**
    *
-   * @type {RevokePracticeTeamInvitationResponsePersonInvitation}
+   * @type {InvitePracticeTeamPersonResponsePersonInvitation}
    * @memberof InvitePracticeTeamPersonResponsePerson
    */
-  invitation: RevokePracticeTeamInvitationResponsePersonInvitation | null;
+  invitation: InvitePracticeTeamPersonResponsePersonInvitation | null;
   /**
    *
-   * @type {RevokePracticeTeamInvitationResponsePersonAccount}
+   * @type {InvitePracticeTeamPersonResponsePersonAccount}
    * @memberof InvitePracticeTeamPersonResponsePerson
    */
-  account: RevokePracticeTeamInvitationResponsePersonAccount | null;
+  account: InvitePracticeTeamPersonResponsePersonAccount | null;
   /**
    *
    * @type {Array<string>}
@@ -137,8 +137,8 @@ export function InvitePracticeTeamPersonResponsePersonFromJSONTyped(
     email: json["email"],
     name: json["name"],
     status: json["status"],
-    invitation: RevokePracticeTeamInvitationResponsePersonInvitationFromJSON(json["invitation"]),
-    account: RevokePracticeTeamInvitationResponsePersonAccountFromJSON(json["account"]),
+    invitation: InvitePracticeTeamPersonResponsePersonInvitationFromJSON(json["invitation"]),
+    account: InvitePracticeTeamPersonResponsePersonAccountFromJSON(json["account"]),
     nextActions: json["nextActions"],
   };
 }
@@ -164,8 +164,8 @@ export function InvitePracticeTeamPersonResponsePersonToJSONTyped(
     email: value["email"],
     name: value["name"],
     status: value["status"],
-    invitation: RevokePracticeTeamInvitationResponsePersonInvitationToJSON(value["invitation"]),
-    account: RevokePracticeTeamInvitationResponsePersonAccountToJSON(value["account"]),
+    invitation: InvitePracticeTeamPersonResponsePersonInvitationToJSON(value["invitation"]),
+    account: InvitePracticeTeamPersonResponsePersonAccountToJSON(value["account"]),
     nextActions: value["nextActions"],
   };
 }

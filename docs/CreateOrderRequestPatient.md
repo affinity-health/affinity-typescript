@@ -8,6 +8,7 @@
 | `clinicalProfile`     | [CreateOrderRequestPatientClinicalProfile](CreateOrderRequestPatientClinicalProfile.md)                              |
 | `dateOfBirth`         | string                                                                                                               |
 | `email`               | string                                                                                                               |
+| `externalId`          | string                                                                                                               |
 | `externalIdentities`  | [Array&lt;CreateOrderRequestPatientExternalIdentitiesInner&gt;](CreateOrderRequestPatientExternalIdentitiesInner.md) |
 | `addresses`           | [Array&lt;CreateOrderRequestPatientAddressesInner&gt;](CreateOrderRequestPatientAddressesInner.md)                   |
 | `encounters`          | [Array&lt;CreateOrderRequestPatientEncountersInner&gt;](CreateOrderRequestPatientEncountersInner.md)                 |

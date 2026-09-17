@@ -19,7 +19,7 @@ All URIs are relative to *https://api.joinaffinityai.com*
 
 ## archivePatientAddress
 
-> ArchivePatientAddressResponse archivePatientAddress(practiceId, patientId, addressId, idempotencyKey, affinityActorId, affinityActorType, affinityVersion)
+> ArchivePatientAddressResponse archivePatientAddress(practiceId, patientId, addressId, idempotencyKey, affinityVersion, affinityActorId, affinityActorType)
 
 Archive delivery address
 
@@ -50,12 +50,12 @@ async function example() {
     addressId: addressId_example,
     // string
     idempotencyKey: idempotencyKey_example,
-    // string
-    affinityActorId: affinityActorId_example,
-    // string
-    affinityActorType: affinityActorType_example,
     // string (optional)
     affinityVersion: affinityVersion_example,
+    // string | Required for user actors and optional for system actors. Omit both actor headers to use the authenticated service account as a system actor. (optional)
+    affinityActorId: affinityActorId_example,
+    // string | Use user when a person initiated the action and system for autonomous work. Omit both actor headers to default to system. (optional)
+    affinityActorType: affinityActorType_example,
   } satisfies ArchivePatientAddressRequest;
 
   try {
@@ -72,15 +72,15 @@ example().catch(console.error);
 
 ### Parameters
 
-| Name                  | Type     | Description | Notes                                |
-| --------------------- | -------- | ----------- | ------------------------------------ |
-| **practiceId**        | `string` |             | [Defaults to `undefined`]            |
-| **patientId**         | `string` |             | [Defaults to `undefined`]            |
-| **addressId**         | `string` |             | [Defaults to `undefined`]            |
-| **idempotencyKey**    | `string` |             | [Defaults to `undefined`]            |
-| **affinityActorId**   | `string` |             | [Defaults to `undefined`]            |
-| **affinityActorType** | `string` |             | [Defaults to `undefined`]            |
-| **affinityVersion**   | `string` |             | [Optional] [Defaults to `undefined`] |
+| Name                  | Type     | Description                                                                                                                                  | Notes                                |
+| --------------------- | -------- | -------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------ |
+| **practiceId**        | `string` |                                                                                                                                              | [Defaults to `undefined`]            |
+| **patientId**         | `string` |                                                                                                                                              | [Defaults to `undefined`]            |
+| **addressId**         | `string` |                                                                                                                                              | [Defaults to `undefined`]            |
+| **idempotencyKey**    | `string` |                                                                                                                                              | [Defaults to `undefined`]            |
+| **affinityVersion**   | `string` |                                                                                                                                              | [Optional] [Defaults to `undefined`] |
+| **affinityActorId**   | `string` | Required for user actors and optional for system actors. Omit both actor headers to use the authenticated service account as a system actor. | [Optional] [Defaults to `undefined`] |
+| **affinityActorType** | `string` | Use user when a person initiated the action and system for autonomous work. Omit both actor headers to default to system.                    | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 
@@ -111,11 +111,11 @@ example().catch(console.error);
 
 ## createPatient
 
-> CreatePatientResponse createPatient(practiceId, idempotencyKey, affinityActorId, affinityActorType, createPatientRequest, affinityVersion)
+> CreatePatientResponse createPatient(practiceId, idempotencyKey, createPatientRequest, affinityVersion, affinityActorId, affinityActorType)
 
 Create patient
 
-Creates a patient or resolves matching external identifiers within this practice and mode. Resolution preserves existing demographics; use PATCH to update them. Conflicting identifiers return 409. Email never merges patients. API keys require Idempotency-Key.
+Creates a patient or resolves a matching externalId or external identity within this practice and mode. externalId belongs to the calling integration; externalIdentities holds aliases from other systems. Resolution preserves existing demographics; use PATCH to update them. Conflicting identifiers return 409. Email never merges patients. API keys require Idempotency-Key.
 
 ### Example
 
@@ -141,14 +141,14 @@ async function example() {
     practiceId: practiceId_example,
     // string
     idempotencyKey: idempotencyKey_example,
-    // string
-    affinityActorId: affinityActorId_example,
-    // string
-    affinityActorType: affinityActorType_example,
     // CreatePatientRequest
     createPatientRequest: ...,
     // string (optional)
     affinityVersion: affinityVersion_example,
+    // string | Required for user actors and optional for system actors. Omit both actor headers to use the authenticated service account as a system actor. (optional)
+    affinityActorId: affinityActorId_example,
+    // string | Use user when a person initiated the action and system for autonomous work. Omit both actor headers to default to system. (optional)
+    affinityActorType: affinityActorType_example,
   } satisfies CreatePatientOperationRequest;
 
   try {
@@ -165,14 +165,14 @@ example().catch(console.error);
 
 ### Parameters
 
-| Name                     | Type                                            | Description | Notes                                |
-| ------------------------ | ----------------------------------------------- | ----------- | ------------------------------------ |
-| **practiceId**           | `string`                                        |             | [Defaults to `undefined`]            |
-| **idempotencyKey**       | `string`                                        |             | [Defaults to `undefined`]            |
-| **affinityActorId**      | `string`                                        |             | [Defaults to `undefined`]            |
-| **affinityActorType**    | `string`                                        |             | [Defaults to `undefined`]            |
-| **createPatientRequest** | [CreatePatientRequest](CreatePatientRequest.md) |             |                                      |
-| **affinityVersion**      | `string`                                        |             | [Optional] [Defaults to `undefined`] |
+| Name                     | Type                                            | Description                                                                                                                                  | Notes                                |
+| ------------------------ | ----------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------ |
+| **practiceId**           | `string`                                        |                                                                                                                                              | [Defaults to `undefined`]            |
+| **idempotencyKey**       | `string`                                        |                                                                                                                                              | [Defaults to `undefined`]            |
+| **createPatientRequest** | [CreatePatientRequest](CreatePatientRequest.md) |                                                                                                                                              |                                      |
+| **affinityVersion**      | `string`                                        |                                                                                                                                              | [Optional] [Defaults to `undefined`] |
+| **affinityActorId**      | `string`                                        | Required for user actors and optional for system actors. Omit both actor headers to use the authenticated service account as a system actor. | [Optional] [Defaults to `undefined`] |
+| **affinityActorType**    | `string`                                        | Use user when a person initiated the action and system for autonomous work. Omit both actor headers to default to system.                    | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 
@@ -203,7 +203,7 @@ example().catch(console.error);
 
 ## createPatientAddress
 
-> CreatePatientAddressResponse createPatientAddress(practiceId, patientId, idempotencyKey, affinityActorId, affinityActorType, createPatientAddressRequest, affinityVersion)
+> CreatePatientAddressResponse createPatientAddress(practiceId, patientId, idempotencyKey, createPatientAddressRequest, affinityVersion, affinityActorId, affinityActorType)
 
 Save delivery address
 
@@ -235,14 +235,14 @@ async function example() {
     patientId: patientId_example,
     // string
     idempotencyKey: idempotencyKey_example,
-    // string
-    affinityActorId: affinityActorId_example,
-    // string
-    affinityActorType: affinityActorType_example,
     // CreatePatientAddressRequest
     createPatientAddressRequest: ...,
     // string (optional)
     affinityVersion: affinityVersion_example,
+    // string | Required for user actors and optional for system actors. Omit both actor headers to use the authenticated service account as a system actor. (optional)
+    affinityActorId: affinityActorId_example,
+    // string | Use user when a person initiated the action and system for autonomous work. Omit both actor headers to default to system. (optional)
+    affinityActorType: affinityActorType_example,
   } satisfies CreatePatientAddressOperationRequest;
 
   try {
@@ -259,15 +259,15 @@ example().catch(console.error);
 
 ### Parameters
 
-| Name                            | Type                                                          | Description | Notes                                |
-| ------------------------------- | ------------------------------------------------------------- | ----------- | ------------------------------------ |
-| **practiceId**                  | `string`                                                      |             | [Defaults to `undefined`]            |
-| **patientId**                   | `string`                                                      |             | [Defaults to `undefined`]            |
-| **idempotencyKey**              | `string`                                                      |             | [Defaults to `undefined`]            |
-| **affinityActorId**             | `string`                                                      |             | [Defaults to `undefined`]            |
-| **affinityActorType**           | `string`                                                      |             | [Defaults to `undefined`]            |
-| **createPatientAddressRequest** | [CreatePatientAddressRequest](CreatePatientAddressRequest.md) |             |                                      |
-| **affinityVersion**             | `string`                                                      |             | [Optional] [Defaults to `undefined`] |
+| Name                            | Type                                                          | Description                                                                                                                                  | Notes                                |
+| ------------------------------- | ------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------ |
+| **practiceId**                  | `string`                                                      |                                                                                                                                              | [Defaults to `undefined`]            |
+| **patientId**                   | `string`                                                      |                                                                                                                                              | [Defaults to `undefined`]            |
+| **idempotencyKey**              | `string`                                                      |                                                                                                                                              | [Defaults to `undefined`]            |
+| **createPatientAddressRequest** | [CreatePatientAddressRequest](CreatePatientAddressRequest.md) |                                                                                                                                              |                                      |
+| **affinityVersion**             | `string`                                                      |                                                                                                                                              | [Optional] [Defaults to `undefined`] |
+| **affinityActorId**             | `string`                                                      | Required for user actors and optional for system actors. Omit both actor headers to use the authenticated service account as a system actor. | [Optional] [Defaults to `undefined`] |
+| **affinityActorType**           | `string`                                                      | Use user when a person initiated the action and system for autonomous work. Omit both actor headers to default to system.                    | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 
@@ -298,7 +298,7 @@ example().catch(console.error);
 
 ## deletePatient
 
-> DeletePatientResponse deletePatient(patientId, practiceId, idempotencyKey, affinityActorId, affinityActorType, affinityVersion)
+> DeletePatientResponse deletePatient(patientId, practiceId, idempotencyKey, affinityVersion, affinityActorId, affinityActorType)
 
 Delete patient
 
@@ -327,12 +327,12 @@ async function example() {
     practiceId: practiceId_example,
     // string
     idempotencyKey: idempotencyKey_example,
-    // string
-    affinityActorId: affinityActorId_example,
-    // string
-    affinityActorType: affinityActorType_example,
     // string (optional)
     affinityVersion: affinityVersion_example,
+    // string | Required for user actors and optional for system actors. Omit both actor headers to use the authenticated service account as a system actor. (optional)
+    affinityActorId: affinityActorId_example,
+    // string | Use user when a person initiated the action and system for autonomous work. Omit both actor headers to default to system. (optional)
+    affinityActorType: affinityActorType_example,
   } satisfies DeletePatientRequest;
 
   try {
@@ -349,14 +349,14 @@ example().catch(console.error);
 
 ### Parameters
 
-| Name                  | Type     | Description | Notes                                |
-| --------------------- | -------- | ----------- | ------------------------------------ |
-| **patientId**         | `string` |             | [Defaults to `undefined`]            |
-| **practiceId**        | `string` |             | [Defaults to `undefined`]            |
-| **idempotencyKey**    | `string` |             | [Defaults to `undefined`]            |
-| **affinityActorId**   | `string` |             | [Defaults to `undefined`]            |
-| **affinityActorType** | `string` |             | [Defaults to `undefined`]            |
-| **affinityVersion**   | `string` |             | [Optional] [Defaults to `undefined`] |
+| Name                  | Type     | Description                                                                                                                                  | Notes                                |
+| --------------------- | -------- | -------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------ |
+| **patientId**         | `string` |                                                                                                                                              | [Defaults to `undefined`]            |
+| **practiceId**        | `string` |                                                                                                                                              | [Defaults to `undefined`]            |
+| **idempotencyKey**    | `string` |                                                                                                                                              | [Defaults to `undefined`]            |
+| **affinityVersion**   | `string` |                                                                                                                                              | [Optional] [Defaults to `undefined`] |
+| **affinityActorId**   | `string` | Required for user actors and optional for system actors. Omit both actor headers to use the authenticated service account as a system actor. | [Optional] [Defaults to `undefined`] |
+| **affinityActorType** | `string` | Use user when a person initiated the action and system for autonomous work. Omit both actor headers to default to system.                    | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 
@@ -387,7 +387,7 @@ example().catch(console.error);
 
 ## getPatient
 
-> GetPatientResponse getPatient(patientId, practiceId, affinityActorId, affinityActorType, affinityVersion)
+> GetPatientResponse getPatient(patientId, practiceId, affinityVersion, affinityActorId, affinityActorType)
 
 Read patient
 
@@ -414,12 +414,12 @@ async function example() {
     patientId: patientId_example,
     // string
     practiceId: practiceId_example,
-    // string
-    affinityActorId: affinityActorId_example,
-    // string
-    affinityActorType: affinityActorType_example,
     // string (optional)
     affinityVersion: affinityVersion_example,
+    // string | Required for user actors and optional for system actors. Omit both actor headers to use the authenticated service account as a system actor. (optional)
+    affinityActorId: affinityActorId_example,
+    // string | Use user when a person initiated the action and system for autonomous work. Omit both actor headers to default to system. (optional)
+    affinityActorType: affinityActorType_example,
   } satisfies GetPatientRequest;
 
   try {
@@ -436,13 +436,13 @@ example().catch(console.error);
 
 ### Parameters
 
-| Name                  | Type     | Description | Notes                                |
-| --------------------- | -------- | ----------- | ------------------------------------ |
-| **patientId**         | `string` |             | [Defaults to `undefined`]            |
-| **practiceId**        | `string` |             | [Defaults to `undefined`]            |
-| **affinityActorId**   | `string` |             | [Defaults to `undefined`]            |
-| **affinityActorType** | `string` |             | [Defaults to `undefined`]            |
-| **affinityVersion**   | `string` |             | [Optional] [Defaults to `undefined`] |
+| Name                  | Type     | Description                                                                                                                                  | Notes                                |
+| --------------------- | -------- | -------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------ |
+| **patientId**         | `string` |                                                                                                                                              | [Defaults to `undefined`]            |
+| **practiceId**        | `string` |                                                                                                                                              | [Defaults to `undefined`]            |
+| **affinityVersion**   | `string` |                                                                                                                                              | [Optional] [Defaults to `undefined`] |
+| **affinityActorId**   | `string` | Required for user actors and optional for system actors. Omit both actor headers to use the authenticated service account as a system actor. | [Optional] [Defaults to `undefined`] |
+| **affinityActorType** | `string` | Use user when a person initiated the action and system for autonomous work. Omit both actor headers to default to system.                    | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 
@@ -473,7 +473,7 @@ example().catch(console.error);
 
 ## getPatientAllergies
 
-> GetPatientAllergiesResponse getPatientAllergies(patientId, practiceId, affinityActorId, affinityActorType, affinityVersion)
+> GetPatientAllergiesResponse getPatientAllergies(patientId, practiceId, affinityVersion, affinityActorId, affinityActorType)
 
 Read allergies
 
@@ -500,12 +500,12 @@ async function example() {
     patientId: patientId_example,
     // string
     practiceId: practiceId_example,
-    // string
-    affinityActorId: affinityActorId_example,
-    // string
-    affinityActorType: affinityActorType_example,
     // string (optional)
     affinityVersion: affinityVersion_example,
+    // string | Required for user actors and optional for system actors. Omit both actor headers to use the authenticated service account as a system actor. (optional)
+    affinityActorId: affinityActorId_example,
+    // string | Use user when a person initiated the action and system for autonomous work. Omit both actor headers to default to system. (optional)
+    affinityActorType: affinityActorType_example,
   } satisfies GetPatientAllergiesRequest;
 
   try {
@@ -522,13 +522,13 @@ example().catch(console.error);
 
 ### Parameters
 
-| Name                  | Type     | Description | Notes                                |
-| --------------------- | -------- | ----------- | ------------------------------------ |
-| **patientId**         | `string` |             | [Defaults to `undefined`]            |
-| **practiceId**        | `string` |             | [Defaults to `undefined`]            |
-| **affinityActorId**   | `string` |             | [Defaults to `undefined`]            |
-| **affinityActorType** | `string` |             | [Defaults to `undefined`]            |
-| **affinityVersion**   | `string` |             | [Optional] [Defaults to `undefined`] |
+| Name                  | Type     | Description                                                                                                                                  | Notes                                |
+| --------------------- | -------- | -------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------ |
+| **patientId**         | `string` |                                                                                                                                              | [Defaults to `undefined`]            |
+| **practiceId**        | `string` |                                                                                                                                              | [Defaults to `undefined`]            |
+| **affinityVersion**   | `string` |                                                                                                                                              | [Optional] [Defaults to `undefined`] |
+| **affinityActorId**   | `string` | Required for user actors and optional for system actors. Omit both actor headers to use the authenticated service account as a system actor. | [Optional] [Defaults to `undefined`] |
+| **affinityActorType** | `string` | Use user when a person initiated the action and system for autonomous work. Omit both actor headers to default to system.                    | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 
@@ -559,7 +559,7 @@ example().catch(console.error);
 
 ## listPatientAddresses
 
-> ListPatientAddressesResponse listPatientAddresses(practiceId, patientId, affinityActorId, affinityActorType, status, startingAfter, endingBefore, limit, affinityVersion)
+> ListPatientAddressesResponse listPatientAddresses(practiceId, patientId, status, startingAfter, endingBefore, limit, affinityVersion, affinityActorId, affinityActorType)
 
 List delivery addresses
 
@@ -584,10 +584,6 @@ async function example() {
     practiceId: practiceId_example,
     // string
     patientId: patientId_example,
-    // string
-    affinityActorId: affinityActorId_example,
-    // string
-    affinityActorType: affinityActorType_example,
     // 'active' | 'archived' | 'all' (optional)
     status: status_example,
     // string (optional)
@@ -598,6 +594,10 @@ async function example() {
     limit: 56,
     // string (optional)
     affinityVersion: affinityVersion_example,
+    // string | Required for user actors and optional for system actors. Omit both actor headers to use the authenticated service account as a system actor. (optional)
+    affinityActorId: affinityActorId_example,
+    // string | Use user when a person initiated the action and system for autonomous work. Omit both actor headers to default to system. (optional)
+    affinityActorType: affinityActorType_example,
   } satisfies ListPatientAddressesRequest;
 
   try {
@@ -614,17 +614,17 @@ example().catch(console.error);
 
 ### Parameters
 
-| Name                  | Type                        | Description | Notes                                                              |
-| --------------------- | --------------------------- | ----------- | ------------------------------------------------------------------ |
-| **practiceId**        | `string`                    |             | [Defaults to `undefined`]                                          |
-| **patientId**         | `string`                    |             | [Defaults to `undefined`]                                          |
-| **affinityActorId**   | `string`                    |             | [Defaults to `undefined`]                                          |
-| **affinityActorType** | `string`                    |             | [Defaults to `undefined`]                                          |
-| **status**            | `active`, `archived`, `all` |             | [Optional] [Defaults to `undefined`] [Enum: active, archived, all] |
-| **startingAfter**     | `string`                    |             | [Optional] [Defaults to `undefined`]                               |
-| **endingBefore**      | `string`                    |             | [Optional] [Defaults to `undefined`]                               |
-| **limit**             | `number`                    |             | [Optional] [Defaults to `25`]                                      |
-| **affinityVersion**   | `string`                    |             | [Optional] [Defaults to `undefined`]                               |
+| Name                  | Type                        | Description                                                                                                                                  | Notes                                                              |
+| --------------------- | --------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------ |
+| **practiceId**        | `string`                    |                                                                                                                                              | [Defaults to `undefined`]                                          |
+| **patientId**         | `string`                    |                                                                                                                                              | [Defaults to `undefined`]                                          |
+| **status**            | `active`, `archived`, `all` |                                                                                                                                              | [Optional] [Defaults to `undefined`] [Enum: active, archived, all] |
+| **startingAfter**     | `string`                    |                                                                                                                                              | [Optional] [Defaults to `undefined`]                               |
+| **endingBefore**      | `string`                    |                                                                                                                                              | [Optional] [Defaults to `undefined`]                               |
+| **limit**             | `number`                    |                                                                                                                                              | [Optional] [Defaults to `25`]                                      |
+| **affinityVersion**   | `string`                    |                                                                                                                                              | [Optional] [Defaults to `undefined`]                               |
+| **affinityActorId**   | `string`                    | Required for user actors and optional for system actors. Omit both actor headers to use the authenticated service account as a system actor. | [Optional] [Defaults to `undefined`]                               |
+| **affinityActorType** | `string`                    | Use user when a person initiated the action and system for autonomous work. Omit both actor headers to default to system.                    | [Optional] [Defaults to `undefined`]                               |
 
 ### Return type
 
@@ -655,11 +655,11 @@ example().catch(console.error);
 
 ## listPatients
 
-> ListPatientsResponse listPatients(practiceId, affinityActorId, affinityActorType, endingBefore, externalIdentitySource, externalIdentityValue, gender, lastOrderAfter, lastOrderBefore, limit, program, query, sort, startingAfter, states, status, affinityVersion)
+> ListPatientsResponse listPatients(practiceId, endingBefore, externalId, externalIdentitySource, externalIdentityValue, gender, lastOrderAfter, lastOrderBefore, limit, program, query, sort, startingAfter, states, status, affinityVersion, affinityActorId, affinityActorType)
 
 List patients
 
-Lists patients in one practice and mode. Provide externalIdentitySource and externalIdentityValue together for an exact, case-sensitive identity match after trimming whitespace. Other filters also apply. Available to that practice\&#39;s API key or an authorized platform key.
+Lists patients in one practice and mode. Use externalId for an exact match in the calling integration\&#39;s namespace. Use externalIdentitySource with externalIdentityValue to search an explicit alias. Identity matching is case-sensitive after trimming whitespace. Other filters also apply.
 
 ### Example
 
@@ -680,12 +680,10 @@ async function example() {
   const body = {
     // string
     practiceId: practiceId_example,
-    // string
-    affinityActorId: affinityActorId_example,
-    // string
-    affinityActorType: affinityActorType_example,
     // string (optional)
     endingBefore: endingBefore_example,
+    // string (optional)
+    externalId: externalId_example,
     // string (optional)
     externalIdentitySource: externalIdentitySource_example,
     // string (optional)
@@ -712,6 +710,10 @@ async function example() {
     status: status_example,
     // string (optional)
     affinityVersion: affinityVersion_example,
+    // string | Required for user actors and optional for system actors. Omit both actor headers to use the authenticated service account as a system actor. (optional)
+    affinityActorId: affinityActorId_example,
+    // string | Use user when a person initiated the action and system for autonomous work. Omit both actor headers to default to system. (optional)
+    affinityActorType: affinityActorType_example,
   } satisfies ListPatientsRequest;
 
   try {
@@ -728,25 +730,26 @@ example().catch(console.error);
 
 ### Parameters
 
-| Name                       | Type                 | Description | Notes                                                         |
-| -------------------------- | -------------------- | ----------- | ------------------------------------------------------------- |
-| **practiceId**             | `string`             |             | [Defaults to `undefined`]                                     |
-| **affinityActorId**        | `string`             |             | [Defaults to `undefined`]                                     |
-| **affinityActorType**      | `string`             |             | [Defaults to `undefined`]                                     |
-| **endingBefore**           | `string`             |             | [Optional] [Defaults to `undefined`]                          |
-| **externalIdentitySource** | `string`             |             | [Optional] [Defaults to `undefined`]                          |
-| **externalIdentityValue**  | `string`             |             | [Optional] [Defaults to `undefined`]                          |
-| **gender**                 | `f`, `m`, `o`, `u`   |             | [Optional] [Defaults to `undefined`] [Enum: f, m, o, u]       |
-| **lastOrderAfter**         | `string`             |             | [Optional] [Defaults to `undefined`]                          |
-| **lastOrderBefore**        | `string`             |             | [Optional] [Defaults to `undefined`]                          |
-| **limit**                  | `number`             |             | [Optional] [Defaults to `25`]                                 |
-| **program**                | `string`             |             | [Optional] [Defaults to `undefined`]                          |
-| **query**                  | `string`             |             | [Optional] [Defaults to `undefined`]                          |
-| **sort**                   | `created`, `name`    |             | [Optional] [Defaults to `undefined`] [Enum: created, name]    |
-| **startingAfter**          | `string`             |             | [Optional] [Defaults to `undefined`]                          |
-| **states**                 | `string`             |             | [Optional] [Defaults to `undefined`]                          |
-| **status**                 | `active`, `inactive` |             | [Optional] [Defaults to `undefined`] [Enum: active, inactive] |
-| **affinityVersion**        | `string`             |             | [Optional] [Defaults to `undefined`]                          |
+| Name                       | Type                 | Description                                                                                                                                  | Notes                                                         |
+| -------------------------- | -------------------- | -------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------- |
+| **practiceId**             | `string`             |                                                                                                                                              | [Defaults to `undefined`]                                     |
+| **endingBefore**           | `string`             |                                                                                                                                              | [Optional] [Defaults to `undefined`]                          |
+| **externalId**             | `string`             |                                                                                                                                              | [Optional] [Defaults to `undefined`]                          |
+| **externalIdentitySource** | `string`             |                                                                                                                                              | [Optional] [Defaults to `undefined`]                          |
+| **externalIdentityValue**  | `string`             |                                                                                                                                              | [Optional] [Defaults to `undefined`]                          |
+| **gender**                 | `f`, `m`, `o`, `u`   |                                                                                                                                              | [Optional] [Defaults to `undefined`] [Enum: f, m, o, u]       |
+| **lastOrderAfter**         | `string`             |                                                                                                                                              | [Optional] [Defaults to `undefined`]                          |
+| **lastOrderBefore**        | `string`             |                                                                                                                                              | [Optional] [Defaults to `undefined`]                          |
+| **limit**                  | `number`             |                                                                                                                                              | [Optional] [Defaults to `25`]                                 |
+| **program**                | `string`             |                                                                                                                                              | [Optional] [Defaults to `undefined`]                          |
+| **query**                  | `string`             |                                                                                                                                              | [Optional] [Defaults to `undefined`]                          |
+| **sort**                   | `created`, `name`    |                                                                                                                                              | [Optional] [Defaults to `undefined`] [Enum: created, name]    |
+| **startingAfter**          | `string`             |                                                                                                                                              | [Optional] [Defaults to `undefined`]                          |
+| **states**                 | `string`             |                                                                                                                                              | [Optional] [Defaults to `undefined`]                          |
+| **status**                 | `active`, `inactive` |                                                                                                                                              | [Optional] [Defaults to `undefined`] [Enum: active, inactive] |
+| **affinityVersion**        | `string`             |                                                                                                                                              | [Optional] [Defaults to `undefined`]                          |
+| **affinityActorId**        | `string`             | Required for user actors and optional for system actors. Omit both actor headers to use the authenticated service account as a system actor. | [Optional] [Defaults to `undefined`]                          |
+| **affinityActorType**      | `string`             | Use user when a person initiated the action and system for autonomous work. Omit both actor headers to default to system.                    | [Optional] [Defaults to `undefined`]                          |
 
 ### Return type
 
@@ -777,7 +780,7 @@ example().catch(console.error);
 
 ## replacePatientAllergies
 
-> ReplacePatientAllergiesResponse replacePatientAllergies(patientId, practiceId, idempotencyKey, affinityActorId, affinityActorType, replacePatientAllergiesRequest, affinityVersion)
+> ReplacePatientAllergiesResponse replacePatientAllergies(patientId, practiceId, idempotencyKey, replacePatientAllergiesRequest, affinityVersion, affinityActorId, affinityActorType)
 
 Replace allergies
 
@@ -809,14 +812,14 @@ async function example() {
     practiceId: practiceId_example,
     // string
     idempotencyKey: idempotencyKey_example,
-    // string
-    affinityActorId: affinityActorId_example,
-    // string
-    affinityActorType: affinityActorType_example,
     // ReplacePatientAllergiesRequest
     replacePatientAllergiesRequest: ...,
     // string (optional)
     affinityVersion: affinityVersion_example,
+    // string | Required for user actors and optional for system actors. Omit both actor headers to use the authenticated service account as a system actor. (optional)
+    affinityActorId: affinityActorId_example,
+    // string | Use user when a person initiated the action and system for autonomous work. Omit both actor headers to default to system. (optional)
+    affinityActorType: affinityActorType_example,
   } satisfies ReplacePatientAllergiesOperationRequest;
 
   try {
@@ -833,15 +836,15 @@ example().catch(console.error);
 
 ### Parameters
 
-| Name                               | Type                                                                | Description | Notes                                |
-| ---------------------------------- | ------------------------------------------------------------------- | ----------- | ------------------------------------ |
-| **patientId**                      | `string`                                                            |             | [Defaults to `undefined`]            |
-| **practiceId**                     | `string`                                                            |             | [Defaults to `undefined`]            |
-| **idempotencyKey**                 | `string`                                                            |             | [Defaults to `undefined`]            |
-| **affinityActorId**                | `string`                                                            |             | [Defaults to `undefined`]            |
-| **affinityActorType**              | `string`                                                            |             | [Defaults to `undefined`]            |
-| **replacePatientAllergiesRequest** | [ReplacePatientAllergiesRequest](ReplacePatientAllergiesRequest.md) |             |                                      |
-| **affinityVersion**                | `string`                                                            |             | [Optional] [Defaults to `undefined`] |
+| Name                               | Type                                                                | Description                                                                                                                                  | Notes                                |
+| ---------------------------------- | ------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------ |
+| **patientId**                      | `string`                                                            |                                                                                                                                              | [Defaults to `undefined`]            |
+| **practiceId**                     | `string`                                                            |                                                                                                                                              | [Defaults to `undefined`]            |
+| **idempotencyKey**                 | `string`                                                            |                                                                                                                                              | [Defaults to `undefined`]            |
+| **replacePatientAllergiesRequest** | [ReplacePatientAllergiesRequest](ReplacePatientAllergiesRequest.md) |                                                                                                                                              |                                      |
+| **affinityVersion**                | `string`                                                            |                                                                                                                                              | [Optional] [Defaults to `undefined`] |
+| **affinityActorId**                | `string`                                                            | Required for user actors and optional for system actors. Omit both actor headers to use the authenticated service account as a system actor. | [Optional] [Defaults to `undefined`] |
+| **affinityActorType**              | `string`                                                            | Use user when a person initiated the action and system for autonomous work. Omit both actor headers to default to system.                    | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 
@@ -872,7 +875,7 @@ example().catch(console.error);
 
 ## setDefaultPatientAddress
 
-> SetDefaultPatientAddressResponse setDefaultPatientAddress(practiceId, patientId, addressId, idempotencyKey, affinityActorId, affinityActorType, affinityVersion)
+> SetDefaultPatientAddressResponse setDefaultPatientAddress(practiceId, patientId, addressId, idempotencyKey, affinityVersion, affinityActorId, affinityActorType)
 
 Set default delivery address
 
@@ -903,12 +906,12 @@ async function example() {
     addressId: addressId_example,
     // string
     idempotencyKey: idempotencyKey_example,
-    // string
-    affinityActorId: affinityActorId_example,
-    // string
-    affinityActorType: affinityActorType_example,
     // string (optional)
     affinityVersion: affinityVersion_example,
+    // string | Required for user actors and optional for system actors. Omit both actor headers to use the authenticated service account as a system actor. (optional)
+    affinityActorId: affinityActorId_example,
+    // string | Use user when a person initiated the action and system for autonomous work. Omit both actor headers to default to system. (optional)
+    affinityActorType: affinityActorType_example,
   } satisfies SetDefaultPatientAddressRequest;
 
   try {
@@ -925,15 +928,15 @@ example().catch(console.error);
 
 ### Parameters
 
-| Name                  | Type     | Description | Notes                                |
-| --------------------- | -------- | ----------- | ------------------------------------ |
-| **practiceId**        | `string` |             | [Defaults to `undefined`]            |
-| **patientId**         | `string` |             | [Defaults to `undefined`]            |
-| **addressId**         | `string` |             | [Defaults to `undefined`]            |
-| **idempotencyKey**    | `string` |             | [Defaults to `undefined`]            |
-| **affinityActorId**   | `string` |             | [Defaults to `undefined`]            |
-| **affinityActorType** | `string` |             | [Defaults to `undefined`]            |
-| **affinityVersion**   | `string` |             | [Optional] [Defaults to `undefined`] |
+| Name                  | Type     | Description                                                                                                                                  | Notes                                |
+| --------------------- | -------- | -------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------ |
+| **practiceId**        | `string` |                                                                                                                                              | [Defaults to `undefined`]            |
+| **patientId**         | `string` |                                                                                                                                              | [Defaults to `undefined`]            |
+| **addressId**         | `string` |                                                                                                                                              | [Defaults to `undefined`]            |
+| **idempotencyKey**    | `string` |                                                                                                                                              | [Defaults to `undefined`]            |
+| **affinityVersion**   | `string` |                                                                                                                                              | [Optional] [Defaults to `undefined`] |
+| **affinityActorId**   | `string` | Required for user actors and optional for system actors. Omit both actor headers to use the authenticated service account as a system actor. | [Optional] [Defaults to `undefined`] |
+| **affinityActorType** | `string` | Use user when a person initiated the action and system for autonomous work. Omit both actor headers to default to system.                    | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 
@@ -964,11 +967,11 @@ example().catch(console.error);
 
 ## updatePatient
 
-> UpdatePatientResponse updatePatient(patientId, practiceId, idempotencyKey, affinityActorId, affinityActorType, updatePatientRequest, affinityVersion)
+> UpdatePatientResponse updatePatient(patientId, practiceId, idempotencyKey, updatePatientRequest, affinityVersion, affinityActorId, affinityActorType)
 
 Update patient
 
-Updates a patient in the current practice and mode. Omitted fields remain unchanged; null clears an optional field. External identifiers cannot be reassigned from another patient. API keys require Idempotency-Key.
+Updates a patient in the current practice and mode. Omitted fields remain unchanged; null clears an optional field. externalId updates the calling integration\&#39;s identifier. externalIdentities replaces its explicit aliases. Identifiers cannot be reassigned from another patient. API keys require Idempotency-Key.
 
 ### Example
 
@@ -996,14 +999,14 @@ async function example() {
     practiceId: practiceId_example,
     // string
     idempotencyKey: idempotencyKey_example,
-    // string
-    affinityActorId: affinityActorId_example,
-    // string
-    affinityActorType: affinityActorType_example,
     // UpdatePatientRequest
     updatePatientRequest: ...,
     // string (optional)
     affinityVersion: affinityVersion_example,
+    // string | Required for user actors and optional for system actors. Omit both actor headers to use the authenticated service account as a system actor. (optional)
+    affinityActorId: affinityActorId_example,
+    // string | Use user when a person initiated the action and system for autonomous work. Omit both actor headers to default to system. (optional)
+    affinityActorType: affinityActorType_example,
   } satisfies UpdatePatientOperationRequest;
 
   try {
@@ -1020,15 +1023,15 @@ example().catch(console.error);
 
 ### Parameters
 
-| Name                     | Type                                            | Description | Notes                                |
-| ------------------------ | ----------------------------------------------- | ----------- | ------------------------------------ |
-| **patientId**            | `string`                                        |             | [Defaults to `undefined`]            |
-| **practiceId**           | `string`                                        |             | [Defaults to `undefined`]            |
-| **idempotencyKey**       | `string`                                        |             | [Defaults to `undefined`]            |
-| **affinityActorId**      | `string`                                        |             | [Defaults to `undefined`]            |
-| **affinityActorType**    | `string`                                        |             | [Defaults to `undefined`]            |
-| **updatePatientRequest** | [UpdatePatientRequest](UpdatePatientRequest.md) |             |                                      |
-| **affinityVersion**      | `string`                                        |             | [Optional] [Defaults to `undefined`] |
+| Name                     | Type                                            | Description                                                                                                                                  | Notes                                |
+| ------------------------ | ----------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------ |
+| **patientId**            | `string`                                        |                                                                                                                                              | [Defaults to `undefined`]            |
+| **practiceId**           | `string`                                        |                                                                                                                                              | [Defaults to `undefined`]            |
+| **idempotencyKey**       | `string`                                        |                                                                                                                                              | [Defaults to `undefined`]            |
+| **updatePatientRequest** | [UpdatePatientRequest](UpdatePatientRequest.md) |                                                                                                                                              |                                      |
+| **affinityVersion**      | `string`                                        |                                                                                                                                              | [Optional] [Defaults to `undefined`] |
+| **affinityActorId**      | `string`                                        | Required for user actors and optional for system actors. Omit both actor headers to use the authenticated service account as a system actor. | [Optional] [Defaults to `undefined`] |
+| **affinityActorType**    | `string`                                        | Use user when a person initiated the action and system for autonomous work. Omit both actor headers to default to system.                    | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 
@@ -1059,7 +1062,7 @@ example().catch(console.error);
 
 ## updatePatientAddress
 
-> UpdatePatientAddressResponse updatePatientAddress(practiceId, patientId, addressId, idempotencyKey, affinityActorId, affinityActorType, updatePatientAddressRequest, affinityVersion)
+> UpdatePatientAddressResponse updatePatientAddress(practiceId, patientId, addressId, idempotencyKey, updatePatientAddressRequest, affinityVersion, affinityActorId, affinityActorType)
 
 Update delivery address
 
@@ -1091,14 +1094,14 @@ async function example() {
     addressId: addressId_example,
     // string
     idempotencyKey: idempotencyKey_example,
-    // string
-    affinityActorId: affinityActorId_example,
-    // string
-    affinityActorType: affinityActorType_example,
     // UpdatePatientAddressRequest
     updatePatientAddressRequest: ...,
     // string (optional)
     affinityVersion: affinityVersion_example,
+    // string | Required for user actors and optional for system actors. Omit both actor headers to use the authenticated service account as a system actor. (optional)
+    affinityActorId: affinityActorId_example,
+    // string | Use user when a person initiated the action and system for autonomous work. Omit both actor headers to default to system. (optional)
+    affinityActorType: affinityActorType_example,
   } satisfies UpdatePatientAddressOperationRequest;
 
   try {
@@ -1115,16 +1118,16 @@ example().catch(console.error);
 
 ### Parameters
 
-| Name                            | Type                                                          | Description | Notes                                |
-| ------------------------------- | ------------------------------------------------------------- | ----------- | ------------------------------------ |
-| **practiceId**                  | `string`                                                      |             | [Defaults to `undefined`]            |
-| **patientId**                   | `string`                                                      |             | [Defaults to `undefined`]            |
-| **addressId**                   | `string`                                                      |             | [Defaults to `undefined`]            |
-| **idempotencyKey**              | `string`                                                      |             | [Defaults to `undefined`]            |
-| **affinityActorId**             | `string`                                                      |             | [Defaults to `undefined`]            |
-| **affinityActorType**           | `string`                                                      |             | [Defaults to `undefined`]            |
-| **updatePatientAddressRequest** | [UpdatePatientAddressRequest](UpdatePatientAddressRequest.md) |             |                                      |
-| **affinityVersion**             | `string`                                                      |             | [Optional] [Defaults to `undefined`] |
+| Name                            | Type                                                          | Description                                                                                                                                  | Notes                                |
+| ------------------------------- | ------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------ |
+| **practiceId**                  | `string`                                                      |                                                                                                                                              | [Defaults to `undefined`]            |
+| **patientId**                   | `string`                                                      |                                                                                                                                              | [Defaults to `undefined`]            |
+| **addressId**                   | `string`                                                      |                                                                                                                                              | [Defaults to `undefined`]            |
+| **idempotencyKey**              | `string`                                                      |                                                                                                                                              | [Defaults to `undefined`]            |
+| **updatePatientAddressRequest** | [UpdatePatientAddressRequest](UpdatePatientAddressRequest.md) |                                                                                                                                              |                                      |
+| **affinityVersion**             | `string`                                                      |                                                                                                                                              | [Optional] [Defaults to `undefined`] |
+| **affinityActorId**             | `string`                                                      | Required for user actors and optional for system actors. Omit both actor headers to use the authenticated service account as a system actor. | [Optional] [Defaults to `undefined`] |
+| **affinityActorType**           | `string`                                                      | Use user when a person initiated the action and system for autonomous work. Omit both actor headers to default to system.                    | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 

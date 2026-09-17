@@ -7,11 +7,14 @@ function contract() {
 }
 
 describe("facade contract coverage", () => {
-  test("accounts for all 69 current operations", () => {
+  test("accounts for all 71 current operations", () => {
     const coverage = validateFacadeOperationCoverage(spec);
-    expect(coverage.contractOperations).toHaveLength(69);
-    expect(coverage.mappedOperations).toHaveLength(69);
-    expect(coverage.rawOnlyOperations).toHaveLength(0);
+    expect(coverage.contractOperations).toHaveLength(71);
+    expect(coverage.mappedOperations).toHaveLength(71);
+    expect(coverage.rawOnlyOperations).toEqual([
+      "getOrderTestSimulation",
+      "updateOrderTestSimulation",
+    ]);
   });
 
   test("new operations require an explicit public mapping", () => {

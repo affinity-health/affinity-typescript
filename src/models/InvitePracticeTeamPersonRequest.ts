@@ -20,6 +20,13 @@ import {
   InvitePracticeTeamPersonRequestLicensesInnerToJSON,
   InvitePracticeTeamPersonRequestLicensesInnerToJSONTyped,
 } from "./InvitePracticeTeamPersonRequestLicensesInner";
+import type { InvitePracticeTeamPersonRequestAddress } from "./InvitePracticeTeamPersonRequestAddress";
+import {
+  InvitePracticeTeamPersonRequestAddressFromJSON,
+  InvitePracticeTeamPersonRequestAddressFromJSONTyped,
+  InvitePracticeTeamPersonRequestAddressToJSON,
+  InvitePracticeTeamPersonRequestAddressToJSONTyped,
+} from "./InvitePracticeTeamPersonRequestAddress";
 import type { InvitePracticeTeamPersonRequestProfileDetails } from "./InvitePracticeTeamPersonRequestProfileDetails";
 import {
   InvitePracticeTeamPersonRequestProfileDetailsFromJSON,
@@ -27,13 +34,6 @@ import {
   InvitePracticeTeamPersonRequestProfileDetailsToJSON,
   InvitePracticeTeamPersonRequestProfileDetailsToJSONTyped,
 } from "./InvitePracticeTeamPersonRequestProfileDetails";
-import type { GetPracticeTeamInvitationResponsePersonAccountPrescriberConnectionProviderAddress } from "./GetPracticeTeamInvitationResponsePersonAccountPrescriberConnectionProviderAddress";
-import {
-  GetPracticeTeamInvitationResponsePersonAccountPrescriberConnectionProviderAddressFromJSON,
-  GetPracticeTeamInvitationResponsePersonAccountPrescriberConnectionProviderAddressFromJSONTyped,
-  GetPracticeTeamInvitationResponsePersonAccountPrescriberConnectionProviderAddressToJSON,
-  GetPracticeTeamInvitationResponsePersonAccountPrescriberConnectionProviderAddressToJSONTyped,
-} from "./GetPracticeTeamInvitationResponsePersonAccountPrescriberConnectionProviderAddress";
 
 /**
  *
@@ -109,10 +109,10 @@ export interface InvitePracticeTeamPersonRequest {
   credentials?: string | null;
   /**
    *
-   * @type {GetPracticeTeamInvitationResponsePersonAccountPrescriberConnectionProviderAddress}
+   * @type {InvitePracticeTeamPersonRequestAddress}
    * @memberof InvitePracticeTeamPersonRequest
    */
-  address?: GetPracticeTeamInvitationResponsePersonAccountPrescriberConnectionProviderAddress | null;
+  address?: InvitePracticeTeamPersonRequestAddress | null;
   /**
    *
    * @type {string}
@@ -203,9 +203,7 @@ export function InvitePracticeTeamPersonRequestFromJSONTyped(
     address:
       json["address"] == null
         ? undefined
-        : GetPracticeTeamInvitationResponsePersonAccountPrescriberConnectionProviderAddressFromJSON(
-            json["address"],
-          ),
+        : InvitePracticeTeamPersonRequestAddressFromJSON(json["address"]),
     phone: json["phone"] == null ? undefined : json["phone"],
     locationIds: json["locationIds"] == null ? undefined : json["locationIds"],
   };
@@ -238,10 +236,7 @@ export function InvitePracticeTeamPersonRequestToJSONTyped(
     legalName: value["legalName"],
     displayName: value["displayName"],
     credentials: value["credentials"],
-    address:
-      GetPracticeTeamInvitationResponsePersonAccountPrescriberConnectionProviderAddressToJSON(
-        value["address"],
-      ),
+    address: InvitePracticeTeamPersonRequestAddressToJSON(value["address"]),
     phone: value["phone"],
     locationIds: value["locationIds"],
   };

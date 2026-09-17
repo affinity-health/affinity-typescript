@@ -56,7 +56,10 @@ export class Affinity {
   constructor(apiKey: string, options: AffinityOptions = {}) {
     if (typeof apiKey !== "string" || !apiKey.trim())
       throw new Error("Affinity requires a service API key");
-    const actor = options.actor === undefined ? undefined : validateAffinityActor(options.actor);
+    const actor: AffinityActor =
+      options.actor === undefined
+        ? ({ type: "system" } as const)
+        : validateAffinityActor(options.actor);
     const headers = validateCustomHeaders(options.headers);
     const version =
       options.apiVersion !== undefined
@@ -73,7 +76,7 @@ export class Affinity {
       baseUrl: basePath,
       headers,
       apiVersion: version,
-      ...(actor ? { actor } : {}),
+      actor,
       ...(organizationId ? { organizationId } : {}),
     };
     const configuration = new Configuration({
@@ -83,7 +86,8 @@ export class Affinity {
       headers: {
         ...headers,
         "Affinity-Version": version,
-        ...(actor ? { "Affinity-Actor-Id": actor.id, "Affinity-Actor-Type": actor.type } : {}),
+        ...(actor.id === undefined ? {} : { "Affinity-Actor-Id": actor.id }),
+        "Affinity-Actor-Type": actor.type,
         ...(organizationId ? { "X-Affinity-Organization-Id": organizationId } : {}),
       },
     });
@@ -92,8 +96,8 @@ export class Affinity {
     this.apiKeys = new APIKeysResource(raw.apiKeys);
     this.catalog = new CatalogResource(raw.catalog);
     this.locations = new LocationsResource(raw.locations);
-    this.orders = new OrdersResource(raw.orders, actor);
-    this.patients = new PatientsResource(raw.patients, actor);
+    this.orders = new OrdersResource(raw.orders);
+    this.patients = new PatientsResource(raw.patients);
     this.platformPricing = new PlatformPricingResource(raw.platformPricing);
     this.practices = new PracticesResource(raw.practices);
     this.sessions = new SessionsResource(raw.sessions);
@@ -146,7 +150,7 @@ export class Affinity {
     const actor = options.actor ?? this.options.actor;
     if (actor) {
       const validatedActor = validateAffinityActor(actor);
-      headers.set("Affinity-Actor-Id", validatedActor.id);
+      if (validatedActor.id !== undefined) headers.set("Affinity-Actor-Id", validatedActor.id);
       headers.set("Affinity-Actor-Type", validatedActor.type);
     }
     if (options.idempotencyKey !== undefined)

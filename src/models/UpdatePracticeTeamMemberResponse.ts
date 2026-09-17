@@ -13,13 +13,13 @@
  */
 
 import { mapValues } from "../runtime";
-import type { GetPracticeTeamMemberResponseAccount } from "./GetPracticeTeamMemberResponseAccount";
+import type { ListPracticeTeamMembersResponseDataInnerAccount } from "./ListPracticeTeamMembersResponseDataInnerAccount";
 import {
-  GetPracticeTeamMemberResponseAccountFromJSON,
-  GetPracticeTeamMemberResponseAccountFromJSONTyped,
-  GetPracticeTeamMemberResponseAccountToJSON,
-  GetPracticeTeamMemberResponseAccountToJSONTyped,
-} from "./GetPracticeTeamMemberResponseAccount";
+  ListPracticeTeamMembersResponseDataInnerAccountFromJSON,
+  ListPracticeTeamMembersResponseDataInnerAccountFromJSONTyped,
+  ListPracticeTeamMembersResponseDataInnerAccountToJSON,
+  ListPracticeTeamMembersResponseDataInnerAccountToJSONTyped,
+} from "./ListPracticeTeamMembersResponseDataInnerAccount";
 
 /**
  *
@@ -32,7 +32,7 @@ export interface UpdatePracticeTeamMemberResponse {
    * @type {string}
    * @memberof UpdatePracticeTeamMemberResponse
    */
-  id: string | null;
+  id: string;
   /**
    * Match this integration's external identity in the API key's mode.
    * @type {string}
@@ -53,10 +53,10 @@ export interface UpdatePracticeTeamMemberResponse {
   locationIds: Array<string>;
   /**
    *
-   * @type {GetPracticeTeamMemberResponseAccount}
+   * @type {ListPracticeTeamMembersResponseDataInnerAccount}
    * @memberof UpdatePracticeTeamMemberResponse
    */
-  account: GetPracticeTeamMemberResponseAccount;
+  account: ListPracticeTeamMembersResponseDataInnerAccount;
   /**
    *
    * @type {Array<string>}
@@ -98,7 +98,7 @@ export function UpdatePracticeTeamMemberResponseFromJSONTyped(
     name: json["name"],
     email: json["email"],
     locationIds: json["locationIds"],
-    account: GetPracticeTeamMemberResponseAccountFromJSON(json["account"]),
+    account: ListPracticeTeamMembersResponseDataInnerAccountFromJSON(json["account"]),
     nextActions: json["nextActions"],
   };
 }
@@ -122,7 +122,7 @@ export function UpdatePracticeTeamMemberResponseToJSONTyped(
     name: value["name"],
     email: value["email"],
     locationIds: value["locationIds"],
-    account: GetPracticeTeamMemberResponseAccountToJSON(value["account"]),
+    account: ListPracticeTeamMembersResponseDataInnerAccountToJSON(value["account"]),
     nextActions: value["nextActions"],
   };
 }

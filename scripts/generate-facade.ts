@@ -382,7 +382,9 @@ function optionsExpression(operation: OperationDetails): string[] {
   const expressions: string[] = ["...commonHeaders(options)"];
   if (operation.requiredHeaders.some((parameter) => headerName(parameter) === "idempotency-key"))
     expressions.push("idempotencyKey: requiredIdempotencyKey(options)");
-  if (operation.requiredHeaders.some((parameter) => headerName(parameter) === "affinity-actor-id"))
+  if (
+    operation.requiredHeaders.some((parameter) => headerName(parameter) === "affinity-actor-type")
+  )
     expressions.push("...actorHeaders(options, this.defaultActor)");
   if (operation.headers.some((parameter) => headerName(parameter) === "x-affinity-organization-id"))
     expressions.push("...organizationHeader(options)");
@@ -621,7 +623,10 @@ export class Affinity {
   constructor(apiKey: string, options: AffinityOptions = {}) {
     if (typeof apiKey !== "string" || !apiKey.trim())
       throw new Error("Affinity requires a service API key");
-    const actor = options.actor === undefined ? undefined : validateAffinityActor(options.actor);
+    const actor: AffinityActor =
+      options.actor === undefined
+        ? ({ type: "system" } as const)
+        : validateAffinityActor(options.actor);
     const headers = validateCustomHeaders(options.headers);
     const version = options.apiVersion !== undefined
       ? validateNonEmptyOption(options.apiVersion, "apiVersion")
@@ -636,7 +641,7 @@ export class Affinity {
       baseUrl: basePath,
       headers,
       apiVersion: version,
-      ...(actor ? { actor } : {}),
+      actor,
       ...(organizationId ? { organizationId } : {}),
     };
     const configuration = new Configuration({
@@ -646,7 +651,8 @@ export class Affinity {
       headers: {
         ...headers,
         "Affinity-Version": version,
-        ...(actor ? { "Affinity-Actor-Id": actor.id, "Affinity-Actor-Type": actor.type } : {}),
+        ...(actor.id === undefined ? {} : { "Affinity-Actor-Id": actor.id }),
+        "Affinity-Actor-Type": actor.type,
         ...(organizationId ? { "X-Affinity-Organization-Id": organizationId } : {}),
       },
     });
@@ -654,7 +660,7 @@ export class Affinity {
 ${Object.entries(resourceDefinitions)
   .map(
     ([resource, { className, apiClass }]) =>
-      `    this.${resource} = new ${className}(raw.${resource}${grouped.get(resource as keyof typeof resourceDefinitions)?.some((operation) => operation.requiredHeaders.some((header) => headerName(header) === "affinity-actor-id")) ? ", actor" : ""});`,
+      `    this.${resource} = new ${className}(raw.${resource}${grouped.get(resource as keyof typeof resourceDefinitions)?.some((operation) => operation.requiredHeaders.some((header) => headerName(header) === "affinity-actor-type")) ? ", actor" : ""});`,
   )
   .join("\n")}
   }
@@ -704,7 +710,8 @@ ${Object.entries(resourceDefinitions)
     const actor = options.actor ?? this.options.actor;
     if (actor) {
       const validatedActor = validateAffinityActor(actor);
-      headers.set("Affinity-Actor-Id", validatedActor.id);
+      if (validatedActor.id !== undefined)
+        headers.set("Affinity-Actor-Id", validatedActor.id);
       headers.set("Affinity-Actor-Type", validatedActor.type);
     }
     if (options.idempotencyKey !== undefined)

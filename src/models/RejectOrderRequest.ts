@@ -13,13 +13,13 @@
  */
 
 import { mapValues } from "../runtime";
-import type { RejectOrderRequestExpectedVersionsInner } from "./RejectOrderRequestExpectedVersionsInner";
+import type { SignOrderRequestExpectedVersionsInner } from "./SignOrderRequestExpectedVersionsInner";
 import {
-  RejectOrderRequestExpectedVersionsInnerFromJSON,
-  RejectOrderRequestExpectedVersionsInnerFromJSONTyped,
-  RejectOrderRequestExpectedVersionsInnerToJSON,
-  RejectOrderRequestExpectedVersionsInnerToJSONTyped,
-} from "./RejectOrderRequestExpectedVersionsInner";
+  SignOrderRequestExpectedVersionsInnerFromJSON,
+  SignOrderRequestExpectedVersionsInnerFromJSONTyped,
+  SignOrderRequestExpectedVersionsInnerToJSON,
+  SignOrderRequestExpectedVersionsInnerToJSONTyped,
+} from "./SignOrderRequestExpectedVersionsInner";
 
 /**
  *
@@ -47,10 +47,10 @@ export interface RejectOrderRequest {
   reason: string | null;
   /**
    *
-   * @type {Array<RejectOrderRequestExpectedVersionsInner>}
+   * @type {Array<SignOrderRequestExpectedVersionsInner>}
    * @memberof RejectOrderRequest
    */
-  expectedVersions: Array<RejectOrderRequestExpectedVersionsInner>;
+  expectedVersions: Array<SignOrderRequestExpectedVersionsInner>;
 }
 
 /**
@@ -80,7 +80,7 @@ export function RejectOrderRequestFromJSONTyped(
     userId: json["userId"],
     reason: json["reason"],
     expectedVersions: (json["expectedVersions"] as Array<any>).map(
-      RejectOrderRequestExpectedVersionsInnerFromJSON,
+      SignOrderRequestExpectedVersionsInnerFromJSON,
     ),
   };
 }
@@ -102,7 +102,7 @@ export function RejectOrderRequestToJSONTyped(
     userId: value["userId"],
     reason: value["reason"],
     expectedVersions: (value["expectedVersions"] as Array<any>).map(
-      RejectOrderRequestExpectedVersionsInnerToJSON,
+      SignOrderRequestExpectedVersionsInnerToJSON,
     ),
   };
 }

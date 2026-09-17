@@ -13,13 +13,13 @@
  */
 
 import { mapValues } from "../runtime";
-import type { RevokePracticeTeamInvitationResponsePersonAccountPrescriberConnectionProvider } from "./RevokePracticeTeamInvitationResponsePersonAccountPrescriberConnectionProvider";
+import type { ListPracticeTeamInvitationsResponseDataInnerPersonAccountPrescriberConnectionProvider } from "./ListPracticeTeamInvitationsResponseDataInnerPersonAccountPrescriberConnectionProvider";
 import {
-  RevokePracticeTeamInvitationResponsePersonAccountPrescriberConnectionProviderFromJSON,
-  RevokePracticeTeamInvitationResponsePersonAccountPrescriberConnectionProviderFromJSONTyped,
-  RevokePracticeTeamInvitationResponsePersonAccountPrescriberConnectionProviderToJSON,
-  RevokePracticeTeamInvitationResponsePersonAccountPrescriberConnectionProviderToJSONTyped,
-} from "./RevokePracticeTeamInvitationResponsePersonAccountPrescriberConnectionProvider";
+  ListPracticeTeamInvitationsResponseDataInnerPersonAccountPrescriberConnectionProviderFromJSON,
+  ListPracticeTeamInvitationsResponseDataInnerPersonAccountPrescriberConnectionProviderFromJSONTyped,
+  ListPracticeTeamInvitationsResponseDataInnerPersonAccountPrescriberConnectionProviderToJSON,
+  ListPracticeTeamInvitationsResponseDataInnerPersonAccountPrescriberConnectionProviderToJSONTyped,
+} from "./ListPracticeTeamInvitationsResponseDataInnerPersonAccountPrescriberConnectionProvider";
 
 /**
  *
@@ -29,10 +29,10 @@ import {
 export interface ListPracticeTeamPrescribersResponse {
   /**
    *
-   * @type {Array<RevokePracticeTeamInvitationResponsePersonAccountPrescriberConnectionProvider>}
+   * @type {Array<ListPracticeTeamInvitationsResponseDataInnerPersonAccountPrescriberConnectionProvider>}
    * @memberof ListPracticeTeamPrescribersResponse
    */
-  data: Array<RevokePracticeTeamInvitationResponsePersonAccountPrescriberConnectionProvider>;
+  data: Array<ListPracticeTeamInvitationsResponseDataInnerPersonAccountPrescriberConnectionProvider>;
   /**
    *
    * @type {boolean}
@@ -90,7 +90,7 @@ export function ListPracticeTeamPrescribersResponseFromJSONTyped(
   }
   return {
     data: (json["data"] as Array<any>).map(
-      RevokePracticeTeamInvitationResponsePersonAccountPrescriberConnectionProviderFromJSON,
+      ListPracticeTeamInvitationsResponseDataInnerPersonAccountPrescriberConnectionProviderFromJSON,
     ),
     hasMore: json["hasMore"],
     object: json["object"],
@@ -114,7 +114,7 @@ export function ListPracticeTeamPrescribersResponseToJSONTyped(
 
   return {
     data: (value["data"] as Array<any>).map(
-      RevokePracticeTeamInvitationResponsePersonAccountPrescriberConnectionProviderToJSON,
+      ListPracticeTeamInvitationsResponseDataInnerPersonAccountPrescriberConnectionProviderToJSON,
     ),
     hasMore: value["hasMore"],
     object: value["object"],

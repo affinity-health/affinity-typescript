@@ -13,13 +13,6 @@
  */
 
 import { mapValues } from "../runtime";
-import type { UpdatePatientAddressResponseAddress } from "./UpdatePatientAddressResponseAddress";
-import {
-  UpdatePatientAddressResponseAddressFromJSON,
-  UpdatePatientAddressResponseAddressFromJSONTyped,
-  UpdatePatientAddressResponseAddressToJSON,
-  UpdatePatientAddressResponseAddressToJSONTyped,
-} from "./UpdatePatientAddressResponseAddress";
 import type { CreatePracticeResponsePrescribersInner } from "./CreatePracticeResponsePrescribersInner";
 import {
   CreatePracticeResponsePrescribersInnerFromJSON,
@@ -34,6 +27,13 @@ import {
   CreatePracticeResponseContactsToJSON,
   CreatePracticeResponseContactsToJSONTyped,
 } from "./CreatePracticeResponseContacts";
+import type { CreatePatientAddressResponseAddress } from "./CreatePatientAddressResponseAddress";
+import {
+  CreatePatientAddressResponseAddressFromJSON,
+  CreatePatientAddressResponseAddressFromJSONTyped,
+  CreatePatientAddressResponseAddressToJSON,
+  CreatePatientAddressResponseAddressToJSONTyped,
+} from "./CreatePatientAddressResponseAddress";
 
 /**
  *
@@ -43,10 +43,10 @@ import {
 export interface CreatePracticeResponse {
   /**
    *
-   * @type {UpdatePatientAddressResponseAddress}
+   * @type {CreatePatientAddressResponseAddress}
    * @memberof CreatePracticeResponse
    */
-  address: UpdatePatientAddressResponseAddress | null;
+  address: CreatePatientAddressResponseAddress | null;
   /**
    *
    * @type {CreatePracticeResponseContacts}
@@ -187,7 +187,7 @@ export function CreatePracticeResponseFromJSONTyped(
     return json;
   }
   return {
-    address: UpdatePatientAddressResponseAddressFromJSON(json["address"]),
+    address: CreatePatientAddressResponseAddressFromJSON(json["address"]),
     contacts: CreatePracticeResponseContactsFromJSON(json["contacts"]),
     createdAt: json["createdAt"],
     externalId: json["externalId"],
@@ -220,7 +220,7 @@ export function CreatePracticeResponseToJSONTyped(
   }
 
   return {
-    address: UpdatePatientAddressResponseAddressToJSON(value["address"]),
+    address: CreatePatientAddressResponseAddressToJSON(value["address"]),
     contacts: CreatePracticeResponseContactsToJSON(value["contacts"]),
     createdAt: value["createdAt"],
     externalId: value["externalId"],

@@ -14,7 +14,6 @@ console.log(`Found ${pharmacies.data.length} pharmacies available to this test a
 
 if (process.env.RUN_AFFINITY_MUTATION_EXAMPLE === "1") {
   const runId = crypto.randomUUID();
-  const actingAffinity = affinity;
   const practice = await affinity.practices.create(
     {
       address: {
@@ -36,7 +35,7 @@ if (process.env.RUN_AFFINITY_MUTATION_EXAMPLE === "1") {
     },
     { idempotencyKey: crypto.randomUUID() },
   );
-  const patient = await actingAffinity.patients.create(
+  const patient = await affinity.patients.create(
     practice.id!,
     {
       address: {
@@ -48,21 +47,19 @@ if (process.env.RUN_AFFINITY_MUTATION_EXAMPLE === "1") {
       },
       dateOfBirth: "1990-01-01",
       email: "patient@example.com",
-      externalIdentities: [{ source: "quickstart", value: `patient_${runId}` }],
+      externalId: `patient_${runId}`,
       name: { first: "Demo", last: "Patient" },
       phone: "+13135550100",
     },
-    { actor: { id: "quickstart-system", type: "system" }, idempotencyKey: crypto.randomUUID() },
+    { idempotencyKey: crypto.randomUUID() },
   );
-  await actingAffinity.patients.replaceAllergies(
+  await affinity.patients.replaceAllergies(
     practice.id!,
     patient.id!,
     { allergies: [], reviewStatus: "no_known" },
-    { actor: { id: "quickstart-system", type: "system" }, idempotencyKey: crypto.randomUUID() },
+    { idempotencyKey: crypto.randomUUID() },
   );
-  const allergies = await actingAffinity.patients.retrieveAllergies(practice.id!, patient.id!, {
-    actor: { id: "quickstart-system", type: "system" },
-  });
+  const allergies = await affinity.patients.retrieveAllergies(practice.id!, patient.id!);
 
   const practiceCatalog = await affinity.catalog.list({
     limit: 10,
@@ -70,15 +67,12 @@ if (process.env.RUN_AFFINITY_MUTATION_EXAMPLE === "1") {
     query: "semaglutide",
   });
 
-  const practiceOrders = await actingAffinity.orders.list(
-    { practiceId: practice.id! },
-    { actor: { id: "quickstart-system", type: "system" } },
-  );
+  const practiceOrders = await affinity.orders.list({ practiceId: practice.id! });
   console.log(
     `Created and allergy-reviewed patient ${patient.id} for practice ${practice.id}; ${allergies.allergies?.length ?? 0} allergies, ${practiceCatalog.data.length} priced catalog items, and ${practiceOrders.data.length} orders are visible`,
   );
 
   console.log(
-    "For a verified provider, call actingAffinity.orders.create(...) with an unsigned order, then use the order lifecycle operations as permitted by the account.",
+    "For a verified provider, call affinity.orders.create(...) with an unsigned order, then use the order lifecycle operations as permitted by the account.",
   );
 }

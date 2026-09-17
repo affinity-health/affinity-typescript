@@ -9,7 +9,7 @@
 | `patientSnapshot`        | [GetOrderResponsePrescriptionsInnerPatientSnapshot](GetOrderResponsePrescriptionsInnerPatientSnapshot.md)                                                                       |
 | `providerSnapshot`       | [GetOrderResponsePrescriptionsInnerProviderSnapshot](GetOrderResponsePrescriptionsInnerProviderSnapshot.md)                                                                     |
 | `clinical`               | [GetOrderResponsePrescriptionsInnerClinical](GetOrderResponsePrescriptionsInnerClinical.md)                                                                                     |
-| `dispensing`             | [CancelOrderResponsePrescriptionsInnerDispensing](CancelOrderResponsePrescriptionsInnerDispensing.md)                                                                           |
+| `dispensing`             | [ListOrdersResponseDataInnerPrescriptionsInnerDispensing](ListOrdersResponseDataInnerPrescriptionsInnerDispensing.md)                                                           |
 | `structuredSig`          | [GetOrderResponsePrescriptionsInnerStructuredSig](GetOrderResponsePrescriptionsInnerStructuredSig.md)                                                                           |
 | `externalPrescriptionId` | string                                                                                                                                                                          |
 | `catalogItemId`          | string                                                                                                                                                                          |

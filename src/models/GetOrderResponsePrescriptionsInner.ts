@@ -34,13 +34,13 @@ import {
   GetOrderResponsePrescriptionsInnerPatientSnapshotToJSON,
   GetOrderResponsePrescriptionsInnerPatientSnapshotToJSONTyped,
 } from "./GetOrderResponsePrescriptionsInnerPatientSnapshot";
-import type { CancelOrderResponsePrescriptionsInnerDispensing } from "./CancelOrderResponsePrescriptionsInnerDispensing";
+import type { ListOrdersResponseDataInnerPrescriptionsInnerDispensing } from "./ListOrdersResponseDataInnerPrescriptionsInnerDispensing";
 import {
-  CancelOrderResponsePrescriptionsInnerDispensingFromJSON,
-  CancelOrderResponsePrescriptionsInnerDispensingFromJSONTyped,
-  CancelOrderResponsePrescriptionsInnerDispensingToJSON,
-  CancelOrderResponsePrescriptionsInnerDispensingToJSONTyped,
-} from "./CancelOrderResponsePrescriptionsInnerDispensing";
+  ListOrdersResponseDataInnerPrescriptionsInnerDispensingFromJSON,
+  ListOrdersResponseDataInnerPrescriptionsInnerDispensingFromJSONTyped,
+  ListOrdersResponseDataInnerPrescriptionsInnerDispensingToJSON,
+  ListOrdersResponseDataInnerPrescriptionsInnerDispensingToJSONTyped,
+} from "./ListOrdersResponseDataInnerPrescriptionsInnerDispensing";
 import type { GetOrderResponsePrescriptionsInnerStructuredSig } from "./GetOrderResponsePrescriptionsInnerStructuredSig";
 import {
   GetOrderResponsePrescriptionsInnerStructuredSigFromJSON,
@@ -101,10 +101,10 @@ export interface GetOrderResponsePrescriptionsInner {
   clinical: GetOrderResponsePrescriptionsInnerClinical | null;
   /**
    *
-   * @type {CancelOrderResponsePrescriptionsInnerDispensing}
+   * @type {ListOrdersResponseDataInnerPrescriptionsInnerDispensing}
    * @memberof GetOrderResponsePrescriptionsInner
    */
-  dispensing: CancelOrderResponsePrescriptionsInnerDispensing | null;
+  dispensing: ListOrdersResponseDataInnerPrescriptionsInnerDispensing | null;
   /**
    *
    * @type {GetOrderResponsePrescriptionsInnerStructuredSig}
@@ -240,7 +240,7 @@ export function GetOrderResponsePrescriptionsInnerFromJSONTyped(
       json["providerSnapshot"],
     ),
     clinical: GetOrderResponsePrescriptionsInnerClinicalFromJSON(json["clinical"]),
-    dispensing: CancelOrderResponsePrescriptionsInnerDispensingFromJSON(json["dispensing"]),
+    dispensing: ListOrdersResponseDataInnerPrescriptionsInnerDispensingFromJSON(json["dispensing"]),
     structuredSig: GetOrderResponsePrescriptionsInnerStructuredSigFromJSON(json["structuredSig"]),
     externalPrescriptionId: json["externalPrescriptionId"],
     catalogItemId: json["catalogItemId"],
@@ -286,7 +286,7 @@ export function GetOrderResponsePrescriptionsInnerToJSONTyped(
       value["providerSnapshot"],
     ),
     clinical: GetOrderResponsePrescriptionsInnerClinicalToJSON(value["clinical"]),
-    dispensing: CancelOrderResponsePrescriptionsInnerDispensingToJSON(value["dispensing"]),
+    dispensing: ListOrdersResponseDataInnerPrescriptionsInnerDispensingToJSON(value["dispensing"]),
     structuredSig: GetOrderResponsePrescriptionsInnerStructuredSigToJSON(value["structuredSig"]),
     externalPrescriptionId: value["externalPrescriptionId"],
     catalogItemId: value["catalogItemId"],

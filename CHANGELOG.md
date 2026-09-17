@@ -11,6 +11,13 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 
 - Added Stripe-style `rawRequest(method, path, params?, options?)` for preview or newly released API
   paths that the installed SDK does not support yet.
+- Added patient `externalId` to create, update, list, and response types. Affinity scopes it to the
+  authenticated integration while retaining `externalIdentities` for explicit aliases.
+
+### Changed
+
+- The client now defaults to a system actor attributed to the authenticated service account.
+  System actors may omit `id`; user actors still require their registered external user ID.
 
 ### Removed
 

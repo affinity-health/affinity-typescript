@@ -70,7 +70,7 @@ export interface ListPharmaciesResponseDataInner {
    * @type {string}
    * @memberof ListPharmaciesResponseDataInner
    */
-  id: string;
+  id: string | null;
   /**
    *
    * @type {boolean}

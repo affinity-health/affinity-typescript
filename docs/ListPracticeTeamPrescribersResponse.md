@@ -2,11 +2,11 @@
 
 ## Properties
 
-| Name      | Type                                                                                                                                                                           |
-| --------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `data`    | [Array&lt;RevokePracticeTeamInvitationResponsePersonAccountPrescriberConnectionProvider&gt;](RevokePracticeTeamInvitationResponsePersonAccountPrescriberConnectionProvider.md) |
-| `hasMore` | boolean                                                                                                                                                                        |
-| `object`  | string                                                                                                                                                                         |
-| `url`     | string                                                                                                                                                                         |
+| Name      | Type                                                                                                                                                                                           |
+| --------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `data`    | [Array&lt;ListPracticeTeamInvitationsResponseDataInnerPersonAccountPrescriberConnectionProvider&gt;](ListPracticeTeamInvitationsResponseDataInnerPersonAccountPrescriberConnectionProvider.md) |
+| `hasMore` | boolean                                                                                                                                                                                        |
+| `object`  | string                                                                                                                                                                                         |
+| `url`     | string                                                                                                                                                                                         |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)

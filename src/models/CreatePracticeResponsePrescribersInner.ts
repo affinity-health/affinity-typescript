@@ -32,17 +32,17 @@ export interface CreatePracticeResponsePrescribersInner {
    */
   licenseStates: Array<string>;
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof CreatePracticeResponsePrescribersInner
    */
-  name: string | null;
+  name: string;
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof CreatePracticeResponsePrescribersInner
    */
-  npi: string | null;
+  npi: string;
 }
 
 /**

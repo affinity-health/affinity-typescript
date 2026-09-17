@@ -35,10 +35,10 @@ const patient = await affinity.patients.create(
   {
     dateOfBirth: "1990-01-01",
     email: "patient@example.com",
+    externalId: "patient-456",
     name: { first: "Demo", last: "Patient" },
   },
   {
-    actor: { id: "system-sync", type: "system" },
     idempotencyKey: crypto.randomUUID(),
   },
 );
@@ -67,7 +67,6 @@ const order = await affinity.orders.create(
   },
   {
     idempotencyKey: crypto.randomUUID(),
-    actor: { id: "system-sync", type: "system" },
   },
 );
 ```
@@ -84,21 +83,23 @@ Client-wide options establish defaults for every resource call:
 const affinity = new Affinity(process.env.AFFINITY_API_KEY!, {
   apiVersion: "2026-08-11",
   organizationId: "acct_...",
-  actor: { id: "system-sync", type: "system" },
   baseUrl: "https://api.joinaffinityai.com",
   fetch: globalThis.fetch,
   headers: { "X-Integration-Trace": "sync-worker" },
 });
 ```
 
-By default the client sends bearer authentication to `https://api.joinaffinityai.com` with
-`Affinity-Version: 2026-08-11`. Supply `baseUrl` for a compatible endpoint and `fetch` when the
+By default the client sends bearer authentication, `Affinity-Version: 2026-08-11`, and a system
+actor to `https://api.joinaffinityai.com`. Affinity attributes the default actor to the
+authenticated service account. Supply `baseUrl` for a compatible endpoint and `fetch` when the
 runtime needs a custom transport implementation.
 
 The final options argument to each resource method overrides request-scoped transport settings. It
 can include `apiVersion`, `organizationId`, `actor`, `headers`, and `signal`. Mutations also require
-a non-empty `idempotencyKey` in that options object. PHI-capable calls that require attribution use
-the per-request actor, or the client actor when one was configured.
+a non-empty `idempotencyKey` in that options object. A per-request actor overrides the client actor.
+
+A user actor requires the stable external user ID from your application. Add a stable system ID
+only when several automated workers share a service account and need separate audit identities.
 
 Use `headers` for additional custom headers. Affinity-managed headers must be set through their
 typed options: `apiVersion`, `organizationId`, `actor`, and `idempotencyKey`. The SDK rejects
@@ -119,8 +120,9 @@ own back-pressure and error handling.
 The public resource groups are `account`, `apiKeys`, `catalog`, `locations`, `orders`, `patients`,
 `platformPricing`, `practices`, `sessions`, `team`, and `webhooks`.
 
-All 69 current contract operations are represented by an intentional public resource method. The
-generated OpenAPI transport and models remain private implementation details of the package root.
+The SDK exposes 69 typed resource methods. The two Test order simulation controls remain available
+through `rawRequest`. The generated OpenAPI transport and models remain private implementation
+details of the package root.
 Use `rawRequest` to call a preview endpoint or another API path that the installed SDK version does
 not support yet:
 
@@ -130,7 +132,6 @@ const preview = await affinity.rawRequest(
   "/v1/beta_endpoint",
   { value: 123 },
   {
-    actor: { id: "system-sync", type: "system" },
     idempotencyKey: crypto.randomUUID(),
   },
 );

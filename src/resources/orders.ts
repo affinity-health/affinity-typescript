@@ -2,53 +2,36 @@
 
 import type {
   OrdersApi,
-  CancelOrderOperationRequest,
-  ListOrderEventsRequest,
-  ActOnOrderExceptionOperationRequest,
-  GetOrderRequest,
   ListOrdersRequest,
   CreateOrderOperationRequest,
-  RejectOrderOperationRequest,
+  GetOrderRequest,
+  CancelOrderOperationRequest,
+  ActOnOrderExceptionOperationRequest,
+  ListOrderEventsRequest,
   SignOrderOperationRequest,
   SubmitOrderOperationRequest,
-  CreateOrderBatchOperationRequest,
+  RejectOrderOperationRequest,
   AddOrderPrescriptionOperationRequest,
   UpdateOrderPrescriptionOperationRequest,
+  CreateOrderBatchOperationRequest,
 } from "../apis/OrdersApi";
+import type { CreateOrderRequest } from "../models/CreateOrderRequest";
 import type { CancelOrderRequest } from "../models/CancelOrderRequest";
 import type { ActOnOrderExceptionRequest } from "../models/ActOnOrderExceptionRequest";
-import type { CreateOrderRequest } from "../models/CreateOrderRequest";
-import type { RejectOrderRequest } from "../models/RejectOrderRequest";
 import type { SignOrderRequest } from "../models/SignOrderRequest";
 import type { SubmitOrderRequest } from "../models/SubmitOrderRequest";
-import type { CreateOrderBatchRequest } from "../models/CreateOrderBatchRequest";
+import type { RejectOrderRequest } from "../models/RejectOrderRequest";
 import type { AddOrderPrescriptionRequest } from "../models/AddOrderPrescriptionRequest";
 import type { UpdateOrderPrescriptionRequest } from "../models/UpdateOrderPrescriptionRequest";
+import type { CreateOrderBatchRequest } from "../models/CreateOrderBatchRequest";
 import {
   commonHeaders,
   requestOverrides,
   type MutationOptions,
   type RequestOptions,
   requiredIdempotencyKey,
-  actorHeaders,
-  type AffinityActor,
 } from "./shared";
 
-export type CancelOrderParams = Omit<CancelOrderRequest, "reason"> & {
-  reason: NonNullable<CancelOrderRequest["reason"]>;
-};
-export type ListOrderEventsParams = Omit<
-  ListOrderEventsRequest,
-  | "orderId"
-  | "affinityVersion"
-  | "idempotencyKey"
-  | "affinityActorId"
-  | "affinityActorType"
-  | "xAffinityOrganizationId"
->;
-export type ActOnOrderExceptionParams = Omit<ActOnOrderExceptionRequest, "action"> & {
-  action: NonNullable<ActOnOrderExceptionRequest["action"]>;
-};
 export type ListOrdersParams = Omit<
   ListOrdersRequest,
   | "affinityVersion"
@@ -72,15 +55,21 @@ export type CreateOrderParams = Omit<
     | { patientId: string; patient?: never }
     | { patient: NonNullable<CreateOrderRequest["patient"]>; patientId?: never }
   );
-export type RejectOrderParams = Omit<
-  RejectOrderRequest,
-  "practiceId" | "userId" | "reason" | "expectedVersions"
-> & {
-  practiceId: NonNullable<RejectOrderRequest["practiceId"]>;
-  userId: NonNullable<RejectOrderRequest["userId"]>;
-  reason: NonNullable<RejectOrderRequest["reason"]>;
-  expectedVersions: NonNullable<RejectOrderRequest["expectedVersions"]>;
+export type CancelOrderParams = Omit<CancelOrderRequest, "reason"> & {
+  reason: NonNullable<CancelOrderRequest["reason"]>;
 };
+export type ActOnOrderExceptionParams = Omit<ActOnOrderExceptionRequest, "action"> & {
+  action: NonNullable<ActOnOrderExceptionRequest["action"]>;
+};
+export type ListOrderEventsParams = Omit<
+  ListOrderEventsRequest,
+  | "orderId"
+  | "affinityVersion"
+  | "idempotencyKey"
+  | "affinityActorId"
+  | "affinityActorType"
+  | "xAffinityOrganizationId"
+>;
 export type SignOrderParams = Omit<
   SignOrderRequest,
   "practiceId" | "userId" | "signatureAttestation" | "expectedVersions"
@@ -93,6 +82,31 @@ export type SignOrderParams = Omit<
 export type SubmitOrderParams = Omit<SubmitOrderRequest, "practiceId" | "userId"> & {
   practiceId: NonNullable<SubmitOrderRequest["practiceId"]>;
   userId: NonNullable<SubmitOrderRequest["userId"]>;
+};
+export type RejectOrderParams = Omit<
+  RejectOrderRequest,
+  "practiceId" | "userId" | "reason" | "expectedVersions"
+> & {
+  practiceId: NonNullable<RejectOrderRequest["practiceId"]>;
+  userId: NonNullable<RejectOrderRequest["userId"]>;
+  reason: NonNullable<RejectOrderRequest["reason"]>;
+  expectedVersions: NonNullable<RejectOrderRequest["expectedVersions"]>;
+};
+export type AddOrderPrescriptionParams = Omit<
+  AddOrderPrescriptionRequest,
+  "practiceId" | "expectedVersions" | "prescription"
+> & {
+  practiceId: NonNullable<AddOrderPrescriptionRequest["practiceId"]>;
+  expectedVersions: NonNullable<AddOrderPrescriptionRequest["expectedVersions"]>;
+  prescription: NonNullable<AddOrderPrescriptionRequest["prescription"]>;
+};
+export type UpdateOrderPrescriptionParams = Omit<
+  UpdateOrderPrescriptionRequest,
+  "practiceId" | "expectedVersions" | "prescription"
+> & {
+  practiceId: NonNullable<UpdateOrderPrescriptionRequest["practiceId"]>;
+  expectedVersions: NonNullable<UpdateOrderPrescriptionRequest["expectedVersions"]>;
+  prescription: NonNullable<UpdateOrderPrescriptionRequest["prescription"]>;
 };
 export type CreateOrderBatchOrderParams = Omit<
   CreateOrderBatchRequest["orders"][number],
@@ -113,22 +127,6 @@ export type CreateOrderBatchPrescriptionParams = Omit<
 export type CreateOrderBatchParams = Omit<CreateOrderBatchRequest, "practiceId" | "orders"> & {
   practiceId: NonNullable<CreateOrderBatchRequest["practiceId"]>;
   orders: CreateOrderBatchOrderParams[];
-};
-export type AddOrderPrescriptionParams = Omit<
-  AddOrderPrescriptionRequest,
-  "practiceId" | "expectedVersions" | "prescription"
-> & {
-  practiceId: NonNullable<AddOrderPrescriptionRequest["practiceId"]>;
-  expectedVersions: NonNullable<AddOrderPrescriptionRequest["expectedVersions"]>;
-  prescription: NonNullable<AddOrderPrescriptionRequest["prescription"]>;
-};
-export type UpdateOrderPrescriptionParams = Omit<
-  UpdateOrderPrescriptionRequest,
-  "practiceId" | "expectedVersions" | "prescription"
-> & {
-  practiceId: NonNullable<UpdateOrderPrescriptionRequest["practiceId"]>;
-  expectedVersions: NonNullable<UpdateOrderPrescriptionRequest["expectedVersions"]>;
-  prescription: NonNullable<UpdateOrderPrescriptionRequest["prescription"]>;
 };
 function validateOrderPatient(
   params: { patientId?: unknown; patient?: unknown },
@@ -185,10 +183,33 @@ function validateCreateOrderBatchParams(params: CreateOrderBatchParams): void {
 }
 
 export class OrdersResource {
-  constructor(
-    private readonly api: OrdersApi,
-    private readonly defaultActor?: AffinityActor,
-  ) {}
+  constructor(private readonly api: OrdersApi) {}
+  list(
+    params: ListOrdersParams = {},
+    options?: RequestOptions,
+  ): ReturnType<OrdersApi["listOrders"]> {
+    return this.api.listOrders({ ...params, ...commonHeaders(options) }, requestOverrides(options));
+  }
+  create(
+    params: CreateOrderParams,
+    options: MutationOptions,
+  ): ReturnType<OrdersApi["createOrder"]> {
+    validateCreateOrderParams(params);
+    return this.api.createOrder(
+      {
+        createOrderRequest: params,
+        ...commonHeaders(options),
+        idempotencyKey: requiredIdempotencyKey(options),
+      },
+      requestOverrides(options),
+    );
+  }
+  retrieve(orderId: string, options?: RequestOptions): ReturnType<OrdersApi["getOrder"]> {
+    return this.api.getOrder(
+      { orderId: orderId, ...commonHeaders(options) },
+      requestOverrides(options),
+    );
+  }
   cancel(
     orderId: string,
     params: CancelOrderParams,
@@ -200,22 +221,6 @@ export class OrdersResource {
         cancelOrderRequest: params,
         ...commonHeaders(options),
         idempotencyKey: requiredIdempotencyKey(options),
-        ...actorHeaders(options, this.defaultActor),
-      },
-      requestOverrides(options),
-    );
-  }
-  listEvents(
-    orderId: string,
-    params: ListOrderEventsParams = {},
-    options?: RequestOptions,
-  ): ReturnType<OrdersApi["listOrderEvents"]> {
-    return this.api.listOrderEvents(
-      {
-        ...params,
-        orderId: orderId,
-        ...commonHeaders(options),
-        ...actorHeaders(options, this.defaultActor),
       },
       requestOverrides(options),
     );
@@ -233,53 +238,17 @@ export class OrdersResource {
         actOnOrderExceptionRequest: params,
         ...commonHeaders(options),
         idempotencyKey: requiredIdempotencyKey(options),
-        ...actorHeaders(options, this.defaultActor),
       },
       requestOverrides(options),
     );
   }
-  retrieve(orderId: string, options?: RequestOptions): ReturnType<OrdersApi["getOrder"]> {
-    return this.api.getOrder(
-      { orderId: orderId, ...commonHeaders(options), ...actorHeaders(options, this.defaultActor) },
-      requestOverrides(options),
-    );
-  }
-  list(
-    params: ListOrdersParams = {},
-    options?: RequestOptions,
-  ): ReturnType<OrdersApi["listOrders"]> {
-    return this.api.listOrders(
-      { ...params, ...commonHeaders(options), ...actorHeaders(options, this.defaultActor) },
-      requestOverrides(options),
-    );
-  }
-  create(
-    params: CreateOrderParams,
-    options: MutationOptions,
-  ): ReturnType<OrdersApi["createOrder"]> {
-    validateCreateOrderParams(params);
-    return this.api.createOrder(
-      {
-        createOrderRequest: params,
-        ...commonHeaders(options),
-        idempotencyKey: requiredIdempotencyKey(options),
-        ...actorHeaders(options, this.defaultActor),
-      },
-      requestOverrides(options),
-    );
-  }
-  reject(
+  listEvents(
     orderId: string,
-    params: RejectOrderParams,
-    options: MutationOptions,
-  ): ReturnType<OrdersApi["rejectOrder"]> {
-    return this.api.rejectOrder(
-      {
-        orderId: orderId,
-        rejectOrderRequest: params,
-        ...commonHeaders(options),
-        idempotencyKey: requiredIdempotencyKey(options),
-      },
+    params: ListOrderEventsParams = {},
+    options?: RequestOptions,
+  ): ReturnType<OrdersApi["listOrderEvents"]> {
+    return this.api.listOrderEvents(
+      { ...params, orderId: orderId, ...commonHeaders(options) },
       requestOverrides(options),
     );
   }
@@ -313,17 +282,17 @@ export class OrdersResource {
       requestOverrides(options),
     );
   }
-  createBatch(
-    params: CreateOrderBatchParams,
+  reject(
+    orderId: string,
+    params: RejectOrderParams,
     options: MutationOptions,
-  ): ReturnType<OrdersApi["createOrderBatch"]> {
-    validateCreateOrderBatchParams(params);
-    return this.api.createOrderBatch(
+  ): ReturnType<OrdersApi["rejectOrder"]> {
+    return this.api.rejectOrder(
       {
-        createOrderBatchRequest: params,
+        orderId: orderId,
+        rejectOrderRequest: params,
         ...commonHeaders(options),
         idempotencyKey: requiredIdempotencyKey(options),
-        ...actorHeaders(options, this.defaultActor),
       },
       requestOverrides(options),
     );
@@ -339,7 +308,6 @@ export class OrdersResource {
         addOrderPrescriptionRequest: params,
         ...commonHeaders(options),
         idempotencyKey: requiredIdempotencyKey(options),
-        ...actorHeaders(options, this.defaultActor),
       },
       requestOverrides(options),
     );
@@ -357,7 +325,20 @@ export class OrdersResource {
         updateOrderPrescriptionRequest: params,
         ...commonHeaders(options),
         idempotencyKey: requiredIdempotencyKey(options),
-        ...actorHeaders(options, this.defaultActor),
+      },
+      requestOverrides(options),
+    );
+  }
+  createBatch(
+    params: CreateOrderBatchParams,
+    options: MutationOptions,
+  ): ReturnType<OrdersApi["createOrderBatch"]> {
+    validateCreateOrderBatchParams(params);
+    return this.api.createOrderBatch(
+      {
+        createOrderBatchRequest: params,
+        ...commonHeaders(options),
+        idempotencyKey: requiredIdempotencyKey(options),
       },
       requestOverrides(options),
     );

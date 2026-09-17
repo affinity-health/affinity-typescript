@@ -102,6 +102,12 @@ export interface CreateOrderRequestPatient {
   email?: string | null;
   /**
    *
+   * @type {string}
+   * @memberof CreateOrderRequestPatient
+   */
+  externalId?: string | null;
+  /**
+   *
    * @type {Array<CreateOrderRequestPatientExternalIdentitiesInner>}
    * @memberof CreateOrderRequestPatient
    */
@@ -213,6 +219,7 @@ export function CreateOrderRequestPatientFromJSONTyped(
         : CreateOrderRequestPatientClinicalProfileFromJSON(json["clinicalProfile"]),
     dateOfBirth: json["dateOfBirth"],
     email: json["email"] == null ? undefined : json["email"],
+    externalId: json["externalId"] == null ? undefined : json["externalId"],
     externalIdentities:
       json["externalIdentities"] == null
         ? undefined
@@ -264,6 +271,7 @@ export function CreateOrderRequestPatientToJSONTyped(
     clinicalProfile: CreateOrderRequestPatientClinicalProfileToJSON(value["clinicalProfile"]),
     dateOfBirth: value["dateOfBirth"],
     email: value["email"],
+    externalId: value["externalId"],
     externalIdentities:
       value["externalIdentities"] == null
         ? undefined

@@ -232,6 +232,23 @@ describe("Affinity public facade", () => {
     expect(header(requests[1]!, "Affinity-Actor-Type")).toBe("user");
   });
 
+  test("allows a system actor without a separate actor ID", async () => {
+    const { affinity, requests } = client();
+    const system = affinity.withActor({ type: "system" });
+
+    await issue(system.orders.retrieve(orderId));
+    await issue(
+      affinity.rawRequest("GET", `/v1/orders/${orderId}`, undefined, {
+        actor: { type: "system" },
+      }),
+    );
+
+    for (const request of requests) {
+      expect(header(request, "Affinity-Actor-Type")).toBe("system");
+      expect(header(request, "Affinity-Actor-Id")).toBeNull();
+    }
+  });
+
   test("keeps withActor overrides isolated from the original client", async () => {
     const { affinity, requests } = client({ actor });
     const reviewer = affinity.withActor({ id: "user-reviewer", type: "user" });
@@ -252,11 +269,24 @@ describe("Affinity public facade", () => {
     ]);
   });
 
-  test("requires actor attribution for PHI-capable order reads", async () => {
+  test("removes a client user ID when a request overrides the actor with system", async () => {
+    const { affinity, requests } = client({
+      actor: { id: "user-reviewer", type: "user" },
+    });
+
+    await issue(affinity.orders.retrieve(orderId, { actor: { type: "system" } }));
+
+    expect(header(requests[0]!, "Affinity-Actor-Id")).toBeNull();
+    expect(header(requests[0]!, "Affinity-Actor-Type")).toBe("system");
+  });
+
+  test("uses the authenticated service account as the default system actor", async () => {
     const { affinity, requests } = client();
 
-    await expectFailure(() => affinity.orders.retrieve(orderId), /actor attribution/i);
-    expect(requests).toHaveLength(0);
+    await issue(affinity.orders.retrieve(orderId));
+
+    expect(header(requests[0]!, "Affinity-Actor-Id")).toBeNull();
+    expect(header(requests[0]!, "Affinity-Actor-Type")).toBe("system");
   });
 
   test("preserves signing fields and treats actor attribution as optional for sign", async () => {
@@ -280,6 +310,7 @@ describe("Affinity public facade", () => {
     expect(await requestBody(requests[1]!)).toEqual(signRequest);
     expect(header(requests[0]!, "Idempotency-Key")).toBe("sign-123");
     expect(header(requests[0]!, "Affinity-Actor-Id")).toBeNull();
+    expect(header(requests[0]!, "Affinity-Actor-Type")).toBe("system");
     expect(header(requests[1]!, "Idempotency-Key")).toBe("sign-456");
     expect(header(requests[1]!, "Affinity-Actor-Id")).toBe(actor.id);
     expect(header(requests[1]!, "Affinity-Actor-Type")).toBe(actor.type);
@@ -287,6 +318,7 @@ describe("Affinity public facade", () => {
 
   test("validates actor and idempotency options before sending a request", async () => {
     expect(() => client({ actor: { id: " ", type: "system" } as never })).toThrow(/actor ID/i);
+    expect(() => client({ actor: { type: "user" } as never })).toThrow(/user actor ID/i);
 
     const { affinity, requests } = client();
     await expectFailure(

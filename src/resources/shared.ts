@@ -3,10 +3,7 @@
 import type { InitOverrideFunction } from "../runtime";
 
 export type AffinityActorType = "system" | "user";
-export interface AffinityActor {
-  id: string;
-  type: AffinityActorType;
-}
+export type AffinityActor = { id?: string; type: "system" } | { id: string; type: "user" };
 export interface RequestOptions {
   actor?: AffinityActor;
   apiVersion?: string;
@@ -26,15 +23,16 @@ export function validateNonEmptyOption(value: string, name: string): string {
 }
 
 export function validateAffinityActor(actor: AffinityActor): AffinityActor {
-  if (!actor || typeof actor.id !== "string")
-    throw new Error("Affinity actor ID must contain 1 to 200 characters");
+  if (!actor || (actor.type !== "user" && actor.type !== "system"))
+    throw new Error("Affinity actor type must be user or system");
+  if (actor.type === "system" && actor.id === undefined) return actor;
+  if (typeof actor.id !== "string")
+    throw new Error("Affinity user actor ID must contain 1 to 200 characters");
   const id = actor.id.trim();
   if (!id || id.length > 200 || /[\x00-\x1f\x7f]/.test(id))
     throw new Error(
       "Affinity actor ID must contain 1 to 200 characters without control characters",
     );
-  if (actor.type !== "user" && actor.type !== "system")
-    throw new Error("Affinity actor type must be user or system");
   return { id, type: actor.type };
 }
 
@@ -77,7 +75,8 @@ export function requestOverrides(options?: RequestOptions): InitOverrideFunction
     if (version !== undefined) headers.set("Affinity-Version", version);
     if (organization !== undefined) headers.set("X-Affinity-Organization-Id", organization);
     if (actor) {
-      headers.set("Affinity-Actor-Id", actor.id);
+      if (actor.id !== undefined) headers.set("Affinity-Actor-Id", actor.id);
+      else headers.delete("Affinity-Actor-Id");
       headers.set("Affinity-Actor-Type", actor.type);
     }
     return { ...init, headers, ...(options?.signal ? { signal: options.signal } : {}) };
@@ -92,13 +91,12 @@ export function actorHeaders(
   options: RequestOptions | undefined,
   defaultActor: AffinityActor | undefined,
 ) {
-  const actor = options?.actor ?? defaultActor;
-  if (!actor)
-    throw new Error(
-      "This request requires actor attribution. Pass options.actor or set actor on Affinity.",
-    );
+  const actor = options?.actor ?? defaultActor ?? ({ type: "system" } as const);
   const validated = validateAffinityActor(actor);
-  return { affinityActorId: validated.id, affinityActorType: validated.type };
+  return {
+    ...(validated.id === undefined ? {} : { affinityActorId: validated.id }),
+    affinityActorType: validated.type,
+  };
 }
 export function organizationHeader(options?: RequestOptions) {
   return options?.organizationId === undefined

@@ -4,8 +4,8 @@
 
 | Name               | Type                                                                                                             |
 | ------------------ | ---------------------------------------------------------------------------------------------------------------- |
-| `address`          | [UpdatePatientAddressResponseAddress](UpdatePatientAddressResponseAddress.md)                                    |
-| `contacts`         | [CreatePracticeResponseContacts](CreatePracticeResponseContacts.md)                                              |
+| `address`          | [CreatePatientAddressResponseAddress](CreatePatientAddressResponseAddress.md)                                    |
+| `contacts`         | [ListPracticesResponseDataInnerContacts](ListPracticesResponseDataInnerContacts.md)                              |
 | `createdAt`        | string                                                                                                           |
 | `externalId`       | string                                                                                                           |
 | `id`               | string                                                                                                           |

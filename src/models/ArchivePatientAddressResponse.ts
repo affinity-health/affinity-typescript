@@ -13,13 +13,13 @@
  */
 
 import { mapValues } from "../runtime";
-import type { ArchivePatientAddressResponseAddress } from "./ArchivePatientAddressResponseAddress";
+import type { CreatePatientAddressResponseAddress } from "./CreatePatientAddressResponseAddress";
 import {
-  ArchivePatientAddressResponseAddressFromJSON,
-  ArchivePatientAddressResponseAddressFromJSONTyped,
-  ArchivePatientAddressResponseAddressToJSON,
-  ArchivePatientAddressResponseAddressToJSONTyped,
-} from "./ArchivePatientAddressResponseAddress";
+  CreatePatientAddressResponseAddressFromJSON,
+  CreatePatientAddressResponseAddressFromJSONTyped,
+  CreatePatientAddressResponseAddressToJSON,
+  CreatePatientAddressResponseAddressToJSONTyped,
+} from "./CreatePatientAddressResponseAddress";
 
 /**
  *
@@ -35,10 +35,10 @@ export interface ArchivePatientAddressResponse {
   id: string;
   /**
    *
-   * @type {ArchivePatientAddressResponseAddress}
+   * @type {CreatePatientAddressResponseAddress}
    * @memberof ArchivePatientAddressResponse
    */
-  address: ArchivePatientAddressResponseAddress;
+  address: CreatePatientAddressResponseAddress | null;
   /**
    * Match this integration's external identity in the API key's mode.
    * @type {string}
@@ -93,7 +93,7 @@ export function ArchivePatientAddressResponseFromJSONTyped(
   }
   return {
     id: json["id"],
-    address: ArchivePatientAddressResponseAddressFromJSON(json["address"]),
+    address: CreatePatientAddressResponseAddressFromJSON(json["address"]),
     label: json["label"],
     preferredShipping: json["preferredShipping"],
     recipientName: json["recipientName"],
@@ -115,7 +115,7 @@ export function ArchivePatientAddressResponseToJSONTyped(
 
   return {
     id: value["id"],
-    address: ArchivePatientAddressResponseAddressToJSON(value["address"]),
+    address: CreatePatientAddressResponseAddressToJSON(value["address"]),
     label: value["label"],
     preferredShipping: value["preferredShipping"],
     recipientName: value["recipientName"],

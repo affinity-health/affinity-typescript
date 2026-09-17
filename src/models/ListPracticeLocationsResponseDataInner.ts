@@ -96,7 +96,7 @@ export interface ListPracticeLocationsResponseDataInner {
    * @type {ListPracticeLocationsResponseDataInnerStatusEnum}
    * @memberof ListPracticeLocationsResponseDataInner
    */
-  status: ListPracticeLocationsResponseDataInnerStatusEnum | null;
+  status: ListPracticeLocationsResponseDataInnerStatusEnum;
   /**
    * Match this integration's external identity in the API key's mode.
    * @type {string}

@@ -13,20 +13,13 @@
  */
 
 import { mapValues } from "../runtime";
-import type { ListPracticesResponseDataInnerPrescribersInner } from "./ListPracticesResponseDataInnerPrescribersInner";
+import type { CreatePracticeResponsePrescribersInner } from "./CreatePracticeResponsePrescribersInner";
 import {
-  ListPracticesResponseDataInnerPrescribersInnerFromJSON,
-  ListPracticesResponseDataInnerPrescribersInnerFromJSONTyped,
-  ListPracticesResponseDataInnerPrescribersInnerToJSON,
-  ListPracticesResponseDataInnerPrescribersInnerToJSONTyped,
-} from "./ListPracticesResponseDataInnerPrescribersInner";
-import type { UpdatePatientAddressResponseAddress } from "./UpdatePatientAddressResponseAddress";
-import {
-  UpdatePatientAddressResponseAddressFromJSON,
-  UpdatePatientAddressResponseAddressFromJSONTyped,
-  UpdatePatientAddressResponseAddressToJSON,
-  UpdatePatientAddressResponseAddressToJSONTyped,
-} from "./UpdatePatientAddressResponseAddress";
+  CreatePracticeResponsePrescribersInnerFromJSON,
+  CreatePracticeResponsePrescribersInnerFromJSONTyped,
+  CreatePracticeResponsePrescribersInnerToJSON,
+  CreatePracticeResponsePrescribersInnerToJSONTyped,
+} from "./CreatePracticeResponsePrescribersInner";
 import type { CreatePracticeResponseContacts } from "./CreatePracticeResponseContacts";
 import {
   CreatePracticeResponseContactsFromJSON,
@@ -34,6 +27,13 @@ import {
   CreatePracticeResponseContactsToJSON,
   CreatePracticeResponseContactsToJSONTyped,
 } from "./CreatePracticeResponseContacts";
+import type { CreatePatientAddressResponseAddress } from "./CreatePatientAddressResponseAddress";
+import {
+  CreatePatientAddressResponseAddressFromJSON,
+  CreatePatientAddressResponseAddressFromJSONTyped,
+  CreatePatientAddressResponseAddressToJSON,
+  CreatePatientAddressResponseAddressToJSONTyped,
+} from "./CreatePatientAddressResponseAddress";
 
 /**
  *
@@ -43,10 +43,10 @@ import {
 export interface UpdatePracticeResponse {
   /**
    *
-   * @type {UpdatePatientAddressResponseAddress}
+   * @type {CreatePatientAddressResponseAddress}
    * @memberof UpdatePracticeResponse
    */
-  address: UpdatePatientAddressResponseAddress | null;
+  address: CreatePatientAddressResponseAddress | null;
   /**
    *
    * @type {CreatePracticeResponseContacts}
@@ -103,10 +103,10 @@ export interface UpdatePracticeResponse {
   object: UpdatePracticeResponseObjectEnum;
   /**
    *
-   * @type {Array<ListPracticesResponseDataInnerPrescribersInner>}
+   * @type {Array<CreatePracticeResponsePrescribersInner>}
    * @memberof UpdatePracticeResponse
    */
-  prescribers: Array<ListPracticesResponseDataInnerPrescribersInner>;
+  prescribers: Array<CreatePracticeResponsePrescribersInner>;
   /**
    *
    * @type {UpdatePracticeResponseProductionAccessEnum}
@@ -187,7 +187,7 @@ export function UpdatePracticeResponseFromJSONTyped(
     return json;
   }
   return {
-    address: UpdatePatientAddressResponseAddressFromJSON(json["address"]),
+    address: CreatePatientAddressResponseAddressFromJSON(json["address"]),
     contacts: CreatePracticeResponseContactsFromJSON(json["contacts"]),
     createdAt: json["createdAt"],
     externalId: json["externalId"],
@@ -198,7 +198,7 @@ export function UpdatePracticeResponseFromJSONTyped(
     name: json["name"],
     object: json["object"],
     prescribers: (json["prescribers"] as Array<any>).map(
-      ListPracticesResponseDataInnerPrescribersInnerFromJSON,
+      CreatePracticeResponsePrescribersInnerFromJSON,
     ),
     productionAccess: json["productionAccess"],
     supportEmail: json["supportEmail"],
@@ -220,7 +220,7 @@ export function UpdatePracticeResponseToJSONTyped(
   }
 
   return {
-    address: UpdatePatientAddressResponseAddressToJSON(value["address"]),
+    address: CreatePatientAddressResponseAddressToJSON(value["address"]),
     contacts: CreatePracticeResponseContactsToJSON(value["contacts"]),
     createdAt: value["createdAt"],
     externalId: value["externalId"],
@@ -231,7 +231,7 @@ export function UpdatePracticeResponseToJSONTyped(
     name: value["name"],
     object: value["object"],
     prescribers: (value["prescribers"] as Array<any>).map(
-      ListPracticesResponseDataInnerPrescribersInnerToJSON,
+      CreatePracticeResponsePrescribersInnerToJSON,
     ),
     productionAccess: value["productionAccess"],
     supportEmail: value["supportEmail"],

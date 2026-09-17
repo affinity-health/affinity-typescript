@@ -13,13 +13,13 @@
  */
 
 import { mapValues } from "../runtime";
-import type { CancelOrderResponseReviewResolvedBy } from "./CancelOrderResponseReviewResolvedBy";
+import type { ListOrdersResponseDataInnerReviewResolvedBy } from "./ListOrdersResponseDataInnerReviewResolvedBy";
 import {
-  CancelOrderResponseReviewResolvedByFromJSON,
-  CancelOrderResponseReviewResolvedByFromJSONTyped,
-  CancelOrderResponseReviewResolvedByToJSON,
-  CancelOrderResponseReviewResolvedByToJSONTyped,
-} from "./CancelOrderResponseReviewResolvedBy";
+  ListOrdersResponseDataInnerReviewResolvedByFromJSON,
+  ListOrdersResponseDataInnerReviewResolvedByFromJSONTyped,
+  ListOrdersResponseDataInnerReviewResolvedByToJSON,
+  ListOrdersResponseDataInnerReviewResolvedByToJSONTyped,
+} from "./ListOrdersResponseDataInnerReviewResolvedBy";
 
 /**
  *
@@ -65,10 +65,10 @@ export interface GetOrderResponseReview {
   resolvedAt: string | null;
   /**
    *
-   * @type {CancelOrderResponseReviewResolvedBy}
+   * @type {ListOrdersResponseDataInnerReviewResolvedBy}
    * @memberof GetOrderResponseReview
    */
-  resolvedBy: CancelOrderResponseReviewResolvedBy | null;
+  resolvedBy: ListOrdersResponseDataInnerReviewResolvedBy | null;
   /**
    *
    * @type {string}
@@ -120,7 +120,7 @@ export function GetOrderResponseReviewFromJSONTyped(
     completedAt: json["completedAt"],
     canceledAt: json["canceledAt"],
     resolvedAt: json["resolvedAt"],
-    resolvedBy: CancelOrderResponseReviewResolvedByFromJSON(json["resolvedBy"]),
+    resolvedBy: ListOrdersResponseDataInnerReviewResolvedByFromJSON(json["resolvedBy"]),
     providerId: json["providerId"],
   };
 }
@@ -144,7 +144,7 @@ export function GetOrderResponseReviewToJSONTyped(
     completedAt: value["completedAt"],
     canceledAt: value["canceledAt"],
     resolvedAt: value["resolvedAt"],
-    resolvedBy: CancelOrderResponseReviewResolvedByToJSON(value["resolvedBy"]),
+    resolvedBy: ListOrdersResponseDataInnerReviewResolvedByToJSON(value["resolvedBy"]),
     providerId: value["providerId"],
   };
 }

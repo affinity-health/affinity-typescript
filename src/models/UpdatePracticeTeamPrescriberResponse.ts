@@ -13,20 +13,20 @@
  */
 
 import { mapValues } from "../runtime";
-import type { GetPracticeTeamInvitationResponsePersonAccountPrescriberConnectionProviderAddress } from "./GetPracticeTeamInvitationResponsePersonAccountPrescriberConnectionProviderAddress";
+import type { ListPracticeTeamInvitationsResponseDataInnerPersonAccountPrescriberConnectionProviderLicensesInner } from "./ListPracticeTeamInvitationsResponseDataInnerPersonAccountPrescriberConnectionProviderLicensesInner";
 import {
-  GetPracticeTeamInvitationResponsePersonAccountPrescriberConnectionProviderAddressFromJSON,
-  GetPracticeTeamInvitationResponsePersonAccountPrescriberConnectionProviderAddressFromJSONTyped,
-  GetPracticeTeamInvitationResponsePersonAccountPrescriberConnectionProviderAddressToJSON,
-  GetPracticeTeamInvitationResponsePersonAccountPrescriberConnectionProviderAddressToJSONTyped,
-} from "./GetPracticeTeamInvitationResponsePersonAccountPrescriberConnectionProviderAddress";
-import type { RevokePracticeTeamInvitationResponsePersonAccountPrescriberConnectionProviderLicensesInner } from "./RevokePracticeTeamInvitationResponsePersonAccountPrescriberConnectionProviderLicensesInner";
+  ListPracticeTeamInvitationsResponseDataInnerPersonAccountPrescriberConnectionProviderLicensesInnerFromJSON,
+  ListPracticeTeamInvitationsResponseDataInnerPersonAccountPrescriberConnectionProviderLicensesInnerFromJSONTyped,
+  ListPracticeTeamInvitationsResponseDataInnerPersonAccountPrescriberConnectionProviderLicensesInnerToJSON,
+  ListPracticeTeamInvitationsResponseDataInnerPersonAccountPrescriberConnectionProviderLicensesInnerToJSONTyped,
+} from "./ListPracticeTeamInvitationsResponseDataInnerPersonAccountPrescriberConnectionProviderLicensesInner";
+import type { InvitePracticeTeamPersonRequestAddress } from "./InvitePracticeTeamPersonRequestAddress";
 import {
-  RevokePracticeTeamInvitationResponsePersonAccountPrescriberConnectionProviderLicensesInnerFromJSON,
-  RevokePracticeTeamInvitationResponsePersonAccountPrescriberConnectionProviderLicensesInnerFromJSONTyped,
-  RevokePracticeTeamInvitationResponsePersonAccountPrescriberConnectionProviderLicensesInnerToJSON,
-  RevokePracticeTeamInvitationResponsePersonAccountPrescriberConnectionProviderLicensesInnerToJSONTyped,
-} from "./RevokePracticeTeamInvitationResponsePersonAccountPrescriberConnectionProviderLicensesInner";
+  InvitePracticeTeamPersonRequestAddressFromJSON,
+  InvitePracticeTeamPersonRequestAddressFromJSONTyped,
+  InvitePracticeTeamPersonRequestAddressToJSON,
+  InvitePracticeTeamPersonRequestAddressToJSONTyped,
+} from "./InvitePracticeTeamPersonRequestAddress";
 
 /**
  *
@@ -39,7 +39,7 @@ export interface UpdatePracticeTeamPrescriberResponse {
    * @type {string}
    * @memberof UpdatePracticeTeamPrescriberResponse
    */
-  id: string | null;
+  id: string;
   /**
    * Match this integration's external identity in the API key's mode.
    * @type {string}
@@ -66,10 +66,10 @@ export interface UpdatePracticeTeamPrescriberResponse {
   phone: string | null;
   /**
    *
-   * @type {GetPracticeTeamInvitationResponsePersonAccountPrescriberConnectionProviderAddress}
+   * @type {InvitePracticeTeamPersonRequestAddress}
    * @memberof UpdatePracticeTeamPrescriberResponse
    */
-  address: GetPracticeTeamInvitationResponsePersonAccountPrescriberConnectionProviderAddress | null;
+  address: InvitePracticeTeamPersonRequestAddress | null;
   /**
    * Match this integration's external identity in the API key's mode.
    * @type {string}
@@ -84,10 +84,10 @@ export interface UpdatePracticeTeamPrescriberResponse {
   practiceStatus: string | null;
   /**
    *
-   * @type {Array<RevokePracticeTeamInvitationResponsePersonAccountPrescriberConnectionProviderLicensesInner>}
+   * @type {Array<ListPracticeTeamInvitationsResponseDataInnerPersonAccountPrescriberConnectionProviderLicensesInner>}
    * @memberof UpdatePracticeTeamPrescriberResponse
    */
-  licenses: Array<RevokePracticeTeamInvitationResponsePersonAccountPrescriberConnectionProviderLicensesInner>;
+  licenses: Array<ListPracticeTeamInvitationsResponseDataInnerPersonAccountPrescriberConnectionProviderLicensesInner>;
 }
 
 /**
@@ -127,14 +127,11 @@ export function UpdatePracticeTeamPrescriberResponseFromJSONTyped(
     legalName: json["legalName"],
     credentials: json["credentials"],
     phone: json["phone"],
-    address:
-      GetPracticeTeamInvitationResponsePersonAccountPrescriberConnectionProviderAddressFromJSON(
-        json["address"],
-      ),
+    address: InvitePracticeTeamPersonRequestAddressFromJSON(json["address"]),
     npi: json["npi"],
     practiceStatus: json["practiceStatus"],
     licenses: (json["licenses"] as Array<any>).map(
-      RevokePracticeTeamInvitationResponsePersonAccountPrescriberConnectionProviderLicensesInnerFromJSON,
+      ListPracticeTeamInvitationsResponseDataInnerPersonAccountPrescriberConnectionProviderLicensesInnerFromJSON,
     ),
   };
 }
@@ -159,14 +156,11 @@ export function UpdatePracticeTeamPrescriberResponseToJSONTyped(
     legalName: value["legalName"],
     credentials: value["credentials"],
     phone: value["phone"],
-    address:
-      GetPracticeTeamInvitationResponsePersonAccountPrescriberConnectionProviderAddressToJSON(
-        value["address"],
-      ),
+    address: InvitePracticeTeamPersonRequestAddressToJSON(value["address"]),
     npi: value["npi"],
     practiceStatus: value["practiceStatus"],
     licenses: (value["licenses"] as Array<any>).map(
-      RevokePracticeTeamInvitationResponsePersonAccountPrescriberConnectionProviderLicensesInnerToJSON,
+      ListPracticeTeamInvitationsResponseDataInnerPersonAccountPrescriberConnectionProviderLicensesInnerToJSON,
     ),
   };
 }

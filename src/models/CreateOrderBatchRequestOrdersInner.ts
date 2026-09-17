@@ -13,13 +13,6 @@
  */
 
 import { mapValues } from "../runtime";
-import type { CreateOrderBatchRequestOrdersInnerPrescriptionsInner } from "./CreateOrderBatchRequestOrdersInnerPrescriptionsInner";
-import {
-  CreateOrderBatchRequestOrdersInnerPrescriptionsInnerFromJSON,
-  CreateOrderBatchRequestOrdersInnerPrescriptionsInnerFromJSONTyped,
-  CreateOrderBatchRequestOrdersInnerPrescriptionsInnerToJSON,
-  CreateOrderBatchRequestOrdersInnerPrescriptionsInnerToJSONTyped,
-} from "./CreateOrderBatchRequestOrdersInnerPrescriptionsInner";
 import type { CreateOrderBatchRequestOrdersInnerPatient } from "./CreateOrderBatchRequestOrdersInnerPatient";
 import {
   CreateOrderBatchRequestOrdersInnerPatientFromJSON,
@@ -34,6 +27,13 @@ import {
   CreateOrderRequestMetadataValueToJSON,
   CreateOrderRequestMetadataValueToJSONTyped,
 } from "./CreateOrderRequestMetadataValue";
+import type { AddOrderPrescriptionRequestPrescription } from "./AddOrderPrescriptionRequestPrescription";
+import {
+  AddOrderPrescriptionRequestPrescriptionFromJSON,
+  AddOrderPrescriptionRequestPrescriptionFromJSONTyped,
+  AddOrderPrescriptionRequestPrescriptionToJSON,
+  AddOrderPrescriptionRequestPrescriptionToJSONTyped,
+} from "./AddOrderPrescriptionRequestPrescription";
 
 /**
  *
@@ -73,10 +73,10 @@ export interface CreateOrderBatchRequestOrdersInner {
   shippingAddressId?: string | null;
   /**
    *
-   * @type {Array<CreateOrderBatchRequestOrdersInnerPrescriptionsInner>}
+   * @type {Array<AddOrderPrescriptionRequestPrescription>}
    * @memberof CreateOrderBatchRequestOrdersInner
    */
-  prescriptions: Array<CreateOrderBatchRequestOrdersInnerPrescriptionsInner>;
+  prescriptions: Array<AddOrderPrescriptionRequestPrescription>;
 }
 
 /**
@@ -115,7 +115,7 @@ export function CreateOrderBatchRequestOrdersInnerFromJSONTyped(
         : CreateOrderBatchRequestOrdersInnerPatientFromJSON(json["patient"]),
     shippingAddressId: json["shippingAddressId"] == null ? undefined : json["shippingAddressId"],
     prescriptions: (json["prescriptions"] as Array<any>).map(
-      CreateOrderBatchRequestOrdersInnerPrescriptionsInnerFromJSON,
+      AddOrderPrescriptionRequestPrescriptionFromJSON,
     ),
   };
 }
@@ -144,7 +144,7 @@ export function CreateOrderBatchRequestOrdersInnerToJSONTyped(
     patient: CreateOrderBatchRequestOrdersInnerPatientToJSON(value["patient"]),
     shippingAddressId: value["shippingAddressId"],
     prescriptions: (value["prescriptions"] as Array<any>).map(
-      CreateOrderBatchRequestOrdersInnerPrescriptionsInnerToJSON,
+      AddOrderPrescriptionRequestPrescriptionToJSON,
     ),
   };
 }

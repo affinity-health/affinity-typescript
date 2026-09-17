@@ -13,13 +13,13 @@
  */
 
 import { mapValues } from "../runtime";
-import type { UpdatePatientAddressResponseAddress } from "./UpdatePatientAddressResponseAddress";
+import type { CreatePatientAddressResponseAddress } from "./CreatePatientAddressResponseAddress";
 import {
-  UpdatePatientAddressResponseAddressFromJSON,
-  UpdatePatientAddressResponseAddressFromJSONTyped,
-  UpdatePatientAddressResponseAddressToJSON,
-  UpdatePatientAddressResponseAddressToJSONTyped,
-} from "./UpdatePatientAddressResponseAddress";
+  CreatePatientAddressResponseAddressFromJSON,
+  CreatePatientAddressResponseAddressFromJSONTyped,
+  CreatePatientAddressResponseAddressToJSON,
+  CreatePatientAddressResponseAddressToJSONTyped,
+} from "./CreatePatientAddressResponseAddress";
 
 /**
  *
@@ -35,10 +35,10 @@ export interface SetDefaultPatientAddressResponse {
   id: string;
   /**
    *
-   * @type {UpdatePatientAddressResponseAddress}
+   * @type {CreatePatientAddressResponseAddress}
    * @memberof SetDefaultPatientAddressResponse
    */
-  address: UpdatePatientAddressResponseAddress | null;
+  address: CreatePatientAddressResponseAddress | null;
   /**
    * Match this integration's external identity in the API key's mode.
    * @type {string}
@@ -95,7 +95,7 @@ export function SetDefaultPatientAddressResponseFromJSONTyped(
   }
   return {
     id: json["id"],
-    address: UpdatePatientAddressResponseAddressFromJSON(json["address"]),
+    address: CreatePatientAddressResponseAddressFromJSON(json["address"]),
     label: json["label"],
     preferredShipping: json["preferredShipping"],
     recipientName: json["recipientName"],
@@ -119,7 +119,7 @@ export function SetDefaultPatientAddressResponseToJSONTyped(
 
   return {
     id: value["id"],
-    address: UpdatePatientAddressResponseAddressToJSON(value["address"]),
+    address: CreatePatientAddressResponseAddressToJSON(value["address"]),
     label: value["label"],
     preferredShipping: value["preferredShipping"],
     recipientName: value["recipientName"],

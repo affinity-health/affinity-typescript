@@ -105,72 +105,71 @@ export interface ArchivePatientAddressRequest {
   patientId: string;
   addressId: string;
   idempotencyKey: string;
-  affinityActorId: string;
-  affinityActorType: string;
   affinityVersion?: string;
+  affinityActorId?: string;
+  affinityActorType?: string;
 }
 
 export interface CreatePatientOperationRequest {
   practiceId: string;
   idempotencyKey: string;
-  affinityActorId: string;
-  affinityActorType: string;
   createPatientRequest: CreatePatientRequest;
   affinityVersion?: string;
+  affinityActorId?: string;
+  affinityActorType?: string;
 }
 
 export interface CreatePatientAddressOperationRequest {
   practiceId: string;
   patientId: string;
   idempotencyKey: string;
-  affinityActorId: string;
-  affinityActorType: string;
   createPatientAddressRequest: CreatePatientAddressRequest;
   affinityVersion?: string;
+  affinityActorId?: string;
+  affinityActorType?: string;
 }
 
 export interface DeletePatientRequest {
   patientId: string;
   practiceId: string;
   idempotencyKey: string;
-  affinityActorId: string;
-  affinityActorType: string;
   affinityVersion?: string;
+  affinityActorId?: string;
+  affinityActorType?: string;
 }
 
 export interface GetPatientRequest {
   patientId: string;
   practiceId: string;
-  affinityActorId: string;
-  affinityActorType: string;
   affinityVersion?: string;
+  affinityActorId?: string;
+  affinityActorType?: string;
 }
 
 export interface GetPatientAllergiesRequest {
   patientId: string;
   practiceId: string;
-  affinityActorId: string;
-  affinityActorType: string;
   affinityVersion?: string;
+  affinityActorId?: string;
+  affinityActorType?: string;
 }
 
 export interface ListPatientAddressesRequest {
   practiceId: string;
   patientId: string;
-  affinityActorId: string;
-  affinityActorType: string;
   status?: ListPatientAddressesStatusEnum;
   startingAfter?: string | null;
   endingBefore?: string | null;
   limit?: number;
   affinityVersion?: string;
+  affinityActorId?: string;
+  affinityActorType?: string;
 }
 
 export interface ListPatientsRequest {
   practiceId: string;
-  affinityActorId: string;
-  affinityActorType: string;
   endingBefore?: string | null;
+  externalId?: string | null;
   externalIdentitySource?: string | null;
   externalIdentityValue?: string | null;
   gender?: ListPatientsGenderEnum;
@@ -184,16 +183,18 @@ export interface ListPatientsRequest {
   states?: string | null;
   status?: ListPatientsStatusEnum;
   affinityVersion?: string;
+  affinityActorId?: string;
+  affinityActorType?: string;
 }
 
 export interface ReplacePatientAllergiesOperationRequest {
   patientId: string;
   practiceId: string;
   idempotencyKey: string;
-  affinityActorId: string;
-  affinityActorType: string;
   replacePatientAllergiesRequest: ReplacePatientAllergiesRequest;
   affinityVersion?: string;
+  affinityActorId?: string;
+  affinityActorType?: string;
 }
 
 export interface SetDefaultPatientAddressRequest {
@@ -201,19 +202,19 @@ export interface SetDefaultPatientAddressRequest {
   patientId: string;
   addressId: string;
   idempotencyKey: string;
-  affinityActorId: string;
-  affinityActorType: string;
   affinityVersion?: string;
+  affinityActorId?: string;
+  affinityActorType?: string;
 }
 
 export interface UpdatePatientOperationRequest {
   patientId: string;
   practiceId: string;
   idempotencyKey: string;
-  affinityActorId: string;
-  affinityActorType: string;
   updatePatientRequest: UpdatePatientRequest;
   affinityVersion?: string;
+  affinityActorId?: string;
+  affinityActorType?: string;
 }
 
 export interface UpdatePatientAddressOperationRequest {
@@ -221,10 +222,10 @@ export interface UpdatePatientAddressOperationRequest {
   patientId: string;
   addressId: string;
   idempotencyKey: string;
-  affinityActorId: string;
-  affinityActorType: string;
   updatePatientAddressRequest: UpdatePatientAddressRequest;
   affinityVersion?: string;
+  affinityActorId?: string;
+  affinityActorType?: string;
 }
 
 /**
@@ -262,20 +263,6 @@ export class PatientsApi extends runtime.BaseAPI {
       throw new runtime.RequiredError(
         "idempotencyKey",
         'Required parameter "idempotencyKey" was null or undefined when calling archivePatientAddress().',
-      );
-    }
-
-    if (requestParameters["affinityActorId"] == null) {
-      throw new runtime.RequiredError(
-        "affinityActorId",
-        'Required parameter "affinityActorId" was null or undefined when calling archivePatientAddress().',
-      );
-    }
-
-    if (requestParameters["affinityActorType"] == null) {
-      throw new runtime.RequiredError(
-        "affinityActorType",
-        'Required parameter "affinityActorType" was null or undefined when calling archivePatientAddress().',
       );
     }
 
@@ -382,20 +369,6 @@ export class PatientsApi extends runtime.BaseAPI {
       );
     }
 
-    if (requestParameters["affinityActorId"] == null) {
-      throw new runtime.RequiredError(
-        "affinityActorId",
-        'Required parameter "affinityActorId" was null or undefined when calling createPatient().',
-      );
-    }
-
-    if (requestParameters["affinityActorType"] == null) {
-      throw new runtime.RequiredError(
-        "affinityActorType",
-        'Required parameter "affinityActorType" was null or undefined when calling createPatient().',
-      );
-    }
-
     if (requestParameters["createPatientRequest"] == null) {
       throw new runtime.RequiredError(
         "createPatientRequest",
@@ -454,7 +427,7 @@ export class PatientsApi extends runtime.BaseAPI {
   }
 
   /**
-   * Creates a patient or resolves matching external identifiers within this practice and mode. Resolution preserves existing demographics; use PATCH to update them. Conflicting identifiers return 409. Email never merges patients. API keys require Idempotency-Key.
+   * Creates a patient or resolves a matching externalId or external identity within this practice and mode. externalId belongs to the calling integration; externalIdentities holds aliases from other systems. Resolution preserves existing demographics; use PATCH to update them. Conflicting identifiers return 409. Email never merges patients. API keys require Idempotency-Key.
    * Create patient
    */
   async createPatientRaw(
@@ -470,7 +443,7 @@ export class PatientsApi extends runtime.BaseAPI {
   }
 
   /**
-   * Creates a patient or resolves matching external identifiers within this practice and mode. Resolution preserves existing demographics; use PATCH to update them. Conflicting identifiers return 409. Email never merges patients. API keys require Idempotency-Key.
+   * Creates a patient or resolves a matching externalId or external identity within this practice and mode. externalId belongs to the calling integration; externalIdentities holds aliases from other systems. Resolution preserves existing demographics; use PATCH to update them. Conflicting identifiers return 409. Email never merges patients. API keys require Idempotency-Key.
    * Create patient
    */
   async createPatient(
@@ -505,20 +478,6 @@ export class PatientsApi extends runtime.BaseAPI {
       throw new runtime.RequiredError(
         "idempotencyKey",
         'Required parameter "idempotencyKey" was null or undefined when calling createPatientAddress().',
-      );
-    }
-
-    if (requestParameters["affinityActorId"] == null) {
-      throw new runtime.RequiredError(
-        "affinityActorId",
-        'Required parameter "affinityActorId" was null or undefined when calling createPatientAddress().',
-      );
-    }
-
-    if (requestParameters["affinityActorType"] == null) {
-      throw new runtime.RequiredError(
-        "affinityActorType",
-        'Required parameter "affinityActorType" was null or undefined when calling createPatientAddress().',
       );
     }
 
@@ -638,20 +597,6 @@ export class PatientsApi extends runtime.BaseAPI {
       );
     }
 
-    if (requestParameters["affinityActorId"] == null) {
-      throw new runtime.RequiredError(
-        "affinityActorId",
-        'Required parameter "affinityActorId" was null or undefined when calling deletePatient().',
-      );
-    }
-
-    if (requestParameters["affinityActorType"] == null) {
-      throw new runtime.RequiredError(
-        "affinityActorType",
-        'Required parameter "affinityActorType" was null or undefined when calling deletePatient().',
-      );
-    }
-
     const queryParameters: any = {};
 
     const headerParameters: runtime.HTTPHeaders = {};
@@ -746,20 +691,6 @@ export class PatientsApi extends runtime.BaseAPI {
       throw new runtime.RequiredError(
         "practiceId",
         'Required parameter "practiceId" was null or undefined when calling getPatient().',
-      );
-    }
-
-    if (requestParameters["affinityActorId"] == null) {
-      throw new runtime.RequiredError(
-        "affinityActorId",
-        'Required parameter "affinityActorId" was null or undefined when calling getPatient().',
-      );
-    }
-
-    if (requestParameters["affinityActorType"] == null) {
-      throw new runtime.RequiredError(
-        "affinityActorType",
-        'Required parameter "affinityActorType" was null or undefined when calling getPatient().',
       );
     }
 
@@ -858,20 +789,6 @@ export class PatientsApi extends runtime.BaseAPI {
       );
     }
 
-    if (requestParameters["affinityActorId"] == null) {
-      throw new runtime.RequiredError(
-        "affinityActorId",
-        'Required parameter "affinityActorId" was null or undefined when calling getPatientAllergies().',
-      );
-    }
-
-    if (requestParameters["affinityActorType"] == null) {
-      throw new runtime.RequiredError(
-        "affinityActorType",
-        'Required parameter "affinityActorType" was null or undefined when calling getPatientAllergies().',
-      );
-    }
-
     const queryParameters: any = {};
 
     const headerParameters: runtime.HTTPHeaders = {};
@@ -964,20 +881,6 @@ export class PatientsApi extends runtime.BaseAPI {
       throw new runtime.RequiredError(
         "patientId",
         'Required parameter "patientId" was null or undefined when calling listPatientAddresses().',
-      );
-    }
-
-    if (requestParameters["affinityActorId"] == null) {
-      throw new runtime.RequiredError(
-        "affinityActorId",
-        'Required parameter "affinityActorId" was null or undefined when calling listPatientAddresses().',
-      );
-    }
-
-    if (requestParameters["affinityActorType"] == null) {
-      throw new runtime.RequiredError(
-        "affinityActorType",
-        'Required parameter "affinityActorType" was null or undefined when calling listPatientAddresses().',
       );
     }
 
@@ -1083,24 +986,14 @@ export class PatientsApi extends runtime.BaseAPI {
       );
     }
 
-    if (requestParameters["affinityActorId"] == null) {
-      throw new runtime.RequiredError(
-        "affinityActorId",
-        'Required parameter "affinityActorId" was null or undefined when calling listPatients().',
-      );
-    }
-
-    if (requestParameters["affinityActorType"] == null) {
-      throw new runtime.RequiredError(
-        "affinityActorType",
-        'Required parameter "affinityActorType" was null or undefined when calling listPatients().',
-      );
-    }
-
     const queryParameters: any = {};
 
     if (requestParameters["endingBefore"] != null) {
       queryParameters["endingBefore"] = requestParameters["endingBefore"];
+    }
+
+    if (requestParameters["externalId"] != null) {
+      queryParameters["externalId"] = requestParameters["externalId"];
     }
 
     if (requestParameters["externalIdentitySource"] != null) {
@@ -1193,7 +1086,7 @@ export class PatientsApi extends runtime.BaseAPI {
   }
 
   /**
-   * Lists patients in one practice and mode. Provide externalIdentitySource and externalIdentityValue together for an exact, case-sensitive identity match after trimming whitespace. Other filters also apply. Available to that practice\'s API key or an authorized platform key.
+   * Lists patients in one practice and mode. Use externalId for an exact match in the calling integration\'s namespace. Use externalIdentitySource with externalIdentityValue to search an explicit alias. Identity matching is case-sensitive after trimming whitespace. Other filters also apply.
    * List patients
    */
   async listPatientsRaw(
@@ -1209,7 +1102,7 @@ export class PatientsApi extends runtime.BaseAPI {
   }
 
   /**
-   * Lists patients in one practice and mode. Provide externalIdentitySource and externalIdentityValue together for an exact, case-sensitive identity match after trimming whitespace. Other filters also apply. Available to that practice\'s API key or an authorized platform key.
+   * Lists patients in one practice and mode. Use externalId for an exact match in the calling integration\'s namespace. Use externalIdentitySource with externalIdentityValue to search an explicit alias. Identity matching is case-sensitive after trimming whitespace. Other filters also apply.
    * List patients
    */
   async listPatients(
@@ -1244,20 +1137,6 @@ export class PatientsApi extends runtime.BaseAPI {
       throw new runtime.RequiredError(
         "idempotencyKey",
         'Required parameter "idempotencyKey" was null or undefined when calling replacePatientAllergies().',
-      );
-    }
-
-    if (requestParameters["affinityActorId"] == null) {
-      throw new runtime.RequiredError(
-        "affinityActorId",
-        'Required parameter "affinityActorId" was null or undefined when calling replacePatientAllergies().',
-      );
-    }
-
-    if (requestParameters["affinityActorType"] == null) {
-      throw new runtime.RequiredError(
-        "affinityActorType",
-        'Required parameter "affinityActorType" was null or undefined when calling replacePatientAllergies().',
       );
     }
 
@@ -1386,20 +1265,6 @@ export class PatientsApi extends runtime.BaseAPI {
       );
     }
 
-    if (requestParameters["affinityActorId"] == null) {
-      throw new runtime.RequiredError(
-        "affinityActorId",
-        'Required parameter "affinityActorId" was null or undefined when calling setDefaultPatientAddress().',
-      );
-    }
-
-    if (requestParameters["affinityActorType"] == null) {
-      throw new runtime.RequiredError(
-        "affinityActorType",
-        'Required parameter "affinityActorType" was null or undefined when calling setDefaultPatientAddress().',
-      );
-    }
-
     const queryParameters: any = {};
 
     const headerParameters: runtime.HTTPHeaders = {};
@@ -1510,20 +1375,6 @@ export class PatientsApi extends runtime.BaseAPI {
       );
     }
 
-    if (requestParameters["affinityActorId"] == null) {
-      throw new runtime.RequiredError(
-        "affinityActorId",
-        'Required parameter "affinityActorId" was null or undefined when calling updatePatient().',
-      );
-    }
-
-    if (requestParameters["affinityActorType"] == null) {
-      throw new runtime.RequiredError(
-        "affinityActorType",
-        'Required parameter "affinityActorType" was null or undefined when calling updatePatient().',
-      );
-    }
-
     if (requestParameters["updatePatientRequest"] == null) {
       throw new runtime.RequiredError(
         "updatePatientRequest",
@@ -1586,7 +1437,7 @@ export class PatientsApi extends runtime.BaseAPI {
   }
 
   /**
-   * Updates a patient in the current practice and mode. Omitted fields remain unchanged; null clears an optional field. External identifiers cannot be reassigned from another patient. API keys require Idempotency-Key.
+   * Updates a patient in the current practice and mode. Omitted fields remain unchanged; null clears an optional field. externalId updates the calling integration\'s identifier. externalIdentities replaces its explicit aliases. Identifiers cannot be reassigned from another patient. API keys require Idempotency-Key.
    * Update patient
    */
   async updatePatientRaw(
@@ -1602,7 +1453,7 @@ export class PatientsApi extends runtime.BaseAPI {
   }
 
   /**
-   * Updates a patient in the current practice and mode. Omitted fields remain unchanged; null clears an optional field. External identifiers cannot be reassigned from another patient. API keys require Idempotency-Key.
+   * Updates a patient in the current practice and mode. Omitted fields remain unchanged; null clears an optional field. externalId updates the calling integration\'s identifier. externalIdentities replaces its explicit aliases. Identifiers cannot be reassigned from another patient. API keys require Idempotency-Key.
    * Update patient
    */
   async updatePatient(
@@ -1644,20 +1495,6 @@ export class PatientsApi extends runtime.BaseAPI {
       throw new runtime.RequiredError(
         "idempotencyKey",
         'Required parameter "idempotencyKey" was null or undefined when calling updatePatientAddress().',
-      );
-    }
-
-    if (requestParameters["affinityActorId"] == null) {
-      throw new runtime.RequiredError(
-        "affinityActorId",
-        'Required parameter "affinityActorId" was null or undefined when calling updatePatientAddress().',
-      );
-    }
-
-    if (requestParameters["affinityActorType"] == null) {
-      throw new runtime.RequiredError(
-        "affinityActorType",
-        'Required parameter "affinityActorType" was null or undefined when calling updatePatientAddress().',
       );
     }
 

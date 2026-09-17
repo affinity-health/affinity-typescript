@@ -20,20 +20,20 @@ import {
   ListPracticesResponseDataInnerPrescribersInnerToJSON,
   ListPracticesResponseDataInnerPrescribersInnerToJSONTyped,
 } from "./ListPracticesResponseDataInnerPrescribersInner";
-import type { UpdatePatientAddressResponseAddress } from "./UpdatePatientAddressResponseAddress";
+import type { CreatePatientAddressResponseAddress } from "./CreatePatientAddressResponseAddress";
 import {
-  UpdatePatientAddressResponseAddressFromJSON,
-  UpdatePatientAddressResponseAddressFromJSONTyped,
-  UpdatePatientAddressResponseAddressToJSON,
-  UpdatePatientAddressResponseAddressToJSONTyped,
-} from "./UpdatePatientAddressResponseAddress";
-import type { CreatePracticeResponseContacts } from "./CreatePracticeResponseContacts";
+  CreatePatientAddressResponseAddressFromJSON,
+  CreatePatientAddressResponseAddressFromJSONTyped,
+  CreatePatientAddressResponseAddressToJSON,
+  CreatePatientAddressResponseAddressToJSONTyped,
+} from "./CreatePatientAddressResponseAddress";
+import type { ListPracticesResponseDataInnerContacts } from "./ListPracticesResponseDataInnerContacts";
 import {
-  CreatePracticeResponseContactsFromJSON,
-  CreatePracticeResponseContactsFromJSONTyped,
-  CreatePracticeResponseContactsToJSON,
-  CreatePracticeResponseContactsToJSONTyped,
-} from "./CreatePracticeResponseContacts";
+  ListPracticesResponseDataInnerContactsFromJSON,
+  ListPracticesResponseDataInnerContactsFromJSONTyped,
+  ListPracticesResponseDataInnerContactsToJSON,
+  ListPracticesResponseDataInnerContactsToJSONTyped,
+} from "./ListPracticesResponseDataInnerContacts";
 
 /**
  *
@@ -43,16 +43,16 @@ import {
 export interface ListPracticesResponseDataInner {
   /**
    *
-   * @type {UpdatePatientAddressResponseAddress}
+   * @type {CreatePatientAddressResponseAddress}
    * @memberof ListPracticesResponseDataInner
    */
-  address: UpdatePatientAddressResponseAddress | null;
+  address: CreatePatientAddressResponseAddress | null;
   /**
    *
-   * @type {CreatePracticeResponseContacts}
+   * @type {ListPracticesResponseDataInnerContacts}
    * @memberof ListPracticesResponseDataInner
    */
-  contacts: CreatePracticeResponseContacts;
+  contacts: ListPracticesResponseDataInnerContacts;
   /**
    * Match this integration's external identity in the API key's mode.
    * @type {string}
@@ -189,8 +189,8 @@ export function ListPracticesResponseDataInnerFromJSONTyped(
     return json;
   }
   return {
-    address: UpdatePatientAddressResponseAddressFromJSON(json["address"]),
-    contacts: CreatePracticeResponseContactsFromJSON(json["contacts"]),
+    address: CreatePatientAddressResponseAddressFromJSON(json["address"]),
+    contacts: ListPracticesResponseDataInnerContactsFromJSON(json["contacts"]),
     createdAt: json["createdAt"],
     externalId: json["externalId"],
     id: json["id"],
@@ -222,8 +222,8 @@ export function ListPracticesResponseDataInnerToJSONTyped(
   }
 
   return {
-    address: UpdatePatientAddressResponseAddressToJSON(value["address"]),
-    contacts: CreatePracticeResponseContactsToJSON(value["contacts"]),
+    address: CreatePatientAddressResponseAddressToJSON(value["address"]),
+    contacts: ListPracticesResponseDataInnerContactsToJSON(value["contacts"]),
     createdAt: value["createdAt"],
     externalId: value["externalId"],
     id: value["id"],

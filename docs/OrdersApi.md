@@ -2,24 +2,26 @@
 
 All URIs are relative to *https://api.joinaffinityai.com*
 
-| Method                                                                       | HTTP request                                                   | Description                  |
-| ---------------------------------------------------------------------------- | -------------------------------------------------------------- | ---------------------------- |
-| [**actOnOrderException**](OrdersApi.md#actonorderexceptionoperation)         | **POST** /v1/orders/{orderId}/exceptions/{exceptionId}/actions | Handle order exception       |
-| [**addOrderPrescription**](OrdersApi.md#addorderprescriptionoperation)       | **POST** /v1/orders/{orderId}/prescriptions                    | Add prescription to order    |
-| [**cancelOrder**](OrdersApi.md#cancelorderoperation)                         | **POST** /v1/orders/{orderId}/cancel                           | Cancel order                 |
-| [**createOrder**](OrdersApi.md#createorderoperation)                         | **POST** /v1/orders                                            | Create order                 |
-| [**createOrderBatch**](OrdersApi.md#createorderbatchoperation)               | **POST** /v1/order-batches                                     | Create order batch           |
-| [**getOrder**](OrdersApi.md#getorder)                                        | **GET** /v1/orders/{orderId}                                   | Read order                   |
-| [**listOrderEvents**](OrdersApi.md#listorderevents)                          | **GET** /v1/orders/{orderId}/events                            | List order events            |
-| [**listOrders**](OrdersApi.md#listorders)                                    | **GET** /v1/orders                                             | List orders                  |
-| [**rejectOrder**](OrdersApi.md#rejectorderoperation)                         | **POST** /v1/orders/{orderId}/rejection                        | Reject order                 |
-| [**signOrder**](OrdersApi.md#signorderoperation)                             | **POST** /v1/orders/{orderId}/sign                             | Sign order                   |
-| [**submitOrder**](OrdersApi.md#submitorderoperation)                         | **POST** /v1/orders/{orderId}/submit                           | Submit order                 |
-| [**updateOrderPrescription**](OrdersApi.md#updateorderprescriptionoperation) | **PATCH** /v1/orders/{orderId}/prescriptions/{prescriptionId}  | Update prescription in order |
+| Method                                                                           | HTTP request                                                   | Description                     |
+| -------------------------------------------------------------------------------- | -------------------------------------------------------------- | ------------------------------- |
+| [**actOnOrderException**](OrdersApi.md#actonorderexceptionoperation)             | **POST** /v1/orders/{orderId}/exceptions/{exceptionId}/actions | Handle order exception          |
+| [**addOrderPrescription**](OrdersApi.md#addorderprescriptionoperation)           | **POST** /v1/orders/{orderId}/prescriptions                    | Add prescription to order       |
+| [**cancelOrder**](OrdersApi.md#cancelorderoperation)                             | **POST** /v1/orders/{orderId}/cancel                           | Cancel order                    |
+| [**createOrder**](OrdersApi.md#createorderoperation)                             | **POST** /v1/orders                                            | Create order                    |
+| [**createOrderBatch**](OrdersApi.md#createorderbatchoperation)                   | **POST** /v1/order-batches                                     | Create order batch              |
+| [**getOrder**](OrdersApi.md#getorder)                                            | **GET** /v1/orders/{orderId}                                   | Read order                      |
+| [**getOrderTestSimulation**](OrdersApi.md#getordertestsimulation)                | **GET** /v1/orders/{orderId}/test-simulation                   | Read Test order controls        |
+| [**listOrderEvents**](OrdersApi.md#listorderevents)                              | **GET** /v1/orders/{orderId}/events                            | List order events               |
+| [**listOrders**](OrdersApi.md#listorders)                                        | **GET** /v1/orders                                             | List orders                     |
+| [**rejectOrder**](OrdersApi.md#rejectorderoperation)                             | **POST** /v1/orders/{orderId}/rejection                        | Reject order                    |
+| [**signOrder**](OrdersApi.md#signorderoperation)                                 | **POST** /v1/orders/{orderId}/sign                             | Sign order                      |
+| [**submitOrder**](OrdersApi.md#submitorderoperation)                             | **POST** /v1/orders/{orderId}/submit                           | Submit order                    |
+| [**updateOrderPrescription**](OrdersApi.md#updateorderprescriptionoperation)     | **PATCH** /v1/orders/{orderId}/prescriptions/{prescriptionId}  | Update prescription in order    |
+| [**updateOrderTestSimulation**](OrdersApi.md#updateordertestsimulationoperation) | **PUT** /v1/orders/{orderId}/test-simulation                   | Configure Test order simulation |
 
 ## actOnOrderException
 
-> ActOnOrderExceptionResponse actOnOrderException(exceptionId, orderId, idempotencyKey, affinityActorId, affinityActorType, actOnOrderExceptionRequest, affinityVersion)
+> ActOnOrderExceptionResponse actOnOrderException(exceptionId, orderId, idempotencyKey, actOnOrderExceptionRequest, affinityVersion, affinityActorId, affinityActorType)
 
 Handle order exception
 
@@ -51,14 +53,14 @@ async function example() {
     orderId: orderId_example,
     // string
     idempotencyKey: idempotencyKey_example,
-    // string
-    affinityActorId: affinityActorId_example,
-    // string
-    affinityActorType: affinityActorType_example,
     // ActOnOrderExceptionRequest
     actOnOrderExceptionRequest: ...,
     // string (optional)
     affinityVersion: affinityVersion_example,
+    // string | Required for user actors and optional for system actors. Omit both actor headers to use the authenticated service account as a system actor. (optional)
+    affinityActorId: affinityActorId_example,
+    // string | Use user when a person initiated the action and system for autonomous work. Omit both actor headers to default to system. (optional)
+    affinityActorType: affinityActorType_example,
   } satisfies ActOnOrderExceptionOperationRequest;
 
   try {
@@ -75,15 +77,15 @@ example().catch(console.error);
 
 ### Parameters
 
-| Name                           | Type                                                        | Description | Notes                                |
-| ------------------------------ | ----------------------------------------------------------- | ----------- | ------------------------------------ |
-| **exceptionId**                | `string`                                                    |             | [Defaults to `undefined`]            |
-| **orderId**                    | `string`                                                    |             | [Defaults to `undefined`]            |
-| **idempotencyKey**             | `string`                                                    |             | [Defaults to `undefined`]            |
-| **affinityActorId**            | `string`                                                    |             | [Defaults to `undefined`]            |
-| **affinityActorType**          | `string`                                                    |             | [Defaults to `undefined`]            |
-| **actOnOrderExceptionRequest** | [ActOnOrderExceptionRequest](ActOnOrderExceptionRequest.md) |             |                                      |
-| **affinityVersion**            | `string`                                                    |             | [Optional] [Defaults to `undefined`] |
+| Name                           | Type                                                        | Description                                                                                                                                  | Notes                                |
+| ------------------------------ | ----------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------ |
+| **exceptionId**                | `string`                                                    |                                                                                                                                              | [Defaults to `undefined`]            |
+| **orderId**                    | `string`                                                    |                                                                                                                                              | [Defaults to `undefined`]            |
+| **idempotencyKey**             | `string`                                                    |                                                                                                                                              | [Defaults to `undefined`]            |
+| **actOnOrderExceptionRequest** | [ActOnOrderExceptionRequest](ActOnOrderExceptionRequest.md) |                                                                                                                                              |                                      |
+| **affinityVersion**            | `string`                                                    |                                                                                                                                              | [Optional] [Defaults to `undefined`] |
+| **affinityActorId**            | `string`                                                    | Required for user actors and optional for system actors. Omit both actor headers to use the authenticated service account as a system actor. | [Optional] [Defaults to `undefined`] |
+| **affinityActorType**          | `string`                                                    | Use user when a person initiated the action and system for autonomous work. Omit both actor headers to default to system.                    | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 
@@ -112,11 +114,11 @@ example().catch(console.error);
 
 ## addOrderPrescription
 
-> AddOrderPrescriptionResponse addOrderPrescription(orderId, idempotencyKey, affinityActorId, affinityActorType, addOrderPrescriptionRequest, affinityVersion)
+> AddOrderPrescriptionResponse addOrderPrescription(orderId, idempotencyKey, addOrderPrescriptionRequest, affinityVersion, affinityActorId, affinityActorType)
 
 Add prescription to order
 
-Requires orders:write, actor context, Idempotency-Key and the current expectedVersions for every prescription. Adds a complete prescription to an unsigned Order and returns all new versions. Patient and prescriber attribution stay fixed. Signed orders cannot be amended through this endpoint. Signing and submission require orders:sign through their separate endpoints.
+Requires orders:write, Idempotency-Key and the current expectedVersions for every prescription. Adds a complete prescription to an unsigned Order and returns all new versions. Omitted actor context defaults to the authenticated service account as a system actor. Patient and prescriber attribution stay fixed. Signed orders cannot be amended through this endpoint. Signing and submission require orders:sign through their separate endpoints.
 
 ### Example
 
@@ -142,14 +144,14 @@ async function example() {
     orderId: orderId_example,
     // string
     idempotencyKey: idempotencyKey_example,
-    // string
-    affinityActorId: affinityActorId_example,
-    // string
-    affinityActorType: affinityActorType_example,
     // AddOrderPrescriptionRequest
     addOrderPrescriptionRequest: ...,
     // string (optional)
     affinityVersion: affinityVersion_example,
+    // string | Required for user actors and optional for system actors. Omit both actor headers to use the authenticated service account as a system actor. (optional)
+    affinityActorId: affinityActorId_example,
+    // string | Use user when a person initiated the action and system for autonomous work. Omit both actor headers to default to system. (optional)
+    affinityActorType: affinityActorType_example,
   } satisfies AddOrderPrescriptionOperationRequest;
 
   try {
@@ -166,14 +168,14 @@ example().catch(console.error);
 
 ### Parameters
 
-| Name                            | Type                                                          | Description | Notes                                |
-| ------------------------------- | ------------------------------------------------------------- | ----------- | ------------------------------------ |
-| **orderId**                     | `string`                                                      |             | [Defaults to `undefined`]            |
-| **idempotencyKey**              | `string`                                                      |             | [Defaults to `undefined`]            |
-| **affinityActorId**             | `string`                                                      |             | [Defaults to `undefined`]            |
-| **affinityActorType**           | `string`                                                      |             | [Defaults to `undefined`]            |
-| **addOrderPrescriptionRequest** | [AddOrderPrescriptionRequest](AddOrderPrescriptionRequest.md) |             |                                      |
-| **affinityVersion**             | `string`                                                      |             | [Optional] [Defaults to `undefined`] |
+| Name                            | Type                                                          | Description                                                                                                                                  | Notes                                |
+| ------------------------------- | ------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------ |
+| **orderId**                     | `string`                                                      |                                                                                                                                              | [Defaults to `undefined`]            |
+| **idempotencyKey**              | `string`                                                      |                                                                                                                                              | [Defaults to `undefined`]            |
+| **addOrderPrescriptionRequest** | [AddOrderPrescriptionRequest](AddOrderPrescriptionRequest.md) |                                                                                                                                              |                                      |
+| **affinityVersion**             | `string`                                                      |                                                                                                                                              | [Optional] [Defaults to `undefined`] |
+| **affinityActorId**             | `string`                                                      | Required for user actors and optional for system actors. Omit both actor headers to use the authenticated service account as a system actor. | [Optional] [Defaults to `undefined`] |
+| **affinityActorType**           | `string`                                                      | Use user when a person initiated the action and system for autonomous work. Omit both actor headers to default to system.                    | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 
@@ -204,7 +206,7 @@ example().catch(console.error);
 
 ## cancelOrder
 
-> CancelOrderResponse cancelOrder(orderId, idempotencyKey, affinityActorId, affinityActorType, cancelOrderRequest, affinityVersion)
+> CancelOrderResponse cancelOrder(orderId, idempotencyKey, cancelOrderRequest, affinityVersion, affinityActorId, affinityActorType)
 
 Cancel order
 
@@ -234,14 +236,14 @@ async function example() {
     orderId: orderId_example,
     // string
     idempotencyKey: idempotencyKey_example,
-    // string
-    affinityActorId: affinityActorId_example,
-    // string
-    affinityActorType: affinityActorType_example,
     // CancelOrderRequest
     cancelOrderRequest: ...,
     // string (optional)
     affinityVersion: affinityVersion_example,
+    // string | Required for user actors and optional for system actors. Omit both actor headers to use the authenticated service account as a system actor. (optional)
+    affinityActorId: affinityActorId_example,
+    // string | Use user when a person initiated the action and system for autonomous work. Omit both actor headers to default to system. (optional)
+    affinityActorType: affinityActorType_example,
   } satisfies CancelOrderOperationRequest;
 
   try {
@@ -258,14 +260,14 @@ example().catch(console.error);
 
 ### Parameters
 
-| Name                   | Type                                        | Description | Notes                                |
-| ---------------------- | ------------------------------------------- | ----------- | ------------------------------------ |
-| **orderId**            | `string`                                    |             | [Defaults to `undefined`]            |
-| **idempotencyKey**     | `string`                                    |             | [Defaults to `undefined`]            |
-| **affinityActorId**    | `string`                                    |             | [Defaults to `undefined`]            |
-| **affinityActorType**  | `string`                                    |             | [Defaults to `undefined`]            |
-| **cancelOrderRequest** | [CancelOrderRequest](CancelOrderRequest.md) |             |                                      |
-| **affinityVersion**    | `string`                                    |             | [Optional] [Defaults to `undefined`] |
+| Name                   | Type                                        | Description                                                                                                                                  | Notes                                |
+| ---------------------- | ------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------ |
+| **orderId**            | `string`                                    |                                                                                                                                              | [Defaults to `undefined`]            |
+| **idempotencyKey**     | `string`                                    |                                                                                                                                              | [Defaults to `undefined`]            |
+| **cancelOrderRequest** | [CancelOrderRequest](CancelOrderRequest.md) |                                                                                                                                              |                                      |
+| **affinityVersion**    | `string`                                    |                                                                                                                                              | [Optional] [Defaults to `undefined`] |
+| **affinityActorId**    | `string`                                    | Required for user actors and optional for system actors. Omit both actor headers to use the authenticated service account as a system actor. | [Optional] [Defaults to `undefined`] |
+| **affinityActorType**  | `string`                                    | Use user when a person initiated the action and system for autonomous work. Omit both actor headers to default to system.                    | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 
@@ -294,11 +296,11 @@ example().catch(console.error);
 
 ## createOrder
 
-> CreateOrderResponse createOrder(idempotencyKey, affinityActorId, affinityActorType, createOrderRequest, affinityVersion)
+> CreateOrderResponse createOrder(idempotencyKey, createOrderRequest, affinityVersion, affinityActorId, affinityActorType)
 
 Create order
 
-Creates one unsigned order with 1–20 prescriptions for one patient in one practice. Supply exactly one of patientId or patient; inline patient creation additionally requires patients:write and commits atomically with the order. External identities resolve within the practice and mode; email does not merge patients. Omit userId for an unassigned draft or select a registered or accepted clinician. Use the sign and submit endpoints after collecting clinician attestation. Idempotency-Key and actor context are required.
+Creates one unsigned order with 1–20 prescriptions for one patient in one practice. Supply exactly one of patientId or patient; inline patient creation additionally requires patients:write and commits atomically with the order. External identities resolve within the practice and mode; email does not merge patients. Omit userId for an unassigned draft or select a registered or accepted clinician. Use the sign and submit endpoints after collecting clinician attestation. Idempotency-Key is required. Omitted actor context defaults to the authenticated service account as a system actor.
 
 ### Example
 
@@ -322,14 +324,14 @@ async function example() {
   const body = {
     // string
     idempotencyKey: idempotencyKey_example,
-    // string
-    affinityActorId: affinityActorId_example,
-    // string
-    affinityActorType: affinityActorType_example,
     // CreateOrderRequest
     createOrderRequest: ...,
     // string (optional)
     affinityVersion: affinityVersion_example,
+    // string | Required for user actors and optional for system actors. Omit both actor headers to use the authenticated service account as a system actor. (optional)
+    affinityActorId: affinityActorId_example,
+    // string | Use user when a person initiated the action and system for autonomous work. Omit both actor headers to default to system. (optional)
+    affinityActorType: affinityActorType_example,
   } satisfies CreateOrderOperationRequest;
 
   try {
@@ -346,13 +348,13 @@ example().catch(console.error);
 
 ### Parameters
 
-| Name                   | Type                                        | Description | Notes                                |
-| ---------------------- | ------------------------------------------- | ----------- | ------------------------------------ |
-| **idempotencyKey**     | `string`                                    |             | [Defaults to `undefined`]            |
-| **affinityActorId**    | `string`                                    |             | [Defaults to `undefined`]            |
-| **affinityActorType**  | `string`                                    |             | [Defaults to `undefined`]            |
-| **createOrderRequest** | [CreateOrderRequest](CreateOrderRequest.md) |             |                                      |
-| **affinityVersion**    | `string`                                    |             | [Optional] [Defaults to `undefined`] |
+| Name                   | Type                                        | Description                                                                                                                                  | Notes                                |
+| ---------------------- | ------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------ |
+| **idempotencyKey**     | `string`                                    |                                                                                                                                              | [Defaults to `undefined`]            |
+| **createOrderRequest** | [CreateOrderRequest](CreateOrderRequest.md) |                                                                                                                                              |                                      |
+| **affinityVersion**    | `string`                                    |                                                                                                                                              | [Optional] [Defaults to `undefined`] |
+| **affinityActorId**    | `string`                                    | Required for user actors and optional for system actors. Omit both actor headers to use the authenticated service account as a system actor. | [Optional] [Defaults to `undefined`] |
+| **affinityActorType**  | `string`                                    | Use user when a person initiated the action and system for autonomous work. Omit both actor headers to default to system.                    | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 
@@ -381,11 +383,11 @@ example().catch(console.error);
 
 ## createOrderBatch
 
-> CreateOrderBatchResponse createOrderBatch(idempotencyKey, affinityActorId, affinityActorType, createOrderBatchRequest, affinityVersion)
+> CreateOrderBatchResponse createOrderBatch(idempotencyKey, createOrderBatchRequest, affinityVersion, affinityActorId, affinityActorType)
 
 Create order batch
 
-Creates 1–20 orders for distinct patients in one practice, each with 1–20 prescriptions. Each accepts patientId or inline patient details. Orders and newly created patients commit atomically; any failure saves none. Requires orders:write, actor headers, and Idempotency-Key; inline patients also require patients:write. Sign and submit each resulting order separately using orders:sign.
+Creates 1–20 orders for distinct patients in one practice, each with 1–20 prescriptions. Each accepts patientId or inline patient details. Orders and newly created patients commit atomically; any failure saves none. Requires orders:write and Idempotency-Key; inline patients also require patients:write. Omitted actor context defaults to the authenticated service account as a system actor. Sign and submit each resulting order separately using orders:sign.
 
 ### Example
 
@@ -409,14 +411,14 @@ async function example() {
   const body = {
     // string
     idempotencyKey: idempotencyKey_example,
-    // string
-    affinityActorId: affinityActorId_example,
-    // string
-    affinityActorType: affinityActorType_example,
     // CreateOrderBatchRequest
     createOrderBatchRequest: ...,
     // string (optional)
     affinityVersion: affinityVersion_example,
+    // string | Required for user actors and optional for system actors. Omit both actor headers to use the authenticated service account as a system actor. (optional)
+    affinityActorId: affinityActorId_example,
+    // string | Use user when a person initiated the action and system for autonomous work. Omit both actor headers to default to system. (optional)
+    affinityActorType: affinityActorType_example,
   } satisfies CreateOrderBatchOperationRequest;
 
   try {
@@ -433,13 +435,13 @@ example().catch(console.error);
 
 ### Parameters
 
-| Name                        | Type                                                  | Description | Notes                                |
-| --------------------------- | ----------------------------------------------------- | ----------- | ------------------------------------ |
-| **idempotencyKey**          | `string`                                              |             | [Defaults to `undefined`]            |
-| **affinityActorId**         | `string`                                              |             | [Defaults to `undefined`]            |
-| **affinityActorType**       | `string`                                              |             | [Defaults to `undefined`]            |
-| **createOrderBatchRequest** | [CreateOrderBatchRequest](CreateOrderBatchRequest.md) |             |                                      |
-| **affinityVersion**         | `string`                                              |             | [Optional] [Defaults to `undefined`] |
+| Name                        | Type                                                  | Description                                                                                                                                  | Notes                                |
+| --------------------------- | ----------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------ |
+| **idempotencyKey**          | `string`                                              |                                                                                                                                              | [Defaults to `undefined`]            |
+| **createOrderBatchRequest** | [CreateOrderBatchRequest](CreateOrderBatchRequest.md) |                                                                                                                                              |                                      |
+| **affinityVersion**         | `string`                                              |                                                                                                                                              | [Optional] [Defaults to `undefined`] |
+| **affinityActorId**         | `string`                                              | Required for user actors and optional for system actors. Omit both actor headers to use the authenticated service account as a system actor. | [Optional] [Defaults to `undefined`] |
+| **affinityActorType**       | `string`                                              | Use user when a person initiated the action and system for autonomous work. Omit both actor headers to default to system.                    | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 
@@ -470,7 +472,7 @@ example().catch(console.error);
 
 ## getOrder
 
-> GetOrderResponse getOrder(orderId, affinityActorId, affinityActorType, affinityVersion)
+> GetOrderResponse getOrder(orderId, affinityVersion, affinityActorId, affinityActorType)
 
 Read order
 
@@ -493,12 +495,12 @@ async function example() {
   const body = {
     // string
     orderId: orderId_example,
-    // string
-    affinityActorId: affinityActorId_example,
-    // string
-    affinityActorType: affinityActorType_example,
     // string (optional)
     affinityVersion: affinityVersion_example,
+    // string | Required for user actors and optional for system actors. Omit both actor headers to use the authenticated service account as a system actor. (optional)
+    affinityActorId: affinityActorId_example,
+    // string | Use user when a person initiated the action and system for autonomous work. Omit both actor headers to default to system. (optional)
+    affinityActorType: affinityActorType_example,
   } satisfies GetOrderRequest;
 
   try {
@@ -515,12 +517,12 @@ example().catch(console.error);
 
 ### Parameters
 
-| Name                  | Type     | Description | Notes                                |
-| --------------------- | -------- | ----------- | ------------------------------------ |
-| **orderId**           | `string` |             | [Defaults to `undefined`]            |
-| **affinityActorId**   | `string` |             | [Defaults to `undefined`]            |
-| **affinityActorType** | `string` |             | [Defaults to `undefined`]            |
-| **affinityVersion**   | `string` |             | [Optional] [Defaults to `undefined`] |
+| Name                  | Type     | Description                                                                                                                                  | Notes                                |
+| --------------------- | -------- | -------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------ |
+| **orderId**           | `string` |                                                                                                                                              | [Defaults to `undefined`]            |
+| **affinityVersion**   | `string` |                                                                                                                                              | [Optional] [Defaults to `undefined`] |
+| **affinityActorId**   | `string` | Required for user actors and optional for system actors. Omit both actor headers to use the authenticated service account as a system actor. | [Optional] [Defaults to `undefined`] |
+| **affinityActorType** | `string` | Use user when a person initiated the action and system for autonomous work. Omit both actor headers to default to system.                    | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 
@@ -543,13 +545,91 @@ example().catch(console.error);
 | **400**     | HTTP 400    | -                |
 | **401**     | HTTP 401    | -                |
 | **403**     | HTTP 403    | -                |
+| **404**     | HTTP 404    | -                |
+| **429**     | HTTP 429    | -                |
+
+[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
+
+## getOrderTestSimulation
+
+> GetOrderTestSimulationResponse getOrderTestSimulation(orderId, affinityVersion)
+
+Read Test order controls
+
+Requires orders:write. Available only in Test mode.
+
+### Example
+
+```ts
+import { Configuration, OrdersApi } from "@affinity-health/sdk";
+import type { GetOrderTestSimulationRequest } from "@affinity-health/sdk";
+
+async function example() {
+  console.log("🚀 Testing @affinity-health/sdk SDK...");
+  const config = new Configuration({
+    // Configure HTTP bearer authorization: bearerAuth
+    accessToken: "YOUR BEARER TOKEN",
+    // To configure API key authorization: affinityApiKey
+    apiKey: "YOUR API KEY",
+  });
+  const api = new OrdersApi(config);
+
+  const body = {
+    // string
+    orderId: orderId_example,
+    // string (optional)
+    affinityVersion: affinityVersion_example,
+  } satisfies GetOrderTestSimulationRequest;
+
+  try {
+    const data = await api.getOrderTestSimulation(body);
+    console.log(data);
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+// Run the test
+example().catch(console.error);
+```
+
+### Parameters
+
+| Name                | Type     | Description | Notes                                |
+| ------------------- | -------- | ----------- | ------------------------------------ |
+| **orderId**         | `string` |             | [Defaults to `undefined`]            |
+| **affinityVersion** | `string` |             | [Optional] [Defaults to `undefined`] |
+
+### Return type
+
+[**GetOrderTestSimulationResponse**](GetOrderTestSimulationResponse.md)
+
+### Authorization
+
+[bearerAuth](../README.md#bearerAuth), [affinityApiKey](../README.md#affinityApiKey)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: `application/json`
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+| ----------- | ----------- | ---------------- |
+| **200**     | HTTP 200    | -                |
+| **400**     | HTTP 400    | -                |
+| **401**     | HTTP 401    | -                |
+| **403**     | HTTP 403    | -                |
+| **404**     | HTTP 404    | -                |
+| **409**     | HTTP 409    | -                |
 | **429**     | HTTP 429    | -                |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
 ## listOrderEvents
 
-> ListOrderEventsResponse listOrderEvents(orderId, affinityActorId, affinityActorType, endingBefore, limit, startingAfter, affinityVersion)
+> ListOrderEventsResponse listOrderEvents(orderId, endingBefore, limit, startingAfter, affinityVersion, affinityActorId, affinityActorType)
 
 List order events
 
@@ -572,10 +652,6 @@ async function example() {
   const body = {
     // string
     orderId: orderId_example,
-    // string
-    affinityActorId: affinityActorId_example,
-    // string
-    affinityActorType: affinityActorType_example,
     // string (optional)
     endingBefore: endingBefore_example,
     // number (optional)
@@ -584,6 +660,10 @@ async function example() {
     startingAfter: startingAfter_example,
     // string (optional)
     affinityVersion: affinityVersion_example,
+    // string | Required for user actors and optional for system actors. Omit both actor headers to use the authenticated service account as a system actor. (optional)
+    affinityActorId: affinityActorId_example,
+    // string | Use user when a person initiated the action and system for autonomous work. Omit both actor headers to default to system. (optional)
+    affinityActorType: affinityActorType_example,
   } satisfies ListOrderEventsRequest;
 
   try {
@@ -600,15 +680,15 @@ example().catch(console.error);
 
 ### Parameters
 
-| Name                  | Type     | Description | Notes                                |
-| --------------------- | -------- | ----------- | ------------------------------------ |
-| **orderId**           | `string` |             | [Defaults to `undefined`]            |
-| **affinityActorId**   | `string` |             | [Defaults to `undefined`]            |
-| **affinityActorType** | `string` |             | [Defaults to `undefined`]            |
-| **endingBefore**      | `string` |             | [Optional] [Defaults to `undefined`] |
-| **limit**             | `number` |             | [Optional] [Defaults to `25`]        |
-| **startingAfter**     | `string` |             | [Optional] [Defaults to `undefined`] |
-| **affinityVersion**   | `string` |             | [Optional] [Defaults to `undefined`] |
+| Name                  | Type     | Description                                                                                                                                  | Notes                                |
+| --------------------- | -------- | -------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------ |
+| **orderId**           | `string` |                                                                                                                                              | [Defaults to `undefined`]            |
+| **endingBefore**      | `string` |                                                                                                                                              | [Optional] [Defaults to `undefined`] |
+| **limit**             | `number` |                                                                                                                                              | [Optional] [Defaults to `25`]        |
+| **startingAfter**     | `string` |                                                                                                                                              | [Optional] [Defaults to `undefined`] |
+| **affinityVersion**   | `string` |                                                                                                                                              | [Optional] [Defaults to `undefined`] |
+| **affinityActorId**   | `string` | Required for user actors and optional for system actors. Omit both actor headers to use the authenticated service account as a system actor. | [Optional] [Defaults to `undefined`] |
+| **affinityActorType** | `string` | Use user when a person initiated the action and system for autonomous work. Omit both actor headers to default to system.                    | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 
@@ -637,7 +717,7 @@ example().catch(console.error);
 
 ## listOrders
 
-> ListOrdersResponse listOrders(affinityActorId, affinityActorType, query, externalOrderId, createdAfter, createdBefore, endingBefore, limit, orderId, patientId, patientExternalId, practiceId, sort, startingAfter, status, affinityVersion)
+> ListOrdersResponse listOrders(query, externalOrderId, createdAfter, createdBefore, endingBefore, limit, orderId, patientId, patientExternalId, practiceId, sort, startingAfter, status, affinityVersion, affinityActorId, affinityActorType)
 
 List orders
 
@@ -658,10 +738,6 @@ async function example() {
   const api = new OrdersApi(config);
 
   const body = {
-    // string
-    affinityActorId: affinityActorId_example,
-    // string
-    affinityActorType: affinityActorType_example,
     // string (optional)
     query: query_example,
     // string (optional)
@@ -690,6 +766,10 @@ async function example() {
     status: status_example,
     // string (optional)
     affinityVersion: affinityVersion_example,
+    // string | Required for user actors and optional for system actors. Omit both actor headers to use the authenticated service account as a system actor. (optional)
+    affinityActorId: affinityActorId_example,
+    // string | Use user when a person initiated the action and system for autonomous work. Omit both actor headers to default to system. (optional)
+    affinityActorType: affinityActorType_example,
   } satisfies ListOrdersRequest;
 
   try {
@@ -706,24 +786,24 @@ example().catch(console.error);
 
 ### Parameters
 
-| Name                  | Type                                                                                                                                                          | Description | Notes                                                                                                                                                                                |
-| --------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| **affinityActorId**   | `string`                                                                                                                                                      |             | [Defaults to `undefined`]                                                                                                                                                            |
-| **affinityActorType** | `string`                                                                                                                                                      |             | [Defaults to `undefined`]                                                                                                                                                            |
-| **query**             | `string`                                                                                                                                                      |             | [Optional] [Defaults to `undefined`]                                                                                                                                                 |
-| **externalOrderId**   | `string`                                                                                                                                                      |             | [Optional] [Defaults to `undefined`]                                                                                                                                                 |
-| **createdAfter**      | `string`                                                                                                                                                      |             | [Optional] [Defaults to `undefined`]                                                                                                                                                 |
-| **createdBefore**     | `string`                                                                                                                                                      |             | [Optional] [Defaults to `undefined`]                                                                                                                                                 |
-| **endingBefore**      | `string`                                                                                                                                                      |             | [Optional] [Defaults to `undefined`]                                                                                                                                                 |
-| **limit**             | `number`                                                                                                                                                      |             | [Optional] [Defaults to `25`]                                                                                                                                                        |
-| **orderId**           | `string`                                                                                                                                                      |             | [Optional] [Defaults to `undefined`]                                                                                                                                                 |
-| **patientId**         | `string`                                                                                                                                                      |             | [Optional] [Defaults to `undefined`]                                                                                                                                                 |
-| **patientExternalId** | `string`                                                                                                                                                      |             | [Optional] [Defaults to `undefined`]                                                                                                                                                 |
-| **practiceId**        | `string`                                                                                                                                                      |             | [Optional] [Defaults to `undefined`]                                                                                                                                                 |
-| **sort**              | `newest`, `oldest`                                                                                                                                            |             | [Optional] [Defaults to `undefined`] [Enum: newest, oldest]                                                                                                                          |
-| **startingAfter**     | `string`                                                                                                                                                      |             | [Optional] [Defaults to `undefined`]                                                                                                                                                 |
-| **status**            | `blocked`, `cancelled`, `delivered`, `draft`, `partially_submitted`, `processing`, `ready`, `rejected`, `requires_provider_signature`, `shipped`, `submitted` |             | [Optional] [Defaults to `undefined`] [Enum: blocked, cancelled, delivered, draft, partially_submitted, processing, ready, rejected, requires_provider_signature, shipped, submitted] |
-| **affinityVersion**   | `string`                                                                                                                                                      |             | [Optional] [Defaults to `undefined`]                                                                                                                                                 |
+| Name                  | Type                                                                                                                                                          | Description                                                                                                                                  | Notes                                                                                                                                                                                |
+| --------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| **query**             | `string`                                                                                                                                                      |                                                                                                                                              | [Optional] [Defaults to `undefined`]                                                                                                                                                 |
+| **externalOrderId**   | `string`                                                                                                                                                      |                                                                                                                                              | [Optional] [Defaults to `undefined`]                                                                                                                                                 |
+| **createdAfter**      | `string`                                                                                                                                                      |                                                                                                                                              | [Optional] [Defaults to `undefined`]                                                                                                                                                 |
+| **createdBefore**     | `string`                                                                                                                                                      |                                                                                                                                              | [Optional] [Defaults to `undefined`]                                                                                                                                                 |
+| **endingBefore**      | `string`                                                                                                                                                      |                                                                                                                                              | [Optional] [Defaults to `undefined`]                                                                                                                                                 |
+| **limit**             | `number`                                                                                                                                                      |                                                                                                                                              | [Optional] [Defaults to `25`]                                                                                                                                                        |
+| **orderId**           | `string`                                                                                                                                                      |                                                                                                                                              | [Optional] [Defaults to `undefined`]                                                                                                                                                 |
+| **patientId**         | `string`                                                                                                                                                      |                                                                                                                                              | [Optional] [Defaults to `undefined`]                                                                                                                                                 |
+| **patientExternalId** | `string`                                                                                                                                                      |                                                                                                                                              | [Optional] [Defaults to `undefined`]                                                                                                                                                 |
+| **practiceId**        | `string`                                                                                                                                                      |                                                                                                                                              | [Optional] [Defaults to `undefined`]                                                                                                                                                 |
+| **sort**              | `newest`, `oldest`                                                                                                                                            |                                                                                                                                              | [Optional] [Defaults to `undefined`] [Enum: newest, oldest]                                                                                                                          |
+| **startingAfter**     | `string`                                                                                                                                                      |                                                                                                                                              | [Optional] [Defaults to `undefined`]                                                                                                                                                 |
+| **status**            | `blocked`, `cancelled`, `delivered`, `draft`, `partially_submitted`, `processing`, `ready`, `rejected`, `requires_provider_signature`, `shipped`, `submitted` |                                                                                                                                              | [Optional] [Defaults to `undefined`] [Enum: blocked, cancelled, delivered, draft, partially_submitted, processing, ready, rejected, requires_provider_signature, shipped, submitted] |
+| **affinityVersion**   | `string`                                                                                                                                                      |                                                                                                                                              | [Optional] [Defaults to `undefined`]                                                                                                                                                 |
+| **affinityActorId**   | `string`                                                                                                                                                      | Required for user actors and optional for system actors. Omit both actor headers to use the authenticated service account as a system actor. | [Optional] [Defaults to `undefined`]                                                                                                                                                 |
+| **affinityActorType** | `string`                                                                                                                                                      | Use user when a person initiated the action and system for autonomous work. Omit both actor headers to default to system.                    | [Optional] [Defaults to `undefined`]                                                                                                                                                 |
 
 ### Return type
 
@@ -1010,11 +1090,11 @@ example().catch(console.error);
 
 ## updateOrderPrescription
 
-> UpdateOrderPrescriptionResponse updateOrderPrescription(orderId, prescriptionId, idempotencyKey, affinityActorId, affinityActorType, updateOrderPrescriptionRequest, affinityVersion)
+> UpdateOrderPrescriptionResponse updateOrderPrescription(orderId, prescriptionId, idempotencyKey, updateOrderPrescriptionRequest, affinityVersion, affinityActorId, affinityActorType)
 
 Update prescription in order
 
-Requires orders:write, actor context, Idempotency-Key and the current expectedVersions for every prescription. Replaces one prescription with complete medication instructions and returns all new versions. Patient and prescriber attribution stay fixed. Signed orders cannot be amended through this endpoint. Signing and submission require orders:sign through their separate endpoints.
+Requires orders:write, Idempotency-Key and the current expectedVersions for every prescription. Replaces one prescription with complete medication instructions and returns all new versions. Omitted actor context defaults to the authenticated service account as a system actor. Patient and prescriber attribution stay fixed. Signed orders cannot be amended through this endpoint. Signing and submission require orders:sign through their separate endpoints.
 
 ### Example
 
@@ -1042,14 +1122,14 @@ async function example() {
     prescriptionId: prescriptionId_example,
     // string
     idempotencyKey: idempotencyKey_example,
-    // string
-    affinityActorId: affinityActorId_example,
-    // string
-    affinityActorType: affinityActorType_example,
     // UpdateOrderPrescriptionRequest
     updateOrderPrescriptionRequest: ...,
     // string (optional)
     affinityVersion: affinityVersion_example,
+    // string | Required for user actors and optional for system actors. Omit both actor headers to use the authenticated service account as a system actor. (optional)
+    affinityActorId: affinityActorId_example,
+    // string | Use user when a person initiated the action and system for autonomous work. Omit both actor headers to default to system. (optional)
+    affinityActorType: affinityActorType_example,
   } satisfies UpdateOrderPrescriptionOperationRequest;
 
   try {
@@ -1066,19 +1146,105 @@ example().catch(console.error);
 
 ### Parameters
 
-| Name                               | Type                                                                | Description | Notes                                |
-| ---------------------------------- | ------------------------------------------------------------------- | ----------- | ------------------------------------ |
-| **orderId**                        | `string`                                                            |             | [Defaults to `undefined`]            |
-| **prescriptionId**                 | `string`                                                            |             | [Defaults to `undefined`]            |
-| **idempotencyKey**                 | `string`                                                            |             | [Defaults to `undefined`]            |
-| **affinityActorId**                | `string`                                                            |             | [Defaults to `undefined`]            |
-| **affinityActorType**              | `string`                                                            |             | [Defaults to `undefined`]            |
-| **updateOrderPrescriptionRequest** | [UpdateOrderPrescriptionRequest](UpdateOrderPrescriptionRequest.md) |             |                                      |
-| **affinityVersion**                | `string`                                                            |             | [Optional] [Defaults to `undefined`] |
+| Name                               | Type                                                                | Description                                                                                                                                  | Notes                                |
+| ---------------------------------- | ------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------ |
+| **orderId**                        | `string`                                                            |                                                                                                                                              | [Defaults to `undefined`]            |
+| **prescriptionId**                 | `string`                                                            |                                                                                                                                              | [Defaults to `undefined`]            |
+| **idempotencyKey**                 | `string`                                                            |                                                                                                                                              | [Defaults to `undefined`]            |
+| **updateOrderPrescriptionRequest** | [UpdateOrderPrescriptionRequest](UpdateOrderPrescriptionRequest.md) |                                                                                                                                              |                                      |
+| **affinityVersion**                | `string`                                                            |                                                                                                                                              | [Optional] [Defaults to `undefined`] |
+| **affinityActorId**                | `string`                                                            | Required for user actors and optional for system actors. Omit both actor headers to use the authenticated service account as a system actor. | [Optional] [Defaults to `undefined`] |
+| **affinityActorType**              | `string`                                                            | Use user when a person initiated the action and system for autonomous work. Omit both actor headers to default to system.                    | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 
 [**UpdateOrderPrescriptionResponse**](UpdateOrderPrescriptionResponse.md)
+
+### Authorization
+
+[bearerAuth](../README.md#bearerAuth), [affinityApiKey](../README.md#affinityApiKey)
+
+### HTTP request headers
+
+- **Content-Type**: `application/json`
+- **Accept**: `application/json`
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+| ----------- | ----------- | ---------------- |
+| **200**     | HTTP 200    | -                |
+| **400**     | HTTP 400    | -                |
+| **401**     | HTTP 401    | -                |
+| **403**     | HTTP 403    | -                |
+| **404**     | HTTP 404    | -                |
+| **409**     | HTTP 409    | -                |
+| **429**     | HTTP 429    | -                |
+
+[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
+
+## updateOrderTestSimulation
+
+> UpdateOrderTestSimulationResponse updateOrderTestSimulation(orderId, idempotencyKey, updateOrderTestSimulationRequest, affinityVersion)
+
+Configure Test order simulation
+
+Requires orders:write and Idempotency-Key. Configure before submission or queue a valid pharmacy event in manual mode. Events use normal order history and Test webhooks. Live requests are rejected.
+
+### Example
+
+```ts
+import {
+  Configuration,
+  OrdersApi,
+} from '@affinity-health/sdk';
+import type { UpdateOrderTestSimulationOperationRequest } from '@affinity-health/sdk';
+
+async function example() {
+  console.log("🚀 Testing @affinity-health/sdk SDK...");
+  const config = new Configuration({
+    // Configure HTTP bearer authorization: bearerAuth
+    accessToken: "YOUR BEARER TOKEN",
+    // To configure API key authorization: affinityApiKey
+    apiKey: "YOUR API KEY",
+  });
+  const api = new OrdersApi(config);
+
+  const body = {
+    // string
+    orderId: orderId_example,
+    // string
+    idempotencyKey: idempotencyKey_example,
+    // UpdateOrderTestSimulationRequest
+    updateOrderTestSimulationRequest: ...,
+    // string (optional)
+    affinityVersion: affinityVersion_example,
+  } satisfies UpdateOrderTestSimulationOperationRequest;
+
+  try {
+    const data = await api.updateOrderTestSimulation(body);
+    console.log(data);
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+// Run the test
+example().catch(console.error);
+```
+
+### Parameters
+
+| Name                                 | Type                                                                    | Description | Notes                                |
+| ------------------------------------ | ----------------------------------------------------------------------- | ----------- | ------------------------------------ |
+| **orderId**                          | `string`                                                                |             | [Defaults to `undefined`]            |
+| **idempotencyKey**                   | `string`                                                                |             | [Defaults to `undefined`]            |
+| **updateOrderTestSimulationRequest** | [UpdateOrderTestSimulationRequest](UpdateOrderTestSimulationRequest.md) |             |                                      |
+| **affinityVersion**                  | `string`                                                                |             | [Optional] [Defaults to `undefined`] |
+
+### Return type
+
+[**UpdateOrderTestSimulationResponse**](UpdateOrderTestSimulationResponse.md)
 
 ### Authorization
 

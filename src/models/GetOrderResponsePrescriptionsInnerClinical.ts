@@ -27,13 +27,13 @@ import {
   GetOrderResponsePrescriptionsInnerClinicalObservationsInnerToJSON,
   GetOrderResponsePrescriptionsInnerClinicalObservationsInnerToJSONTyped,
 } from "./GetOrderResponsePrescriptionsInnerClinicalObservationsInner";
-import type { CancelOrderResponsePrescriptionsInnerClinicalConditionsInner } from "./CancelOrderResponsePrescriptionsInnerClinicalConditionsInner";
+import type { ListOrdersResponseDataInnerPrescriptionsInnerClinicalConditionsInner } from "./ListOrdersResponseDataInnerPrescriptionsInnerClinicalConditionsInner";
 import {
-  CancelOrderResponsePrescriptionsInnerClinicalConditionsInnerFromJSON,
-  CancelOrderResponsePrescriptionsInnerClinicalConditionsInnerFromJSONTyped,
-  CancelOrderResponsePrescriptionsInnerClinicalConditionsInnerToJSON,
-  CancelOrderResponsePrescriptionsInnerClinicalConditionsInnerToJSONTyped,
-} from "./CancelOrderResponsePrescriptionsInnerClinicalConditionsInner";
+  ListOrdersResponseDataInnerPrescriptionsInnerClinicalConditionsInnerFromJSON,
+  ListOrdersResponseDataInnerPrescriptionsInnerClinicalConditionsInnerFromJSONTyped,
+  ListOrdersResponseDataInnerPrescriptionsInnerClinicalConditionsInnerToJSON,
+  ListOrdersResponseDataInnerPrescriptionsInnerClinicalConditionsInnerToJSONTyped,
+} from "./ListOrdersResponseDataInnerPrescriptionsInnerClinicalConditionsInner";
 import type { GetOrderResponsePrescriptionsInnerClinicalCompoundingReason } from "./GetOrderResponsePrescriptionsInnerClinicalCompoundingReason";
 import {
   GetOrderResponsePrescriptionsInnerClinicalCompoundingReasonFromJSON,
@@ -63,10 +63,10 @@ export interface GetOrderResponsePrescriptionsInnerClinical {
   allergies?: Array<GetOrderResponsePrescriptionsInnerClinicalAllergiesInner> | null;
   /**
    *
-   * @type {Array<CancelOrderResponsePrescriptionsInnerClinicalConditionsInner>}
+   * @type {Array<ListOrdersResponseDataInnerPrescriptionsInnerClinicalConditionsInner>}
    * @memberof GetOrderResponsePrescriptionsInnerClinical
    */
-  conditions?: Array<CancelOrderResponsePrescriptionsInnerClinicalConditionsInner> | null;
+  conditions?: Array<ListOrdersResponseDataInnerPrescriptionsInnerClinicalConditionsInner> | null;
   /**
    *
    * @type {GetOrderResponsePrescriptionsInnerClinicalCompoundingReason}
@@ -120,7 +120,7 @@ export function GetOrderResponsePrescriptionsInnerClinicalFromJSONTyped(
       json["conditions"] == null
         ? undefined
         : (json["conditions"] as Array<any>).map(
-            CancelOrderResponsePrescriptionsInnerClinicalConditionsInnerFromJSON,
+            ListOrdersResponseDataInnerPrescriptionsInnerClinicalConditionsInnerFromJSON,
           ),
     compoundingReason:
       json["compoundingReason"] == null
@@ -168,7 +168,7 @@ export function GetOrderResponsePrescriptionsInnerClinicalToJSONTyped(
       value["conditions"] == null
         ? undefined
         : (value["conditions"] as Array<any>).map(
-            CancelOrderResponsePrescriptionsInnerClinicalConditionsInnerToJSON,
+            ListOrdersResponseDataInnerPrescriptionsInnerClinicalConditionsInnerToJSON,
           ),
     compoundingReason: GetOrderResponsePrescriptionsInnerClinicalCompoundingReasonToJSON(
       value["compoundingReason"],

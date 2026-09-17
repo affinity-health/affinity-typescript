@@ -34,17 +34,17 @@ export interface CreatePatientResponseMeasurementsInner {
    */
   heightCentimeters: ListCatalogItemsResponseDataInnerPrescriptionRequirementsQuantityIncrementMax | null;
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof CreatePatientResponseMeasurementsInner
    */
-  recordedAt: string | null;
+  recordedAt: string;
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof CreatePatientResponseMeasurementsInner
    */
-  source: string | null;
+  source: string;
   /**
    *
    * @type {ListCatalogItemsResponseDataInnerPrescriptionRequirementsQuantityIncrementMax}

@@ -59,7 +59,7 @@ export interface ArchivePracticeLocationRequest {
 
 export interface CreatePracticeLocationOperationRequest {
   practiceId: string;
-  idempotencyKey: string;
+  idempotencyKey: string | null;
   createPracticeLocationRequest: CreatePracticeLocationRequest;
   affinityVersion?: string;
 }
@@ -71,7 +71,7 @@ export interface GetPracticeLocationRequest {
 }
 
 export interface ListPracticeLocationsRequest {
-  practiceId: string | null;
+  practiceId: string;
   limit?: number;
   startingAfter?: string | null;
   endingBefore?: string | null;

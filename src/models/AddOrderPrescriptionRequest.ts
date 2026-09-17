@@ -13,20 +13,13 @@
  */
 
 import { mapValues } from "../runtime";
-import type { CreateOrderBatchRequestOrdersInnerPrescriptionsInner } from "./CreateOrderBatchRequestOrdersInnerPrescriptionsInner";
+import type { SignOrderRequestExpectedVersionsInner } from "./SignOrderRequestExpectedVersionsInner";
 import {
-  CreateOrderBatchRequestOrdersInnerPrescriptionsInnerFromJSON,
-  CreateOrderBatchRequestOrdersInnerPrescriptionsInnerFromJSONTyped,
-  CreateOrderBatchRequestOrdersInnerPrescriptionsInnerToJSON,
-  CreateOrderBatchRequestOrdersInnerPrescriptionsInnerToJSONTyped,
-} from "./CreateOrderBatchRequestOrdersInnerPrescriptionsInner";
-import type { RejectOrderRequestExpectedVersionsInner } from "./RejectOrderRequestExpectedVersionsInner";
-import {
-  RejectOrderRequestExpectedVersionsInnerFromJSON,
-  RejectOrderRequestExpectedVersionsInnerFromJSONTyped,
-  RejectOrderRequestExpectedVersionsInnerToJSON,
-  RejectOrderRequestExpectedVersionsInnerToJSONTyped,
-} from "./RejectOrderRequestExpectedVersionsInner";
+  SignOrderRequestExpectedVersionsInnerFromJSON,
+  SignOrderRequestExpectedVersionsInnerFromJSONTyped,
+  SignOrderRequestExpectedVersionsInnerToJSON,
+  SignOrderRequestExpectedVersionsInnerToJSONTyped,
+} from "./SignOrderRequestExpectedVersionsInner";
 import type { CreateOrderRequestMetadataValue } from "./CreateOrderRequestMetadataValue";
 import {
   CreateOrderRequestMetadataValueFromJSON,
@@ -34,6 +27,13 @@ import {
   CreateOrderRequestMetadataValueToJSON,
   CreateOrderRequestMetadataValueToJSONTyped,
 } from "./CreateOrderRequestMetadataValue";
+import type { AddOrderPrescriptionRequestPrescription } from "./AddOrderPrescriptionRequestPrescription";
+import {
+  AddOrderPrescriptionRequestPrescriptionFromJSON,
+  AddOrderPrescriptionRequestPrescriptionFromJSONTyped,
+  AddOrderPrescriptionRequestPrescriptionToJSON,
+  AddOrderPrescriptionRequestPrescriptionToJSONTyped,
+} from "./AddOrderPrescriptionRequestPrescription";
 
 /**
  *
@@ -55,16 +55,16 @@ export interface AddOrderPrescriptionRequest {
   practiceId: string | null;
   /**
    *
-   * @type {Array<RejectOrderRequestExpectedVersionsInner>}
+   * @type {Array<SignOrderRequestExpectedVersionsInner>}
    * @memberof AddOrderPrescriptionRequest
    */
-  expectedVersions: Array<RejectOrderRequestExpectedVersionsInner>;
+  expectedVersions: Array<SignOrderRequestExpectedVersionsInner>;
   /**
    *
-   * @type {CreateOrderBatchRequestOrdersInnerPrescriptionsInner}
+   * @type {AddOrderPrescriptionRequestPrescription}
    * @memberof AddOrderPrescriptionRequest
    */
-  prescription: CreateOrderBatchRequestOrdersInnerPrescriptionsInner;
+  prescription: AddOrderPrescriptionRequestPrescription;
 }
 
 /**
@@ -97,11 +97,9 @@ export function AddOrderPrescriptionRequestFromJSONTyped(
         : mapValues(json["metadata"], CreateOrderRequestMetadataValueFromJSON),
     practiceId: json["practiceId"],
     expectedVersions: (json["expectedVersions"] as Array<any>).map(
-      RejectOrderRequestExpectedVersionsInnerFromJSON,
+      SignOrderRequestExpectedVersionsInnerFromJSON,
     ),
-    prescription: CreateOrderBatchRequestOrdersInnerPrescriptionsInnerFromJSON(
-      json["prescription"],
-    ),
+    prescription: AddOrderPrescriptionRequestPrescriptionFromJSON(json["prescription"]),
   };
 }
 
@@ -124,8 +122,8 @@ export function AddOrderPrescriptionRequestToJSONTyped(
         : mapValues(value["metadata"], CreateOrderRequestMetadataValueToJSON),
     practiceId: value["practiceId"],
     expectedVersions: (value["expectedVersions"] as Array<any>).map(
-      RejectOrderRequestExpectedVersionsInnerToJSON,
+      SignOrderRequestExpectedVersionsInnerToJSON,
     ),
-    prescription: CreateOrderBatchRequestOrdersInnerPrescriptionsInnerToJSON(value["prescription"]),
+    prescription: AddOrderPrescriptionRequestPrescriptionToJSON(value["prescription"]),
   };
 }

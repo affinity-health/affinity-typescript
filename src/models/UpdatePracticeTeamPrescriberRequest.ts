@@ -13,13 +13,13 @@
  */
 
 import { mapValues } from "../runtime";
-import type { GetPracticeTeamInvitationResponsePersonAccountPrescriberConnectionProviderAddress } from "./GetPracticeTeamInvitationResponsePersonAccountPrescriberConnectionProviderAddress";
+import type { InvitePracticeTeamPersonRequestAddress } from "./InvitePracticeTeamPersonRequestAddress";
 import {
-  GetPracticeTeamInvitationResponsePersonAccountPrescriberConnectionProviderAddressFromJSON,
-  GetPracticeTeamInvitationResponsePersonAccountPrescriberConnectionProviderAddressFromJSONTyped,
-  GetPracticeTeamInvitationResponsePersonAccountPrescriberConnectionProviderAddressToJSON,
-  GetPracticeTeamInvitationResponsePersonAccountPrescriberConnectionProviderAddressToJSONTyped,
-} from "./GetPracticeTeamInvitationResponsePersonAccountPrescriberConnectionProviderAddress";
+  InvitePracticeTeamPersonRequestAddressFromJSON,
+  InvitePracticeTeamPersonRequestAddressFromJSONTyped,
+  InvitePracticeTeamPersonRequestAddressToJSON,
+  InvitePracticeTeamPersonRequestAddressToJSONTyped,
+} from "./InvitePracticeTeamPersonRequestAddress";
 
 /**
  *
@@ -53,10 +53,10 @@ export interface UpdatePracticeTeamPrescriberRequest {
   phone?: string | null;
   /**
    *
-   * @type {GetPracticeTeamInvitationResponsePersonAccountPrescriberConnectionProviderAddress}
+   * @type {InvitePracticeTeamPersonRequestAddress}
    * @memberof UpdatePracticeTeamPrescriberRequest
    */
-  address?: GetPracticeTeamInvitationResponsePersonAccountPrescriberConnectionProviderAddress | null;
+  address?: InvitePracticeTeamPersonRequestAddress | null;
 }
 
 /**
@@ -89,9 +89,7 @@ export function UpdatePracticeTeamPrescriberRequestFromJSONTyped(
     address:
       json["address"] == null
         ? undefined
-        : GetPracticeTeamInvitationResponsePersonAccountPrescriberConnectionProviderAddressFromJSON(
-            json["address"],
-          ),
+        : InvitePracticeTeamPersonRequestAddressFromJSON(json["address"]),
   };
 }
 
@@ -114,9 +112,6 @@ export function UpdatePracticeTeamPrescriberRequestToJSONTyped(
     legalName: value["legalName"],
     credentials: value["credentials"],
     phone: value["phone"],
-    address:
-      GetPracticeTeamInvitationResponsePersonAccountPrescriberConnectionProviderAddressToJSON(
-        value["address"],
-      ),
+    address: InvitePracticeTeamPersonRequestAddressToJSON(value["address"]),
   };
 }

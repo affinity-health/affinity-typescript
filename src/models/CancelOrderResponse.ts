@@ -13,34 +13,34 @@
  */
 
 import { mapValues } from "../runtime";
-import type { CancelOrderResponseFulfillmentsInner } from "./CancelOrderResponseFulfillmentsInner";
+import type { GetOrderResponseFulfillmentsInner } from "./GetOrderResponseFulfillmentsInner";
 import {
-  CancelOrderResponseFulfillmentsInnerFromJSON,
-  CancelOrderResponseFulfillmentsInnerFromJSONTyped,
-  CancelOrderResponseFulfillmentsInnerToJSON,
-  CancelOrderResponseFulfillmentsInnerToJSONTyped,
-} from "./CancelOrderResponseFulfillmentsInner";
-import type { CancelOrderResponsePrescriptionsInner } from "./CancelOrderResponsePrescriptionsInner";
+  GetOrderResponseFulfillmentsInnerFromJSON,
+  GetOrderResponseFulfillmentsInnerFromJSONTyped,
+  GetOrderResponseFulfillmentsInnerToJSON,
+  GetOrderResponseFulfillmentsInnerToJSONTyped,
+} from "./GetOrderResponseFulfillmentsInner";
+import type { GetOrderResponseReview } from "./GetOrderResponseReview";
 import {
-  CancelOrderResponsePrescriptionsInnerFromJSON,
-  CancelOrderResponsePrescriptionsInnerFromJSONTyped,
-  CancelOrderResponsePrescriptionsInnerToJSON,
-  CancelOrderResponsePrescriptionsInnerToJSONTyped,
-} from "./CancelOrderResponsePrescriptionsInner";
-import type { CancelOrderResponseLifecycleEventsInner } from "./CancelOrderResponseLifecycleEventsInner";
+  GetOrderResponseReviewFromJSON,
+  GetOrderResponseReviewFromJSONTyped,
+  GetOrderResponseReviewToJSON,
+  GetOrderResponseReviewToJSONTyped,
+} from "./GetOrderResponseReview";
+import type { GetOrderResponsePrescriptionsInner } from "./GetOrderResponsePrescriptionsInner";
 import {
-  CancelOrderResponseLifecycleEventsInnerFromJSON,
-  CancelOrderResponseLifecycleEventsInnerFromJSONTyped,
-  CancelOrderResponseLifecycleEventsInnerToJSON,
-  CancelOrderResponseLifecycleEventsInnerToJSONTyped,
-} from "./CancelOrderResponseLifecycleEventsInner";
-import type { CancelOrderResponseReview } from "./CancelOrderResponseReview";
+  GetOrderResponsePrescriptionsInnerFromJSON,
+  GetOrderResponsePrescriptionsInnerFromJSONTyped,
+  GetOrderResponsePrescriptionsInnerToJSON,
+  GetOrderResponsePrescriptionsInnerToJSONTyped,
+} from "./GetOrderResponsePrescriptionsInner";
+import type { GetOrderResponseLifecycleEventsInner } from "./GetOrderResponseLifecycleEventsInner";
 import {
-  CancelOrderResponseReviewFromJSON,
-  CancelOrderResponseReviewFromJSONTyped,
-  CancelOrderResponseReviewToJSON,
-  CancelOrderResponseReviewToJSONTyped,
-} from "./CancelOrderResponseReview";
+  GetOrderResponseLifecycleEventsInnerFromJSON,
+  GetOrderResponseLifecycleEventsInnerFromJSONTyped,
+  GetOrderResponseLifecycleEventsInnerToJSON,
+  GetOrderResponseLifecycleEventsInnerToJSONTyped,
+} from "./GetOrderResponseLifecycleEventsInner";
 
 /**
  *
@@ -74,22 +74,22 @@ export interface CancelOrderResponse {
   createdAt: string | null;
   /**
    *
-   * @type {Array<CancelOrderResponseFulfillmentsInner>}
+   * @type {Array<GetOrderResponseFulfillmentsInner>}
    * @memberof CancelOrderResponse
    */
-  fulfillments: Array<CancelOrderResponseFulfillmentsInner>;
+  fulfillments: Array<GetOrderResponseFulfillmentsInner>;
   /**
    *
    * @type {string}
    * @memberof CancelOrderResponse
    */
-  id: string | null;
+  id: string;
   /**
    *
-   * @type {Array<CancelOrderResponseLifecycleEventsInner>}
+   * @type {Array<GetOrderResponseLifecycleEventsInner>}
    * @memberof CancelOrderResponse
    */
-  lifecycleEvents: Array<CancelOrderResponseLifecycleEventsInner>;
+  lifecycleEvents: Array<GetOrderResponseLifecycleEventsInner>;
   /**
    *
    * @type {boolean}
@@ -146,22 +146,22 @@ export interface CancelOrderResponse {
   prescriberNpi: string | null;
   /**
    *
-   * @type {CancelOrderResponseReview}
+   * @type {GetOrderResponseReview}
    * @memberof CancelOrderResponse
    */
-  review: CancelOrderResponseReview | null;
+  review: GetOrderResponseReview | null;
   /**
    *
-   * @type {Array<CancelOrderResponsePrescriptionsInner>}
+   * @type {Array<GetOrderResponsePrescriptionsInner>}
    * @memberof CancelOrderResponse
    */
-  prescriptions: Array<CancelOrderResponsePrescriptionsInner>;
+  prescriptions: Array<GetOrderResponsePrescriptionsInner>;
   /**
    *
    * @type {CancelOrderResponseStatusEnum}
    * @memberof CancelOrderResponse
    */
-  status: CancelOrderResponseStatusEnum | null;
+  status: CancelOrderResponseStatusEnum;
   /**
    * Match this integration's external identity in the API key's mode.
    * @type {string}
@@ -246,11 +246,11 @@ export function CancelOrderResponseFromJSONTyped(
     metadata: json["metadata"],
     createdAt: json["createdAt"],
     fulfillments: (json["fulfillments"] as Array<any>).map(
-      CancelOrderResponseFulfillmentsInnerFromJSON,
+      GetOrderResponseFulfillmentsInnerFromJSON,
     ),
     id: json["id"],
     lifecycleEvents: (json["lifecycleEvents"] as Array<any>).map(
-      CancelOrderResponseLifecycleEventsInnerFromJSON,
+      GetOrderResponseLifecycleEventsInnerFromJSON,
     ),
     livemode: json["livemode"],
     object: json["object"],
@@ -261,9 +261,9 @@ export function CancelOrderResponseFromJSONTyped(
     practiceId: json["practiceId"],
     prescriberName: json["prescriberName"],
     prescriberNpi: json["prescriberNpi"],
-    review: CancelOrderResponseReviewFromJSON(json["review"]),
+    review: GetOrderResponseReviewFromJSON(json["review"]),
     prescriptions: (json["prescriptions"] as Array<any>).map(
-      CancelOrderResponsePrescriptionsInnerFromJSON,
+      GetOrderResponsePrescriptionsInnerFromJSON,
     ),
     status: json["status"],
     updatedAt: json["updatedAt"],
@@ -288,11 +288,11 @@ export function CancelOrderResponseToJSONTyped(
     metadata: value["metadata"],
     createdAt: value["createdAt"],
     fulfillments: (value["fulfillments"] as Array<any>).map(
-      CancelOrderResponseFulfillmentsInnerToJSON,
+      GetOrderResponseFulfillmentsInnerToJSON,
     ),
     id: value["id"],
     lifecycleEvents: (value["lifecycleEvents"] as Array<any>).map(
-      CancelOrderResponseLifecycleEventsInnerToJSON,
+      GetOrderResponseLifecycleEventsInnerToJSON,
     ),
     livemode: value["livemode"],
     object: value["object"],
@@ -303,9 +303,9 @@ export function CancelOrderResponseToJSONTyped(
     practiceId: value["practiceId"],
     prescriberName: value["prescriberName"],
     prescriberNpi: value["prescriberNpi"],
-    review: CancelOrderResponseReviewToJSON(value["review"]),
+    review: GetOrderResponseReviewToJSON(value["review"]),
     prescriptions: (value["prescriptions"] as Array<any>).map(
-      CancelOrderResponsePrescriptionsInnerToJSON,
+      GetOrderResponsePrescriptionsInnerToJSON,
     ),
     status: value["status"],
     updatedAt: value["updatedAt"],

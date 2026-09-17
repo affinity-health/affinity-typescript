@@ -2,38 +2,32 @@
 
 import type {
   PatientsApi,
-  ArchivePatientAddressRequest,
-  UpdatePatientAddressOperationRequest,
-  CreatePatientAddressOperationRequest,
   ListPatientAddressesRequest,
+  CreatePatientAddressOperationRequest,
+  UpdatePatientAddressOperationRequest,
+  ArchivePatientAddressRequest,
   SetDefaultPatientAddressRequest,
+  ListPatientsRequest,
+  CreatePatientOperationRequest,
+  GetPatientRequest,
+  DeletePatientRequest,
+  UpdatePatientOperationRequest,
   GetPatientAllergiesRequest,
   ReplacePatientAllergiesOperationRequest,
-  CreatePatientOperationRequest,
-  ListPatientsRequest,
-  DeletePatientRequest,
-  GetPatientRequest,
-  UpdatePatientOperationRequest,
 } from "../apis/PatientsApi";
-import type { UpdatePatientAddressRequest } from "../models/UpdatePatientAddressRequest";
 import type { CreatePatientAddressRequest } from "../models/CreatePatientAddressRequest";
-import type { ReplacePatientAllergiesRequest } from "../models/ReplacePatientAllergiesRequest";
+import type { UpdatePatientAddressRequest } from "../models/UpdatePatientAddressRequest";
 import type { CreatePatientRequest } from "../models/CreatePatientRequest";
 import type { UpdatePatientRequest } from "../models/UpdatePatientRequest";
+import type { ReplacePatientAllergiesRequest } from "../models/ReplacePatientAllergiesRequest";
 import {
   commonHeaders,
   requestOverrides,
   type MutationOptions,
   type RequestOptions,
   requiredIdempotencyKey,
-  actorHeaders,
-  type AffinityActor,
 } from "./shared";
 
-export type UpdatePatientAddressParams = UpdatePatientAddressRequest;
-export type CreatePatientAddressParams = Omit<CreatePatientAddressRequest, "address"> & {
-  address: NonNullable<CreatePatientAddressRequest["address"]>;
-};
 export type ListPatientAddressesParams = Omit<
   ListPatientAddressesRequest,
   | "practiceId"
@@ -44,17 +38,10 @@ export type ListPatientAddressesParams = Omit<
   | "affinityActorType"
   | "xAffinityOrganizationId"
 >;
-export type ReplacePatientAllergiesParams = Omit<
-  ReplacePatientAllergiesRequest,
-  "allergies" | "reviewStatus"
-> & {
-  allergies: NonNullable<ReplacePatientAllergiesRequest["allergies"]>;
-  reviewStatus: NonNullable<ReplacePatientAllergiesRequest["reviewStatus"]>;
+export type CreatePatientAddressParams = Omit<CreatePatientAddressRequest, "address"> & {
+  address: NonNullable<CreatePatientAddressRequest["address"]>;
 };
-export type CreatePatientParams = Omit<CreatePatientRequest, "dateOfBirth" | "name"> & {
-  dateOfBirth: NonNullable<CreatePatientRequest["dateOfBirth"]>;
-  name: NonNullable<CreatePatientRequest["name"]>;
-};
+export type UpdatePatientAddressParams = UpdatePatientAddressRequest;
 export type ListPatientsParams = Omit<
   ListPatientsRequest,
   | "practiceId"
@@ -64,27 +51,45 @@ export type ListPatientsParams = Omit<
   | "affinityActorType"
   | "xAffinityOrganizationId"
 >;
+export type CreatePatientParams = Omit<CreatePatientRequest, "dateOfBirth" | "name"> & {
+  dateOfBirth: NonNullable<CreatePatientRequest["dateOfBirth"]>;
+  name: NonNullable<CreatePatientRequest["name"]>;
+};
 export type UpdatePatientParams = UpdatePatientRequest;
+export type ReplacePatientAllergiesParams = Omit<
+  ReplacePatientAllergiesRequest,
+  "allergies" | "reviewStatus"
+> & {
+  allergies: NonNullable<ReplacePatientAllergiesRequest["allergies"]>;
+  reviewStatus: NonNullable<ReplacePatientAllergiesRequest["reviewStatus"]>;
+};
 
 export class PatientsResource {
-  constructor(
-    private readonly api: PatientsApi,
-    private readonly defaultActor?: AffinityActor,
-  ) {}
-  archiveAddress(
+  constructor(private readonly api: PatientsApi) {}
+  listAddresses(
     practiceId: string,
     patientId: string,
-    addressId: string,
+    params: ListPatientAddressesParams = {},
+    options?: RequestOptions,
+  ): ReturnType<PatientsApi["listPatientAddresses"]> {
+    return this.api.listPatientAddresses(
+      { ...params, practiceId: practiceId, patientId: patientId, ...commonHeaders(options) },
+      requestOverrides(options),
+    );
+  }
+  createAddress(
+    practiceId: string,
+    patientId: string,
+    params: CreatePatientAddressParams,
     options: MutationOptions,
-  ): ReturnType<PatientsApi["archivePatientAddress"]> {
-    return this.api.archivePatientAddress(
+  ): ReturnType<PatientsApi["createPatientAddress"]> {
+    return this.api.createPatientAddress(
       {
         practiceId: practiceId,
         patientId: patientId,
-        addressId: addressId,
+        createPatientAddressRequest: params,
         ...commonHeaders(options),
         idempotencyKey: requiredIdempotencyKey(options),
-        ...actorHeaders(options, this.defaultActor),
       },
       requestOverrides(options),
     );
@@ -104,42 +109,23 @@ export class PatientsResource {
         updatePatientAddressRequest: params,
         ...commonHeaders(options),
         idempotencyKey: requiredIdempotencyKey(options),
-        ...actorHeaders(options, this.defaultActor),
       },
       requestOverrides(options),
     );
   }
-  createAddress(
+  archiveAddress(
     practiceId: string,
     patientId: string,
-    params: CreatePatientAddressParams,
+    addressId: string,
     options: MutationOptions,
-  ): ReturnType<PatientsApi["createPatientAddress"]> {
-    return this.api.createPatientAddress(
+  ): ReturnType<PatientsApi["archivePatientAddress"]> {
+    return this.api.archivePatientAddress(
       {
         practiceId: practiceId,
         patientId: patientId,
-        createPatientAddressRequest: params,
+        addressId: addressId,
         ...commonHeaders(options),
         idempotencyKey: requiredIdempotencyKey(options),
-        ...actorHeaders(options, this.defaultActor),
-      },
-      requestOverrides(options),
-    );
-  }
-  listAddresses(
-    practiceId: string,
-    patientId: string,
-    params: ListPatientAddressesParams = {},
-    options?: RequestOptions,
-  ): ReturnType<PatientsApi["listPatientAddresses"]> {
-    return this.api.listPatientAddresses(
-      {
-        ...params,
-        practiceId: practiceId,
-        patientId: patientId,
-        ...commonHeaders(options),
-        ...actorHeaders(options, this.defaultActor),
       },
       requestOverrides(options),
     );
@@ -157,41 +143,17 @@ export class PatientsResource {
         addressId: addressId,
         ...commonHeaders(options),
         idempotencyKey: requiredIdempotencyKey(options),
-        ...actorHeaders(options, this.defaultActor),
       },
       requestOverrides(options),
     );
   }
-  retrieveAllergies(
+  list(
     practiceId: string,
-    patientId: string,
+    params: ListPatientsParams = {},
     options?: RequestOptions,
-  ): ReturnType<PatientsApi["getPatientAllergies"]> {
-    return this.api.getPatientAllergies(
-      {
-        practiceId: practiceId,
-        patientId: patientId,
-        ...commonHeaders(options),
-        ...actorHeaders(options, this.defaultActor),
-      },
-      requestOverrides(options),
-    );
-  }
-  replaceAllergies(
-    practiceId: string,
-    patientId: string,
-    params: ReplacePatientAllergiesParams,
-    options: MutationOptions,
-  ): ReturnType<PatientsApi["replacePatientAllergies"]> {
-    return this.api.replacePatientAllergies(
-      {
-        practiceId: practiceId,
-        patientId: patientId,
-        replacePatientAllergiesRequest: params,
-        ...commonHeaders(options),
-        idempotencyKey: requiredIdempotencyKey(options),
-        ...actorHeaders(options, this.defaultActor),
-      },
+  ): ReturnType<PatientsApi["listPatients"]> {
+    return this.api.listPatients(
+      { ...params, practiceId: practiceId, ...commonHeaders(options) },
       requestOverrides(options),
     );
   }
@@ -206,23 +168,17 @@ export class PatientsResource {
         createPatientRequest: params,
         ...commonHeaders(options),
         idempotencyKey: requiredIdempotencyKey(options),
-        ...actorHeaders(options, this.defaultActor),
       },
       requestOverrides(options),
     );
   }
-  list(
+  retrieve(
     practiceId: string,
-    params: ListPatientsParams = {},
+    patientId: string,
     options?: RequestOptions,
-  ): ReturnType<PatientsApi["listPatients"]> {
-    return this.api.listPatients(
-      {
-        ...params,
-        practiceId: practiceId,
-        ...commonHeaders(options),
-        ...actorHeaders(options, this.defaultActor),
-      },
+  ): ReturnType<PatientsApi["getPatient"]> {
+    return this.api.getPatient(
+      { practiceId: practiceId, patientId: patientId, ...commonHeaders(options) },
       requestOverrides(options),
     );
   }
@@ -237,22 +193,6 @@ export class PatientsResource {
         patientId: patientId,
         ...commonHeaders(options),
         idempotencyKey: requiredIdempotencyKey(options),
-        ...actorHeaders(options, this.defaultActor),
-      },
-      requestOverrides(options),
-    );
-  }
-  retrieve(
-    practiceId: string,
-    patientId: string,
-    options?: RequestOptions,
-  ): ReturnType<PatientsApi["getPatient"]> {
-    return this.api.getPatient(
-      {
-        practiceId: practiceId,
-        patientId: patientId,
-        ...commonHeaders(options),
-        ...actorHeaders(options, this.defaultActor),
       },
       requestOverrides(options),
     );
@@ -270,7 +210,33 @@ export class PatientsResource {
         updatePatientRequest: params,
         ...commonHeaders(options),
         idempotencyKey: requiredIdempotencyKey(options),
-        ...actorHeaders(options, this.defaultActor),
+      },
+      requestOverrides(options),
+    );
+  }
+  retrieveAllergies(
+    practiceId: string,
+    patientId: string,
+    options?: RequestOptions,
+  ): ReturnType<PatientsApi["getPatientAllergies"]> {
+    return this.api.getPatientAllergies(
+      { practiceId: practiceId, patientId: patientId, ...commonHeaders(options) },
+      requestOverrides(options),
+    );
+  }
+  replaceAllergies(
+    practiceId: string,
+    patientId: string,
+    params: ReplacePatientAllergiesParams,
+    options: MutationOptions,
+  ): ReturnType<PatientsApi["replacePatientAllergies"]> {
+    return this.api.replacePatientAllergies(
+      {
+        practiceId: practiceId,
+        patientId: patientId,
+        replacePatientAllergiesRequest: params,
+        ...commonHeaders(options),
+        idempotencyKey: requiredIdempotencyKey(options),
       },
       requestOverrides(options),
     );

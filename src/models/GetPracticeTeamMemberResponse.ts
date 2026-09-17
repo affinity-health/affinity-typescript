@@ -13,13 +13,13 @@
  */
 
 import { mapValues } from "../runtime";
-import type { GetPracticeTeamMemberResponseAccount } from "./GetPracticeTeamMemberResponseAccount";
+import type { ListPracticeTeamMembersResponseDataInnerAccount } from "./ListPracticeTeamMembersResponseDataInnerAccount";
 import {
-  GetPracticeTeamMemberResponseAccountFromJSON,
-  GetPracticeTeamMemberResponseAccountFromJSONTyped,
-  GetPracticeTeamMemberResponseAccountToJSON,
-  GetPracticeTeamMemberResponseAccountToJSONTyped,
-} from "./GetPracticeTeamMemberResponseAccount";
+  ListPracticeTeamMembersResponseDataInnerAccountFromJSON,
+  ListPracticeTeamMembersResponseDataInnerAccountFromJSONTyped,
+  ListPracticeTeamMembersResponseDataInnerAccountToJSON,
+  ListPracticeTeamMembersResponseDataInnerAccountToJSONTyped,
+} from "./ListPracticeTeamMembersResponseDataInnerAccount";
 
 /**
  *
@@ -32,7 +32,7 @@ export interface GetPracticeTeamMemberResponse {
    * @type {string}
    * @memberof GetPracticeTeamMemberResponse
    */
-  id: string | null;
+  id: string;
   /**
    * Match this integration's external identity in the API key's mode.
    * @type {string}
@@ -53,10 +53,10 @@ export interface GetPracticeTeamMemberResponse {
   locationIds: Array<string>;
   /**
    *
-   * @type {GetPracticeTeamMemberResponseAccount}
+   * @type {ListPracticeTeamMembersResponseDataInnerAccount}
    * @memberof GetPracticeTeamMemberResponse
    */
-  account: GetPracticeTeamMemberResponseAccount;
+  account: ListPracticeTeamMembersResponseDataInnerAccount;
   /**
    *
    * @type {Array<string>}
@@ -96,7 +96,7 @@ export function GetPracticeTeamMemberResponseFromJSONTyped(
     name: json["name"],
     email: json["email"],
     locationIds: json["locationIds"],
-    account: GetPracticeTeamMemberResponseAccountFromJSON(json["account"]),
+    account: ListPracticeTeamMembersResponseDataInnerAccountFromJSON(json["account"]),
     nextActions: json["nextActions"],
   };
 }
@@ -118,7 +118,7 @@ export function GetPracticeTeamMemberResponseToJSONTyped(
     name: value["name"],
     email: value["email"],
     locationIds: value["locationIds"],
-    account: GetPracticeTeamMemberResponseAccountToJSON(value["account"]),
+    account: ListPracticeTeamMembersResponseDataInnerAccountToJSON(value["account"]),
     nextActions: value["nextActions"],
   };
 }

@@ -2,11 +2,11 @@
 
 import type {
   LocationsApi,
-  ArchivePracticeLocationRequest,
-  CreatePracticeLocationOperationRequest,
   ListPracticeLocationsRequest,
+  CreatePracticeLocationOperationRequest,
   GetPracticeLocationRequest,
   UpdatePracticeLocationOperationRequest,
+  ArchivePracticeLocationRequest,
 } from "../apis/LocationsApi";
 import type { CreatePracticeLocationRequest } from "../models/CreatePracticeLocationRequest";
 import type { UpdatePracticeLocationRequest } from "../models/UpdatePracticeLocationRequest";
@@ -18,13 +18,6 @@ import {
   requiredIdempotencyKey,
 } from "./shared";
 
-export type CreatePracticeLocationParams = Omit<
-  CreatePracticeLocationRequest,
-  "name" | "timezone"
-> & {
-  name: NonNullable<CreatePracticeLocationRequest["name"]>;
-  timezone: NonNullable<CreatePracticeLocationRequest["timezone"]>;
-};
 export type ListPracticeLocationsParams = Omit<
   ListPracticeLocationsRequest,
   | "practiceId"
@@ -34,22 +27,24 @@ export type ListPracticeLocationsParams = Omit<
   | "affinityActorType"
   | "xAffinityOrganizationId"
 >;
+export type CreatePracticeLocationParams = Omit<
+  CreatePracticeLocationRequest,
+  "name" | "timezone"
+> & {
+  name: NonNullable<CreatePracticeLocationRequest["name"]>;
+  timezone: NonNullable<CreatePracticeLocationRequest["timezone"]>;
+};
 export type UpdatePracticeLocationParams = UpdatePracticeLocationRequest;
 
 export class LocationsResource {
   constructor(private readonly api: LocationsApi) {}
-  archive(
+  list(
     practiceId: string,
-    locationId: string,
-    options: MutationOptions,
-  ): ReturnType<LocationsApi["archivePracticeLocation"]> {
-    return this.api.archivePracticeLocation(
-      {
-        practiceId: practiceId,
-        locationId: locationId,
-        ...commonHeaders(options),
-        idempotencyKey: requiredIdempotencyKey(options),
-      },
+    params: ListPracticeLocationsParams = {},
+    options?: RequestOptions,
+  ): ReturnType<LocationsApi["listPracticeLocations"]> {
+    return this.api.listPracticeLocations(
+      { ...params, practiceId: practiceId, ...commonHeaders(options) },
       requestOverrides(options),
     );
   }
@@ -65,16 +60,6 @@ export class LocationsResource {
         ...commonHeaders(options),
         idempotencyKey: requiredIdempotencyKey(options),
       },
-      requestOverrides(options),
-    );
-  }
-  list(
-    practiceId: string,
-    params: ListPracticeLocationsParams = {},
-    options?: RequestOptions,
-  ): ReturnType<LocationsApi["listPracticeLocations"]> {
-    return this.api.listPracticeLocations(
-      { ...params, practiceId: practiceId, ...commonHeaders(options) },
       requestOverrides(options),
     );
   }
@@ -99,6 +84,21 @@ export class LocationsResource {
         practiceId: practiceId,
         locationId: locationId,
         updatePracticeLocationRequest: params,
+        ...commonHeaders(options),
+        idempotencyKey: requiredIdempotencyKey(options),
+      },
+      requestOverrides(options),
+    );
+  }
+  archive(
+    practiceId: string,
+    locationId: string,
+    options: MutationOptions,
+  ): ReturnType<LocationsApi["archivePracticeLocation"]> {
+    return this.api.archivePracticeLocation(
+      {
+        practiceId: practiceId,
+        locationId: locationId,
         ...commonHeaders(options),
         idempotencyKey: requiredIdempotencyKey(options),
       },

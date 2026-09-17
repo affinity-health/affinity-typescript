@@ -83,7 +83,7 @@ export interface GetOrderResponse {
    * @type {string}
    * @memberof GetOrderResponse
    */
-  id: string | null;
+  id: string;
   /**
    *
    * @type {Array<GetOrderResponseLifecycleEventsInner>}
@@ -161,7 +161,7 @@ export interface GetOrderResponse {
    * @type {GetOrderResponseStatusEnum}
    * @memberof GetOrderResponse
    */
-  status: GetOrderResponseStatusEnum | null;
+  status: GetOrderResponseStatusEnum;
   /**
    * Match this integration's external identity in the API key's mode.
    * @type {string}

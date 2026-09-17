@@ -96,7 +96,7 @@ export interface ListCatalogItemsResponseDataInner {
    * @type {string}
    * @memberof ListCatalogItemsResponseDataInner
    */
-  pharmacyId: string;
+  pharmacyId: string | null;
   /**
    * Match this integration's external identity in the API key's mode.
    * @type {string}

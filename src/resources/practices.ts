@@ -2,8 +2,8 @@
 
 import type {
   PracticesApi,
-  CreatePracticeOperationRequest,
   ListPracticesRequest,
+  CreatePracticeOperationRequest,
   GetPracticeRequest,
   UpdatePracticeOperationRequest,
 } from "../apis/PracticesApi";
@@ -17,14 +17,6 @@ import {
   requiredIdempotencyKey,
 } from "./shared";
 
-export type CreatePracticeParams = Omit<
-  CreatePracticeRequest,
-  "address" | "attestations" | "name"
-> & {
-  address: NonNullable<CreatePracticeRequest["address"]>;
-  attestations: NonNullable<CreatePracticeRequest["attestations"]>;
-  name: NonNullable<CreatePracticeRequest["name"]>;
-};
 export type ListPracticesParams = Omit<
   ListPracticesRequest,
   | "affinityVersion"
@@ -33,10 +25,27 @@ export type ListPracticesParams = Omit<
   | "affinityActorType"
   | "xAffinityOrganizationId"
 >;
+export type CreatePracticeParams = Omit<
+  CreatePracticeRequest,
+  "address" | "attestations" | "name"
+> & {
+  address: NonNullable<CreatePracticeRequest["address"]>;
+  attestations: NonNullable<CreatePracticeRequest["attestations"]>;
+  name: NonNullable<CreatePracticeRequest["name"]>;
+};
 export type UpdatePracticeParams = UpdatePracticeRequest;
 
 export class PracticesResource {
   constructor(private readonly api: PracticesApi) {}
+  list(
+    params: ListPracticesParams = {},
+    options?: RequestOptions,
+  ): ReturnType<PracticesApi["listPractices"]> {
+    return this.api.listPractices(
+      { ...params, ...commonHeaders(options) },
+      requestOverrides(options),
+    );
+  }
   create(
     params: CreatePracticeParams,
     options: MutationOptions,
@@ -47,15 +56,6 @@ export class PracticesResource {
         ...commonHeaders(options),
         idempotencyKey: requiredIdempotencyKey(options),
       },
-      requestOverrides(options),
-    );
-  }
-  list(
-    params: ListPracticesParams = {},
-    options?: RequestOptions,
-  ): ReturnType<PracticesApi["listPractices"]> {
-    return this.api.listPractices(
-      { ...params, ...commonHeaders(options) },
       requestOverrides(options),
     );
   }
