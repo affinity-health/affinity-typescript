@@ -20,13 +20,13 @@ import {
   InvitePracticeTeamPersonResponsePersonAccountPrescriberConnectionToJSON,
   InvitePracticeTeamPersonResponsePersonAccountPrescriberConnectionToJSONTyped,
 } from "./InvitePracticeTeamPersonResponsePersonAccountPrescriberConnection";
-import type { InvitePracticeTeamPersonResponsePersonAccountRolesInner } from "./InvitePracticeTeamPersonResponsePersonAccountRolesInner";
+import type { InvitePracticeTeamPersonResponsePersonInvitationRolesInner } from "./InvitePracticeTeamPersonResponsePersonInvitationRolesInner";
 import {
-  InvitePracticeTeamPersonResponsePersonAccountRolesInnerFromJSON,
-  InvitePracticeTeamPersonResponsePersonAccountRolesInnerFromJSONTyped,
-  InvitePracticeTeamPersonResponsePersonAccountRolesInnerToJSON,
-  InvitePracticeTeamPersonResponsePersonAccountRolesInnerToJSONTyped,
-} from "./InvitePracticeTeamPersonResponsePersonAccountRolesInner";
+  InvitePracticeTeamPersonResponsePersonInvitationRolesInnerFromJSON,
+  InvitePracticeTeamPersonResponsePersonInvitationRolesInnerFromJSONTyped,
+  InvitePracticeTeamPersonResponsePersonInvitationRolesInnerToJSON,
+  InvitePracticeTeamPersonResponsePersonInvitationRolesInnerToJSONTyped,
+} from "./InvitePracticeTeamPersonResponsePersonInvitationRolesInner";
 
 /**
  *
@@ -35,11 +35,11 @@ import {
  */
 export interface InvitePracticeTeamPersonResponsePersonAccount {
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof InvitePracticeTeamPersonResponsePersonAccount
    */
-  accountId: string | null;
+  accountId: string;
   /**
    *
    * @type {boolean}
@@ -53,17 +53,17 @@ export interface InvitePracticeTeamPersonResponsePersonAccount {
    */
   membershipId: string;
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof InvitePracticeTeamPersonResponsePersonAccount
    */
-  membershipStatus: string | null;
+  membershipStatus: string;
   /**
    *
-   * @type {Array<InvitePracticeTeamPersonResponsePersonAccountRolesInner>}
+   * @type {Array<InvitePracticeTeamPersonResponsePersonInvitationRolesInner>}
    * @memberof InvitePracticeTeamPersonResponsePersonAccount
    */
-  roles: Array<InvitePracticeTeamPersonResponsePersonAccountRolesInner>;
+  roles: Array<InvitePracticeTeamPersonResponsePersonInvitationRolesInner>;
   /**
    *
    * @type {InvitePracticeTeamPersonResponsePersonAccountPrescriberConnection}
@@ -107,7 +107,7 @@ export function InvitePracticeTeamPersonResponsePersonAccountFromJSONTyped(
     membershipId: json["membershipId"],
     membershipStatus: json["membershipStatus"],
     roles: (json["roles"] as Array<any>).map(
-      InvitePracticeTeamPersonResponsePersonAccountRolesInnerFromJSON,
+      InvitePracticeTeamPersonResponsePersonInvitationRolesInnerFromJSON,
     ),
     prescriberConnection: InvitePracticeTeamPersonResponsePersonAccountPrescriberConnectionFromJSON(
       json["prescriberConnection"],
@@ -135,7 +135,7 @@ export function InvitePracticeTeamPersonResponsePersonAccountToJSONTyped(
     membershipId: value["membershipId"],
     membershipStatus: value["membershipStatus"],
     roles: (value["roles"] as Array<any>).map(
-      InvitePracticeTeamPersonResponsePersonAccountRolesInnerToJSON,
+      InvitePracticeTeamPersonResponsePersonInvitationRolesInnerToJSON,
     ),
     prescriberConnection: InvitePracticeTeamPersonResponsePersonAccountPrescriberConnectionToJSON(
       value["prescriberConnection"],

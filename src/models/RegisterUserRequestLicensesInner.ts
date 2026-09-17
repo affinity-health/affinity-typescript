@@ -20,17 +20,17 @@ import { mapValues } from "../runtime";
  */
 export interface RegisterUserRequestLicensesInner {
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof RegisterUserRequestLicensesInner
    */
-  state: string | null;
+  state: string;
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof RegisterUserRequestLicensesInner
    */
-  licenseNumber: string | null;
+  licenseNumber: string;
   /**
    *
    * @type {string}

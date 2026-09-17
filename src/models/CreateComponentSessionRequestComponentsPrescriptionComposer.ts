@@ -29,10 +29,10 @@ import {
 export interface CreateComponentSessionRequestComponentsPrescriptionComposer {
   /**
    *
-   * @type {CreateComponentSessionRequestComponentsPrescriptionComposerEnabledEnum}
+   * @type {boolean}
    * @memberof CreateComponentSessionRequestComponentsPrescriptionComposer
    */
-  enabled: CreateComponentSessionRequestComponentsPrescriptionComposerEnabledEnum;
+  enabled: boolean;
   /**
    *
    * @type {CreateComponentSessionRequestComponentsPrescriptionComposerFeatures}
@@ -40,15 +40,6 @@ export interface CreateComponentSessionRequestComponentsPrescriptionComposer {
    */
   features: CreateComponentSessionRequestComponentsPrescriptionComposerFeatures;
 }
-
-/**
- * @export
- */
-export const CreateComponentSessionRequestComponentsPrescriptionComposerEnabledEnum = {
-  True: true,
-} as const;
-export type CreateComponentSessionRequestComponentsPrescriptionComposerEnabledEnum =
-  (typeof CreateComponentSessionRequestComponentsPrescriptionComposerEnabledEnum)[keyof typeof CreateComponentSessionRequestComponentsPrescriptionComposerEnabledEnum];
 
 /**
  * Check if a given object implements the CreateComponentSessionRequestComponentsPrescriptionComposer interface.

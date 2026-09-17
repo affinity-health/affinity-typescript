@@ -46,11 +46,11 @@ export interface ListPatientAddressesResponse {
    */
   hasMore: boolean;
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof ListPatientAddressesResponse
    */
-  url: string | null;
+  url: string;
 }
 
 /**

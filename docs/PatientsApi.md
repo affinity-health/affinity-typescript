@@ -43,11 +43,11 @@ async function example() {
 
   const body = {
     // string
-    practiceId: practiceId_example,
+    practiceId: prac_01j2y8m6jcc9tt24af5pw9x1bc,
     // string
-    patientId: patientId_example,
+    patientId: pat_01j2y8m6jcc9tt24af5pw9x1bc,
     // string
-    addressId: addressId_example,
+    addressId: addr_01j2y8m6jcc9tt24af5pw9x1bc,
     // string
     idempotencyKey: idempotencyKey_example,
     // string (optional)
@@ -230,9 +230,9 @@ async function example() {
 
   const body = {
     // string
-    practiceId: practiceId_example,
+    practiceId: prac_01j2y8m6jcc9tt24af5pw9x1bc,
     // string
-    patientId: patientId_example,
+    patientId: pat_01j2y8m6jcc9tt24af5pw9x1bc,
     // string
     idempotencyKey: idempotencyKey_example,
     // CreatePatientAddressRequest
@@ -497,9 +497,9 @@ async function example() {
 
   const body = {
     // string
-    patientId: patientId_example,
+    patientId: pat_01j2y8m6jcc9tt24af5pw9x1bc,
     // string
-    practiceId: practiceId_example,
+    practiceId: prac_01j2y8m6jcc9tt24af5pw9x1bc,
     // string (optional)
     affinityVersion: affinityVersion_example,
     // string | Required for user actors and optional for system actors. Omit both actor headers to use the authenticated service account as a system actor. (optional)
@@ -581,15 +581,15 @@ async function example() {
 
   const body = {
     // string
-    practiceId: practiceId_example,
+    practiceId: prac_01j2y8m6jcc9tt24af5pw9x1bc,
     // string
-    patientId: patientId_example,
+    patientId: pat_01j2y8m6jcc9tt24af5pw9x1bc,
     // 'active' | 'archived' | 'all' (optional)
     status: status_example,
     // string (optional)
-    startingAfter: startingAfter_example,
+    startingAfter: addr_01j2y8m6jcc9tt24af5pw9x1bc,
     // string (optional)
-    endingBefore: endingBefore_example,
+    endingBefore: addr_01j2y8m6jcc9tt24af5pw9x1bc,
     // number (optional)
     limit: 56,
     // string (optional)
@@ -681,7 +681,7 @@ async function example() {
     // string
     practiceId: practiceId_example,
     // string (optional)
-    endingBefore: endingBefore_example,
+    endingBefore: pat_01j2y8m6jcc9tt24af5pw9x1bc,
     // string (optional)
     externalId: externalId_example,
     // string (optional)
@@ -703,7 +703,7 @@ async function example() {
     // 'created' | 'name' (optional)
     sort: sort_example,
     // string (optional)
-    startingAfter: startingAfter_example,
+    startingAfter: pat_01j2y8m6jcc9tt24af5pw9x1bc,
     // string (optional)
     states: states_example,
     // 'active' | 'inactive' (optional)
@@ -807,9 +807,9 @@ async function example() {
 
   const body = {
     // string
-    patientId: patientId_example,
+    patientId: pat_01j2y8m6jcc9tt24af5pw9x1bc,
     // string
-    practiceId: practiceId_example,
+    practiceId: prac_01j2y8m6jcc9tt24af5pw9x1bc,
     // string
     idempotencyKey: idempotencyKey_example,
     // ReplacePatientAllergiesRequest
@@ -899,11 +899,11 @@ async function example() {
 
   const body = {
     // string
-    practiceId: practiceId_example,
+    practiceId: prac_01j2y8m6jcc9tt24af5pw9x1bc,
     // string
-    patientId: patientId_example,
+    patientId: pat_01j2y8m6jcc9tt24af5pw9x1bc,
     // string
-    addressId: addressId_example,
+    addressId: addr_01j2y8m6jcc9tt24af5pw9x1bc,
     // string
     idempotencyKey: idempotencyKey_example,
     // string (optional)
@@ -1087,11 +1087,11 @@ async function example() {
 
   const body = {
     // string
-    practiceId: practiceId_example,
+    practiceId: prac_01j2y8m6jcc9tt24af5pw9x1bc,
     // string
-    patientId: patientId_example,
+    patientId: pat_01j2y8m6jcc9tt24af5pw9x1bc,
     // string
-    addressId: addressId_example,
+    addressId: addr_01j2y8m6jcc9tt24af5pw9x1bc,
     // string
     idempotencyKey: idempotencyKey_example,
     // UpdatePatientAddressRequest

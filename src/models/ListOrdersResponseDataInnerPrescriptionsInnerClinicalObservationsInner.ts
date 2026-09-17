@@ -34,11 +34,11 @@ export interface ListOrdersResponseDataInnerPrescriptionsInnerClinicalObservatio
    */
   code?: string | null;
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof ListOrdersResponseDataInnerPrescriptionsInnerClinicalObservationsInner
    */
-  display: string | null;
+  display: string;
   /**
    *
    * @type {ListCatalogItemsResponseDataInnerPrescriptionRequirementsAllowedQuantitiesInnerValue}
@@ -46,11 +46,11 @@ export interface ListOrdersResponseDataInnerPrescriptionsInnerClinicalObservatio
    */
   value: ListCatalogItemsResponseDataInnerPrescriptionRequirementsAllowedQuantitiesInnerValue;
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof ListOrdersResponseDataInnerPrescriptionsInnerClinicalObservationsInner
    */
-  unit: string | null;
+  unit: string;
 }
 
 /**

@@ -20,59 +20,59 @@ import { mapValues } from "../runtime";
  */
 export interface RegisterUserRequestProfileDetailsAddressesInner {
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof RegisterUserRequestProfileDetailsAddressesInner
    */
-  purpose: string | null;
+  purpose: string;
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof RegisterUserRequestProfileDetailsAddressesInner
    */
-  line1: string | null;
+  line1: string;
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof RegisterUserRequestProfileDetailsAddressesInner
    */
-  line2: string | null;
+  line2: string;
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof RegisterUserRequestProfileDetailsAddressesInner
    */
-  city: string | null;
+  city: string;
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof RegisterUserRequestProfileDetailsAddressesInner
    */
-  state: string | null;
+  state: string;
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof RegisterUserRequestProfileDetailsAddressesInner
    */
-  postalCode: string | null;
+  postalCode: string;
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof RegisterUserRequestProfileDetailsAddressesInner
    */
-  country: string | null;
+  country: string;
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof RegisterUserRequestProfileDetailsAddressesInner
    */
-  phone: string | null;
+  phone: string;
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof RegisterUserRequestProfileDetailsAddressesInner
    */
-  fax: string | null;
+  fax: string;
 }
 
 /**

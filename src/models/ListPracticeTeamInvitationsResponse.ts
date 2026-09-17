@@ -46,11 +46,11 @@ export interface ListPracticeTeamInvitationsResponse {
    */
   object: ListPracticeTeamInvitationsResponseObjectEnum;
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof ListPracticeTeamInvitationsResponse
    */
-  url: string | null;
+  url: string;
 }
 
 /**

@@ -32,7 +32,7 @@ export interface SignOrderRequest {
    * @type {string}
    * @memberof SignOrderRequest
    */
-  practiceId: string | null;
+  practiceId: string;
   /**
    *
    * @type {string}
@@ -41,10 +41,10 @@ export interface SignOrderRequest {
   userId: string;
   /**
    *
-   * @type {SignOrderRequestSignatureAttestationEnum}
+   * @type {boolean}
    * @memberof SignOrderRequest
    */
-  signatureAttestation: SignOrderRequestSignatureAttestationEnum;
+  signatureAttestation: boolean;
   /**
    *
    * @type {Array<SignOrderRequestExpectedVersionsInner>}
@@ -52,15 +52,6 @@ export interface SignOrderRequest {
    */
   expectedVersions: Array<SignOrderRequestExpectedVersionsInner>;
 }
-
-/**
- * @export
- */
-export const SignOrderRequestSignatureAttestationEnum = {
-  True: true,
-} as const;
-export type SignOrderRequestSignatureAttestationEnum =
-  (typeof SignOrderRequestSignatureAttestationEnum)[keyof typeof SignOrderRequestSignatureAttestationEnum];
 
 /**
  * Check if a given object implements the SignOrderRequest interface.

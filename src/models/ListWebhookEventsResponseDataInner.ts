@@ -20,23 +20,23 @@ import { mapValues } from "../runtime";
  */
 export interface ListWebhookEventsResponseDataInner {
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof ListWebhookEventsResponseDataInner
    */
-  apiVersion: string | null;
+  apiVersion: string;
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof ListWebhookEventsResponseDataInner
    */
-  createdAt: string | null;
+  createdAt: string;
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof ListWebhookEventsResponseDataInner
    */
-  eventType: string | null;
+  eventType: string;
   /**
    *
    * @type {string}
@@ -56,17 +56,17 @@ export interface ListWebhookEventsResponseDataInner {
    */
   object: ListWebhookEventsResponseDataInnerObjectEnum;
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof ListWebhookEventsResponseDataInner
    */
-  resourceId: string | null;
+  resourceId: string;
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof ListWebhookEventsResponseDataInner
    */
-  resourceType: string | null;
+  resourceType: string;
   /**
    *
    * @type {ListWebhookEventsResponseDataInnerStatusEnum}

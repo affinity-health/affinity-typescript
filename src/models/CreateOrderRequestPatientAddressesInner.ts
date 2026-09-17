@@ -40,11 +40,11 @@ export interface CreateOrderRequestPatientAddressesInner {
    */
   address: CreateOrderRequestPatientAddressesInnerAddress;
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof CreateOrderRequestPatientAddressesInner
    */
-  label: string | null;
+  label: string;
   /**
    *
    * @type {boolean}

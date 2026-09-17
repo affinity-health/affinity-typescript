@@ -28,17 +28,17 @@ import {
  */
 export interface ListPharmaciesResponseDataInnerProfile {
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof ListPharmaciesResponseDataInnerProfile
    */
-  description: string | null;
+  description: string;
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof ListPharmaciesResponseDataInnerProfile
    */
-  effectiveAt: string | null;
+  effectiveAt: string;
   /**
    *
    * @type {number}

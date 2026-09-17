@@ -20,17 +20,17 @@ import { mapValues } from "../runtime";
  */
 export interface RegisterUserRequestProfileDetailsSpecialtiesInner {
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof RegisterUserRequestProfileDetailsSpecialtiesInner
    */
-  code: string | null;
+  code: string;
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof RegisterUserRequestProfileDetailsSpecialtiesInner
    */
-  description: string | null;
+  description: string;
   /**
    *
    * @type {boolean}

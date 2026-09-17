@@ -13,27 +13,27 @@
  */
 
 import { mapValues } from "../runtime";
-import type { CreateOrderBatchRequestOrdersInnerPatient } from "./CreateOrderBatchRequestOrdersInnerPatient";
+import type { CreateOrderRequestPrescriptionsInner } from "./CreateOrderRequestPrescriptionsInner";
 import {
-  CreateOrderBatchRequestOrdersInnerPatientFromJSON,
-  CreateOrderBatchRequestOrdersInnerPatientFromJSONTyped,
-  CreateOrderBatchRequestOrdersInnerPatientToJSON,
-  CreateOrderBatchRequestOrdersInnerPatientToJSONTyped,
-} from "./CreateOrderBatchRequestOrdersInnerPatient";
-import type { CreateOrderRequestMetadataValue } from "./CreateOrderRequestMetadataValue";
+  CreateOrderRequestPrescriptionsInnerFromJSON,
+  CreateOrderRequestPrescriptionsInnerFromJSONTyped,
+  CreateOrderRequestPrescriptionsInnerToJSON,
+  CreateOrderRequestPrescriptionsInnerToJSONTyped,
+} from "./CreateOrderRequestPrescriptionsInner";
+import type { ListOrdersResponseDataInnerMetadataValue } from "./ListOrdersResponseDataInnerMetadataValue";
 import {
-  CreateOrderRequestMetadataValueFromJSON,
-  CreateOrderRequestMetadataValueFromJSONTyped,
-  CreateOrderRequestMetadataValueToJSON,
-  CreateOrderRequestMetadataValueToJSONTyped,
-} from "./CreateOrderRequestMetadataValue";
-import type { AddOrderPrescriptionRequestPrescription } from "./AddOrderPrescriptionRequestPrescription";
+  ListOrdersResponseDataInnerMetadataValueFromJSON,
+  ListOrdersResponseDataInnerMetadataValueFromJSONTyped,
+  ListOrdersResponseDataInnerMetadataValueToJSON,
+  ListOrdersResponseDataInnerMetadataValueToJSONTyped,
+} from "./ListOrdersResponseDataInnerMetadataValue";
+import type { CreateOrderRequestPatient } from "./CreateOrderRequestPatient";
 import {
-  AddOrderPrescriptionRequestPrescriptionFromJSON,
-  AddOrderPrescriptionRequestPrescriptionFromJSONTyped,
-  AddOrderPrescriptionRequestPrescriptionToJSON,
-  AddOrderPrescriptionRequestPrescriptionToJSONTyped,
-} from "./AddOrderPrescriptionRequestPrescription";
+  CreateOrderRequestPatientFromJSON,
+  CreateOrderRequestPatientFromJSONTyped,
+  CreateOrderRequestPatientToJSON,
+  CreateOrderRequestPatientToJSONTyped,
+} from "./CreateOrderRequestPatient";
 
 /**
  *
@@ -49,10 +49,10 @@ export interface CreateOrderBatchRequestOrdersInner {
   externalOrderId?: string | null;
   /**
    *
-   * @type {{ [key: string]: CreateOrderRequestMetadataValue; }}
+   * @type {{ [key: string]: ListOrdersResponseDataInnerMetadataValue; }}
    * @memberof CreateOrderBatchRequestOrdersInner
    */
-  metadata?: { [key: string]: CreateOrderRequestMetadataValue } | null;
+  metadata?: { [key: string]: ListOrdersResponseDataInnerMetadataValue } | null;
   /**
    *
    * @type {string}
@@ -61,10 +61,10 @@ export interface CreateOrderBatchRequestOrdersInner {
   patientId?: string | null;
   /**
    *
-   * @type {CreateOrderBatchRequestOrdersInnerPatient}
+   * @type {CreateOrderRequestPatient}
    * @memberof CreateOrderBatchRequestOrdersInner
    */
-  patient?: CreateOrderBatchRequestOrdersInnerPatient | null;
+  patient?: CreateOrderRequestPatient | null;
   /**
    *
    * @type {string}
@@ -73,10 +73,10 @@ export interface CreateOrderBatchRequestOrdersInner {
   shippingAddressId?: string | null;
   /**
    *
-   * @type {Array<AddOrderPrescriptionRequestPrescription>}
+   * @type {Array<CreateOrderRequestPrescriptionsInner>}
    * @memberof CreateOrderBatchRequestOrdersInner
    */
-  prescriptions: Array<AddOrderPrescriptionRequestPrescription>;
+  prescriptions: Array<CreateOrderRequestPrescriptionsInner>;
 }
 
 /**
@@ -107,15 +107,13 @@ export function CreateOrderBatchRequestOrdersInnerFromJSONTyped(
     metadata:
       json["metadata"] == null
         ? undefined
-        : mapValues(json["metadata"], CreateOrderRequestMetadataValueFromJSON),
+        : mapValues(json["metadata"], ListOrdersResponseDataInnerMetadataValueFromJSON),
     patientId: json["patientId"] == null ? undefined : json["patientId"],
     patient:
-      json["patient"] == null
-        ? undefined
-        : CreateOrderBatchRequestOrdersInnerPatientFromJSON(json["patient"]),
+      json["patient"] == null ? undefined : CreateOrderRequestPatientFromJSON(json["patient"]),
     shippingAddressId: json["shippingAddressId"] == null ? undefined : json["shippingAddressId"],
     prescriptions: (json["prescriptions"] as Array<any>).map(
-      AddOrderPrescriptionRequestPrescriptionFromJSON,
+      CreateOrderRequestPrescriptionsInnerFromJSON,
     ),
   };
 }
@@ -139,12 +137,12 @@ export function CreateOrderBatchRequestOrdersInnerToJSONTyped(
     metadata:
       value["metadata"] == null
         ? undefined
-        : mapValues(value["metadata"], CreateOrderRequestMetadataValueToJSON),
+        : mapValues(value["metadata"], ListOrdersResponseDataInnerMetadataValueToJSON),
     patientId: value["patientId"],
-    patient: CreateOrderBatchRequestOrdersInnerPatientToJSON(value["patient"]),
+    patient: CreateOrderRequestPatientToJSON(value["patient"]),
     shippingAddressId: value["shippingAddressId"],
     prescriptions: (value["prescriptions"] as Array<any>).map(
-      AddOrderPrescriptionRequestPrescriptionToJSON,
+      CreateOrderRequestPrescriptionsInnerToJSON,
     ),
   };
 }

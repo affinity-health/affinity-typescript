@@ -20,35 +20,35 @@ import { mapValues } from "../runtime";
  */
 export interface RegisterUserRequestProfileDetailsEndpointsInner {
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof RegisterUserRequestProfileDetailsEndpointsInner
    */
-  endpoint: string | null;
+  endpoint: string;
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof RegisterUserRequestProfileDetailsEndpointsInner
    */
-  type: string | null;
+  type: string;
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof RegisterUserRequestProfileDetailsEndpointsInner
    */
-  description: string | null;
+  description: string;
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof RegisterUserRequestProfileDetailsEndpointsInner
    */
-  use: string | null;
+  use: string;
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof RegisterUserRequestProfileDetailsEndpointsInner
    */
-  affiliation: string | null;
+  affiliation: string;
 }
 
 /**

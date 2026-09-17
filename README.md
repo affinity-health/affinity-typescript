@@ -6,7 +6,7 @@ over the generated OpenAPI transport layer.
 ## Install
 
 ```sh
-bun add @affinity-health/sdk
+bun add @affinity-health/sdk@next
 ```
 
 The package supports trusted server-side Bun, Node.js, AWS Lambda, and standards-based worker
@@ -30,45 +30,34 @@ Resource methods use names such as `create`, `retrieve`, `list`, `update`, `canc
 `submit`. Request bodies are passed directly, while path identifiers are separate arguments:
 
 ```ts
-const patient = await affinity.patients.create(
-  "prac_...",
-  {
-    dateOfBirth: "1990-01-01",
-    email: "patient@example.com",
-    externalId: "patient-456",
-    name: { first: "Demo", last: "Patient" },
-  },
-  {
-    idempotencyKey: crypto.randomUUID(),
-  },
-);
+const patient = await affinity.patients.create("prac_...", {
+  dateOfBirth: "1990-01-01",
+  email: "patient@example.com",
+  externalId: "patient-456",
+  name: { first: "Demo", last: "Patient" },
+});
 
-const order = await affinity.orders.create(
-  {
-    practiceId: "prac_...",
-    patientId: patient.id,
-    prescriptions: [
-      {
-        medicationId: "cat_...",
-        daysSupply: 30,
-        dispensing: { dispenseUponAcceptance: false },
-        directions: "Take one capsule by mouth once daily",
-        quantity: 30,
-        quantityUnit: "capsule",
-        refills: 0,
-        structuredSig: {
-          dose: "1",
-          doseUnit: "capsule",
-          frequency: "once daily",
-          route: "oral",
-        },
+const order = await affinity.orders.create({
+  practiceId: "prac_...",
+  patientId: patient.id,
+  prescriptions: [
+    {
+      medicationId: "cat_...",
+      daysSupply: 30,
+      dispensing: { dispenseUponAcceptance: false },
+      directions: "Take one capsule by mouth once daily",
+      quantity: 30,
+      quantityUnit: "capsule",
+      refills: 0,
+      structuredSig: {
+        dose: "1",
+        doseUnit: "capsule",
+        frequency: "once daily",
+        route: "oral",
       },
-    ],
-  },
-  {
-    idempotencyKey: crypto.randomUUID(),
-  },
-);
+    },
+  ],
+});
 ```
 
 Order creation requires `practiceId` and `prescriptions`, plus exactly one of `patientId` or an
@@ -84,6 +73,8 @@ const affinity = new Affinity(process.env.AFFINITY_API_KEY!, {
   apiVersion: "2026-08-11",
   organizationId: "acct_...",
   baseUrl: "https://api.joinaffinityai.com",
+  timeout: 80_000,
+  maxNetworkRetries: 2,
   fetch: globalThis.fetch,
   headers: { "X-Integration-Trace": "sync-worker" },
 });
@@ -95,8 +86,11 @@ authenticated service account. Supply `baseUrl` for a compatible endpoint and `f
 runtime needs a custom transport implementation.
 
 The final options argument to each resource method overrides request-scoped transport settings. It
-can include `apiVersion`, `organizationId`, `actor`, `headers`, and `signal`. Mutations also require
-a non-empty `idempotencyKey` in that options object. A per-request actor overrides the client actor.
+can include `apiVersion`, `organizationId`, `actor`, `headers`, `signal`, and `idempotencyKey`.
+Practice creation and updates do not require an options argument or an idempotency key.
+For endpoints that require a key, the SDK generates one for each call and reuses it across automatic retries.
+Supply a stable key only when retrying an operation across separate calls or processes.
+A per-request actor overrides the client actor.
 
 A user actor requires the stable external user ID from your application. Add a stable system ID
 only when several automated workers share a service account and need separate audit identities.
@@ -109,11 +103,51 @@ precedence.
 
 ## Pagination
 
-List responses include the API's `data` and `hasMore` fields. List methods expose the contract's
-typed `startingAfter` and `endingBefore` cursor parameters. Pass the last returned resource ID to
-`startingAfter` to continue forward, or the first ID from the current page to `endingBefore` to
-walk backward. Automatic cursor iteration is intentionally a follow-up so callers can choose their
-own back-pressure and error handling.
+Await a list call for one page, or iterate it to fetch subsequent pages as needed:
+
+```ts
+const page = await affinity.practices.list({ limit: 25 });
+
+for await (const practice of affinity.practices.list({ limit: 25 })) {
+  console.log(practice.id);
+}
+
+const practices = await affinity.practices.list().autoPagingToArray({ limit: 100 });
+```
+
+Iteration preserves filters and uses `startingAfter` to advance. With `endingBefore`, it iterates
+backward, reversing each page. Breaking the loop stops further page requests.
+`autoPagingToArray` requires a positive limit to bound memory use.
+List endpoints without cursor parameters return their ordinary response.
+
+## Retries and timeouts
+
+The default timeout is 80 seconds per attempt, including response-body reading.
+The client retries reads and writes with an idempotency key up to twice after connection
+failures, timeouts, or HTTP 429, 500, 502, 503, and 504 responses.
+Unkeyed writes are never retried automatically. Set `maxNetworkRetries: 0` to disable retries.
+The transport uses exponential delay and honors `Retry-After`, bounded to 30 seconds.
+An `AbortSignal` cancels pending requests and retry waits.
+
+## Practice access and public types
+
+Practice responses expose `liveEnabled: boolean`. `livemode` identifies the resource's mode;
+Live access can be disabled for a Live practice. Test practices always have `liveEnabled: false`.
+Approved platforms can set `liveEnabled` during creation or update only their owned Live practices.
+Affinity Admin decisions retain precedence. See the [Live access guide](https://docs.joinaffinityai.com/guides/test-and-live-mode/#manage-practice-live-access).
+
+Import domain types directly from the package:
+
+```ts
+import type { Practice, Patient, Order, CatalogItem, PracticeLocation } from "@affinity-health/sdk";
+
+const practice: Practice = await affinity.practices.retrieve(practiceId);
+const id: string = practice.id;
+```
+
+IDs are non-null strings. Fields that can be absent in the API, such as `legalName`, remain nullable.
+The beta.3 practice response replaces `productionAccess` with `liveEnabled`; check this boolean
+instead of comparing `"approved"` and `"pending"`.
 
 ## Resources and generated contract
 
@@ -127,14 +161,7 @@ Use `rawRequest` to call a preview endpoint or another API path that the install
 not support yet:
 
 ```ts
-const preview = await affinity.rawRequest(
-  "POST",
-  "/v1/beta_endpoint",
-  { value: 123 },
-  {
-    idempotencyKey: crypto.randomUUID(),
-  },
-);
+const preview = await affinity.rawRequest("POST", "/v1/beta_endpoint", { value: 123 });
 ```
 
 Like Stripe's custom-request interface, `rawRequest` takes the HTTP method, a relative path, optional

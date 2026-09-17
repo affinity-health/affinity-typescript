@@ -32,7 +32,7 @@ export interface CreateOrderBatchRequest {
    * @type {string}
    * @memberof CreateOrderBatchRequest
    */
-  practiceId: string | null;
+  practiceId: string;
   /**
    *
    * @type {string}

@@ -48,9 +48,9 @@ async function example() {
 
   const body = {
     // string
-    exceptionId: exceptionId_example,
+    exceptionId: fex_01j2y8m6jcc9tt24af5pw9x1bc,
     // string
-    orderId: orderId_example,
+    orderId: ord_01j2y8m6jcc9tt24af5pw9x1bc,
     // string
     idempotencyKey: idempotencyKey_example,
     // ActOnOrderExceptionRequest
@@ -141,7 +141,7 @@ async function example() {
 
   const body = {
     // string
-    orderId: orderId_example,
+    orderId: ord_01j2y8m6jcc9tt24af5pw9x1bc,
     // string
     idempotencyKey: idempotencyKey_example,
     // AddOrderPrescriptionRequest
@@ -653,11 +653,11 @@ async function example() {
     // string
     orderId: orderId_example,
     // string (optional)
-    endingBefore: endingBefore_example,
+    endingBefore: evt_01j2y8m6jcc9tt24af5pw9x1bc,
     // number (optional)
     limit: 56,
     // string (optional)
-    startingAfter: startingAfter_example,
+    startingAfter: evt_01j2y8m6jcc9tt24af5pw9x1bc,
     // string (optional)
     affinityVersion: affinityVersion_example,
     // string | Required for user actors and optional for system actors. Omit both actor headers to use the authenticated service account as a system actor. (optional)
@@ -747,21 +747,21 @@ async function example() {
     // string (optional)
     createdBefore: createdBefore_example,
     // string (optional)
-    endingBefore: endingBefore_example,
+    endingBefore: ord_01j2y8m6jcc9tt24af5pw9x1bc,
     // number (optional)
     limit: 56,
     // string (optional)
-    orderId: orderId_example,
+    orderId: ord_01j2y8m6jcc9tt24af5pw9x1bc,
     // string (optional)
-    patientId: patientId_example,
+    patientId: pat_01j2y8m6jcc9tt24af5pw9x1bc,
     // string (optional)
     patientExternalId: patientExternalId_example,
     // string (optional)
-    practiceId: practiceId_example,
+    practiceId: prac_01j2y8m6jcc9tt24af5pw9x1bc,
     // 'newest' | 'oldest' (optional)
     sort: sort_example,
     // string (optional)
-    startingAfter: startingAfter_example,
+    startingAfter: ord_01j2y8m6jcc9tt24af5pw9x1bc,
     // 'blocked' | 'cancelled' | 'delivered' | 'draft' | 'partially_submitted' | 'processing' | 'ready' | 'rejected' | 'requires_provider_signature' | 'shipped' | 'submitted' (optional)
     status: status_example,
     // string (optional)
@@ -859,7 +859,7 @@ async function example() {
 
   const body = {
     // string
-    orderId: orderId_example,
+    orderId: ord_01j2y8m6jcc9tt24af5pw9x1bc,
     // string
     idempotencyKey: idempotencyKey_example,
     // RejectOrderRequest
@@ -945,7 +945,7 @@ async function example() {
 
   const body = {
     // string
-    orderId: orderId_example,
+    orderId: ord_01j2y8m6jcc9tt24af5pw9x1bc,
     // string
     idempotencyKey: idempotencyKey_example,
     // SignOrderRequest
@@ -1031,7 +1031,7 @@ async function example() {
 
   const body = {
     // string
-    orderId: orderId_example,
+    orderId: ord_01j2y8m6jcc9tt24af5pw9x1bc,
     // string
     idempotencyKey: idempotencyKey_example,
     // SubmitOrderRequest
@@ -1117,9 +1117,9 @@ async function example() {
 
   const body = {
     // string
-    orderId: orderId_example,
+    orderId: ord_01j2y8m6jcc9tt24af5pw9x1bc,
     // string
-    prescriptionId: prescriptionId_example,
+    prescriptionId: rx_01j2y8m6jcc9tt24af5pw9x1bc,
     // string
     idempotencyKey: idempotencyKey_example,
     // UpdateOrderPrescriptionRequest

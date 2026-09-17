@@ -9,5 +9,5 @@
     "target": "ES2023",
     "types": ["bun"]
   },
-  "include": ["quickstart.ts", "platform-setup.ts"]
+  "include": ["quickstart.ts", "platform-setup.ts", "public-types.ts"]
 }

@@ -20,11 +20,11 @@ import { mapValues } from "../runtime";
  */
 export interface Problem {
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof Problem
    */
-  code: string | null;
+  code: string;
   /**
    *
    * @type {{ [key: string]: any; }}
@@ -32,23 +32,23 @@ export interface Problem {
    */
   data?: { [key: string]: any };
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof Problem
    */
-  detail: string | null;
+  detail: string;
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof Problem
    */
-  instance: string | null;
+  instance: string;
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof Problem
    */
-  requestId: string | null;
+  requestId: string;
   /**
    *
    * @type {number}
@@ -56,17 +56,17 @@ export interface Problem {
    */
   status: number;
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof Problem
    */
-  title: string | null;
+  title: string;
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof Problem
    */
-  traceId?: string | null;
+  traceId?: string;
   /**
    *
    * @type {string}

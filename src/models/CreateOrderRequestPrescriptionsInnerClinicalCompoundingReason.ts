@@ -26,11 +26,11 @@ export interface CreateOrderRequestPrescriptionsInnerClinicalCompoundingReason {
    */
   category: CreateOrderRequestPrescriptionsInnerClinicalCompoundingReasonCategoryEnum;
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof CreateOrderRequestPrescriptionsInnerClinicalCompoundingReason
    */
-  context: string | null;
+  context: string;
 }
 
 /**

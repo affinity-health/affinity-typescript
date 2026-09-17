@@ -26,11 +26,11 @@ export interface CreateOrderRequestPatientEncountersInner {
    */
   notes: string | null;
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof CreateOrderRequestPatientEncountersInner
    */
-  occurredAt: string | null;
+  occurredAt: string;
   /**
    *
    * @type {string}
@@ -38,11 +38,11 @@ export interface CreateOrderRequestPatientEncountersInner {
    */
   providerName: string | null;
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof CreateOrderRequestPatientEncountersInner
    */
-  type: string | null;
+  type: string;
 }
 
 /**

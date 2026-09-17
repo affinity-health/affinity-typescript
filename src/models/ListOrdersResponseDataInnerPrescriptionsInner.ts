@@ -130,11 +130,11 @@ export interface ListOrdersResponseDataInnerPrescriptionsInner {
    */
   pharmacyId: string | null;
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof ListOrdersResponseDataInnerPrescriptionsInner
    */
-  directions: string | null;
+  directions: string;
   /**
    *
    * @type {string}
@@ -148,11 +148,11 @@ export interface ListOrdersResponseDataInnerPrescriptionsInner {
    */
   id: string;
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof ListOrdersResponseDataInnerPrescriptionsInner
    */
-  medicationName: string | null;
+  medicationName: string;
   /**
    *
    * @type {ListCatalogItemsResponseDataInnerPrescriptionRequirementsAllowedQuantitiesInnerValue}
@@ -160,11 +160,11 @@ export interface ListOrdersResponseDataInnerPrescriptionsInner {
    */
   quantity: ListCatalogItemsResponseDataInnerPrescriptionRequirementsAllowedQuantitiesInnerValue;
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof ListOrdersResponseDataInnerPrescriptionsInner
    */
-  quantityUnit: string | null;
+  quantityUnit: string;
   /**
    *
    * @type {number}
@@ -172,11 +172,11 @@ export interface ListOrdersResponseDataInnerPrescriptionsInner {
    */
   refills: number;
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof ListOrdersResponseDataInnerPrescriptionsInner
    */
-  status: string | null;
+  status: string;
   /**
    *
    * @type {string}

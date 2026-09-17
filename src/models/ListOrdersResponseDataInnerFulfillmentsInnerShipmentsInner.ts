@@ -26,11 +26,11 @@ export interface ListOrdersResponseDataInnerFulfillmentsInnerShipmentsInner {
    */
   carrier: string | null;
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof ListOrdersResponseDataInnerFulfillmentsInnerShipmentsInner
    */
-  createdAt: string | null;
+  createdAt: string;
   /**
    *
    * @type {string}
@@ -104,11 +104,11 @@ export interface ListOrdersResponseDataInnerFulfillmentsInnerShipmentsInner {
    */
   trackingUrl: string | null;
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof ListOrdersResponseDataInnerFulfillmentsInnerShipmentsInner
    */
-  updatedAt: string | null;
+  updatedAt: string;
   /**
    *
    * @type {string}

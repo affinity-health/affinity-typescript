@@ -46,11 +46,11 @@ export interface ListCatalogItemsResponse {
    */
   object: ListCatalogItemsResponseObjectEnum;
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof ListCatalogItemsResponse
    */
-  updatedAt: string | null;
+  updatedAt: string;
   /**
    *
    * @type {ListCatalogItemsResponseUrlEnum}

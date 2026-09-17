@@ -26,11 +26,11 @@ export interface ListCatalogItemsResponseDataInnerQuantityConstraintAnyOf3 {
    */
   kind: ListCatalogItemsResponseDataInnerQuantityConstraintAnyOf3KindEnum;
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof ListCatalogItemsResponseDataInnerQuantityConstraintAnyOf3
    */
-  sourceText: string | null;
+  sourceText: string;
 }
 
 /**

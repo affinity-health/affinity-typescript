@@ -34,11 +34,11 @@ export interface ListPracticeTeamMembersResponseDataInner {
    */
   id: string;
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof ListPracticeTeamMembersResponseDataInner
    */
-  name: string | null;
+  name: string;
   /**
    *
    * @type {string}

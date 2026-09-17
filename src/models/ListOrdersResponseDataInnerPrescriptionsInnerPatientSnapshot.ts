@@ -32,11 +32,11 @@ export interface ListOrdersResponseDataInnerPrescriptionsInnerPatientSnapshot {
    */
   allergyReviewStatus?: ListOrdersResponseDataInnerPrescriptionsInnerPatientSnapshotAllergyReviewStatusEnum | null;
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof ListOrdersResponseDataInnerPrescriptionsInnerPatientSnapshot
    */
-  dateOfBirth: string | null;
+  dateOfBirth: string;
   /**
    *
    * @type {string}
@@ -50,11 +50,11 @@ export interface ListOrdersResponseDataInnerPrescriptionsInnerPatientSnapshot {
    */
   gender?: ListOrdersResponseDataInnerPrescriptionsInnerPatientSnapshotGenderEnum | null;
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof ListOrdersResponseDataInnerPrescriptionsInnerPatientSnapshot
    */
-  legalName: string | null;
+  legalName: string;
   /**
    *
    * @type {string}
@@ -62,11 +62,11 @@ export interface ListOrdersResponseDataInnerPrescriptionsInnerPatientSnapshot {
    */
   phone?: string | null;
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof ListOrdersResponseDataInnerPrescriptionsInnerPatientSnapshot
    */
-  state: string | null;
+  state: string;
 }
 
 /**

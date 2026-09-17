@@ -27,6 +27,12 @@ export interface UpdatePatientAddressRequestAddress {
   city: string;
   /**
    *
+   * @type {UpdatePatientAddressRequestAddressCountryEnum}
+   * @memberof UpdatePatientAddressRequestAddress
+   */
+  country?: UpdatePatientAddressRequestAddressCountryEnum | null;
+  /**
+   *
    * @type {string}
    * @memberof UpdatePatientAddressRequestAddress
    */
@@ -49,12 +55,6 @@ export interface UpdatePatientAddressRequestAddress {
    * @memberof UpdatePatientAddressRequestAddress
    */
   state: string;
-  /**
-   *
-   * @type {UpdatePatientAddressRequestAddressCountryEnum}
-   * @memberof UpdatePatientAddressRequestAddress
-   */
-  country?: UpdatePatientAddressRequestAddressCountryEnum | null;
 }
 
 /**
@@ -94,11 +94,11 @@ export function UpdatePatientAddressRequestAddressFromJSONTyped(
   }
   return {
     city: json["city"],
+    country: json["country"] == null ? undefined : json["country"],
     line1: json["line1"],
     line2: json["line2"] == null ? undefined : json["line2"],
     postalCode: json["postalCode"],
     state: json["state"],
-    country: json["country"] == null ? undefined : json["country"],
   };
 }
 
@@ -118,10 +118,10 @@ export function UpdatePatientAddressRequestAddressToJSONTyped(
 
   return {
     city: value["city"],
+    country: value["country"],
     line1: value["line1"],
     line2: value["line2"],
     postalCode: value["postalCode"],
     state: value["state"],
-    country: value["country"],
   };
 }

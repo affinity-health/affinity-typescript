@@ -40,17 +40,17 @@ export interface CreateOrderResponsePrescriptionsInner {
    */
   externalPrescriptionId: string | null;
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof CreateOrderResponsePrescriptionsInner
    */
-  createdAt: string | null;
+  createdAt: string;
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof CreateOrderResponsePrescriptionsInner
    */
-  directions: string | null;
+  directions: string;
   /**
    *
    * @type {number}
@@ -70,11 +70,11 @@ export interface CreateOrderResponsePrescriptionsInner {
    */
   medicationId: string | null;
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof CreateOrderResponsePrescriptionsInner
    */
-  medicationName: string | null;
+  medicationName: string;
   /**
    *
    * @type {CreateOrderResponsePrescriptionsInnerObjectEnum}
@@ -88,11 +88,11 @@ export interface CreateOrderResponsePrescriptionsInner {
    */
   quantity: ListCatalogItemsResponseDataInnerPrescriptionRequirementsAllowedQuantitiesInnerValue;
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof CreateOrderResponsePrescriptionsInner
    */
-  quantityUnit: string | null;
+  quantityUnit: string;
   /**
    *
    * @type {number}

@@ -34,17 +34,17 @@ export interface ListCatalogItemsResponseDataInnerPrescriptionRequirementsAllowe
    */
   daysSupply?: number | null;
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof ListCatalogItemsResponseDataInnerPrescriptionRequirementsAllowedQuantitiesInner
    */
-  label: string | null;
+  label: string;
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof ListCatalogItemsResponseDataInnerPrescriptionRequirementsAllowedQuantitiesInner
    */
-  unit: string | null;
+  unit: string;
   /**
    *
    * @type {ListCatalogItemsResponseDataInnerPrescriptionRequirementsAllowedQuantitiesInnerValue}

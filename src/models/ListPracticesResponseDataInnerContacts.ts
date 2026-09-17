@@ -20,13 +20,6 @@ import {
   ListPracticesResponseDataInnerContactsComplianceToJSON,
   ListPracticesResponseDataInnerContactsComplianceToJSONTyped,
 } from "./ListPracticesResponseDataInnerContactsCompliance";
-import type { ListPracticesResponseDataInnerContactsPrimary } from "./ListPracticesResponseDataInnerContactsPrimary";
-import {
-  ListPracticesResponseDataInnerContactsPrimaryFromJSON,
-  ListPracticesResponseDataInnerContactsPrimaryFromJSONTyped,
-  ListPracticesResponseDataInnerContactsPrimaryToJSON,
-  ListPracticesResponseDataInnerContactsPrimaryToJSONTyped,
-} from "./ListPracticesResponseDataInnerContactsPrimary";
 
 /**
  *
@@ -42,10 +35,10 @@ export interface ListPracticesResponseDataInnerContacts {
   compliance: ListPracticesResponseDataInnerContactsCompliance | null;
   /**
    *
-   * @type {ListPracticesResponseDataInnerContactsPrimary}
+   * @type {ListPracticesResponseDataInnerContactsCompliance}
    * @memberof ListPracticesResponseDataInnerContacts
    */
-  primary: ListPracticesResponseDataInnerContactsPrimary | null;
+  primary: ListPracticesResponseDataInnerContactsCompliance | null;
 }
 
 /**
@@ -74,7 +67,7 @@ export function ListPracticesResponseDataInnerContactsFromJSONTyped(
   }
   return {
     compliance: ListPracticesResponseDataInnerContactsComplianceFromJSON(json["compliance"]),
-    primary: ListPracticesResponseDataInnerContactsPrimaryFromJSON(json["primary"]),
+    primary: ListPracticesResponseDataInnerContactsComplianceFromJSON(json["primary"]),
   };
 }
 
@@ -94,6 +87,6 @@ export function ListPracticesResponseDataInnerContactsToJSONTyped(
 
   return {
     compliance: ListPracticesResponseDataInnerContactsComplianceToJSON(value["compliance"]),
-    primary: ListPracticesResponseDataInnerContactsPrimaryToJSON(value["primary"]),
+    primary: ListPracticesResponseDataInnerContactsComplianceToJSON(value["primary"]),
   };
 }

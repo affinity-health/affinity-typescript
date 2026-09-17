@@ -28,17 +28,17 @@ import {
  */
 export interface CreateOrderRequestPrescriptionsInnerClinicalObservationsInner {
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof CreateOrderRequestPrescriptionsInnerClinicalObservationsInner
    */
-  display: string | null;
+  display: string;
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof CreateOrderRequestPrescriptionsInnerClinicalObservationsInner
    */
-  unit: string | null;
+  unit: string;
   /**
    *
    * @type {CreateOrderRequestPrescriptionsInnerClinicalObservationsInnerValue}

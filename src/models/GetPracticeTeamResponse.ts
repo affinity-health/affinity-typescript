@@ -52,7 +52,7 @@ export interface GetPracticeTeamResponse {
    * @type {string}
    * @memberof GetPracticeTeamResponse
    */
-  practiceId: string | null;
+  practiceId: string;
   /**
    *
    * @type {GetPracticeTeamResponseMembers}

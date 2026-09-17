@@ -216,8 +216,8 @@ export interface ListOrdersRequest {
   startingAfter?: string | null;
   status?: ListOrdersStatusEnum;
   affinityVersion?: string;
-  affinityActorId?: string | null;
-  affinityActorType?: string | null;
+  affinityActorId?: string;
+  affinityActorType?: string;
 }
 
 export interface RejectOrderOperationRequest {

@@ -39,7 +39,7 @@ async function example() {
     // 'relevance' | 'name_asc' | 'name_desc' (optional)
     sort: sort_example,
     // string (optional)
-    catalogItemId: catalogItemId_example,
+    catalogItemId: cat_01j2y8m6jcc9tt24af5pw9x1bc,
     // 'all' | 'orderable' | 'unavailable' (optional)
     availability: availability_example,
     // ListCatalogItemsPharmacyIdsParameter (optional)
@@ -47,7 +47,7 @@ async function example() {
     // ListCatalogItemsDosageFormsParameter (optional)
     dosageForms: ...,
     // string (optional)
-    endingBefore: endingBefore_example,
+    endingBefore: cat_01j2y8m6jcc9tt24af5pw9x1bc,
     // boolean (optional)
     hideControlledSubstances: true,
     // boolean (optional)
@@ -55,9 +55,9 @@ async function example() {
     // number (optional)
     limit: 56,
     // string (optional)
-    orgId: orgId_example,
+    orgId: acct_01j2y8m6jcc9tt24af5pw9x1bc,
     // string (optional)
-    practiceId: practiceId_example,
+    practiceId: prac_01j2y8m6jcc9tt24af5pw9x1bc,
     // string (optional)
     query: query_example,
     // 'all' | 'office_use' | 'patient_specific' (optional)
@@ -65,7 +65,7 @@ async function example() {
     // ListCatalogItemsRoutesParameter (optional)
     routes: ...,
     // string (optional)
-    startingAfter: startingAfter_example,
+    startingAfter: cat_01j2y8m6jcc9tt24af5pw9x1bc,
     // string (optional)
     affinityVersion: affinityVersion_example,
   } satisfies ListCatalogItemsRequest;
@@ -154,19 +154,19 @@ async function example() {
 
   const body = {
     // string (optional)
-    endingBefore: endingBefore_example,
+    endingBefore: pharm_01j2y8m6jcc9tt24af5pw9x1bc,
     // number (optional)
     limit: 56,
     // string (optional)
-    orgId: orgId_example,
+    orgId: acct_01j2y8m6jcc9tt24af5pw9x1bc,
     // string (optional)
-    pharmacyId: pharmacyId_example,
+    pharmacyId: pharm_01j2y8m6jcc9tt24af5pw9x1bc,
     // string (optional)
     query: query_example,
     // string (optional)
     shipsToState: shipsToState_example,
     // string (optional)
-    startingAfter: startingAfter_example,
+    startingAfter: pharm_01j2y8m6jcc9tt24af5pw9x1bc,
     // string (optional)
     affinityVersion: affinityVersion_example,
   } satisfies ListPharmaciesRequest;
@@ -247,7 +247,7 @@ async function example() {
 
   const body = {
     // string
-    catalogItemId: catalogItemId_example,
+    catalogItemId: cat_01j2y8m6jcc9tt24af5pw9x1bc,
     // string
     destinationState: destinationState_example,
     // 'patient' | 'practice' (optional)

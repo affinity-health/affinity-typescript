@@ -5,6 +5,8 @@ import type {
   CreateComponentSessionOperationRequest,
   CreateHostedSessionOperationRequest,
 } from "../apis/SessionsApi";
+import type { Practice, Patient, Order, CreatedOrder, PracticeLocation } from "../domain";
+import { paginate, type ApiListPromise } from "./pagination";
 import type { CreateComponentSessionRequest } from "../models/CreateComponentSessionRequest";
 import type { CreateHostedSessionRequest } from "../models/CreateHostedSessionRequest";
 import {
@@ -39,7 +41,7 @@ export class SessionsResource {
   constructor(private readonly api: SessionsApi) {}
   createComponent(
     params: CreateComponentSessionParams,
-    options: MutationOptions,
+    options?: MutationOptions,
   ): ReturnType<SessionsApi["createComponentSession"]> {
     return this.api.createComponentSession(
       {
@@ -52,7 +54,7 @@ export class SessionsResource {
   }
   createHosted(
     params: CreateHostedSessionParams,
-    options: MutationOptions,
+    options?: MutationOptions,
   ): ReturnType<SessionsApi["createHostedSession"]> {
     return this.api.createHostedSession(
       {

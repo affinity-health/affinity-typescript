@@ -13,27 +13,27 @@
  */
 
 import { mapValues } from "../runtime";
-import type { InvitePracticeTeamPersonRequestLicensesInner } from "./InvitePracticeTeamPersonRequestLicensesInner";
+import type { RegisterUserRequestLicensesInner } from "./RegisterUserRequestLicensesInner";
 import {
-  InvitePracticeTeamPersonRequestLicensesInnerFromJSON,
-  InvitePracticeTeamPersonRequestLicensesInnerFromJSONTyped,
-  InvitePracticeTeamPersonRequestLicensesInnerToJSON,
-  InvitePracticeTeamPersonRequestLicensesInnerToJSONTyped,
-} from "./InvitePracticeTeamPersonRequestLicensesInner";
-import type { InvitePracticeTeamPersonRequestAddress } from "./InvitePracticeTeamPersonRequestAddress";
+  RegisterUserRequestLicensesInnerFromJSON,
+  RegisterUserRequestLicensesInnerFromJSONTyped,
+  RegisterUserRequestLicensesInnerToJSON,
+  RegisterUserRequestLicensesInnerToJSONTyped,
+} from "./RegisterUserRequestLicensesInner";
+import type { RegisterUserRequestProfileDetails } from "./RegisterUserRequestProfileDetails";
 import {
-  InvitePracticeTeamPersonRequestAddressFromJSON,
-  InvitePracticeTeamPersonRequestAddressFromJSONTyped,
-  InvitePracticeTeamPersonRequestAddressToJSON,
-  InvitePracticeTeamPersonRequestAddressToJSONTyped,
-} from "./InvitePracticeTeamPersonRequestAddress";
-import type { InvitePracticeTeamPersonRequestProfileDetails } from "./InvitePracticeTeamPersonRequestProfileDetails";
+  RegisterUserRequestProfileDetailsFromJSON,
+  RegisterUserRequestProfileDetailsFromJSONTyped,
+  RegisterUserRequestProfileDetailsToJSON,
+  RegisterUserRequestProfileDetailsToJSONTyped,
+} from "./RegisterUserRequestProfileDetails";
+import type { RegisterUserRequestAddress } from "./RegisterUserRequestAddress";
 import {
-  InvitePracticeTeamPersonRequestProfileDetailsFromJSON,
-  InvitePracticeTeamPersonRequestProfileDetailsFromJSONTyped,
-  InvitePracticeTeamPersonRequestProfileDetailsToJSON,
-  InvitePracticeTeamPersonRequestProfileDetailsToJSONTyped,
-} from "./InvitePracticeTeamPersonRequestProfileDetails";
+  RegisterUserRequestAddressFromJSON,
+  RegisterUserRequestAddressFromJSONTyped,
+  RegisterUserRequestAddressToJSON,
+  RegisterUserRequestAddressToJSONTyped,
+} from "./RegisterUserRequestAddress";
 
 /**
  *
@@ -42,23 +42,23 @@ import {
  */
 export interface InvitePracticeTeamPersonRequest {
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof InvitePracticeTeamPersonRequest
    */
-  externalId: string | null;
+  externalId: string;
   /**
    *
    * @type {string}
    * @memberof InvitePracticeTeamPersonRequest
    */
-  email: string | null;
+  email: string;
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof InvitePracticeTeamPersonRequest
    */
-  name: string | null;
+  name: string;
   /**
    *
    * @type {InvitePracticeTeamPersonRequestRoleEnum}
@@ -73,10 +73,10 @@ export interface InvitePracticeTeamPersonRequest {
   roles?: Array<InvitePracticeTeamPersonRequestRolesEnum> | null;
   /**
    *
-   * @type {InvitePracticeTeamPersonRequestProfileDetails}
+   * @type {RegisterUserRequestProfileDetails}
    * @memberof InvitePracticeTeamPersonRequest
    */
-  profileDetails?: InvitePracticeTeamPersonRequestProfileDetails | null;
+  profileDetails?: RegisterUserRequestProfileDetails | null;
   /**
    *
    * @type {string}
@@ -85,10 +85,10 @@ export interface InvitePracticeTeamPersonRequest {
   npi?: string | null;
   /**
    *
-   * @type {Array<InvitePracticeTeamPersonRequestLicensesInner>}
+   * @type {Array<RegisterUserRequestLicensesInner>}
    * @memberof InvitePracticeTeamPersonRequest
    */
-  licenses?: Array<InvitePracticeTeamPersonRequestLicensesInner> | null;
+  licenses?: Array<RegisterUserRequestLicensesInner> | null;
   /**
    *
    * @type {string}
@@ -109,10 +109,10 @@ export interface InvitePracticeTeamPersonRequest {
   credentials?: string | null;
   /**
    *
-   * @type {InvitePracticeTeamPersonRequestAddress}
+   * @type {RegisterUserRequestAddress}
    * @memberof InvitePracticeTeamPersonRequest
    */
-  address?: InvitePracticeTeamPersonRequestAddress | null;
+  address?: RegisterUserRequestAddress | null;
   /**
    *
    * @type {string}
@@ -189,21 +189,17 @@ export function InvitePracticeTeamPersonRequestFromJSONTyped(
     profileDetails:
       json["profileDetails"] == null
         ? undefined
-        : InvitePracticeTeamPersonRequestProfileDetailsFromJSON(json["profileDetails"]),
+        : RegisterUserRequestProfileDetailsFromJSON(json["profileDetails"]),
     npi: json["npi"] == null ? undefined : json["npi"],
     licenses:
       json["licenses"] == null
         ? undefined
-        : (json["licenses"] as Array<any>).map(
-            InvitePracticeTeamPersonRequestLicensesInnerFromJSON,
-          ),
+        : (json["licenses"] as Array<any>).map(RegisterUserRequestLicensesInnerFromJSON),
     legalName: json["legalName"] == null ? undefined : json["legalName"],
     displayName: json["displayName"] == null ? undefined : json["displayName"],
     credentials: json["credentials"] == null ? undefined : json["credentials"],
     address:
-      json["address"] == null
-        ? undefined
-        : InvitePracticeTeamPersonRequestAddressFromJSON(json["address"]),
+      json["address"] == null ? undefined : RegisterUserRequestAddressFromJSON(json["address"]),
     phone: json["phone"] == null ? undefined : json["phone"],
     locationIds: json["locationIds"] == null ? undefined : json["locationIds"],
   };
@@ -227,16 +223,16 @@ export function InvitePracticeTeamPersonRequestToJSONTyped(
     name: value["name"],
     role: value["role"],
     roles: value["roles"],
-    profileDetails: InvitePracticeTeamPersonRequestProfileDetailsToJSON(value["profileDetails"]),
+    profileDetails: RegisterUserRequestProfileDetailsToJSON(value["profileDetails"]),
     npi: value["npi"],
     licenses:
       value["licenses"] == null
         ? undefined
-        : (value["licenses"] as Array<any>).map(InvitePracticeTeamPersonRequestLicensesInnerToJSON),
+        : (value["licenses"] as Array<any>).map(RegisterUserRequestLicensesInnerToJSON),
     legalName: value["legalName"],
     displayName: value["displayName"],
     credentials: value["credentials"],
-    address: InvitePracticeTeamPersonRequestAddressToJSON(value["address"]),
+    address: RegisterUserRequestAddressToJSON(value["address"]),
     phone: value["phone"],
     locationIds: value["locationIds"],
   };

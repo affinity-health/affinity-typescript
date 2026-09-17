@@ -13,27 +13,27 @@
  */
 
 import { mapValues } from "../runtime";
-import type { CreatePracticeResponsePrescribersInner } from "./CreatePracticeResponsePrescribersInner";
+import type { ListPracticesResponseDataInnerPrescribersInner } from "./ListPracticesResponseDataInnerPrescribersInner";
 import {
-  CreatePracticeResponsePrescribersInnerFromJSON,
-  CreatePracticeResponsePrescribersInnerFromJSONTyped,
-  CreatePracticeResponsePrescribersInnerToJSON,
-  CreatePracticeResponsePrescribersInnerToJSONTyped,
-} from "./CreatePracticeResponsePrescribersInner";
-import type { CreatePracticeResponseContacts } from "./CreatePracticeResponseContacts";
+  ListPracticesResponseDataInnerPrescribersInnerFromJSON,
+  ListPracticesResponseDataInnerPrescribersInnerFromJSONTyped,
+  ListPracticesResponseDataInnerPrescribersInnerToJSON,
+  ListPracticesResponseDataInnerPrescribersInnerToJSONTyped,
+} from "./ListPracticesResponseDataInnerPrescribersInner";
+import type { ListPracticesResponseDataInnerAddress } from "./ListPracticesResponseDataInnerAddress";
 import {
-  CreatePracticeResponseContactsFromJSON,
-  CreatePracticeResponseContactsFromJSONTyped,
-  CreatePracticeResponseContactsToJSON,
-  CreatePracticeResponseContactsToJSONTyped,
-} from "./CreatePracticeResponseContacts";
-import type { CreatePatientAddressResponseAddress } from "./CreatePatientAddressResponseAddress";
+  ListPracticesResponseDataInnerAddressFromJSON,
+  ListPracticesResponseDataInnerAddressFromJSONTyped,
+  ListPracticesResponseDataInnerAddressToJSON,
+  ListPracticesResponseDataInnerAddressToJSONTyped,
+} from "./ListPracticesResponseDataInnerAddress";
+import type { ListPracticesResponseDataInnerContacts } from "./ListPracticesResponseDataInnerContacts";
 import {
-  CreatePatientAddressResponseAddressFromJSON,
-  CreatePatientAddressResponseAddressFromJSONTyped,
-  CreatePatientAddressResponseAddressToJSON,
-  CreatePatientAddressResponseAddressToJSONTyped,
-} from "./CreatePatientAddressResponseAddress";
+  ListPracticesResponseDataInnerContactsFromJSON,
+  ListPracticesResponseDataInnerContactsFromJSONTyped,
+  ListPracticesResponseDataInnerContactsToJSON,
+  ListPracticesResponseDataInnerContactsToJSONTyped,
+} from "./ListPracticesResponseDataInnerContacts";
 
 /**
  *
@@ -43,22 +43,22 @@ import {
 export interface GetPracticeResponse {
   /**
    *
-   * @type {CreatePatientAddressResponseAddress}
+   * @type {ListPracticesResponseDataInnerAddress}
    * @memberof GetPracticeResponse
    */
-  address: CreatePatientAddressResponseAddress | null;
+  address: ListPracticesResponseDataInnerAddress | null;
   /**
    *
-   * @type {CreatePracticeResponseContacts}
+   * @type {ListPracticesResponseDataInnerContacts}
    * @memberof GetPracticeResponse
    */
-  contacts: CreatePracticeResponseContacts;
+  contacts: ListPracticesResponseDataInnerContacts;
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof GetPracticeResponse
    */
-  createdAt: string | null;
+  createdAt: string;
   /**
    *
    * @type {string}
@@ -70,7 +70,7 @@ export interface GetPracticeResponse {
    * @type {string}
    * @memberof GetPracticeResponse
    */
-  id: string | null;
+  id: string;
   /**
    *
    * @type {string}
@@ -90,11 +90,11 @@ export interface GetPracticeResponse {
    */
   metadata: object;
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof GetPracticeResponse
    */
-  name: string | null;
+  name: string;
   /**
    *
    * @type {GetPracticeResponseObjectEnum}
@@ -103,16 +103,16 @@ export interface GetPracticeResponse {
   object: GetPracticeResponseObjectEnum;
   /**
    *
-   * @type {Array<CreatePracticeResponsePrescribersInner>}
+   * @type {Array<ListPracticesResponseDataInnerPrescribersInner>}
    * @memberof GetPracticeResponse
    */
-  prescribers: Array<CreatePracticeResponsePrescribersInner>;
+  prescribers: Array<ListPracticesResponseDataInnerPrescribersInner>;
   /**
-   *
-   * @type {GetPracticeResponseProductionAccessEnum}
+   * Whether this practice currently has Live access. False for Test practices.
+   * @type {boolean}
    * @memberof GetPracticeResponse
    */
-  productionAccess: GetPracticeResponseProductionAccessEnum;
+  liveEnabled: boolean;
   /**
    *
    * @type {string}
@@ -143,17 +143,6 @@ export type GetPracticeResponseObjectEnum =
   (typeof GetPracticeResponseObjectEnum)[keyof typeof GetPracticeResponseObjectEnum];
 
 /**
- * @export
- */
-export const GetPracticeResponseProductionAccessEnum = {
-  Approved: "approved",
-  NotApplicable: "not_applicable",
-  Pending: "pending",
-} as const;
-export type GetPracticeResponseProductionAccessEnum =
-  (typeof GetPracticeResponseProductionAccessEnum)[keyof typeof GetPracticeResponseProductionAccessEnum];
-
-/**
  * Check if a given object implements the GetPracticeResponse interface.
  */
 export function instanceOfGetPracticeResponse(value: object): value is GetPracticeResponse {
@@ -168,7 +157,7 @@ export function instanceOfGetPracticeResponse(value: object): value is GetPracti
   if (!("name" in value) || value["name"] === undefined) return false;
   if (!("object" in value) || value["object"] === undefined) return false;
   if (!("prescribers" in value) || value["prescribers"] === undefined) return false;
-  if (!("productionAccess" in value) || value["productionAccess"] === undefined) return false;
+  if (!("liveEnabled" in value) || value["liveEnabled"] === undefined) return false;
   if (!("supportEmail" in value) || value["supportEmail"] === undefined) return false;
   if (!("supportPhone" in value) || value["supportPhone"] === undefined) return false;
   if (!("timezone" in value) || value["timezone"] === undefined) return false;
@@ -187,8 +176,8 @@ export function GetPracticeResponseFromJSONTyped(
     return json;
   }
   return {
-    address: CreatePatientAddressResponseAddressFromJSON(json["address"]),
-    contacts: CreatePracticeResponseContactsFromJSON(json["contacts"]),
+    address: ListPracticesResponseDataInnerAddressFromJSON(json["address"]),
+    contacts: ListPracticesResponseDataInnerContactsFromJSON(json["contacts"]),
     createdAt: json["createdAt"],
     externalId: json["externalId"],
     id: json["id"],
@@ -198,9 +187,9 @@ export function GetPracticeResponseFromJSONTyped(
     name: json["name"],
     object: json["object"],
     prescribers: (json["prescribers"] as Array<any>).map(
-      CreatePracticeResponsePrescribersInnerFromJSON,
+      ListPracticesResponseDataInnerPrescribersInnerFromJSON,
     ),
-    productionAccess: json["productionAccess"],
+    liveEnabled: json["liveEnabled"],
     supportEmail: json["supportEmail"],
     supportPhone: json["supportPhone"],
     timezone: json["timezone"],
@@ -220,8 +209,8 @@ export function GetPracticeResponseToJSONTyped(
   }
 
   return {
-    address: CreatePatientAddressResponseAddressToJSON(value["address"]),
-    contacts: CreatePracticeResponseContactsToJSON(value["contacts"]),
+    address: ListPracticesResponseDataInnerAddressToJSON(value["address"]),
+    contacts: ListPracticesResponseDataInnerContactsToJSON(value["contacts"]),
     createdAt: value["createdAt"],
     externalId: value["externalId"],
     id: value["id"],
@@ -231,9 +220,9 @@ export function GetPracticeResponseToJSONTyped(
     name: value["name"],
     object: value["object"],
     prescribers: (value["prescribers"] as Array<any>).map(
-      CreatePracticeResponsePrescribersInnerToJSON,
+      ListPracticesResponseDataInnerPrescribersInnerToJSON,
     ),
-    productionAccess: value["productionAccess"],
+    liveEnabled: value["liveEnabled"],
     supportEmail: value["supportEmail"],
     supportPhone: value["supportPhone"],
     timezone: value["timezone"],

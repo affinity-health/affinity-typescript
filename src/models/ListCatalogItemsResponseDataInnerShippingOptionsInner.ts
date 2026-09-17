@@ -62,17 +62,17 @@ export interface ListCatalogItemsResponseDataInnerShippingOptionsInner {
    */
   id: string;
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof ListCatalogItemsResponseDataInnerShippingOptionsInner
    */
-  label: string | null;
+  label: string;
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof ListCatalogItemsResponseDataInnerShippingOptionsInner
    */
-  serviceLevel: string | null;
+  serviceLevel: string;
   /**
    *
    * @type {Array<ListCatalogItemsResponseDataInnerShippingOptionsInnerTemperaturesEnum>}

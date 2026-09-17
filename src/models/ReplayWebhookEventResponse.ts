@@ -13,13 +13,13 @@
  */
 
 import { mapValues } from "../runtime";
-import type { ReplayWebhookEventResponseAttemptsInner } from "./ReplayWebhookEventResponseAttemptsInner";
+import type { GetWebhookEventResponseAttemptsInner } from "./GetWebhookEventResponseAttemptsInner";
 import {
-  ReplayWebhookEventResponseAttemptsInnerFromJSON,
-  ReplayWebhookEventResponseAttemptsInnerFromJSONTyped,
-  ReplayWebhookEventResponseAttemptsInnerToJSON,
-  ReplayWebhookEventResponseAttemptsInnerToJSONTyped,
-} from "./ReplayWebhookEventResponseAttemptsInner";
+  GetWebhookEventResponseAttemptsInnerFromJSON,
+  GetWebhookEventResponseAttemptsInnerFromJSONTyped,
+  GetWebhookEventResponseAttemptsInnerToJSON,
+  GetWebhookEventResponseAttemptsInnerToJSONTyped,
+} from "./GetWebhookEventResponseAttemptsInner";
 import type { GetWebhookEventResponseDeliveriesInner } from "./GetWebhookEventResponseDeliveriesInner";
 import {
   GetWebhookEventResponseDeliveriesInnerFromJSON,
@@ -35,23 +35,23 @@ import {
  */
 export interface ReplayWebhookEventResponse {
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof ReplayWebhookEventResponse
    */
-  apiVersion: string | null;
+  apiVersion: string;
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof ReplayWebhookEventResponse
    */
-  createdAt: string | null;
+  createdAt: string;
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof ReplayWebhookEventResponse
    */
-  eventType: string | null;
+  eventType: string;
   /**
    *
    * @type {string}
@@ -71,17 +71,17 @@ export interface ReplayWebhookEventResponse {
    */
   object: ReplayWebhookEventResponseObjectEnum;
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof ReplayWebhookEventResponse
    */
-  resourceId: string | null;
+  resourceId: string;
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof ReplayWebhookEventResponse
    */
-  resourceType: string | null;
+  resourceType: string;
   /**
    *
    * @type {ReplayWebhookEventResponseStatusEnum}
@@ -90,10 +90,10 @@ export interface ReplayWebhookEventResponse {
   status: ReplayWebhookEventResponseStatusEnum;
   /**
    *
-   * @type {Array<ReplayWebhookEventResponseAttemptsInner>}
+   * @type {Array<GetWebhookEventResponseAttemptsInner>}
    * @memberof ReplayWebhookEventResponse
    */
-  attempts: Array<ReplayWebhookEventResponseAttemptsInner>;
+  attempts: Array<GetWebhookEventResponseAttemptsInner>;
   /**
    *
    * @type {Array<GetWebhookEventResponseDeliveriesInner>}
@@ -170,7 +170,7 @@ export function ReplayWebhookEventResponseFromJSONTyped(
     resourceId: json["resourceId"],
     resourceType: json["resourceType"],
     status: json["status"],
-    attempts: (json["attempts"] as Array<any>).map(ReplayWebhookEventResponseAttemptsInnerFromJSON),
+    attempts: (json["attempts"] as Array<any>).map(GetWebhookEventResponseAttemptsInnerFromJSON),
     deliveries: (json["deliveries"] as Array<any>).map(
       GetWebhookEventResponseDeliveriesInnerFromJSON,
     ),
@@ -200,7 +200,7 @@ export function ReplayWebhookEventResponseToJSONTyped(
     resourceId: value["resourceId"],
     resourceType: value["resourceType"],
     status: value["status"],
-    attempts: (value["attempts"] as Array<any>).map(ReplayWebhookEventResponseAttemptsInnerToJSON),
+    attempts: (value["attempts"] as Array<any>).map(GetWebhookEventResponseAttemptsInnerToJSON),
     deliveries: (value["deliveries"] as Array<any>).map(
       GetWebhookEventResponseDeliveriesInnerToJSON,
     ),

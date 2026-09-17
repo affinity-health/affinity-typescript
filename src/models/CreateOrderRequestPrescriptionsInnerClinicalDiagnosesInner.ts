@@ -20,17 +20,17 @@ import { mapValues } from "../runtime";
  */
 export interface CreateOrderRequestPrescriptionsInnerClinicalDiagnosesInner {
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof CreateOrderRequestPrescriptionsInnerClinicalDiagnosesInner
    */
-  code: string | null;
+  code: string;
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof CreateOrderRequestPrescriptionsInnerClinicalDiagnosesInner
    */
-  display: string | null;
+  display: string;
 }
 
 /**

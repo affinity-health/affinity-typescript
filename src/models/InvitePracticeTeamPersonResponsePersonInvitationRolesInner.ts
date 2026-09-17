@@ -26,11 +26,11 @@ export interface InvitePracticeTeamPersonResponsePersonInvitationRolesInner {
    */
   id: string;
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof InvitePracticeTeamPersonResponsePersonInvitationRolesInner
    */
-  name: string | null;
+  name: string;
   /**
    *
    * @type {string}

@@ -399,7 +399,7 @@ function renderMethod(operation: OperationDetails): string {
       `params: ${params}${operation.queryParameters.length > 0 && !requiredQuery ? " = {}" : ""}`,
     );
   const optionType = requestOptionsType(operation);
-  args.push(`options${optionType === "MutationOptions" ? "" : "?"}: ${optionType}`);
+  args.push(`options?: ${optionType}`);
   const fields: string[] = [];
   if (operation.queryParameters.length > 0) fields.push("...params");
   fields.push(
@@ -418,7 +418,30 @@ function renderMethod(operation: OperationDetails): string {
         ? "    validateCreateOrderBatchParams(params);\n"
         : "";
   const apiClass = resourceDefinitions[operation.resource].apiClass;
-  return `  ${operation.publicMethod}(${args.join(", ")}): ReturnType<${apiClass}["${operation.apiMethod}"]> {
+  if (operation.queryParameters.some((parameter) => parameter.name === "startingAfter")) {
+    return `  ${operation.publicMethod}(${args.join(", ")}): ApiListPromise<Awaited<ReturnType<${apiClass}["${operation.apiMethod}"]>>> {
+      return paginate((cursor) => this.api.${operation.apiMethod}({ ${fields.join(", ")}, ...cursor }, requestOverrides(options)), params);
+    }`;
+  }
+  const domainType = (
+    {
+      createPractice: "Practice",
+      getPractice: "Practice",
+      updatePractice: "Practice",
+      createPatient: "Patient",
+      getPatient: "Patient",
+      updatePatient: "Patient",
+      getOrder: "Order",
+      createOrder: "CreatedOrder",
+      getPracticeLocation: "PracticeLocation",
+      createPracticeLocation: "PracticeLocation",
+      updatePracticeLocation: "PracticeLocation",
+    } as Record<string, string>
+  )[operation.operationId];
+  const returnType = domainType
+    ? `Promise<${domainType}>`
+    : `ReturnType<${apiClass}["${operation.apiMethod}"]>`;
+  return `  ${operation.publicMethod}(${args.join(", ")}): ${returnType} {
 ${validation}    return this.api.${operation.apiMethod}({ ${fields.join(", ")} }, requestOverrides(options));
   }`;
 }
@@ -499,6 +522,8 @@ function resourceSource(
     sharedImports.push("organizationHeader");
   return [
     apiImport,
+    'import type { Practice, Patient, Order, CreatedOrder, PracticeLocation } from "../domain";',
+    'import { paginate, type ApiListPromise } from "./pagination";',
     ...modelImports,
     `import { ${sharedImports.join(", ")} } from "./shared";`,
     "",
@@ -568,6 +593,7 @@ await output("src/raw.ts", rawClientSource);
 await output(
   "src/affinity.ts",
   `import { Configuration, FetchError, ResponseError, type FetchAPI } from "./runtime";
+import { createTransport, type TransportOptions } from "./resources/transport";
 import { RawClient } from "./raw";
 import {
   AccountResource,
@@ -590,7 +616,7 @@ import {
   validateNonEmptyOption,
 } from "./resources/shared";
 
-export interface AffinityOptions {
+export interface AffinityOptions extends TransportOptions {
   actor?: AffinityActor;
   apiVersion?: string;
   baseUrl?: string;
@@ -617,6 +643,7 @@ export class Affinity {
   readonly sessions: SessionsResource;
   readonly team: TeamResource;
   readonly webhooks: WebhooksResource;
+  private readonly transport: FetchAPI;
   private readonly apiKey: string;
   private readonly options: AffinityOptions;
 
@@ -634,6 +661,7 @@ export class Affinity {
     const organizationId = options.organizationId !== undefined
       ? validateNonEmptyOption(options.organizationId, "organizationId")
       : undefined;
+    this.transport = createTransport(options.fetch ?? globalThis.fetch, options);
     this.apiKey = apiKey;
     const basePath = (options.baseUrl ?? "${baseUrl}").replace(/\\/+$/, "");
     this.options = {
@@ -647,7 +675,7 @@ export class Affinity {
     const configuration = new Configuration({
       accessToken: apiKey,
       basePath,
-      fetchApi: options.fetch,
+      fetchApi: this.transport,
       headers: {
         ...headers,
         "Affinity-Version": version,
@@ -724,7 +752,7 @@ ${Object.entries(resourceDefinitions)
     if (hasBody) headers.set("Content-Type", "application/json");
     let response: Response;
     try {
-      response = await (this.options.fetch ?? globalThis.fetch)(\`\${this.options.baseUrl}\${path}\`, {
+      response = await this.transport(\`\${this.options.baseUrl}\${path}\`, {
         method: requestMethod,
         headers,
         ...(hasBody ? { body: JSON.stringify(params) } : {}),
@@ -752,6 +780,7 @@ await output(
 export * from "./errors";
 export { ResponseError, FetchError, RequiredError } from "./runtime";
 export type * from "./resources";
+export type * from "./domain";
 export * from "./webhook-events";`,
 );
 
@@ -785,4 +814,23 @@ await output(
 await output(
   "src/resources/shared.ts",
   await readFile(resolve(root, "templates/resources-shared.ts"), "utf8"),
+);
+
+for (const name of ["pagination", "transport"]) {
+  await output(
+    `src/resources/${name}.ts`,
+    await readFile(resolve(root, `templates/${name}.ts`), "utf8"),
+  );
+}
+await output(
+  "src/domain.ts",
+  `
+export type { GetPracticeResponse as Practice } from "./models/GetPracticeResponse";
+export type { GetPatientResponse as Patient } from "./models/GetPatientResponse";
+export type { CreateOrderResponse as CreatedOrder } from "./models/CreateOrderResponse";
+export type { GetOrderResponse as Order } from "./models/GetOrderResponse";
+export type { ListCatalogItemsResponseDataInner as CatalogItem } from "./models/ListCatalogItemsResponseDataInner";
+export type { GetPracticeLocationResponse as PracticeLocation } from "./models/GetPracticeLocationResponse";
+export type { ApiListPromise } from "./resources/pagination";
+`,
 );

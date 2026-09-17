@@ -7642,7 +7642,7 @@
           {
             "in": "header",
             "name": "Idempotency-Key",
-            "required": true,
+            "required": false,
             "schema": {
               "type": "string"
             }
@@ -7718,7 +7718,7 @@
           },
           "required": true
         },
-        "description": "Creates a practice for the platform. Send Idempotency-Key when you retry the same request.",
+        "description": "Creates a practice owned by the platform. Set liveEnabled to true to enable Live access at creation with an approved platform and a Live request. Defaults to false. Requires practices:write. Send Idempotency-Key when you retry the same request.",
         "summary": "Create practice",
         "x-visibility": "public"
       }
@@ -7838,7 +7838,7 @@
           {
             "in": "header",
             "name": "Idempotency-Key",
-            "required": true,
+            "required": false,
             "schema": {
               "type": "string"
             }
@@ -7914,7 +7914,7 @@
           },
           "required": true
         },
-        "description": "Updates one practice that belongs to the platform. Send Idempotency-Key when you retry the same request.",
+        "description": "Updates one practice owned by the platform. Set liveEnabled to true or false to control Live access with an approved platform and a Live request. Affinity Admin decisions take precedence. Requires practices:write. Send Idempotency-Key when you retry the same request.",
         "summary": "Update practice",
         "x-visibility": "public"
       }
@@ -28960,13 +28960,9 @@
                     "additionalProperties": false
                   }
                 },
-                "productionAccess": {
-                  "type": "string",
-                  "enum": [
-                    "approved",
-                    "not_applicable",
-                    "pending"
-                  ]
+                "liveEnabled": {
+                  "type": "boolean",
+                  "description": "Whether this practice currently has Live access. False for Test practices."
                 },
                 "supportEmail": {
                   "anyOf": [
@@ -29011,7 +29007,7 @@
                 "name",
                 "object",
                 "prescribers",
-                "productionAccess",
+                "liveEnabled",
                 "supportEmail",
                 "supportPhone",
                 "timezone"
@@ -29046,6 +29042,10 @@
       "CreatePracticeRequest": {
         "type": "object",
         "properties": {
+          "liveEnabled": {
+            "type": "boolean",
+            "description": "Enable Live access at creation. Requires an approved platform and a Live request. Defaults to false."
+          },
           "address": {
             "type": "object",
             "properties": {
@@ -29659,13 +29659,9 @@
               "additionalProperties": false
             }
           },
-          "productionAccess": {
-            "type": "string",
-            "enum": [
-              "approved",
-              "not_applicable",
-              "pending"
-            ]
+          "liveEnabled": {
+            "type": "boolean",
+            "description": "Whether this practice currently has Live access. False for Test practices."
           },
           "supportEmail": {
             "anyOf": [
@@ -29710,7 +29706,7 @@
           "name",
           "object",
           "prescribers",
-          "productionAccess",
+          "liveEnabled",
           "supportEmail",
           "supportPhone",
           "timezone"
@@ -29962,13 +29958,9 @@
               "additionalProperties": false
             }
           },
-          "productionAccess": {
-            "type": "string",
-            "enum": [
-              "approved",
-              "not_applicable",
-              "pending"
-            ]
+          "liveEnabled": {
+            "type": "boolean",
+            "description": "Whether this practice currently has Live access. False for Test practices."
           },
           "supportEmail": {
             "anyOf": [
@@ -30013,7 +30005,7 @@
           "name",
           "object",
           "prescribers",
-          "productionAccess",
+          "liveEnabled",
           "supportEmail",
           "supportPhone",
           "timezone"
@@ -30023,6 +30015,10 @@
       "UpdatePracticeRequest": {
         "type": "object",
         "properties": {
+          "liveEnabled": {
+            "type": "boolean",
+            "description": "Enable or disable Live access for an owned practice. Requires an approved platform and a Live request. Affinity Admin decisions take precedence."
+          },
           "address": {
             "anyOf": [
               {
@@ -30612,13 +30608,9 @@
               "additionalProperties": false
             }
           },
-          "productionAccess": {
-            "type": "string",
-            "enum": [
-              "approved",
-              "not_applicable",
-              "pending"
-            ]
+          "liveEnabled": {
+            "type": "boolean",
+            "description": "Whether this practice currently has Live access. False for Test practices."
           },
           "supportEmail": {
             "anyOf": [
@@ -30663,7 +30655,7 @@
           "name",
           "object",
           "prescribers",
-          "productionAccess",
+          "liveEnabled",
           "supportEmail",
           "supportPhone",
           "timezone"

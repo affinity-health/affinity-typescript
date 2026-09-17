@@ -32,7 +32,7 @@ async function example() {
 
   const body = {
     // string (optional)
-    orgId: orgId_example,
+    orgId: acct_01j2y8m6jcc9tt24af5pw9x1bc,
     // string (optional)
     affinityVersion: affinityVersion_example,
   } satisfies GetAccountRequest;

@@ -34,17 +34,17 @@ export interface CreateOrderRequestPatientMeasurementsInner {
    */
   heightCentimeters: CreateOrderRequestPatientClinicalProfileHeightInches | null;
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof CreateOrderRequestPatientMeasurementsInner
    */
-  recordedAt: string | null;
+  recordedAt: string;
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof CreateOrderRequestPatientMeasurementsInner
    */
-  source: string | null;
+  source: string;
   /**
    *
    * @type {CreateOrderRequestPatientClinicalProfileHeightInches}

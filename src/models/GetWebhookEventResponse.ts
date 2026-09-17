@@ -35,23 +35,23 @@ import {
  */
 export interface GetWebhookEventResponse {
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof GetWebhookEventResponse
    */
-  apiVersion: string | null;
+  apiVersion: string;
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof GetWebhookEventResponse
    */
-  createdAt: string | null;
+  createdAt: string;
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof GetWebhookEventResponse
    */
-  eventType: string | null;
+  eventType: string;
   /**
    *
    * @type {string}
@@ -71,17 +71,17 @@ export interface GetWebhookEventResponse {
    */
   object: GetWebhookEventResponseObjectEnum;
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof GetWebhookEventResponse
    */
-  resourceId: string | null;
+  resourceId: string;
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof GetWebhookEventResponse
    */
-  resourceType: string | null;
+  resourceType: string;
   /**
    *
    * @type {GetWebhookEventResponseStatusEnum}

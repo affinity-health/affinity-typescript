@@ -26,11 +26,11 @@ export interface ListCatalogItemsResponseDataInnerCompositionIngredientsInnerStr
    */
   kind: ListCatalogItemsResponseDataInnerCompositionIngredientsInnerStrengthAnyOf2KindEnum;
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof ListCatalogItemsResponseDataInnerCompositionIngredientsInnerStrengthAnyOf2
    */
-  reason: string | null;
+  reason: string;
 }
 
 /**

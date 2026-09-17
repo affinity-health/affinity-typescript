@@ -79,11 +79,11 @@ export interface CreateOrderRequestPrescriptionsInner {
    */
   dispensing: CreateOrderRequestPrescriptionsInnerDispensing;
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof CreateOrderRequestPrescriptionsInner
    */
-  directions: string | null;
+  directions: string;
   /**
    *
    * @type {string}
@@ -97,11 +97,11 @@ export interface CreateOrderRequestPrescriptionsInner {
    */
   quantity: CreateOrderRequestPrescriptionsInnerQuantity;
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof CreateOrderRequestPrescriptionsInner
    */
-  quantityUnit: string | null;
+  quantityUnit: string;
   /**
    *
    * @type {number}

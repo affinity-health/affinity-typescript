@@ -77,7 +77,7 @@ export interface ListPharmaciesRequest {
 
 export interface ListShippingOptionsRequest {
   catalogItemId: string;
-  destinationState: string | null;
+  destinationState: string;
   destinationType?: ListShippingOptionsDestinationTypeEnum;
   affinityVersion?: string;
 }

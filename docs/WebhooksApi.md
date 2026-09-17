@@ -282,11 +282,11 @@ async function example() {
 
   const body = {
     // string (optional)
-    endingBefore: endingBefore_example,
+    endingBefore: whe_01j2y8m6jcc9tt24af5pw9x1bc,
     // number (optional)
     limit: 56,
     // string (optional)
-    startingAfter: startingAfter_example,
+    startingAfter: whe_01j2y8m6jcc9tt24af5pw9x1bc,
     // string (optional)
     affinityVersion: affinityVersion_example,
     // string | Defaults to the API key organization. A platform may select a practice or pharmacy only with an explicit webhook grant in this mode. This changes the webhook owner, not the caller or event subscriptions. (optional)
@@ -364,13 +364,13 @@ async function example() {
 
   const body = {
     // string (optional)
-    endingBefore: endingBefore_example,
+    endingBefore: evt_01j2y8m6jcc9tt24af5pw9x1bc,
     // number (optional)
     limit: 56,
     // 'all' | 'delivered' | 'failed' | 'pending' (optional)
     status: status_example,
     // string (optional)
-    startingAfter: startingAfter_example,
+    startingAfter: evt_01j2y8m6jcc9tt24af5pw9x1bc,
     // string (optional)
     affinityVersion: affinityVersion_example,
     // string | Defaults to the API key organization. A platform may select a practice or pharmacy only with an explicit webhook grant in this mode. This changes the webhook owner, not the caller or event subscriptions. (optional)
@@ -453,9 +453,9 @@ async function example() {
     // number (optional)
     limit: 56,
     // string (optional)
-    startingAfter: startingAfter_example,
+    startingAfter: acct_01j2y8m6jcc9tt24af5pw9x1bc,
     // string (optional)
-    endingBefore: endingBefore_example,
+    endingBefore: acct_01j2y8m6jcc9tt24af5pw9x1bc,
     // string (optional)
     affinityVersion: affinityVersion_example,
   } satisfies ListWebhookGrantsRequest;
@@ -611,7 +611,7 @@ async function example() {
 
   const body = {
     // string
-    platformId: platformId_example,
+    platformId: acct_01j2y8m6jcc9tt24af5pw9x1bc,
     // string
     idempotencyKey: idempotencyKey_example,
     // string (optional)
@@ -771,7 +771,7 @@ async function example() {
 
   const body = {
     // string
-    platformId: platformId_example,
+    platformId: acct_01j2y8m6jcc9tt24af5pw9x1bc,
     // string
     idempotencyKey: idempotencyKey_example,
     // SaveWebhookGrantRequest

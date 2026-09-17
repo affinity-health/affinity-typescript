@@ -20,13 +20,13 @@ import {
   ListPracticesResponseDataInnerPrescribersInnerToJSON,
   ListPracticesResponseDataInnerPrescribersInnerToJSONTyped,
 } from "./ListPracticesResponseDataInnerPrescribersInner";
-import type { CreatePatientAddressResponseAddress } from "./CreatePatientAddressResponseAddress";
+import type { ListPracticesResponseDataInnerAddress } from "./ListPracticesResponseDataInnerAddress";
 import {
-  CreatePatientAddressResponseAddressFromJSON,
-  CreatePatientAddressResponseAddressFromJSONTyped,
-  CreatePatientAddressResponseAddressToJSON,
-  CreatePatientAddressResponseAddressToJSONTyped,
-} from "./CreatePatientAddressResponseAddress";
+  ListPracticesResponseDataInnerAddressFromJSON,
+  ListPracticesResponseDataInnerAddressFromJSONTyped,
+  ListPracticesResponseDataInnerAddressToJSON,
+  ListPracticesResponseDataInnerAddressToJSONTyped,
+} from "./ListPracticesResponseDataInnerAddress";
 import type { ListPracticesResponseDataInnerContacts } from "./ListPracticesResponseDataInnerContacts";
 import {
   ListPracticesResponseDataInnerContactsFromJSON,
@@ -43,10 +43,10 @@ import {
 export interface ListPracticesResponseDataInner {
   /**
    *
-   * @type {CreatePatientAddressResponseAddress}
+   * @type {ListPracticesResponseDataInnerAddress}
    * @memberof ListPracticesResponseDataInner
    */
-  address: CreatePatientAddressResponseAddress | null;
+  address: ListPracticesResponseDataInnerAddress | null;
   /**
    *
    * @type {ListPracticesResponseDataInnerContacts}
@@ -54,11 +54,11 @@ export interface ListPracticesResponseDataInner {
    */
   contacts: ListPracticesResponseDataInnerContacts;
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof ListPracticesResponseDataInner
    */
-  createdAt: string | null;
+  createdAt: string;
   /**
    *
    * @type {string}
@@ -70,7 +70,7 @@ export interface ListPracticesResponseDataInner {
    * @type {string}
    * @memberof ListPracticesResponseDataInner
    */
-  id: string | null;
+  id: string;
   /**
    *
    * @type {string}
@@ -90,11 +90,11 @@ export interface ListPracticesResponseDataInner {
    */
   metadata: object;
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof ListPracticesResponseDataInner
    */
-  name: string | null;
+  name: string;
   /**
    *
    * @type {ListPracticesResponseDataInnerObjectEnum}
@@ -108,11 +108,11 @@ export interface ListPracticesResponseDataInner {
    */
   prescribers: Array<ListPracticesResponseDataInnerPrescribersInner>;
   /**
-   *
-   * @type {ListPracticesResponseDataInnerProductionAccessEnum}
+   * Whether this practice currently has Live access. False for Test practices.
+   * @type {boolean}
    * @memberof ListPracticesResponseDataInner
    */
-  productionAccess: ListPracticesResponseDataInnerProductionAccessEnum;
+  liveEnabled: boolean;
   /**
    *
    * @type {string}
@@ -143,17 +143,6 @@ export type ListPracticesResponseDataInnerObjectEnum =
   (typeof ListPracticesResponseDataInnerObjectEnum)[keyof typeof ListPracticesResponseDataInnerObjectEnum];
 
 /**
- * @export
- */
-export const ListPracticesResponseDataInnerProductionAccessEnum = {
-  Approved: "approved",
-  NotApplicable: "not_applicable",
-  Pending: "pending",
-} as const;
-export type ListPracticesResponseDataInnerProductionAccessEnum =
-  (typeof ListPracticesResponseDataInnerProductionAccessEnum)[keyof typeof ListPracticesResponseDataInnerProductionAccessEnum];
-
-/**
  * Check if a given object implements the ListPracticesResponseDataInner interface.
  */
 export function instanceOfListPracticesResponseDataInner(
@@ -170,7 +159,7 @@ export function instanceOfListPracticesResponseDataInner(
   if (!("name" in value) || value["name"] === undefined) return false;
   if (!("object" in value) || value["object"] === undefined) return false;
   if (!("prescribers" in value) || value["prescribers"] === undefined) return false;
-  if (!("productionAccess" in value) || value["productionAccess"] === undefined) return false;
+  if (!("liveEnabled" in value) || value["liveEnabled"] === undefined) return false;
   if (!("supportEmail" in value) || value["supportEmail"] === undefined) return false;
   if (!("supportPhone" in value) || value["supportPhone"] === undefined) return false;
   if (!("timezone" in value) || value["timezone"] === undefined) return false;
@@ -189,7 +178,7 @@ export function ListPracticesResponseDataInnerFromJSONTyped(
     return json;
   }
   return {
-    address: CreatePatientAddressResponseAddressFromJSON(json["address"]),
+    address: ListPracticesResponseDataInnerAddressFromJSON(json["address"]),
     contacts: ListPracticesResponseDataInnerContactsFromJSON(json["contacts"]),
     createdAt: json["createdAt"],
     externalId: json["externalId"],
@@ -202,7 +191,7 @@ export function ListPracticesResponseDataInnerFromJSONTyped(
     prescribers: (json["prescribers"] as Array<any>).map(
       ListPracticesResponseDataInnerPrescribersInnerFromJSON,
     ),
-    productionAccess: json["productionAccess"],
+    liveEnabled: json["liveEnabled"],
     supportEmail: json["supportEmail"],
     supportPhone: json["supportPhone"],
     timezone: json["timezone"],
@@ -222,7 +211,7 @@ export function ListPracticesResponseDataInnerToJSONTyped(
   }
 
   return {
-    address: CreatePatientAddressResponseAddressToJSON(value["address"]),
+    address: ListPracticesResponseDataInnerAddressToJSON(value["address"]),
     contacts: ListPracticesResponseDataInnerContactsToJSON(value["contacts"]),
     createdAt: value["createdAt"],
     externalId: value["externalId"],
@@ -235,7 +224,7 @@ export function ListPracticesResponseDataInnerToJSONTyped(
     prescribers: (value["prescribers"] as Array<any>).map(
       ListPracticesResponseDataInnerPrescribersInnerToJSON,
     ),
-    productionAccess: value["productionAccess"],
+    liveEnabled: value["liveEnabled"],
     supportEmail: value["supportEmail"],
     supportPhone: value["supportPhone"],
     timezone: value["timezone"],

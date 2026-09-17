@@ -20,29 +20,29 @@ import { mapValues } from "../runtime";
  */
 export interface ListOrdersResponseDataInnerLifecycleEventsInner {
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof ListOrdersResponseDataInnerLifecycleEventsInner
    */
-  createdAt: string | null;
+  createdAt: string;
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof ListOrdersResponseDataInnerLifecycleEventsInner
    */
-  eventType: string | null;
+  eventType: string;
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof ListOrdersResponseDataInnerLifecycleEventsInner
    */
-  id: string | null;
+  id: string;
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof ListOrdersResponseDataInnerLifecycleEventsInner
    */
-  message: string | null;
+  message: string;
   /**
    *
    * @type {ListOrdersResponseDataInnerLifecycleEventsInnerSourceEnum}

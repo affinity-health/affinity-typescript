@@ -13,13 +13,13 @@
  */
 
 import { mapValues } from "../runtime";
-import type { ReplacePatientAllergiesResponseAllergiesInner } from "./ReplacePatientAllergiesResponseAllergiesInner";
+import type { GetPatientAllergiesResponseAllergiesInner } from "./GetPatientAllergiesResponseAllergiesInner";
 import {
-  ReplacePatientAllergiesResponseAllergiesInnerFromJSON,
-  ReplacePatientAllergiesResponseAllergiesInnerFromJSONTyped,
-  ReplacePatientAllergiesResponseAllergiesInnerToJSON,
-  ReplacePatientAllergiesResponseAllergiesInnerToJSONTyped,
-} from "./ReplacePatientAllergiesResponseAllergiesInner";
+  GetPatientAllergiesResponseAllergiesInnerFromJSON,
+  GetPatientAllergiesResponseAllergiesInnerFromJSONTyped,
+  GetPatientAllergiesResponseAllergiesInnerToJSON,
+  GetPatientAllergiesResponseAllergiesInnerToJSONTyped,
+} from "./GetPatientAllergiesResponseAllergiesInner";
 
 /**
  *
@@ -29,10 +29,10 @@ import {
 export interface ReplacePatientAllergiesResponse {
   /**
    *
-   * @type {Array<ReplacePatientAllergiesResponseAllergiesInner>}
+   * @type {Array<GetPatientAllergiesResponseAllergiesInner>}
    * @memberof ReplacePatientAllergiesResponse
    */
-  allergies: Array<ReplacePatientAllergiesResponseAllergiesInner>;
+  allergies: Array<GetPatientAllergiesResponseAllergiesInner>;
   /**
    *
    * @type {ReplacePatientAllergiesResponseReviewStatusEnum}
@@ -78,7 +78,7 @@ export function ReplacePatientAllergiesResponseFromJSONTyped(
   }
   return {
     allergies: (json["allergies"] as Array<any>).map(
-      ReplacePatientAllergiesResponseAllergiesInnerFromJSON,
+      GetPatientAllergiesResponseAllergiesInnerFromJSON,
     ),
     reviewStatus: json["reviewStatus"],
   };
@@ -98,7 +98,7 @@ export function ReplacePatientAllergiesResponseToJSONTyped(
 
   return {
     allergies: (value["allergies"] as Array<any>).map(
-      ReplacePatientAllergiesResponseAllergiesInnerToJSON,
+      GetPatientAllergiesResponseAllergiesInnerToJSON,
     ),
     reviewStatus: value["reviewStatus"],
   };

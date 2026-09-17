@@ -33,9 +33,9 @@ async function example() {
 
   const body = {
     // string
-    catalogItemId: catalogItemId_example,
+    catalogItemId: cat_01j2y8m6jcc9tt24af5pw9x1bc,
     // string (optional)
-    practiceId: practiceId_example,
+    practiceId: prac_01j2y8m6jcc9tt24af5pw9x1bc,
     // string (optional)
     affinityVersion: affinityVersion_example,
   } satisfies PlatformPublicApiSellingPricesReadSellingPriceRequest;
@@ -116,7 +116,7 @@ async function example() {
 
   const body = {
     // string
-    catalogItemId: catalogItemId_example,
+    catalogItemId: cat_01j2y8m6jcc9tt24af5pw9x1bc,
     // string
     idempotencyKey: idempotencyKey_example,
     // PlatformPublicApiSellingPricesUpdateSellingPriceRequest

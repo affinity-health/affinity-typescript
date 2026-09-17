@@ -63,41 +63,41 @@ import {
  */
 export interface RegisterUserRequestProfileDetails {
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof RegisterUserRequestProfileDetails
    */
-  firstName: string | null;
+  firstName: string;
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof RegisterUserRequestProfileDetails
    */
-  middleName: string | null;
+  middleName: string;
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof RegisterUserRequestProfileDetails
    */
-  lastName: string | null;
+  lastName: string;
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof RegisterUserRequestProfileDetails
    */
-  namePrefix: string | null;
+  namePrefix: string;
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof RegisterUserRequestProfileDetails
    */
-  nameSuffix: string | null;
+  nameSuffix: string;
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof RegisterUserRequestProfileDetails
    */
-  fax: string | null;
+  fax: string;
   /**
    *
    * @type {Array<RegisterUserRequestProfileDetailsSpecialtiesInner>}

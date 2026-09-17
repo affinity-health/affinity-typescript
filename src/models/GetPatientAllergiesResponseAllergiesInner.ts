@@ -70,11 +70,11 @@ export interface GetPatientAllergiesResponseAllergiesInner {
    */
   source: GetPatientAllergiesResponseAllergiesInnerSourceEnum;
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof GetPatientAllergiesResponseAllergiesInner
    */
-  substance: string | null;
+  substance: string;
   /**
    *
    * @type {GetPatientAllergiesResponseAllergiesInnerTypeEnum}

@@ -15,6 +15,8 @@ import type {
   UpdateOrderPrescriptionOperationRequest,
   CreateOrderBatchOperationRequest,
 } from "../apis/OrdersApi";
+import type { Practice, Patient, Order, CreatedOrder, PracticeLocation } from "../domain";
+import { paginate, type ApiListPromise } from "./pagination";
 import type { CreateOrderRequest } from "../models/CreateOrderRequest";
 import type { CancelOrderRequest } from "../models/CancelOrderRequest";
 import type { ActOnOrderExceptionRequest } from "../models/ActOnOrderExceptionRequest";
@@ -187,13 +189,17 @@ export class OrdersResource {
   list(
     params: ListOrdersParams = {},
     options?: RequestOptions,
-  ): ReturnType<OrdersApi["listOrders"]> {
-    return this.api.listOrders({ ...params, ...commonHeaders(options) }, requestOverrides(options));
+  ): ApiListPromise<Awaited<ReturnType<OrdersApi["listOrders"]>>> {
+    return paginate(
+      (cursor) =>
+        this.api.listOrders(
+          { ...params, ...commonHeaders(options), ...cursor },
+          requestOverrides(options),
+        ),
+      params,
+    );
   }
-  create(
-    params: CreateOrderParams,
-    options: MutationOptions,
-  ): ReturnType<OrdersApi["createOrder"]> {
+  create(params: CreateOrderParams, options?: MutationOptions): Promise<CreatedOrder> {
     validateCreateOrderParams(params);
     return this.api.createOrder(
       {
@@ -204,7 +210,7 @@ export class OrdersResource {
       requestOverrides(options),
     );
   }
-  retrieve(orderId: string, options?: RequestOptions): ReturnType<OrdersApi["getOrder"]> {
+  retrieve(orderId: string, options?: RequestOptions): Promise<Order> {
     return this.api.getOrder(
       { orderId: orderId, ...commonHeaders(options) },
       requestOverrides(options),
@@ -213,7 +219,7 @@ export class OrdersResource {
   cancel(
     orderId: string,
     params: CancelOrderParams,
-    options: MutationOptions,
+    options?: MutationOptions,
   ): ReturnType<OrdersApi["cancelOrder"]> {
     return this.api.cancelOrder(
       {
@@ -229,7 +235,7 @@ export class OrdersResource {
     orderId: string,
     exceptionId: string,
     params: ActOnOrderExceptionParams,
-    options: MutationOptions,
+    options?: MutationOptions,
   ): ReturnType<OrdersApi["actOnOrderException"]> {
     return this.api.actOnOrderException(
       {
@@ -246,16 +252,20 @@ export class OrdersResource {
     orderId: string,
     params: ListOrderEventsParams = {},
     options?: RequestOptions,
-  ): ReturnType<OrdersApi["listOrderEvents"]> {
-    return this.api.listOrderEvents(
-      { ...params, orderId: orderId, ...commonHeaders(options) },
-      requestOverrides(options),
+  ): ApiListPromise<Awaited<ReturnType<OrdersApi["listOrderEvents"]>>> {
+    return paginate(
+      (cursor) =>
+        this.api.listOrderEvents(
+          { ...params, orderId: orderId, ...commonHeaders(options), ...cursor },
+          requestOverrides(options),
+        ),
+      params,
     );
   }
   sign(
     orderId: string,
     params: SignOrderParams,
-    options: MutationOptions,
+    options?: MutationOptions,
   ): ReturnType<OrdersApi["signOrder"]> {
     return this.api.signOrder(
       {
@@ -270,7 +280,7 @@ export class OrdersResource {
   submit(
     orderId: string,
     params: SubmitOrderParams,
-    options: MutationOptions,
+    options?: MutationOptions,
   ): ReturnType<OrdersApi["submitOrder"]> {
     return this.api.submitOrder(
       {
@@ -285,7 +295,7 @@ export class OrdersResource {
   reject(
     orderId: string,
     params: RejectOrderParams,
-    options: MutationOptions,
+    options?: MutationOptions,
   ): ReturnType<OrdersApi["rejectOrder"]> {
     return this.api.rejectOrder(
       {
@@ -300,7 +310,7 @@ export class OrdersResource {
   addPrescription(
     orderId: string,
     params: AddOrderPrescriptionParams,
-    options: MutationOptions,
+    options?: MutationOptions,
   ): ReturnType<OrdersApi["addOrderPrescription"]> {
     return this.api.addOrderPrescription(
       {
@@ -316,7 +326,7 @@ export class OrdersResource {
     orderId: string,
     prescriptionId: string,
     params: UpdateOrderPrescriptionParams,
-    options: MutationOptions,
+    options?: MutationOptions,
   ): ReturnType<OrdersApi["updateOrderPrescription"]> {
     return this.api.updateOrderPrescription(
       {
@@ -331,7 +341,7 @@ export class OrdersResource {
   }
   createBatch(
     params: CreateOrderBatchParams,
-    options: MutationOptions,
+    options?: MutationOptions,
   ): ReturnType<OrdersApi["createOrderBatch"]> {
     validateCreateOrderBatchParams(params);
     return this.api.createOrderBatch(

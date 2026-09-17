@@ -13,13 +13,13 @@
  */
 
 import { mapValues } from "../runtime";
-import type { InvitePracticeTeamPersonRequestAddress } from "./InvitePracticeTeamPersonRequestAddress";
+import type { InvitePracticeTeamPersonResponsePersonAccountPrescriberConnectionProviderAddress } from "./InvitePracticeTeamPersonResponsePersonAccountPrescriberConnectionProviderAddress";
 import {
-  InvitePracticeTeamPersonRequestAddressFromJSON,
-  InvitePracticeTeamPersonRequestAddressFromJSONTyped,
-  InvitePracticeTeamPersonRequestAddressToJSON,
-  InvitePracticeTeamPersonRequestAddressToJSONTyped,
-} from "./InvitePracticeTeamPersonRequestAddress";
+  InvitePracticeTeamPersonResponsePersonAccountPrescriberConnectionProviderAddressFromJSON,
+  InvitePracticeTeamPersonResponsePersonAccountPrescriberConnectionProviderAddressFromJSONTyped,
+  InvitePracticeTeamPersonResponsePersonAccountPrescriberConnectionProviderAddressToJSON,
+  InvitePracticeTeamPersonResponsePersonAccountPrescriberConnectionProviderAddressToJSONTyped,
+} from "./InvitePracticeTeamPersonResponsePersonAccountPrescriberConnectionProviderAddress";
 import type { InvitePracticeTeamPersonResponsePersonAccountPrescriberConnectionProviderLicensesInner } from "./InvitePracticeTeamPersonResponsePersonAccountPrescriberConnectionProviderLicensesInner";
 import {
   InvitePracticeTeamPersonResponsePersonAccountPrescriberConnectionProviderLicensesInnerFromJSON,
@@ -41,17 +41,17 @@ export interface InvitePracticeTeamPersonResponsePersonAccountPrescriberConnecti
    */
   id: string;
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof InvitePracticeTeamPersonResponsePersonAccountPrescriberConnectionProvider
    */
-  name: string | null;
+  name: string;
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof InvitePracticeTeamPersonResponsePersonAccountPrescriberConnectionProvider
    */
-  legalName: string | null;
+  legalName: string;
   /**
    *
    * @type {string}
@@ -66,22 +66,22 @@ export interface InvitePracticeTeamPersonResponsePersonAccountPrescriberConnecti
   phone: string | null;
   /**
    *
-   * @type {InvitePracticeTeamPersonRequestAddress}
+   * @type {InvitePracticeTeamPersonResponsePersonAccountPrescriberConnectionProviderAddress}
    * @memberof InvitePracticeTeamPersonResponsePersonAccountPrescriberConnectionProvider
    */
-  address: InvitePracticeTeamPersonRequestAddress | null;
+  address: InvitePracticeTeamPersonResponsePersonAccountPrescriberConnectionProviderAddress | null;
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof InvitePracticeTeamPersonResponsePersonAccountPrescriberConnectionProvider
    */
-  npi: string | null;
+  npi: string;
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof InvitePracticeTeamPersonResponsePersonAccountPrescriberConnectionProvider
    */
-  practiceStatus: string | null;
+  practiceStatus: string;
   /**
    *
    * @type {Array<InvitePracticeTeamPersonResponsePersonAccountPrescriberConnectionProviderLicensesInner>}
@@ -130,7 +130,10 @@ export function InvitePracticeTeamPersonResponsePersonAccountPrescriberConnectio
     legalName: json["legalName"],
     credentials: json["credentials"],
     phone: json["phone"],
-    address: InvitePracticeTeamPersonRequestAddressFromJSON(json["address"]),
+    address:
+      InvitePracticeTeamPersonResponsePersonAccountPrescriberConnectionProviderAddressFromJSON(
+        json["address"],
+      ),
     npi: json["npi"],
     practiceStatus: json["practiceStatus"],
     licenses: (json["licenses"] as Array<any>).map(
@@ -162,7 +165,9 @@ export function InvitePracticeTeamPersonResponsePersonAccountPrescriberConnectio
     legalName: value["legalName"],
     credentials: value["credentials"],
     phone: value["phone"],
-    address: InvitePracticeTeamPersonRequestAddressToJSON(value["address"]),
+    address: InvitePracticeTeamPersonResponsePersonAccountPrescriberConnectionProviderAddressToJSON(
+      value["address"],
+    ),
     npi: value["npi"],
     practiceStatus: value["practiceStatus"],
     licenses: (value["licenses"] as Array<any>).map(

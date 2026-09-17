@@ -56,17 +56,17 @@ export interface ListShippingOptionsResponseInner {
    */
   id: string;
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof ListShippingOptionsResponseInner
    */
-  label: string | null;
+  label: string;
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof ListShippingOptionsResponseInner
    */
-  serviceLevel: string | null;
+  serviceLevel: string;
   /**
    *
    * @type {ListShippingOptionsResponseInnerTemperatureEnum}

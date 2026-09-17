@@ -46,11 +46,11 @@ export interface ListPracticeLocationsResponse {
    */
   hasMore: boolean;
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof ListPracticeLocationsResponse
    */
-  url: string | null;
+  url: string;
 }
 
 /**

@@ -26,11 +26,11 @@ export interface ListPatientsResponseDataInnerLocation {
    */
   id: string;
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof ListPatientsResponseDataInnerLocation
    */
-  name: string | null;
+  name: string;
   /**
    *
    * @type {string}

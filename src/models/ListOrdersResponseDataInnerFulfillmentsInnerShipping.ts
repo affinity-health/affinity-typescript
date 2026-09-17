@@ -32,7 +32,7 @@ export interface ListOrdersResponseDataInnerFulfillmentsInnerShipping {
    * @type {ListOrdersResponseDataInnerFulfillmentsInnerShippingDestinationTypeEnum}
    * @memberof ListOrdersResponseDataInnerFulfillmentsInnerShipping
    */
-  destinationType: ListOrdersResponseDataInnerFulfillmentsInnerShippingDestinationTypeEnum | null;
+  destinationType: ListOrdersResponseDataInnerFulfillmentsInnerShippingDestinationTypeEnum;
   /**
    *
    * @type {ListOrdersResponseDataInnerFulfillmentsInnerShippingMethodEnum}

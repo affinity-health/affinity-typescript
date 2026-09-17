@@ -56,17 +56,17 @@ export interface ListWebhookGrantsResponseDataInner {
    */
   scopes: Array<ListWebhookGrantsResponseDataInnerScopesEnum>;
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof ListWebhookGrantsResponseDataInner
    */
-  createdAt: string | null;
+  createdAt: string;
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof ListWebhookGrantsResponseDataInner
    */
-  updatedAt: string | null;
+  updatedAt: string;
 }
 
 /**

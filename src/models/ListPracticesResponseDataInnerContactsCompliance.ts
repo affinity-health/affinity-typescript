@@ -20,17 +20,17 @@ import { mapValues } from "../runtime";
  */
 export interface ListPracticesResponseDataInnerContactsCompliance {
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof ListPracticesResponseDataInnerContactsCompliance
    */
-  email: string | null;
+  email: string;
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof ListPracticesResponseDataInnerContactsCompliance
    */
-  name: string | null;
+  name: string;
   /**
    *
    * @type {string}

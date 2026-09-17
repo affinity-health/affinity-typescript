@@ -20,29 +20,29 @@ import { mapValues } from "../runtime";
  */
 export interface ListOrdersResponseDataInnerPrescriptionsInnerStructuredSig {
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof ListOrdersResponseDataInnerPrescriptionsInnerStructuredSig
    */
-  dose: string | null;
+  dose: string;
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof ListOrdersResponseDataInnerPrescriptionsInnerStructuredSig
    */
-  doseUnit: string | null;
+  doseUnit: string;
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof ListOrdersResponseDataInnerPrescriptionsInnerStructuredSig
    */
-  frequency: string | null;
+  frequency: string;
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof ListOrdersResponseDataInnerPrescriptionsInnerStructuredSig
    */
-  route: string | null;
+  route: string;
   /**
    *
    * @type {boolean}

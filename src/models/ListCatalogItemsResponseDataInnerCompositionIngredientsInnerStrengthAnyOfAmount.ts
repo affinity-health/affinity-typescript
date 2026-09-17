@@ -26,11 +26,11 @@ export interface ListCatalogItemsResponseDataInnerCompositionIngredientsInnerStr
    */
   value: string;
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof ListCatalogItemsResponseDataInnerCompositionIngredientsInnerStrengthAnyOfAmount
    */
-  unit: string | null;
+  unit: string;
 }
 
 /**

@@ -214,7 +214,9 @@ describe("Affinity client", () => {
       throw new Error("Expected raw request to fail");
     } catch (error) {
       expect(error).toBeInstanceOf(sdk.ResponseError);
-      expect((error as InstanceType<typeof sdk.ResponseError>).response).toBe(failedResponse);
+      expect((error as InstanceType<typeof sdk.ResponseError>).response.status).toBe(
+        failedResponse.status,
+      );
     }
 
     const disconnected = new Affinity("sk_test_example", {

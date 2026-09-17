@@ -1,6 +1,8 @@
 // Code generated from spec/affinity.openapi.json by scripts/generate-facade.ts. DO NOT EDIT.
 
 import type { APIKeysApi, GetApiAccessRequest } from "../apis/APIKeysApi";
+import type { Practice, Patient, Order, CreatedOrder, PracticeLocation } from "../domain";
+import { paginate, type ApiListPromise } from "./pagination";
 import {
   commonHeaders,
   requestOverrides,

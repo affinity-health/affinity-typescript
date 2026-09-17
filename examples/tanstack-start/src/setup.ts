@@ -45,7 +45,7 @@ export const createTestPractice = createServerFn({ method: "POST" }).handler(asy
     { idempotencyKey: `practice:${runId}` },
   );
   const user = await affinity.team.createUser(
-    practice.id!,
+    practice.id,
     {
       email: "alex.morgan@example.com",
       externalId: `sdk_example_provider_${runId}`,
@@ -57,7 +57,7 @@ export const createTestPractice = createServerFn({ method: "POST" }).handler(asy
     },
     { idempotencyKey: `user:${runId}` },
   );
-  const team = await affinity.team.retrieve(practice.id!);
+  const team = await affinity.team.retrieve(practice.id);
 
   return {
     practiceId: practice.id,

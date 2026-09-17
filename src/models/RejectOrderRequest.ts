@@ -32,7 +32,7 @@ export interface RejectOrderRequest {
    * @type {string}
    * @memberof RejectOrderRequest
    */
-  practiceId: string | null;
+  practiceId: string;
   /**
    *
    * @type {string}
@@ -40,11 +40,11 @@ export interface RejectOrderRequest {
    */
   userId: string;
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof RejectOrderRequest
    */
-  reason: string | null;
+  reason: string;
   /**
    *
    * @type {Array<SignOrderRequestExpectedVersionsInner>}

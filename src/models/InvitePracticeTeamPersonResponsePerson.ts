@@ -47,11 +47,11 @@ export interface InvitePracticeTeamPersonResponsePerson {
    */
   object: InvitePracticeTeamPersonResponsePersonObjectEnum;
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof InvitePracticeTeamPersonResponsePerson
    */
-  externalId: string | null;
+  externalId: string;
   /**
    *
    * @type {string}
@@ -65,11 +65,11 @@ export interface InvitePracticeTeamPersonResponsePerson {
    */
   name: string | null;
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof InvitePracticeTeamPersonResponsePerson
    */
-  status: string | null;
+  status: string;
   /**
    *
    * @type {InvitePracticeTeamPersonResponsePersonInvitation}

@@ -20,11 +20,11 @@ import { mapValues } from "../runtime";
  */
 export interface GetAccountResponseUser {
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof GetAccountResponseUser
    */
-  email: string | null;
+  email: string;
   /**
    *
    * @type {boolean}
@@ -38,11 +38,11 @@ export interface GetAccountResponseUser {
    */
   image: string | null;
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof GetAccountResponseUser
    */
-  name: string | null;
+  name: string;
   /**
    *
    * @type {boolean}
@@ -50,11 +50,11 @@ export interface GetAccountResponseUser {
    */
   twoFactorEnabled?: boolean | null;
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof GetAccountResponseUser
    */
-  userId: string | null;
+  userId: string;
 }
 
 /**

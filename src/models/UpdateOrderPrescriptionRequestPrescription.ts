@@ -13,20 +13,20 @@
  */
 
 import { mapValues } from "../runtime";
-import type { AddOrderPrescriptionRequestPrescriptionStructuredSig } from "./AddOrderPrescriptionRequestPrescriptionStructuredSig";
+import type { CreateOrderRequestPrescriptionsInnerStructuredSig } from "./CreateOrderRequestPrescriptionsInnerStructuredSig";
 import {
-  AddOrderPrescriptionRequestPrescriptionStructuredSigFromJSON,
-  AddOrderPrescriptionRequestPrescriptionStructuredSigFromJSONTyped,
-  AddOrderPrescriptionRequestPrescriptionStructuredSigToJSON,
-  AddOrderPrescriptionRequestPrescriptionStructuredSigToJSONTyped,
-} from "./AddOrderPrescriptionRequestPrescriptionStructuredSig";
-import type { AddOrderPrescriptionRequestPrescriptionClinical } from "./AddOrderPrescriptionRequestPrescriptionClinical";
+  CreateOrderRequestPrescriptionsInnerStructuredSigFromJSON,
+  CreateOrderRequestPrescriptionsInnerStructuredSigFromJSONTyped,
+  CreateOrderRequestPrescriptionsInnerStructuredSigToJSON,
+  CreateOrderRequestPrescriptionsInnerStructuredSigToJSONTyped,
+} from "./CreateOrderRequestPrescriptionsInnerStructuredSig";
+import type { CreateOrderRequestPrescriptionsInnerClinical } from "./CreateOrderRequestPrescriptionsInnerClinical";
 import {
-  AddOrderPrescriptionRequestPrescriptionClinicalFromJSON,
-  AddOrderPrescriptionRequestPrescriptionClinicalFromJSONTyped,
-  AddOrderPrescriptionRequestPrescriptionClinicalToJSON,
-  AddOrderPrescriptionRequestPrescriptionClinicalToJSONTyped,
-} from "./AddOrderPrescriptionRequestPrescriptionClinical";
+  CreateOrderRequestPrescriptionsInnerClinicalFromJSON,
+  CreateOrderRequestPrescriptionsInnerClinicalFromJSONTyped,
+  CreateOrderRequestPrescriptionsInnerClinicalToJSON,
+  CreateOrderRequestPrescriptionsInnerClinicalToJSONTyped,
+} from "./CreateOrderRequestPrescriptionsInnerClinical";
 import type { CreateOrderRequestPrescriptionsInnerDispensing } from "./CreateOrderRequestPrescriptionsInnerDispensing";
 import {
   CreateOrderRequestPrescriptionsInnerDispensingFromJSON,
@@ -50,10 +50,10 @@ import {
 export interface UpdateOrderPrescriptionRequestPrescription {
   /**
    *
-   * @type {AddOrderPrescriptionRequestPrescriptionClinical}
+   * @type {CreateOrderRequestPrescriptionsInnerClinical}
    * @memberof UpdateOrderPrescriptionRequestPrescription
    */
-  clinical?: AddOrderPrescriptionRequestPrescriptionClinical | null;
+  clinical?: CreateOrderRequestPrescriptionsInnerClinical | null;
   /**
    *
    * @type {string}
@@ -73,11 +73,11 @@ export interface UpdateOrderPrescriptionRequestPrescription {
    */
   dispensing: CreateOrderRequestPrescriptionsInnerDispensing;
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof UpdateOrderPrescriptionRequestPrescription
    */
-  directions: string | null;
+  directions: string;
   /**
    *
    * @type {string}
@@ -91,11 +91,11 @@ export interface UpdateOrderPrescriptionRequestPrescription {
    */
   quantity: CreateOrderRequestPrescriptionsInnerQuantity;
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof UpdateOrderPrescriptionRequestPrescription
    */
-  quantityUnit: string | null;
+  quantityUnit: string;
   /**
    *
    * @type {number}
@@ -104,10 +104,10 @@ export interface UpdateOrderPrescriptionRequestPrescription {
   refills: number;
   /**
    *
-   * @type {AddOrderPrescriptionRequestPrescriptionStructuredSig}
+   * @type {CreateOrderRequestPrescriptionsInnerStructuredSig}
    * @memberof UpdateOrderPrescriptionRequestPrescription
    */
-  structuredSig: AddOrderPrescriptionRequestPrescriptionStructuredSig;
+  structuredSig: CreateOrderRequestPrescriptionsInnerStructuredSig;
 }
 
 /**
@@ -144,7 +144,7 @@ export function UpdateOrderPrescriptionRequestPrescriptionFromJSONTyped(
     clinical:
       json["clinical"] == null
         ? undefined
-        : AddOrderPrescriptionRequestPrescriptionClinicalFromJSON(json["clinical"]),
+        : CreateOrderRequestPrescriptionsInnerClinicalFromJSON(json["clinical"]),
     pharmacyId: json["pharmacyId"] == null ? undefined : json["pharmacyId"],
     daysSupply: json["daysSupply"],
     dispensing: CreateOrderRequestPrescriptionsInnerDispensingFromJSON(json["dispensing"]),
@@ -153,9 +153,7 @@ export function UpdateOrderPrescriptionRequestPrescriptionFromJSONTyped(
     quantity: CreateOrderRequestPrescriptionsInnerQuantityFromJSON(json["quantity"]),
     quantityUnit: json["quantityUnit"],
     refills: json["refills"],
-    structuredSig: AddOrderPrescriptionRequestPrescriptionStructuredSigFromJSON(
-      json["structuredSig"],
-    ),
+    structuredSig: CreateOrderRequestPrescriptionsInnerStructuredSigFromJSON(json["structuredSig"]),
   };
 }
 
@@ -174,7 +172,7 @@ export function UpdateOrderPrescriptionRequestPrescriptionToJSONTyped(
   }
 
   return {
-    clinical: AddOrderPrescriptionRequestPrescriptionClinicalToJSON(value["clinical"]),
+    clinical: CreateOrderRequestPrescriptionsInnerClinicalToJSON(value["clinical"]),
     pharmacyId: value["pharmacyId"],
     daysSupply: value["daysSupply"],
     dispensing: CreateOrderRequestPrescriptionsInnerDispensingToJSON(value["dispensing"]),
@@ -183,8 +181,6 @@ export function UpdateOrderPrescriptionRequestPrescriptionToJSONTyped(
     quantity: CreateOrderRequestPrescriptionsInnerQuantityToJSON(value["quantity"]),
     quantityUnit: value["quantityUnit"],
     refills: value["refills"],
-    structuredSig: AddOrderPrescriptionRequestPrescriptionStructuredSigToJSON(
-      value["structuredSig"],
-    ),
+    structuredSig: CreateOrderRequestPrescriptionsInnerStructuredSigToJSON(value["structuredSig"]),
   };
 }

@@ -16,7 +16,7 @@
 | `prescriptionsLast30Days` | number                                                                                                                         |
 | `profile`                 | [ListPharmaciesResponseDataInnerProfile](ListPharmaciesResponseDataInnerProfile.md)                                            |
 | `restrictedStates`        | Array&lt;string&gt;                                                                                                            |
-| `shippingOptions`         | [Array&lt;ListPharmaciesResponseDataInnerShippingOptionsInner&gt;](ListPharmaciesResponseDataInnerShippingOptionsInner.md)     |
+| `shippingOptions`         | [Array&lt;ListCatalogItemsResponseDataInnerShippingOptionsInner&gt;](ListCatalogItemsResponseDataInnerShippingOptionsInner.md) |
 | `supportedStates`         | Array&lt;string&gt;                                                                                                            |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)

@@ -56,11 +56,19 @@ const catalogParams: ListCatalogItemsParams = {
 void sdk.catalog.list(catalogParams);
 void sdk.orders.create(orderInput, mutationOptions);
 
-// The resource seam takes the body directly and requires an idempotency key for mutations.
+// Resource methods take bodies directly; request options are optional.
 // @ts-expect-error generated request envelopes are not part of the public seam
 void sdk.orders.create({ createOrderRequest: orderInput }, mutationOptions);
-// @ts-expect-error mutation requests cannot omit idempotencyKey
+void sdk.orders.create(orderInput);
 void sdk.orders.create(orderInput, {});
+void sdk.practices.update("prac_example", { liveEnabled: false });
+import type { Practice } from "@affinity-health/sdk";
+declare const practice: Practice;
+const practiceId: string = practice.id;
+const liveEnabled: boolean = practice.liveEnabled;
+// @ts-expect-error response IDs cannot be null
+const invalidId: Practice["id"] = null;
+void sdk.practices.list().autoPagingToArray({ limit: 10 });
 // @ts-expect-error create-order input requires exactly one patient reference
 void sdk.orders.create({ practiceId: orderInput.practiceId, prescriptions: orderInput.prescriptions }, mutationOptions);
 // @ts-expect-error create-order input cannot include both patient forms

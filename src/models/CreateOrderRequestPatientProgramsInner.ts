@@ -26,17 +26,17 @@ export interface CreateOrderRequestPatientProgramsInner {
    */
   endedAt: string | null;
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof CreateOrderRequestPatientProgramsInner
    */
-  name: string | null;
+  name: string;
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof CreateOrderRequestPatientProgramsInner
    */
-  startedAt: string | null;
+  startedAt: string;
   /**
    *
    * @type {CreateOrderRequestPatientProgramsInnerStatusEnum}

@@ -20,17 +20,17 @@ import { mapValues } from "../runtime";
  */
 export interface ListPatientsResponseDataInnerName {
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof ListPatientsResponseDataInnerName
    */
-  first: string | null;
+  first: string;
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof ListPatientsResponseDataInnerName
    */
-  last: string | null;
+  last: string;
   /**
    *
    * @type {string}

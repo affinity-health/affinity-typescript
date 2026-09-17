@@ -27,6 +27,13 @@ import {
   ListOrdersResponseDataInnerPrescriptionsInnerClinicalObservationsInnerToJSON,
   ListOrdersResponseDataInnerPrescriptionsInnerClinicalObservationsInnerToJSONTyped,
 } from "./ListOrdersResponseDataInnerPrescriptionsInnerClinicalObservationsInner";
+import type { ListOrdersResponseDataInnerPrescriptionsInnerClinicalAllergiesInnerReactionsInner } from "./ListOrdersResponseDataInnerPrescriptionsInnerClinicalAllergiesInnerReactionsInner";
+import {
+  ListOrdersResponseDataInnerPrescriptionsInnerClinicalAllergiesInnerReactionsInnerFromJSON,
+  ListOrdersResponseDataInnerPrescriptionsInnerClinicalAllergiesInnerReactionsInnerFromJSONTyped,
+  ListOrdersResponseDataInnerPrescriptionsInnerClinicalAllergiesInnerReactionsInnerToJSON,
+  ListOrdersResponseDataInnerPrescriptionsInnerClinicalAllergiesInnerReactionsInnerToJSONTyped,
+} from "./ListOrdersResponseDataInnerPrescriptionsInnerClinicalAllergiesInnerReactionsInner";
 import type { ListOrdersResponseDataInnerPrescriptionsInnerClinicalCompoundingReason } from "./ListOrdersResponseDataInnerPrescriptionsInnerClinicalCompoundingReason";
 import {
   ListOrdersResponseDataInnerPrescriptionsInnerClinicalCompoundingReasonFromJSON,
@@ -41,13 +48,6 @@ import {
   ListOrdersResponseDataInnerPrescriptionsInnerClinicalMedicationsInnerToJSON,
   ListOrdersResponseDataInnerPrescriptionsInnerClinicalMedicationsInnerToJSONTyped,
 } from "./ListOrdersResponseDataInnerPrescriptionsInnerClinicalMedicationsInner";
-import type { ListOrdersResponseDataInnerPrescriptionsInnerClinicalConditionsInner } from "./ListOrdersResponseDataInnerPrescriptionsInnerClinicalConditionsInner";
-import {
-  ListOrdersResponseDataInnerPrescriptionsInnerClinicalConditionsInnerFromJSON,
-  ListOrdersResponseDataInnerPrescriptionsInnerClinicalConditionsInnerFromJSONTyped,
-  ListOrdersResponseDataInnerPrescriptionsInnerClinicalConditionsInnerToJSON,
-  ListOrdersResponseDataInnerPrescriptionsInnerClinicalConditionsInnerToJSONTyped,
-} from "./ListOrdersResponseDataInnerPrescriptionsInnerClinicalConditionsInner";
 
 /**
  *
@@ -63,10 +63,10 @@ export interface ListOrdersResponseDataInnerPrescriptionsInnerClinical {
   allergies?: Array<ListOrdersResponseDataInnerPrescriptionsInnerClinicalAllergiesInner> | null;
   /**
    *
-   * @type {Array<ListOrdersResponseDataInnerPrescriptionsInnerClinicalConditionsInner>}
+   * @type {Array<ListOrdersResponseDataInnerPrescriptionsInnerClinicalAllergiesInnerReactionsInner>}
    * @memberof ListOrdersResponseDataInnerPrescriptionsInnerClinical
    */
-  conditions?: Array<ListOrdersResponseDataInnerPrescriptionsInnerClinicalConditionsInner> | null;
+  conditions?: Array<ListOrdersResponseDataInnerPrescriptionsInnerClinicalAllergiesInnerReactionsInner> | null;
   /**
    *
    * @type {ListOrdersResponseDataInnerPrescriptionsInnerClinicalCompoundingReason}
@@ -120,7 +120,7 @@ export function ListOrdersResponseDataInnerPrescriptionsInnerClinicalFromJSONTyp
       json["conditions"] == null
         ? undefined
         : (json["conditions"] as Array<any>).map(
-            ListOrdersResponseDataInnerPrescriptionsInnerClinicalConditionsInnerFromJSON,
+            ListOrdersResponseDataInnerPrescriptionsInnerClinicalAllergiesInnerReactionsInnerFromJSON,
           ),
     compoundingReason:
       json["compoundingReason"] == null
@@ -168,7 +168,7 @@ export function ListOrdersResponseDataInnerPrescriptionsInnerClinicalToJSONTyped
       value["conditions"] == null
         ? undefined
         : (value["conditions"] as Array<any>).map(
-            ListOrdersResponseDataInnerPrescriptionsInnerClinicalConditionsInnerToJSON,
+            ListOrdersResponseDataInnerPrescriptionsInnerClinicalAllergiesInnerReactionsInnerToJSON,
           ),
     compoundingReason: ListOrdersResponseDataInnerPrescriptionsInnerClinicalCompoundingReasonToJSON(
       value["compoundingReason"],

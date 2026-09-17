@@ -20,23 +20,23 @@ import { mapValues } from "../runtime";
  */
 export interface RegisterUserRequestProfileDetailsOtherNamesInner {
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof RegisterUserRequestProfileDetailsOtherNamesInner
    */
-  name: string | null;
+  name: string;
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof RegisterUserRequestProfileDetailsOtherNamesInner
    */
-  credentials: string | null;
+  credentials: string;
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof RegisterUserRequestProfileDetailsOtherNamesInner
    */
-  type: string | null;
+  type: string;
 }
 
 /**

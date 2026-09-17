@@ -21,41 +21,23 @@ import { mapValues } from "../runtime";
 export interface CreateComponentSessionRequestConsent {
   /**
    *
-   * @type {CreateComponentSessionRequestConsentAuthorizedProviderAccessEnum}
+   * @type {boolean}
    * @memberof CreateComponentSessionRequestConsent
    */
-  authorizedProviderAccess: CreateComponentSessionRequestConsentAuthorizedProviderAccessEnum;
+  authorizedProviderAccess: boolean;
   /**
    *
-   * @type {CreateComponentSessionRequestConsentMinimumNecessaryPhiEnum}
+   * @type {boolean}
    * @memberof CreateComponentSessionRequestConsent
    */
-  minimumNecessaryPhi: CreateComponentSessionRequestConsentMinimumNecessaryPhiEnum;
+  minimumNecessaryPhi: boolean;
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof CreateComponentSessionRequestConsent
    */
-  recordedAt: string | null;
+  recordedAt: string;
 }
-
-/**
- * @export
- */
-export const CreateComponentSessionRequestConsentAuthorizedProviderAccessEnum = {
-  True: true,
-} as const;
-export type CreateComponentSessionRequestConsentAuthorizedProviderAccessEnum =
-  (typeof CreateComponentSessionRequestConsentAuthorizedProviderAccessEnum)[keyof typeof CreateComponentSessionRequestConsentAuthorizedProviderAccessEnum];
-
-/**
- * @export
- */
-export const CreateComponentSessionRequestConsentMinimumNecessaryPhiEnum = {
-  True: true,
-} as const;
-export type CreateComponentSessionRequestConsentMinimumNecessaryPhiEnum =
-  (typeof CreateComponentSessionRequestConsentMinimumNecessaryPhiEnum)[keyof typeof CreateComponentSessionRequestConsentMinimumNecessaryPhiEnum];
 
 /**
  * Check if a given object implements the CreateComponentSessionRequestConsent interface.

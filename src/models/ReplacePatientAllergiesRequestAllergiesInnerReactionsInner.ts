@@ -32,11 +32,11 @@ export interface ReplacePatientAllergiesRequestAllergiesInnerReactionsInner {
    */
   codeSystem?: ReplacePatientAllergiesRequestAllergiesInnerReactionsInnerCodeSystemEnum | null;
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof ReplacePatientAllergiesRequestAllergiesInnerReactionsInner
    */
-  display: string | null;
+  display: string;
 }
 
 /**

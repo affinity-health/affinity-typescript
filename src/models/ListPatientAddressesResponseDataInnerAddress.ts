@@ -20,11 +20,11 @@ import { mapValues } from "../runtime";
  */
 export interface ListPatientAddressesResponseDataInnerAddress {
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof ListPatientAddressesResponseDataInnerAddress
    */
-  city: string | null;
+  city: string;
   /**
    *
    * @type {string}
@@ -32,11 +32,11 @@ export interface ListPatientAddressesResponseDataInnerAddress {
    */
   country?: string | null;
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof ListPatientAddressesResponseDataInnerAddress
    */
-  line1: string | null;
+  line1: string;
   /**
    *
    * @type {string}
@@ -44,17 +44,17 @@ export interface ListPatientAddressesResponseDataInnerAddress {
    */
   line2?: string | null;
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof ListPatientAddressesResponseDataInnerAddress
    */
-  postalCode: string | null;
+  postalCode: string;
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof ListPatientAddressesResponseDataInnerAddress
    */
-  state: string | null;
+  state: string;
 }
 
 /**

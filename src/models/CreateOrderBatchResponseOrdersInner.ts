@@ -13,13 +13,13 @@
  */
 
 import { mapValues } from "../runtime";
-import type { CreateOrderBatchResponseOrdersInnerPrescriptionsInner } from "./CreateOrderBatchResponseOrdersInnerPrescriptionsInner";
+import type { CreateOrderResponsePrescriptionsInner } from "./CreateOrderResponsePrescriptionsInner";
 import {
-  CreateOrderBatchResponseOrdersInnerPrescriptionsInnerFromJSON,
-  CreateOrderBatchResponseOrdersInnerPrescriptionsInnerFromJSONTyped,
-  CreateOrderBatchResponseOrdersInnerPrescriptionsInnerToJSON,
-  CreateOrderBatchResponseOrdersInnerPrescriptionsInnerToJSONTyped,
-} from "./CreateOrderBatchResponseOrdersInnerPrescriptionsInner";
+  CreateOrderResponsePrescriptionsInnerFromJSON,
+  CreateOrderResponsePrescriptionsInnerFromJSONTyped,
+  CreateOrderResponsePrescriptionsInnerToJSON,
+  CreateOrderResponsePrescriptionsInnerToJSONTyped,
+} from "./CreateOrderResponsePrescriptionsInner";
 
 /**
  *
@@ -40,11 +40,11 @@ export interface CreateOrderBatchResponseOrdersInner {
    */
   metadata: any | null;
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof CreateOrderBatchResponseOrdersInner
    */
-  createdAt: string | null;
+  createdAt: string;
   /**
    *
    * @type {string}
@@ -74,13 +74,13 @@ export interface CreateOrderBatchResponseOrdersInner {
    * @type {string}
    * @memberof CreateOrderBatchResponseOrdersInner
    */
-  practiceId: string | null;
+  practiceId: string;
   /**
    *
-   * @type {Array<CreateOrderBatchResponseOrdersInnerPrescriptionsInner>}
+   * @type {Array<CreateOrderResponsePrescriptionsInner>}
    * @memberof CreateOrderBatchResponseOrdersInner
    */
-  prescriptions: Array<CreateOrderBatchResponseOrdersInnerPrescriptionsInner>;
+  prescriptions: Array<CreateOrderResponsePrescriptionsInner>;
   /**
    *
    * @type {string}
@@ -156,7 +156,7 @@ export function CreateOrderBatchResponseOrdersInnerFromJSONTyped(
     patientId: json["patientId"],
     practiceId: json["practiceId"],
     prescriptions: (json["prescriptions"] as Array<any>).map(
-      CreateOrderBatchResponseOrdersInnerPrescriptionsInnerFromJSON,
+      CreateOrderResponsePrescriptionsInnerFromJSON,
     ),
     userId: json["userId"],
     status: json["status"],
@@ -187,7 +187,7 @@ export function CreateOrderBatchResponseOrdersInnerToJSONTyped(
     patientId: value["patientId"],
     practiceId: value["practiceId"],
     prescriptions: (value["prescriptions"] as Array<any>).map(
-      CreateOrderBatchResponseOrdersInnerPrescriptionsInnerToJSON,
+      CreateOrderResponsePrescriptionsInnerToJSON,
     ),
     userId: value["userId"],
     status: value["status"],

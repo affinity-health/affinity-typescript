@@ -64,11 +64,11 @@ export interface ReplacePatientAllergiesRequestAllergiesInner {
    */
   source: ReplacePatientAllergiesRequestAllergiesInnerSourceEnum;
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof ReplacePatientAllergiesRequestAllergiesInner
    */
-  substance: string | null;
+  substance: string;
   /**
    *
    * @type {ReplacePatientAllergiesRequestAllergiesInnerTypeEnum}

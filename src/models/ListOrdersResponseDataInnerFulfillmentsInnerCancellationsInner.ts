@@ -40,11 +40,11 @@ export interface ListOrdersResponseDataInnerFulfillmentsInnerCancellationsInner 
    */
   confirmedAt: string | null;
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof ListOrdersResponseDataInnerFulfillmentsInnerCancellationsInner
    */
-  createdAt: string | null;
+  createdAt: string;
   /**
    *
    * @type {string}
@@ -70,17 +70,17 @@ export interface ListOrdersResponseDataInnerFulfillmentsInnerCancellationsInner 
    */
   providerStatus: string | null;
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof ListOrdersResponseDataInnerFulfillmentsInnerCancellationsInner
    */
-  reason: string | null;
+  reason: string;
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof ListOrdersResponseDataInnerFulfillmentsInnerCancellationsInner
    */
-  requestedAt: string | null;
+  requestedAt: string;
   /**
    *
    * @type {ListOrdersResponseDataInnerFulfillmentsInnerCancellationsInnerRequestedBy}
@@ -112,11 +112,11 @@ export interface ListOrdersResponseDataInnerFulfillmentsInnerCancellationsInner 
    */
   status: ListOrdersResponseDataInnerFulfillmentsInnerCancellationsInnerStatusEnum;
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof ListOrdersResponseDataInnerFulfillmentsInnerCancellationsInner
    */
-  updatedAt: string | null;
+  updatedAt: string;
 }
 
 /**

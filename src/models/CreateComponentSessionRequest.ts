@@ -42,11 +42,11 @@ import {
  */
 export interface CreateComponentSessionRequest {
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof CreateComponentSessionRequest
    */
-  allowedOrigin: string | null;
+  allowedOrigin: string;
   /**
    *
    * @type {CreateComponentSessionRequestComponents}
@@ -70,7 +70,7 @@ export interface CreateComponentSessionRequest {
    * @type {string}
    * @memberof CreateComponentSessionRequest
    */
-  practiceId: string | null;
+  practiceId: string;
   /**
    *
    * @type {string}

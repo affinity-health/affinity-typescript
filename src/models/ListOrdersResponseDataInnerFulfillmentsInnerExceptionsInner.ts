@@ -40,11 +40,11 @@ export interface ListOrdersResponseDataInnerFulfillmentsInnerExceptionsInner {
    */
   assignedTo: ListOrdersResponseDataInnerFulfillmentsInnerExceptionsInnerAssignedTo | null;
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof ListOrdersResponseDataInnerFulfillmentsInnerExceptionsInner
    */
-  createdAt: string | null;
+  createdAt: string;
   /**
    *
    * @type {string}
@@ -58,11 +58,11 @@ export interface ListOrdersResponseDataInnerFulfillmentsInnerExceptionsInner {
    */
   id: string;
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof ListOrdersResponseDataInnerFulfillmentsInnerExceptionsInner
    */
-  kind: string | null;
+  kind: string;
   /**
    *
    * @type {string}
@@ -94,17 +94,17 @@ export interface ListOrdersResponseDataInnerFulfillmentsInnerExceptionsInner {
    */
   status: ListOrdersResponseDataInnerFulfillmentsInnerExceptionsInnerStatusEnum;
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof ListOrdersResponseDataInnerFulfillmentsInnerExceptionsInner
    */
-  summary: string | null;
+  summary: string;
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof ListOrdersResponseDataInnerFulfillmentsInnerExceptionsInner
    */
-  updatedAt: string | null;
+  updatedAt: string;
 }
 
 /**

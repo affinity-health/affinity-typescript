@@ -20,11 +20,11 @@ import { mapValues } from "../runtime";
  */
 export interface ListOrdersResponseDataInnerPrescriptionsInnerClinicalMedicationsInner {
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof ListOrdersResponseDataInnerPrescriptionsInnerClinicalMedicationsInner
    */
-  display: string | null;
+  display: string;
   /**
    *
    * @type {string}

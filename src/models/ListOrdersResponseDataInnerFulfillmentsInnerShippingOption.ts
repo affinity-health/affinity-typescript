@@ -32,17 +32,17 @@ export interface ListOrdersResponseDataInnerFulfillmentsInnerShippingOption {
    */
   currency: ListOrdersResponseDataInnerFulfillmentsInnerShippingOptionCurrencyEnum;
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof ListOrdersResponseDataInnerFulfillmentsInnerShippingOption
    */
-  label: string | null;
+  label: string;
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof ListOrdersResponseDataInnerFulfillmentsInnerShippingOption
    */
-  serviceLevel: string | null;
+  serviceLevel: string;
   /**
    *
    * @type {ListOrdersResponseDataInnerFulfillmentsInnerShippingOptionTemperatureEnum}

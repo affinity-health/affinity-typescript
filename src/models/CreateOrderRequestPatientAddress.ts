@@ -20,17 +20,17 @@ import { mapValues } from "../runtime";
  */
 export interface CreateOrderRequestPatientAddress {
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof CreateOrderRequestPatientAddress
    */
-  city: string | null;
+  city: string;
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof CreateOrderRequestPatientAddress
    */
-  line1: string | null;
+  line1: string;
   /**
    *
    * @type {string}
@@ -38,17 +38,17 @@ export interface CreateOrderRequestPatientAddress {
    */
   line2?: string | null;
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof CreateOrderRequestPatientAddress
    */
-  postalCode: string | null;
+  postalCode: string;
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof CreateOrderRequestPatientAddress
    */
-  state: string | null;
+  state: string;
   /**
    *
    * @type {CreateOrderRequestPatientAddressCountryEnum}

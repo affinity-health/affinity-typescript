@@ -13,13 +13,13 @@
  */
 
 import { mapValues } from "../runtime";
-import type { ListCatalogItemsResponseDataInnerCompositionIngredientsInnerStrengthAnyOf1Numerator } from "./ListCatalogItemsResponseDataInnerCompositionIngredientsInnerStrengthAnyOf1Numerator";
+import type { ListCatalogItemsResponseDataInnerQuantityConstraintAnyOfQuantity } from "./ListCatalogItemsResponseDataInnerQuantityConstraintAnyOfQuantity";
 import {
-  ListCatalogItemsResponseDataInnerCompositionIngredientsInnerStrengthAnyOf1NumeratorFromJSON,
-  ListCatalogItemsResponseDataInnerCompositionIngredientsInnerStrengthAnyOf1NumeratorFromJSONTyped,
-  ListCatalogItemsResponseDataInnerCompositionIngredientsInnerStrengthAnyOf1NumeratorToJSON,
-  ListCatalogItemsResponseDataInnerCompositionIngredientsInnerStrengthAnyOf1NumeratorToJSONTyped,
-} from "./ListCatalogItemsResponseDataInnerCompositionIngredientsInnerStrengthAnyOf1Numerator";
+  ListCatalogItemsResponseDataInnerQuantityConstraintAnyOfQuantityFromJSON,
+  ListCatalogItemsResponseDataInnerQuantityConstraintAnyOfQuantityFromJSONTyped,
+  ListCatalogItemsResponseDataInnerQuantityConstraintAnyOfQuantityToJSON,
+  ListCatalogItemsResponseDataInnerQuantityConstraintAnyOfQuantityToJSONTyped,
+} from "./ListCatalogItemsResponseDataInnerQuantityConstraintAnyOfQuantity";
 
 /**
  *
@@ -35,10 +35,10 @@ export interface ListCatalogItemsResponseDataInnerQuantityConstraintAnyOf1 {
   kind: ListCatalogItemsResponseDataInnerQuantityConstraintAnyOf1KindEnum;
   /**
    *
-   * @type {Array<ListCatalogItemsResponseDataInnerCompositionIngredientsInnerStrengthAnyOf1Numerator>}
+   * @type {Array<ListCatalogItemsResponseDataInnerQuantityConstraintAnyOfQuantity>}
    * @memberof ListCatalogItemsResponseDataInnerQuantityConstraintAnyOf1
    */
-  quantities: Array<ListCatalogItemsResponseDataInnerCompositionIngredientsInnerStrengthAnyOf1Numerator>;
+  quantities: Array<ListCatalogItemsResponseDataInnerQuantityConstraintAnyOfQuantity>;
 }
 
 /**
@@ -77,7 +77,7 @@ export function ListCatalogItemsResponseDataInnerQuantityConstraintAnyOf1FromJSO
   return {
     kind: json["kind"],
     quantities: (json["quantities"] as Array<any>).map(
-      ListCatalogItemsResponseDataInnerCompositionIngredientsInnerStrengthAnyOf1NumeratorFromJSON,
+      ListCatalogItemsResponseDataInnerQuantityConstraintAnyOfQuantityFromJSON,
     ),
   };
 }
@@ -99,7 +99,7 @@ export function ListCatalogItemsResponseDataInnerQuantityConstraintAnyOf1ToJSONT
   return {
     kind: value["kind"],
     quantities: (value["quantities"] as Array<any>).map(
-      ListCatalogItemsResponseDataInnerCompositionIngredientsInnerStrengthAnyOf1NumeratorToJSON,
+      ListCatalogItemsResponseDataInnerQuantityConstraintAnyOfQuantityToJSON,
     ),
   };
 }

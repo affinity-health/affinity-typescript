@@ -11,11 +11,11 @@ All URIs are relative to *https://api.joinaffinityai.com*
 
 ## createPractice
 
-> CreatePracticeResponse createPractice(idempotencyKey, createPracticeRequest, affinityVersion)
+> CreatePracticeResponse createPractice(createPracticeRequest, affinityVersion, idempotencyKey)
 
 Create practice
 
-Creates a practice for the platform. Send Idempotency-Key when you retry the same request.
+Creates a practice owned by the platform. Set liveEnabled to true to enable Live access at creation with an approved platform and a Live request. Defaults to false. Requires practices:write. Send Idempotency-Key when you retry the same request.
 
 ### Example
 
@@ -37,12 +37,12 @@ async function example() {
   const api = new PracticesApi(config);
 
   const body = {
-    // string
-    idempotencyKey: idempotencyKey_example,
     // CreatePracticeRequest
     createPracticeRequest: ...,
     // string (optional)
     affinityVersion: affinityVersion_example,
+    // string (optional)
+    idempotencyKey: idempotencyKey_example,
   } satisfies CreatePracticeOperationRequest;
 
   try {
@@ -61,9 +61,9 @@ example().catch(console.error);
 
 | Name                      | Type                                              | Description | Notes                                |
 | ------------------------- | ------------------------------------------------- | ----------- | ------------------------------------ |
-| **idempotencyKey**        | `string`                                          |             | [Defaults to `undefined`]            |
 | **createPracticeRequest** | [CreatePracticeRequest](CreatePracticeRequest.md) |             |                                      |
 | **affinityVersion**       | `string`                                          |             | [Optional] [Defaults to `undefined`] |
+| **idempotencyKey**        | `string`                                          |             | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 
@@ -193,11 +193,11 @@ async function example() {
     // string (optional)
     search: search_example,
     // string (optional)
-    endingBefore: endingBefore_example,
+    endingBefore: prac_01j2y8m6jcc9tt24af5pw9x1bc,
     // number (optional)
     limit: 56,
     // string (optional)
-    startingAfter: startingAfter_example,
+    startingAfter: prac_01j2y8m6jcc9tt24af5pw9x1bc,
     // string (optional)
     affinityVersion: affinityVersion_example,
   } satisfies ListPracticesRequest;
@@ -251,11 +251,11 @@ example().catch(console.error);
 
 ## updatePractice
 
-> UpdatePracticeResponse updatePractice(practiceId, idempotencyKey, updatePracticeRequest, affinityVersion)
+> UpdatePracticeResponse updatePractice(practiceId, updatePracticeRequest, affinityVersion, idempotencyKey)
 
 Update practice
 
-Updates one practice that belongs to the platform. Send Idempotency-Key when you retry the same request.
+Updates one practice owned by the platform. Set liveEnabled to true or false to control Live access with an approved platform and a Live request. Affinity Admin decisions take precedence. Requires practices:write. Send Idempotency-Key when you retry the same request.
 
 ### Example
 
@@ -279,12 +279,12 @@ async function example() {
   const body = {
     // string
     practiceId: practiceId_example,
-    // string
-    idempotencyKey: idempotencyKey_example,
     // UpdatePracticeRequest
     updatePracticeRequest: ...,
     // string (optional)
     affinityVersion: affinityVersion_example,
+    // string (optional)
+    idempotencyKey: idempotencyKey_example,
   } satisfies UpdatePracticeOperationRequest;
 
   try {
@@ -304,9 +304,9 @@ example().catch(console.error);
 | Name                      | Type                                              | Description | Notes                                |
 | ------------------------- | ------------------------------------------------- | ----------- | ------------------------------------ |
 | **practiceId**            | `string`                                          |             | [Defaults to `undefined`]            |
-| **idempotencyKey**        | `string`                                          |             | [Defaults to `undefined`]            |
 | **updatePracticeRequest** | [UpdatePracticeRequest](UpdatePracticeRequest.md) |             |                                      |
 | **affinityVersion**       | `string`                                          |             | [Optional] [Defaults to `undefined`] |
+| **idempotencyKey**        | `string`                                          |             | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 

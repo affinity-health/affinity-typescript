@@ -1,6 +1,7 @@
 // Code generated from spec/affinity.openapi.json by scripts/generate-facade.ts. DO NOT EDIT.
 
 import { Configuration, FetchError, ResponseError, type FetchAPI } from "./runtime";
+import { createTransport, type TransportOptions } from "./resources/transport";
 import { RawClient } from "./raw";
 import {
   AccountResource,
@@ -23,7 +24,7 @@ import {
   validateNonEmptyOption,
 } from "./resources/shared";
 
-export interface AffinityOptions {
+export interface AffinityOptions extends TransportOptions {
   actor?: AffinityActor;
   apiVersion?: string;
   baseUrl?: string;
@@ -50,6 +51,7 @@ export class Affinity {
   readonly sessions: SessionsResource;
   readonly team: TeamResource;
   readonly webhooks: WebhooksResource;
+  private readonly transport: FetchAPI;
   private readonly apiKey: string;
   private readonly options: AffinityOptions;
 
@@ -69,6 +71,7 @@ export class Affinity {
       options.organizationId !== undefined
         ? validateNonEmptyOption(options.organizationId, "organizationId")
         : undefined;
+    this.transport = createTransport(options.fetch ?? globalThis.fetch, options);
     this.apiKey = apiKey;
     const basePath = (options.baseUrl ?? "https://api.joinaffinityai.com").replace(/\/+$/, "");
     this.options = {
@@ -82,7 +85,7 @@ export class Affinity {
     const configuration = new Configuration({
       accessToken: apiKey,
       basePath,
-      fetchApi: options.fetch,
+      fetchApi: this.transport,
       headers: {
         ...headers,
         "Affinity-Version": version,
@@ -163,7 +166,7 @@ export class Affinity {
     if (hasBody) headers.set("Content-Type", "application/json");
     let response: Response;
     try {
-      response = await (this.options.fetch ?? globalThis.fetch)(`${this.options.baseUrl}${path}`, {
+      response = await this.transport(`${this.options.baseUrl}${path}`, {
         method: requestMethod,
         headers,
         ...(hasBody ? { body: JSON.stringify(params) } : {}),

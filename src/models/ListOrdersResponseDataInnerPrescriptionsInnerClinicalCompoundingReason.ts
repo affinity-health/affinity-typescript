@@ -26,11 +26,11 @@ export interface ListOrdersResponseDataInnerPrescriptionsInnerClinicalCompoundin
    */
   category?: string | null;
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof ListOrdersResponseDataInnerPrescriptionsInnerClinicalCompoundingReason
    */
-  context: string | null;
+  context: string;
 }
 
 /**

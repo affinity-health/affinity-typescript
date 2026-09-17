@@ -15,6 +15,8 @@ import type {
   SaveWebhookGrantOperationRequest,
   RevokeWebhookGrantRequest,
 } from "../apis/WebhooksApi";
+import type { Practice, Patient, Order, CreatedOrder, PracticeLocation } from "../domain";
+import { paginate, type ApiListPromise } from "./pagination";
 import type { CreateWebhookEndpointRequest } from "../models/CreateWebhookEndpointRequest";
 import type { UpdateWebhookEndpointRequest } from "../models/UpdateWebhookEndpointRequest";
 import type { SaveWebhookGrantRequest } from "../models/SaveWebhookGrantRequest";
@@ -73,15 +75,19 @@ export class WebhooksResource {
   list(
     params: ListWebhookEndpointsParams = {},
     options?: RequestOptions,
-  ): ReturnType<WebhooksApi["listWebhookEndpoints"]> {
-    return this.api.listWebhookEndpoints(
-      { ...params, ...commonHeaders(options), ...organizationHeader(options) },
-      requestOverrides(options),
+  ): ApiListPromise<Awaited<ReturnType<WebhooksApi["listWebhookEndpoints"]>>> {
+    return paginate(
+      (cursor) =>
+        this.api.listWebhookEndpoints(
+          { ...params, ...commonHeaders(options), ...organizationHeader(options), ...cursor },
+          requestOverrides(options),
+        ),
+      params,
     );
   }
   create(
     params: CreateWebhookEndpointParams,
-    options: MutationOptions,
+    options?: MutationOptions,
   ): ReturnType<WebhooksApi["createWebhookEndpoint"]> {
     return this.api.createWebhookEndpoint(
       {
@@ -96,7 +102,7 @@ export class WebhooksResource {
   update(
     endpointId: string,
     params: UpdateWebhookEndpointParams,
-    options: MutationOptions,
+    options?: MutationOptions,
   ): ReturnType<WebhooksApi["updateWebhookEndpoint"]> {
     return this.api.updateWebhookEndpoint(
       {
@@ -111,7 +117,7 @@ export class WebhooksResource {
   }
   delete(
     endpointId: string,
-    options: MutationOptions,
+    options?: MutationOptions,
   ): ReturnType<WebhooksApi["deleteWebhookEndpoint"]> {
     return this.api.deleteWebhookEndpoint(
       {
@@ -125,7 +131,7 @@ export class WebhooksResource {
   }
   rotateSecret(
     endpointId: string,
-    options: MutationOptions,
+    options?: MutationOptions,
   ): ReturnType<WebhooksApi["rotateWebhookEndpointSecret"]> {
     return this.api.rotateWebhookEndpointSecret(
       {
@@ -139,7 +145,7 @@ export class WebhooksResource {
   }
   test(
     endpointId: string,
-    options: MutationOptions,
+    options?: MutationOptions,
   ): ReturnType<WebhooksApi["testWebhookEndpoint"]> {
     return this.api.testWebhookEndpoint(
       {
@@ -154,10 +160,14 @@ export class WebhooksResource {
   listEvents(
     params: ListWebhookEventsParams = {},
     options?: RequestOptions,
-  ): ReturnType<WebhooksApi["listWebhookEvents"]> {
-    return this.api.listWebhookEvents(
-      { ...params, ...commonHeaders(options), ...organizationHeader(options) },
-      requestOverrides(options),
+  ): ApiListPromise<Awaited<ReturnType<WebhooksApi["listWebhookEvents"]>>> {
+    return paginate(
+      (cursor) =>
+        this.api.listWebhookEvents(
+          { ...params, ...commonHeaders(options), ...organizationHeader(options), ...cursor },
+          requestOverrides(options),
+        ),
+      params,
     );
   }
   retrieveEvent(
@@ -171,7 +181,7 @@ export class WebhooksResource {
   }
   replayEvent(
     eventId: string,
-    options: MutationOptions,
+    options?: MutationOptions,
   ): ReturnType<WebhooksApi["replayWebhookEvent"]> {
     return this.api.replayWebhookEvent(
       {
@@ -186,16 +196,20 @@ export class WebhooksResource {
   listGrants(
     params: ListWebhookGrantsParams = {},
     options?: RequestOptions,
-  ): ReturnType<WebhooksApi["listWebhookGrants"]> {
-    return this.api.listWebhookGrants(
-      { ...params, ...commonHeaders(options) },
-      requestOverrides(options),
+  ): ApiListPromise<Awaited<ReturnType<WebhooksApi["listWebhookGrants"]>>> {
+    return paginate(
+      (cursor) =>
+        this.api.listWebhookGrants(
+          { ...params, ...commonHeaders(options), ...cursor },
+          requestOverrides(options),
+        ),
+      params,
     );
   }
   saveGrant(
     platformId: string,
     params: SaveWebhookGrantParams,
-    options: MutationOptions,
+    options?: MutationOptions,
   ): ReturnType<WebhooksApi["saveWebhookGrant"]> {
     return this.api.saveWebhookGrant(
       {
@@ -209,7 +223,7 @@ export class WebhooksResource {
   }
   revokeGrant(
     platformId: string,
-    options: MutationOptions,
+    options?: MutationOptions,
   ): ReturnType<WebhooksApi["revokeWebhookGrant"]> {
     return this.api.revokeWebhookGrant(
       {

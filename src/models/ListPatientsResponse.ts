@@ -46,11 +46,11 @@ export interface ListPatientsResponse {
    */
   object: ListPatientsResponseObjectEnum;
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof ListPatientsResponse
    */
-  url: string | null;
+  url: string;
 }
 
 /**

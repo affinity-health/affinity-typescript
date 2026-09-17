@@ -40,11 +40,11 @@ export interface ListOrdersResponseDataInnerReview {
    */
   reason: string | null;
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof ListOrdersResponseDataInnerReview
    */
-  requestedAt: string | null;
+  requestedAt: string;
   /**
    *
    * @type {string}

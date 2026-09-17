@@ -20,17 +20,17 @@ import { mapValues } from "../runtime";
  */
 export interface CreateOrderRequestPatientExternalIdentitiesInner {
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof CreateOrderRequestPatientExternalIdentitiesInner
    */
-  source: string | null;
+  source: string;
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof CreateOrderRequestPatientExternalIdentitiesInner
    */
-  value: string | null;
+  value: string;
 }
 
 /**

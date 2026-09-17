@@ -42,23 +42,23 @@ import {
  */
 export interface RegisterUserRequest {
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof RegisterUserRequest
    */
-  externalId: string | null;
+  externalId: string;
   /**
    *
    * @type {string}
    * @memberof RegisterUserRequest
    */
-  email: string | null;
+  email: string;
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof RegisterUserRequest
    */
-  name: string | null;
+  name: string;
   /**
    *
    * @type {RegisterUserRequestRoleEnum}
@@ -127,10 +127,10 @@ export interface RegisterUserRequest {
   locationIds?: Array<string> | null;
   /**
    *
-   * @type {RegisterUserRequestIdentityAttestationEnum}
+   * @type {boolean}
    * @memberof RegisterUserRequest
    */
-  identityAttestation: RegisterUserRequestIdentityAttestationEnum;
+  identityAttestation: boolean;
 }
 
 /**
@@ -159,15 +159,6 @@ export const RegisterUserRequestRolesEnum = {
 } as const;
 export type RegisterUserRequestRolesEnum =
   (typeof RegisterUserRequestRolesEnum)[keyof typeof RegisterUserRequestRolesEnum];
-
-/**
- * @export
- */
-export const RegisterUserRequestIdentityAttestationEnum = {
-  True: true,
-} as const;
-export type RegisterUserRequestIdentityAttestationEnum =
-  (typeof RegisterUserRequestIdentityAttestationEnum)[keyof typeof RegisterUserRequestIdentityAttestationEnum];
 
 /**
  * Check if a given object implements the RegisterUserRequest interface.

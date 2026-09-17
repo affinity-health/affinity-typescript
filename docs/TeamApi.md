@@ -49,9 +49,9 @@ async function example() {
 
   const body = {
     // string
-    practiceId: practiceId_example,
+    practiceId: prac_01j2y8m6jcc9tt24af5pw9x1bc,
     // string
-    prescriberId: prescriberId_example,
+    prescriberId: prov_01j2y8m6jcc9tt24af5pw9x1bc,
     // string
     idempotencyKey: idempotencyKey_example,
     // CreatePracticeTeamLicenseRequest
@@ -135,7 +135,7 @@ async function example() {
 
   const body = {
     // string
-    practiceId: practiceId_example,
+    practiceId: prac_01j2y8m6jcc9tt24af5pw9x1bc,
     // string (optional)
     affinityVersion: affinityVersion_example,
   } satisfies GetPracticeTeamRequest;
@@ -212,9 +212,9 @@ async function example() {
 
   const body = {
     // string
-    practiceId: practiceId_example,
+    practiceId: prac_01j2y8m6jcc9tt24af5pw9x1bc,
     // string
-    invitationId: invitationId_example,
+    invitationId: invite_01j2y8m6jcc9tt24af5pw9x1bc,
     // string (optional)
     affinityVersion: affinityVersion_example,
   } satisfies GetPracticeTeamInvitationRequest;
@@ -292,9 +292,9 @@ async function example() {
 
   const body = {
     // string
-    practiceId: practiceId_example,
+    practiceId: prac_01j2y8m6jcc9tt24af5pw9x1bc,
     // string
-    memberId: memberId_example,
+    memberId: mbr_01j2y8m6jcc9tt24af5pw9x1bc,
     // string (optional)
     affinityVersion: affinityVersion_example,
   } satisfies GetPracticeTeamMemberRequest;
@@ -372,9 +372,9 @@ async function example() {
 
   const body = {
     // string
-    practiceId: practiceId_example,
+    practiceId: prac_01j2y8m6jcc9tt24af5pw9x1bc,
     // string
-    prescriberId: prescriberId_example,
+    prescriberId: prov_01j2y8m6jcc9tt24af5pw9x1bc,
     // string (optional)
     affinityVersion: affinityVersion_example,
   } satisfies GetPracticeTeamPrescriberRequest;
@@ -455,7 +455,7 @@ async function example() {
 
   const body = {
     // string
-    practiceId: practiceId_example,
+    practiceId: prac_01j2y8m6jcc9tt24af5pw9x1bc,
     // string
     idempotencyKey: idempotencyKey_example,
     // InvitePracticeTeamPersonRequest
@@ -539,13 +539,13 @@ async function example() {
 
   const body = {
     // string
-    practiceId: practiceId_example,
+    practiceId: prac_01j2y8m6jcc9tt24af5pw9x1bc,
     // number (optional)
     limit: 56,
     // string (optional)
-    startingAfter: startingAfter_example,
+    startingAfter: invite_01j2y8m6jcc9tt24af5pw9x1bc,
     // string (optional)
-    endingBefore: endingBefore_example,
+    endingBefore: invite_01j2y8m6jcc9tt24af5pw9x1bc,
     // 'accepted' | 'declined' | 'pending' | 'expired' | 'revoked' (optional)
     status: status_example,
     // string (optional)
@@ -634,13 +634,13 @@ async function example() {
 
   const body = {
     // string
-    practiceId: practiceId_example,
+    practiceId: prac_01j2y8m6jcc9tt24af5pw9x1bc,
     // number (optional)
     limit: 56,
     // string (optional)
-    startingAfter: startingAfter_example,
+    startingAfter: mbr_01j2y8m6jcc9tt24af5pw9x1bc,
     // string (optional)
-    endingBefore: endingBefore_example,
+    endingBefore: mbr_01j2y8m6jcc9tt24af5pw9x1bc,
     // string (optional)
     search: search_example,
     // 'owner' | 'administrator' | 'prescriber' | 'clinical_staff' | 'billing' | 'developer' (optional)
@@ -729,13 +729,13 @@ async function example() {
 
   const body = {
     // string
-    practiceId: practiceId_example,
+    practiceId: prac_01j2y8m6jcc9tt24af5pw9x1bc,
     // number (optional)
     limit: 56,
     // string (optional)
-    startingAfter: startingAfter_example,
+    startingAfter: prov_01j2y8m6jcc9tt24af5pw9x1bc,
     // string (optional)
-    endingBefore: endingBefore_example,
+    endingBefore: prov_01j2y8m6jcc9tt24af5pw9x1bc,
     // string (optional)
     search: search_example,
     // string (optional)
@@ -830,7 +830,7 @@ async function example() {
 
   const body = {
     // string
-    practiceId: practiceId_example,
+    practiceId: prac_01j2y8m6jcc9tt24af5pw9x1bc,
     // string
     idempotencyKey: idempotencyKey_example,
     // RegisterUserRequest
@@ -913,9 +913,9 @@ async function example() {
 
   const body = {
     // string
-    practiceId: practiceId_example,
+    practiceId: prac_01j2y8m6jcc9tt24af5pw9x1bc,
     // string
-    invitationId: invitationId_example,
+    invitationId: invite_01j2y8m6jcc9tt24af5pw9x1bc,
     // string
     idempotencyKey: idempotencyKey_example,
     // string (optional)
@@ -997,9 +997,9 @@ async function example() {
 
   const body = {
     // string
-    practiceId: practiceId_example,
+    practiceId: prac_01j2y8m6jcc9tt24af5pw9x1bc,
     // string
-    invitationId: invitationId_example,
+    invitationId: invite_01j2y8m6jcc9tt24af5pw9x1bc,
     // string
     idempotencyKey: idempotencyKey_example,
     // string (optional)
@@ -1083,11 +1083,11 @@ async function example() {
 
   const body = {
     // string
-    practiceId: practiceId_example,
+    practiceId: prac_01j2y8m6jcc9tt24af5pw9x1bc,
     // string
-    prescriberId: prescriberId_example,
+    prescriberId: prov_01j2y8m6jcc9tt24af5pw9x1bc,
     // string
-    licenseId: licenseId_example,
+    licenseId: lic_01j2y8m6jcc9tt24af5pw9x1bc,
     // string
     idempotencyKey: idempotencyKey_example,
     // UpdatePracticeTeamLicenseRequest
@@ -1175,9 +1175,9 @@ async function example() {
 
   const body = {
     // string
-    practiceId: practiceId_example,
+    practiceId: prac_01j2y8m6jcc9tt24af5pw9x1bc,
     // string
-    memberId: memberId_example,
+    memberId: mbr_01j2y8m6jcc9tt24af5pw9x1bc,
     // string
     idempotencyKey: idempotencyKey_example,
     // UpdatePracticeTeamMemberRequest
@@ -1264,9 +1264,9 @@ async function example() {
 
   const body = {
     // string
-    practiceId: practiceId_example,
+    practiceId: prac_01j2y8m6jcc9tt24af5pw9x1bc,
     // string
-    prescriberId: prescriberId_example,
+    prescriberId: prov_01j2y8m6jcc9tt24af5pw9x1bc,
     // string
     idempotencyKey: idempotencyKey_example,
     // UpdatePracticeTeamPrescriberRequest

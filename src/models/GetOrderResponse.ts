@@ -13,34 +13,34 @@
  */
 
 import { mapValues } from "../runtime";
-import type { GetOrderResponseFulfillmentsInner } from "./GetOrderResponseFulfillmentsInner";
+import type { ListOrdersResponseDataInnerReview } from "./ListOrdersResponseDataInnerReview";
 import {
-  GetOrderResponseFulfillmentsInnerFromJSON,
-  GetOrderResponseFulfillmentsInnerFromJSONTyped,
-  GetOrderResponseFulfillmentsInnerToJSON,
-  GetOrderResponseFulfillmentsInnerToJSONTyped,
-} from "./GetOrderResponseFulfillmentsInner";
-import type { GetOrderResponseReview } from "./GetOrderResponseReview";
+  ListOrdersResponseDataInnerReviewFromJSON,
+  ListOrdersResponseDataInnerReviewFromJSONTyped,
+  ListOrdersResponseDataInnerReviewToJSON,
+  ListOrdersResponseDataInnerReviewToJSONTyped,
+} from "./ListOrdersResponseDataInnerReview";
+import type { ListOrdersResponseDataInnerLifecycleEventsInner } from "./ListOrdersResponseDataInnerLifecycleEventsInner";
 import {
-  GetOrderResponseReviewFromJSON,
-  GetOrderResponseReviewFromJSONTyped,
-  GetOrderResponseReviewToJSON,
-  GetOrderResponseReviewToJSONTyped,
-} from "./GetOrderResponseReview";
-import type { GetOrderResponsePrescriptionsInner } from "./GetOrderResponsePrescriptionsInner";
+  ListOrdersResponseDataInnerLifecycleEventsInnerFromJSON,
+  ListOrdersResponseDataInnerLifecycleEventsInnerFromJSONTyped,
+  ListOrdersResponseDataInnerLifecycleEventsInnerToJSON,
+  ListOrdersResponseDataInnerLifecycleEventsInnerToJSONTyped,
+} from "./ListOrdersResponseDataInnerLifecycleEventsInner";
+import type { ListOrdersResponseDataInnerFulfillmentsInner } from "./ListOrdersResponseDataInnerFulfillmentsInner";
 import {
-  GetOrderResponsePrescriptionsInnerFromJSON,
-  GetOrderResponsePrescriptionsInnerFromJSONTyped,
-  GetOrderResponsePrescriptionsInnerToJSON,
-  GetOrderResponsePrescriptionsInnerToJSONTyped,
-} from "./GetOrderResponsePrescriptionsInner";
-import type { GetOrderResponseLifecycleEventsInner } from "./GetOrderResponseLifecycleEventsInner";
+  ListOrdersResponseDataInnerFulfillmentsInnerFromJSON,
+  ListOrdersResponseDataInnerFulfillmentsInnerFromJSONTyped,
+  ListOrdersResponseDataInnerFulfillmentsInnerToJSON,
+  ListOrdersResponseDataInnerFulfillmentsInnerToJSONTyped,
+} from "./ListOrdersResponseDataInnerFulfillmentsInner";
+import type { ListOrdersResponseDataInnerPrescriptionsInner } from "./ListOrdersResponseDataInnerPrescriptionsInner";
 import {
-  GetOrderResponseLifecycleEventsInnerFromJSON,
-  GetOrderResponseLifecycleEventsInnerFromJSONTyped,
-  GetOrderResponseLifecycleEventsInnerToJSON,
-  GetOrderResponseLifecycleEventsInnerToJSONTyped,
-} from "./GetOrderResponseLifecycleEventsInner";
+  ListOrdersResponseDataInnerPrescriptionsInnerFromJSON,
+  ListOrdersResponseDataInnerPrescriptionsInnerFromJSONTyped,
+  ListOrdersResponseDataInnerPrescriptionsInnerToJSON,
+  ListOrdersResponseDataInnerPrescriptionsInnerToJSONTyped,
+} from "./ListOrdersResponseDataInnerPrescriptionsInner";
 
 /**
  *
@@ -67,17 +67,17 @@ export interface GetOrderResponse {
    */
   metadata: any | null;
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof GetOrderResponse
    */
-  createdAt: string | null;
+  createdAt: string;
   /**
    *
-   * @type {Array<GetOrderResponseFulfillmentsInner>}
+   * @type {Array<ListOrdersResponseDataInnerFulfillmentsInner>}
    * @memberof GetOrderResponse
    */
-  fulfillments: Array<GetOrderResponseFulfillmentsInner>;
+  fulfillments: Array<ListOrdersResponseDataInnerFulfillmentsInner>;
   /**
    *
    * @type {string}
@@ -86,10 +86,10 @@ export interface GetOrderResponse {
   id: string;
   /**
    *
-   * @type {Array<GetOrderResponseLifecycleEventsInner>}
+   * @type {Array<ListOrdersResponseDataInnerLifecycleEventsInner>}
    * @memberof GetOrderResponse
    */
-  lifecycleEvents: Array<GetOrderResponseLifecycleEventsInner>;
+  lifecycleEvents: Array<ListOrdersResponseDataInnerLifecycleEventsInner>;
   /**
    *
    * @type {boolean}
@@ -103,11 +103,11 @@ export interface GetOrderResponse {
    */
   object: GetOrderResponseObjectEnum;
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof GetOrderResponse
    */
-  patientExternalId: string | null;
+  patientExternalId: string;
   /**
    *
    * @type {string}
@@ -115,23 +115,23 @@ export interface GetOrderResponse {
    */
   patientId: string;
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof GetOrderResponse
    */
-  patientName: string | null;
-  /**
-   * Match this integration's external identity in the API key's mode.
-   * @type {string}
-   * @memberof GetOrderResponse
-   */
-  patientState: string | null;
+  patientName: string;
   /**
    *
    * @type {string}
    * @memberof GetOrderResponse
    */
-  practiceId: string | null;
+  patientState: string;
+  /**
+   *
+   * @type {string}
+   * @memberof GetOrderResponse
+   */
+  practiceId: string;
   /**
    *
    * @type {string}
@@ -146,16 +146,16 @@ export interface GetOrderResponse {
   prescriberNpi: string | null;
   /**
    *
-   * @type {GetOrderResponseReview}
+   * @type {ListOrdersResponseDataInnerReview}
    * @memberof GetOrderResponse
    */
-  review: GetOrderResponseReview | null;
+  review: ListOrdersResponseDataInnerReview | null;
   /**
    *
-   * @type {Array<GetOrderResponsePrescriptionsInner>}
+   * @type {Array<ListOrdersResponseDataInnerPrescriptionsInner>}
    * @memberof GetOrderResponse
    */
-  prescriptions: Array<GetOrderResponsePrescriptionsInner>;
+  prescriptions: Array<ListOrdersResponseDataInnerPrescriptionsInner>;
   /**
    *
    * @type {GetOrderResponseStatusEnum}
@@ -163,11 +163,11 @@ export interface GetOrderResponse {
    */
   status: GetOrderResponseStatusEnum;
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof GetOrderResponse
    */
-  updatedAt: string | null;
+  updatedAt: string;
 }
 
 /**
@@ -246,11 +246,11 @@ export function GetOrderResponseFromJSONTyped(
     metadata: json["metadata"],
     createdAt: json["createdAt"],
     fulfillments: (json["fulfillments"] as Array<any>).map(
-      GetOrderResponseFulfillmentsInnerFromJSON,
+      ListOrdersResponseDataInnerFulfillmentsInnerFromJSON,
     ),
     id: json["id"],
     lifecycleEvents: (json["lifecycleEvents"] as Array<any>).map(
-      GetOrderResponseLifecycleEventsInnerFromJSON,
+      ListOrdersResponseDataInnerLifecycleEventsInnerFromJSON,
     ),
     livemode: json["livemode"],
     object: json["object"],
@@ -261,9 +261,9 @@ export function GetOrderResponseFromJSONTyped(
     practiceId: json["practiceId"],
     prescriberName: json["prescriberName"],
     prescriberNpi: json["prescriberNpi"],
-    review: GetOrderResponseReviewFromJSON(json["review"]),
+    review: ListOrdersResponseDataInnerReviewFromJSON(json["review"]),
     prescriptions: (json["prescriptions"] as Array<any>).map(
-      GetOrderResponsePrescriptionsInnerFromJSON,
+      ListOrdersResponseDataInnerPrescriptionsInnerFromJSON,
     ),
     status: json["status"],
     updatedAt: json["updatedAt"],
@@ -288,11 +288,11 @@ export function GetOrderResponseToJSONTyped(
     metadata: value["metadata"],
     createdAt: value["createdAt"],
     fulfillments: (value["fulfillments"] as Array<any>).map(
-      GetOrderResponseFulfillmentsInnerToJSON,
+      ListOrdersResponseDataInnerFulfillmentsInnerToJSON,
     ),
     id: value["id"],
     lifecycleEvents: (value["lifecycleEvents"] as Array<any>).map(
-      GetOrderResponseLifecycleEventsInnerToJSON,
+      ListOrdersResponseDataInnerLifecycleEventsInnerToJSON,
     ),
     livemode: value["livemode"],
     object: value["object"],
@@ -303,9 +303,9 @@ export function GetOrderResponseToJSONTyped(
     practiceId: value["practiceId"],
     prescriberName: value["prescriberName"],
     prescriberNpi: value["prescriberNpi"],
-    review: GetOrderResponseReviewToJSON(value["review"]),
+    review: ListOrdersResponseDataInnerReviewToJSON(value["review"]),
     prescriptions: (value["prescriptions"] as Array<any>).map(
-      GetOrderResponsePrescriptionsInnerToJSON,
+      ListOrdersResponseDataInnerPrescriptionsInnerToJSON,
     ),
     status: value["status"],
     updatedAt: value["updatedAt"],

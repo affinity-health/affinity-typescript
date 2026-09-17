@@ -67,11 +67,11 @@ export interface ListOrdersResponseDataInnerFulfillmentsInner {
    */
   pharmacyId: string | null;
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof ListOrdersResponseDataInnerFulfillmentsInner
    */
-  createdAt: string | null;
+  createdAt: string;
   /**
    *
    * @type {string}
@@ -85,11 +85,11 @@ export interface ListOrdersResponseDataInnerFulfillmentsInner {
    */
   prescriptionId: string;
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof ListOrdersResponseDataInnerFulfillmentsInner
    */
-  status: string | null;
+  status: string;
   /**
    *
    * @type {string}
@@ -145,11 +145,11 @@ export interface ListOrdersResponseDataInnerFulfillmentsInner {
    */
   trackingUrl: string | null;
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof ListOrdersResponseDataInnerFulfillmentsInner
    */
-  updatedAt: string | null;
+  updatedAt: string;
 }
 
 /**

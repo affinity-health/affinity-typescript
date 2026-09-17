@@ -13,20 +13,20 @@
  */
 
 import { mapValues } from "../runtime";
-import type { ListPracticeTeamInvitationsResponseDataInnerPersonAccount } from "./ListPracticeTeamInvitationsResponseDataInnerPersonAccount";
+import type { InvitePracticeTeamPersonResponsePersonAccount } from "./InvitePracticeTeamPersonResponsePersonAccount";
 import {
-  ListPracticeTeamInvitationsResponseDataInnerPersonAccountFromJSON,
-  ListPracticeTeamInvitationsResponseDataInnerPersonAccountFromJSONTyped,
-  ListPracticeTeamInvitationsResponseDataInnerPersonAccountToJSON,
-  ListPracticeTeamInvitationsResponseDataInnerPersonAccountToJSONTyped,
-} from "./ListPracticeTeamInvitationsResponseDataInnerPersonAccount";
-import type { ListPracticeTeamInvitationsResponseDataInnerPersonInvitation } from "./ListPracticeTeamInvitationsResponseDataInnerPersonInvitation";
+  InvitePracticeTeamPersonResponsePersonAccountFromJSON,
+  InvitePracticeTeamPersonResponsePersonAccountFromJSONTyped,
+  InvitePracticeTeamPersonResponsePersonAccountToJSON,
+  InvitePracticeTeamPersonResponsePersonAccountToJSONTyped,
+} from "./InvitePracticeTeamPersonResponsePersonAccount";
+import type { InvitePracticeTeamPersonResponsePersonInvitation } from "./InvitePracticeTeamPersonResponsePersonInvitation";
 import {
-  ListPracticeTeamInvitationsResponseDataInnerPersonInvitationFromJSON,
-  ListPracticeTeamInvitationsResponseDataInnerPersonInvitationFromJSONTyped,
-  ListPracticeTeamInvitationsResponseDataInnerPersonInvitationToJSON,
-  ListPracticeTeamInvitationsResponseDataInnerPersonInvitationToJSONTyped,
-} from "./ListPracticeTeamInvitationsResponseDataInnerPersonInvitation";
+  InvitePracticeTeamPersonResponsePersonInvitationFromJSON,
+  InvitePracticeTeamPersonResponsePersonInvitationFromJSONTyped,
+  InvitePracticeTeamPersonResponsePersonInvitationToJSON,
+  InvitePracticeTeamPersonResponsePersonInvitationToJSONTyped,
+} from "./InvitePracticeTeamPersonResponsePersonInvitation";
 
 /**
  * This integration's current onboarding and account-connection state. Null for invitations outside this integration.
@@ -72,16 +72,16 @@ export interface ListPracticeTeamInvitationsResponseDataInnerPerson {
   status: string;
   /**
    *
-   * @type {ListPracticeTeamInvitationsResponseDataInnerPersonInvitation}
+   * @type {InvitePracticeTeamPersonResponsePersonInvitation}
    * @memberof ListPracticeTeamInvitationsResponseDataInnerPerson
    */
-  invitation: ListPracticeTeamInvitationsResponseDataInnerPersonInvitation | null;
+  invitation: InvitePracticeTeamPersonResponsePersonInvitation | null;
   /**
    *
-   * @type {ListPracticeTeamInvitationsResponseDataInnerPersonAccount}
+   * @type {InvitePracticeTeamPersonResponsePersonAccount}
    * @memberof ListPracticeTeamInvitationsResponseDataInnerPerson
    */
-  account: ListPracticeTeamInvitationsResponseDataInnerPersonAccount | null;
+  account: InvitePracticeTeamPersonResponsePersonAccount | null;
   /**
    *
    * @type {Array<string>}
@@ -137,10 +137,8 @@ export function ListPracticeTeamInvitationsResponseDataInnerPersonFromJSONTyped(
     email: json["email"],
     name: json["name"],
     status: json["status"],
-    invitation: ListPracticeTeamInvitationsResponseDataInnerPersonInvitationFromJSON(
-      json["invitation"],
-    ),
-    account: ListPracticeTeamInvitationsResponseDataInnerPersonAccountFromJSON(json["account"]),
+    invitation: InvitePracticeTeamPersonResponsePersonInvitationFromJSON(json["invitation"]),
+    account: InvitePracticeTeamPersonResponsePersonAccountFromJSON(json["account"]),
     nextActions: json["nextActions"],
   };
 }
@@ -166,10 +164,8 @@ export function ListPracticeTeamInvitationsResponseDataInnerPersonToJSONTyped(
     email: value["email"],
     name: value["name"],
     status: value["status"],
-    invitation: ListPracticeTeamInvitationsResponseDataInnerPersonInvitationToJSON(
-      value["invitation"],
-    ),
-    account: ListPracticeTeamInvitationsResponseDataInnerPersonAccountToJSON(value["account"]),
+    invitation: InvitePracticeTeamPersonResponsePersonInvitationToJSON(value["invitation"]),
+    account: InvitePracticeTeamPersonResponsePersonAccountToJSON(value["account"]),
     nextActions: value["nextActions"],
   };
 }

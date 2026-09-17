@@ -39,10 +39,10 @@ export interface RevokeWebhookGrantResponse {
   platformId: string;
   /**
    *
-   * @type {RevokeWebhookGrantResponseRevokedEnum}
+   * @type {boolean}
    * @memberof RevokeWebhookGrantResponse
    */
-  revoked: RevokeWebhookGrantResponseRevokedEnum;
+  revoked: boolean;
 }
 
 /**
@@ -53,15 +53,6 @@ export const RevokeWebhookGrantResponseObjectEnum = {
 } as const;
 export type RevokeWebhookGrantResponseObjectEnum =
   (typeof RevokeWebhookGrantResponseObjectEnum)[keyof typeof RevokeWebhookGrantResponseObjectEnum];
-
-/**
- * @export
- */
-export const RevokeWebhookGrantResponseRevokedEnum = {
-  True: true,
-} as const;
-export type RevokeWebhookGrantResponseRevokedEnum =
-  (typeof RevokeWebhookGrantResponseRevokedEnum)[keyof typeof RevokeWebhookGrantResponseRevokedEnum];
 
 /**
  * Check if a given object implements the RevokeWebhookGrantResponse interface.

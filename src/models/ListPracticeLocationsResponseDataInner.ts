@@ -24,7 +24,7 @@ export interface ListPracticeLocationsResponseDataInner {
    * @type {string}
    * @memberof ListPracticeLocationsResponseDataInner
    */
-  id: string | null;
+  id: string;
   /**
    *
    * @type {ListPracticeLocationsResponseDataInnerObjectEnum}
@@ -36,13 +36,13 @@ export interface ListPracticeLocationsResponseDataInner {
    * @type {string}
    * @memberof ListPracticeLocationsResponseDataInner
    */
-  practiceId: string | null;
+  practiceId: string;
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof ListPracticeLocationsResponseDataInner
    */
-  name: string | null;
+  name: string;
   /**
    *
    * @type {string}
@@ -56,11 +56,11 @@ export interface ListPracticeLocationsResponseDataInner {
    */
   city: string | null;
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof ListPracticeLocationsResponseDataInner
    */
-  country: string | null;
+  country: string;
   /**
    *
    * @type {string}
@@ -98,17 +98,17 @@ export interface ListPracticeLocationsResponseDataInner {
    */
   status: ListPracticeLocationsResponseDataInnerStatusEnum;
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof ListPracticeLocationsResponseDataInner
    */
-  createdAt: string | null;
+  createdAt: string;
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof ListPracticeLocationsResponseDataInner
    */
-  updatedAt: string | null;
+  updatedAt: string;
 }
 
 /**

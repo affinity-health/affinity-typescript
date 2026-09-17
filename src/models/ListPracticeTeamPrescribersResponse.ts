@@ -13,13 +13,13 @@
  */
 
 import { mapValues } from "../runtime";
-import type { ListPracticeTeamInvitationsResponseDataInnerPersonAccountPrescriberConnectionProvider } from "./ListPracticeTeamInvitationsResponseDataInnerPersonAccountPrescriberConnectionProvider";
+import type { InvitePracticeTeamPersonResponsePersonAccountPrescriberConnectionProvider } from "./InvitePracticeTeamPersonResponsePersonAccountPrescriberConnectionProvider";
 import {
-  ListPracticeTeamInvitationsResponseDataInnerPersonAccountPrescriberConnectionProviderFromJSON,
-  ListPracticeTeamInvitationsResponseDataInnerPersonAccountPrescriberConnectionProviderFromJSONTyped,
-  ListPracticeTeamInvitationsResponseDataInnerPersonAccountPrescriberConnectionProviderToJSON,
-  ListPracticeTeamInvitationsResponseDataInnerPersonAccountPrescriberConnectionProviderToJSONTyped,
-} from "./ListPracticeTeamInvitationsResponseDataInnerPersonAccountPrescriberConnectionProvider";
+  InvitePracticeTeamPersonResponsePersonAccountPrescriberConnectionProviderFromJSON,
+  InvitePracticeTeamPersonResponsePersonAccountPrescriberConnectionProviderFromJSONTyped,
+  InvitePracticeTeamPersonResponsePersonAccountPrescriberConnectionProviderToJSON,
+  InvitePracticeTeamPersonResponsePersonAccountPrescriberConnectionProviderToJSONTyped,
+} from "./InvitePracticeTeamPersonResponsePersonAccountPrescriberConnectionProvider";
 
 /**
  *
@@ -29,10 +29,10 @@ import {
 export interface ListPracticeTeamPrescribersResponse {
   /**
    *
-   * @type {Array<ListPracticeTeamInvitationsResponseDataInnerPersonAccountPrescriberConnectionProvider>}
+   * @type {Array<InvitePracticeTeamPersonResponsePersonAccountPrescriberConnectionProvider>}
    * @memberof ListPracticeTeamPrescribersResponse
    */
-  data: Array<ListPracticeTeamInvitationsResponseDataInnerPersonAccountPrescriberConnectionProvider>;
+  data: Array<InvitePracticeTeamPersonResponsePersonAccountPrescriberConnectionProvider>;
   /**
    *
    * @type {boolean}
@@ -46,11 +46,11 @@ export interface ListPracticeTeamPrescribersResponse {
    */
   object: ListPracticeTeamPrescribersResponseObjectEnum;
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof ListPracticeTeamPrescribersResponse
    */
-  url: string | null;
+  url: string;
 }
 
 /**
@@ -90,7 +90,7 @@ export function ListPracticeTeamPrescribersResponseFromJSONTyped(
   }
   return {
     data: (json["data"] as Array<any>).map(
-      ListPracticeTeamInvitationsResponseDataInnerPersonAccountPrescriberConnectionProviderFromJSON,
+      InvitePracticeTeamPersonResponsePersonAccountPrescriberConnectionProviderFromJSON,
     ),
     hasMore: json["hasMore"],
     object: json["object"],
@@ -114,7 +114,7 @@ export function ListPracticeTeamPrescribersResponseToJSONTyped(
 
   return {
     data: (value["data"] as Array<any>).map(
-      ListPracticeTeamInvitationsResponseDataInnerPersonAccountPrescriberConnectionProviderToJSON,
+      InvitePracticeTeamPersonResponsePersonAccountPrescriberConnectionProviderToJSON,
     ),
     hasMore: value["hasMore"],
     object: value["object"],

@@ -32,11 +32,11 @@ export interface GetAccountResponseAccount {
    */
   allowedReturnUrls: Array<string>;
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof GetAccountResponseAccount
    */
-  displayName: string | null;
+  displayName: string;
   /**
    *
    * @type {string}
@@ -50,11 +50,11 @@ export interface GetAccountResponseAccount {
    */
   object: GetAccountResponseAccountObjectEnum;
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof GetAccountResponseAccount
    */
-  slug: string | null;
+  slug: string;
   /**
    *
    * @type {GetAccountResponseAccountStatusEnum}

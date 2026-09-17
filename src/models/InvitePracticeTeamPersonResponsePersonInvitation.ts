@@ -40,11 +40,11 @@ export interface InvitePracticeTeamPersonResponsePersonInvitation {
    */
   status: InvitePracticeTeamPersonResponsePersonInvitationStatusEnum;
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof InvitePracticeTeamPersonResponsePersonInvitation
    */
-  expiresAt: string | null;
+  expiresAt: string;
   /**
    *
    * @type {Array<InvitePracticeTeamPersonResponsePersonInvitationRolesInner>}

@@ -20,17 +20,17 @@ import { mapValues } from "../runtime";
  */
 export interface CreateOrderRequestPrescriptionsInnerStructuredSig {
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof CreateOrderRequestPrescriptionsInnerStructuredSig
    */
-  dose: string | null;
+  dose: string;
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof CreateOrderRequestPrescriptionsInnerStructuredSig
    */
-  doseUnit: string | null;
+  doseUnit: string;
   /**
    *
    * @type {string}
@@ -38,11 +38,11 @@ export interface CreateOrderRequestPrescriptionsInnerStructuredSig {
    */
   duration?: string | null;
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof CreateOrderRequestPrescriptionsInnerStructuredSig
    */
-  frequency: string | null;
+  frequency: string;
   /**
    *
    * @type {string}
@@ -62,11 +62,11 @@ export interface CreateOrderRequestPrescriptionsInnerStructuredSig {
    */
   prn?: boolean | null;
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof CreateOrderRequestPrescriptionsInnerStructuredSig
    */
-  route: string | null;
+  route: string;
   /**
    *
    * @type {string}

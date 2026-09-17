@@ -15,6 +15,8 @@ import type {
   GetPatientAllergiesRequest,
   ReplacePatientAllergiesOperationRequest,
 } from "../apis/PatientsApi";
+import type { Practice, Patient, Order, CreatedOrder, PracticeLocation } from "../domain";
+import { paginate, type ApiListPromise } from "./pagination";
 import type { CreatePatientAddressRequest } from "../models/CreatePatientAddressRequest";
 import type { UpdatePatientAddressRequest } from "../models/UpdatePatientAddressRequest";
 import type { CreatePatientRequest } from "../models/CreatePatientRequest";
@@ -71,17 +73,27 @@ export class PatientsResource {
     patientId: string,
     params: ListPatientAddressesParams = {},
     options?: RequestOptions,
-  ): ReturnType<PatientsApi["listPatientAddresses"]> {
-    return this.api.listPatientAddresses(
-      { ...params, practiceId: practiceId, patientId: patientId, ...commonHeaders(options) },
-      requestOverrides(options),
+  ): ApiListPromise<Awaited<ReturnType<PatientsApi["listPatientAddresses"]>>> {
+    return paginate(
+      (cursor) =>
+        this.api.listPatientAddresses(
+          {
+            ...params,
+            practiceId: practiceId,
+            patientId: patientId,
+            ...commonHeaders(options),
+            ...cursor,
+          },
+          requestOverrides(options),
+        ),
+      params,
     );
   }
   createAddress(
     practiceId: string,
     patientId: string,
     params: CreatePatientAddressParams,
-    options: MutationOptions,
+    options?: MutationOptions,
   ): ReturnType<PatientsApi["createPatientAddress"]> {
     return this.api.createPatientAddress(
       {
@@ -99,7 +111,7 @@ export class PatientsResource {
     patientId: string,
     addressId: string,
     params: UpdatePatientAddressParams,
-    options: MutationOptions,
+    options?: MutationOptions,
   ): ReturnType<PatientsApi["updatePatientAddress"]> {
     return this.api.updatePatientAddress(
       {
@@ -117,7 +129,7 @@ export class PatientsResource {
     practiceId: string,
     patientId: string,
     addressId: string,
-    options: MutationOptions,
+    options?: MutationOptions,
   ): ReturnType<PatientsApi["archivePatientAddress"]> {
     return this.api.archivePatientAddress(
       {
@@ -134,7 +146,7 @@ export class PatientsResource {
     practiceId: string,
     patientId: string,
     addressId: string,
-    options: MutationOptions,
+    options?: MutationOptions,
   ): ReturnType<PatientsApi["setDefaultPatientAddress"]> {
     return this.api.setDefaultPatientAddress(
       {
@@ -151,17 +163,21 @@ export class PatientsResource {
     practiceId: string,
     params: ListPatientsParams = {},
     options?: RequestOptions,
-  ): ReturnType<PatientsApi["listPatients"]> {
-    return this.api.listPatients(
-      { ...params, practiceId: practiceId, ...commonHeaders(options) },
-      requestOverrides(options),
+  ): ApiListPromise<Awaited<ReturnType<PatientsApi["listPatients"]>>> {
+    return paginate(
+      (cursor) =>
+        this.api.listPatients(
+          { ...params, practiceId: practiceId, ...commonHeaders(options), ...cursor },
+          requestOverrides(options),
+        ),
+      params,
     );
   }
   create(
     practiceId: string,
     params: CreatePatientParams,
-    options: MutationOptions,
-  ): ReturnType<PatientsApi["createPatient"]> {
+    options?: MutationOptions,
+  ): Promise<Patient> {
     return this.api.createPatient(
       {
         practiceId: practiceId,
@@ -172,11 +188,7 @@ export class PatientsResource {
       requestOverrides(options),
     );
   }
-  retrieve(
-    practiceId: string,
-    patientId: string,
-    options?: RequestOptions,
-  ): ReturnType<PatientsApi["getPatient"]> {
+  retrieve(practiceId: string, patientId: string, options?: RequestOptions): Promise<Patient> {
     return this.api.getPatient(
       { practiceId: practiceId, patientId: patientId, ...commonHeaders(options) },
       requestOverrides(options),
@@ -185,7 +197,7 @@ export class PatientsResource {
   delete(
     practiceId: string,
     patientId: string,
-    options: MutationOptions,
+    options?: MutationOptions,
   ): ReturnType<PatientsApi["deletePatient"]> {
     return this.api.deletePatient(
       {
@@ -201,8 +213,8 @@ export class PatientsResource {
     practiceId: string,
     patientId: string,
     params: UpdatePatientParams,
-    options: MutationOptions,
-  ): ReturnType<PatientsApi["updatePatient"]> {
+    options?: MutationOptions,
+  ): Promise<Patient> {
     return this.api.updatePatient(
       {
         practiceId: practiceId,
@@ -228,7 +240,7 @@ export class PatientsResource {
     practiceId: string,
     patientId: string,
     params: ReplacePatientAllergiesParams,
-    options: MutationOptions,
+    options?: MutationOptions,
   ): ReturnType<PatientsApi["replacePatientAllergies"]> {
     return this.api.replacePatientAllergies(
       {

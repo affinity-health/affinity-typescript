@@ -14,60 +14,51 @@ console.log(`Found ${pharmacies.data.length} pharmacies available to this test a
 
 if (process.env.RUN_AFFINITY_MUTATION_EXAMPLE === "1") {
   const runId = crypto.randomUUID();
-  const practice = await affinity.practices.create(
-    {
-      address: {
-        city: "Los Angeles",
-        country: "US",
-        line1: "100 Main St",
-        postalCode: "90001",
-        state: "CA",
-      },
-      attestations: {
-        authorizedPhiTransfer: true,
-        authorizedPracticeRelationship: true,
-        minimumNecessaryPhi: true,
-        providerDataAccuracy: true,
-      },
-      externalId: `practice_${runId}`,
-      name: "Northstar Wellness",
-      primaryContact: { email: "ops@example.com", name: "Clinical Operations" },
+  const practice = await affinity.practices.create({
+    address: {
+      city: "Los Angeles",
+      country: "US",
+      line1: "100 Main St",
+      postalCode: "90001",
+      state: "CA",
     },
-    { idempotencyKey: crypto.randomUUID() },
-  );
-  const patient = await affinity.patients.create(
-    practice.id!,
-    {
-      address: {
-        city: "Los Angeles",
-        country: "US",
-        line1: "100 Main St",
-        postalCode: "90001",
-        state: "CA",
-      },
-      dateOfBirth: "1990-01-01",
-      email: "patient@example.com",
-      externalId: `patient_${runId}`,
-      name: { first: "Demo", last: "Patient" },
-      phone: "+13135550100",
+    attestations: {
+      authorizedPhiTransfer: true,
+      authorizedPracticeRelationship: true,
+      minimumNecessaryPhi: true,
+      providerDataAccuracy: true,
     },
-    { idempotencyKey: crypto.randomUUID() },
-  );
-  await affinity.patients.replaceAllergies(
-    practice.id!,
-    patient.id!,
-    { allergies: [], reviewStatus: "no_known" },
-    { idempotencyKey: crypto.randomUUID() },
-  );
-  const allergies = await affinity.patients.retrieveAllergies(practice.id!, patient.id!);
+    externalId: `practice_${runId}`,
+    name: "Northstar Wellness",
+    primaryContact: { email: "ops@example.com", name: "Clinical Operations" },
+  });
+  const patient = await affinity.patients.create(practice.id, {
+    address: {
+      city: "Los Angeles",
+      country: "US",
+      line1: "100 Main St",
+      postalCode: "90001",
+      state: "CA",
+    },
+    dateOfBirth: "1990-01-01",
+    email: "patient@example.com",
+    externalId: `patient_${runId}`,
+    name: { first: "Demo", last: "Patient" },
+    phone: "+13135550100",
+  });
+  await affinity.patients.replaceAllergies(practice.id, patient.id, {
+    allergies: [],
+    reviewStatus: "no_known",
+  });
+  const allergies = await affinity.patients.retrieveAllergies(practice.id, patient.id);
 
   const practiceCatalog = await affinity.catalog.list({
     limit: 10,
-    practiceId: practice.id!,
+    practiceId: practice.id,
     query: "semaglutide",
   });
 
-  const practiceOrders = await affinity.orders.list({ practiceId: practice.id! });
+  const practiceOrders = await affinity.orders.list({ practiceId: practice.id });
   console.log(
     `Created and allergy-reviewed patient ${patient.id} for practice ${practice.id}; ${allergies.allergies?.length ?? 0} allergies, ${practiceCatalog.data.length} priced catalog items, and ${practiceOrders.data.length} orders are visible`,
   );

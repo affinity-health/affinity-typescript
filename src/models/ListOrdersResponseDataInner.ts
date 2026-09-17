@@ -67,11 +67,11 @@ export interface ListOrdersResponseDataInner {
    */
   metadata: any | null;
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof ListOrdersResponseDataInner
    */
-  createdAt: string | null;
+  createdAt: string;
   /**
    *
    * @type {Array<ListOrdersResponseDataInnerFulfillmentsInner>}
@@ -103,11 +103,11 @@ export interface ListOrdersResponseDataInner {
    */
   object: ListOrdersResponseDataInnerObjectEnum;
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof ListOrdersResponseDataInner
    */
-  patientExternalId: string | null;
+  patientExternalId: string;
   /**
    *
    * @type {string}
@@ -115,23 +115,23 @@ export interface ListOrdersResponseDataInner {
    */
   patientId: string;
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof ListOrdersResponseDataInner
    */
-  patientName: string | null;
-  /**
-   * Match this integration's external identity in the API key's mode.
-   * @type {string}
-   * @memberof ListOrdersResponseDataInner
-   */
-  patientState: string | null;
+  patientName: string;
   /**
    *
    * @type {string}
    * @memberof ListOrdersResponseDataInner
    */
-  practiceId: string | null;
+  patientState: string;
+  /**
+   *
+   * @type {string}
+   * @memberof ListOrdersResponseDataInner
+   */
+  practiceId: string;
   /**
    *
    * @type {string}
@@ -163,11 +163,11 @@ export interface ListOrdersResponseDataInner {
    */
   status: ListOrdersResponseDataInnerStatusEnum;
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof ListOrdersResponseDataInner
    */
-  updatedAt: string | null;
+  updatedAt: string;
 }
 
 /**

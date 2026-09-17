@@ -35,17 +35,17 @@ import {
  */
 export interface ListCatalogItemsResponseDataInnerCompositionIngredientsInner {
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof ListCatalogItemsResponseDataInnerCompositionIngredientsInner
    */
-  name: string | null;
+  name: string;
   /**
    *
    * @type {ListCatalogItemsResponseDataInnerCompositionIngredientsInnerRoleEnum}
    * @memberof ListCatalogItemsResponseDataInnerCompositionIngredientsInner
    */
-  role: ListCatalogItemsResponseDataInnerCompositionIngredientsInnerRoleEnum | null;
+  role: ListCatalogItemsResponseDataInnerCompositionIngredientsInnerRoleEnum;
   /**
    *
    * @type {ListCatalogItemsResponseDataInnerCompositionIngredientsInnerBasisOfStrengthSubstance}

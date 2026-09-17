@@ -8,6 +8,8 @@ import type {
   UpdatePracticeLocationOperationRequest,
   ArchivePracticeLocationRequest,
 } from "../apis/LocationsApi";
+import type { Practice, Patient, Order, CreatedOrder, PracticeLocation } from "../domain";
+import { paginate, type ApiListPromise } from "./pagination";
 import type { CreatePracticeLocationRequest } from "../models/CreatePracticeLocationRequest";
 import type { UpdatePracticeLocationRequest } from "../models/UpdatePracticeLocationRequest";
 import {
@@ -38,17 +40,21 @@ export class LocationsResource {
     practiceId: string,
     params: ListPracticeLocationsParams = {},
     options?: RequestOptions,
-  ): ReturnType<LocationsApi["listPracticeLocations"]> {
-    return this.api.listPracticeLocations(
-      { ...params, practiceId: practiceId, ...commonHeaders(options) },
-      requestOverrides(options),
+  ): ApiListPromise<Awaited<ReturnType<LocationsApi["listPracticeLocations"]>>> {
+    return paginate(
+      (cursor) =>
+        this.api.listPracticeLocations(
+          { ...params, practiceId: practiceId, ...commonHeaders(options), ...cursor },
+          requestOverrides(options),
+        ),
+      params,
     );
   }
   create(
     practiceId: string,
     params: CreatePracticeLocationParams,
-    options: MutationOptions,
-  ): ReturnType<LocationsApi["createPracticeLocation"]> {
+    options?: MutationOptions,
+  ): Promise<PracticeLocation> {
     return this.api.createPracticeLocation(
       {
         practiceId: practiceId,
@@ -63,7 +69,7 @@ export class LocationsResource {
     practiceId: string,
     locationId: string,
     options?: RequestOptions,
-  ): ReturnType<LocationsApi["getPracticeLocation"]> {
+  ): Promise<PracticeLocation> {
     return this.api.getPracticeLocation(
       { practiceId: practiceId, locationId: locationId, ...commonHeaders(options) },
       requestOverrides(options),
@@ -73,8 +79,8 @@ export class LocationsResource {
     practiceId: string,
     locationId: string,
     params: UpdatePracticeLocationParams,
-    options: MutationOptions,
-  ): ReturnType<LocationsApi["updatePracticeLocation"]> {
+    options?: MutationOptions,
+  ): Promise<PracticeLocation> {
     return this.api.updatePracticeLocation(
       {
         practiceId: practiceId,
@@ -89,7 +95,7 @@ export class LocationsResource {
   archive(
     practiceId: string,
     locationId: string,
-    options: MutationOptions,
+    options?: MutationOptions,
   ): ReturnType<LocationsApi["archivePracticeLocation"]> {
     return this.api.archivePracticeLocation(
       {

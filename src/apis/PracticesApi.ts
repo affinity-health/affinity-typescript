@@ -46,9 +46,9 @@ import {
 } from "../models/UpdatePracticeResponse";
 
 export interface CreatePracticeOperationRequest {
-  idempotencyKey: string;
   createPracticeRequest: CreatePracticeRequest;
   affinityVersion?: string;
+  idempotencyKey?: string;
 }
 
 export interface GetPracticeRequest {
@@ -66,9 +66,9 @@ export interface ListPracticesRequest {
 
 export interface UpdatePracticeOperationRequest {
   practiceId: string;
-  idempotencyKey: string;
   updatePracticeRequest: UpdatePracticeRequest;
   affinityVersion?: string;
+  idempotencyKey?: string;
 }
 
 /**
@@ -81,13 +81,6 @@ export class PracticesApi extends runtime.BaseAPI {
   async createPracticeRequestOpts(
     requestParameters: CreatePracticeOperationRequest,
   ): Promise<runtime.RequestOpts> {
-    if (requestParameters["idempotencyKey"] == null) {
-      throw new runtime.RequiredError(
-        "idempotencyKey",
-        'Required parameter "idempotencyKey" was null or undefined when calling createPractice().',
-      );
-    }
-
     if (requestParameters["createPracticeRequest"] == null) {
       throw new runtime.RequiredError(
         "createPracticeRequest",
@@ -134,7 +127,7 @@ export class PracticesApi extends runtime.BaseAPI {
   }
 
   /**
-   * Creates a practice for the platform. Send Idempotency-Key when you retry the same request.
+   * Creates a practice owned by the platform. Set liveEnabled to true to enable Live access at creation with an approved platform and a Live request. Defaults to false. Requires practices:write. Send Idempotency-Key when you retry the same request.
    * Create practice
    */
   async createPracticeRaw(
@@ -150,7 +143,7 @@ export class PracticesApi extends runtime.BaseAPI {
   }
 
   /**
-   * Creates a practice for the platform. Send Idempotency-Key when you retry the same request.
+   * Creates a practice owned by the platform. Set liveEnabled to true to enable Live access at creation with an approved platform and a Live request. Defaults to false. Requires practices:write. Send Idempotency-Key when you retry the same request.
    * Create practice
    */
   async createPractice(
@@ -331,13 +324,6 @@ export class PracticesApi extends runtime.BaseAPI {
       );
     }
 
-    if (requestParameters["idempotencyKey"] == null) {
-      throw new runtime.RequiredError(
-        "idempotencyKey",
-        'Required parameter "idempotencyKey" was null or undefined when calling updatePractice().',
-      );
-    }
-
     if (requestParameters["updatePracticeRequest"] == null) {
       throw new runtime.RequiredError(
         "updatePracticeRequest",
@@ -388,7 +374,7 @@ export class PracticesApi extends runtime.BaseAPI {
   }
 
   /**
-   * Updates one practice that belongs to the platform. Send Idempotency-Key when you retry the same request.
+   * Updates one practice owned by the platform. Set liveEnabled to true or false to control Live access with an approved platform and a Live request. Affinity Admin decisions take precedence. Requires practices:write. Send Idempotency-Key when you retry the same request.
    * Update practice
    */
   async updatePracticeRaw(
@@ -404,7 +390,7 @@ export class PracticesApi extends runtime.BaseAPI {
   }
 
   /**
-   * Updates one practice that belongs to the platform. Send Idempotency-Key when you retry the same request.
+   * Updates one practice owned by the platform. Set liveEnabled to true or false to control Live access with an approved platform and a Live request. Affinity Admin decisions take precedence. Requires practices:write. Send Idempotency-Key when you retry the same request.
    * Update practice
    */
   async updatePractice(

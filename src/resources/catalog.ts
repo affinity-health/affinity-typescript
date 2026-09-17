@@ -6,6 +6,8 @@ import type {
   ListPharmaciesRequest,
   ListShippingOptionsRequest,
 } from "../apis/CatalogApi";
+import type { Practice, Patient, Order, CreatedOrder, PracticeLocation } from "../domain";
+import { paginate, type ApiListPromise } from "./pagination";
 import {
   commonHeaders,
   requestOverrides,
@@ -45,19 +47,27 @@ export class CatalogResource {
   list(
     params: ListCatalogItemsParams = {},
     options?: RequestOptions,
-  ): ReturnType<CatalogApi["listCatalogItems"]> {
-    return this.api.listCatalogItems(
-      { ...params, ...commonHeaders(options) },
-      requestOverrides(options),
+  ): ApiListPromise<Awaited<ReturnType<CatalogApi["listCatalogItems"]>>> {
+    return paginate(
+      (cursor) =>
+        this.api.listCatalogItems(
+          { ...params, ...commonHeaders(options), ...cursor },
+          requestOverrides(options),
+        ),
+      params,
     );
   }
   listPharmacies(
     params: ListPharmaciesParams = {},
     options?: RequestOptions,
-  ): ReturnType<CatalogApi["listPharmacies"]> {
-    return this.api.listPharmacies(
-      { ...params, ...commonHeaders(options) },
-      requestOverrides(options),
+  ): ApiListPromise<Awaited<ReturnType<CatalogApi["listPharmacies"]>>> {
+    return paginate(
+      (cursor) =>
+        this.api.listPharmacies(
+          { ...params, ...commonHeaders(options), ...cursor },
+          requestOverrides(options),
+        ),
+      params,
     );
   }
   listShippingOptions(

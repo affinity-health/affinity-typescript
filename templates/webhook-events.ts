@@ -68,14 +68,21 @@ export interface AffinityOrderWebhookEvent<
 
 export type AffinityOrderCreatedWebhookEvent = AffinityOrderWebhookEvent<"order.created">;
 export type AffinityOrderUpdatedWebhookEvent = AffinityOrderWebhookEvent<"order.updated">;
-export type AffinityCancellationRequestedWebhookEvent = AffinityOrderWebhookEvent<"cancellation.requested">;
+export type AffinityCancellationRequestedWebhookEvent =
+  AffinityOrderWebhookEvent<"cancellation.requested">;
 export type AffinityCancellationSentWebhookEvent = AffinityOrderWebhookEvent<"cancellation.sent">;
-export type AffinityCancellationConfirmedWebhookEvent = AffinityOrderWebhookEvent<"cancellation.confirmed">;
-export type AffinityCancellationRejectedWebhookEvent = AffinityOrderWebhookEvent<"cancellation.rejected">;
-export type AffinityCancellationFailedWebhookEvent = AffinityOrderWebhookEvent<"cancellation.failed">;
-export type AffinityCancellationTooLateWebhookEvent = AffinityOrderWebhookEvent<"cancellation.too_late">;
-export type AffinityOrderReviewRequestedWebhookEvent = AffinityOrderWebhookEvent<"order.review_requested">;
-export type AffinityOrderChangesRequestedWebhookEvent = AffinityOrderWebhookEvent<"order.changes_requested">;
+export type AffinityCancellationConfirmedWebhookEvent =
+  AffinityOrderWebhookEvent<"cancellation.confirmed">;
+export type AffinityCancellationRejectedWebhookEvent =
+  AffinityOrderWebhookEvent<"cancellation.rejected">;
+export type AffinityCancellationFailedWebhookEvent =
+  AffinityOrderWebhookEvent<"cancellation.failed">;
+export type AffinityCancellationTooLateWebhookEvent =
+  AffinityOrderWebhookEvent<"cancellation.too_late">;
+export type AffinityOrderReviewRequestedWebhookEvent =
+  AffinityOrderWebhookEvent<"order.review_requested">;
+export type AffinityOrderChangesRequestedWebhookEvent =
+  AffinityOrderWebhookEvent<"order.changes_requested">;
 export type AffinityOrderSignedWebhookEvent = AffinityOrderWebhookEvent<"order.signed">;
 export type AffinityOrderRejectedWebhookEvent = AffinityOrderWebhookEvent<"order.rejected">;
 export type AffinityOrderSubmittedWebhookEvent = AffinityOrderWebhookEvent<"order.submitted">;

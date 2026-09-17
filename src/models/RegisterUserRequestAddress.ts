@@ -20,23 +20,23 @@ import { mapValues } from "../runtime";
  */
 export interface RegisterUserRequestAddress {
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof RegisterUserRequestAddress
    */
-  city: string | null;
+  city: string;
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof RegisterUserRequestAddress
    */
-  country: string | null;
+  country: string;
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof RegisterUserRequestAddress
    */
-  line1: string | null;
+  line1: string;
   /**
    *
    * @type {string}
@@ -44,17 +44,17 @@ export interface RegisterUserRequestAddress {
    */
   line2?: string | null;
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof RegisterUserRequestAddress
    */
-  postalCode: string | null;
+  postalCode: string;
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof RegisterUserRequestAddress
    */
-  state: string | null;
+  state: string;
 }
 
 /**

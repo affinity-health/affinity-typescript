@@ -26,17 +26,17 @@ export interface InvitePracticeTeamPersonResponsePersonAccountPrescriberConnecti
    */
   id: string;
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof InvitePracticeTeamPersonResponsePersonAccountPrescriberConnectionProviderLicensesInner
    */
-  state: string | null;
+  state: string;
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof InvitePracticeTeamPersonResponsePersonAccountPrescriberConnectionProviderLicensesInner
    */
-  licenseNumber: string | null;
+  licenseNumber: string;
   /**
    *
    * @type {string}

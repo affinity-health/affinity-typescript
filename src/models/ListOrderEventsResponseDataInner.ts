@@ -20,17 +20,17 @@ import { mapValues } from "../runtime";
  */
 export interface ListOrderEventsResponseDataInner {
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof ListOrderEventsResponseDataInner
    */
-  createdAt: string | null;
+  createdAt: string;
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof ListOrderEventsResponseDataInner
    */
-  eventType: string | null;
+  eventType: string;
   /**
    *
    * @type {string}
@@ -38,11 +38,11 @@ export interface ListOrderEventsResponseDataInner {
    */
   id: string;
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof ListOrderEventsResponseDataInner
    */
-  message: string | null;
+  message: string;
   /**
    *
    * @type {object}

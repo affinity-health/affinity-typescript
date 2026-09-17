@@ -38,17 +38,17 @@ export interface GetApiAccessResponseServiceAccount {
    */
   object: GetApiAccessResponseServiceAccountObjectEnum;
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof GetApiAccessResponseServiceAccount
    */
-  subjectId: string | null;
+  subjectId: string;
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof GetApiAccessResponseServiceAccount
    */
-  subjectType: string | null;
+  subjectType: string;
 }
 
 /**

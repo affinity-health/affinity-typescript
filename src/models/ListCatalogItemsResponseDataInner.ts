@@ -74,11 +74,11 @@ export interface ListCatalogItemsResponseDataInner {
    */
   availability: ListCatalogItemsResponseDataInnerAvailabilityEnum;
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof ListCatalogItemsResponseDataInner
    */
-  catalogKind: string | null;
+  catalogKind: string;
   /**
    *
    * @type {string}
@@ -96,31 +96,31 @@ export interface ListCatalogItemsResponseDataInner {
    * @type {string}
    * @memberof ListCatalogItemsResponseDataInner
    */
-  pharmacyId: string | null;
+  pharmacyId: string;
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof ListCatalogItemsResponseDataInner
    */
-  pharmacyName: string | null;
+  pharmacyName: string;
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof ListCatalogItemsResponseDataInner
    */
-  description: string | null;
+  description: string;
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof ListCatalogItemsResponseDataInner
    */
-  dosageForm: string | null;
+  dosageForm: string;
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof ListCatalogItemsResponseDataInner
    */
-  facilityType: string | null;
+  facilityType: string;
   /**
    *
    * @type {string}
@@ -152,11 +152,11 @@ export interface ListCatalogItemsResponseDataInner {
    */
   livemode: boolean;
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof ListCatalogItemsResponseDataInner
    */
-  name: string | null;
+  name: string;
   /**
    *
    * @type {ListCatalogItemsResponseDataInnerObjectEnum}
@@ -194,11 +194,11 @@ export interface ListCatalogItemsResponseDataInner {
    */
   restrictedStates: Array<string>;
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof ListCatalogItemsResponseDataInner
    */
-  route: string | null;
+  route: string;
   /**
    *
    * @type {Array<ListCatalogItemsResponseDataInnerShippingOptionsInner>}

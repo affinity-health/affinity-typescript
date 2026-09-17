@@ -40,11 +40,11 @@ export interface ListPatientAddressesResponseDataInner {
    */
   address: ListPatientAddressesResponseDataInnerAddress;
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof ListPatientAddressesResponseDataInner
    */
-  label: string | null;
+  label: string;
   /**
    *
    * @type {boolean}

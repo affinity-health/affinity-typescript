@@ -32,11 +32,11 @@ export interface ListPharmaciesResponseDataInnerFacilityLocationsInner {
    */
   country: string | null;
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof ListPharmaciesResponseDataInnerFacilityLocationsInner
    */
-  name: string | null;
+  name: string;
   /**
    *
    * @type {string}

@@ -7,6 +7,8 @@ import type {
   GetPracticeRequest,
   UpdatePracticeOperationRequest,
 } from "../apis/PracticesApi";
+import type { Practice, Patient, Order, CreatedOrder, PracticeLocation } from "../domain";
+import { paginate, type ApiListPromise } from "./pagination";
 import type { CreatePracticeRequest } from "../models/CreatePracticeRequest";
 import type { UpdatePracticeRequest } from "../models/UpdatePracticeRequest";
 import {
@@ -14,7 +16,6 @@ import {
   requestOverrides,
   type MutationOptions,
   type RequestOptions,
-  requiredIdempotencyKey,
 } from "./shared";
 
 export type ListPracticesParams = Omit<
@@ -40,26 +41,23 @@ export class PracticesResource {
   list(
     params: ListPracticesParams = {},
     options?: RequestOptions,
-  ): ReturnType<PracticesApi["listPractices"]> {
-    return this.api.listPractices(
-      { ...params, ...commonHeaders(options) },
-      requestOverrides(options),
+  ): ApiListPromise<Awaited<ReturnType<PracticesApi["listPractices"]>>> {
+    return paginate(
+      (cursor) =>
+        this.api.listPractices(
+          { ...params, ...commonHeaders(options), ...cursor },
+          requestOverrides(options),
+        ),
+      params,
     );
   }
-  create(
-    params: CreatePracticeParams,
-    options: MutationOptions,
-  ): ReturnType<PracticesApi["createPractice"]> {
+  create(params: CreatePracticeParams, options?: RequestOptions): Promise<Practice> {
     return this.api.createPractice(
-      {
-        createPracticeRequest: params,
-        ...commonHeaders(options),
-        idempotencyKey: requiredIdempotencyKey(options),
-      },
+      { createPracticeRequest: params, ...commonHeaders(options) },
       requestOverrides(options),
     );
   }
-  retrieve(practiceId: string, options?: RequestOptions): ReturnType<PracticesApi["getPractice"]> {
+  retrieve(practiceId: string, options?: RequestOptions): Promise<Practice> {
     return this.api.getPractice(
       { practiceId: practiceId, ...commonHeaders(options) },
       requestOverrides(options),
@@ -68,15 +66,10 @@ export class PracticesResource {
   update(
     practiceId: string,
     params: UpdatePracticeParams,
-    options: MutationOptions,
-  ): ReturnType<PracticesApi["updatePractice"]> {
+    options?: RequestOptions,
+  ): Promise<Practice> {
     return this.api.updatePractice(
-      {
-        practiceId: practiceId,
-        updatePracticeRequest: params,
-        ...commonHeaders(options),
-        idempotencyKey: requiredIdempotencyKey(options),
-      },
+      { practiceId: practiceId, updatePracticeRequest: params, ...commonHeaders(options) },
       requestOverrides(options),
     );
   }

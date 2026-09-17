@@ -28,11 +28,11 @@ import {
  */
 export interface InvitePracticeTeamPersonResponsePersonAccountPrescriberConnection {
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof InvitePracticeTeamPersonResponsePersonAccountPrescriberConnection
    */
-  status: string | null;
+  status: string;
   /**
    *
    * @type {InvitePracticeTeamPersonResponsePersonAccountPrescriberConnectionProvider}

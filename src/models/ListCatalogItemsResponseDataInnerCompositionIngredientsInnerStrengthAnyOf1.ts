@@ -13,13 +13,13 @@
  */
 
 import { mapValues } from "../runtime";
-import type { ListCatalogItemsResponseDataInnerCompositionIngredientsInnerStrengthAnyOf1Numerator } from "./ListCatalogItemsResponseDataInnerCompositionIngredientsInnerStrengthAnyOf1Numerator";
+import type { ListCatalogItemsResponseDataInnerCompositionIngredientsInnerStrengthAnyOfAmount } from "./ListCatalogItemsResponseDataInnerCompositionIngredientsInnerStrengthAnyOfAmount";
 import {
-  ListCatalogItemsResponseDataInnerCompositionIngredientsInnerStrengthAnyOf1NumeratorFromJSON,
-  ListCatalogItemsResponseDataInnerCompositionIngredientsInnerStrengthAnyOf1NumeratorFromJSONTyped,
-  ListCatalogItemsResponseDataInnerCompositionIngredientsInnerStrengthAnyOf1NumeratorToJSON,
-  ListCatalogItemsResponseDataInnerCompositionIngredientsInnerStrengthAnyOf1NumeratorToJSONTyped,
-} from "./ListCatalogItemsResponseDataInnerCompositionIngredientsInnerStrengthAnyOf1Numerator";
+  ListCatalogItemsResponseDataInnerCompositionIngredientsInnerStrengthAnyOfAmountFromJSON,
+  ListCatalogItemsResponseDataInnerCompositionIngredientsInnerStrengthAnyOfAmountFromJSONTyped,
+  ListCatalogItemsResponseDataInnerCompositionIngredientsInnerStrengthAnyOfAmountToJSON,
+  ListCatalogItemsResponseDataInnerCompositionIngredientsInnerStrengthAnyOfAmountToJSONTyped,
+} from "./ListCatalogItemsResponseDataInnerCompositionIngredientsInnerStrengthAnyOfAmount";
 
 /**
  *
@@ -35,16 +35,16 @@ export interface ListCatalogItemsResponseDataInnerCompositionIngredientsInnerStr
   kind: ListCatalogItemsResponseDataInnerCompositionIngredientsInnerStrengthAnyOf1KindEnum;
   /**
    *
-   * @type {ListCatalogItemsResponseDataInnerCompositionIngredientsInnerStrengthAnyOf1Numerator}
+   * @type {ListCatalogItemsResponseDataInnerCompositionIngredientsInnerStrengthAnyOfAmount}
    * @memberof ListCatalogItemsResponseDataInnerCompositionIngredientsInnerStrengthAnyOf1
    */
-  numerator: ListCatalogItemsResponseDataInnerCompositionIngredientsInnerStrengthAnyOf1Numerator;
+  numerator: ListCatalogItemsResponseDataInnerCompositionIngredientsInnerStrengthAnyOfAmount;
   /**
    *
-   * @type {ListCatalogItemsResponseDataInnerCompositionIngredientsInnerStrengthAnyOf1Numerator}
+   * @type {ListCatalogItemsResponseDataInnerCompositionIngredientsInnerStrengthAnyOfAmount}
    * @memberof ListCatalogItemsResponseDataInnerCompositionIngredientsInnerStrengthAnyOf1
    */
-  denominator: ListCatalogItemsResponseDataInnerCompositionIngredientsInnerStrengthAnyOf1Numerator;
+  denominator: ListCatalogItemsResponseDataInnerCompositionIngredientsInnerStrengthAnyOfAmount;
 }
 
 /**
@@ -87,11 +87,11 @@ export function ListCatalogItemsResponseDataInnerCompositionIngredientsInnerStre
   return {
     kind: json["kind"],
     numerator:
-      ListCatalogItemsResponseDataInnerCompositionIngredientsInnerStrengthAnyOf1NumeratorFromJSON(
+      ListCatalogItemsResponseDataInnerCompositionIngredientsInnerStrengthAnyOfAmountFromJSON(
         json["numerator"],
       ),
     denominator:
-      ListCatalogItemsResponseDataInnerCompositionIngredientsInnerStrengthAnyOf1NumeratorFromJSON(
+      ListCatalogItemsResponseDataInnerCompositionIngredientsInnerStrengthAnyOfAmountFromJSON(
         json["denominator"],
       ),
   };
@@ -117,11 +117,11 @@ export function ListCatalogItemsResponseDataInnerCompositionIngredientsInnerStre
   return {
     kind: value["kind"],
     numerator:
-      ListCatalogItemsResponseDataInnerCompositionIngredientsInnerStrengthAnyOf1NumeratorToJSON(
+      ListCatalogItemsResponseDataInnerCompositionIngredientsInnerStrengthAnyOfAmountToJSON(
         value["numerator"],
       ),
     denominator:
-      ListCatalogItemsResponseDataInnerCompositionIngredientsInnerStrengthAnyOf1NumeratorToJSON(
+      ListCatalogItemsResponseDataInnerCompositionIngredientsInnerStrengthAnyOfAmountToJSON(
         value["denominator"],
       ),
   };

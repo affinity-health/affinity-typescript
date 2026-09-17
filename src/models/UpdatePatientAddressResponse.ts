@@ -13,13 +13,13 @@
  */
 
 import { mapValues } from "../runtime";
-import type { CreatePatientAddressResponseAddress } from "./CreatePatientAddressResponseAddress";
+import type { ListPatientAddressesResponseDataInnerAddress } from "./ListPatientAddressesResponseDataInnerAddress";
 import {
-  CreatePatientAddressResponseAddressFromJSON,
-  CreatePatientAddressResponseAddressFromJSONTyped,
-  CreatePatientAddressResponseAddressToJSON,
-  CreatePatientAddressResponseAddressToJSONTyped,
-} from "./CreatePatientAddressResponseAddress";
+  ListPatientAddressesResponseDataInnerAddressFromJSON,
+  ListPatientAddressesResponseDataInnerAddressFromJSONTyped,
+  ListPatientAddressesResponseDataInnerAddressToJSON,
+  ListPatientAddressesResponseDataInnerAddressToJSONTyped,
+} from "./ListPatientAddressesResponseDataInnerAddress";
 
 /**
  *
@@ -35,16 +35,16 @@ export interface UpdatePatientAddressResponse {
   id: string;
   /**
    *
-   * @type {CreatePatientAddressResponseAddress}
+   * @type {ListPatientAddressesResponseDataInnerAddress}
    * @memberof UpdatePatientAddressResponse
    */
-  address: CreatePatientAddressResponseAddress | null;
+  address: ListPatientAddressesResponseDataInnerAddress;
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof UpdatePatientAddressResponse
    */
-  label: string | null;
+  label: string;
   /**
    *
    * @type {boolean}
@@ -93,7 +93,7 @@ export function UpdatePatientAddressResponseFromJSONTyped(
   }
   return {
     id: json["id"],
-    address: CreatePatientAddressResponseAddressFromJSON(json["address"]),
+    address: ListPatientAddressesResponseDataInnerAddressFromJSON(json["address"]),
     label: json["label"],
     preferredShipping: json["preferredShipping"],
     recipientName: json["recipientName"],
@@ -115,7 +115,7 @@ export function UpdatePatientAddressResponseToJSONTyped(
 
   return {
     id: value["id"],
-    address: CreatePatientAddressResponseAddressToJSON(value["address"]),
+    address: ListPatientAddressesResponseDataInnerAddressToJSON(value["address"]),
     label: value["label"],
     preferredShipping: value["preferredShipping"],
     recipientName: value["recipientName"],

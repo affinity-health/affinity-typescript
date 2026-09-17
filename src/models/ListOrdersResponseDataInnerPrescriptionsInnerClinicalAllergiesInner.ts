@@ -40,11 +40,11 @@ export interface ListOrdersResponseDataInnerPrescriptionsInnerClinicalAllergiesI
    */
   codeSystem?: string | null;
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof ListOrdersResponseDataInnerPrescriptionsInnerClinicalAllergiesInner
    */
-  display: string | null;
+  display: string;
   /**
    *
    * @type {string}

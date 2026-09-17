@@ -9,7 +9,7 @@
 | `legalName`      | string                                                                                                                                                                                           |
 | `credentials`    | string                                                                                                                                                                                           |
 | `phone`          | string                                                                                                                                                                                           |
-| `address`        | [InvitePracticeTeamPersonRequestAddress](InvitePracticeTeamPersonRequestAddress.md)                                                                                                              |
+| `address`        | [InvitePracticeTeamPersonResponsePersonAccountPrescriberConnectionProviderAddress](InvitePracticeTeamPersonResponsePersonAccountPrescriberConnectionProviderAddress.md)                          |
 | `npi`            | string                                                                                                                                                                                           |
 | `practiceStatus` | string                                                                                                                                                                                           |
 | `licenses`       | [Array&lt;InvitePracticeTeamPersonResponsePersonAccountPrescriberConnectionProviderLicensesInner&gt;](InvitePracticeTeamPersonResponsePersonAccountPrescriberConnectionProviderLicensesInner.md) |

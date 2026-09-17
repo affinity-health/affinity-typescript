@@ -13,13 +13,6 @@
  */
 
 import { mapValues } from "../runtime";
-import type { InvitePracticeTeamPersonResponsePersonAccountRolesInner } from "./InvitePracticeTeamPersonResponsePersonAccountRolesInner";
-import {
-  InvitePracticeTeamPersonResponsePersonAccountRolesInnerFromJSON,
-  InvitePracticeTeamPersonResponsePersonAccountRolesInnerFromJSONTyped,
-  InvitePracticeTeamPersonResponsePersonAccountRolesInnerToJSON,
-  InvitePracticeTeamPersonResponsePersonAccountRolesInnerToJSONTyped,
-} from "./InvitePracticeTeamPersonResponsePersonAccountRolesInner";
 import type { ListPracticeTeamInvitationsResponseDataInnerPerson } from "./ListPracticeTeamInvitationsResponseDataInnerPerson";
 import {
   ListPracticeTeamInvitationsResponseDataInnerPersonFromJSON,
@@ -27,6 +20,13 @@ import {
   ListPracticeTeamInvitationsResponseDataInnerPersonToJSON,
   ListPracticeTeamInvitationsResponseDataInnerPersonToJSONTyped,
 } from "./ListPracticeTeamInvitationsResponseDataInnerPerson";
+import type { InvitePracticeTeamPersonResponsePersonInvitationRolesInner } from "./InvitePracticeTeamPersonResponsePersonInvitationRolesInner";
+import {
+  InvitePracticeTeamPersonResponsePersonInvitationRolesInnerFromJSON,
+  InvitePracticeTeamPersonResponsePersonInvitationRolesInnerFromJSONTyped,
+  InvitePracticeTeamPersonResponsePersonInvitationRolesInnerToJSON,
+  InvitePracticeTeamPersonResponsePersonInvitationRolesInnerToJSONTyped,
+} from "./InvitePracticeTeamPersonResponsePersonInvitationRolesInner";
 
 /**
  *
@@ -47,11 +47,11 @@ export interface ListPracticeTeamInvitationsResponseDataInner {
    */
   object: ListPracticeTeamInvitationsResponseDataInnerObjectEnum;
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof ListPracticeTeamInvitationsResponseDataInner
    */
-  email: string | null;
+  email: string;
   /**
    *
    * @type {string}
@@ -66,10 +66,10 @@ export interface ListPracticeTeamInvitationsResponseDataInner {
   status: ListPracticeTeamInvitationsResponseDataInnerStatusEnum;
   /**
    *
-   * @type {Array<InvitePracticeTeamPersonResponsePersonAccountRolesInner>}
+   * @type {Array<InvitePracticeTeamPersonResponsePersonInvitationRolesInner>}
    * @memberof ListPracticeTeamInvitationsResponseDataInner
    */
-  roles: Array<InvitePracticeTeamPersonResponsePersonAccountRolesInner>;
+  roles: Array<InvitePracticeTeamPersonResponsePersonInvitationRolesInner>;
   /**
    *
    * @type {Array<string>}
@@ -77,17 +77,17 @@ export interface ListPracticeTeamInvitationsResponseDataInner {
    */
   locationIds: Array<string>;
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof ListPracticeTeamInvitationsResponseDataInner
    */
-  createdAt: string | null;
+  createdAt: string;
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof ListPracticeTeamInvitationsResponseDataInner
    */
-  expiresAt: string | null;
+  expiresAt: string;
   /**
    *
    * @type {string}
@@ -192,7 +192,7 @@ export function ListPracticeTeamInvitationsResponseDataInnerFromJSONTyped(
     name: json["name"],
     status: json["status"],
     roles: (json["roles"] as Array<any>).map(
-      InvitePracticeTeamPersonResponsePersonAccountRolesInnerFromJSON,
+      InvitePracticeTeamPersonResponsePersonInvitationRolesInnerFromJSON,
     ),
     locationIds: json["locationIds"],
     createdAt: json["createdAt"],
@@ -227,7 +227,7 @@ export function ListPracticeTeamInvitationsResponseDataInnerToJSONTyped(
     name: value["name"],
     status: value["status"],
     roles: (value["roles"] as Array<any>).map(
-      InvitePracticeTeamPersonResponsePersonAccountRolesInnerToJSON,
+      InvitePracticeTeamPersonResponsePersonInvitationRolesInnerToJSON,
     ),
     locationIds: value["locationIds"],
     createdAt: value["createdAt"],

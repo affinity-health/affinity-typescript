@@ -38,7 +38,7 @@ export interface CreateOrderBatchResponse {
    * @type {string}
    * @memberof CreateOrderBatchResponse
    */
-  practiceId: string | null;
+  practiceId: string;
   /**
    *
    * @type {string}

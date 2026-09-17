@@ -26,11 +26,11 @@ export interface GetApiAccessResponseApiKey {
    */
   id: string;
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof GetApiAccessResponseApiKey
    */
-  keyPrefix: string | null;
+  keyPrefix: string;
   /**
    *
    * @type {GetApiAccessResponseApiKeyObjectEnum}

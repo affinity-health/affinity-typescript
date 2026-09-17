@@ -40,11 +40,11 @@ export interface CreateOrderResponse {
    */
   metadata: any | null;
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof CreateOrderResponse
    */
-  createdAt: string | null;
+  createdAt: string;
   /**
    *
    * @type {string}
@@ -74,7 +74,7 @@ export interface CreateOrderResponse {
    * @type {string}
    * @memberof CreateOrderResponse
    */
-  practiceId: string | null;
+  practiceId: string;
   /**
    *
    * @type {Array<CreateOrderResponsePrescriptionsInner>}

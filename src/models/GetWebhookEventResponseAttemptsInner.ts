@@ -64,11 +64,11 @@ export interface GetWebhookEventResponseAttemptsInner {
    */
   id: string;
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof GetWebhookEventResponseAttemptsInner
    */
-  requestedAt: string | null;
+  requestedAt: string;
   /**
    *
    * @type {ListCatalogItemsResponseDataInnerPrescriptionRequirementsQuantityIncrementMax}

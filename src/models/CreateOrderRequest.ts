@@ -20,6 +20,13 @@ import {
   CreateOrderRequestPrescriptionsInnerToJSON,
   CreateOrderRequestPrescriptionsInnerToJSONTyped,
 } from "./CreateOrderRequestPrescriptionsInner";
+import type { ListOrdersResponseDataInnerMetadataValue } from "./ListOrdersResponseDataInnerMetadataValue";
+import {
+  ListOrdersResponseDataInnerMetadataValueFromJSON,
+  ListOrdersResponseDataInnerMetadataValueFromJSONTyped,
+  ListOrdersResponseDataInnerMetadataValueToJSON,
+  ListOrdersResponseDataInnerMetadataValueToJSONTyped,
+} from "./ListOrdersResponseDataInnerMetadataValue";
 import type { CreateOrderRequestPatient } from "./CreateOrderRequestPatient";
 import {
   CreateOrderRequestPatientFromJSON,
@@ -27,13 +34,6 @@ import {
   CreateOrderRequestPatientToJSON,
   CreateOrderRequestPatientToJSONTyped,
 } from "./CreateOrderRequestPatient";
-import type { CreateOrderRequestMetadataValue } from "./CreateOrderRequestMetadataValue";
-import {
-  CreateOrderRequestMetadataValueFromJSON,
-  CreateOrderRequestMetadataValueFromJSONTyped,
-  CreateOrderRequestMetadataValueToJSON,
-  CreateOrderRequestMetadataValueToJSONTyped,
-} from "./CreateOrderRequestMetadataValue";
 
 /**
  *
@@ -46,7 +46,7 @@ export interface CreateOrderRequest {
    * @type {string}
    * @memberof CreateOrderRequest
    */
-  practiceId: string | null;
+  practiceId: string;
   /**
    *
    * @type {string}
@@ -61,10 +61,10 @@ export interface CreateOrderRequest {
   externalOrderId?: string | null;
   /**
    *
-   * @type {{ [key: string]: CreateOrderRequestMetadataValue; }}
+   * @type {{ [key: string]: ListOrdersResponseDataInnerMetadataValue; }}
    * @memberof CreateOrderRequest
    */
-  metadata?: { [key: string]: CreateOrderRequestMetadataValue } | null;
+  metadata?: { [key: string]: ListOrdersResponseDataInnerMetadataValue } | null;
   /**
    *
    * @type {string}
@@ -118,7 +118,7 @@ export function CreateOrderRequestFromJSONTyped(
     metadata:
       json["metadata"] == null
         ? undefined
-        : mapValues(json["metadata"], CreateOrderRequestMetadataValueFromJSON),
+        : mapValues(json["metadata"], ListOrdersResponseDataInnerMetadataValueFromJSON),
     patientId: json["patientId"] == null ? undefined : json["patientId"],
     patient:
       json["patient"] == null ? undefined : CreateOrderRequestPatientFromJSON(json["patient"]),
@@ -148,7 +148,7 @@ export function CreateOrderRequestToJSONTyped(
     metadata:
       value["metadata"] == null
         ? undefined
-        : mapValues(value["metadata"], CreateOrderRequestMetadataValueToJSON),
+        : mapValues(value["metadata"], ListOrdersResponseDataInnerMetadataValueToJSON),
     patientId: value["patientId"],
     patient: CreateOrderRequestPatientToJSON(value["patient"]),
     shippingAddressId: value["shippingAddressId"],

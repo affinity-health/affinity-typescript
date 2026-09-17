@@ -20,17 +20,17 @@ import { mapValues } from "../runtime";
  */
 export interface ListOrdersResponseDataInnerFulfillmentsInnerExceptionsInnerAssignedTo {
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof ListOrdersResponseDataInnerFulfillmentsInnerExceptionsInnerAssignedTo
    */
-  id: string | null;
+  id: string;
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof ListOrdersResponseDataInnerFulfillmentsInnerExceptionsInnerAssignedTo
    */
-  name: string | null;
+  name: string;
 }
 
 /**

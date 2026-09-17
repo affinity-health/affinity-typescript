@@ -5,6 +5,7 @@ import type { InitOverrideFunction } from "../runtime";
 export type AffinityActorType = "system" | "user";
 export type AffinityActor = { id?: string; type: "system" } | { id: string; type: "user" };
 export interface RequestOptions {
+  idempotencyKey?: string;
   actor?: AffinityActor;
   apiVersion?: string;
   headers?: Record<string, string>;
@@ -12,7 +13,7 @@ export interface RequestOptions {
   signal?: AbortSignal;
 }
 export interface MutationOptions extends RequestOptions {
-  idempotencyKey: string;
+  idempotencyKey?: string;
 }
 
 export function validateNonEmptyOption(value: string, name: string): string {
@@ -72,6 +73,11 @@ export function requestOverrides(options?: RequestOptions): InitOverrideFunction
   return async ({ init }) => {
     const headers = new Headers(init.headers);
     for (const [name, value] of Object.entries(custom)) headers.set(name, value);
+    if (options?.idempotencyKey !== undefined)
+      headers.set(
+        "Idempotency-Key",
+        validateNonEmptyOption(options.idempotencyKey, "idempotencyKey"),
+      );
     if (version !== undefined) headers.set("Affinity-Version", version);
     if (organization !== undefined) headers.set("X-Affinity-Organization-Id", organization);
     if (actor) {
@@ -104,7 +110,6 @@ export function organizationHeader(options?: RequestOptions) {
     : { xAffinityOrganizationId: validateNonEmptyOption(options.organizationId, "organizationId") };
 }
 export function requiredIdempotencyKey(options: MutationOptions | undefined) {
-  if (options?.idempotencyKey === undefined)
-    throw new Error("This request requires options.idempotencyKey");
+  if (options?.idempotencyKey === undefined) return crypto.randomUUID();
   return validateNonEmptyOption(options.idempotencyKey, "idempotencyKey");
 }

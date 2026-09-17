@@ -13,13 +13,13 @@
  */
 
 import { mapValues } from "../runtime";
-import type { ListPharmaciesResponseDataInnerShippingOptionsInner } from "./ListPharmaciesResponseDataInnerShippingOptionsInner";
+import type { ListCatalogItemsResponseDataInnerShippingOptionsInner } from "./ListCatalogItemsResponseDataInnerShippingOptionsInner";
 import {
-  ListPharmaciesResponseDataInnerShippingOptionsInnerFromJSON,
-  ListPharmaciesResponseDataInnerShippingOptionsInnerFromJSONTyped,
-  ListPharmaciesResponseDataInnerShippingOptionsInnerToJSON,
-  ListPharmaciesResponseDataInnerShippingOptionsInnerToJSONTyped,
-} from "./ListPharmaciesResponseDataInnerShippingOptionsInner";
+  ListCatalogItemsResponseDataInnerShippingOptionsInnerFromJSON,
+  ListCatalogItemsResponseDataInnerShippingOptionsInnerFromJSONTyped,
+  ListCatalogItemsResponseDataInnerShippingOptionsInnerToJSON,
+  ListCatalogItemsResponseDataInnerShippingOptionsInnerToJSONTyped,
+} from "./ListCatalogItemsResponseDataInnerShippingOptionsInner";
 import type { ListPharmaciesResponseDataInnerProfile } from "./ListPharmaciesResponseDataInnerProfile";
 import {
   ListPharmaciesResponseDataInnerProfileFromJSON,
@@ -54,11 +54,11 @@ export interface ListPharmaciesResponseDataInner {
    */
   catalogItemCount: number;
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof ListPharmaciesResponseDataInner
    */
-  facilityType: string | null;
+  facilityType: string;
   /**
    *
    * @type {Array<ListPharmaciesResponseDataInnerFacilityLocationsInner>}
@@ -70,7 +70,7 @@ export interface ListPharmaciesResponseDataInner {
    * @type {string}
    * @memberof ListPharmaciesResponseDataInner
    */
-  id: string | null;
+  id: string;
   /**
    *
    * @type {boolean}
@@ -84,11 +84,11 @@ export interface ListPharmaciesResponseDataInner {
    */
   logoUrl: string | null;
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof ListPharmaciesResponseDataInner
    */
-  name: string | null;
+  name: string;
   /**
    *
    * @type {ListPharmaciesResponseDataInnerObjectEnum}
@@ -115,10 +115,10 @@ export interface ListPharmaciesResponseDataInner {
   restrictedStates: Array<string>;
   /**
    *
-   * @type {Array<ListPharmaciesResponseDataInnerShippingOptionsInner>}
+   * @type {Array<ListCatalogItemsResponseDataInnerShippingOptionsInner>}
    * @memberof ListPharmaciesResponseDataInner
    */
-  shippingOptions: Array<ListPharmaciesResponseDataInnerShippingOptionsInner>;
+  shippingOptions: Array<ListCatalogItemsResponseDataInnerShippingOptionsInner>;
   /**
    *
    * @type {Array<string>}
@@ -199,7 +199,7 @@ export function ListPharmaciesResponseDataInnerFromJSONTyped(
     profile: ListPharmaciesResponseDataInnerProfileFromJSON(json["profile"]),
     restrictedStates: json["restrictedStates"],
     shippingOptions: (json["shippingOptions"] as Array<any>).map(
-      ListPharmaciesResponseDataInnerShippingOptionsInnerFromJSON,
+      ListCatalogItemsResponseDataInnerShippingOptionsInnerFromJSON,
     ),
     supportedStates: json["supportedStates"],
   };
@@ -233,7 +233,7 @@ export function ListPharmaciesResponseDataInnerToJSONTyped(
     profile: ListPharmaciesResponseDataInnerProfileToJSON(value["profile"]),
     restrictedStates: value["restrictedStates"],
     shippingOptions: (value["shippingOptions"] as Array<any>).map(
-      ListPharmaciesResponseDataInnerShippingOptionsInnerToJSON,
+      ListCatalogItemsResponseDataInnerShippingOptionsInnerToJSON,
     ),
     supportedStates: value["supportedStates"],
   };

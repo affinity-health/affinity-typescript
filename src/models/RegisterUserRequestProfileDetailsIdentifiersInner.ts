@@ -20,29 +20,29 @@ import { mapValues } from "../runtime";
  */
 export interface RegisterUserRequestProfileDetailsIdentifiersInner {
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof RegisterUserRequestProfileDetailsIdentifiersInner
    */
-  identifier: string | null;
+  identifier: string;
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof RegisterUserRequestProfileDetailsIdentifiersInner
    */
-  issuer: string | null;
+  issuer: string;
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof RegisterUserRequestProfileDetailsIdentifiersInner
    */
-  state: string | null;
+  state: string;
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof RegisterUserRequestProfileDetailsIdentifiersInner
    */
-  description: string | null;
+  description: string;
 }
 
 /**

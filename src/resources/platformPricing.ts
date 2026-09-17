@@ -5,6 +5,8 @@ import type {
   PlatformPublicApiSellingPricesReadSellingPriceRequest,
   PlatformPublicApiSellingPricesUpdateSellingPriceOperationRequest,
 } from "../apis/PlatformPricingApi";
+import type { Practice, Patient, Order, CreatedOrder, PracticeLocation } from "../domain";
+import { paginate, type ApiListPromise } from "./pagination";
 import type { PlatformPublicApiSellingPricesUpdateSellingPriceRequest } from "../models/PlatformPublicApiSellingPricesUpdateSellingPriceRequest";
 import {
   commonHeaders,
@@ -45,7 +47,7 @@ export class PlatformPricingResource {
   update(
     catalogItemId: string,
     params: PlatformPricingUpdateParams,
-    options: MutationOptions,
+    options?: MutationOptions,
   ): ReturnType<PlatformPricingApi["platformPublicApiSellingPricesUpdateSellingPrice"]> {
     return this.api.platformPublicApiSellingPricesUpdateSellingPrice(
       {

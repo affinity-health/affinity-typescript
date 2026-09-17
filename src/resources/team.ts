@@ -18,6 +18,8 @@ import type {
   RevokePracticeTeamInvitationRequest,
   ResendPracticeTeamInvitationRequest,
 } from "../apis/TeamApi";
+import type { Practice, Patient, Order, CreatedOrder, PracticeLocation } from "../domain";
+import { paginate, type ApiListPromise } from "./pagination";
 import type { RegisterUserRequest } from "../models/RegisterUserRequest";
 import type { InvitePracticeTeamPersonRequest } from "../models/InvitePracticeTeamPersonRequest";
 import type { UpdatePracticeTeamMemberRequest } from "../models/UpdatePracticeTeamMemberRequest";
@@ -93,7 +95,7 @@ export class TeamResource {
   createUser(
     practiceId: string,
     params: RegisterUserParams,
-    options: MutationOptions,
+    options?: MutationOptions,
   ): ReturnType<TeamApi["registerUser"]> {
     return this.api.registerUser(
       {
@@ -108,7 +110,7 @@ export class TeamResource {
   invite(
     practiceId: string,
     params: InvitePracticeTeamPersonParams,
-    options: MutationOptions,
+    options?: MutationOptions,
   ): ReturnType<TeamApi["invitePracticeTeamPerson"]> {
     return this.api.invitePracticeTeamPerson(
       {
@@ -124,10 +126,14 @@ export class TeamResource {
     practiceId: string,
     params: ListPracticeTeamInvitationsParams = {},
     options?: RequestOptions,
-  ): ReturnType<TeamApi["listPracticeTeamInvitations"]> {
-    return this.api.listPracticeTeamInvitations(
-      { ...params, practiceId: practiceId, ...commonHeaders(options) },
-      requestOverrides(options),
+  ): ApiListPromise<Awaited<ReturnType<TeamApi["listPracticeTeamInvitations"]>>> {
+    return paginate(
+      (cursor) =>
+        this.api.listPracticeTeamInvitations(
+          { ...params, practiceId: practiceId, ...commonHeaders(options), ...cursor },
+          requestOverrides(options),
+        ),
+      params,
     );
   }
   retrieve(practiceId: string, options?: RequestOptions): ReturnType<TeamApi["getPracticeTeam"]> {
@@ -140,20 +146,28 @@ export class TeamResource {
     practiceId: string,
     params: ListPracticeTeamMembersParams = {},
     options?: RequestOptions,
-  ): ReturnType<TeamApi["listPracticeTeamMembers"]> {
-    return this.api.listPracticeTeamMembers(
-      { ...params, practiceId: practiceId, ...commonHeaders(options) },
-      requestOverrides(options),
+  ): ApiListPromise<Awaited<ReturnType<TeamApi["listPracticeTeamMembers"]>>> {
+    return paginate(
+      (cursor) =>
+        this.api.listPracticeTeamMembers(
+          { ...params, practiceId: practiceId, ...commonHeaders(options), ...cursor },
+          requestOverrides(options),
+        ),
+      params,
     );
   }
   listPrescribers(
     practiceId: string,
     params: ListPracticeTeamPrescribersParams = {},
     options?: RequestOptions,
-  ): ReturnType<TeamApi["listPracticeTeamPrescribers"]> {
-    return this.api.listPracticeTeamPrescribers(
-      { ...params, practiceId: practiceId, ...commonHeaders(options) },
-      requestOverrides(options),
+  ): ApiListPromise<Awaited<ReturnType<TeamApi["listPracticeTeamPrescribers"]>>> {
+    return paginate(
+      (cursor) =>
+        this.api.listPracticeTeamPrescribers(
+          { ...params, practiceId: practiceId, ...commonHeaders(options), ...cursor },
+          requestOverrides(options),
+        ),
+      params,
     );
   }
   retrieveMember(
@@ -170,7 +184,7 @@ export class TeamResource {
     practiceId: string,
     memberId: string,
     params: UpdatePracticeTeamMemberParams,
-    options: MutationOptions,
+    options?: MutationOptions,
   ): ReturnType<TeamApi["updatePracticeTeamMember"]> {
     return this.api.updatePracticeTeamMember(
       {
@@ -197,7 +211,7 @@ export class TeamResource {
     practiceId: string,
     prescriberId: string,
     params: UpdatePracticeTeamPrescriberParams,
-    options: MutationOptions,
+    options?: MutationOptions,
   ): ReturnType<TeamApi["updatePracticeTeamPrescriber"]> {
     return this.api.updatePracticeTeamPrescriber(
       {
@@ -214,7 +228,7 @@ export class TeamResource {
     practiceId: string,
     prescriberId: string,
     params: CreatePracticeTeamLicenseParams,
-    options: MutationOptions,
+    options?: MutationOptions,
   ): ReturnType<TeamApi["createPracticeTeamLicense"]> {
     return this.api.createPracticeTeamLicense(
       {
@@ -232,7 +246,7 @@ export class TeamResource {
     prescriberId: string,
     licenseId: string,
     params: UpdatePracticeTeamLicenseParams,
-    options: MutationOptions,
+    options?: MutationOptions,
   ): ReturnType<TeamApi["updatePracticeTeamLicense"]> {
     return this.api.updatePracticeTeamLicense(
       {
@@ -259,7 +273,7 @@ export class TeamResource {
   revokeInvitation(
     practiceId: string,
     invitationId: string,
-    options: MutationOptions,
+    options?: MutationOptions,
   ): ReturnType<TeamApi["revokePracticeTeamInvitation"]> {
     return this.api.revokePracticeTeamInvitation(
       {
@@ -274,7 +288,7 @@ export class TeamResource {
   resendInvitation(
     practiceId: string,
     invitationId: string,
-    options: MutationOptions,
+    options?: MutationOptions,
   ): ReturnType<TeamApi["resendPracticeTeamInvitation"]> {
     return this.api.resendPracticeTeamInvitation(
       {

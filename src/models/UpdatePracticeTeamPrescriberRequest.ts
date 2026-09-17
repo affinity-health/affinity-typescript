@@ -13,13 +13,13 @@
  */
 
 import { mapValues } from "../runtime";
-import type { InvitePracticeTeamPersonRequestAddress } from "./InvitePracticeTeamPersonRequestAddress";
+import type { RegisterUserRequestAddress } from "./RegisterUserRequestAddress";
 import {
-  InvitePracticeTeamPersonRequestAddressFromJSON,
-  InvitePracticeTeamPersonRequestAddressFromJSONTyped,
-  InvitePracticeTeamPersonRequestAddressToJSON,
-  InvitePracticeTeamPersonRequestAddressToJSONTyped,
-} from "./InvitePracticeTeamPersonRequestAddress";
+  RegisterUserRequestAddressFromJSON,
+  RegisterUserRequestAddressFromJSONTyped,
+  RegisterUserRequestAddressToJSON,
+  RegisterUserRequestAddressToJSONTyped,
+} from "./RegisterUserRequestAddress";
 
 /**
  *
@@ -53,10 +53,10 @@ export interface UpdatePracticeTeamPrescriberRequest {
   phone?: string | null;
   /**
    *
-   * @type {InvitePracticeTeamPersonRequestAddress}
+   * @type {RegisterUserRequestAddress}
    * @memberof UpdatePracticeTeamPrescriberRequest
    */
-  address?: InvitePracticeTeamPersonRequestAddress | null;
+  address?: RegisterUserRequestAddress | null;
 }
 
 /**
@@ -87,9 +87,7 @@ export function UpdatePracticeTeamPrescriberRequestFromJSONTyped(
     credentials: json["credentials"] == null ? undefined : json["credentials"],
     phone: json["phone"] == null ? undefined : json["phone"],
     address:
-      json["address"] == null
-        ? undefined
-        : InvitePracticeTeamPersonRequestAddressFromJSON(json["address"]),
+      json["address"] == null ? undefined : RegisterUserRequestAddressFromJSON(json["address"]),
   };
 }
 
@@ -112,6 +110,6 @@ export function UpdatePracticeTeamPrescriberRequestToJSONTyped(
     legalName: value["legalName"],
     credentials: value["credentials"],
     phone: value["phone"],
-    address: InvitePracticeTeamPersonRequestAddressToJSON(value["address"]),
+    address: RegisterUserRequestAddressToJSON(value["address"]),
   };
 }

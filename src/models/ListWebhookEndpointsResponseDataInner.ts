@@ -32,11 +32,11 @@ export interface ListWebhookEndpointsResponseDataInner {
    */
   practiceIds: Array<string>;
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof ListWebhookEndpointsResponseDataInner
    */
-  apiVersion: string | null;
+  apiVersion: string;
   /**
    *
    * @type {number}
@@ -44,17 +44,17 @@ export interface ListWebhookEndpointsResponseDataInner {
    */
   consecutiveFailures: number;
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof ListWebhookEndpointsResponseDataInner
    */
-  createdAt: string | null;
+  createdAt: string;
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof ListWebhookEndpointsResponseDataInner
    */
-  description: string | null;
+  description: string;
   /**
    *
    * @type {string}
@@ -92,17 +92,17 @@ export interface ListWebhookEndpointsResponseDataInner {
    */
   subscribedEvents: Array<string>;
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof ListWebhookEndpointsResponseDataInner
    */
-  updatedAt: string | null;
+  updatedAt: string;
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof ListWebhookEndpointsResponseDataInner
    */
-  url: string | null;
+  url: string;
 }
 
 /**

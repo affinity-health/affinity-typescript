@@ -21,10 +21,10 @@ import { mapValues } from "../runtime";
 export interface DeletePatientResponse {
   /**
    *
-   * @type {DeletePatientResponseDeletedEnum}
+   * @type {boolean}
    * @memberof DeletePatientResponse
    */
-  deleted: DeletePatientResponseDeletedEnum;
+  deleted: boolean;
   /**
    *
    * @type {string}
@@ -38,15 +38,6 @@ export interface DeletePatientResponse {
    */
   object: DeletePatientResponseObjectEnum;
 }
-
-/**
- * @export
- */
-export const DeletePatientResponseDeletedEnum = {
-  True: true,
-} as const;
-export type DeletePatientResponseDeletedEnum =
-  (typeof DeletePatientResponseDeletedEnum)[keyof typeof DeletePatientResponseDeletedEnum];
 
 /**
  * @export

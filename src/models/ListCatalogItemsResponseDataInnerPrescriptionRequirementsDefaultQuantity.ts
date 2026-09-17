@@ -28,11 +28,11 @@ import {
  */
 export interface ListCatalogItemsResponseDataInnerPrescriptionRequirementsDefaultQuantity {
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof ListCatalogItemsResponseDataInnerPrescriptionRequirementsDefaultQuantity
    */
-  unit: string | null;
+  unit: string;
   /**
    *
    * @type {ListCatalogItemsResponseDataInnerPrescriptionRequirementsAllowedQuantitiesInnerValue}

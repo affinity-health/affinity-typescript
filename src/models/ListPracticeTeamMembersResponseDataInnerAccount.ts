@@ -13,20 +13,20 @@
  */
 
 import { mapValues } from "../runtime";
-import type { ListPracticeTeamInvitationsResponseDataInnerPersonAccountPrescriberConnection } from "./ListPracticeTeamInvitationsResponseDataInnerPersonAccountPrescriberConnection";
+import type { InvitePracticeTeamPersonResponsePersonAccountPrescriberConnection } from "./InvitePracticeTeamPersonResponsePersonAccountPrescriberConnection";
 import {
-  ListPracticeTeamInvitationsResponseDataInnerPersonAccountPrescriberConnectionFromJSON,
-  ListPracticeTeamInvitationsResponseDataInnerPersonAccountPrescriberConnectionFromJSONTyped,
-  ListPracticeTeamInvitationsResponseDataInnerPersonAccountPrescriberConnectionToJSON,
-  ListPracticeTeamInvitationsResponseDataInnerPersonAccountPrescriberConnectionToJSONTyped,
-} from "./ListPracticeTeamInvitationsResponseDataInnerPersonAccountPrescriberConnection";
-import type { InvitePracticeTeamPersonResponsePersonAccountRolesInner } from "./InvitePracticeTeamPersonResponsePersonAccountRolesInner";
+  InvitePracticeTeamPersonResponsePersonAccountPrescriberConnectionFromJSON,
+  InvitePracticeTeamPersonResponsePersonAccountPrescriberConnectionFromJSONTyped,
+  InvitePracticeTeamPersonResponsePersonAccountPrescriberConnectionToJSON,
+  InvitePracticeTeamPersonResponsePersonAccountPrescriberConnectionToJSONTyped,
+} from "./InvitePracticeTeamPersonResponsePersonAccountPrescriberConnection";
+import type { InvitePracticeTeamPersonResponsePersonInvitationRolesInner } from "./InvitePracticeTeamPersonResponsePersonInvitationRolesInner";
 import {
-  InvitePracticeTeamPersonResponsePersonAccountRolesInnerFromJSON,
-  InvitePracticeTeamPersonResponsePersonAccountRolesInnerFromJSONTyped,
-  InvitePracticeTeamPersonResponsePersonAccountRolesInnerToJSON,
-  InvitePracticeTeamPersonResponsePersonAccountRolesInnerToJSONTyped,
-} from "./InvitePracticeTeamPersonResponsePersonAccountRolesInner";
+  InvitePracticeTeamPersonResponsePersonInvitationRolesInnerFromJSON,
+  InvitePracticeTeamPersonResponsePersonInvitationRolesInnerFromJSONTyped,
+  InvitePracticeTeamPersonResponsePersonInvitationRolesInnerToJSON,
+  InvitePracticeTeamPersonResponsePersonInvitationRolesInnerToJSONTyped,
+} from "./InvitePracticeTeamPersonResponsePersonInvitationRolesInner";
 
 /**
  *
@@ -60,16 +60,16 @@ export interface ListPracticeTeamMembersResponseDataInnerAccount {
   membershipStatus: string;
   /**
    *
-   * @type {Array<InvitePracticeTeamPersonResponsePersonAccountRolesInner>}
+   * @type {Array<InvitePracticeTeamPersonResponsePersonInvitationRolesInner>}
    * @memberof ListPracticeTeamMembersResponseDataInnerAccount
    */
-  roles: Array<InvitePracticeTeamPersonResponsePersonAccountRolesInner>;
+  roles: Array<InvitePracticeTeamPersonResponsePersonInvitationRolesInner>;
   /**
    *
-   * @type {ListPracticeTeamInvitationsResponseDataInnerPersonAccountPrescriberConnection}
+   * @type {InvitePracticeTeamPersonResponsePersonAccountPrescriberConnection}
    * @memberof ListPracticeTeamMembersResponseDataInnerAccount
    */
-  prescriberConnection: ListPracticeTeamInvitationsResponseDataInnerPersonAccountPrescriberConnection | null;
+  prescriberConnection: InvitePracticeTeamPersonResponsePersonAccountPrescriberConnection | null;
 }
 
 /**
@@ -107,12 +107,11 @@ export function ListPracticeTeamMembersResponseDataInnerAccountFromJSONTyped(
     membershipId: json["membershipId"],
     membershipStatus: json["membershipStatus"],
     roles: (json["roles"] as Array<any>).map(
-      InvitePracticeTeamPersonResponsePersonAccountRolesInnerFromJSON,
+      InvitePracticeTeamPersonResponsePersonInvitationRolesInnerFromJSON,
     ),
-    prescriberConnection:
-      ListPracticeTeamInvitationsResponseDataInnerPersonAccountPrescriberConnectionFromJSON(
-        json["prescriberConnection"],
-      ),
+    prescriberConnection: InvitePracticeTeamPersonResponsePersonAccountPrescriberConnectionFromJSON(
+      json["prescriberConnection"],
+    ),
   };
 }
 
@@ -136,11 +135,10 @@ export function ListPracticeTeamMembersResponseDataInnerAccountToJSONTyped(
     membershipId: value["membershipId"],
     membershipStatus: value["membershipStatus"],
     roles: (value["roles"] as Array<any>).map(
-      InvitePracticeTeamPersonResponsePersonAccountRolesInnerToJSON,
+      InvitePracticeTeamPersonResponsePersonInvitationRolesInnerToJSON,
     ),
-    prescriberConnection:
-      ListPracticeTeamInvitationsResponseDataInnerPersonAccountPrescriberConnectionToJSON(
-        value["prescriberConnection"],
-      ),
+    prescriberConnection: InvitePracticeTeamPersonResponsePersonAccountPrescriberConnectionToJSON(
+      value["prescriberConnection"],
+    ),
   };
 }

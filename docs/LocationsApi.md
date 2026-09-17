@@ -36,9 +36,9 @@ async function example() {
 
   const body = {
     // string
-    practiceId: practiceId_example,
+    practiceId: prac_01j2y8m6jcc9tt24af5pw9x1bc,
     // string
-    locationId: locationId_example,
+    locationId: loc_01j2y8m6jcc9tt24af5pw9x1bc,
     // string
     idempotencyKey: idempotencyKey_example,
     // string (optional)
@@ -122,7 +122,7 @@ async function example() {
 
   const body = {
     // string
-    practiceId: practiceId_example,
+    practiceId: prac_01j2y8m6jcc9tt24af5pw9x1bc,
     // string
     idempotencyKey: idempotencyKey_example,
     // CreatePracticeLocationRequest
@@ -205,9 +205,9 @@ async function example() {
 
   const body = {
     // string
-    practiceId: practiceId_example,
+    practiceId: prac_01j2y8m6jcc9tt24af5pw9x1bc,
     // string
-    locationId: locationId_example,
+    locationId: loc_01j2y8m6jcc9tt24af5pw9x1bc,
     // string (optional)
     affinityVersion: affinityVersion_example,
   } satisfies GetPracticeLocationRequest;
@@ -285,13 +285,13 @@ async function example() {
 
   const body = {
     // string
-    practiceId: practiceId_example,
+    practiceId: prac_01j2y8m6jcc9tt24af5pw9x1bc,
     // number (optional)
     limit: 56,
     // string (optional)
-    startingAfter: startingAfter_example,
+    startingAfter: loc_01j2y8m6jcc9tt24af5pw9x1bc,
     // string (optional)
-    endingBefore: endingBefore_example,
+    endingBefore: loc_01j2y8m6jcc9tt24af5pw9x1bc,
     // 'active' | 'archived' (optional)
     status: status_example,
     // string (optional)
@@ -377,9 +377,9 @@ async function example() {
 
   const body = {
     // string
-    practiceId: practiceId_example,
+    practiceId: prac_01j2y8m6jcc9tt24af5pw9x1bc,
     // string
-    locationId: locationId_example,
+    locationId: loc_01j2y8m6jcc9tt24af5pw9x1bc,
     // string
     idempotencyKey: idempotencyKey_example,
     // UpdatePracticeLocationRequest

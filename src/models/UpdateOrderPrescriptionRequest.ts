@@ -13,6 +13,13 @@
  */
 
 import { mapValues } from "../runtime";
+import type { ListOrdersResponseDataInnerMetadataValue } from "./ListOrdersResponseDataInnerMetadataValue";
+import {
+  ListOrdersResponseDataInnerMetadataValueFromJSON,
+  ListOrdersResponseDataInnerMetadataValueFromJSONTyped,
+  ListOrdersResponseDataInnerMetadataValueToJSON,
+  ListOrdersResponseDataInnerMetadataValueToJSONTyped,
+} from "./ListOrdersResponseDataInnerMetadataValue";
 import type { SignOrderRequestExpectedVersionsInner } from "./SignOrderRequestExpectedVersionsInner";
 import {
   SignOrderRequestExpectedVersionsInnerFromJSON,
@@ -20,13 +27,6 @@ import {
   SignOrderRequestExpectedVersionsInnerToJSON,
   SignOrderRequestExpectedVersionsInnerToJSONTyped,
 } from "./SignOrderRequestExpectedVersionsInner";
-import type { CreateOrderRequestMetadataValue } from "./CreateOrderRequestMetadataValue";
-import {
-  CreateOrderRequestMetadataValueFromJSON,
-  CreateOrderRequestMetadataValueFromJSONTyped,
-  CreateOrderRequestMetadataValueToJSON,
-  CreateOrderRequestMetadataValueToJSONTyped,
-} from "./CreateOrderRequestMetadataValue";
 import type { UpdateOrderPrescriptionRequestPrescription } from "./UpdateOrderPrescriptionRequestPrescription";
 import {
   UpdateOrderPrescriptionRequestPrescriptionFromJSON,
@@ -43,16 +43,16 @@ import {
 export interface UpdateOrderPrescriptionRequest {
   /**
    *
-   * @type {{ [key: string]: CreateOrderRequestMetadataValue; }}
+   * @type {{ [key: string]: ListOrdersResponseDataInnerMetadataValue; }}
    * @memberof UpdateOrderPrescriptionRequest
    */
-  metadata?: { [key: string]: CreateOrderRequestMetadataValue } | null;
+  metadata?: { [key: string]: ListOrdersResponseDataInnerMetadataValue } | null;
   /**
    *
    * @type {string}
    * @memberof UpdateOrderPrescriptionRequest
    */
-  practiceId: string | null;
+  practiceId: string;
   /**
    *
    * @type {Array<SignOrderRequestExpectedVersionsInner>}
@@ -94,7 +94,7 @@ export function UpdateOrderPrescriptionRequestFromJSONTyped(
     metadata:
       json["metadata"] == null
         ? undefined
-        : mapValues(json["metadata"], CreateOrderRequestMetadataValueFromJSON),
+        : mapValues(json["metadata"], ListOrdersResponseDataInnerMetadataValueFromJSON),
     practiceId: json["practiceId"],
     expectedVersions: (json["expectedVersions"] as Array<any>).map(
       SignOrderRequestExpectedVersionsInnerFromJSON,
@@ -119,7 +119,7 @@ export function UpdateOrderPrescriptionRequestToJSONTyped(
     metadata:
       value["metadata"] == null
         ? undefined
-        : mapValues(value["metadata"], CreateOrderRequestMetadataValueToJSON),
+        : mapValues(value["metadata"], ListOrdersResponseDataInnerMetadataValueToJSON),
     practiceId: value["practiceId"],
     expectedVersions: (value["expectedVersions"] as Array<any>).map(
       SignOrderRequestExpectedVersionsInnerToJSON,

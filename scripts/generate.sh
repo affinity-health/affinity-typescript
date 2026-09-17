@@ -8,9 +8,10 @@ package_version="$(bun -e 'const packageJson = await Bun.file(process.argv[1]).j
 generated="$(mktemp -d)"
 trap 'rm -rf "$generated"' EXIT
 
-"$generator" validate -i "$spec"
+bun "$root/scripts/generator-contract.ts" "$spec" "$generated/contract.json"
+"$generator" validate -i "$generated/contract.json"
 "$generator" generate \
-  -i "$spec" \
+  -i "$generated/contract.json" \
   -g typescript-fetch \
   -o "$generated" \
   --git-user-id affinity-health \

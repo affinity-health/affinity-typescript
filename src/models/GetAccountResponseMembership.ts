@@ -32,11 +32,11 @@ export interface GetAccountResponseMembership {
    */
   role: GetAccountResponseMembershipRoleEnum;
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof GetAccountResponseMembership
    */
-  roleName: string | null;
+  roleName: string;
   /**
    *
    * @type {GetAccountResponseMembershipStatusEnum}

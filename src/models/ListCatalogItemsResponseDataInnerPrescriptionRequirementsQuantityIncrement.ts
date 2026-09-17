@@ -47,11 +47,11 @@ export interface ListCatalogItemsResponseDataInnerPrescriptionRequirementsQuanti
    */
   min?: ListCatalogItemsResponseDataInnerPrescriptionRequirementsQuantityIncrementMax | null;
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof ListCatalogItemsResponseDataInnerPrescriptionRequirementsQuantityIncrement
    */
-  unit: string | null;
+  unit: string;
   /**
    *
    * @type {ListCatalogItemsResponseDataInnerPrescriptionRequirementsAllowedQuantitiesInnerValue}

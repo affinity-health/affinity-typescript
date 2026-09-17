@@ -32,11 +32,11 @@ export interface ListOrdersResponseDataInnerPrescriptionsInnerProviderSnapshot {
    */
   credentials?: string | null;
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof ListOrdersResponseDataInnerPrescriptionsInnerProviderSnapshot
    */
-  legalName: string | null;
+  legalName: string;
   /**
    *
    * @type {string}
@@ -56,11 +56,11 @@ export interface ListOrdersResponseDataInnerPrescriptionsInnerProviderSnapshot {
    */
   licenseExpiresAt?: string | null;
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof ListOrdersResponseDataInnerPrescriptionsInnerProviderSnapshot
    */
-  npi: string | null;
+  npi: string;
   /**
    *
    * @type {string}

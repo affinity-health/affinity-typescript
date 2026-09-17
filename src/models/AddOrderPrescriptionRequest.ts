@@ -13,6 +13,20 @@
  */
 
 import { mapValues } from "../runtime";
+import type { CreateOrderRequestPrescriptionsInner } from "./CreateOrderRequestPrescriptionsInner";
+import {
+  CreateOrderRequestPrescriptionsInnerFromJSON,
+  CreateOrderRequestPrescriptionsInnerFromJSONTyped,
+  CreateOrderRequestPrescriptionsInnerToJSON,
+  CreateOrderRequestPrescriptionsInnerToJSONTyped,
+} from "./CreateOrderRequestPrescriptionsInner";
+import type { ListOrdersResponseDataInnerMetadataValue } from "./ListOrdersResponseDataInnerMetadataValue";
+import {
+  ListOrdersResponseDataInnerMetadataValueFromJSON,
+  ListOrdersResponseDataInnerMetadataValueFromJSONTyped,
+  ListOrdersResponseDataInnerMetadataValueToJSON,
+  ListOrdersResponseDataInnerMetadataValueToJSONTyped,
+} from "./ListOrdersResponseDataInnerMetadataValue";
 import type { SignOrderRequestExpectedVersionsInner } from "./SignOrderRequestExpectedVersionsInner";
 import {
   SignOrderRequestExpectedVersionsInnerFromJSON,
@@ -20,20 +34,6 @@ import {
   SignOrderRequestExpectedVersionsInnerToJSON,
   SignOrderRequestExpectedVersionsInnerToJSONTyped,
 } from "./SignOrderRequestExpectedVersionsInner";
-import type { CreateOrderRequestMetadataValue } from "./CreateOrderRequestMetadataValue";
-import {
-  CreateOrderRequestMetadataValueFromJSON,
-  CreateOrderRequestMetadataValueFromJSONTyped,
-  CreateOrderRequestMetadataValueToJSON,
-  CreateOrderRequestMetadataValueToJSONTyped,
-} from "./CreateOrderRequestMetadataValue";
-import type { AddOrderPrescriptionRequestPrescription } from "./AddOrderPrescriptionRequestPrescription";
-import {
-  AddOrderPrescriptionRequestPrescriptionFromJSON,
-  AddOrderPrescriptionRequestPrescriptionFromJSONTyped,
-  AddOrderPrescriptionRequestPrescriptionToJSON,
-  AddOrderPrescriptionRequestPrescriptionToJSONTyped,
-} from "./AddOrderPrescriptionRequestPrescription";
 
 /**
  *
@@ -43,16 +43,16 @@ import {
 export interface AddOrderPrescriptionRequest {
   /**
    *
-   * @type {{ [key: string]: CreateOrderRequestMetadataValue; }}
+   * @type {{ [key: string]: ListOrdersResponseDataInnerMetadataValue; }}
    * @memberof AddOrderPrescriptionRequest
    */
-  metadata?: { [key: string]: CreateOrderRequestMetadataValue } | null;
+  metadata?: { [key: string]: ListOrdersResponseDataInnerMetadataValue } | null;
   /**
    *
    * @type {string}
    * @memberof AddOrderPrescriptionRequest
    */
-  practiceId: string | null;
+  practiceId: string;
   /**
    *
    * @type {Array<SignOrderRequestExpectedVersionsInner>}
@@ -61,10 +61,10 @@ export interface AddOrderPrescriptionRequest {
   expectedVersions: Array<SignOrderRequestExpectedVersionsInner>;
   /**
    *
-   * @type {AddOrderPrescriptionRequestPrescription}
+   * @type {CreateOrderRequestPrescriptionsInner}
    * @memberof AddOrderPrescriptionRequest
    */
-  prescription: AddOrderPrescriptionRequestPrescription;
+  prescription: CreateOrderRequestPrescriptionsInner;
 }
 
 /**
@@ -94,12 +94,12 @@ export function AddOrderPrescriptionRequestFromJSONTyped(
     metadata:
       json["metadata"] == null
         ? undefined
-        : mapValues(json["metadata"], CreateOrderRequestMetadataValueFromJSON),
+        : mapValues(json["metadata"], ListOrdersResponseDataInnerMetadataValueFromJSON),
     practiceId: json["practiceId"],
     expectedVersions: (json["expectedVersions"] as Array<any>).map(
       SignOrderRequestExpectedVersionsInnerFromJSON,
     ),
-    prescription: AddOrderPrescriptionRequestPrescriptionFromJSON(json["prescription"]),
+    prescription: CreateOrderRequestPrescriptionsInnerFromJSON(json["prescription"]),
   };
 }
 
@@ -119,11 +119,11 @@ export function AddOrderPrescriptionRequestToJSONTyped(
     metadata:
       value["metadata"] == null
         ? undefined
-        : mapValues(value["metadata"], CreateOrderRequestMetadataValueToJSON),
+        : mapValues(value["metadata"], ListOrdersResponseDataInnerMetadataValueToJSON),
     practiceId: value["practiceId"],
     expectedVersions: (value["expectedVersions"] as Array<any>).map(
       SignOrderRequestExpectedVersionsInnerToJSON,
     ),
-    prescription: AddOrderPrescriptionRequestPrescriptionToJSON(value["prescription"]),
+    prescription: CreateOrderRequestPrescriptionsInnerToJSON(value["prescription"]),
   };
 }

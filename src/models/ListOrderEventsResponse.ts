@@ -46,11 +46,11 @@ export interface ListOrderEventsResponse {
    */
   object: ListOrderEventsResponseObjectEnum;
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof ListOrderEventsResponse
    */
-  url: string | null;
+  url: string;
 }
 
 /**

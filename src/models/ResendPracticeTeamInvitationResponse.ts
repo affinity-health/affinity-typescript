@@ -13,13 +13,13 @@
  */
 
 import { mapValues } from "../runtime";
-import type { ResendPracticeTeamInvitationResponseInvitation } from "./ResendPracticeTeamInvitationResponseInvitation";
+import type { ListPracticeTeamInvitationsResponseDataInner } from "./ListPracticeTeamInvitationsResponseDataInner";
 import {
-  ResendPracticeTeamInvitationResponseInvitationFromJSON,
-  ResendPracticeTeamInvitationResponseInvitationFromJSONTyped,
-  ResendPracticeTeamInvitationResponseInvitationToJSON,
-  ResendPracticeTeamInvitationResponseInvitationToJSONTyped,
-} from "./ResendPracticeTeamInvitationResponseInvitation";
+  ListPracticeTeamInvitationsResponseDataInnerFromJSON,
+  ListPracticeTeamInvitationsResponseDataInnerFromJSONTyped,
+  ListPracticeTeamInvitationsResponseDataInnerToJSON,
+  ListPracticeTeamInvitationsResponseDataInnerToJSONTyped,
+} from "./ListPracticeTeamInvitationsResponseDataInner";
 
 /**
  *
@@ -29,10 +29,10 @@ import {
 export interface ResendPracticeTeamInvitationResponse {
   /**
    *
-   * @type {ResendPracticeTeamInvitationResponseInvitation}
+   * @type {ListPracticeTeamInvitationsResponseDataInner}
    * @memberof ResendPracticeTeamInvitationResponse
    */
-  invitation: ResendPracticeTeamInvitationResponseInvitation;
+  invitation: ListPracticeTeamInvitationsResponseDataInner;
   /**
    *
    * @type {ResendPracticeTeamInvitationResponseDeliveryEnum}
@@ -75,7 +75,7 @@ export function ResendPracticeTeamInvitationResponseFromJSONTyped(
     return json;
   }
   return {
-    invitation: ResendPracticeTeamInvitationResponseInvitationFromJSON(json["invitation"]),
+    invitation: ListPracticeTeamInvitationsResponseDataInnerFromJSON(json["invitation"]),
     delivery: json["delivery"],
   };
 }
@@ -95,7 +95,7 @@ export function ResendPracticeTeamInvitationResponseToJSONTyped(
   }
 
   return {
-    invitation: ResendPracticeTeamInvitationResponseInvitationToJSON(value["invitation"]),
+    invitation: ListPracticeTeamInvitationsResponseDataInnerToJSON(value["invitation"]),
     delivery: value["delivery"],
   };
 }

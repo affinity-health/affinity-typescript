@@ -7,6 +7,22 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 
 ## [Unreleased]
 
+## [1.9.0-beta.3] - 2026-09-17
+
+### Added
+
+- Support `liveEnabled` on practice creation, updates, and responses, with platform ownership enforced by the API.
+- Export `Practice`, `Patient`, `Order`, `CreatedOrder`, `CatalogItem`, and `PracticeLocation` types.
+- Add async iteration and bounded `autoPagingToArray` to cursor list methods.
+- Add configurable request timeouts and bounded retries for reads and idempotent writes.
+
+### Changed
+
+- Replace the practice response's `productionAccess` enum with `liveEnabled`.
+- Make request options and caller-supplied idempotency keys optional. Generate keys when required by the endpoint and reuse them across automatic retries.
+- Correct generated nullability so resource IDs are strings while nullable fields remain nullable.
+- Simplify examples and document retry, pagination, and Live access behavior.
+
 ## [1.9.0-beta.2] - 2026-09-17
 
 ### Added
