@@ -1297,6 +1297,25 @@
           },
           {
             "in": "query",
+            "name": "pharmacyId",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "pattern": "^pharm_[0-9a-hjkmnp-tv-z]{26}$",
+                  "examples": [
+                    "pharm_01j2y8m6jcc9tt24af5pw9x1bc"
+                  ]
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
+          },
+          {
+            "in": "query",
             "name": "query",
             "required": false,
             "schema": {
@@ -10471,7 +10490,14 @@
                   "type": "string"
                 },
                 "timezone": {
-                  "type": "string"
+                  "anyOf": [
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
                 },
                 "city": {
                   "anyOf": [
@@ -10710,12 +10736,26 @@
             ]
           },
           "timezone": {
-            "type": "string"
+            "anyOf": [
+              {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Optional IANA timezone override. Omit to leave unchanged; null clears it. No timezone is inferred when creating a record."
           }
         },
         "required": [
-          "name",
-          "timezone"
+          "name"
         ],
         "additionalProperties": false,
         "title": "CreatePracticeLocationRequest"
@@ -10748,7 +10788,14 @@
             "type": "string"
           },
           "timezone": {
-            "type": "string"
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
           },
           "city": {
             "anyOf": [
@@ -10874,7 +10921,14 @@
             "type": "string"
           },
           "timezone": {
-            "type": "string"
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
           },
           "city": {
             "anyOf": [
@@ -11100,12 +11154,20 @@
           "timezone": {
             "anyOf": [
               {
-                "type": "string"
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
               },
               {
                 "type": "null"
               }
-            ]
+            ],
+            "description": "Optional IANA timezone override. Omit to leave unchanged; null clears it. No timezone is inferred when creating a record."
           }
         },
         "additionalProperties": false,
@@ -11139,7 +11201,14 @@
             "type": "string"
           },
           "timezone": {
-            "type": "string"
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
           },
           "city": {
             "anyOf": [
@@ -11265,7 +11334,14 @@
             "type": "string"
           },
           "timezone": {
-            "type": "string"
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
           },
           "city": {
             "anyOf": [
@@ -11455,6 +11531,7 @@
                     "billing:read",
                     "manage_api",
                     "manage_orders",
+                    "manage_practices",
                     "manage_organization",
                     "read_catalog",
                     "read_orders",
@@ -28912,7 +28989,14 @@
                   ]
                 },
                 "timezone": {
-                  "type": "string"
+                  "anyOf": [
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
                 }
               },
               "required": [
@@ -29266,12 +29350,20 @@
           "timezone": {
             "anyOf": [
               {
-                "type": "string"
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
               },
               {
                 "type": "null"
               }
-            ]
+            ],
+            "description": "Optional IANA timezone override. Omit to leave unchanged; null clears it. No timezone is inferred when creating a record."
           }
         },
         "required": [
@@ -29317,8 +29409,7 @@
               "phone": null
             },
             "supportEmail": "support@example-practice.com",
-            "supportPhone": null,
-            "timezone": "America/Los_Angeles"
+            "supportPhone": null
           }
         ],
         "title": "CreatePracticeRequest"
@@ -29597,7 +29688,14 @@
             ]
           },
           "timezone": {
-            "type": "string"
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
           }
         },
         "required": [
@@ -29893,7 +29991,14 @@
             ]
           },
           "timezone": {
-            "type": "string"
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
           }
         },
         "required": [
@@ -30243,12 +30348,20 @@
           "timezone": {
             "anyOf": [
               {
-                "type": "string"
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
               },
               {
                 "type": "null"
               }
-            ]
+            ],
+            "description": "Optional IANA timezone override. Omit to leave unchanged; null clears it. No timezone is inferred when creating a record."
           }
         },
         "additionalProperties": false,
@@ -30528,7 +30641,14 @@
             ]
           },
           "timezone": {
-            "type": "string"
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
           }
         },
         "required": [

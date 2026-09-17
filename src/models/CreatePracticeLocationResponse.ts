@@ -48,7 +48,7 @@ export interface CreatePracticeLocationResponse {
    * @type {string}
    * @memberof CreatePracticeLocationResponse
    */
-  timezone: string;
+  timezone: string | null;
   /**
    *
    * @type {string}

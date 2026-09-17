@@ -130,7 +130,7 @@ example().catch(console.error);
 
 ## listPharmacies
 
-> ListPharmaciesResponse listPharmacies(endingBefore, limit, orgId, query, shipsToState, startingAfter, affinityVersion)
+> ListPharmaciesResponse listPharmacies(endingBefore, limit, orgId, pharmacyId, query, shipsToState, startingAfter, affinityVersion)
 
 List pharmacies
 
@@ -160,6 +160,8 @@ async function example() {
     // string (optional)
     orgId: orgId_example,
     // string (optional)
+    pharmacyId: pharmacyId_example,
+    // string (optional)
     query: query_example,
     // string (optional)
     shipsToState: shipsToState_example,
@@ -188,6 +190,7 @@ example().catch(console.error);
 | **endingBefore**    | `string` |             | [Optional] [Defaults to `undefined`] |
 | **limit**           | `number` |             | [Optional] [Defaults to `25`]        |
 | **orgId**           | `string` |             | [Optional] [Defaults to `undefined`] |
+| **pharmacyId**      | `string` |             | [Optional] [Defaults to `undefined`] |
 | **query**           | `string` |             | [Optional] [Defaults to `undefined`] |
 | **shipsToState**    | `string` |             | [Optional] [Defaults to `undefined`] |
 | **startingAfter**   | `string` |             | [Optional] [Defaults to `undefined`] |

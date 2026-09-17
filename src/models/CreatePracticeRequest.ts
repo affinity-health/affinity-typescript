@@ -115,7 +115,7 @@ export interface CreatePracticeRequest {
    */
   supportPhone?: string | null;
   /**
-   *
+   * Optional IANA timezone override. Omit to leave unchanged; null clears it. No timezone is inferred when creating a record.
    * @type {string}
    * @memberof CreatePracticeRequest
    */

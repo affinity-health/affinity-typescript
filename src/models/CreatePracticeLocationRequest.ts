@@ -68,11 +68,11 @@ export interface CreatePracticeLocationRequest {
    */
   state?: string | null;
   /**
-   *
+   * Optional IANA timezone override. Omit to leave unchanged; null clears it. No timezone is inferred when creating a record.
    * @type {string}
    * @memberof CreatePracticeLocationRequest
    */
-  timezone: string;
+  timezone?: string | null;
 }
 
 /**
@@ -82,7 +82,6 @@ export function instanceOfCreatePracticeLocationRequest(
   value: object,
 ): value is CreatePracticeLocationRequest {
   if (!("name" in value) || value["name"] === undefined) return false;
-  if (!("timezone" in value) || value["timezone"] === undefined) return false;
   return true;
 }
 
@@ -106,7 +105,7 @@ export function CreatePracticeLocationRequestFromJSONTyped(
     phone: json["phone"] == null ? undefined : json["phone"],
     postalCode: json["postalCode"] == null ? undefined : json["postalCode"],
     state: json["state"] == null ? undefined : json["state"],
-    timezone: json["timezone"],
+    timezone: json["timezone"] == null ? undefined : json["timezone"],
   };
 }
 

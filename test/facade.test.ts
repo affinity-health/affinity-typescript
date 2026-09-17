@@ -183,6 +183,23 @@ describe("Affinity public facade", () => {
     expect(await requestBody(request)).toEqual(body);
   });
 
+  test("supports pharmacy filtering and locations without a timezone override", async () => {
+    const { affinity, requests } = client({ actor });
+    const pharmacyId = "pharm_01j2y8m6jcc9tt24af5pw9x1bc";
+
+    await issue(affinity.catalog.listPharmacies({ pharmacyId }));
+    await issue(
+      affinity.locations.create(
+        practiceId,
+        { name: "Primary location" },
+        { idempotencyKey: "location-create-123" },
+      ),
+    );
+
+    expect(new URL(requests[0]!.url).searchParams.get("pharmacyId")).toBe(pharmacyId);
+    expect(await requestBody(requests[1]!)).toEqual({ name: "Primary location" });
+  });
+
   test("applies request version, organization, custom headers, and signal with typed precedence", async () => {
     const controller = new AbortController();
     const { affinity, requests } = client({

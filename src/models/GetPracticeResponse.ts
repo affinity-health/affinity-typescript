@@ -126,7 +126,7 @@ export interface GetPracticeResponse {
    */
   supportPhone: string | null;
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof GetPracticeResponse
    */

@@ -68,6 +68,7 @@ export interface ListPharmaciesRequest {
   endingBefore?: string | null;
   limit?: number;
   orgId?: string | null;
+  pharmacyId?: string | null;
   query?: string | null;
   shipsToState?: string | null;
   startingAfter?: string | null;
@@ -228,6 +229,10 @@ export class CatalogApi extends runtime.BaseAPI {
 
     if (requestParameters["orgId"] != null) {
       queryParameters["orgId"] = requestParameters["orgId"];
+    }
+
+    if (requestParameters["pharmacyId"] != null) {
+      queryParameters["pharmacyId"] = requestParameters["pharmacyId"];
     }
 
     if (requestParameters["query"] != null) {

@@ -27,12 +27,8 @@ export type ListPracticeLocationsParams = Omit<
   | "affinityActorType"
   | "xAffinityOrganizationId"
 >;
-export type CreatePracticeLocationParams = Omit<
-  CreatePracticeLocationRequest,
-  "name" | "timezone"
-> & {
+export type CreatePracticeLocationParams = Omit<CreatePracticeLocationRequest, "name"> & {
   name: NonNullable<CreatePracticeLocationRequest["name"]>;
-  timezone: NonNullable<CreatePracticeLocationRequest["timezone"]>;
 };
 export type UpdatePracticeLocationParams = UpdatePracticeLocationRequest;
 

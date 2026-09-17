@@ -68,7 +68,7 @@ export interface UpdatePracticeLocationRequest {
    */
   state?: string | null;
   /**
-   *
+   * Optional IANA timezone override. Omit to leave unchanged; null clears it. No timezone is inferred when creating a record.
    * @type {string}
    * @memberof UpdatePracticeLocationRequest
    */

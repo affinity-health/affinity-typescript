@@ -48,7 +48,7 @@ export interface ArchivePracticeLocationResponse {
    * @type {string}
    * @memberof ArchivePracticeLocationResponse
    */
-  timezone: string;
+  timezone: string | null;
   /**
    *
    * @type {string}

@@ -7,6 +7,19 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 
 ## [Unreleased]
 
+## [1.9.0-beta.2] - 2026-09-17
+
+### Added
+
+- Added `pharmacyId` filtering to `catalog.listPharmacies(...)` and the `manage_practices`
+  account permission value.
+
+### Changed
+
+- Regenerated the SDK from the latest committed `2026-08-11` OpenAPI contract.
+- Practice and location timezone responses now allow `null`. Creating a location no longer
+  requires a timezone, and create or update requests may use `null` to clear an override.
+
 ## [1.9.0-beta.1] - 2026-09-17
 
 ### Added

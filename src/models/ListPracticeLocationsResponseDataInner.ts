@@ -44,7 +44,7 @@ export interface ListPracticeLocationsResponseDataInner {
    */
   name: string | null;
   /**
-   * Match this integration's external identity in the API key's mode.
+   *
    * @type {string}
    * @memberof ListPracticeLocationsResponseDataInner
    */

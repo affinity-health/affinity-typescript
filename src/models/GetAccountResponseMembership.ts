@@ -53,6 +53,7 @@ export const GetAccountResponseMembershipPermissionsEnum = {
   BillingRead: "billing:read",
   ManageApi: "manage_api",
   ManageOrders: "manage_orders",
+  ManagePractices: "manage_practices",
   ManageOrganization: "manage_organization",
   ReadCatalog: "read_catalog",
   ReadOrders: "read_orders",
