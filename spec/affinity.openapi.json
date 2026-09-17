@@ -836,6 +836,25 @@
         "parameters": [
           {
             "in": "query",
+            "name": "catalogKind",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "enum": [
+                    "prescription",
+                    "otc"
+                  ]
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
+          },
+          {
+            "in": "query",
             "name": "sort",
             "required": false,
             "schema": {
@@ -12083,6 +12102,64 @@
                 "catalogKind": {
                   "type": "string"
                 },
+                "fulfillmentInclusions": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "amountCents": {
+                        "type": "integer"
+                      },
+                      "kind": {
+                        "type": "string",
+                        "enum": [
+                          "cold_chain",
+                          "injection_supplies"
+                        ]
+                      },
+                      "label": {
+                        "type": "string"
+                      },
+                      "priceComponent": {
+                        "type": "string",
+                        "enum": [
+                          "shipping"
+                        ]
+                      }
+                    },
+                    "required": [
+                      "amountCents",
+                      "kind",
+                      "label",
+                      "priceComponent"
+                    ],
+                    "additionalProperties": false
+                  }
+                },
+                "ordering": {
+                  "type": "object",
+                  "properties": {
+                    "requiresPrescription": {
+                      "type": "boolean"
+                    },
+                    "requiresAccompanyingPrescription": {
+                      "type": "boolean"
+                    },
+                    "shipping": {
+                      "type": "string",
+                      "enum": [
+                        "prescription",
+                        "accompanying_prescription"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "requiresPrescription",
+                    "requiresAccompanyingPrescription",
+                    "shipping"
+                  ],
+                  "additionalProperties": false
+                },
                 "category": {
                   "anyOf": [
                     {
@@ -13013,6 +13090,8 @@
                 "allowedStates",
                 "availability",
                 "catalogKind",
+                "fulfillmentInclusions",
+                "ordering",
                 "category",
                 "coldShip",
                 "pharmacyId",
@@ -13528,6 +13607,57 @@
             "items": {
               "type": "object",
               "properties": {
+                "otcItems": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "catalogItemId": {
+                        "type": "string",
+                        "allOf": [
+                          {
+                            "pattern": "^cat_[0-9a-hjkmnp-tv-z]{26}$",
+                            "examples": [
+                              "cat_01j2y8m6jcc9tt24af5pw9x1bc"
+                            ]
+                          }
+                        ]
+                      },
+                      "prescriptionId": {
+                        "type": "string",
+                        "allOf": [
+                          {
+                            "pattern": "^rx_[0-9a-hjkmnp-tv-z]{26}$",
+                            "examples": [
+                              "rx_01j2y8m6jcc9tt24af5pw9x1bc"
+                            ]
+                          }
+                        ]
+                      },
+                      "name": {
+                        "type": "string"
+                      },
+                      "quantity": {
+                        "type": "integer"
+                      },
+                      "unitPriceCents": {
+                        "type": "integer"
+                      },
+                      "subtotalCents": {
+                        "type": "integer"
+                      }
+                    },
+                    "required": [
+                      "catalogItemId",
+                      "prescriptionId",
+                      "name",
+                      "quantity",
+                      "unitPriceCents",
+                      "subtotalCents"
+                    ],
+                    "additionalProperties": false
+                  }
+                },
                 "practiceMedicationTotalCents": {
                   "anyOf": [
                     {
@@ -15255,6 +15385,16 @@
                           }
                         ]
                       },
+                      "pharmacyName": {
+                        "anyOf": [
+                          {
+                            "type": "string"
+                          },
+                          {
+                            "type": "null"
+                          }
+                        ]
+                      },
                       "directions": {
                         "type": "string"
                       },
@@ -15328,6 +15468,7 @@
                       "externalPrescriptionId",
                       "catalogItemId",
                       "pharmacyId",
+                      "pharmacyName",
                       "directions",
                       "dosageForm",
                       "id",
@@ -15367,6 +15508,7 @@
                 }
               },
               "required": [
+                "otcItems",
                 "practiceMedicationTotalCents",
                 "externalOrderId",
                 "metadata",
@@ -15433,6 +15575,39 @@
                 "examples": [
                   "user_01j2y8m6jcc9tt24af5pw9x1bc"
                 ]
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "otcItems": {
+            "anyOf": [
+              {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "catalogItemId": {
+                      "type": "string",
+                      "pattern": "^cat_[0-9a-hjkmnp-tv-z]{26}$",
+                      "examples": [
+                        "cat_01j2y8m6jcc9tt24af5pw9x1bc"
+                      ]
+                    },
+                    "quantity": {
+                      "type": "integer",
+                      "minimum": 1,
+                      "maximum": 100
+                    }
+                  },
+                  "required": [
+                    "catalogItemId",
+                    "quantity"
+                  ],
+                  "additionalProperties": false
+                },
+                "maxItems": 20
               },
               {
                 "type": "null"
@@ -16566,6 +16741,45 @@
         "title": "CreateOrderResponse",
         "type": "object",
         "properties": {
+          "otcItems": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "catalogItemId": {
+                  "type": "string",
+                  "allOf": [
+                    {
+                      "pattern": "^cat_[0-9a-hjkmnp-tv-z]{26}$",
+                      "examples": [
+                        "cat_01j2y8m6jcc9tt24af5pw9x1bc"
+                      ]
+                    }
+                  ]
+                },
+                "name": {
+                  "type": "string"
+                },
+                "quantity": {
+                  "type": "integer"
+                },
+                "unitPriceCents": {
+                  "type": "integer"
+                },
+                "subtotalCents": {
+                  "type": "integer"
+                }
+              },
+              "required": [
+                "catalogItemId",
+                "name",
+                "quantity",
+                "unitPriceCents",
+                "subtotalCents"
+              ],
+              "additionalProperties": false
+            }
+          },
           "externalOrderId": {
             "anyOf": [
               {
@@ -16825,6 +17039,7 @@
           }
         },
         "required": [
+          "otcItems",
           "externalOrderId",
           "metadata",
           "createdAt",
@@ -16843,6 +17058,57 @@
         "title": "GetOrderResponse",
         "type": "object",
         "properties": {
+          "otcItems": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "catalogItemId": {
+                  "type": "string",
+                  "allOf": [
+                    {
+                      "pattern": "^cat_[0-9a-hjkmnp-tv-z]{26}$",
+                      "examples": [
+                        "cat_01j2y8m6jcc9tt24af5pw9x1bc"
+                      ]
+                    }
+                  ]
+                },
+                "prescriptionId": {
+                  "type": "string",
+                  "allOf": [
+                    {
+                      "pattern": "^rx_[0-9a-hjkmnp-tv-z]{26}$",
+                      "examples": [
+                        "rx_01j2y8m6jcc9tt24af5pw9x1bc"
+                      ]
+                    }
+                  ]
+                },
+                "name": {
+                  "type": "string"
+                },
+                "quantity": {
+                  "type": "integer"
+                },
+                "unitPriceCents": {
+                  "type": "integer"
+                },
+                "subtotalCents": {
+                  "type": "integer"
+                }
+              },
+              "required": [
+                "catalogItemId",
+                "prescriptionId",
+                "name",
+                "quantity",
+                "unitPriceCents",
+                "subtotalCents"
+              ],
+              "additionalProperties": false
+            }
+          },
           "practiceMedicationTotalCents": {
             "anyOf": [
               {
@@ -18570,6 +18836,16 @@
                     }
                   ]
                 },
+                "pharmacyName": {
+                  "anyOf": [
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
                 "directions": {
                   "type": "string"
                 },
@@ -18643,6 +18919,7 @@
                 "externalPrescriptionId",
                 "catalogItemId",
                 "pharmacyId",
+                "pharmacyName",
                 "directions",
                 "dosageForm",
                 "id",
@@ -18682,6 +18959,7 @@
           }
         },
         "required": [
+          "otcItems",
           "practiceMedicationTotalCents",
           "externalOrderId",
           "metadata",
@@ -18722,6 +19000,57 @@
         "title": "CancelOrderResponse",
         "type": "object",
         "properties": {
+          "otcItems": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "catalogItemId": {
+                  "type": "string",
+                  "allOf": [
+                    {
+                      "pattern": "^cat_[0-9a-hjkmnp-tv-z]{26}$",
+                      "examples": [
+                        "cat_01j2y8m6jcc9tt24af5pw9x1bc"
+                      ]
+                    }
+                  ]
+                },
+                "prescriptionId": {
+                  "type": "string",
+                  "allOf": [
+                    {
+                      "pattern": "^rx_[0-9a-hjkmnp-tv-z]{26}$",
+                      "examples": [
+                        "rx_01j2y8m6jcc9tt24af5pw9x1bc"
+                      ]
+                    }
+                  ]
+                },
+                "name": {
+                  "type": "string"
+                },
+                "quantity": {
+                  "type": "integer"
+                },
+                "unitPriceCents": {
+                  "type": "integer"
+                },
+                "subtotalCents": {
+                  "type": "integer"
+                }
+              },
+              "required": [
+                "catalogItemId",
+                "prescriptionId",
+                "name",
+                "quantity",
+                "unitPriceCents",
+                "subtotalCents"
+              ],
+              "additionalProperties": false
+            }
+          },
           "practiceMedicationTotalCents": {
             "anyOf": [
               {
@@ -20449,6 +20778,16 @@
                     }
                   ]
                 },
+                "pharmacyName": {
+                  "anyOf": [
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
                 "directions": {
                   "type": "string"
                 },
@@ -20522,6 +20861,7 @@
                 "externalPrescriptionId",
                 "catalogItemId",
                 "pharmacyId",
+                "pharmacyName",
                 "directions",
                 "dosageForm",
                 "id",
@@ -20561,6 +20901,7 @@
           }
         },
         "required": [
+          "otcItems",
           "practiceMedicationTotalCents",
           "externalOrderId",
           "metadata",
@@ -23140,6 +23481,64 @@
               "catalogKind": {
                 "type": "string"
               },
+              "fulfillmentInclusions": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "amountCents": {
+                      "type": "integer"
+                    },
+                    "kind": {
+                      "type": "string",
+                      "enum": [
+                        "cold_chain",
+                        "injection_supplies"
+                      ]
+                    },
+                    "label": {
+                      "type": "string"
+                    },
+                    "priceComponent": {
+                      "type": "string",
+                      "enum": [
+                        "shipping"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "amountCents",
+                    "kind",
+                    "label",
+                    "priceComponent"
+                  ],
+                  "additionalProperties": false
+                }
+              },
+              "ordering": {
+                "type": "object",
+                "properties": {
+                  "requiresPrescription": {
+                    "type": "boolean"
+                  },
+                  "requiresAccompanyingPrescription": {
+                    "type": "boolean"
+                  },
+                  "shipping": {
+                    "type": "string",
+                    "enum": [
+                      "prescription",
+                      "accompanying_prescription"
+                    ]
+                  }
+                },
+                "required": [
+                  "requiresPrescription",
+                  "requiresAccompanyingPrescription",
+                  "shipping"
+                ],
+                "additionalProperties": false
+              },
               "category": {
                 "anyOf": [
                   {
@@ -24070,6 +24469,8 @@
               "allowedStates",
               "availability",
               "catalogKind",
+              "fulfillmentInclusions",
+              "ordering",
               "category",
               "coldShip",
               "pharmacyId",
@@ -24287,6 +24688,39 @@
       "PreviewOrderRequest": {
         "type": "object",
         "properties": {
+          "otcItems": {
+            "anyOf": [
+              {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "catalogItemId": {
+                      "type": "string",
+                      "pattern": "^cat_[0-9a-hjkmnp-tv-z]{26}$",
+                      "examples": [
+                        "cat_01j2y8m6jcc9tt24af5pw9x1bc"
+                      ]
+                    },
+                    "quantity": {
+                      "type": "integer",
+                      "minimum": 1,
+                      "maximum": 100
+                    }
+                  },
+                  "required": [
+                    "catalogItemId",
+                    "quantity"
+                  ],
+                  "additionalProperties": false
+                },
+                "maxItems": 20
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
           "practiceId": {
             "type": "string",
             "pattern": "^prac_[0-9a-hjkmnp-tv-z]{26}$",
@@ -24900,6 +25334,153 @@
           {
             "type": "object",
             "properties": {
+              "otcItems": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "catalogItemId": {
+                      "type": "string",
+                      "allOf": [
+                        {
+                          "pattern": "^cat_[0-9a-hjkmnp-tv-z]{26}$",
+                          "examples": [
+                            "cat_01j2y8m6jcc9tt24af5pw9x1bc"
+                          ]
+                        }
+                      ]
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "quantity": {
+                      "type": "integer"
+                    },
+                    "unitPriceCents": {
+                      "type": "integer"
+                    },
+                    "subtotalCents": {
+                      "type": "integer"
+                    }
+                  },
+                  "required": [
+                    "catalogItemId",
+                    "name",
+                    "quantity",
+                    "unitPriceCents",
+                    "subtotalCents"
+                  ],
+                  "additionalProperties": false
+                },
+                "allOf": [
+                  {
+                    "maxItems": 20
+                  }
+                ]
+              },
+              "shippingGroups": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "key": {
+                      "type": "string"
+                    },
+                    "pharmacy": {
+                      "type": "string"
+                    },
+                    "label": {
+                      "type": "string"
+                    },
+                    "temperature": {
+                      "type": "string",
+                      "enum": [
+                        "ambient",
+                        "refrigerated"
+                      ]
+                    },
+                    "amountCents": {
+                      "type": "integer"
+                    },
+                    "itemCount": {
+                      "type": "integer"
+                    }
+                  },
+                  "required": [
+                    "key",
+                    "pharmacy",
+                    "label",
+                    "temperature",
+                    "amountCents",
+                    "itemCount"
+                  ],
+                  "additionalProperties": false
+                },
+                "allOf": [
+                  {
+                    "maxItems": 20
+                  }
+                ]
+              },
+              "totals": {
+                "type": "object",
+                "properties": {
+                  "currency": {
+                    "type": "string",
+                    "enum": [
+                      "USD"
+                    ]
+                  },
+                  "medicationSubtotalCents": {
+                    "anyOf": [
+                      {
+                        "type": "integer"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "supplySubtotalCents": {
+                    "anyOf": [
+                      {
+                        "type": "integer"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "shippingTotalCents": {
+                    "anyOf": [
+                      {
+                        "type": "integer"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "estimatedTotalCents": {
+                    "anyOf": [
+                      {
+                        "type": "integer"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  }
+                },
+                "required": [
+                  "currency",
+                  "medicationSubtotalCents",
+                  "supplySubtotalCents",
+                  "shippingTotalCents",
+                  "estimatedTotalCents"
+                ],
+                "additionalProperties": false
+              },
               "object": {
                 "type": "string",
                 "enum": [
@@ -25255,6 +25836,51 @@
               "orderInput": {
                 "type": "object",
                 "properties": {
+                  "otcItems": {
+                    "anyOf": [
+                      {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "catalogItemId": {
+                              "type": "string",
+                              "allOf": [
+                                {
+                                  "pattern": "^cat_[0-9a-hjkmnp-tv-z]{26}$",
+                                  "examples": [
+                                    "cat_01j2y8m6jcc9tt24af5pw9x1bc"
+                                  ]
+                                }
+                              ]
+                            },
+                            "quantity": {
+                              "type": "integer",
+                              "allOf": [
+                                {
+                                  "minimum": 1,
+                                  "maximum": 100
+                                }
+                              ]
+                            }
+                          },
+                          "required": [
+                            "catalogItemId",
+                            "quantity"
+                          ],
+                          "additionalProperties": false
+                        },
+                        "allOf": [
+                          {
+                            "maxItems": 20
+                          }
+                        ]
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
                   "practiceId": {
                     "type": "string",
                     "pattern": "^prac_[0-9a-hjkmnp-tv-z]{26}$",
@@ -25744,6 +26370,9 @@
               }
             },
             "required": [
+              "otcItems",
+              "shippingGroups",
+              "totals",
               "object",
               "livemode",
               "prescriptions",
@@ -25756,6 +26385,153 @@
           {
             "type": "object",
             "properties": {
+              "otcItems": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "catalogItemId": {
+                      "type": "string",
+                      "allOf": [
+                        {
+                          "pattern": "^cat_[0-9a-hjkmnp-tv-z]{26}$",
+                          "examples": [
+                            "cat_01j2y8m6jcc9tt24af5pw9x1bc"
+                          ]
+                        }
+                      ]
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "quantity": {
+                      "type": "integer"
+                    },
+                    "unitPriceCents": {
+                      "type": "integer"
+                    },
+                    "subtotalCents": {
+                      "type": "integer"
+                    }
+                  },
+                  "required": [
+                    "catalogItemId",
+                    "name",
+                    "quantity",
+                    "unitPriceCents",
+                    "subtotalCents"
+                  ],
+                  "additionalProperties": false
+                },
+                "allOf": [
+                  {
+                    "maxItems": 20
+                  }
+                ]
+              },
+              "shippingGroups": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "key": {
+                      "type": "string"
+                    },
+                    "pharmacy": {
+                      "type": "string"
+                    },
+                    "label": {
+                      "type": "string"
+                    },
+                    "temperature": {
+                      "type": "string",
+                      "enum": [
+                        "ambient",
+                        "refrigerated"
+                      ]
+                    },
+                    "amountCents": {
+                      "type": "integer"
+                    },
+                    "itemCount": {
+                      "type": "integer"
+                    }
+                  },
+                  "required": [
+                    "key",
+                    "pharmacy",
+                    "label",
+                    "temperature",
+                    "amountCents",
+                    "itemCount"
+                  ],
+                  "additionalProperties": false
+                },
+                "allOf": [
+                  {
+                    "maxItems": 20
+                  }
+                ]
+              },
+              "totals": {
+                "type": "object",
+                "properties": {
+                  "currency": {
+                    "type": "string",
+                    "enum": [
+                      "USD"
+                    ]
+                  },
+                  "medicationSubtotalCents": {
+                    "anyOf": [
+                      {
+                        "type": "integer"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "supplySubtotalCents": {
+                    "anyOf": [
+                      {
+                        "type": "integer"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "shippingTotalCents": {
+                    "anyOf": [
+                      {
+                        "type": "integer"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "estimatedTotalCents": {
+                    "anyOf": [
+                      {
+                        "type": "integer"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  }
+                },
+                "required": [
+                  "currency",
+                  "medicationSubtotalCents",
+                  "supplySubtotalCents",
+                  "shippingTotalCents",
+                  "estimatedTotalCents"
+                ],
+                "additionalProperties": false
+              },
               "object": {
                 "type": "string",
                 "enum": [
@@ -26113,6 +26889,9 @@
               }
             },
             "required": [
+              "otcItems",
+              "shippingGroups",
+              "totals",
               "object",
               "livemode",
               "prescriptions",
@@ -41375,6 +42154,39 @@
             "items": {
               "type": "object",
               "properties": {
+                "otcItems": {
+                  "anyOf": [
+                    {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "catalogItemId": {
+                            "type": "string",
+                            "pattern": "^cat_[0-9a-hjkmnp-tv-z]{26}$",
+                            "examples": [
+                              "cat_01j2y8m6jcc9tt24af5pw9x1bc"
+                            ]
+                          },
+                          "quantity": {
+                            "type": "integer",
+                            "minimum": 1,
+                            "maximum": 100
+                          }
+                        },
+                        "required": [
+                          "catalogItemId",
+                          "quantity"
+                        ],
+                        "additionalProperties": false
+                      },
+                      "maxItems": 20
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
                 "externalOrderId": {
                   "anyOf": [
                     {
@@ -42546,6 +43358,45 @@
             "items": {
               "type": "object",
               "properties": {
+                "otcItems": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "catalogItemId": {
+                        "type": "string",
+                        "allOf": [
+                          {
+                            "pattern": "^cat_[0-9a-hjkmnp-tv-z]{26}$",
+                            "examples": [
+                              "cat_01j2y8m6jcc9tt24af5pw9x1bc"
+                            ]
+                          }
+                        ]
+                      },
+                      "name": {
+                        "type": "string"
+                      },
+                      "quantity": {
+                        "type": "integer"
+                      },
+                      "unitPriceCents": {
+                        "type": "integer"
+                      },
+                      "subtotalCents": {
+                        "type": "integer"
+                      }
+                    },
+                    "required": [
+                      "catalogItemId",
+                      "name",
+                      "quantity",
+                      "unitPriceCents",
+                      "subtotalCents"
+                    ],
+                    "additionalProperties": false
+                  }
+                },
                 "externalOrderId": {
                   "anyOf": [
                     {
@@ -42805,6 +43656,7 @@
                 }
               },
               "required": [
+                "otcItems",
                 "externalOrderId",
                 "metadata",
                 "createdAt",

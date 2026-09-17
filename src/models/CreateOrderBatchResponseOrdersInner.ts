@@ -13,6 +13,13 @@
  */
 
 import { mapValues } from "../runtime";
+import type { CreateOrderResponseOtcItemsInner } from "./CreateOrderResponseOtcItemsInner";
+import {
+  CreateOrderResponseOtcItemsInnerFromJSON,
+  CreateOrderResponseOtcItemsInnerFromJSONTyped,
+  CreateOrderResponseOtcItemsInnerToJSON,
+  CreateOrderResponseOtcItemsInnerToJSONTyped,
+} from "./CreateOrderResponseOtcItemsInner";
 import type { CreateOrderResponsePrescriptionsInner } from "./CreateOrderResponsePrescriptionsInner";
 import {
   CreateOrderResponsePrescriptionsInnerFromJSON,
@@ -27,6 +34,12 @@ import {
  * @interface CreateOrderBatchResponseOrdersInner
  */
 export interface CreateOrderBatchResponseOrdersInner {
+  /**
+   *
+   * @type {Array<CreateOrderResponseOtcItemsInner>}
+   * @memberof CreateOrderBatchResponseOrdersInner
+   */
+  otcItems: Array<CreateOrderResponseOtcItemsInner>;
   /**
    *
    * @type {string}
@@ -119,6 +132,7 @@ export type CreateOrderBatchResponseOrdersInnerStatusEnum =
 export function instanceOfCreateOrderBatchResponseOrdersInner(
   value: object,
 ): value is CreateOrderBatchResponseOrdersInner {
+  if (!("otcItems" in value) || value["otcItems"] === undefined) return false;
   if (!("externalOrderId" in value) || value["externalOrderId"] === undefined) return false;
   if (!("metadata" in value) || value["metadata"] === undefined) return false;
   if (!("createdAt" in value) || value["createdAt"] === undefined) return false;
@@ -147,6 +161,7 @@ export function CreateOrderBatchResponseOrdersInnerFromJSONTyped(
     return json;
   }
   return {
+    otcItems: (json["otcItems"] as Array<any>).map(CreateOrderResponseOtcItemsInnerFromJSON),
     externalOrderId: json["externalOrderId"],
     metadata: json["metadata"],
     createdAt: json["createdAt"],
@@ -178,6 +193,7 @@ export function CreateOrderBatchResponseOrdersInnerToJSONTyped(
   }
 
   return {
+    otcItems: (value["otcItems"] as Array<any>).map(CreateOrderResponseOtcItemsInnerToJSON),
     externalOrderId: value["externalOrderId"],
     metadata: value["metadata"],
     createdAt: value["createdAt"],

@@ -134,6 +134,12 @@ export interface ListOrdersResponseDataInnerPrescriptionsInner {
    * @type {string}
    * @memberof ListOrdersResponseDataInnerPrescriptionsInner
    */
+  pharmacyName: string | null;
+  /**
+   *
+   * @type {string}
+   * @memberof ListOrdersResponseDataInnerPrescriptionsInner
+   */
   directions: string;
   /**
    *
@@ -202,6 +208,7 @@ export function instanceOfListOrdersResponseDataInnerPrescriptionsInner(
     return false;
   if (!("catalogItemId" in value) || value["catalogItemId"] === undefined) return false;
   if (!("pharmacyId" in value) || value["pharmacyId"] === undefined) return false;
+  if (!("pharmacyName" in value) || value["pharmacyName"] === undefined) return false;
   if (!("directions" in value) || value["directions"] === undefined) return false;
   if (!("dosageForm" in value) || value["dosageForm"] === undefined) return false;
   if (!("id" in value) || value["id"] === undefined) return false;
@@ -247,6 +254,7 @@ export function ListOrdersResponseDataInnerPrescriptionsInnerFromJSONTyped(
     externalPrescriptionId: json["externalPrescriptionId"],
     catalogItemId: json["catalogItemId"],
     pharmacyId: json["pharmacyId"],
+    pharmacyName: json["pharmacyName"],
     directions: json["directions"],
     dosageForm: json["dosageForm"],
     id: json["id"],
@@ -295,6 +303,7 @@ export function ListOrdersResponseDataInnerPrescriptionsInnerToJSONTyped(
     externalPrescriptionId: value["externalPrescriptionId"],
     catalogItemId: value["catalogItemId"],
     pharmacyId: value["pharmacyId"],
+    pharmacyName: value["pharmacyName"],
     directions: value["directions"],
     dosageForm: value["dosageForm"],
     id: value["id"],

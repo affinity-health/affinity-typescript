@@ -26,6 +26,7 @@ const validPrescription = {
 } as const;
 
 const minimalResponse = {
+  otcItems: [],
   addresses: [],
   allergies: [],
   allergySummary: [],

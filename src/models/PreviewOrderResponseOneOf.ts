@@ -13,6 +13,13 @@
  */
 
 import { mapValues } from "../runtime";
+import type { CreateOrderResponseOtcItemsInner } from "./CreateOrderResponseOtcItemsInner";
+import {
+  CreateOrderResponseOtcItemsInnerFromJSON,
+  CreateOrderResponseOtcItemsInnerFromJSONTyped,
+  CreateOrderResponseOtcItemsInnerToJSON,
+  CreateOrderResponseOtcItemsInnerToJSONTyped,
+} from "./CreateOrderResponseOtcItemsInner";
 import type { PreviewOrderResponseOneOfIssuesInner } from "./PreviewOrderResponseOneOfIssuesInner";
 import {
   PreviewOrderResponseOneOfIssuesInnerFromJSON,
@@ -27,6 +34,20 @@ import {
   PreviewOrderResponseOneOfOrderInputToJSON,
   PreviewOrderResponseOneOfOrderInputToJSONTyped,
 } from "./PreviewOrderResponseOneOfOrderInput";
+import type { PreviewOrderResponseOneOfTotals } from "./PreviewOrderResponseOneOfTotals";
+import {
+  PreviewOrderResponseOneOfTotalsFromJSON,
+  PreviewOrderResponseOneOfTotalsFromJSONTyped,
+  PreviewOrderResponseOneOfTotalsToJSON,
+  PreviewOrderResponseOneOfTotalsToJSONTyped,
+} from "./PreviewOrderResponseOneOfTotals";
+import type { PreviewOrderResponseOneOfShippingGroupsInner } from "./PreviewOrderResponseOneOfShippingGroupsInner";
+import {
+  PreviewOrderResponseOneOfShippingGroupsInnerFromJSON,
+  PreviewOrderResponseOneOfShippingGroupsInnerFromJSONTyped,
+  PreviewOrderResponseOneOfShippingGroupsInnerToJSON,
+  PreviewOrderResponseOneOfShippingGroupsInnerToJSONTyped,
+} from "./PreviewOrderResponseOneOfShippingGroupsInner";
 import type { PreviewOrderResponseOneOfPrescriptionsInner } from "./PreviewOrderResponseOneOfPrescriptionsInner";
 import {
   PreviewOrderResponseOneOfPrescriptionsInnerFromJSON,
@@ -41,6 +62,24 @@ import {
  * @interface PreviewOrderResponseOneOf
  */
 export interface PreviewOrderResponseOneOf {
+  /**
+   *
+   * @type {Array<CreateOrderResponseOtcItemsInner>}
+   * @memberof PreviewOrderResponseOneOf
+   */
+  otcItems: Array<CreateOrderResponseOtcItemsInner>;
+  /**
+   *
+   * @type {Array<PreviewOrderResponseOneOfShippingGroupsInner>}
+   * @memberof PreviewOrderResponseOneOf
+   */
+  shippingGroups: Array<PreviewOrderResponseOneOfShippingGroupsInner>;
+  /**
+   *
+   * @type {PreviewOrderResponseOneOfTotals}
+   * @memberof PreviewOrderResponseOneOf
+   */
+  totals: PreviewOrderResponseOneOfTotals;
   /**
    *
    * @type {PreviewOrderResponseOneOfObjectEnum}
@@ -103,6 +142,9 @@ export type PreviewOrderResponseOneOfStatusEnum =
 export function instanceOfPreviewOrderResponseOneOf(
   value: object,
 ): value is PreviewOrderResponseOneOf {
+  if (!("otcItems" in value) || value["otcItems"] === undefined) return false;
+  if (!("shippingGroups" in value) || value["shippingGroups"] === undefined) return false;
+  if (!("totals" in value) || value["totals"] === undefined) return false;
   if (!("object" in value) || value["object"] === undefined) return false;
   if (!("livemode" in value) || value["livemode"] === undefined) return false;
   if (!("prescriptions" in value) || value["prescriptions"] === undefined) return false;
@@ -124,6 +166,11 @@ export function PreviewOrderResponseOneOfFromJSONTyped(
     return json;
   }
   return {
+    otcItems: (json["otcItems"] as Array<any>).map(CreateOrderResponseOtcItemsInnerFromJSON),
+    shippingGroups: (json["shippingGroups"] as Array<any>).map(
+      PreviewOrderResponseOneOfShippingGroupsInnerFromJSON,
+    ),
+    totals: PreviewOrderResponseOneOfTotalsFromJSON(json["totals"]),
     object: json["object"],
     livemode: json["livemode"],
     prescriptions: (json["prescriptions"] as Array<any>).map(
@@ -148,6 +195,11 @@ export function PreviewOrderResponseOneOfToJSONTyped(
   }
 
   return {
+    otcItems: (value["otcItems"] as Array<any>).map(CreateOrderResponseOtcItemsInnerToJSON),
+    shippingGroups: (value["shippingGroups"] as Array<any>).map(
+      PreviewOrderResponseOneOfShippingGroupsInnerToJSON,
+    ),
+    totals: PreviewOrderResponseOneOfTotalsToJSON(value["totals"]),
     object: value["object"],
     livemode: value["livemode"],
     prescriptions: (value["prescriptions"] as Array<any>).map(

@@ -66,7 +66,7 @@ eligibility, signing, or actor-attribution checks.
 
 ## Prescription defaults and previews
 
-These methods require the prescribing-options API contract and are pending release.
+These methods are available in `1.9.0-beta.4`.
 Use them on your server with an existing patient in the selected practice.
 
 ```ts
@@ -92,6 +92,16 @@ Omit the options request for one-click defaults. Add prescription `overrides` fo
 template, or free-text directions, quantity, days supply, refills, clinical context, or shipping.
 Previews do not create, sign, charge, or transmit an order. Never infer patient-specific rationale,
 diagnoses, or allergy review from defaults. Creation and signing recheck current requirements.
+
+Supplies use `catalog.list({ catalogKind: "otc" })`. Read each item's `ordering` requirements and
+`fulfillmentInclusions`. Add purchased supplies with `otcItems: [{ catalogItemId, quantity: 1 }]`
+on `orders.preview`, `orders.create`, or each patient order in a batch. PerfectRx supplies require
+an accompanying PerfectRx prescription and attach to its shipment without another delivery fee.
+Do not add supplies already included by the pharmacy unless the clinician requests extra items.
+
+Preview `shippingGroups` combines charges by patient order, pharmacy, service, temperature, and
+destination. Ambient and refrigerated prescriptions remain separate. `totals` reports medication,
+supply, shipping, and estimated order totals, with null when a price cannot be resolved.
 
 ## Client and request options
 

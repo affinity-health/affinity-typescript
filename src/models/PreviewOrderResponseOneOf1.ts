@@ -13,6 +13,13 @@
  */
 
 import { mapValues } from "../runtime";
+import type { CreateOrderResponseOtcItemsInner } from "./CreateOrderResponseOtcItemsInner";
+import {
+  CreateOrderResponseOtcItemsInnerFromJSON,
+  CreateOrderResponseOtcItemsInnerFromJSONTyped,
+  CreateOrderResponseOtcItemsInnerToJSON,
+  CreateOrderResponseOtcItemsInnerToJSONTyped,
+} from "./CreateOrderResponseOtcItemsInner";
 import type { Null } from "./Null";
 import { NullFromJSON, NullFromJSONTyped, NullToJSON, NullToJSONTyped } from "./Null";
 import type { PreviewOrderResponseOneOfIssuesInner } from "./PreviewOrderResponseOneOfIssuesInner";
@@ -22,6 +29,20 @@ import {
   PreviewOrderResponseOneOfIssuesInnerToJSON,
   PreviewOrderResponseOneOfIssuesInnerToJSONTyped,
 } from "./PreviewOrderResponseOneOfIssuesInner";
+import type { PreviewOrderResponseOneOfTotals } from "./PreviewOrderResponseOneOfTotals";
+import {
+  PreviewOrderResponseOneOfTotalsFromJSON,
+  PreviewOrderResponseOneOfTotalsFromJSONTyped,
+  PreviewOrderResponseOneOfTotalsToJSON,
+  PreviewOrderResponseOneOfTotalsToJSONTyped,
+} from "./PreviewOrderResponseOneOfTotals";
+import type { PreviewOrderResponseOneOfShippingGroupsInner } from "./PreviewOrderResponseOneOfShippingGroupsInner";
+import {
+  PreviewOrderResponseOneOfShippingGroupsInnerFromJSON,
+  PreviewOrderResponseOneOfShippingGroupsInnerFromJSONTyped,
+  PreviewOrderResponseOneOfShippingGroupsInnerToJSON,
+  PreviewOrderResponseOneOfShippingGroupsInnerToJSONTyped,
+} from "./PreviewOrderResponseOneOfShippingGroupsInner";
 import type { PreviewOrderResponseOneOfPrescriptionsInner } from "./PreviewOrderResponseOneOfPrescriptionsInner";
 import {
   PreviewOrderResponseOneOfPrescriptionsInnerFromJSON,
@@ -36,6 +57,24 @@ import {
  * @interface PreviewOrderResponseOneOf1
  */
 export interface PreviewOrderResponseOneOf1 {
+  /**
+   *
+   * @type {Array<CreateOrderResponseOtcItemsInner>}
+   * @memberof PreviewOrderResponseOneOf1
+   */
+  otcItems: Array<CreateOrderResponseOtcItemsInner>;
+  /**
+   *
+   * @type {Array<PreviewOrderResponseOneOfShippingGroupsInner>}
+   * @memberof PreviewOrderResponseOneOf1
+   */
+  shippingGroups: Array<PreviewOrderResponseOneOfShippingGroupsInner>;
+  /**
+   *
+   * @type {PreviewOrderResponseOneOfTotals}
+   * @memberof PreviewOrderResponseOneOf1
+   */
+  totals: PreviewOrderResponseOneOfTotals;
   /**
    *
    * @type {PreviewOrderResponseOneOf1ObjectEnum}
@@ -98,6 +137,9 @@ export type PreviewOrderResponseOneOf1StatusEnum =
 export function instanceOfPreviewOrderResponseOneOf1(
   value: object,
 ): value is PreviewOrderResponseOneOf1 {
+  if (!("otcItems" in value) || value["otcItems"] === undefined) return false;
+  if (!("shippingGroups" in value) || value["shippingGroups"] === undefined) return false;
+  if (!("totals" in value) || value["totals"] === undefined) return false;
   if (!("object" in value) || value["object"] === undefined) return false;
   if (!("livemode" in value) || value["livemode"] === undefined) return false;
   if (!("prescriptions" in value) || value["prescriptions"] === undefined) return false;
@@ -119,6 +161,11 @@ export function PreviewOrderResponseOneOf1FromJSONTyped(
     return json;
   }
   return {
+    otcItems: (json["otcItems"] as Array<any>).map(CreateOrderResponseOtcItemsInnerFromJSON),
+    shippingGroups: (json["shippingGroups"] as Array<any>).map(
+      PreviewOrderResponseOneOfShippingGroupsInnerFromJSON,
+    ),
+    totals: PreviewOrderResponseOneOfTotalsFromJSON(json["totals"]),
     object: json["object"],
     livemode: json["livemode"],
     prescriptions: (json["prescriptions"] as Array<any>).map(
@@ -143,6 +190,11 @@ export function PreviewOrderResponseOneOf1ToJSONTyped(
   }
 
   return {
+    otcItems: (value["otcItems"] as Array<any>).map(CreateOrderResponseOtcItemsInnerToJSON),
+    shippingGroups: (value["shippingGroups"] as Array<any>).map(
+      PreviewOrderResponseOneOfShippingGroupsInnerToJSON,
+    ),
+    totals: PreviewOrderResponseOneOfTotalsToJSON(value["totals"]),
     object: value["object"],
     livemode: value["livemode"],
     prescriptions: (value["prescriptions"] as Array<any>).map(

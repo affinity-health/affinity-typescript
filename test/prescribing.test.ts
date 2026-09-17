@@ -6,13 +6,35 @@ const patientId = "pat_01k123456789abcdefghjkmnpq";
 const medicationId = "cat_01k123456789abcdefghjkmnpq";
 const shippingOptionId = "ship_01k123456789abcdefghjkmnpq";
 
+test("supplies share the catalog resource and serialize the kind filter", async () => {
+  let request: Request | undefined;
+  const affinity = new Affinity("sk_test_example", {
+    fetch: async (input, init) => {
+      request = new Request(input, init);
+      return Response.json({ object: "list", data: [], hasMore: false, url: "/v1/catalog/items" });
+    },
+  });
+  await affinity.catalog.list({ catalogKind: "otc", limit: 10 });
+  expect(new URL(request!.url).pathname).toBe("/v1/catalog/items");
+  expect(new URL(request!.url).searchParams.get("catalogKind")).toBe("otc");
+});
+
 test("prescribing options serialize the item and practice scope", async () => {
   let request: Request | undefined;
   const affinity = new Affinity("sk_test_example", {
     fetch: async (input, init) => {
       request = new Request(input, init);
       return Response.json({
-        catalog: { ingredients: [], shippingOptions: [] },
+        catalog: {
+          ingredients: [],
+          shippingOptions: [],
+          fulfillmentInclusions: [],
+          ordering: {
+            requiresPrescription: true,
+            requiresAccompanyingPrescription: false,
+            shipping: "prescription",
+          },
+        },
         presets: [],
         templates: [],
         pharmacyDirections: [],
@@ -30,6 +52,7 @@ test("prescribing options serialize the item and practice scope", async () => {
 test("preview preserves custom SIGs and returns a directly creatable payload", async () => {
   const requests: Request[] = [];
   const orderInput = {
+    otcItems: [{ catalogItemId: "cat_supply", quantity: 2 }],
     practiceId,
     patientId,
     prescriptions: [
@@ -55,14 +78,24 @@ test("preview preserves custom SIGs and returns a directly creatable payload", a
               livemode: false,
               status: "complete",
               prescriptions: [],
+              otcItems: [],
+              shippingGroups: [],
+              totals: {
+                currency: "USD",
+                medicationSubtotalCents: 1000,
+                supplySubtotalCents: 300,
+                shippingTotalCents: 500,
+                estimatedTotalCents: 1800,
+              },
               issues: [],
               orderInput,
             }
-          : { prescriptions: [], fulfillments: [] },
+          : { prescriptions: [], fulfillments: [], otcItems: [] },
       );
     },
   });
   const preview = await affinity.orders.preview({
+    otcItems: orderInput.otcItems,
     practiceId,
     patientId,
     prescriptions: [
@@ -76,6 +109,8 @@ test("preview preserves custom SIGs and returns a directly creatable payload", a
     ],
   });
   expect(preview.status).toBe("complete");
+  expect(preview.totals.estimatedTotalCents).toBe(1800);
+  expect((await requests[0]!.clone().json()).otcItems).toEqual(orderInput.otcItems);
   expect(requests[0]!.headers.has("Idempotency-Key")).toBe(false);
   expect(new URL(requests[0]!.url).pathname).toBe("/v1/order-previews");
   expect((await requests[0]!.clone().json()).prescriptions[0].overrides.sig).toEqual({
@@ -84,6 +119,7 @@ test("preview preserves custom SIGs and returns a directly creatable payload", a
   });
   if (preview.status !== "complete") throw new Error("Expected complete preview");
   await affinity.orders.create(preview.orderInput, { idempotencyKey: "reviewed-preview" });
+  expect((await requests[1]!.clone().json()).otcItems).toEqual(orderInput.otcItems);
   expect((await requests[1]!.clone().json()).prescriptions[0].dispensing.shippingOptionId).toBe(
     shippingOptionId,
   );
@@ -103,6 +139,15 @@ test("incomplete previews preserve null payload and actionable issues", async ()
         object: "order_preview",
         livemode: false,
         status: "incomplete",
+        otcItems: [],
+        shippingGroups: [],
+        totals: {
+          currency: "USD",
+          medicationSubtotalCents: null,
+          supplySubtotalCents: 0,
+          shippingTotalCents: null,
+          estimatedTotalCents: null,
+        },
         prescriptions: [],
         issues,
         orderInput: null,

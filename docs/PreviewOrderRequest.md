@@ -4,6 +4,7 @@
 
 | Name                | Type                                                                                           |
 | ------------------- | ---------------------------------------------------------------------------------------------- |
+| `otcItems`          | [Array&lt;CreateOrderRequestOtcItemsInner&gt;](CreateOrderRequestOtcItemsInner.md)             |
 | `practiceId`        | string                                                                                         |
 | `patientId`         | string                                                                                         |
 | `userId`            | string                                                                                         |

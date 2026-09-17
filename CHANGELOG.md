@@ -7,10 +7,15 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 
 ## [Unreleased]
 
+## [1.9.0-beta.4] - 2026-09-17
+
 ### Added
 
 - Add `catalog.retrievePrescribingOptions` for default prescriptions, alternative directions, templates, and product constraints.
 - Add `orders.preview` for default resolution, custom SIGs, quantities, days supply, shipping, and estimated prices. Complete previews provide a directly usable `orders.create` input.
+- Add catalog kind filters, ordering requirements, and included supply information to the unified catalog.
+- Accept `otcItems` in previews, orders, and batches; return purchased supplies in order responses.
+- Return grouped shipping estimates and medication, supply, shipping, and order totals from previews.
 
 ### Fixed
 

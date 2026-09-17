@@ -4,6 +4,7 @@
 
 | Name                | Type                                                                                                        |
 | ------------------- | ----------------------------------------------------------------------------------------------------------- |
+| `otcItems`          | [Array&lt;CreateOrderRequestOtcItemsInner&gt;](CreateOrderRequestOtcItemsInner.md)                          |
 | `externalOrderId`   | string                                                                                                      |
 | `metadata`          | [{ [key: string]: ListOrdersResponseDataInnerMetadataValue; }](ListOrdersResponseDataInnerMetadataValue.md) |
 | `patientId`         | string                                                                                                      |

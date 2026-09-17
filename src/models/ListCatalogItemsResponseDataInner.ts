@@ -34,6 +34,20 @@ import {
   ListCatalogItemsResponseDataInnerShippingOptionsInnerToJSON,
   ListCatalogItemsResponseDataInnerShippingOptionsInnerToJSONTyped,
 } from "./ListCatalogItemsResponseDataInnerShippingOptionsInner";
+import type { ListCatalogItemsResponseDataInnerFulfillmentInclusionsInner } from "./ListCatalogItemsResponseDataInnerFulfillmentInclusionsInner";
+import {
+  ListCatalogItemsResponseDataInnerFulfillmentInclusionsInnerFromJSON,
+  ListCatalogItemsResponseDataInnerFulfillmentInclusionsInnerFromJSONTyped,
+  ListCatalogItemsResponseDataInnerFulfillmentInclusionsInnerToJSON,
+  ListCatalogItemsResponseDataInnerFulfillmentInclusionsInnerToJSONTyped,
+} from "./ListCatalogItemsResponseDataInnerFulfillmentInclusionsInner";
+import type { ListCatalogItemsResponseDataInnerOrdering } from "./ListCatalogItemsResponseDataInnerOrdering";
+import {
+  ListCatalogItemsResponseDataInnerOrderingFromJSON,
+  ListCatalogItemsResponseDataInnerOrderingFromJSONTyped,
+  ListCatalogItemsResponseDataInnerOrderingToJSON,
+  ListCatalogItemsResponseDataInnerOrderingToJSONTyped,
+} from "./ListCatalogItemsResponseDataInnerOrdering";
 import type { ListCatalogItemsResponseDataInnerQuantityConstraint } from "./ListCatalogItemsResponseDataInnerQuantityConstraint";
 import {
   ListCatalogItemsResponseDataInnerQuantityConstraintFromJSON,
@@ -79,6 +93,18 @@ export interface ListCatalogItemsResponseDataInner {
    * @memberof ListCatalogItemsResponseDataInner
    */
   catalogKind: string;
+  /**
+   *
+   * @type {Array<ListCatalogItemsResponseDataInnerFulfillmentInclusionsInner>}
+   * @memberof ListCatalogItemsResponseDataInner
+   */
+  fulfillmentInclusions: Array<ListCatalogItemsResponseDataInnerFulfillmentInclusionsInner>;
+  /**
+   *
+   * @type {ListCatalogItemsResponseDataInnerOrdering}
+   * @memberof ListCatalogItemsResponseDataInner
+   */
+  ordering: ListCatalogItemsResponseDataInnerOrdering;
   /**
    *
    * @type {string}
@@ -250,6 +276,9 @@ export function instanceOfListCatalogItemsResponseDataInner(
   if (!("allowedStates" in value) || value["allowedStates"] === undefined) return false;
   if (!("availability" in value) || value["availability"] === undefined) return false;
   if (!("catalogKind" in value) || value["catalogKind"] === undefined) return false;
+  if (!("fulfillmentInclusions" in value) || value["fulfillmentInclusions"] === undefined)
+    return false;
+  if (!("ordering" in value) || value["ordering"] === undefined) return false;
   if (!("category" in value) || value["category"] === undefined) return false;
   if (!("coldShip" in value) || value["coldShip"] === undefined) return false;
   if (!("pharmacyId" in value) || value["pharmacyId"] === undefined) return false;
@@ -296,6 +325,10 @@ export function ListCatalogItemsResponseDataInnerFromJSONTyped(
     allowedStates: json["allowedStates"],
     availability: json["availability"],
     catalogKind: json["catalogKind"],
+    fulfillmentInclusions: (json["fulfillmentInclusions"] as Array<any>).map(
+      ListCatalogItemsResponseDataInnerFulfillmentInclusionsInnerFromJSON,
+    ),
+    ordering: ListCatalogItemsResponseDataInnerOrderingFromJSON(json["ordering"]),
     category: json["category"],
     coldShip: json["coldShip"],
     pharmacyId: json["pharmacyId"],
@@ -347,6 +380,10 @@ export function ListCatalogItemsResponseDataInnerToJSONTyped(
     allowedStates: value["allowedStates"],
     availability: value["availability"],
     catalogKind: value["catalogKind"],
+    fulfillmentInclusions: (value["fulfillmentInclusions"] as Array<any>).map(
+      ListCatalogItemsResponseDataInnerFulfillmentInclusionsInnerToJSON,
+    ),
+    ordering: ListCatalogItemsResponseDataInnerOrderingToJSON(value["ordering"]),
     category: value["category"],
     coldShip: value["coldShip"],
     pharmacyId: value["pharmacyId"],

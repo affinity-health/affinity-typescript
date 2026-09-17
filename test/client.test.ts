@@ -88,6 +88,7 @@ describe("Affinity client", () => {
           patientId: "pat_01k123456789abcdefghjkmnp",
           practiceId: "prac_01k123456789abcdefghjkmnp",
           prescriptions: [],
+          otcItems: [],
         });
       },
     });

@@ -13,6 +13,13 @@
  */
 
 import { mapValues } from "../runtime";
+import type { CreateOrderRequestOtcItemsInner } from "./CreateOrderRequestOtcItemsInner";
+import {
+  CreateOrderRequestOtcItemsInnerFromJSON,
+  CreateOrderRequestOtcItemsInnerFromJSONTyped,
+  CreateOrderRequestOtcItemsInnerToJSON,
+  CreateOrderRequestOtcItemsInnerToJSONTyped,
+} from "./CreateOrderRequestOtcItemsInner";
 import type { PreviewOrderResponseOneOfOrderInputPrescriptionsInner } from "./PreviewOrderResponseOneOfOrderInputPrescriptionsInner";
 import {
   PreviewOrderResponseOneOfOrderInputPrescriptionsInnerFromJSON,
@@ -27,6 +34,12 @@ import {
  * @interface PreviewOrderResponseOneOfOrderInput
  */
 export interface PreviewOrderResponseOneOfOrderInput {
+  /**
+   *
+   * @type {Array<CreateOrderRequestOtcItemsInner>}
+   * @memberof PreviewOrderResponseOneOfOrderInput
+   */
+  otcItems?: Array<CreateOrderRequestOtcItemsInner> | null;
   /**
    *
    * @type {string}
@@ -91,6 +104,10 @@ export function PreviewOrderResponseOneOfOrderInputFromJSONTyped(
     return json;
   }
   return {
+    otcItems:
+      json["otcItems"] == null
+        ? undefined
+        : (json["otcItems"] as Array<any>).map(CreateOrderRequestOtcItemsInnerFromJSON),
     practiceId: json["practiceId"],
     patientId: json["patientId"],
     userId: json["userId"] == null ? undefined : json["userId"],
@@ -117,6 +134,10 @@ export function PreviewOrderResponseOneOfOrderInputToJSONTyped(
   }
 
   return {
+    otcItems:
+      value["otcItems"] == null
+        ? undefined
+        : (value["otcItems"] as Array<any>).map(CreateOrderRequestOtcItemsInnerToJSON),
     practiceId: value["practiceId"],
     patientId: value["patientId"],
     userId: value["userId"],

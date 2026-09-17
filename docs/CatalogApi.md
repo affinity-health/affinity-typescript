@@ -11,7 +11,7 @@ All URIs are relative to *https://api.joinaffinityai.com*
 
 ## listCatalogItems
 
-> ListCatalogItemsResponse listCatalogItems(sort, catalogItemId, availability, pharmacyIds, dosageForms, endingBefore, hideControlledSubstances, hideUnpriced, limit, orgId, practiceId, query, requirement, routes, startingAfter, affinityVersion)
+> ListCatalogItemsResponse listCatalogItems(catalogKind, sort, catalogItemId, availability, pharmacyIds, dosageForms, endingBefore, hideControlledSubstances, hideUnpriced, limit, orgId, practiceId, query, requirement, routes, startingAfter, affinityVersion)
 
 List catalog items
 
@@ -37,6 +37,8 @@ async function example() {
   const api = new CatalogApi(config);
 
   const body = {
+    // 'prescription' | 'otc' (optional)
+    catalogKind: catalogKind_example,
     // 'relevance' | 'name_asc' | 'name_desc' (optional)
     sort: sort_example,
     // string (optional)
@@ -87,6 +89,7 @@ example().catch(console.error);
 
 | Name                         | Type                                    | Description | Notes                                                                          |
 | ---------------------------- | --------------------------------------- | ----------- | ------------------------------------------------------------------------------ |
+| **catalogKind**              | `prescription`, `otc`                   |             | [Optional] [Defaults to `undefined`] [Enum: prescription, otc]                 |
 | **sort**                     | `relevance`, `name_asc`, `name_desc`    |             | [Optional] [Defaults to `undefined`] [Enum: relevance, name_asc, name_desc]    |
 | **catalogItemId**            | `string`                                |             | [Optional] [Defaults to `undefined`]                                           |
 | **availability**             | `all`, `orderable`, `unavailable`       |             | [Optional] [Defaults to `undefined`] [Enum: all, orderable, unavailable]       |

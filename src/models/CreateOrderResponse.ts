@@ -13,6 +13,13 @@
  */
 
 import { mapValues } from "../runtime";
+import type { CreateOrderResponseOtcItemsInner } from "./CreateOrderResponseOtcItemsInner";
+import {
+  CreateOrderResponseOtcItemsInnerFromJSON,
+  CreateOrderResponseOtcItemsInnerFromJSONTyped,
+  CreateOrderResponseOtcItemsInnerToJSON,
+  CreateOrderResponseOtcItemsInnerToJSONTyped,
+} from "./CreateOrderResponseOtcItemsInner";
 import type { CreateOrderResponsePrescriptionsInner } from "./CreateOrderResponsePrescriptionsInner";
 import {
   CreateOrderResponsePrescriptionsInnerFromJSON,
@@ -27,6 +34,12 @@ import {
  * @interface CreateOrderResponse
  */
 export interface CreateOrderResponse {
+  /**
+   *
+   * @type {Array<CreateOrderResponseOtcItemsInner>}
+   * @memberof CreateOrderResponse
+   */
+  otcItems: Array<CreateOrderResponseOtcItemsInner>;
   /**
    *
    * @type {string}
@@ -117,6 +130,7 @@ export type CreateOrderResponseStatusEnum =
  * Check if a given object implements the CreateOrderResponse interface.
  */
 export function instanceOfCreateOrderResponse(value: object): value is CreateOrderResponse {
+  if (!("otcItems" in value) || value["otcItems"] === undefined) return false;
   if (!("externalOrderId" in value) || value["externalOrderId"] === undefined) return false;
   if (!("metadata" in value) || value["metadata"] === undefined) return false;
   if (!("createdAt" in value) || value["createdAt"] === undefined) return false;
@@ -143,6 +157,7 @@ export function CreateOrderResponseFromJSONTyped(
     return json;
   }
   return {
+    otcItems: (json["otcItems"] as Array<any>).map(CreateOrderResponseOtcItemsInnerFromJSON),
     externalOrderId: json["externalOrderId"],
     metadata: json["metadata"],
     createdAt: json["createdAt"],
@@ -172,6 +187,7 @@ export function CreateOrderResponseToJSONTyped(
   }
 
   return {
+    otcItems: (value["otcItems"] as Array<any>).map(CreateOrderResponseOtcItemsInnerToJSON),
     externalOrderId: value["externalOrderId"],
     metadata: value["metadata"],
     createdAt: value["createdAt"],

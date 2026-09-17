@@ -51,6 +51,7 @@ import {
 } from "../models/RetrievePrescribingOptionsResponse";
 
 export interface ListCatalogItemsRequest {
+  catalogKind?: ListCatalogItemsCatalogKindEnum;
   sort?: ListCatalogItemsSortEnum;
   catalogItemId?: string | null;
   availability?: ListCatalogItemsAvailabilityEnum;
@@ -104,6 +105,10 @@ export class CatalogApi extends runtime.BaseAPI {
     requestParameters: ListCatalogItemsRequest,
   ): Promise<runtime.RequestOpts> {
     const queryParameters: any = {};
+
+    if (requestParameters["catalogKind"] != null) {
+      queryParameters["catalogKind"] = requestParameters["catalogKind"];
+    }
 
     if (requestParameters["sort"] != null) {
       queryParameters["sort"] = requestParameters["sort"];
@@ -494,6 +499,15 @@ export class CatalogApi extends runtime.BaseAPI {
   }
 }
 
+/**
+ * @export
+ */
+export const ListCatalogItemsCatalogKindEnum = {
+  Prescription: "prescription",
+  Otc: "otc",
+} as const;
+export type ListCatalogItemsCatalogKindEnum =
+  (typeof ListCatalogItemsCatalogKindEnum)[keyof typeof ListCatalogItemsCatalogKindEnum];
 /**
  * @export
  */

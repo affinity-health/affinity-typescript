@@ -27,6 +27,13 @@ import {
   ListOrdersResponseDataInnerMetadataValueToJSON,
   ListOrdersResponseDataInnerMetadataValueToJSONTyped,
 } from "./ListOrdersResponseDataInnerMetadataValue";
+import type { CreateOrderRequestOtcItemsInner } from "./CreateOrderRequestOtcItemsInner";
+import {
+  CreateOrderRequestOtcItemsInnerFromJSON,
+  CreateOrderRequestOtcItemsInnerFromJSONTyped,
+  CreateOrderRequestOtcItemsInnerToJSON,
+  CreateOrderRequestOtcItemsInnerToJSONTyped,
+} from "./CreateOrderRequestOtcItemsInner";
 import type { CreateOrderRequestPatient } from "./CreateOrderRequestPatient";
 import {
   CreateOrderRequestPatientFromJSON,
@@ -53,6 +60,12 @@ export interface CreateOrderRequest {
    * @memberof CreateOrderRequest
    */
   userId?: string | null;
+  /**
+   *
+   * @type {Array<CreateOrderRequestOtcItemsInner>}
+   * @memberof CreateOrderRequest
+   */
+  otcItems?: Array<CreateOrderRequestOtcItemsInner> | null;
   /**
    *
    * @type {string}
@@ -114,6 +127,10 @@ export function CreateOrderRequestFromJSONTyped(
   return {
     practiceId: json["practiceId"],
     userId: json["userId"] == null ? undefined : json["userId"],
+    otcItems:
+      json["otcItems"] == null
+        ? undefined
+        : (json["otcItems"] as Array<any>).map(CreateOrderRequestOtcItemsInnerFromJSON),
     externalOrderId: json["externalOrderId"] == null ? undefined : json["externalOrderId"],
     metadata:
       json["metadata"] == null
@@ -144,6 +161,10 @@ export function CreateOrderRequestToJSONTyped(
   return {
     practiceId: value["practiceId"],
     userId: value["userId"],
+    otcItems:
+      value["otcItems"] == null
+        ? undefined
+        : (value["otcItems"] as Array<any>).map(CreateOrderRequestOtcItemsInnerToJSON),
     externalOrderId: value["externalOrderId"],
     metadata:
       value["metadata"] == null

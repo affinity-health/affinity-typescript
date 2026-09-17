@@ -14,6 +14,7 @@
 | `externalPrescriptionId` | string                                                                                                                                                                          |
 | `catalogItemId`          | string                                                                                                                                                                          |
 | `pharmacyId`             | string                                                                                                                                                                          |
+| `pharmacyName`           | string                                                                                                                                                                          |
 | `directions`             | string                                                                                                                                                                          |
 | `dosageForm`             | string                                                                                                                                                                          |
 | `id`                     | string                                                                                                                                                                          |

@@ -13,6 +13,13 @@
  */
 
 import { mapValues } from "../runtime";
+import type { ListOrdersResponseDataInnerOtcItemsInner } from "./ListOrdersResponseDataInnerOtcItemsInner";
+import {
+  ListOrdersResponseDataInnerOtcItemsInnerFromJSON,
+  ListOrdersResponseDataInnerOtcItemsInnerFromJSONTyped,
+  ListOrdersResponseDataInnerOtcItemsInnerToJSON,
+  ListOrdersResponseDataInnerOtcItemsInnerToJSONTyped,
+} from "./ListOrdersResponseDataInnerOtcItemsInner";
 import type { ListOrdersResponseDataInnerReview } from "./ListOrdersResponseDataInnerReview";
 import {
   ListOrdersResponseDataInnerReviewFromJSON,
@@ -48,6 +55,12 @@ import {
  * @interface CancelOrderResponse
  */
 export interface CancelOrderResponse {
+  /**
+   *
+   * @type {Array<ListOrdersResponseDataInnerOtcItemsInner>}
+   * @memberof CancelOrderResponse
+   */
+  otcItems: Array<ListOrdersResponseDataInnerOtcItemsInner>;
   /**
    * Snapshot of the practice-facing medication total. Null until every prescription has recorded submission pricing. Excludes shipping and supplies.
    * @type {number}
@@ -202,6 +215,7 @@ export type CancelOrderResponseStatusEnum =
  * Check if a given object implements the CancelOrderResponse interface.
  */
 export function instanceOfCancelOrderResponse(value: object): value is CancelOrderResponse {
+  if (!("otcItems" in value) || value["otcItems"] === undefined) return false;
   if (
     !("practiceMedicationTotalCents" in value) ||
     value["practiceMedicationTotalCents"] === undefined
@@ -241,6 +255,9 @@ export function CancelOrderResponseFromJSONTyped(
     return json;
   }
   return {
+    otcItems: (json["otcItems"] as Array<any>).map(
+      ListOrdersResponseDataInnerOtcItemsInnerFromJSON,
+    ),
     practiceMedicationTotalCents: json["practiceMedicationTotalCents"],
     externalOrderId: json["externalOrderId"],
     metadata: json["metadata"],
@@ -283,6 +300,7 @@ export function CancelOrderResponseToJSONTyped(
   }
 
   return {
+    otcItems: (value["otcItems"] as Array<any>).map(ListOrdersResponseDataInnerOtcItemsInnerToJSON),
     practiceMedicationTotalCents: value["practiceMedicationTotalCents"],
     externalOrderId: value["externalOrderId"],
     metadata: value["metadata"],
