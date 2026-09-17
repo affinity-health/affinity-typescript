@@ -7,6 +7,16 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 
 ## [Unreleased]
 
+### Added
+
+- Add `catalog.retrievePrescribingOptions` for default prescriptions, alternative directions, templates, and product constraints.
+- Add `orders.preview` for default resolution, custom SIGs, quantities, days supply, shipping, and estimated prices. Complete previews provide a directly usable `orders.create` input.
+
+### Fixed
+
+- Preserve discriminated prescription input and preview response types during generation.
+- Allow complete free-text prescriptions without invented structured fields.
+
 ## [1.9.0-beta.3] - 2026-09-17
 
 ### Added

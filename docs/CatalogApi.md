@@ -2,11 +2,12 @@
 
 All URIs are relative to *https://api.joinaffinityai.com*
 
-| Method                                                       | HTTP request                                               | Description           |
-| ------------------------------------------------------------ | ---------------------------------------------------------- | --------------------- |
-| [**listCatalogItems**](CatalogApi.md#listcatalogitems)       | **GET** /v1/catalog/items                                  | List catalog items    |
-| [**listPharmacies**](CatalogApi.md#listpharmacies)           | **GET** /v1/pharmacies                                     | List pharmacies       |
-| [**listShippingOptions**](CatalogApi.md#listshippingoptions) | **GET** /v1/catalog/items/{catalogItemId}/shipping-options | List shipping options |
+| Method                                                                     | HTTP request                                                  | Description                  |
+| -------------------------------------------------------------------------- | ------------------------------------------------------------- | ---------------------------- |
+| [**listCatalogItems**](CatalogApi.md#listcatalogitems)                     | **GET** /v1/catalog/items                                     | List catalog items           |
+| [**listPharmacies**](CatalogApi.md#listpharmacies)                         | **GET** /v1/pharmacies                                        | List pharmacies              |
+| [**listShippingOptions**](CatalogApi.md#listshippingoptions)               | **GET** /v1/catalog/items/{catalogItemId}/shipping-options    | List shipping options        |
+| [**retrievePrescribingOptions**](CatalogApi.md#retrieveprescribingoptions) | **GET** /v1/catalog/items/{catalogItemId}/prescribing-options | Retrieve prescribing options |
 
 ## listCatalogItems
 
@@ -298,6 +299,86 @@ example().catch(console.error);
 | **400**     | HTTP 400    | -                |
 | **401**     | HTTP 401    | -                |
 | **403**     | HTTP 403    | -                |
+| **429**     | HTTP 429    | -                |
+
+[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
+
+## retrievePrescribingOptions
+
+> RetrievePrescribingOptionsResponse retrievePrescribingOptions(catalogItemId, practiceId, affinityVersion)
+
+Retrieve prescribing options
+
+Requires catalog:read. Returns reviewed SIG presets, guided patterns, quantity constraints and product requirements for a practice and mode. Revisions identify changed defaults. No patient-specific rationale or diagnosis is inferred.
+
+### Example
+
+```ts
+import { Configuration, CatalogApi } from "@affinity-health/sdk";
+import type { RetrievePrescribingOptionsRequest } from "@affinity-health/sdk";
+
+async function example() {
+  console.log("🚀 Testing @affinity-health/sdk SDK...");
+  const config = new Configuration({
+    // Configure HTTP bearer authorization: bearerAuth
+    accessToken: "YOUR BEARER TOKEN",
+    // To configure API key authorization: affinityApiKey
+    apiKey: "YOUR API KEY",
+  });
+  const api = new CatalogApi(config);
+
+  const body = {
+    // string
+    catalogItemId: cat_01j2y8m6jcc9tt24af5pw9x1bc,
+    // string
+    practiceId: prac_01j2y8m6jcc9tt24af5pw9x1bc,
+    // string (optional)
+    affinityVersion: affinityVersion_example,
+  } satisfies RetrievePrescribingOptionsRequest;
+
+  try {
+    const data = await api.retrievePrescribingOptions(body);
+    console.log(data);
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+// Run the test
+example().catch(console.error);
+```
+
+### Parameters
+
+| Name                | Type     | Description | Notes                                |
+| ------------------- | -------- | ----------- | ------------------------------------ |
+| **catalogItemId**   | `string` |             | [Defaults to `undefined`]            |
+| **practiceId**      | `string` |             | [Defaults to `undefined`]            |
+| **affinityVersion** | `string` |             | [Optional] [Defaults to `undefined`] |
+
+### Return type
+
+[**RetrievePrescribingOptionsResponse**](RetrievePrescribingOptionsResponse.md)
+
+### Authorization
+
+[bearerAuth](../README.md#bearerAuth), [affinityApiKey](../README.md#affinityApiKey)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: `application/json`
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+| ----------- | ----------- | ---------------- |
+| **200**     | HTTP 200    | -                |
+| **400**     | HTTP 400    | -                |
+| **401**     | HTTP 401    | -                |
+| **403**     | HTTP 403    | -                |
+| **404**     | HTTP 404    | -                |
+| **409**     | HTTP 409    | -                |
 | **429**     | HTTP 429    | -                |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)

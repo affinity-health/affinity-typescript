@@ -5,8 +5,8 @@
 | Name         | Type                                                                                                                                                 |
 | ------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `kind`       | string                                                                                                                                               |
-| `quantity`   | [ListCatalogItemsResponseDataInnerQuantityConstraintAnyOfQuantity](ListCatalogItemsResponseDataInnerQuantityConstraintAnyOfQuantity.md)              |
-| `quantities` | [Array&lt;ListCatalogItemsResponseDataInnerQuantityConstraintAnyOfQuantity&gt;](ListCatalogItemsResponseDataInnerQuantityConstraintAnyOfQuantity.md) |
+| `quantity`   | [ListCatalogItemsResponseDataInnerQuantityConstraintOneOfQuantity](ListCatalogItemsResponseDataInnerQuantityConstraintOneOfQuantity.md)              |
+| `quantities` | [Array&lt;ListCatalogItemsResponseDataInnerQuantityConstraintOneOfQuantity&gt;](ListCatalogItemsResponseDataInnerQuantityConstraintOneOfQuantity.md) |
 | `unit`       | string                                                                                                                                               |
 | `minimum`    | string                                                                                                                                               |
 | `maximum`    | string                                                                                                                                               |

@@ -12,96 +12,37 @@
  * Do not edit the class manually.
  */
 
-import { mapValues } from "../runtime";
-import type { ListCatalogItemsResponseDataInnerCompositionIngredientsInnerStrengthAnyOf } from "./ListCatalogItemsResponseDataInnerCompositionIngredientsInnerStrengthAnyOf";
+import type { ListCatalogItemsResponseDataInnerCompositionIngredientsInnerStrengthOneOf } from "./ListCatalogItemsResponseDataInnerCompositionIngredientsInnerStrengthOneOf";
 import {
-  ListCatalogItemsResponseDataInnerCompositionIngredientsInnerStrengthAnyOfFromJSON,
-  ListCatalogItemsResponseDataInnerCompositionIngredientsInnerStrengthAnyOfFromJSONTyped,
-  ListCatalogItemsResponseDataInnerCompositionIngredientsInnerStrengthAnyOfToJSON,
-  ListCatalogItemsResponseDataInnerCompositionIngredientsInnerStrengthAnyOfToJSONTyped,
-} from "./ListCatalogItemsResponseDataInnerCompositionIngredientsInnerStrengthAnyOf";
-import type { ListCatalogItemsResponseDataInnerCompositionIngredientsInnerStrengthAnyOf2 } from "./ListCatalogItemsResponseDataInnerCompositionIngredientsInnerStrengthAnyOf2";
+  instanceOfListCatalogItemsResponseDataInnerCompositionIngredientsInnerStrengthOneOf,
+  ListCatalogItemsResponseDataInnerCompositionIngredientsInnerStrengthOneOfFromJSON,
+  ListCatalogItemsResponseDataInnerCompositionIngredientsInnerStrengthOneOfFromJSONTyped,
+  ListCatalogItemsResponseDataInnerCompositionIngredientsInnerStrengthOneOfToJSON,
+} from "./ListCatalogItemsResponseDataInnerCompositionIngredientsInnerStrengthOneOf";
+import type { ListCatalogItemsResponseDataInnerCompositionIngredientsInnerStrengthOneOf1 } from "./ListCatalogItemsResponseDataInnerCompositionIngredientsInnerStrengthOneOf1";
 import {
-  ListCatalogItemsResponseDataInnerCompositionIngredientsInnerStrengthAnyOf2FromJSON,
-  ListCatalogItemsResponseDataInnerCompositionIngredientsInnerStrengthAnyOf2FromJSONTyped,
-  ListCatalogItemsResponseDataInnerCompositionIngredientsInnerStrengthAnyOf2ToJSON,
-  ListCatalogItemsResponseDataInnerCompositionIngredientsInnerStrengthAnyOf2ToJSONTyped,
-} from "./ListCatalogItemsResponseDataInnerCompositionIngredientsInnerStrengthAnyOf2";
-import type { ListCatalogItemsResponseDataInnerCompositionIngredientsInnerStrengthAnyOf1 } from "./ListCatalogItemsResponseDataInnerCompositionIngredientsInnerStrengthAnyOf1";
+  instanceOfListCatalogItemsResponseDataInnerCompositionIngredientsInnerStrengthOneOf1,
+  ListCatalogItemsResponseDataInnerCompositionIngredientsInnerStrengthOneOf1FromJSON,
+  ListCatalogItemsResponseDataInnerCompositionIngredientsInnerStrengthOneOf1FromJSONTyped,
+  ListCatalogItemsResponseDataInnerCompositionIngredientsInnerStrengthOneOf1ToJSON,
+} from "./ListCatalogItemsResponseDataInnerCompositionIngredientsInnerStrengthOneOf1";
+import type { ListCatalogItemsResponseDataInnerCompositionIngredientsInnerStrengthOneOf2 } from "./ListCatalogItemsResponseDataInnerCompositionIngredientsInnerStrengthOneOf2";
 import {
-  ListCatalogItemsResponseDataInnerCompositionIngredientsInnerStrengthAnyOf1FromJSON,
-  ListCatalogItemsResponseDataInnerCompositionIngredientsInnerStrengthAnyOf1FromJSONTyped,
-  ListCatalogItemsResponseDataInnerCompositionIngredientsInnerStrengthAnyOf1ToJSON,
-  ListCatalogItemsResponseDataInnerCompositionIngredientsInnerStrengthAnyOf1ToJSONTyped,
-} from "./ListCatalogItemsResponseDataInnerCompositionIngredientsInnerStrengthAnyOf1";
-import type { ListCatalogItemsResponseDataInnerCompositionIngredientsInnerStrengthAnyOfAmount } from "./ListCatalogItemsResponseDataInnerCompositionIngredientsInnerStrengthAnyOfAmount";
-import {
-  ListCatalogItemsResponseDataInnerCompositionIngredientsInnerStrengthAnyOfAmountFromJSON,
-  ListCatalogItemsResponseDataInnerCompositionIngredientsInnerStrengthAnyOfAmountFromJSONTyped,
-  ListCatalogItemsResponseDataInnerCompositionIngredientsInnerStrengthAnyOfAmountToJSON,
-  ListCatalogItemsResponseDataInnerCompositionIngredientsInnerStrengthAnyOfAmountToJSONTyped,
-} from "./ListCatalogItemsResponseDataInnerCompositionIngredientsInnerStrengthAnyOfAmount";
+  instanceOfListCatalogItemsResponseDataInnerCompositionIngredientsInnerStrengthOneOf2,
+  ListCatalogItemsResponseDataInnerCompositionIngredientsInnerStrengthOneOf2FromJSON,
+  ListCatalogItemsResponseDataInnerCompositionIngredientsInnerStrengthOneOf2FromJSONTyped,
+  ListCatalogItemsResponseDataInnerCompositionIngredientsInnerStrengthOneOf2ToJSON,
+} from "./ListCatalogItemsResponseDataInnerCompositionIngredientsInnerStrengthOneOf2";
 
 /**
+ * @type ListCatalogItemsResponseDataInnerCompositionIngredientsInnerStrength
  *
  * @export
- * @interface ListCatalogItemsResponseDataInnerCompositionIngredientsInnerStrength
  */
-export interface ListCatalogItemsResponseDataInnerCompositionIngredientsInnerStrength {
-  /**
-   *
-   * @type {ListCatalogItemsResponseDataInnerCompositionIngredientsInnerStrengthKindEnum}
-   * @memberof ListCatalogItemsResponseDataInnerCompositionIngredientsInnerStrength
-   */
-  kind: ListCatalogItemsResponseDataInnerCompositionIngredientsInnerStrengthKindEnum;
-  /**
-   *
-   * @type {ListCatalogItemsResponseDataInnerCompositionIngredientsInnerStrengthAnyOfAmount}
-   * @memberof ListCatalogItemsResponseDataInnerCompositionIngredientsInnerStrength
-   */
-  amount: ListCatalogItemsResponseDataInnerCompositionIngredientsInnerStrengthAnyOfAmount;
-  /**
-   *
-   * @type {ListCatalogItemsResponseDataInnerCompositionIngredientsInnerStrengthAnyOfAmount}
-   * @memberof ListCatalogItemsResponseDataInnerCompositionIngredientsInnerStrength
-   */
-  numerator: ListCatalogItemsResponseDataInnerCompositionIngredientsInnerStrengthAnyOfAmount;
-  /**
-   *
-   * @type {ListCatalogItemsResponseDataInnerCompositionIngredientsInnerStrengthAnyOfAmount}
-   * @memberof ListCatalogItemsResponseDataInnerCompositionIngredientsInnerStrength
-   */
-  denominator: ListCatalogItemsResponseDataInnerCompositionIngredientsInnerStrengthAnyOfAmount;
-  /**
-   *
-   * @type {string}
-   * @memberof ListCatalogItemsResponseDataInnerCompositionIngredientsInnerStrength
-   */
-  reason: string;
-}
-
-/**
- * @export
- */
-export const ListCatalogItemsResponseDataInnerCompositionIngredientsInnerStrengthKindEnum = {
-  Unresolved: "unresolved",
-} as const;
-export type ListCatalogItemsResponseDataInnerCompositionIngredientsInnerStrengthKindEnum =
-  (typeof ListCatalogItemsResponseDataInnerCompositionIngredientsInnerStrengthKindEnum)[keyof typeof ListCatalogItemsResponseDataInnerCompositionIngredientsInnerStrengthKindEnum];
-
-/**
- * Check if a given object implements the ListCatalogItemsResponseDataInnerCompositionIngredientsInnerStrength interface.
- */
-export function instanceOfListCatalogItemsResponseDataInnerCompositionIngredientsInnerStrength(
-  value: object,
-): value is ListCatalogItemsResponseDataInnerCompositionIngredientsInnerStrength {
-  if (!("kind" in value) || value["kind"] === undefined) return false;
-  if (!("amount" in value) || value["amount"] === undefined) return false;
-  if (!("numerator" in value) || value["numerator"] === undefined) return false;
-  if (!("denominator" in value) || value["denominator"] === undefined) return false;
-  if (!("reason" in value) || value["reason"] === undefined) return false;
-  return true;
-}
+export type ListCatalogItemsResponseDataInnerCompositionIngredientsInnerStrength =
+  | ListCatalogItemsResponseDataInnerCompositionIngredientsInnerStrengthOneOf
+  | ListCatalogItemsResponseDataInnerCompositionIngredientsInnerStrengthOneOf1
+  | ListCatalogItemsResponseDataInnerCompositionIngredientsInnerStrengthOneOf2;
 
 export function ListCatalogItemsResponseDataInnerCompositionIngredientsInnerStrengthFromJSON(
   json: any,
@@ -119,26 +60,33 @@ export function ListCatalogItemsResponseDataInnerCompositionIngredientsInnerStre
   if (json == null) {
     return json;
   }
-  return {
-    kind: json["kind"],
-    amount: ListCatalogItemsResponseDataInnerCompositionIngredientsInnerStrengthAnyOfAmountFromJSON(
-      json["amount"],
-    ),
-    numerator:
-      ListCatalogItemsResponseDataInnerCompositionIngredientsInnerStrengthAnyOfAmountFromJSON(
-        json["numerator"],
-      ),
-    denominator:
-      ListCatalogItemsResponseDataInnerCompositionIngredientsInnerStrengthAnyOfAmountFromJSON(
-        json["denominator"],
-      ),
-    reason: json["reason"],
-  };
+  if (typeof json !== "object") {
+    return json;
+  }
+  if (instanceOfListCatalogItemsResponseDataInnerCompositionIngredientsInnerStrengthOneOf(json)) {
+    return ListCatalogItemsResponseDataInnerCompositionIngredientsInnerStrengthOneOfFromJSONTyped(
+      json,
+      true,
+    );
+  }
+  if (instanceOfListCatalogItemsResponseDataInnerCompositionIngredientsInnerStrengthOneOf1(json)) {
+    return ListCatalogItemsResponseDataInnerCompositionIngredientsInnerStrengthOneOf1FromJSONTyped(
+      json,
+      true,
+    );
+  }
+  if (instanceOfListCatalogItemsResponseDataInnerCompositionIngredientsInnerStrengthOneOf2(json)) {
+    return ListCatalogItemsResponseDataInnerCompositionIngredientsInnerStrengthOneOf2FromJSONTyped(
+      json,
+      true,
+    );
+  }
+  return {} as any;
 }
 
 export function ListCatalogItemsResponseDataInnerCompositionIngredientsInnerStrengthToJSON(
   json: any,
-): ListCatalogItemsResponseDataInnerCompositionIngredientsInnerStrength {
+): any {
   return ListCatalogItemsResponseDataInnerCompositionIngredientsInnerStrengthToJSONTyped(
     json,
     false,
@@ -152,20 +100,23 @@ export function ListCatalogItemsResponseDataInnerCompositionIngredientsInnerStre
   if (value == null) {
     return value;
   }
-
-  return {
-    kind: value["kind"],
-    amount: ListCatalogItemsResponseDataInnerCompositionIngredientsInnerStrengthAnyOfAmountToJSON(
-      value["amount"],
-    ),
-    numerator:
-      ListCatalogItemsResponseDataInnerCompositionIngredientsInnerStrengthAnyOfAmountToJSON(
-        value["numerator"],
-      ),
-    denominator:
-      ListCatalogItemsResponseDataInnerCompositionIngredientsInnerStrengthAnyOfAmountToJSON(
-        value["denominator"],
-      ),
-    reason: value["reason"],
-  };
+  if (typeof value !== "object") {
+    return value;
+  }
+  if (instanceOfListCatalogItemsResponseDataInnerCompositionIngredientsInnerStrengthOneOf(value)) {
+    return ListCatalogItemsResponseDataInnerCompositionIngredientsInnerStrengthOneOfToJSON(
+      value as ListCatalogItemsResponseDataInnerCompositionIngredientsInnerStrengthOneOf,
+    );
+  }
+  if (instanceOfListCatalogItemsResponseDataInnerCompositionIngredientsInnerStrengthOneOf1(value)) {
+    return ListCatalogItemsResponseDataInnerCompositionIngredientsInnerStrengthOneOf1ToJSON(
+      value as ListCatalogItemsResponseDataInnerCompositionIngredientsInnerStrengthOneOf1,
+    );
+  }
+  if (instanceOfListCatalogItemsResponseDataInnerCompositionIngredientsInnerStrengthOneOf2(value)) {
+    return ListCatalogItemsResponseDataInnerCompositionIngredientsInnerStrengthOneOf2ToJSON(
+      value as ListCatalogItemsResponseDataInnerCompositionIngredientsInnerStrengthOneOf2,
+    );
+  }
+  return {};
 }

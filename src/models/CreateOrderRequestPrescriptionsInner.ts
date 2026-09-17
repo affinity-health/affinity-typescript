@@ -113,7 +113,7 @@ export interface CreateOrderRequestPrescriptionsInner {
    * @type {CreateOrderRequestPrescriptionsInnerStructuredSig}
    * @memberof CreateOrderRequestPrescriptionsInner
    */
-  structuredSig: CreateOrderRequestPrescriptionsInnerStructuredSig;
+  structuredSig?: CreateOrderRequestPrescriptionsInnerStructuredSig | null;
 }
 
 /**
@@ -129,7 +129,6 @@ export function instanceOfCreateOrderRequestPrescriptionsInner(
   if (!("quantity" in value) || value["quantity"] === undefined) return false;
   if (!("quantityUnit" in value) || value["quantityUnit"] === undefined) return false;
   if (!("refills" in value) || value["refills"] === undefined) return false;
-  if (!("structuredSig" in value) || value["structuredSig"] === undefined) return false;
   return true;
 }
 
@@ -161,7 +160,10 @@ export function CreateOrderRequestPrescriptionsInnerFromJSONTyped(
     quantity: CreateOrderRequestPrescriptionsInnerQuantityFromJSON(json["quantity"]),
     quantityUnit: json["quantityUnit"],
     refills: json["refills"],
-    structuredSig: CreateOrderRequestPrescriptionsInnerStructuredSigFromJSON(json["structuredSig"]),
+    structuredSig:
+      json["structuredSig"] == null
+        ? undefined
+        : CreateOrderRequestPrescriptionsInnerStructuredSigFromJSON(json["structuredSig"]),
   };
 }
 

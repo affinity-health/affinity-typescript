@@ -64,6 +64,35 @@ Order creation requires `practiceId` and `prescriptions`, plus exactly one of `p
 inline `patient` according to the API's business rules. Do not use the SDK to bypass clinical
 eligibility, signing, or actor-attribution checks.
 
+## Prescription defaults and previews
+
+These methods require the prescribing-options API contract and are pending release.
+Use them on your server with an existing patient in the selected practice.
+
+```ts
+const options = await affinity.catalog.retrievePrescribingOptions(catalogItemId, { practiceId });
+const preview = await affinity.orders.preview({
+  practiceId,
+  patientId,
+  prescriptions: [
+    { medicationId: catalogItemId, preset: "default", expectedRevision: options.revision },
+  ],
+  shipping: { selection: "lowest_cost" },
+});
+
+if (preview.status === "complete") {
+  // Show the resolved values for clinician review before calling orders.create.
+  const reviewedInput = preview.orderInput;
+} else {
+  // Display preview.issues beside the corresponding prescription fields.
+}
+```
+
+Omit the options request for one-click defaults. Add prescription `overrides` for structured,
+template, or free-text directions, quantity, days supply, refills, clinical context, or shipping.
+Previews do not create, sign, charge, or transmit an order. Never infer patient-specific rationale,
+diagnoses, or allergy review from defaults. Creation and signing recheck current requirements.
+
 ## Client and request options
 
 Client-wide options establish defaults for every resource call:

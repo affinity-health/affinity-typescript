@@ -57,6 +57,23 @@ export function generatorContract(value: unknown): any {
     output.enum = [output.const];
     delete output.const;
   }
+  // Disjoint literal tags describe an exclusive union. Preserve the alternatives
+  // instead of letting typescript-fetch merge incompatible object properties.
+  if (output.anyOf?.length > 1) {
+    const members = output.anyOf as any[];
+    const tag = Object.keys(members[0]?.properties ?? {}).find((key) => {
+      const values = members.map((member) => member.properties?.[key]?.enum);
+      return (
+        members.every((member) => member.required?.includes(key)) &&
+        values.every((value) => value?.length === 1) &&
+        new Set(values.map((value) => value[0])).size === members.length
+      );
+    });
+    if (tag) {
+      output.oneOf = members;
+      delete output.anyOf;
+    }
+  }
   return output;
 }
 

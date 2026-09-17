@@ -55,6 +55,20 @@ const catalogParams: ListCatalogItemsParams = {
 };
 void sdk.catalog.list(catalogParams);
 void sdk.orders.create(orderInput, mutationOptions);
+async function previewAndCreate() {
+  const preview = await sdk.orders.preview({
+    practiceId: orderInput.practiceId,
+    patientId: orderInput.patientId,
+    prescriptions: [{ medicationId: orderInput.prescriptions[0].medicationId, preset: "default" }],
+    shipping: { selection: "lowest_cost" },
+  });
+  if (preview.status === "complete") {
+    return sdk.orders.create(preview.orderInput, mutationOptions);
+  }
+  const absent: null = preview.orderInput;
+  return absent;
+}
+void previewAndCreate;
 
 // Resource methods take bodies directly; request options are optional.
 // @ts-expect-error generated request envelopes are not part of the public seam

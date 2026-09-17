@@ -12,124 +12,45 @@
  * Do not edit the class manually.
  */
 
-import { mapValues } from "../runtime";
-import type { ListCatalogItemsResponseDataInnerQuantityConstraintAnyOf } from "./ListCatalogItemsResponseDataInnerQuantityConstraintAnyOf";
+import type { ListCatalogItemsResponseDataInnerQuantityConstraintOneOf } from "./ListCatalogItemsResponseDataInnerQuantityConstraintOneOf";
 import {
-  ListCatalogItemsResponseDataInnerQuantityConstraintAnyOfFromJSON,
-  ListCatalogItemsResponseDataInnerQuantityConstraintAnyOfFromJSONTyped,
-  ListCatalogItemsResponseDataInnerQuantityConstraintAnyOfToJSON,
-  ListCatalogItemsResponseDataInnerQuantityConstraintAnyOfToJSONTyped,
-} from "./ListCatalogItemsResponseDataInnerQuantityConstraintAnyOf";
-import type { ListCatalogItemsResponseDataInnerQuantityConstraintAnyOfQuantity } from "./ListCatalogItemsResponseDataInnerQuantityConstraintAnyOfQuantity";
+  instanceOfListCatalogItemsResponseDataInnerQuantityConstraintOneOf,
+  ListCatalogItemsResponseDataInnerQuantityConstraintOneOfFromJSON,
+  ListCatalogItemsResponseDataInnerQuantityConstraintOneOfFromJSONTyped,
+  ListCatalogItemsResponseDataInnerQuantityConstraintOneOfToJSON,
+} from "./ListCatalogItemsResponseDataInnerQuantityConstraintOneOf";
+import type { ListCatalogItemsResponseDataInnerQuantityConstraintOneOf1 } from "./ListCatalogItemsResponseDataInnerQuantityConstraintOneOf1";
 import {
-  ListCatalogItemsResponseDataInnerQuantityConstraintAnyOfQuantityFromJSON,
-  ListCatalogItemsResponseDataInnerQuantityConstraintAnyOfQuantityFromJSONTyped,
-  ListCatalogItemsResponseDataInnerQuantityConstraintAnyOfQuantityToJSON,
-  ListCatalogItemsResponseDataInnerQuantityConstraintAnyOfQuantityToJSONTyped,
-} from "./ListCatalogItemsResponseDataInnerQuantityConstraintAnyOfQuantity";
-import type { ListCatalogItemsResponseDataInnerQuantityConstraintAnyOf1 } from "./ListCatalogItemsResponseDataInnerQuantityConstraintAnyOf1";
+  instanceOfListCatalogItemsResponseDataInnerQuantityConstraintOneOf1,
+  ListCatalogItemsResponseDataInnerQuantityConstraintOneOf1FromJSON,
+  ListCatalogItemsResponseDataInnerQuantityConstraintOneOf1FromJSONTyped,
+  ListCatalogItemsResponseDataInnerQuantityConstraintOneOf1ToJSON,
+} from "./ListCatalogItemsResponseDataInnerQuantityConstraintOneOf1";
+import type { ListCatalogItemsResponseDataInnerQuantityConstraintOneOf2 } from "./ListCatalogItemsResponseDataInnerQuantityConstraintOneOf2";
 import {
-  ListCatalogItemsResponseDataInnerQuantityConstraintAnyOf1FromJSON,
-  ListCatalogItemsResponseDataInnerQuantityConstraintAnyOf1FromJSONTyped,
-  ListCatalogItemsResponseDataInnerQuantityConstraintAnyOf1ToJSON,
-  ListCatalogItemsResponseDataInnerQuantityConstraintAnyOf1ToJSONTyped,
-} from "./ListCatalogItemsResponseDataInnerQuantityConstraintAnyOf1";
-import type { ListCatalogItemsResponseDataInnerQuantityConstraintAnyOf2 } from "./ListCatalogItemsResponseDataInnerQuantityConstraintAnyOf2";
+  instanceOfListCatalogItemsResponseDataInnerQuantityConstraintOneOf2,
+  ListCatalogItemsResponseDataInnerQuantityConstraintOneOf2FromJSON,
+  ListCatalogItemsResponseDataInnerQuantityConstraintOneOf2FromJSONTyped,
+  ListCatalogItemsResponseDataInnerQuantityConstraintOneOf2ToJSON,
+} from "./ListCatalogItemsResponseDataInnerQuantityConstraintOneOf2";
+import type { ListCatalogItemsResponseDataInnerQuantityConstraintOneOf3 } from "./ListCatalogItemsResponseDataInnerQuantityConstraintOneOf3";
 import {
-  ListCatalogItemsResponseDataInnerQuantityConstraintAnyOf2FromJSON,
-  ListCatalogItemsResponseDataInnerQuantityConstraintAnyOf2FromJSONTyped,
-  ListCatalogItemsResponseDataInnerQuantityConstraintAnyOf2ToJSON,
-  ListCatalogItemsResponseDataInnerQuantityConstraintAnyOf2ToJSONTyped,
-} from "./ListCatalogItemsResponseDataInnerQuantityConstraintAnyOf2";
-import type { ListCatalogItemsResponseDataInnerQuantityConstraintAnyOf3 } from "./ListCatalogItemsResponseDataInnerQuantityConstraintAnyOf3";
-import {
-  ListCatalogItemsResponseDataInnerQuantityConstraintAnyOf3FromJSON,
-  ListCatalogItemsResponseDataInnerQuantityConstraintAnyOf3FromJSONTyped,
-  ListCatalogItemsResponseDataInnerQuantityConstraintAnyOf3ToJSON,
-  ListCatalogItemsResponseDataInnerQuantityConstraintAnyOf3ToJSONTyped,
-} from "./ListCatalogItemsResponseDataInnerQuantityConstraintAnyOf3";
+  instanceOfListCatalogItemsResponseDataInnerQuantityConstraintOneOf3,
+  ListCatalogItemsResponseDataInnerQuantityConstraintOneOf3FromJSON,
+  ListCatalogItemsResponseDataInnerQuantityConstraintOneOf3FromJSONTyped,
+  ListCatalogItemsResponseDataInnerQuantityConstraintOneOf3ToJSON,
+} from "./ListCatalogItemsResponseDataInnerQuantityConstraintOneOf3";
 
 /**
+ * @type ListCatalogItemsResponseDataInnerQuantityConstraint
  *
  * @export
- * @interface ListCatalogItemsResponseDataInnerQuantityConstraint
  */
-export interface ListCatalogItemsResponseDataInnerQuantityConstraint {
-  /**
-   *
-   * @type {ListCatalogItemsResponseDataInnerQuantityConstraintKindEnum}
-   * @memberof ListCatalogItemsResponseDataInnerQuantityConstraint
-   */
-  kind: ListCatalogItemsResponseDataInnerQuantityConstraintKindEnum;
-  /**
-   *
-   * @type {ListCatalogItemsResponseDataInnerQuantityConstraintAnyOfQuantity}
-   * @memberof ListCatalogItemsResponseDataInnerQuantityConstraint
-   */
-  quantity: ListCatalogItemsResponseDataInnerQuantityConstraintAnyOfQuantity;
-  /**
-   *
-   * @type {Array<ListCatalogItemsResponseDataInnerQuantityConstraintAnyOfQuantity>}
-   * @memberof ListCatalogItemsResponseDataInnerQuantityConstraint
-   */
-  quantities: Array<ListCatalogItemsResponseDataInnerQuantityConstraintAnyOfQuantity>;
-  /**
-   *
-   * @type {string}
-   * @memberof ListCatalogItemsResponseDataInnerQuantityConstraint
-   */
-  unit: string;
-  /**
-   *
-   * @type {string}
-   * @memberof ListCatalogItemsResponseDataInnerQuantityConstraint
-   */
-  minimum: string | null;
-  /**
-   *
-   * @type {string}
-   * @memberof ListCatalogItemsResponseDataInnerQuantityConstraint
-   */
-  maximum: string | null;
-  /**
-   *
-   * @type {string}
-   * @memberof ListCatalogItemsResponseDataInnerQuantityConstraint
-   */
-  increment: string | null;
-  /**
-   *
-   * @type {string}
-   * @memberof ListCatalogItemsResponseDataInnerQuantityConstraint
-   */
-  sourceText: string;
-}
-
-/**
- * @export
- */
-export const ListCatalogItemsResponseDataInnerQuantityConstraintKindEnum = {
-  Unresolved: "unresolved",
-} as const;
-export type ListCatalogItemsResponseDataInnerQuantityConstraintKindEnum =
-  (typeof ListCatalogItemsResponseDataInnerQuantityConstraintKindEnum)[keyof typeof ListCatalogItemsResponseDataInnerQuantityConstraintKindEnum];
-
-/**
- * Check if a given object implements the ListCatalogItemsResponseDataInnerQuantityConstraint interface.
- */
-export function instanceOfListCatalogItemsResponseDataInnerQuantityConstraint(
-  value: object,
-): value is ListCatalogItemsResponseDataInnerQuantityConstraint {
-  if (!("kind" in value) || value["kind"] === undefined) return false;
-  if (!("quantity" in value) || value["quantity"] === undefined) return false;
-  if (!("quantities" in value) || value["quantities"] === undefined) return false;
-  if (!("unit" in value) || value["unit"] === undefined) return false;
-  if (!("minimum" in value) || value["minimum"] === undefined) return false;
-  if (!("maximum" in value) || value["maximum"] === undefined) return false;
-  if (!("increment" in value) || value["increment"] === undefined) return false;
-  if (!("sourceText" in value) || value["sourceText"] === undefined) return false;
-  return true;
-}
+export type ListCatalogItemsResponseDataInnerQuantityConstraint =
+  | ListCatalogItemsResponseDataInnerQuantityConstraintOneOf
+  | ListCatalogItemsResponseDataInnerQuantityConstraintOneOf1
+  | ListCatalogItemsResponseDataInnerQuantityConstraintOneOf2
+  | ListCatalogItemsResponseDataInnerQuantityConstraintOneOf3;
 
 export function ListCatalogItemsResponseDataInnerQuantityConstraintFromJSON(
   json: any,
@@ -144,25 +65,25 @@ export function ListCatalogItemsResponseDataInnerQuantityConstraintFromJSONTyped
   if (json == null) {
     return json;
   }
-  return {
-    kind: json["kind"],
-    quantity: ListCatalogItemsResponseDataInnerQuantityConstraintAnyOfQuantityFromJSON(
-      json["quantity"],
-    ),
-    quantities: (json["quantities"] as Array<any>).map(
-      ListCatalogItemsResponseDataInnerQuantityConstraintAnyOfQuantityFromJSON,
-    ),
-    unit: json["unit"],
-    minimum: json["minimum"],
-    maximum: json["maximum"],
-    increment: json["increment"],
-    sourceText: json["sourceText"],
-  };
+  if (typeof json !== "object") {
+    return json;
+  }
+  if (instanceOfListCatalogItemsResponseDataInnerQuantityConstraintOneOf(json)) {
+    return ListCatalogItemsResponseDataInnerQuantityConstraintOneOfFromJSONTyped(json, true);
+  }
+  if (instanceOfListCatalogItemsResponseDataInnerQuantityConstraintOneOf1(json)) {
+    return ListCatalogItemsResponseDataInnerQuantityConstraintOneOf1FromJSONTyped(json, true);
+  }
+  if (instanceOfListCatalogItemsResponseDataInnerQuantityConstraintOneOf2(json)) {
+    return ListCatalogItemsResponseDataInnerQuantityConstraintOneOf2FromJSONTyped(json, true);
+  }
+  if (instanceOfListCatalogItemsResponseDataInnerQuantityConstraintOneOf3(json)) {
+    return ListCatalogItemsResponseDataInnerQuantityConstraintOneOf3FromJSONTyped(json, true);
+  }
+  return {} as any;
 }
 
-export function ListCatalogItemsResponseDataInnerQuantityConstraintToJSON(
-  json: any,
-): ListCatalogItemsResponseDataInnerQuantityConstraint {
+export function ListCatalogItemsResponseDataInnerQuantityConstraintToJSON(json: any): any {
   return ListCatalogItemsResponseDataInnerQuantityConstraintToJSONTyped(json, false);
 }
 
@@ -173,19 +94,28 @@ export function ListCatalogItemsResponseDataInnerQuantityConstraintToJSONTyped(
   if (value == null) {
     return value;
   }
-
-  return {
-    kind: value["kind"],
-    quantity: ListCatalogItemsResponseDataInnerQuantityConstraintAnyOfQuantityToJSON(
-      value["quantity"],
-    ),
-    quantities: (value["quantities"] as Array<any>).map(
-      ListCatalogItemsResponseDataInnerQuantityConstraintAnyOfQuantityToJSON,
-    ),
-    unit: value["unit"],
-    minimum: value["minimum"],
-    maximum: value["maximum"],
-    increment: value["increment"],
-    sourceText: value["sourceText"],
-  };
+  if (typeof value !== "object") {
+    return value;
+  }
+  if (instanceOfListCatalogItemsResponseDataInnerQuantityConstraintOneOf(value)) {
+    return ListCatalogItemsResponseDataInnerQuantityConstraintOneOfToJSON(
+      value as ListCatalogItemsResponseDataInnerQuantityConstraintOneOf,
+    );
+  }
+  if (instanceOfListCatalogItemsResponseDataInnerQuantityConstraintOneOf1(value)) {
+    return ListCatalogItemsResponseDataInnerQuantityConstraintOneOf1ToJSON(
+      value as ListCatalogItemsResponseDataInnerQuantityConstraintOneOf1,
+    );
+  }
+  if (instanceOfListCatalogItemsResponseDataInnerQuantityConstraintOneOf2(value)) {
+    return ListCatalogItemsResponseDataInnerQuantityConstraintOneOf2ToJSON(
+      value as ListCatalogItemsResponseDataInnerQuantityConstraintOneOf2,
+    );
+  }
+  if (instanceOfListCatalogItemsResponseDataInnerQuantityConstraintOneOf3(value)) {
+    return ListCatalogItemsResponseDataInnerQuantityConstraintOneOf3ToJSON(
+      value as ListCatalogItemsResponseDataInnerQuantityConstraintOneOf3,
+    );
+  }
+  return {};
 }

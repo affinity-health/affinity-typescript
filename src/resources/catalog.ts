@@ -5,6 +5,7 @@ import type {
   ListCatalogItemsRequest,
   ListPharmaciesRequest,
   ListShippingOptionsRequest,
+  RetrievePrescribingOptionsRequest,
 } from "../apis/CatalogApi";
 import type { Practice, Patient, Order, CreatedOrder, PracticeLocation } from "../domain";
 import { paginate, type ApiListPromise } from "./pagination";
@@ -41,6 +42,16 @@ export type ListShippingOptionsParams = Omit<
   | "xAffinityOrganizationId"
   | "destinationState"
 > & { destinationState: NonNullable<ListShippingOptionsRequest["destinationState"]> };
+export type RetrievePrescribingOptionsParams = Omit<
+  RetrievePrescribingOptionsRequest,
+  | "catalogItemId"
+  | "affinityVersion"
+  | "idempotencyKey"
+  | "affinityActorId"
+  | "affinityActorType"
+  | "xAffinityOrganizationId"
+  | "practiceId"
+> & { practiceId: NonNullable<RetrievePrescribingOptionsRequest["practiceId"]> };
 
 export class CatalogResource {
   constructor(private readonly api: CatalogApi) {}
@@ -76,6 +87,16 @@ export class CatalogResource {
     options?: RequestOptions,
   ): ReturnType<CatalogApi["listShippingOptions"]> {
     return this.api.listShippingOptions(
+      { ...params, catalogItemId: catalogItemId, ...commonHeaders(options) },
+      requestOverrides(options),
+    );
+  }
+  retrievePrescribingOptions(
+    catalogItemId: string,
+    params: RetrievePrescribingOptionsParams,
+    options?: RequestOptions,
+  ): ReturnType<CatalogApi["retrievePrescribingOptions"]> {
+    return this.api.retrievePrescribingOptions(
       { ...params, catalogItemId: catalogItemId, ...commonHeaders(options) },
       requestOverrides(options),
     );

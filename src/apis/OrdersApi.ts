@@ -83,6 +83,16 @@ import {
   ListOrdersResponseFromJSON,
   ListOrdersResponseToJSON,
 } from "../models/ListOrdersResponse";
+import {
+  type PreviewOrderRequest,
+  PreviewOrderRequestFromJSON,
+  PreviewOrderRequestToJSON,
+} from "../models/PreviewOrderRequest";
+import {
+  type PreviewOrderResponse,
+  PreviewOrderResponseFromJSON,
+  PreviewOrderResponseToJSON,
+} from "../models/PreviewOrderResponse";
 import { type Problem, ProblemFromJSON, ProblemToJSON } from "../models/Problem";
 import {
   type RejectOrderRequest,
@@ -218,6 +228,11 @@ export interface ListOrdersRequest {
   affinityVersion?: string;
   affinityActorId?: string;
   affinityActorType?: string;
+}
+
+export interface PreviewOrderOperationRequest {
+  previewOrderRequest: PreviewOrderRequest;
+  affinityVersion?: string;
 }
 
 export interface RejectOrderOperationRequest {
@@ -1144,6 +1159,81 @@ export class OrdersApi extends runtime.BaseAPI {
     initOverrides?: RequestInit | runtime.InitOverrideFunction,
   ): Promise<ListOrdersResponse> {
     const response = await this.listOrdersRaw(requestParameters, initOverrides);
+    return await response.value();
+  }
+
+  /**
+   * Creates request options for previewOrder without sending the request
+   */
+  async previewOrderRequestOpts(
+    requestParameters: PreviewOrderOperationRequest,
+  ): Promise<runtime.RequestOpts> {
+    if (requestParameters["previewOrderRequest"] == null) {
+      throw new runtime.RequiredError(
+        "previewOrderRequest",
+        'Required parameter "previewOrderRequest" was null or undefined when calling previewOrder().',
+      );
+    }
+
+    const queryParameters: any = {};
+
+    const headerParameters: runtime.HTTPHeaders = {};
+
+    headerParameters["Content-Type"] = "application/json";
+
+    if (requestParameters["affinityVersion"] != null) {
+      headerParameters["Affinity-Version"] = String(requestParameters["affinityVersion"]);
+    }
+
+    if (this.configuration && this.configuration.accessToken) {
+      const token = this.configuration.accessToken;
+      const tokenString = await token("bearerAuth", []);
+
+      if (tokenString) {
+        headerParameters["Authorization"] = `Bearer ${tokenString}`;
+      }
+    }
+    if (this.configuration && this.configuration.apiKey) {
+      headerParameters["x-affinity-api-key"] =
+        await this.configuration.apiKey("x-affinity-api-key"); // affinityApiKey authentication
+    }
+
+    let urlPath = `/v1/order-previews`;
+
+    return {
+      path: urlPath,
+      method: "POST",
+      headers: headerParameters,
+      query: queryParameters,
+      body: PreviewOrderRequestToJSON(requestParameters["previewOrderRequest"]),
+    };
+  }
+
+  /**
+   * Requires orders:write and catalog:read. Resolves defaults and explicit edits for one existing patient and 1–20 prescriptions. Returns exact directions, dispense values, eligible shipping and estimated line prices. Complete previews contain an orders.create input. Does not create an order, reserve pricing, sign, charge or transmit. No idempotency key is required. Creation and signing recheck current requirements.
+   * Preview an order
+   */
+  async previewOrderRaw(
+    requestParameters: PreviewOrderOperationRequest,
+    initOverrides?: RequestInit | runtime.InitOverrideFunction,
+  ): Promise<runtime.ApiResponse<PreviewOrderResponse>> {
+    const requestOptions = await this.previewOrderRequestOpts(requestParameters);
+    const response = await this.request(requestOptions, initOverrides);
+
+    return new runtime.JSONApiResponse(response, (jsonValue) =>
+      PreviewOrderResponseFromJSON(jsonValue),
+    );
+  }
+
+  /**
+   * Requires orders:write and catalog:read. Resolves defaults and explicit edits for one existing patient and 1–20 prescriptions. Returns exact directions, dispense values, eligible shipping and estimated line prices. Complete previews contain an orders.create input. Does not create an order, reserve pricing, sign, charge or transmit. No idempotency key is required. Creation and signing recheck current requirements.
+   * Preview an order
+   */
+  async previewOrder(
+    requestParameters: PreviewOrderOperationRequest,
+    initOverrides?: RequestInit | runtime.InitOverrideFunction,
+  ): Promise<PreviewOrderResponse> {
+    const response = await this.previewOrderRaw(requestParameters, initOverrides);
     return await response.value();
   }
 

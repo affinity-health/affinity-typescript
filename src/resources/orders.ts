@@ -8,6 +8,7 @@ import type {
   CancelOrderOperationRequest,
   ActOnOrderExceptionOperationRequest,
   ListOrderEventsRequest,
+  PreviewOrderOperationRequest,
   SignOrderOperationRequest,
   SubmitOrderOperationRequest,
   RejectOrderOperationRequest,
@@ -20,6 +21,7 @@ import { paginate, type ApiListPromise } from "./pagination";
 import type { CreateOrderRequest } from "../models/CreateOrderRequest";
 import type { CancelOrderRequest } from "../models/CancelOrderRequest";
 import type { ActOnOrderExceptionRequest } from "../models/ActOnOrderExceptionRequest";
+import type { PreviewOrderRequest } from "../models/PreviewOrderRequest";
 import type { SignOrderRequest } from "../models/SignOrderRequest";
 import type { SubmitOrderRequest } from "../models/SubmitOrderRequest";
 import type { RejectOrderRequest } from "../models/RejectOrderRequest";
@@ -72,6 +74,14 @@ export type ListOrderEventsParams = Omit<
   | "affinityActorType"
   | "xAffinityOrganizationId"
 >;
+export type PreviewOrderParams = Omit<
+  PreviewOrderRequest,
+  "practiceId" | "patientId" | "prescriptions"
+> & {
+  practiceId: NonNullable<PreviewOrderRequest["practiceId"]>;
+  patientId: NonNullable<PreviewOrderRequest["patientId"]>;
+  prescriptions: NonNullable<PreviewOrderRequest["prescriptions"]>;
+};
 export type SignOrderParams = Omit<
   SignOrderRequest,
   "practiceId" | "userId" | "signatureAttestation" | "expectedVersions"
@@ -260,6 +270,15 @@ export class OrdersResource {
           requestOverrides(options),
         ),
       params,
+    );
+  }
+  preview(
+    params: PreviewOrderParams,
+    options?: RequestOptions,
+  ): ReturnType<OrdersApi["previewOrder"]> {
+    return this.api.previewOrder(
+      { previewOrderRequest: params, ...commonHeaders(options) },
+      requestOverrides(options),
     );
   }
   sign(

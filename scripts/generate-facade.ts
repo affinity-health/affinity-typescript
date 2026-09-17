@@ -834,3 +834,19 @@ export type { GetPracticeLocationResponse as PracticeLocation } from "./models/G
 export type { ApiListPromise } from "./resources/pagination";
 `,
 );
+
+// typescript-fetch references Null for standalone JSON Schema null values but
+// does not emit the model. Keep this support file generator-owned as well.
+await output(
+  "src/models/Null.ts",
+  `
+export type Null = null;
+export function NullFromJSON(value: unknown): Null { return NullFromJSONTyped(value, false); }
+export function NullFromJSONTyped(value: unknown, _ignoreDiscriminator: boolean): Null {
+  if (value !== null) throw new TypeError("Expected null");
+  return null;
+}
+export function NullToJSON(value: Null): null { return value; }
+export function NullToJSONTyped(value: Null, _ignoreDiscriminator: boolean = false): null { return value; }
+`,
+);

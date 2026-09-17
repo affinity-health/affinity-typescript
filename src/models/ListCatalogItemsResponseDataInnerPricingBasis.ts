@@ -12,77 +12,29 @@
  * Do not edit the class manually.
  */
 
-import { mapValues } from "../runtime";
-import type { ListCatalogItemsResponseDataInnerPricingBasisAnyOf } from "./ListCatalogItemsResponseDataInnerPricingBasisAnyOf";
+import type { ListCatalogItemsResponseDataInnerPricingBasisOneOf } from "./ListCatalogItemsResponseDataInnerPricingBasisOneOf";
 import {
-  ListCatalogItemsResponseDataInnerPricingBasisAnyOfFromJSON,
-  ListCatalogItemsResponseDataInnerPricingBasisAnyOfFromJSONTyped,
-  ListCatalogItemsResponseDataInnerPricingBasisAnyOfToJSON,
-  ListCatalogItemsResponseDataInnerPricingBasisAnyOfToJSONTyped,
-} from "./ListCatalogItemsResponseDataInnerPricingBasisAnyOf";
-import type { ListCatalogItemsResponseDataInnerPricingBasisAnyOf1 } from "./ListCatalogItemsResponseDataInnerPricingBasisAnyOf1";
+  instanceOfListCatalogItemsResponseDataInnerPricingBasisOneOf,
+  ListCatalogItemsResponseDataInnerPricingBasisOneOfFromJSON,
+  ListCatalogItemsResponseDataInnerPricingBasisOneOfFromJSONTyped,
+  ListCatalogItemsResponseDataInnerPricingBasisOneOfToJSON,
+} from "./ListCatalogItemsResponseDataInnerPricingBasisOneOf";
+import type { ListCatalogItemsResponseDataInnerPricingBasisOneOf1 } from "./ListCatalogItemsResponseDataInnerPricingBasisOneOf1";
 import {
-  ListCatalogItemsResponseDataInnerPricingBasisAnyOf1FromJSON,
-  ListCatalogItemsResponseDataInnerPricingBasisAnyOf1FromJSONTyped,
-  ListCatalogItemsResponseDataInnerPricingBasisAnyOf1ToJSON,
-  ListCatalogItemsResponseDataInnerPricingBasisAnyOf1ToJSONTyped,
-} from "./ListCatalogItemsResponseDataInnerPricingBasisAnyOf1";
+  instanceOfListCatalogItemsResponseDataInnerPricingBasisOneOf1,
+  ListCatalogItemsResponseDataInnerPricingBasisOneOf1FromJSON,
+  ListCatalogItemsResponseDataInnerPricingBasisOneOf1FromJSONTyped,
+  ListCatalogItemsResponseDataInnerPricingBasisOneOf1ToJSON,
+} from "./ListCatalogItemsResponseDataInnerPricingBasisOneOf1";
 
 /**
+ * @type ListCatalogItemsResponseDataInnerPricingBasis
  *
  * @export
- * @interface ListCatalogItemsResponseDataInnerPricingBasis
  */
-export interface ListCatalogItemsResponseDataInnerPricingBasis {
-  /**
-   *
-   * @type {ListCatalogItemsResponseDataInnerPricingBasisKindEnum}
-   * @memberof ListCatalogItemsResponseDataInnerPricingBasis
-   */
-  kind: ListCatalogItemsResponseDataInnerPricingBasisKindEnum;
-  /**
-   *
-   * @type {ListCatalogItemsResponseDataInnerPricingBasisQuantityEnum}
-   * @memberof ListCatalogItemsResponseDataInnerPricingBasis
-   */
-  quantity: ListCatalogItemsResponseDataInnerPricingBasisQuantityEnum;
-  /**
-   *
-   * @type {string}
-   * @memberof ListCatalogItemsResponseDataInnerPricingBasis
-   */
-  unit: string;
-}
-
-/**
- * @export
- */
-export const ListCatalogItemsResponseDataInnerPricingBasisKindEnum = {
-  Unit: "unit",
-} as const;
-export type ListCatalogItemsResponseDataInnerPricingBasisKindEnum =
-  (typeof ListCatalogItemsResponseDataInnerPricingBasisKindEnum)[keyof typeof ListCatalogItemsResponseDataInnerPricingBasisKindEnum];
-
-/**
- * @export
- */
-export const ListCatalogItemsResponseDataInnerPricingBasisQuantityEnum = {
-  _1: "1",
-} as const;
-export type ListCatalogItemsResponseDataInnerPricingBasisQuantityEnum =
-  (typeof ListCatalogItemsResponseDataInnerPricingBasisQuantityEnum)[keyof typeof ListCatalogItemsResponseDataInnerPricingBasisQuantityEnum];
-
-/**
- * Check if a given object implements the ListCatalogItemsResponseDataInnerPricingBasis interface.
- */
-export function instanceOfListCatalogItemsResponseDataInnerPricingBasis(
-  value: object,
-): value is ListCatalogItemsResponseDataInnerPricingBasis {
-  if (!("kind" in value) || value["kind"] === undefined) return false;
-  if (!("quantity" in value) || value["quantity"] === undefined) return false;
-  if (!("unit" in value) || value["unit"] === undefined) return false;
-  return true;
-}
+export type ListCatalogItemsResponseDataInnerPricingBasis =
+  | ListCatalogItemsResponseDataInnerPricingBasisOneOf
+  | ListCatalogItemsResponseDataInnerPricingBasisOneOf1;
 
 export function ListCatalogItemsResponseDataInnerPricingBasisFromJSON(
   json: any,
@@ -97,16 +49,19 @@ export function ListCatalogItemsResponseDataInnerPricingBasisFromJSONTyped(
   if (json == null) {
     return json;
   }
-  return {
-    kind: json["kind"],
-    quantity: json["quantity"],
-    unit: json["unit"],
-  };
+  if (typeof json !== "object") {
+    return json;
+  }
+  if (instanceOfListCatalogItemsResponseDataInnerPricingBasisOneOf(json)) {
+    return ListCatalogItemsResponseDataInnerPricingBasisOneOfFromJSONTyped(json, true);
+  }
+  if (instanceOfListCatalogItemsResponseDataInnerPricingBasisOneOf1(json)) {
+    return ListCatalogItemsResponseDataInnerPricingBasisOneOf1FromJSONTyped(json, true);
+  }
+  return {} as any;
 }
 
-export function ListCatalogItemsResponseDataInnerPricingBasisToJSON(
-  json: any,
-): ListCatalogItemsResponseDataInnerPricingBasis {
+export function ListCatalogItemsResponseDataInnerPricingBasisToJSON(json: any): any {
   return ListCatalogItemsResponseDataInnerPricingBasisToJSONTyped(json, false);
 }
 
@@ -117,10 +72,18 @@ export function ListCatalogItemsResponseDataInnerPricingBasisToJSONTyped(
   if (value == null) {
     return value;
   }
-
-  return {
-    kind: value["kind"],
-    quantity: value["quantity"],
-    unit: value["unit"],
-  };
+  if (typeof value !== "object") {
+    return value;
+  }
+  if (instanceOfListCatalogItemsResponseDataInnerPricingBasisOneOf(value)) {
+    return ListCatalogItemsResponseDataInnerPricingBasisOneOfToJSON(
+      value as ListCatalogItemsResponseDataInnerPricingBasisOneOf,
+    );
+  }
+  if (instanceOfListCatalogItemsResponseDataInnerPricingBasisOneOf1(value)) {
+    return ListCatalogItemsResponseDataInnerPricingBasisOneOf1ToJSON(
+      value as ListCatalogItemsResponseDataInnerPricingBasisOneOf1,
+    );
+  }
+  return {};
 }

@@ -13,6 +13,7 @@ All URIs are relative to *https://api.joinaffinityai.com*
 | [**getOrderTestSimulation**](OrdersApi.md#getordertestsimulation)                | **GET** /v1/orders/{orderId}/test-simulation                   | Read Test order controls        |
 | [**listOrderEvents**](OrdersApi.md#listorderevents)                              | **GET** /v1/orders/{orderId}/events                            | List order events               |
 | [**listOrders**](OrdersApi.md#listorders)                                        | **GET** /v1/orders                                             | List orders                     |
+| [**previewOrder**](OrdersApi.md#previeworderoperation)                           | **POST** /v1/order-previews                                    | Preview an order                |
 | [**rejectOrder**](OrdersApi.md#rejectorderoperation)                             | **POST** /v1/orders/{orderId}/rejection                        | Reject order                    |
 | [**signOrder**](OrdersApi.md#signorderoperation)                                 | **POST** /v1/orders/{orderId}/sign                             | Sign order                      |
 | [**submitOrder**](OrdersApi.md#submitorderoperation)                             | **POST** /v1/orders/{orderId}/submit                           | Submit order                    |
@@ -826,6 +827,86 @@ example().catch(console.error);
 | **400**     | HTTP 400    | -                |
 | **401**     | HTTP 401    | -                |
 | **403**     | HTTP 403    | -                |
+| **429**     | HTTP 429    | -                |
+
+[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
+
+## previewOrder
+
+> PreviewOrderResponse previewOrder(previewOrderRequest, affinityVersion)
+
+Preview an order
+
+Requires orders:write and catalog:read. Resolves defaults and explicit edits for one existing patient and 1–20 prescriptions. Returns exact directions, dispense values, eligible shipping and estimated line prices. Complete previews contain an orders.create input. Does not create an order, reserve pricing, sign, charge or transmit. No idempotency key is required. Creation and signing recheck current requirements.
+
+### Example
+
+```ts
+import {
+  Configuration,
+  OrdersApi,
+} from '@affinity-health/sdk';
+import type { PreviewOrderOperationRequest } from '@affinity-health/sdk';
+
+async function example() {
+  console.log("🚀 Testing @affinity-health/sdk SDK...");
+  const config = new Configuration({
+    // Configure HTTP bearer authorization: bearerAuth
+    accessToken: "YOUR BEARER TOKEN",
+    // To configure API key authorization: affinityApiKey
+    apiKey: "YOUR API KEY",
+  });
+  const api = new OrdersApi(config);
+
+  const body = {
+    // PreviewOrderRequest
+    previewOrderRequest: ...,
+    // string (optional)
+    affinityVersion: affinityVersion_example,
+  } satisfies PreviewOrderOperationRequest;
+
+  try {
+    const data = await api.previewOrder(body);
+    console.log(data);
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+// Run the test
+example().catch(console.error);
+```
+
+### Parameters
+
+| Name                    | Type                                          | Description | Notes                                |
+| ----------------------- | --------------------------------------------- | ----------- | ------------------------------------ |
+| **previewOrderRequest** | [PreviewOrderRequest](PreviewOrderRequest.md) |             |                                      |
+| **affinityVersion**     | `string`                                      |             | [Optional] [Defaults to `undefined`] |
+
+### Return type
+
+[**PreviewOrderResponse**](PreviewOrderResponse.md)
+
+### Authorization
+
+[bearerAuth](../README.md#bearerAuth), [affinityApiKey](../README.md#affinityApiKey)
+
+### HTTP request headers
+
+- **Content-Type**: `application/json`
+- **Accept**: `application/json`
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+| ----------- | ----------- | ---------------- |
+| **200**     | HTTP 200    | -                |
+| **400**     | HTTP 400    | -                |
+| **401**     | HTTP 401    | -                |
+| **403**     | HTTP 403    | -                |
+| **404**     | HTTP 404    | -                |
+| **409**     | HTTP 409    | -                |
 | **429**     | HTTP 429    | -                |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)

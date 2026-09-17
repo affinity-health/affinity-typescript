@@ -44,6 +44,11 @@ import {
   ListShippingOptionsResponseInnerToJSON,
 } from "../models/ListShippingOptionsResponseInner";
 import { type Problem, ProblemFromJSON, ProblemToJSON } from "../models/Problem";
+import {
+  type RetrievePrescribingOptionsResponse,
+  RetrievePrescribingOptionsResponseFromJSON,
+  RetrievePrescribingOptionsResponseToJSON,
+} from "../models/RetrievePrescribingOptionsResponse";
 
 export interface ListCatalogItemsRequest {
   sort?: ListCatalogItemsSortEnum;
@@ -79,6 +84,12 @@ export interface ListShippingOptionsRequest {
   catalogItemId: string;
   destinationState: string;
   destinationType?: ListShippingOptionsDestinationTypeEnum;
+  affinityVersion?: string;
+}
+
+export interface RetrievePrescribingOptionsRequest {
+  catalogItemId: string;
+  practiceId: string;
   affinityVersion?: string;
 }
 
@@ -392,6 +403,93 @@ export class CatalogApi extends runtime.BaseAPI {
     initOverrides?: RequestInit | runtime.InitOverrideFunction,
   ): Promise<Array<ListShippingOptionsResponseInner>> {
     const response = await this.listShippingOptionsRaw(requestParameters, initOverrides);
+    return await response.value();
+  }
+
+  /**
+   * Creates request options for retrievePrescribingOptions without sending the request
+   */
+  async retrievePrescribingOptionsRequestOpts(
+    requestParameters: RetrievePrescribingOptionsRequest,
+  ): Promise<runtime.RequestOpts> {
+    if (requestParameters["catalogItemId"] == null) {
+      throw new runtime.RequiredError(
+        "catalogItemId",
+        'Required parameter "catalogItemId" was null or undefined when calling retrievePrescribingOptions().',
+      );
+    }
+
+    if (requestParameters["practiceId"] == null) {
+      throw new runtime.RequiredError(
+        "practiceId",
+        'Required parameter "practiceId" was null or undefined when calling retrievePrescribingOptions().',
+      );
+    }
+
+    const queryParameters: any = {};
+
+    if (requestParameters["practiceId"] != null) {
+      queryParameters["practiceId"] = requestParameters["practiceId"];
+    }
+
+    const headerParameters: runtime.HTTPHeaders = {};
+
+    if (requestParameters["affinityVersion"] != null) {
+      headerParameters["Affinity-Version"] = String(requestParameters["affinityVersion"]);
+    }
+
+    if (this.configuration && this.configuration.accessToken) {
+      const token = this.configuration.accessToken;
+      const tokenString = await token("bearerAuth", []);
+
+      if (tokenString) {
+        headerParameters["Authorization"] = `Bearer ${tokenString}`;
+      }
+    }
+    if (this.configuration && this.configuration.apiKey) {
+      headerParameters["x-affinity-api-key"] =
+        await this.configuration.apiKey("x-affinity-api-key"); // affinityApiKey authentication
+    }
+
+    let urlPath = `/v1/catalog/items/{catalogItemId}/prescribing-options`;
+    urlPath = urlPath.replace(
+      "{catalogItemId}",
+      encodeURIComponent(String(requestParameters["catalogItemId"])),
+    );
+
+    return {
+      path: urlPath,
+      method: "GET",
+      headers: headerParameters,
+      query: queryParameters,
+    };
+  }
+
+  /**
+   * Requires catalog:read. Returns reviewed SIG presets, guided patterns, quantity constraints and product requirements for a practice and mode. Revisions identify changed defaults. No patient-specific rationale or diagnosis is inferred.
+   * Retrieve prescribing options
+   */
+  async retrievePrescribingOptionsRaw(
+    requestParameters: RetrievePrescribingOptionsRequest,
+    initOverrides?: RequestInit | runtime.InitOverrideFunction,
+  ): Promise<runtime.ApiResponse<RetrievePrescribingOptionsResponse>> {
+    const requestOptions = await this.retrievePrescribingOptionsRequestOpts(requestParameters);
+    const response = await this.request(requestOptions, initOverrides);
+
+    return new runtime.JSONApiResponse(response, (jsonValue) =>
+      RetrievePrescribingOptionsResponseFromJSON(jsonValue),
+    );
+  }
+
+  /**
+   * Requires catalog:read. Returns reviewed SIG presets, guided patterns, quantity constraints and product requirements for a practice and mode. Revisions identify changed defaults. No patient-specific rationale or diagnosis is inferred.
+   * Retrieve prescribing options
+   */
+  async retrievePrescribingOptions(
+    requestParameters: RetrievePrescribingOptionsRequest,
+    initOverrides?: RequestInit | runtime.InitOverrideFunction,
+  ): Promise<RetrievePrescribingOptionsResponse> {
+    const response = await this.retrievePrescribingOptionsRaw(requestParameters, initOverrides);
     return await response.value();
   }
 }
