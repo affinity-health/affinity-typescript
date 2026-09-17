@@ -7,6 +7,8 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 
 ## [Unreleased]
 
+## [1.9.0-beta.1] - 2026-09-17
+
 ### Added
 
 - Added Stripe-style `rawRequest(method, path, params?, options?)` for preview or newly released API
@@ -247,7 +249,8 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 - Typed RFC 9457 problem responses, including validation, dependency, and internal failures.
 - A compile-checked Test-mode quickstart.
 
-[Unreleased]: https://github.com/affinity-health/affinity-typescript/compare/v1.8.0...HEAD
+[Unreleased]: https://github.com/affinity-health/affinity-typescript/compare/v1.9.0-beta.1...HEAD
+[1.9.0-beta.1]: https://github.com/affinity-health/affinity-typescript/compare/v1.8.0...v1.9.0-beta.1
 [1.8.0]: https://github.com/affinity-health/affinity-typescript/compare/v1.7.0...v1.8.0
 [1.7.0]: https://github.com/affinity-health/affinity-typescript/compare/v1.6.0...v1.7.0
 [1.6.0]: https://github.com/affinity-health/affinity-typescript/compare/v1.5.0...v1.6.0
