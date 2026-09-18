@@ -238,6 +238,8 @@ export * from "./ReplacePatientAllergiesResponse";
 export * from "./ReplayWebhookEventResponse";
 export * from "./ResendPracticeTeamInvitationResponse";
 export * from "./RetrievePrescribingOptionsResponse";
+export * from "./RetrievePrescribingOptionsResponseCompoundingReason";
+export * from "./RetrievePrescribingOptionsResponseCompoundingReasonChoicesInner";
 export * from "./RetrievePrescribingOptionsResponseDefault";
 export * from "./RetrievePrescribingOptionsResponseDefaultStructuredSig";
 export * from "./RetrievePrescribingOptionsResponseFormulationDefault";

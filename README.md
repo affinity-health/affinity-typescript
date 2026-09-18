@@ -258,3 +258,26 @@ returns a validated `AffinityWebhookEvent` for the supported event types.
 ## License
 
 MIT
+
+## Compounding reasons
+
+Use the typed Affinity category. The API translates it to the pharmacy's enum; integrations do not send vendor codes.
+
+```ts
+import { Affinity, CompoundingReason } from "@affinity-health/sdk";
+
+const affinity = new Affinity(process.env.AFFINITY_API_KEY!);
+const options = await affinity.catalog.retrievePrescribingOptions(catalogItemId, { practiceId });
+// Render options.compoundingReason.choices for the clinician to select.
+// Check context/contextRequired and contextPrompt before collecting additional text.
+
+const clinical = {
+  compoundingReason: {
+    category: CompoundingReason.ConcentrationAdjustment,
+    // context: clinicianEnteredExplanation, // Include when the medication requires it.
+  },
+};
+// Pass clinical in a prescription to orders.create, or in orders.preview overrides.
+```
+
+Only offer categories returned for the medication. A required patient-specific explanation cannot be replaced by a category. Category-only pharmacies accept omitted context; text-only pharmacies accept `{ context: clinicianEnteredExplanation }`. The API rechecks current requirements during creation and signing.

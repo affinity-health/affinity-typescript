@@ -16399,12 +16399,16 @@
                                   ]
                                 },
                                 "context": {
-                                  "type": "string"
+                                  "anyOf": [
+                                    {
+                                      "type": "string"
+                                    },
+                                    {
+                                      "type": "null"
+                                    }
+                                  ]
                                 }
                               },
-                              "required": [
-                                "context"
-                              ],
                               "additionalProperties": false
                             },
                             {
@@ -22565,6 +22569,94 @@
         "title": "RetrievePrescribingOptionsResponse",
         "type": "object",
         "properties": {
+          "compoundingReason": {
+            "type": "object",
+            "properties": {
+              "required": {
+                "type": "boolean"
+              },
+              "categoryRequired": {
+                "type": "boolean"
+              },
+              "context": {
+                "type": "string",
+                "enum": [
+                  "not_supported",
+                  "optional",
+                  "required"
+                ]
+              },
+              "contextPrompt": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "choices": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "category": {
+                      "type": "string",
+                      "enum": [
+                        "alcohol_free",
+                        "drug_shortage",
+                        "commercial_product_discontinued",
+                        "modified_release",
+                        "inactive_ingredient_sensitivity",
+                        "inactive_ingredient_toxicity",
+                        "concentration_adjustment",
+                        "alternate_route",
+                        "dosage_form_unavailable",
+                        "flavor_adjustment",
+                        "tablet_burden",
+                        "patient_cannot_use_commercial_product",
+                        "no_approved_product_available",
+                        "no_rationale_required",
+                        "other_patient_specific_need"
+                      ]
+                    },
+                    "label": {
+                      "type": "string"
+                    },
+                    "contextRequired": {
+                      "type": "boolean"
+                    },
+                    "contextPrompt": {
+                      "anyOf": [
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ]
+                    }
+                  },
+                  "required": [
+                    "category",
+                    "label",
+                    "contextRequired",
+                    "contextPrompt"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            },
+            "required": [
+              "required",
+              "categoryRequired",
+              "context",
+              "contextPrompt",
+              "choices"
+            ],
+            "additionalProperties": false
+          },
           "compoundingReasonCategoryDefault": {
             "anyOf": [
               {
@@ -24665,6 +24757,7 @@
           }
         },
         "required": [
+          "compoundingReason",
           "compoundingReasonCategoryDefault",
           "compoundingReasonDefault",
           "default",
@@ -25082,12 +25175,16 @@
                                               ]
                                             },
                                             "context": {
-                                              "type": "string"
+                                              "anyOf": [
+                                                {
+                                                  "type": "string"
+                                                },
+                                                {
+                                                  "type": "null"
+                                                }
+                                              ]
                                             }
                                           },
-                                          "required": [
-                                            "context"
-                                          ],
                                           "additionalProperties": false
                                         },
                                         {
@@ -26022,12 +26119,16 @@
                                           ]
                                         },
                                         "context": {
-                                          "type": "string"
+                                          "anyOf": [
+                                            {
+                                              "type": "string"
+                                            },
+                                            {
+                                              "type": "null"
+                                            }
+                                          ]
                                         }
                                       },
-                                      "required": [
-                                        "context"
-                                      ],
                                       "additionalProperties": false
                                     },
                                     {
@@ -41009,12 +41110,16 @@
                                 ]
                               },
                               "context": {
-                                "type": "string"
+                                "anyOf": [
+                                  {
+                                    "type": "string"
+                                  },
+                                  {
+                                    "type": "null"
+                                  }
+                                ]
                               }
                             },
-                            "required": [
-                              "context"
-                            ],
                             "additionalProperties": false
                           },
                           {
@@ -41623,12 +41728,16 @@
                                 ]
                               },
                               "context": {
-                                "type": "string"
+                                "anyOf": [
+                                  {
+                                    "type": "string"
+                                  },
+                                  {
+                                    "type": "null"
+                                  }
+                                ]
                               }
                             },
-                            "required": [
-                              "context"
-                            ],
                             "additionalProperties": false
                           },
                           {
@@ -42972,12 +43081,16 @@
                                         ]
                                       },
                                       "context": {
-                                        "type": "string"
+                                        "anyOf": [
+                                          {
+                                            "type": "string"
+                                          },
+                                          {
+                                            "type": "null"
+                                          }
+                                        ]
                                       }
                                     },
-                                    "required": [
-                                      "context"
-                                    ],
                                     "additionalProperties": false
                                   },
                                   {

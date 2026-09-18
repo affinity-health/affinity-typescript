@@ -4,6 +4,7 @@
 
 | Name                               | Type                                                                                                                                   |
 | ---------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------- |
+| `compoundingReason`                | [RetrievePrescribingOptionsResponseCompoundingReason](RetrievePrescribingOptionsResponseCompoundingReason.md)                          |
 | `compoundingReasonCategoryDefault` | string                                                                                                                                 |
 | `compoundingReasonDefault`         | string                                                                                                                                 |
 | `_default`                         | [RetrievePrescribingOptionsResponseDefault](RetrievePrescribingOptionsResponseDefault.md)                                              |

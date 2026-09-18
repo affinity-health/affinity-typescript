@@ -1,5 +1,5 @@
 import { expect, test } from "bun:test";
-import { Affinity } from "../src";
+import { Affinity, CompoundingReason } from "../src";
 
 const practiceId = "prac_01k123456789abcdefghjkmnpq";
 const patientId = "pat_01k123456789abcdefghjkmnpq";
@@ -35,6 +35,20 @@ test("prescribing options serialize the item and practice scope", async () => {
             shipping: "prescription",
           },
         },
+        compoundingReason: {
+          required: false,
+          categoryRequired: false,
+          context: "not_supported",
+          contextPrompt: null,
+          choices: [
+            {
+              category: "concentration_adjustment",
+              label: "Concentration adjustment",
+              contextRequired: false,
+              contextPrompt: null,
+            },
+          ],
+        },
         presets: [],
         templates: [],
         pharmacyDirections: [],
@@ -42,7 +56,11 @@ test("prescribing options serialize the item and practice scope", async () => {
       });
     },
   });
-  await affinity.catalog.retrievePrescribingOptions(medicationId, { practiceId });
+  const options = await affinity.catalog.retrievePrescribingOptions(medicationId, { practiceId });
+  expect(options.compoundingReason.choices[0]?.category).toBe(
+    CompoundingReason.ConcentrationAdjustment,
+  );
+  expect(options.compoundingReason.context).toBe("not_supported");
   expect(new URL(request!.url).pathname).toBe(
     `/v1/catalog/items/${medicationId}/prescribing-options`,
   );
@@ -161,4 +179,36 @@ test("incomplete previews preserve null payload and actionable issues", async ()
   expect(preview.status).toBe("incomplete");
   expect(preview.orderInput).toBeNull();
   expect(preview.issues).toEqual(issues);
+});
+
+test("typed compounding reasons serialize without a dummy context or vendor code", async () => {
+  let request: Request | undefined;
+  const affinity = new Affinity("sk_test_example", {
+    fetch: async (input, init) => {
+      request = new Request(input, init);
+      return Response.json({ prescriptions: [], fulfillments: [], otcItems: [] });
+    },
+  });
+  await affinity.orders.create(
+    {
+      practiceId,
+      patientId,
+      prescriptions: [
+        {
+          medicationId,
+          directions: "Use as directed in this synthetic test.",
+          daysSupply: 30,
+          quantity: 1,
+          quantityUnit: "vial",
+          refills: 0,
+          dispensing: {},
+          clinical: { compoundingReason: { category: CompoundingReason.ConcentrationAdjustment } },
+        },
+      ],
+    },
+    { idempotencyKey: "synthetic-reason-example" },
+  );
+  expect((await request!.json()).prescriptions[0].clinical.compoundingReason).toEqual({
+    category: "concentration_adjustment",
+  });
 });

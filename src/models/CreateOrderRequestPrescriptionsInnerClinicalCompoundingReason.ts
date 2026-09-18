@@ -30,7 +30,7 @@ export interface CreateOrderRequestPrescriptionsInnerClinicalCompoundingReason {
    * @type {string}
    * @memberof CreateOrderRequestPrescriptionsInnerClinicalCompoundingReason
    */
-  context: string;
+  context?: string | null;
 }
 
 /**
@@ -62,7 +62,6 @@ export type CreateOrderRequestPrescriptionsInnerClinicalCompoundingReasonCategor
 export function instanceOfCreateOrderRequestPrescriptionsInnerClinicalCompoundingReason(
   value: object,
 ): value is CreateOrderRequestPrescriptionsInnerClinicalCompoundingReason {
-  if (!("context" in value) || value["context"] === undefined) return false;
   return true;
 }
 
@@ -81,7 +80,7 @@ export function CreateOrderRequestPrescriptionsInnerClinicalCompoundingReasonFro
   }
   return {
     category: json["category"] == null ? undefined : json["category"],
-    context: json["context"],
+    context: json["context"] == null ? undefined : json["context"],
   };
 }
 

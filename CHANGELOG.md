@@ -7,6 +7,17 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 
 ## [Unreleased]
 
+## [1.9.0-beta.5] - 2026-09-18
+
+### Added
+
+- Export `CompoundingReason` as a runtime constant and string-union type for prescription reason autocomplete.
+- Return accepted reason choices, labels, context requirements, and prompts from `catalog.retrievePrescribingOptions`.
+
+### Fixed
+
+- Allow category-only compounding reasons without a dummy context string in order creation, batches, and previews. Pharmacy-required patient explanations remain enforced by the API.
+
 ## [1.9.0-beta.4] - 2026-09-17
 
 ### Added

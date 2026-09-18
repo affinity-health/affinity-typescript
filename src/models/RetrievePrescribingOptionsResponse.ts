@@ -48,6 +48,13 @@ import {
   RetrievePrescribingOptionsResponseTemplatesInnerToJSON,
   RetrievePrescribingOptionsResponseTemplatesInnerToJSONTyped,
 } from "./RetrievePrescribingOptionsResponseTemplatesInner";
+import type { RetrievePrescribingOptionsResponseCompoundingReason } from "./RetrievePrescribingOptionsResponseCompoundingReason";
+import {
+  RetrievePrescribingOptionsResponseCompoundingReasonFromJSON,
+  RetrievePrescribingOptionsResponseCompoundingReasonFromJSONTyped,
+  RetrievePrescribingOptionsResponseCompoundingReasonToJSON,
+  RetrievePrescribingOptionsResponseCompoundingReasonToJSONTyped,
+} from "./RetrievePrescribingOptionsResponseCompoundingReason";
 import type { RetrievePrescribingOptionsResponseInitial } from "./RetrievePrescribingOptionsResponseInitial";
 import {
   RetrievePrescribingOptionsResponseInitialFromJSON,
@@ -83,6 +90,12 @@ import {
  * @interface RetrievePrescribingOptionsResponse
  */
 export interface RetrievePrescribingOptionsResponse {
+  /**
+   *
+   * @type {RetrievePrescribingOptionsResponseCompoundingReason}
+   * @memberof RetrievePrescribingOptionsResponse
+   */
+  compoundingReason: RetrievePrescribingOptionsResponseCompoundingReason;
   /**
    *
    * @type {RetrievePrescribingOptionsResponseCompoundingReasonCategoryDefaultEnum}
@@ -225,6 +238,7 @@ export type RetrievePrescribingOptionsResponseObjectEnum =
 export function instanceOfRetrievePrescribingOptionsResponse(
   value: object,
 ): value is RetrievePrescribingOptionsResponse {
+  if (!("compoundingReason" in value) || value["compoundingReason"] === undefined) return false;
   if (
     !("compoundingReasonCategoryDefault" in value) ||
     value["compoundingReasonCategoryDefault"] === undefined
@@ -264,6 +278,9 @@ export function RetrievePrescribingOptionsResponseFromJSONTyped(
     return json;
   }
   return {
+    compoundingReason: RetrievePrescribingOptionsResponseCompoundingReasonFromJSON(
+      json["compoundingReason"],
+    ),
     compoundingReasonCategoryDefault: json["compoundingReasonCategoryDefault"],
     compoundingReasonDefault: json["compoundingReasonDefault"],
     _default: RetrievePrescribingOptionsResponseDefaultFromJSON(json["default"]),
@@ -307,6 +324,9 @@ export function RetrievePrescribingOptionsResponseToJSONTyped(
   }
 
   return {
+    compoundingReason: RetrievePrescribingOptionsResponseCompoundingReasonToJSON(
+      value["compoundingReason"],
+    ),
     compoundingReasonCategoryDefault: value["compoundingReasonCategoryDefault"],
     compoundingReasonDefault: value["compoundingReasonDefault"],
     default: RetrievePrescribingOptionsResponseDefaultToJSON(value["_default"]),

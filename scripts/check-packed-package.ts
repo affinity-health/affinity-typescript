@@ -8,6 +8,7 @@ const consumer = await mkdtemp(join(tmpdir(), "affinity-sdk-consumer-"));
 const consumerSource = String.raw`
 import {
   Affinity,
+  CompoundingReason,
   type AffinityActor,
   type CreateOrderParams,
   type ListCatalogItemsParams,
@@ -27,6 +28,7 @@ const orderInput = {
       quantity: 30,
       quantityUnit: "capsule",
       refills: 0,
+      clinical: { compoundingReason: { category: CompoundingReason.ConcentrationAdjustment } },
       structuredSig: {
         dose: "1",
         doseUnit: "capsule",
@@ -69,6 +71,17 @@ async function previewAndCreate() {
   return absent;
 }
 void previewAndCreate;
+const reason: CompoundingReason = "alternate_route";
+// @ts-expect-error vendor codes are not Affinity reason categories
+const invalidReason: CompoundingReason = "CONC_ADJUST";
+async function typedReasons() {
+  const options = await sdk.catalog.retrievePrescribingOptions("cat_example", { practiceId: orderInput.practiceId });
+  const category: CompoundingReason | undefined = options.compoundingReason.choices[0]?.category;
+  return category;
+}
+void typedReasons;
+void reason;
+void invalidReason;
 
 // Resource methods take bodies directly; request options are optional.
 // @ts-expect-error generated request envelopes are not part of the public seam
@@ -181,7 +194,7 @@ try {
     }
   }
 
-  const nodeImport = String.raw`import { Affinity, ResponseError, FetchError, RequiredError } from "@affinity-health/sdk";
+  const nodeImport = String.raw`import { Affinity, CompoundingReason, ResponseError, FetchError, RequiredError } from "@affinity-health/sdk";
 const sdk = new Affinity("sk_test_packed_consumer");
 if (!sdk.orders || "raw" in sdk || typeof sdk.rawRequest !== "function" || typeof ResponseError !== "function" || typeof FetchError !== "function" || typeof RequiredError !== "function") throw new Error("Node package exports are unavailable");
 for (const path of ["@affinity-health/sdk/dist/apis/OrdersApi.js", "@affinity-health/sdk/dist/models/CreateOrderRequest.js"]) {

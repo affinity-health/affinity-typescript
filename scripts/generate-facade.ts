@@ -781,7 +781,8 @@ export * from "./errors";
 export { ResponseError, FetchError, RequiredError } from "./runtime";
 export type * from "./resources";
 export type * from "./domain";
-export * from "./webhook-events";`,
+export * from "./webhook-events";
+export { CreateOrderRequestPrescriptionsInnerClinicalCompoundingReasonCategoryEnum as CompoundingReason } from "./models/CreateOrderRequestPrescriptionsInnerClinicalCompoundingReason";`,
 );
 
 await output("src/errors.ts", await readFile(resolve(root, "scripts/templates/errors.ts"), "utf8"));
