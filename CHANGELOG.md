@@ -7,6 +7,16 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 
 ## [Unreleased]
 
+## [1.9.1] - 2026-09-18
+
+### Documentation
+
+- Use stable installation instructions and remove outdated beta guidance.
+- Link the complete compounding-reasons guide, including accepted categories and conditional patient context.
+- Add a compiled example for reason selection, prescription preview, and unsigned order creation.
+
+No API contract or runtime behavior changed.
+
 ## [1.9.0] - 2026-09-18
 
 ### Added

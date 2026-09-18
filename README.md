@@ -6,7 +6,7 @@ over the generated OpenAPI transport layer.
 ## Install
 
 ```sh
-bun add @affinity-health/sdk@next
+bun add @affinity-health/sdk
 ```
 
 The package supports trusted server-side Bun, Node.js, AWS Lambda, and standards-based worker
@@ -66,7 +66,7 @@ eligibility, signing, or actor-attribution checks.
 
 ## Prescription defaults and previews
 
-These methods are available in `1.9.0-beta.4`.
+These methods are available in stable SDK 1.9.0 and later.
 Use them on your server with an existing patient in the selected practice.
 
 ```ts
@@ -185,7 +185,7 @@ const id: string = practice.id;
 ```
 
 IDs are non-null strings. Fields that can be absent in the API, such as `legalName`, remain nullable.
-The beta.3 practice response replaces `productionAccess` with `liveEnabled`; check this boolean
+The practice response replaces `productionAccess` with `liveEnabled`; check this boolean
 instead of comparing `"approved"` and `"pending"`.
 
 ## Resources and generated contract
@@ -255,10 +255,6 @@ convert an HTTP `ResponseError` into a typed Affinity error.
 Verify webhook signatures against the exact raw request body with `verifyAffinityWebhook`; it
 returns a validated `AffinityWebhookEvent` for the supported event types.
 
-## License
-
-MIT
-
 ## Compounding reasons
 
 Use the typed Affinity category. The API translates it to the pharmacy's enum; integrations do not send vendor codes.
@@ -281,3 +277,10 @@ const clinical = {
 ```
 
 Only offer categories returned for the medication. A required patient-specific explanation cannot be replaced by a category. Category-only pharmacies accept omitted context; text-only pharmacies accept `{ context: clinicianEnteredExplanation }`. The API rechecks current requirements during creation and signing.
+
+Read the [compounding reasons guide](https://docs.joinaffinityai.com/guides/compounding-reasons/) for the full category list, conditional context, and preview-to-create workflow.
+The [typed example](examples/compounding-reasons.ts) is compiled during SDK validation.
+
+## License
+
+MIT
