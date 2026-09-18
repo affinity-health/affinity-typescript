@@ -7,6 +7,19 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 
 ## [Unreleased]
 
+## [1.9.0] - 2026-09-18
+
+### Added
+
+- Publish the 1.9 prescribing-options and order-preview APIs, including supply ordering and grouped shipping estimates.
+- Export `CompoundingReason` for typed category selection and return medication-specific choices and context prompts.
+- Include the practice Live controls, resource type aliases, pagination helpers, and retry configuration introduced in the 1.9 beta releases below.
+
+### Fixed
+
+- Accept category-only compounding reasons without an empty context string. The API still enforces pharmacy-required explanations.
+- Preserve discriminated preview types and complete free-text prescription inputs.
+
 ## [1.9.0-beta.5] - 2026-09-18
 
 ### Added
