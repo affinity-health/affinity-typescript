@@ -9,6 +9,7 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 
 ### Added
 
+- Carry the reviewed customer shipping rate in prescription dispensing details. Refresh and review a draft after a shipping-price conflict.
 - Expose prescription indexes on preview shipping groups and show group totals in the EMR example without double-counting per-prescription rates.
 - Preview orders using inline patient details or an integration-scoped patient external ID without creating patient records.
 - Add `orders.signAndSubmit` with exact-version attestation, idempotency, and per-prescription submission outcomes.

@@ -32,6 +32,12 @@ export interface PreviewOrderRequestPrescriptionsInnerOverridesDispensing {
    */
   shippingOptionId?: string | null;
   /**
+   * Reviewed customer shipping rate for the selected service. Preview supplies this value. Shared group rates must not be summed per prescription.
+   * @type {number}
+   * @memberof PreviewOrderRequestPrescriptionsInnerOverridesDispensing
+   */
+  shippingAmountCents?: number | null;
+  /**
    *
    * @type {PreviewOrderRequestPrescriptionsInnerOverridesDispensingShippingDestinationTypeEnum}
    * @memberof PreviewOrderRequestPrescriptionsInnerOverridesDispensing
@@ -92,6 +98,8 @@ export function PreviewOrderRequestPrescriptionsInnerOverridesDispensingFromJSON
     dispenseUponAcceptance:
       json["dispenseUponAcceptance"] == null ? undefined : json["dispenseUponAcceptance"],
     shippingOptionId: json["shippingOptionId"] == null ? undefined : json["shippingOptionId"],
+    shippingAmountCents:
+      json["shippingAmountCents"] == null ? undefined : json["shippingAmountCents"],
     shippingDestinationType:
       json["shippingDestinationType"] == null ? undefined : json["shippingDestinationType"],
     pharmacyNotes: json["pharmacyNotes"] == null ? undefined : json["pharmacyNotes"],
@@ -118,6 +126,7 @@ export function PreviewOrderRequestPrescriptionsInnerOverridesDispensingToJSONTy
   return {
     dispenseUponAcceptance: value["dispenseUponAcceptance"],
     shippingOptionId: value["shippingOptionId"],
+    shippingAmountCents: value["shippingAmountCents"],
     shippingDestinationType: value["shippingDestinationType"],
     pharmacyNotes: value["pharmacyNotes"],
     requestedFillDate: value["requestedFillDate"],

@@ -6,6 +6,7 @@
 | ------------------------- | ------- |
 | `dispenseUponAcceptance`  | boolean |
 | `shippingOptionId`        | string  |
+| `shippingAmountCents`     | number  |
 | `shippingDestinationType` | string  |
 | `pharmacyNotes`           | string  |
 | `requestedFillDate`       | string  |

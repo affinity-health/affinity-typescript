@@ -16192,6 +16192,16 @@
                                   }
                                 ]
                               },
+                              "shippingAmountCents": {
+                                "anyOf": [
+                                  {
+                                    "type": "integer"
+                                  },
+                                  {
+                                    "type": "null"
+                                  }
+                                ]
+                              },
                               "shippingDestinationType": {
                                 "anyOf": [
                                   {
@@ -17522,6 +17532,18 @@
                           "type": "null"
                         }
                       ]
+                    },
+                    "shippingAmountCents": {
+                      "anyOf": [
+                        {
+                          "type": "integer",
+                          "minimum": 0
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ],
+                      "description": "Reviewed customer shipping rate for the selected service. Preview supplies this value. Shared group rates must not be summed per prescription."
                     },
                     "shippingDestinationType": {
                       "anyOf": [
@@ -19654,6 +19676,16 @@
                             }
                           ]
                         },
+                        "shippingAmountCents": {
+                          "anyOf": [
+                            {
+                              "type": "integer"
+                            },
+                            {
+                              "type": "null"
+                            }
+                          ]
+                        },
                         "shippingDestinationType": {
                           "anyOf": [
                             {
@@ -21597,6 +21629,16 @@
                           "anyOf": [
                             {
                               "type": "string"
+                            },
+                            {
+                              "type": "null"
+                            }
+                          ]
+                        },
+                        "shippingAmountCents": {
+                          "anyOf": [
+                            {
+                              "type": "integer"
                             },
                             {
                               "type": "null"
@@ -26961,6 +27003,18 @@
                                     }
                                   ]
                                 },
+                                "shippingAmountCents": {
+                                  "anyOf": [
+                                    {
+                                      "type": "integer",
+                                      "minimum": 0
+                                    },
+                                    {
+                                      "type": "null"
+                                    }
+                                  ],
+                                  "description": "Reviewed customer shipping rate for the selected service. Preview supplies this value. Shared group rates must not be summed per prescription."
+                                },
                                 "shippingDestinationType": {
                                   "anyOf": [
                                     {
@@ -27949,6 +28003,22 @@
                                     }
                                   ]
                                 },
+                                "shippingAmountCents": {
+                                  "anyOf": [
+                                    {
+                                      "type": "integer",
+                                      "allOf": [
+                                        {
+                                          "minimum": 0
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "type": "null"
+                                    }
+                                  ],
+                                  "description": "Reviewed customer shipping rate for the selected service. Preview supplies this value. Shared group rates must not be summed per prescription."
+                                },
                                 "shippingDestinationType": {
                                   "anyOf": [
                                     {
@@ -28507,6 +28577,22 @@
                                       "type": "null"
                                     }
                                   ]
+                                },
+                                "shippingAmountCents": {
+                                  "anyOf": [
+                                    {
+                                      "type": "integer",
+                                      "allOf": [
+                                        {
+                                          "minimum": 0
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "type": "null"
+                                    }
+                                  ],
+                                  "description": "Reviewed customer shipping rate for the selected service. Preview supplies this value. Shared group rates must not be summed per prescription."
                                 },
                                 "shippingDestinationType": {
                                   "anyOf": [
@@ -44358,6 +44444,18 @@
                       }
                     ]
                   },
+                  "shippingAmountCents": {
+                    "anyOf": [
+                      {
+                        "type": "integer",
+                        "minimum": 0
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "description": "Reviewed customer shipping rate for the selected service. Preview supplies this value. Shared group rates must not be summed per prescription."
+                  },
                   "shippingDestinationType": {
                     "anyOf": [
                       {
@@ -44975,6 +45073,18 @@
                         "type": "null"
                       }
                     ]
+                  },
+                  "shippingAmountCents": {
+                    "anyOf": [
+                      {
+                        "type": "integer",
+                        "minimum": 0
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "description": "Reviewed customer shipping rate for the selected service. Preview supplies this value. Shared group rates must not be summed per prescription."
                   },
                   "shippingDestinationType": {
                     "anyOf": [
@@ -46328,6 +46438,18 @@
                                 "type": "null"
                               }
                             ]
+                          },
+                          "shippingAmountCents": {
+                            "anyOf": [
+                              {
+                                "type": "integer",
+                                "minimum": 0
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ],
+                            "description": "Reviewed customer shipping rate for the selected service. Preview supplies this value. Shared group rates must not be summed per prescription."
                           },
                           "shippingDestinationType": {
                             "anyOf": [

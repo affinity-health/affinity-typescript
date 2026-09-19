@@ -51,6 +51,12 @@ export interface ListOrdersResponseDataInnerPrescriptionsInnerDispensing {
   shippingOptionId?: string | null;
   /**
    *
+   * @type {number}
+   * @memberof ListOrdersResponseDataInnerPrescriptionsInnerDispensing
+   */
+  shippingAmountCents?: number | null;
+  /**
+   *
    * @type {ListOrdersResponseDataInnerPrescriptionsInnerDispensingShippingDestinationTypeEnum}
    * @memberof ListOrdersResponseDataInnerPrescriptionsInnerDispensing
    */
@@ -99,6 +105,8 @@ export function ListOrdersResponseDataInnerPrescriptionsInnerDispensingFromJSONT
     pharmacyNotes: json["pharmacyNotes"] == null ? undefined : json["pharmacyNotes"],
     requestedFillDate: json["requestedFillDate"] == null ? undefined : json["requestedFillDate"],
     shippingOptionId: json["shippingOptionId"] == null ? undefined : json["shippingOptionId"],
+    shippingAmountCents:
+      json["shippingAmountCents"] == null ? undefined : json["shippingAmountCents"],
     shippingDestinationType:
       json["shippingDestinationType"] == null ? undefined : json["shippingDestinationType"],
   };
@@ -124,6 +132,7 @@ export function ListOrdersResponseDataInnerPrescriptionsInnerDispensingToJSONTyp
     pharmacyNotes: value["pharmacyNotes"],
     requestedFillDate: value["requestedFillDate"],
     shippingOptionId: value["shippingOptionId"],
+    shippingAmountCents: value["shippingAmountCents"],
     shippingDestinationType: value["shippingDestinationType"],
   };
 }
