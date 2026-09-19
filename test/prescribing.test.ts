@@ -97,7 +97,17 @@ test("preview preserves custom SIGs and returns a directly creatable payload", a
               status: "complete",
               prescriptions: [],
               otcItems: [],
-              shippingGroups: [],
+              shippingGroups: [
+                {
+                  key: "opaque-preview-group",
+                  pharmacy: "Synthetic Pharmacy",
+                  label: "Ground",
+                  temperature: "ambient",
+                  amountCents: 0,
+                  itemCount: 1,
+                  prescriptionIndexes: [0],
+                },
+              ],
               totals: {
                 currency: "USD",
                 medicationSubtotalCents: 1000,
@@ -128,6 +138,7 @@ test("preview preserves custom SIGs and returns a directly creatable payload", a
   });
   expect(preview.status).toBe("complete");
   expect(preview.totals.estimatedTotalCents).toBe(1800);
+  expect(preview.shippingGroups[0]!.prescriptionIndexes).toEqual([0]);
   expect((await requests[0]!.clone().json()).otcItems).toEqual(orderInput.otcItems);
   expect(requests[0]!.headers.has("Idempotency-Key")).toBe(false);
   expect(new URL(requests[0]!.url).pathname).toBe("/v1/order-previews");

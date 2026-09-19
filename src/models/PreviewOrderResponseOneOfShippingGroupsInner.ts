@@ -55,6 +55,12 @@ export interface PreviewOrderResponseOneOfShippingGroupsInner {
    * @memberof PreviewOrderResponseOneOfShippingGroupsInner
    */
   itemCount: number;
+  /**
+   * Zero-based indexes into the preview prescriptions array. This is an estimated shipping charge group, not a guarantee of one physical package.
+   * @type {Array<number>}
+   * @memberof PreviewOrderResponseOneOfShippingGroupsInner
+   */
+  prescriptionIndexes: Array<number>;
 }
 
 /**
@@ -79,6 +85,7 @@ export function instanceOfPreviewOrderResponseOneOfShippingGroupsInner(
   if (!("temperature" in value) || value["temperature"] === undefined) return false;
   if (!("amountCents" in value) || value["amountCents"] === undefined) return false;
   if (!("itemCount" in value) || value["itemCount"] === undefined) return false;
+  if (!("prescriptionIndexes" in value) || value["prescriptionIndexes"] === undefined) return false;
   return true;
 }
 
@@ -102,6 +109,7 @@ export function PreviewOrderResponseOneOfShippingGroupsInnerFromJSONTyped(
     temperature: json["temperature"],
     amountCents: json["amountCents"],
     itemCount: json["itemCount"],
+    prescriptionIndexes: json["prescriptionIndexes"],
   };
 }
 
@@ -126,5 +134,6 @@ export function PreviewOrderResponseOneOfShippingGroupsInnerToJSONTyped(
     temperature: value["temperature"],
     amountCents: value["amountCents"],
     itemCount: value["itemCount"],
+    prescriptionIndexes: value["prescriptionIndexes"],
   };
 }

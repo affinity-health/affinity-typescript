@@ -64,6 +64,20 @@ export async function createTestWorkflow(apiKey: string) {
     return { status: "draft" as const, order };
   }
 
+  function shippingSummary(result: Awaited<ReturnType<typeof preview>>) {
+    return {
+      // Never sum prescriptions[].shippingAmountCents: shared rates can repeat.
+      amountCents: result.totals.shippingTotalCents,
+      groups: result.shippingGroups.map((group) => ({
+        pharmacy: group.pharmacy,
+        service: group.label,
+        temperature: group.temperature,
+        amountCents: group.amountCents,
+        prescriptions: group.prescriptionIndexes.map((index) => result.prescriptions[index]),
+      })),
+    };
+  }
+
   async function signAndSend(approval: {
     // Load the reviewed order from your server-side review record, not browser input.
     reviewedOrder: Order;
@@ -131,7 +145,7 @@ export async function createTestWorkflow(apiKey: string) {
     );
   }
 
-  return { preview, saveDraft, signAndSend, retrySubmission };
+  return { preview, shippingSummary, saveDraft, signAndSend, retrySubmission };
 }
 
 export async function receiveWebhook(

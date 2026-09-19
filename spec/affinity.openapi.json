@@ -27142,6 +27142,13 @@
                     },
                     "itemCount": {
                       "type": "integer"
+                    },
+                    "prescriptionIndexes": {
+                      "type": "array",
+                      "items": {
+                        "type": "integer"
+                      },
+                      "description": "Zero-based indexes into the preview prescriptions array. This is an estimated shipping charge group, not a guarantee of one physical package."
                     }
                   },
                   "required": [
@@ -27150,7 +27157,8 @@
                     "label",
                     "temperature",
                     "amountCents",
-                    "itemCount"
+                    "itemCount",
+                    "prescriptionIndexes"
                   ],
                   "additionalProperties": false
                 },
@@ -29453,6 +29461,13 @@
                     },
                     "itemCount": {
                       "type": "integer"
+                    },
+                    "prescriptionIndexes": {
+                      "type": "array",
+                      "items": {
+                        "type": "integer"
+                      },
+                      "description": "Zero-based indexes into the preview prescriptions array. This is an estimated shipping charge group, not a guarantee of one physical package."
                     }
                   },
                   "required": [
@@ -29461,7 +29476,8 @@
                     "label",
                     "temperature",
                     "amountCents",
-                    "itemCount"
+                    "itemCount",
+                    "prescriptionIndexes"
                   ],
                   "additionalProperties": false
                 },
