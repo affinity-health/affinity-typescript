@@ -4,6 +4,7 @@ import type { CatalogItem } from "@affinity-health/sdk";
 import {
   preparePatient,
   loadCatalog,
+  loadPractices,
   previewOrder,
   saveDraft,
   reviewAllergies,
@@ -18,6 +19,7 @@ type Success<T extends (...args: any[]) => any> = Extract<
 >["value"];
 type Run = {
   runId: string;
+  practiceId?: string;
   items?: string;
   npi?: "1234567893" | "1111111112";
   setup?: Success<typeof preparePatient>;
@@ -25,7 +27,7 @@ type Run = {
   draft?: Success<typeof saveDraft>;
   outcome?: Success<typeof signOrder>;
 };
-const storageKey = "affinity-sdk-test-run-v1";
+const storageKey = "affinity-sdk-test-run-v2";
 const json = (value: unknown) => JSON.stringify(value, null, 2);
 const emptyItems = () =>
   json({ prescriptions: [], otcItems: [], shipping: { selection: "lowest_cost" } });
@@ -36,6 +38,8 @@ const money = (cents: number | null) =>
 
 function Example() {
   const [run, setRun] = useState<Run>();
+  const [practices, setPractices] = useState<Success<typeof loadPractices>>();
+  const [directoryMode, setDirectoryMode] = useState<"test" | "live">("test");
   const [catalog, setCatalog] = useState<Success<typeof loadCatalog>>();
   const [query, setQuery] = useState("");
   const [items, setItems] = useState(emptyItems);
@@ -54,6 +58,9 @@ function Example() {
     } catch {
       setRun({ runId: crypto.randomUUID() });
     }
+  }, []);
+  useEffect(() => {
+    void act("Loading practices", () => loadPractices({ data: {} }), setPractices);
   }, []);
   function persist(next: Run) {
     setRun(next);
@@ -117,6 +124,99 @@ function Example() {
         </p>
       )}
       <section>
+        <h2>Platform practices</h2>
+        <p>
+          Loaded with <code>affinity.practices.list()</code>. Live practices are read-only here.
+          Ordering stays in Test mode.
+        </p>
+        <button
+          type="button"
+          disabled={busy}
+          onClick={() =>
+            void act(
+              "Loading practices",
+              () => loadPractices({ data: { mode: directoryMode } }),
+              setPractices,
+            )
+          }
+        >
+          Refresh practices
+        </button>
+        {(["test", "live"] as const).map((mode) => (
+          <button
+            key={mode}
+            type="button"
+            disabled={busy}
+            aria-pressed={directoryMode === mode}
+            onClick={() =>
+              void act(
+                "Loading practices",
+                () => loadPractices({ data: { mode } }),
+                (result) => {
+                  setDirectoryMode(mode);
+                  setPractices(result);
+                },
+              )
+            }
+          >
+            {mode === "test" ? "Test practices" : "Live practices"}
+          </button>
+        ))}
+        {practices && (
+          <>
+            <ul className="catalog">
+              {practices.data.map((practice) => (
+                <li key={practice.id}>
+                  <div>
+                    <strong>{practice.name}</strong>
+                    <p>
+                      {practice.liveEnabled ? "Live enabled" : "Live not enabled"} ·{" "}
+                      {practice.livemode ? "Live data" : "Test data"}
+                    </p>
+                    <code>{practice.id}</code>
+                  </div>
+                  <button
+                    type="button"
+                    disabled={busy || !run || Boolean(run.setup) || practice.livemode}
+                    aria-pressed={run?.practiceId === practice.id}
+                    onClick={() => {
+                      if (run) persist({ runId: crypto.randomUUID(), practiceId: practice.id });
+                    }}
+                  >
+                    {practice.livemode
+                      ? "Read only"
+                      : run?.practiceId === practice.id
+                        ? "Selected"
+                        : "Use practice"}
+                  </button>
+                </li>
+              ))}
+            </ul>
+            {practices.data.length === 0 && <p>No practices are visible in this mode.</p>}
+            <p>Showing {practices.data.length} practices on this page.</p>
+            <button
+              type="button"
+              disabled={busy || !practices.hasMore}
+              onClick={() =>
+                void act(
+                  "Loading practices",
+                  () =>
+                    loadPractices({
+                      data: { mode: directoryMode, startingAfter: practices.data.at(-1)?.id },
+                    }),
+                  setPractices,
+                )
+              }
+            >
+              Next practices
+            </button>
+          </>
+        )}
+        {run?.setup && (
+          <p>Practice selection is locked for this run. Start a new Test run to switch.</p>
+        )}
+      </section>
+      <section>
         <h2>1. Test patient</h2>
         <p>
           Synthetic SDK Patient · January 1, 1990
@@ -126,13 +226,13 @@ function Example() {
         {!run?.setup ? (
           <button
             type="button"
-            disabled={busy || !run}
+            disabled={busy || !run?.practiceId || directoryMode !== "test"}
             onClick={() => {
-              if (!run) return;
+              if (!run?.practiceId) return;
               persist(run);
               void act(
                 "Preparing patient",
-                () => preparePatient({ data: { runId: run.runId } }),
+                () => preparePatient({ data: { runId: run.runId, practiceId: run.practiceId! } }),
                 (setup) => persist({ ...run, setup }),
               );
             }}
@@ -165,7 +265,11 @@ function Example() {
           <form
             onSubmit={(e) => {
               e.preventDefault();
-              void act("Loading catalog", () => loadCatalog({ data: { query } }), setCatalog);
+              void act(
+                "Loading catalog",
+                () => loadCatalog({ data: { query, practiceId: run.setup!.practice.id } }),
+                setCatalog,
+              );
             }}
           >
             <label htmlFor="catalog-search">Catalog search</label>
@@ -214,7 +318,14 @@ function Example() {
                 onClick={() =>
                   void act(
                     "Loading next page",
-                    () => loadCatalog({ data: { query, startingAfter: catalog.data.at(-1)?.id } }),
+                    () =>
+                      loadCatalog({
+                        data: {
+                          query,
+                          practiceId: run.setup!.practice.id,
+                          startingAfter: catalog.data.at(-1)?.id,
+                        },
+                      }),
                     setCatalog,
                   )
                 }

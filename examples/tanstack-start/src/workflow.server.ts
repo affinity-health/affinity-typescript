@@ -18,14 +18,14 @@ export const syntheticPatient = {
 
 export async function client() {
   const key = process.env.AFFINITY_EXAMPLE_API_KEY;
-  const practiceId = process.env.AFFINITY_EXAMPLE_PRACTICE_ID;
-  if (!key || !practiceId)
-    throw new Error("Set AFFINITY_EXAMPLE_API_KEY and AFFINITY_EXAMPLE_PRACTICE_ID on the server.");
+  if (!key) throw new Error("Set AFFINITY_EXAMPLE_API_KEY on the server.");
   const affinity = new Affinity(key, { maxNetworkRetries: 2 });
   // Check the deployed API, not a key-prefix guess. Every operation fails closed.
-  if ((await affinity.apiKeys.retrieve()).livemode !== false)
-    throw new Error("This example refuses Live-mode API keys.");
-  return { affinity, practiceId };
+  const access = await affinity.apiKeys.retrieve();
+  if (access.livemode !== false) throw new Error("This example refuses Live-mode API keys.");
+  if (access.serviceAccount.subjectType !== "platform")
+    throw new Error("Use a platform Test key to list its practices.");
+  return { affinity };
 }
 
 export async function safely<T>(action: () => Promise<T>) {
@@ -54,18 +54,48 @@ type ReviewReceipt = {
   key: string;
 };
 
-function receipt<T extends { practiceId: string }>(
-  token: string,
-  kind: string,
-  practiceId: string,
-) {
+function receipt<T extends { practiceId: string }>(token: string, kind: string) {
   const value = unseal<T>(token, kind, accessPassword());
-  if (value.practiceId !== practiceId) throw new Error("Workspace changed. Start a new Test run.");
   return value;
 }
 
-export async function prepare(runId: string) {
-  const { affinity, practiceId } = await client();
+export async function practices(startingAfter?: string, mode: "test" | "live" = "test") {
+  const { affinity } = await client();
+  let directory = affinity;
+  if (mode === "live") {
+    const key = process.env.AFFINITY_EXAMPLE_DIRECTORY_KEY;
+    if (!key)
+      throw new Error("Set AFFINITY_EXAMPLE_DIRECTORY_KEY to a Live practices:read-only key.");
+    directory = new Affinity(key);
+    const [live, test] = await Promise.all([
+      directory.apiKeys.retrieve(),
+      affinity.apiKeys.retrieve(),
+    ]);
+    if (
+      live.livemode !== true ||
+      live.serviceAccount.subjectType !== "platform" ||
+      live.serviceAccount.subjectId !== test.serviceAccount.subjectId ||
+      live.scopes.length !== 1 ||
+      live.scopes[0] !== "practices:read"
+    )
+      throw new Error(
+        "Directory key must be Live, practices:read only, and belong to the same platform.",
+      );
+  }
+  const page = await directory.practices.list({ limit: 25, startingAfter });
+  return {
+    hasMore: page.hasMore,
+    data: page.data.map(({ id, name, liveEnabled, livemode }) => ({
+      id,
+      name,
+      liveEnabled,
+      livemode,
+    })),
+  };
+}
+
+export async function prepare(runId: string, practiceId: string) {
+  const { affinity } = await client();
   const practice = await affinity.practices.retrieve(practiceId);
   const patient = await affinity.patients.create(
     practiceId,
@@ -73,7 +103,7 @@ export async function prepare(runId: string) {
       ...syntheticPatient,
       externalId: `sdk-example-${runId}`,
     },
-    { idempotencyKey: `sdk-example:patient:${runId}` },
+    { idempotencyKey: `sdk-example:patient:${practiceId}:${runId}` },
   );
   return {
     practice: { id: practice.id, name: practice.name },
@@ -86,8 +116,8 @@ export async function prepare(runId: string) {
   };
 }
 
-export async function catalog(query: string, startingAfter?: string) {
-  const { affinity, practiceId } = await client();
+export async function catalog(practiceId: string, query: string, startingAfter?: string) {
+  const { affinity } = await client();
   return affinity.catalog.list({
     practiceId,
     query,
@@ -102,8 +132,9 @@ export async function preview(
   token: string,
   items: Pick<PreviewOrderParams, "prescriptions" | "otcItems" | "shipping">,
 ) {
-  const { affinity, practiceId } = await client();
-  const patient = receipt<PatientReceipt>(token, "patient", practiceId);
+  const { affinity } = await client();
+  const patient = receipt<PatientReceipt>(token, "patient");
+  const { practiceId } = patient;
   const result = await affinity.orders.preview({
     ...items,
     practiceId,
@@ -143,15 +174,16 @@ function review(order: Order) {
 }
 
 export async function createDraft(token: string) {
-  const { affinity, practiceId } = await client();
-  const accepted = receipt<PreviewReceipt>(token, "preview", practiceId);
+  const { affinity } = await client();
+  const accepted = receipt<PreviewReceipt>(token, "preview");
   const draft = await affinity.orders.create(accepted.input, { idempotencyKey: accepted.key });
   return review(await affinity.orders.retrieve(draft.id));
 }
 
 export async function recordAllergies(token: string) {
-  const { affinity, practiceId } = await client();
-  const patient = receipt<PatientReceipt>(token, "patient", practiceId);
+  const { affinity } = await client();
+  const patient = receipt<PatientReceipt>(token, "patient");
+  const { practiceId } = patient;
   return affinity.patients.replaceAllergies(
     practiceId,
     patient.patientId,
@@ -161,8 +193,9 @@ export async function recordAllergies(token: string) {
 }
 
 export async function sign(token: string, npi: string) {
-  const { affinity, practiceId } = await client();
-  const accepted = receipt<ReviewReceipt>(token, "review", practiceId);
+  const { affinity } = await client();
+  const accepted = receipt<ReviewReceipt>(token, "review");
+  const { practiceId } = accepted;
   // Never refetch versions and silently sign a changed order.
   return affinity.orders.signAndSubmit(
     accepted.orderId,
@@ -177,7 +210,7 @@ export async function sign(token: string, npi: string) {
 }
 
 export async function refresh(token: string) {
-  const { affinity, practiceId } = await client();
-  const accepted = receipt<ReviewReceipt>(token, "review", practiceId);
+  const { affinity } = await client();
+  const accepted = receipt<ReviewReceipt>(token, "review");
   return review(await affinity.orders.retrieve(accepted.orderId));
 }

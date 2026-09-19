@@ -3,21 +3,38 @@ import { z } from "zod";
 import type { PreviewOrderParams } from "@affinity-health/sdk";
 
 const token = z.string().min(1).max(200_000);
+const practiceId = z.string().regex(/^prac_[a-zA-Z0-9]+$/);
 
-export const preparePatient = createServerFn({ method: "POST" })
-  .validator(z.object({ runId: z.uuid() }))
+export const loadPractices = createServerFn({ method: "POST" })
+  .validator(
+    z.object({
+      startingAfter: z.string().max(100).optional(),
+      mode: z.enum(["test", "live"]).default("test"),
+    }),
+  )
   .handler(async ({ data }) => {
     const w = await import("./workflow.server");
-    return w.safely(() => w.prepare(data.runId));
+    return w.safely(() => w.practices(data.startingAfter, data.mode));
+  });
+
+export const preparePatient = createServerFn({ method: "POST" })
+  .validator(z.object({ runId: z.uuid(), practiceId }))
+  .handler(async ({ data }) => {
+    const w = await import("./workflow.server");
+    return w.safely(() => w.prepare(data.runId, data.practiceId));
   });
 
 export const loadCatalog = createServerFn({ method: "POST" })
   .validator(
-    z.object({ query: z.string().max(200), startingAfter: z.string().max(100).optional() }),
+    z.object({
+      practiceId,
+      query: z.string().max(200),
+      startingAfter: z.string().max(100).optional(),
+    }),
   )
   .handler(async ({ data }) => {
     const w = await import("./workflow.server");
-    return w.safely(() => w.catalog(data.query, data.startingAfter));
+    return w.safely(() => w.catalog(data.practiceId, data.query, data.startingAfter));
   });
 
 export const previewOrder = createServerFn({ method: "POST" })

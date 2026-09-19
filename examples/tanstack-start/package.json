@@ -9,6 +9,7 @@
     "test": "bun test src/*.test.ts",
     "smoke": "bun scripts/smoke.ts",
     "smoke:browser": "bun scripts/browser-smoke.ts",
+    "smoke:hosted": "bun scripts/hosted-directory-smoke.ts",
     "plan": "alchemy plan --stage demo",
     "deploy": "alchemy deploy --stage demo --yes"
   },

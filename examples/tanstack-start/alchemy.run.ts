@@ -18,11 +18,11 @@ export default Alchemy.Stack(
       rootDir: ".",
       compatibility: { flags: ["nodejs_compat", "nodejs_compat_populate_process_env"] },
       env: {
-        AFFINITY_EXAMPLE_API_KEY: Config.redacted("AFFINITY_EXAMPLE_API_KEY").pipe(
+        AFFINITY_EXAMPLE_DIRECTORY_KEY: Config.redacted("AFFINITY_EXAMPLE_DIRECTORY_KEY").pipe(
           Config.withDefault(Redacted.make("")),
         ),
-        AFFINITY_EXAMPLE_PRACTICE_ID: Config.string("AFFINITY_EXAMPLE_PRACTICE_ID").pipe(
-          Config.withDefault(""),
+        AFFINITY_EXAMPLE_API_KEY: Config.redacted("AFFINITY_EXAMPLE_API_KEY").pipe(
+          Config.withDefault(Redacted.make("")),
         ),
         AFFINITY_EXAMPLE_PASSWORD: Config.redacted("AFFINITY_EXAMPLE_PASSWORD").pipe(
           Config.withDefault(Redacted.make("")),
