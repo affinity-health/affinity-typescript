@@ -709,7 +709,7 @@ example().catch(console.error);
 
 List prescribers
 
-Requires team:read. Filter practice prescribers by name, NPI, state, and practice status. Records include submitted licenses and their IDs. Signing authority also requires an active account connection, current patient-state license, and Live practice access.
+Requires team:read. Filter practice prescribers by name, NPI, state, and practice status. Records include submitted licenses and their IDs. Signing authority also requires an active account connection, Live practice access, and prescription eligibility.
 
 ### Example
 

@@ -7,6 +7,14 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 
 ## [Unreleased]
 
+## [1.9.2] - 2026-09-19
+
+### Changed
+
+- Allow order responses to return `null` when a patient has no external ID.
+- Clarify that state license records are optional for non-controlled prescribing.
+- Document the complete API error responses for public resources.
+
 ## [1.9.1] - 2026-09-18
 
 ### Documentation

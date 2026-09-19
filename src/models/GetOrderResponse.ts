@@ -120,7 +120,7 @@ export interface GetOrderResponse {
    * @type {string}
    * @memberof GetOrderResponse
    */
-  patientExternalId: string;
+  patientExternalId: string | null;
   /**
    *
    * @type {string}

@@ -120,7 +120,7 @@ export interface ListOrdersResponseDataInner {
    * @type {string}
    * @memberof ListOrdersResponseDataInner
    */
-  patientExternalId: string;
+  patientExternalId: string | null;
   /**
    *
    * @type {string}

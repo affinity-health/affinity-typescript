@@ -97,6 +97,9 @@ example().catch(console.error);
 | **400**     | HTTP 400    | -                |
 | **401**     | HTTP 401    | -                |
 | **403**     | HTTP 403    | -                |
+| **404**     | HTTP 404    | -                |
+| **409**     | HTTP 409    | -                |
+| **422**     | HTTP 422    | -                |
 | **429**     | HTTP 429    | -                |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
@@ -176,6 +179,9 @@ example().catch(console.error);
 | **400**     | HTTP 400    | -                |
 | **401**     | HTTP 401    | -                |
 | **403**     | HTTP 403    | -                |
+| **404**     | HTTP 404    | -                |
+| **409**     | HTTP 409    | -                |
+| **422**     | HTTP 422    | -                |
 | **429**     | HTTP 429    | -                |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
@@ -252,6 +258,9 @@ example().catch(console.error);
 | **400**     | HTTP 400    | -                |
 | **401**     | HTTP 401    | -                |
 | **403**     | HTTP 403    | -                |
+| **404**     | HTTP 404    | -                |
+| **409**     | HTTP 409    | -                |
+| **422**     | HTTP 422    | -                |
 | **429**     | HTTP 429    | -                |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
@@ -336,6 +345,9 @@ example().catch(console.error);
 | **400**     | HTTP 400    | -                |
 | **401**     | HTTP 401    | -                |
 | **403**     | HTTP 403    | -                |
+| **404**     | HTTP 404    | -                |
+| **409**     | HTTP 409    | -                |
+| **422**     | HTTP 422    | -                |
 | **429**     | HTTP 429    | -                |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
@@ -421,6 +433,9 @@ example().catch(console.error);
 | **400**     | HTTP 400    | -                |
 | **401**     | HTTP 401    | -                |
 | **403**     | HTTP 403    | -                |
+| **404**     | HTTP 404    | -                |
+| **409**     | HTTP 409    | -                |
+| **422**     | HTTP 422    | -                |
 | **429**     | HTTP 429    | -                |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
@@ -581,6 +596,9 @@ example().catch(console.error);
 | **400**     | HTTP 400    | -                |
 | **401**     | HTTP 401    | -                |
 | **403**     | HTTP 403    | -                |
+| **404**     | HTTP 404    | -                |
+| **409**     | HTTP 409    | -                |
+| **422**     | HTTP 422    | -                |
 | **429**     | HTTP 429    | -                |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
@@ -738,6 +756,9 @@ example().catch(console.error);
 | **400**     | HTTP 400    | -                |
 | **401**     | HTTP 401    | -                |
 | **403**     | HTTP 403    | -                |
+| **404**     | HTTP 404    | -                |
+| **409**     | HTTP 409    | -                |
+| **422**     | HTTP 422    | -                |
 | **429**     | HTTP 429    | -                |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
@@ -901,6 +922,9 @@ example().catch(console.error);
 | **400**     | HTTP 400    | -                |
 | **401**     | HTTP 401    | -                |
 | **403**     | HTTP 403    | -                |
+| **404**     | HTTP 404    | -                |
+| **409**     | HTTP 409    | -                |
+| **422**     | HTTP 422    | -                |
 | **429**     | HTTP 429    | -                |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
@@ -988,6 +1012,9 @@ example().catch(console.error);
 | **400**     | HTTP 400    | -                |
 | **401**     | HTTP 401    | -                |
 | **403**     | HTTP 403    | -                |
+| **404**     | HTTP 404    | -                |
+| **409**     | HTTP 409    | -                |
+| **422**     | HTTP 422    | -                |
 | **429**     | HTTP 429    | -                |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)

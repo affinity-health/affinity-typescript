@@ -120,7 +120,7 @@ export interface CancelOrderResponse {
    * @type {string}
    * @memberof CancelOrderResponse
    */
-  patientExternalId: string;
+  patientExternalId: string | null;
   /**
    *
    * @type {string}
