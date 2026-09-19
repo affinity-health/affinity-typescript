@@ -20,6 +20,13 @@ import {
   SignOrderRequestExpectedVersionsInnerToJSON,
   SignOrderRequestExpectedVersionsInnerToJSONTyped,
 } from "./SignOrderRequestExpectedVersionsInner";
+import type { CreateOrderRequestPrescriber } from "./CreateOrderRequestPrescriber";
+import {
+  CreateOrderRequestPrescriberFromJSON,
+  CreateOrderRequestPrescriberFromJSONTyped,
+  CreateOrderRequestPrescriberToJSON,
+  CreateOrderRequestPrescriberToJSONTyped,
+} from "./CreateOrderRequestPrescriber";
 
 /**
  *
@@ -38,7 +45,13 @@ export interface SignOrderRequest {
    * @type {string}
    * @memberof SignOrderRequest
    */
-  userId: string;
+  userId?: string | null;
+  /**
+   *
+   * @type {CreateOrderRequestPrescriber}
+   * @memberof SignOrderRequest
+   */
+  prescriber?: CreateOrderRequestPrescriber | null;
   /**
    *
    * @type {boolean}
@@ -58,7 +71,6 @@ export interface SignOrderRequest {
  */
 export function instanceOfSignOrderRequest(value: object): value is SignOrderRequest {
   if (!("practiceId" in value) || value["practiceId"] === undefined) return false;
-  if (!("userId" in value) || value["userId"] === undefined) return false;
   if (!("signatureAttestation" in value) || value["signatureAttestation"] === undefined)
     return false;
   if (!("expectedVersions" in value) || value["expectedVersions"] === undefined) return false;
@@ -78,7 +90,11 @@ export function SignOrderRequestFromJSONTyped(
   }
   return {
     practiceId: json["practiceId"],
-    userId: json["userId"],
+    userId: json["userId"] == null ? undefined : json["userId"],
+    prescriber:
+      json["prescriber"] == null
+        ? undefined
+        : CreateOrderRequestPrescriberFromJSON(json["prescriber"]),
     signatureAttestation: json["signatureAttestation"],
     expectedVersions: (json["expectedVersions"] as Array<any>).map(
       SignOrderRequestExpectedVersionsInnerFromJSON,
@@ -101,6 +117,7 @@ export function SignOrderRequestToJSONTyped(
   return {
     practiceId: value["practiceId"],
     userId: value["userId"],
+    prescriber: CreateOrderRequestPrescriberToJSON(value["prescriber"]),
     signatureAttestation: value["signatureAttestation"],
     expectedVersions: (value["expectedVersions"] as Array<any>).map(
       SignOrderRequestExpectedVersionsInnerToJSON,

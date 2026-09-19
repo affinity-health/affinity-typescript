@@ -205,7 +205,9 @@ example().catch(console.error);
 | **403**     | HTTP 403    | -                |
 | **404**     | HTTP 404    | -                |
 | **409**     | HTTP 409    | -                |
+| **422**     | HTTP 422    | -                |
 | **429**     | HTTP 429    | -                |
+| **503**     | HTTP 503    | -                |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
@@ -308,7 +310,7 @@ example().catch(console.error);
 
 Create order
 
-Creates one unsigned order with 1–20 prescriptions for one patient in one practice. Supply exactly one of patientId or patient; inline patient creation additionally requires patients:write and commits atomically with the order. External identities resolve within the practice and mode; email does not merge patients. Omit userId for an unassigned draft or select a registered or accepted clinician. Use the sign and submit endpoints after collecting clinician attestation. Idempotency-Key is required. Omitted actor context defaults to the authenticated service account as a system actor.
+Creates one unsigned order with 1–20 prescriptions for one patient in one practice. Supply patientId or patient; inline patient creation requires patients:write. Prescriber is optional: select by npi, provider id, or integration-scoped externalId, or leave the draft unassigned until signing. First-use prescriber registration requires team:write. Legacy userId is supported but cannot be combined with prescriber. Idempotency-Key is required.
 
 ### Example
 
@@ -389,6 +391,7 @@ example().catch(console.error);
 | **409**     | HTTP 409    | -                |
 | **422**     | HTTP 422    | -                |
 | **429**     | HTTP 429    | -                |
+| **503**     | HTTP 503    | -                |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
@@ -477,7 +480,9 @@ example().catch(console.error);
 | **403**     | HTTP 403    | -                |
 | **404**     | HTTP 404    | -                |
 | **409**     | HTTP 409    | -                |
+| **422**     | HTTP 422    | -                |
 | **429**     | HTTP 429    | -                |
+| **503**     | HTTP 503    | -                |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
@@ -936,7 +941,7 @@ example().catch(console.error);
 
 Reject order
 
-Requires orders:sign, clinician actor headers, and Idempotency-Key. Permanently rejects the complete unsigned order after checking the exact prescription versions.
+Requires orders:sign and Idempotency-Key. Select a prescriber or inherit the draft\&#39;s prescriber. Legacy userId requires matching clinician actor headers. Permanently rejects the complete unsigned order after checking the exact prescription versions.
 
 ### Example
 
@@ -1012,7 +1017,9 @@ example().catch(console.error);
 | **403**     | HTTP 403    | -                |
 | **404**     | HTTP 404    | -                |
 | **409**     | HTTP 409    | -                |
+| **422**     | HTTP 422    | -                |
 | **429**     | HTTP 429    | -                |
+| **503**     | HTTP 503    | -                |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
@@ -1022,7 +1029,7 @@ example().catch(console.error);
 
 Sign and submit order
 
-Requires orders:sign, clinician actor headers, Idempotency-Key, and attestation to every exact prescription version. Signs the complete order, then attempts submission of each signed prescription. Returns per-prescription outcomes. Signing remains committed if submission fails. Replay the same key after an uncertain response; after resolving a reported submission failure, use Submit order with a new key without signing again. Submitted means queued, not pharmacy acceptance.
+Requires orders:sign, Idempotency-Key, and attestation to every exact prescription version. Select prescriber by npi, provider id, or externalId, or inherit the draft\&#39;s prescriber. First-use registration requires team:write. Actor headers are optional with prescriber; legacy userId requires matching clinician actor headers. Signs the complete order, then attempts each submission. Signing remains committed if submission fails. Replay the same key after an uncertain response; retry reported submission failures through Submit order with a new key. Submitted means queued, not pharmacy acceptance.
 
 ### Example
 
@@ -1098,7 +1105,9 @@ example().catch(console.error);
 | **403**     | HTTP 403    | -                |
 | **404**     | HTTP 404    | -                |
 | **409**     | HTTP 409    | -                |
+| **422**     | HTTP 422    | -                |
 | **429**     | HTTP 429    | -                |
+| **503**     | HTTP 503    | -                |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
@@ -1108,7 +1117,7 @@ example().catch(console.error);
 
 Sign order
 
-Requires orders:sign, Idempotency-Key, and the clinician\&#39;s registered external ID in Affinity-Actor-Id with Affinity-Actor-Type: user. Attest to every exact prescription version. Live requires approved organizations and verified prescribing authority. Signing does not submit to a pharmacy; use Submit order.
+Requires orders:sign, Idempotency-Key, and attestation to every exact prescription version. Select prescriber by npi, provider id, or integration-scoped externalId, or inherit the draft\&#39;s prescriber. First-use registration requires team:write. Actor headers are optional audit metadata with prescriber; legacy userId requires matching clinician actor headers. Signing does not submit to a pharmacy.
 
 ### Example
 
@@ -1184,7 +1193,9 @@ example().catch(console.error);
 | **403**     | HTTP 403    | -                |
 | **404**     | HTTP 404    | -                |
 | **409**     | HTTP 409    | -                |
+| **422**     | HTTP 422    | -                |
 | **429**     | HTTP 429    | -                |
+| **503**     | HTTP 503    | -                |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
@@ -1270,7 +1281,9 @@ example().catch(console.error);
 | **403**     | HTTP 403    | -                |
 | **404**     | HTTP 404    | -                |
 | **409**     | HTTP 409    | -                |
+| **422**     | HTTP 422    | -                |
 | **429**     | HTTP 429    | -                |
+| **503**     | HTTP 503    | -                |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
@@ -1365,7 +1378,9 @@ example().catch(console.error);
 | **403**     | HTTP 403    | -                |
 | **404**     | HTTP 404    | -                |
 | **409**     | HTTP 409    | -                |
+| **422**     | HTTP 422    | -                |
 | **429**     | HTTP 429    | -                |
+| **503**     | HTTP 503    | -                |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 

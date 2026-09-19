@@ -10,6 +10,7 @@
 | `patientExternalId` | string                                                                                         |
 | `patient`           | [CreateOrderRequestPatient](CreateOrderRequestPatient.md)                                      |
 | `userId`            | string                                                                                         |
+| `prescriber`        | [CreateOrderRequestPrescriber](CreateOrderRequestPrescriber.md)                                |
 | `shippingAddressId` | string                                                                                         |
 | `externalOrderId`   | string                                                                                         |
 | `prescriptions`     | [Array&lt;PreviewOrderRequestPrescriptionsInner&gt;](PreviewOrderRequestPrescriptionsInner.md) |

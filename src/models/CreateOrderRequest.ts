@@ -41,6 +41,13 @@ import {
   CreateOrderRequestPatientToJSON,
   CreateOrderRequestPatientToJSONTyped,
 } from "./CreateOrderRequestPatient";
+import type { CreateOrderRequestPrescriber } from "./CreateOrderRequestPrescriber";
+import {
+  CreateOrderRequestPrescriberFromJSON,
+  CreateOrderRequestPrescriberFromJSONTyped,
+  CreateOrderRequestPrescriberToJSON,
+  CreateOrderRequestPrescriberToJSONTyped,
+} from "./CreateOrderRequestPrescriber";
 
 /**
  *
@@ -60,6 +67,12 @@ export interface CreateOrderRequest {
    * @memberof CreateOrderRequest
    */
   userId?: string | null;
+  /**
+   *
+   * @type {CreateOrderRequestPrescriber}
+   * @memberof CreateOrderRequest
+   */
+  prescriber?: CreateOrderRequestPrescriber | null;
   /**
    *
    * @type {Array<CreateOrderRequestOtcItemsInner>}
@@ -127,6 +140,10 @@ export function CreateOrderRequestFromJSONTyped(
   return {
     practiceId: json["practiceId"],
     userId: json["userId"] == null ? undefined : json["userId"],
+    prescriber:
+      json["prescriber"] == null
+        ? undefined
+        : CreateOrderRequestPrescriberFromJSON(json["prescriber"]),
     otcItems:
       json["otcItems"] == null
         ? undefined
@@ -161,6 +178,7 @@ export function CreateOrderRequestToJSONTyped(
   return {
     practiceId: value["practiceId"],
     userId: value["userId"],
+    prescriber: CreateOrderRequestPrescriberToJSON(value["prescriber"]),
     otcItems:
       value["otcItems"] == null
         ? undefined

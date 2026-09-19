@@ -2,7 +2,7 @@ import { Affinity, AffinityError, verifyAffinityWebhook } from "@affinity-health
 import type { Order, PreviewOrderParams } from "@affinity-health/sdk";
 
 // Server-side only. These functions do not run on import.
-// Register the synthetic clinician once with team.createUser and retain its ID.
+// First-use NPI registration needs team:write. Test NPI: 1234567893.
 // Persist mutation keys, reviewed versions, and outcomes in your EMR database.
 export async function createTestWorkflow(apiKey: string) {
   const affinity = new Affinity(apiKey, { maxNetworkRetries: 2 });
@@ -11,7 +11,7 @@ export async function createTestWorkflow(apiKey: string) {
 
   async function preview(input: {
     practiceId: string;
-    clinicianUserId: string;
+    clinicianNpi?: string;
     medicationId: string;
     supplyId: string;
     // Pass the full array back after edits. Explicit overrides replace defaults.
@@ -38,7 +38,7 @@ export async function createTestWorkflow(apiKey: string) {
         };
     return affinity.orders.preview({
       practiceId: input.practiceId,
-      userId: input.clinicianUserId,
+      ...(input.clinicianNpi ? { prescriber: { npi: input.clinicianNpi } } : {}),
       ...patient,
       prescriptions: input.prescriptions ?? [
         { medicationId: input.medicationId, preset: "default" },
@@ -81,8 +81,7 @@ export async function createTestWorkflow(apiKey: string) {
   async function signAndSend(approval: {
     // Load the reviewed order from your server-side review record, not browser input.
     reviewedOrder: Order;
-    clinicianUserId: string;
-    clinicianExternalId: string;
+    clinicianNpi?: string;
     attested: true;
     persistedSigningKey: string;
   }) {
@@ -92,7 +91,8 @@ export async function createTestWorkflow(apiKey: string) {
         approval.reviewedOrder.id,
         {
           practiceId: approval.reviewedOrder.practiceId,
-          userId: approval.clinicianUserId,
+          // Omit if the reviewed draft already has the intended prescriber.
+          ...(approval.clinicianNpi ? { prescriber: { npi: approval.clinicianNpi } } : {}),
           signatureAttestation: approval.attested,
           expectedVersions: approval.reviewedOrder.prescriptions.map((rx) => ({
             prescriptionId: rx.id,
@@ -100,7 +100,6 @@ export async function createTestWorkflow(apiKey: string) {
           })),
         },
         {
-          actor: { type: "user", id: approval.clinicianExternalId },
           idempotencyKey: approval.persistedSigningKey,
         },
       );
@@ -125,8 +124,6 @@ export async function createTestWorkflow(apiKey: string) {
   async function retrySubmission(input: {
     orderId: string;
     practiceId: string;
-    clinicianUserId: string;
-    clinicianExternalId: string;
     persistedRetryKey: string;
   }) {
     // Use only after resolving a reported per-prescription submission failure.
@@ -136,10 +133,8 @@ export async function createTestWorkflow(apiKey: string) {
       input.orderId,
       {
         practiceId: input.practiceId,
-        userId: input.clinicianUserId,
       },
       {
-        actor: { type: "user", id: input.clinicianExternalId },
         idempotencyKey: input.persistedRetryKey,
       },
     );

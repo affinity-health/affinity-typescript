@@ -20,6 +20,13 @@ import {
   CreateOrderBatchRequestOrdersInnerToJSON,
   CreateOrderBatchRequestOrdersInnerToJSONTyped,
 } from "./CreateOrderBatchRequestOrdersInner";
+import type { CreateOrderRequestPrescriber } from "./CreateOrderRequestPrescriber";
+import {
+  CreateOrderRequestPrescriberFromJSON,
+  CreateOrderRequestPrescriberFromJSONTyped,
+  CreateOrderRequestPrescriberToJSON,
+  CreateOrderRequestPrescriberToJSONTyped,
+} from "./CreateOrderRequestPrescriber";
 
 /**
  *
@@ -39,6 +46,12 @@ export interface CreateOrderBatchRequest {
    * @memberof CreateOrderBatchRequest
    */
   userId?: string | null;
+  /**
+   *
+   * @type {CreateOrderRequestPrescriber}
+   * @memberof CreateOrderBatchRequest
+   */
+  prescriber?: CreateOrderRequestPrescriber | null;
   /**
    *
    * @type {Array<CreateOrderBatchRequestOrdersInner>}
@@ -70,6 +83,10 @@ export function CreateOrderBatchRequestFromJSONTyped(
   return {
     practiceId: json["practiceId"],
     userId: json["userId"] == null ? undefined : json["userId"],
+    prescriber:
+      json["prescriber"] == null
+        ? undefined
+        : CreateOrderRequestPrescriberFromJSON(json["prescriber"]),
     orders: (json["orders"] as Array<any>).map(CreateOrderBatchRequestOrdersInnerFromJSON),
   };
 }
@@ -89,6 +106,7 @@ export function CreateOrderBatchRequestToJSONTyped(
   return {
     practiceId: value["practiceId"],
     userId: value["userId"],
+    prescriber: CreateOrderRequestPrescriberToJSON(value["prescriber"]),
     orders: (value["orders"] as Array<any>).map(CreateOrderBatchRequestOrdersInnerToJSON),
   };
 }

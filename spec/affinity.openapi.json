@@ -2197,6 +2197,16 @@
                 }
               }
             }
+          },
+          "503": {
+            "description": "HTTP 503",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            }
           }
         },
         "requestBody": {
@@ -2209,7 +2219,7 @@
           },
           "required": true
         },
-        "description": "Creates one unsigned order with 1–20 prescriptions for one patient in one practice. Supply exactly one of patientId or patient; inline patient creation additionally requires patients:write and commits atomically with the order. External identities resolve within the practice and mode; email does not merge patients. Omit userId for an unassigned draft or select a registered or accepted clinician. Use the sign and submit endpoints after collecting clinician attestation. Idempotency-Key is required. Omitted actor context defaults to the authenticated service account as a system actor.",
+        "description": "Creates one unsigned order with 1–20 prescriptions for one patient in one practice. Supply patientId or patient; inline patient creation requires patients:write. Prescriber is optional: select by npi, provider id, or integration-scoped externalId, or leave the draft unassigned until signing. First-use prescriber registration requires team:write. Legacy userId is supported but cannot be combined with prescriber. Idempotency-Key is required.",
         "summary": "Create order",
         "x-visibility": "public"
       }
@@ -4784,8 +4794,28 @@
               }
             }
           },
+          "422": {
+            "description": "HTTP 422",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            }
+          },
           "429": {
             "description": "HTTP 429",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "HTTP 503",
             "content": {
               "application/json": {
                 "schema": {
@@ -4805,7 +4835,7 @@
           },
           "required": true
         },
-        "description": "Requires orders:sign, Idempotency-Key, and the clinician's registered external ID in Affinity-Actor-Id with Affinity-Actor-Type: user. Attest to every exact prescription version. Live requires approved organizations and verified prescribing authority. Signing does not submit to a pharmacy; use Submit order.",
+        "description": "Requires orders:sign, Idempotency-Key, and attestation to every exact prescription version. Select prescriber by npi, provider id, or integration-scoped externalId, or inherit the draft's prescriber. First-use registration requires team:write. Actor headers are optional audit metadata with prescriber; legacy userId requires matching clinician actor headers. Signing does not submit to a pharmacy.",
         "summary": "Sign order",
         "x-visibility": "public"
       }
@@ -4915,8 +4945,28 @@
               }
             }
           },
+          "422": {
+            "description": "HTTP 422",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            }
+          },
           "429": {
             "description": "HTTP 429",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "HTTP 503",
             "content": {
               "application/json": {
                 "schema": {
@@ -4936,7 +4986,7 @@
           },
           "required": true
         },
-        "description": "Requires orders:sign, clinician actor headers, Idempotency-Key, and attestation to every exact prescription version. Signs the complete order, then attempts submission of each signed prescription. Returns per-prescription outcomes. Signing remains committed if submission fails. Replay the same key after an uncertain response; after resolving a reported submission failure, use Submit order with a new key without signing again. Submitted means queued, not pharmacy acceptance.",
+        "description": "Requires orders:sign, Idempotency-Key, and attestation to every exact prescription version. Select prescriber by npi, provider id, or externalId, or inherit the draft's prescriber. First-use registration requires team:write. Actor headers are optional with prescriber; legacy userId requires matching clinician actor headers. Signs the complete order, then attempts each submission. Signing remains committed if submission fails. Replay the same key after an uncertain response; retry reported submission failures through Submit order with a new key. Submitted means queued, not pharmacy acceptance.",
         "summary": "Sign and submit order",
         "x-visibility": "public"
       }
@@ -5046,8 +5096,28 @@
               }
             }
           },
+          "422": {
+            "description": "HTTP 422",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            }
+          },
           "429": {
             "description": "HTTP 429",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "HTTP 503",
             "content": {
               "application/json": {
                 "schema": {
@@ -5177,8 +5247,28 @@
               }
             }
           },
+          "422": {
+            "description": "HTTP 422",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            }
+          },
           "429": {
             "description": "HTTP 429",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "HTTP 503",
             "content": {
               "application/json": {
                 "schema": {
@@ -5198,7 +5288,7 @@
           },
           "required": true
         },
-        "description": "Requires orders:sign, clinician actor headers, and Idempotency-Key. Permanently rejects the complete unsigned order after checking the exact prescription versions.",
+        "description": "Requires orders:sign and Idempotency-Key. Select a prescriber or inherit the draft's prescriber. Legacy userId requires matching clinician actor headers. Permanently rejects the complete unsigned order after checking the exact prescription versions.",
         "summary": "Reject order",
         "x-visibility": "public"
       }
@@ -5308,8 +5398,28 @@
               }
             }
           },
+          "422": {
+            "description": "HTTP 422",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            }
+          },
           "429": {
             "description": "HTTP 429",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "HTTP 503",
             "content": {
               "application/json": {
                 "schema": {
@@ -10695,8 +10805,28 @@
               }
             }
           },
+          "422": {
+            "description": "HTTP 422",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            }
+          },
           "429": {
             "description": "HTTP 429",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "HTTP 503",
             "content": {
               "application/json": {
                 "schema": {
@@ -10856,8 +10986,28 @@
               }
             }
           },
+          "422": {
+            "description": "HTTP 422",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            }
+          },
           "429": {
             "description": "HTTP 429",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "HTTP 503",
             "content": {
               "application/json": {
                 "schema": {
@@ -10993,8 +11143,28 @@
               }
             }
           },
+          "422": {
+            "description": "HTTP 422",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            }
+          },
           "429": {
             "description": "HTTP 429",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "HTTP 503",
             "content": {
               "application/json": {
                 "schema": {
@@ -16553,6 +16723,88 @@
                 "examples": [
                   "user_01j2y8m6jcc9tt24af5pw9x1bc"
                 ]
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "prescriber": {
+            "anyOf": [
+              {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "anyOf": [
+                      {
+                        "type": "string",
+                        "pattern": "^prov_[0-9a-hjkmnp-tv-z]{26}$",
+                        "examples": [
+                          "prov_01j2y8m6jcc9tt24af5pw9x1bc"
+                        ]
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "npi": {
+                    "anyOf": [
+                      {
+                        "type": "string",
+                        "pattern": "^\\d{10}$"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "externalId": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "profile": {
+                    "anyOf": [
+                      {
+                        "type": "object",
+                        "properties": {
+                          "email": {
+                            "anyOf": [
+                              {
+                                "type": "string",
+                                "pattern": "^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$"
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          },
+                          "phone": {
+                            "anyOf": [
+                              {
+                                "type": "string"
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          }
+                        },
+                        "additionalProperties": false
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  }
+                },
+                "additionalProperties": false
               },
               {
                 "type": "null"
@@ -26526,6 +26778,88 @@
               }
             ]
           },
+          "prescriber": {
+            "anyOf": [
+              {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "anyOf": [
+                      {
+                        "type": "string",
+                        "pattern": "^prov_[0-9a-hjkmnp-tv-z]{26}$",
+                        "examples": [
+                          "prov_01j2y8m6jcc9tt24af5pw9x1bc"
+                        ]
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "npi": {
+                    "anyOf": [
+                      {
+                        "type": "string",
+                        "pattern": "^\\d{10}$"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "externalId": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "profile": {
+                    "anyOf": [
+                      {
+                        "type": "object",
+                        "properties": {
+                          "email": {
+                            "anyOf": [
+                              {
+                                "type": "string",
+                                "pattern": "^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$"
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          },
+                          "phone": {
+                            "anyOf": [
+                              {
+                                "type": "string"
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          }
+                        },
+                        "additionalProperties": false
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  }
+                },
+                "additionalProperties": false
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
           "shippingAddressId": {
             "anyOf": [
               {
@@ -27708,6 +28042,100 @@
                           }
                         ]
                       },
+                      "prescriber": {
+                        "anyOf": [
+                          {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "anyOf": [
+                                  {
+                                    "type": "string",
+                                    "allOf": [
+                                      {
+                                        "pattern": "^prov_[0-9a-hjkmnp-tv-z]{26}$",
+                                        "examples": [
+                                          "prov_01j2y8m6jcc9tt24af5pw9x1bc"
+                                        ]
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "type": "null"
+                                  }
+                                ]
+                              },
+                              "npi": {
+                                "anyOf": [
+                                  {
+                                    "type": "string",
+                                    "allOf": [
+                                      {
+                                        "pattern": "^\\d{10}$"
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "type": "null"
+                                  }
+                                ]
+                              },
+                              "externalId": {
+                                "anyOf": [
+                                  {
+                                    "type": "string"
+                                  },
+                                  {
+                                    "type": "null"
+                                  }
+                                ]
+                              },
+                              "profile": {
+                                "anyOf": [
+                                  {
+                                    "type": "object",
+                                    "properties": {
+                                      "email": {
+                                        "anyOf": [
+                                          {
+                                            "type": "string",
+                                            "allOf": [
+                                              {
+                                                "pattern": "^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$"
+                                              }
+                                            ]
+                                          },
+                                          {
+                                            "type": "null"
+                                          }
+                                        ]
+                                      },
+                                      "phone": {
+                                        "anyOf": [
+                                          {
+                                            "type": "string"
+                                          },
+                                          {
+                                            "type": "null"
+                                          }
+                                        ]
+                                      }
+                                    },
+                                    "additionalProperties": false
+                                  },
+                                  {
+                                    "type": "null"
+                                  }
+                                ]
+                              }
+                            },
+                            "additionalProperties": false
+                          },
+                          {
+                            "type": "null"
+                          }
+                        ]
+                      },
                       "shippingAddressId": {
                         "anyOf": [
                           {
@@ -28277,6 +28705,100 @@
                                 ]
                               }
                             ]
+                          },
+                          {
+                            "type": "null"
+                          }
+                        ]
+                      },
+                      "prescriber": {
+                        "anyOf": [
+                          {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "anyOf": [
+                                  {
+                                    "type": "string",
+                                    "allOf": [
+                                      {
+                                        "pattern": "^prov_[0-9a-hjkmnp-tv-z]{26}$",
+                                        "examples": [
+                                          "prov_01j2y8m6jcc9tt24af5pw9x1bc"
+                                        ]
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "type": "null"
+                                  }
+                                ]
+                              },
+                              "npi": {
+                                "anyOf": [
+                                  {
+                                    "type": "string",
+                                    "allOf": [
+                                      {
+                                        "pattern": "^\\d{10}$"
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "type": "null"
+                                  }
+                                ]
+                              },
+                              "externalId": {
+                                "anyOf": [
+                                  {
+                                    "type": "string"
+                                  },
+                                  {
+                                    "type": "null"
+                                  }
+                                ]
+                              },
+                              "profile": {
+                                "anyOf": [
+                                  {
+                                    "type": "object",
+                                    "properties": {
+                                      "email": {
+                                        "anyOf": [
+                                          {
+                                            "type": "string",
+                                            "allOf": [
+                                              {
+                                                "pattern": "^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$"
+                                              }
+                                            ]
+                                          },
+                                          {
+                                            "type": "null"
+                                          }
+                                        ]
+                                      },
+                                      "phone": {
+                                        "anyOf": [
+                                          {
+                                            "type": "string"
+                                          },
+                                          {
+                                            "type": "null"
+                                          }
+                                        ]
+                                      }
+                                    },
+                                    "additionalProperties": false
+                                  },
+                                  {
+                                    "type": "null"
+                                  }
+                                ]
+                              }
+                            },
+                            "additionalProperties": false
                           },
                           {
                             "type": "null"
@@ -30014,10 +30536,99 @@
             ]
           },
           "userId": {
-            "type": "string",
-            "pattern": "^user_[0-9a-hjkmnp-tv-z]{26}$",
-            "examples": [
-              "user_01j2y8m6jcc9tt24af5pw9x1bc"
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^user_[0-9a-hjkmnp-tv-z]{26}$",
+                "examples": [
+                  "user_01j2y8m6jcc9tt24af5pw9x1bc"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "prescriber": {
+            "anyOf": [
+              {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "anyOf": [
+                      {
+                        "type": "string",
+                        "pattern": "^prov_[0-9a-hjkmnp-tv-z]{26}$",
+                        "examples": [
+                          "prov_01j2y8m6jcc9tt24af5pw9x1bc"
+                        ]
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "npi": {
+                    "anyOf": [
+                      {
+                        "type": "string",
+                        "pattern": "^\\d{10}$"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "externalId": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "profile": {
+                    "anyOf": [
+                      {
+                        "type": "object",
+                        "properties": {
+                          "email": {
+                            "anyOf": [
+                              {
+                                "type": "string",
+                                "pattern": "^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$"
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          },
+                          "phone": {
+                            "anyOf": [
+                              {
+                                "type": "string"
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          }
+                        },
+                        "additionalProperties": false
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  }
+                },
+                "additionalProperties": false
+              },
+              {
+                "type": "null"
+              }
             ]
           },
           "signatureAttestation": {
@@ -30055,7 +30666,6 @@
         },
         "required": [
           "practiceId",
-          "userId",
           "signatureAttestation",
           "expectedVersions"
         ],
@@ -30112,10 +30722,99 @@
             ]
           },
           "userId": {
-            "type": "string",
-            "pattern": "^user_[0-9a-hjkmnp-tv-z]{26}$",
-            "examples": [
-              "user_01j2y8m6jcc9tt24af5pw9x1bc"
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^user_[0-9a-hjkmnp-tv-z]{26}$",
+                "examples": [
+                  "user_01j2y8m6jcc9tt24af5pw9x1bc"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "prescriber": {
+            "anyOf": [
+              {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "anyOf": [
+                      {
+                        "type": "string",
+                        "pattern": "^prov_[0-9a-hjkmnp-tv-z]{26}$",
+                        "examples": [
+                          "prov_01j2y8m6jcc9tt24af5pw9x1bc"
+                        ]
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "npi": {
+                    "anyOf": [
+                      {
+                        "type": "string",
+                        "pattern": "^\\d{10}$"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "externalId": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "profile": {
+                    "anyOf": [
+                      {
+                        "type": "object",
+                        "properties": {
+                          "email": {
+                            "anyOf": [
+                              {
+                                "type": "string",
+                                "pattern": "^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$"
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          },
+                          "phone": {
+                            "anyOf": [
+                              {
+                                "type": "string"
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          }
+                        },
+                        "additionalProperties": false
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  }
+                },
+                "additionalProperties": false
+              },
+              {
+                "type": "null"
+              }
             ]
           },
           "signatureAttestation": {
@@ -30153,7 +30852,6 @@
         },
         "required": [
           "practiceId",
-          "userId",
           "signatureAttestation",
           "expectedVersions"
         ],
@@ -30291,16 +30989,104 @@
             ]
           },
           "userId": {
-            "type": "string",
-            "pattern": "^user_[0-9a-hjkmnp-tv-z]{26}$",
-            "examples": [
-              "user_01j2y8m6jcc9tt24af5pw9x1bc"
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^user_[0-9a-hjkmnp-tv-z]{26}$",
+                "examples": [
+                  "user_01j2y8m6jcc9tt24af5pw9x1bc"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "prescriber": {
+            "anyOf": [
+              {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "anyOf": [
+                      {
+                        "type": "string",
+                        "pattern": "^prov_[0-9a-hjkmnp-tv-z]{26}$",
+                        "examples": [
+                          "prov_01j2y8m6jcc9tt24af5pw9x1bc"
+                        ]
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "npi": {
+                    "anyOf": [
+                      {
+                        "type": "string",
+                        "pattern": "^\\d{10}$"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "externalId": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "profile": {
+                    "anyOf": [
+                      {
+                        "type": "object",
+                        "properties": {
+                          "email": {
+                            "anyOf": [
+                              {
+                                "type": "string",
+                                "pattern": "^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$"
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          },
+                          "phone": {
+                            "anyOf": [
+                              {
+                                "type": "string"
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          }
+                        },
+                        "additionalProperties": false
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  }
+                },
+                "additionalProperties": false
+              },
+              {
+                "type": "null"
+              }
             ]
           }
         },
         "required": [
-          "practiceId",
-          "userId"
+          "practiceId"
         ],
         "additionalProperties": false,
         "title": "SubmitOrderRequest"
@@ -30347,10 +31133,99 @@
             ]
           },
           "userId": {
-            "type": "string",
-            "pattern": "^user_[0-9a-hjkmnp-tv-z]{26}$",
-            "examples": [
-              "user_01j2y8m6jcc9tt24af5pw9x1bc"
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^user_[0-9a-hjkmnp-tv-z]{26}$",
+                "examples": [
+                  "user_01j2y8m6jcc9tt24af5pw9x1bc"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "prescriber": {
+            "anyOf": [
+              {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "anyOf": [
+                      {
+                        "type": "string",
+                        "pattern": "^prov_[0-9a-hjkmnp-tv-z]{26}$",
+                        "examples": [
+                          "prov_01j2y8m6jcc9tt24af5pw9x1bc"
+                        ]
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "npi": {
+                    "anyOf": [
+                      {
+                        "type": "string",
+                        "pattern": "^\\d{10}$"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "externalId": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "profile": {
+                    "anyOf": [
+                      {
+                        "type": "object",
+                        "properties": {
+                          "email": {
+                            "anyOf": [
+                              {
+                                "type": "string",
+                                "pattern": "^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$"
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          },
+                          "phone": {
+                            "anyOf": [
+                              {
+                                "type": "string"
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          }
+                        },
+                        "additionalProperties": false
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  }
+                },
+                "additionalProperties": false
+              },
+              {
+                "type": "null"
+              }
             ]
           },
           "reason": {
@@ -30385,7 +31260,6 @@
         },
         "required": [
           "practiceId",
-          "userId",
           "reason",
           "expectedVersions"
         ],
@@ -45454,6 +46328,88 @@
                 "examples": [
                   "user_01j2y8m6jcc9tt24af5pw9x1bc"
                 ]
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "prescriber": {
+            "anyOf": [
+              {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "anyOf": [
+                      {
+                        "type": "string",
+                        "pattern": "^prov_[0-9a-hjkmnp-tv-z]{26}$",
+                        "examples": [
+                          "prov_01j2y8m6jcc9tt24af5pw9x1bc"
+                        ]
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "npi": {
+                    "anyOf": [
+                      {
+                        "type": "string",
+                        "pattern": "^\\d{10}$"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "externalId": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "profile": {
+                    "anyOf": [
+                      {
+                        "type": "object",
+                        "properties": {
+                          "email": {
+                            "anyOf": [
+                              {
+                                "type": "string",
+                                "pattern": "^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$"
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          },
+                          "phone": {
+                            "anyOf": [
+                              {
+                                "type": "string"
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          }
+                        },
+                        "additionalProperties": false
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  }
+                },
+                "additionalProperties": false
               },
               {
                 "type": "null"

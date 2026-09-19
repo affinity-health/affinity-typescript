@@ -91,32 +91,28 @@ export type PreviewOrderParams = Omit<
   );
 export type SignOrderParams = Omit<
   SignOrderRequest,
-  "practiceId" | "userId" | "signatureAttestation" | "expectedVersions"
+  "practiceId" | "signatureAttestation" | "expectedVersions"
 > & {
   practiceId: NonNullable<SignOrderRequest["practiceId"]>;
-  userId: NonNullable<SignOrderRequest["userId"]>;
   signatureAttestation: NonNullable<SignOrderRequest["signatureAttestation"]>;
   expectedVersions: NonNullable<SignOrderRequest["expectedVersions"]>;
 };
 export type SignAndSubmitOrderParams = Omit<
   SignAndSubmitOrderRequest,
-  "practiceId" | "userId" | "signatureAttestation" | "expectedVersions"
+  "practiceId" | "signatureAttestation" | "expectedVersions"
 > & {
   practiceId: NonNullable<SignAndSubmitOrderRequest["practiceId"]>;
-  userId: NonNullable<SignAndSubmitOrderRequest["userId"]>;
   signatureAttestation: NonNullable<SignAndSubmitOrderRequest["signatureAttestation"]>;
   expectedVersions: NonNullable<SignAndSubmitOrderRequest["expectedVersions"]>;
 };
-export type SubmitOrderParams = Omit<SubmitOrderRequest, "practiceId" | "userId"> & {
+export type SubmitOrderParams = Omit<SubmitOrderRequest, "practiceId"> & {
   practiceId: NonNullable<SubmitOrderRequest["practiceId"]>;
-  userId: NonNullable<SubmitOrderRequest["userId"]>;
 };
 export type RejectOrderParams = Omit<
   RejectOrderRequest,
-  "practiceId" | "userId" | "reason" | "expectedVersions"
+  "practiceId" | "reason" | "expectedVersions"
 > & {
   practiceId: NonNullable<RejectOrderRequest["practiceId"]>;
-  userId: NonNullable<RejectOrderRequest["userId"]>;
   reason: NonNullable<RejectOrderRequest["reason"]>;
   expectedVersions: NonNullable<RejectOrderRequest["expectedVersions"]>;
 };

@@ -35,6 +35,8 @@ export * from "./CreateOrderRequestPatientExternalIdentitiesInner";
 export * from "./CreateOrderRequestPatientMeasurementsInner";
 export * from "./CreateOrderRequestPatientName";
 export * from "./CreateOrderRequestPatientProgramsInner";
+export * from "./CreateOrderRequestPrescriber";
+export * from "./CreateOrderRequestPrescriberProfile";
 export * from "./CreateOrderRequestPrescriptionsInner";
 export * from "./CreateOrderRequestPrescriptionsInnerClinical";
 export * from "./CreateOrderRequestPrescriptionsInnerClinicalCompoundingReason";

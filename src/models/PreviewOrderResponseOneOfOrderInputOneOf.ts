@@ -27,6 +27,13 @@ import {
   PreviewOrderResponseOneOfOrderInputOneOfPrescriptionsInnerToJSON,
   PreviewOrderResponseOneOfOrderInputOneOfPrescriptionsInnerToJSONTyped,
 } from "./PreviewOrderResponseOneOfOrderInputOneOfPrescriptionsInner";
+import type { CreateOrderRequestPrescriber } from "./CreateOrderRequestPrescriber";
+import {
+  CreateOrderRequestPrescriberFromJSON,
+  CreateOrderRequestPrescriberFromJSONTyped,
+  CreateOrderRequestPrescriberToJSON,
+  CreateOrderRequestPrescriberToJSONTyped,
+} from "./CreateOrderRequestPrescriber";
 
 /**
  *
@@ -52,6 +59,12 @@ export interface PreviewOrderResponseOneOfOrderInputOneOf {
    * @memberof PreviewOrderResponseOneOfOrderInputOneOf
    */
   userId?: string | null;
+  /**
+   *
+   * @type {CreateOrderRequestPrescriber}
+   * @memberof PreviewOrderResponseOneOfOrderInputOneOf
+   */
+  prescriber?: CreateOrderRequestPrescriber | null;
   /**
    *
    * @type {string}
@@ -110,6 +123,10 @@ export function PreviewOrderResponseOneOfOrderInputOneOfFromJSONTyped(
         : (json["otcItems"] as Array<any>).map(CreateOrderRequestOtcItemsInnerFromJSON),
     practiceId: json["practiceId"],
     userId: json["userId"] == null ? undefined : json["userId"],
+    prescriber:
+      json["prescriber"] == null
+        ? undefined
+        : CreateOrderRequestPrescriberFromJSON(json["prescriber"]),
     shippingAddressId: json["shippingAddressId"] == null ? undefined : json["shippingAddressId"],
     externalOrderId: json["externalOrderId"] == null ? undefined : json["externalOrderId"],
     prescriptions: (json["prescriptions"] as Array<any>).map(
@@ -140,6 +157,7 @@ export function PreviewOrderResponseOneOfOrderInputOneOfToJSONTyped(
         : (value["otcItems"] as Array<any>).map(CreateOrderRequestOtcItemsInnerToJSON),
     practiceId: value["practiceId"],
     userId: value["userId"],
+    prescriber: CreateOrderRequestPrescriberToJSON(value["prescriber"]),
     shippingAddressId: value["shippingAddressId"],
     externalOrderId: value["externalOrderId"],
     prescriptions: (value["prescriptions"] as Array<any>).map(

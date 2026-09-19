@@ -7,6 +7,7 @@
 | `otcItems`          | [Array&lt;CreateOrderRequestOtcItemsInner&gt;](CreateOrderRequestOtcItemsInner.md)                                                       |
 | `practiceId`        | string                                                                                                                                   |
 | `userId`            | string                                                                                                                                   |
+| `prescriber`        | [CreateOrderRequestPrescriber](CreateOrderRequestPrescriber.md)                                                                          |
 | `shippingAddressId` | string                                                                                                                                   |
 | `externalOrderId`   | string                                                                                                                                   |
 | `prescriptions`     | [Array&lt;PreviewOrderResponseOneOfOrderInputOneOfPrescriptionsInner&gt;](PreviewOrderResponseOneOfOrderInputOneOfPrescriptionsInner.md) |

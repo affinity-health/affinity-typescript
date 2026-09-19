@@ -41,6 +41,13 @@ import {
   PreviewOrderRequestPrescriptionsInnerToJSON,
   PreviewOrderRequestPrescriptionsInnerToJSONTyped,
 } from "./PreviewOrderRequestPrescriptionsInner";
+import type { CreateOrderRequestPrescriber } from "./CreateOrderRequestPrescriber";
+import {
+  CreateOrderRequestPrescriberFromJSON,
+  CreateOrderRequestPrescriberFromJSONTyped,
+  CreateOrderRequestPrescriberToJSON,
+  CreateOrderRequestPrescriberToJSONTyped,
+} from "./CreateOrderRequestPrescriber";
 
 /**
  *
@@ -84,6 +91,12 @@ export interface PreviewOrderRequest {
    * @memberof PreviewOrderRequest
    */
   userId?: string | null;
+  /**
+   *
+   * @type {CreateOrderRequestPrescriber}
+   * @memberof PreviewOrderRequest
+   */
+  prescriber?: CreateOrderRequestPrescriber | null;
   /**
    *
    * @type {string}
@@ -141,6 +154,10 @@ export function PreviewOrderRequestFromJSONTyped(
     patient:
       json["patient"] == null ? undefined : CreateOrderRequestPatientFromJSON(json["patient"]),
     userId: json["userId"] == null ? undefined : json["userId"],
+    prescriber:
+      json["prescriber"] == null
+        ? undefined
+        : CreateOrderRequestPrescriberFromJSON(json["prescriber"]),
     shippingAddressId: json["shippingAddressId"] == null ? undefined : json["shippingAddressId"],
     externalOrderId: json["externalOrderId"] == null ? undefined : json["externalOrderId"],
     prescriptions: (json["prescriptions"] as Array<any>).map(
@@ -173,6 +190,7 @@ export function PreviewOrderRequestToJSONTyped(
     patientExternalId: value["patientExternalId"],
     patient: CreateOrderRequestPatientToJSON(value["patient"]),
     userId: value["userId"],
+    prescriber: CreateOrderRequestPrescriberToJSON(value["prescriber"]),
     shippingAddressId: value["shippingAddressId"],
     externalOrderId: value["externalOrderId"],
     prescriptions: (value["prescriptions"] as Array<any>).map(

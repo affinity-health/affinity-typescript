@@ -6,6 +6,7 @@
 | ------------------ | ---------------------------------------------------------------------------------------------- |
 | `practiceId`       | string                                                                                         |
 | `userId`           | string                                                                                         |
+| `prescriber`       | [CreateOrderRequestPrescriber](CreateOrderRequestPrescriber.md)                                |
 | `reason`           | string                                                                                         |
 | `expectedVersions` | [Array&lt;SignOrderRequestExpectedVersionsInner&gt;](SignOrderRequestExpectedVersionsInner.md) |
 

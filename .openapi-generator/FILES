@@ -40,6 +40,8 @@ docs/CreateOrderRequestPatientExternalIdentitiesInner.md
 docs/CreateOrderRequestPatientMeasurementsInner.md
 docs/CreateOrderRequestPatientName.md
 docs/CreateOrderRequestPatientProgramsInner.md
+docs/CreateOrderRequestPrescriber.md
+docs/CreateOrderRequestPrescriberProfile.md
 docs/CreateOrderRequestPrescriptionsInner.md
 docs/CreateOrderRequestPrescriptionsInnerClinical.md
 docs/CreateOrderRequestPrescriptionsInnerClinicalCompoundingReason.md
@@ -360,6 +362,8 @@ src/models/CreateOrderRequestPatientExternalIdentitiesInner.ts
 src/models/CreateOrderRequestPatientMeasurementsInner.ts
 src/models/CreateOrderRequestPatientName.ts
 src/models/CreateOrderRequestPatientProgramsInner.ts
+src/models/CreateOrderRequestPrescriber.ts
+src/models/CreateOrderRequestPrescriberProfile.ts
 src/models/CreateOrderRequestPrescriptionsInner.ts
 src/models/CreateOrderRequestPrescriptionsInnerClinical.ts
 src/models/CreateOrderRequestPrescriptionsInnerClinicalCompoundingReason.ts

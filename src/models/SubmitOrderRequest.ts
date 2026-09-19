@@ -13,6 +13,14 @@
  */
 
 import { mapValues } from "../runtime";
+import type { CreateOrderRequestPrescriber } from "./CreateOrderRequestPrescriber";
+import {
+  CreateOrderRequestPrescriberFromJSON,
+  CreateOrderRequestPrescriberFromJSONTyped,
+  CreateOrderRequestPrescriberToJSON,
+  CreateOrderRequestPrescriberToJSONTyped,
+} from "./CreateOrderRequestPrescriber";
+
 /**
  *
  * @export
@@ -30,7 +38,13 @@ export interface SubmitOrderRequest {
    * @type {string}
    * @memberof SubmitOrderRequest
    */
-  userId: string;
+  userId?: string | null;
+  /**
+   *
+   * @type {CreateOrderRequestPrescriber}
+   * @memberof SubmitOrderRequest
+   */
+  prescriber?: CreateOrderRequestPrescriber | null;
 }
 
 /**
@@ -38,7 +52,6 @@ export interface SubmitOrderRequest {
  */
 export function instanceOfSubmitOrderRequest(value: object): value is SubmitOrderRequest {
   if (!("practiceId" in value) || value["practiceId"] === undefined) return false;
-  if (!("userId" in value) || value["userId"] === undefined) return false;
   return true;
 }
 
@@ -55,7 +68,11 @@ export function SubmitOrderRequestFromJSONTyped(
   }
   return {
     practiceId: json["practiceId"],
-    userId: json["userId"],
+    userId: json["userId"] == null ? undefined : json["userId"],
+    prescriber:
+      json["prescriber"] == null
+        ? undefined
+        : CreateOrderRequestPrescriberFromJSON(json["prescriber"]),
   };
 }
 
@@ -74,5 +91,6 @@ export function SubmitOrderRequestToJSONTyped(
   return {
     practiceId: value["practiceId"],
     userId: value["userId"],
+    prescriber: CreateOrderRequestPrescriberToJSON(value["prescriber"]),
   };
 }

@@ -6,6 +6,7 @@
 | ------------------- | ----------------------------------------------------------------------------------------------------------- |
 | `practiceId`        | string                                                                                                      |
 | `userId`            | string                                                                                                      |
+| `prescriber`        | [CreateOrderRequestPrescriber](CreateOrderRequestPrescriber.md)                                             |
 | `otcItems`          | [Array&lt;CreateOrderRequestOtcItemsInner&gt;](CreateOrderRequestOtcItemsInner.md)                          |
 | `externalOrderId`   | string                                                                                                      |
 | `metadata`          | [{ [key: string]: ListOrdersResponseDataInnerMetadataValue; }](ListOrdersResponseDataInnerMetadataValue.md) |
