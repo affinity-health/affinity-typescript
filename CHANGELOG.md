@@ -7,6 +7,8 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 
 ## [Unreleased]
 
+## [1.10.0] - 2026-09-19
+
 ### Added
 
 - Select an order prescriber by NPI, Affinity provider ID, or integration external ID. Draft attribution is optional; signing can select or inherit the prescriber without separate actor options. First-use registration requires `team:write`.
