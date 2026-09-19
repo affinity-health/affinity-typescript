@@ -286,6 +286,13 @@ Only offer categories returned for the medication. A required patient-specific e
 Read the [compounding reasons guide](https://docs.joinaffinityai.com/guides/compounding-reasons/) for the full category list, conditional context, and preview-to-create workflow.
 The [typed example](examples/compounding-reasons.ts) is compiled during SDK validation.
 
+## Runnable EMR example
+
+The [TanStack Start example](examples/tanstack-start/README.md) uses the published SDK to load the
+catalog, preview prescriptions and OTC items with grouped shipping, create unsigned drafts, and
+sign with a Test prescriber NPI. It runs locally or on its own Alchemy-managed Cloudflare Worker.
+API keys stay server-side. Only synthetic Test-mode orders are accepted.
+
 ## License
 
 MIT

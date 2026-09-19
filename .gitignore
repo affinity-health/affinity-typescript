@@ -4,3 +4,6 @@ dist
 .env.local
 .env.dev
 .env.workspace
+.alchemy
+.wrangler
+.tanstack

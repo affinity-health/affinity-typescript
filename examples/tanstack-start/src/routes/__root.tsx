@@ -13,7 +13,7 @@ export const Route = createRootRoute({
     meta: [
       { charSet: "utf-8" },
       { content: "width=device-width, initial-scale=1", name: "viewport" },
-      { title: "Affinity SDK Test Practice" },
+      { title: "Affinity SDK EMR Test" },
     ],
   }),
 });

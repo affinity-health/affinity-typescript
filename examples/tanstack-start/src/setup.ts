@@ -1,68 +1,82 @@
 import { createServerFn } from "@tanstack/react-start";
+import { z } from "zod";
+import type { PreviewOrderParams } from "@affinity-health/sdk";
 
-const TEST_PROVIDER_NPI = "1234567893";
+const token = z.string().min(1).max(200_000);
 
-export const createTestPractice = createServerFn({ method: "POST" }).handler(async () => {
-  const { Affinity } = await import("@affinity-health/sdk");
-  const apiKey = process.env.AFFINITY_API_KEY;
-  if (!apiKey) throw new Error("Set AFFINITY_API_KEY in .env.local to a Test-mode API key.");
+export const preparePatient = createServerFn({ method: "POST" })
+  .validator(z.object({ runId: z.uuid() }))
+  .handler(async ({ data }) => {
+    const w = await import("./workflow.server");
+    return w.safely(() => w.prepare(data.runId));
+  });
 
-  const affinity = new Affinity(apiKey);
-  const access = await affinity.apiKeys.retrieve();
-  if (access.livemode) throw new Error("This example accepts only a Test-mode API key.");
+export const loadCatalog = createServerFn({ method: "POST" })
+  .validator(
+    z.object({ query: z.string().max(200), startingAfter: z.string().max(100).optional() }),
+  )
+  .handler(async ({ data }) => {
+    const w = await import("./workflow.server");
+    return w.safely(() => w.catalog(data.query, data.startingAfter));
+  });
 
-  const runId = crypto.randomUUID();
-  const providerName = "Dr. Alex Morgan";
-  const practice = await affinity.practices.create(
-    {
-      address: {
-        city: "Detroit",
-        country: "US",
-        line1: "100 Test Practice Way",
-        postalCode: "48201",
-        state: "MI",
-      },
-      attestations: {
-        authorizedPhiTransfer: true,
-        authorizedPracticeRelationship: true,
-        minimumNecessaryPhi: true,
-        providerDataAccuracy: true,
-      },
-      externalId: `sdk_example_practice_${runId}`,
-      legalName: "Northstar Test Practice PLLC",
-      name: "Northstar Test Practice",
-      prescribers: [
-        {
-          credentials: "MD",
-          licenseStates: ["MI"],
-          name: providerName,
-          npi: TEST_PROVIDER_NPI,
-        },
-      ],
-      primaryContact: { email: "ops@example.com", name: "Test Operations" },
-      timezone: "America/Detroit",
-    },
-    { idempotencyKey: `practice:${runId}` },
-  );
-  const user = await affinity.team.createUser(
-    practice.id,
-    {
-      email: "alex.morgan@example.com",
-      externalId: `sdk_example_provider_${runId}`,
-      name: providerName,
-      role: "prescriber",
-      identityAttestation: true,
-      npi: TEST_PROVIDER_NPI,
-      credentials: "MD",
-    },
-    { idempotencyKey: `user:${runId}` },
-  );
-  const team = await affinity.team.retrieve(practice.id);
+export const previewOrder = createServerFn({ method: "POST" })
+  .validator(z.object({ patientToken: token, itemsJson: z.string().max(100_000) }))
+  .handler(async ({ data }) => {
+    const w = await import("./workflow.server");
+    return w.safely(async () => {
+      // The API validates nested clinical overrides against the published contract.
+      // Only item arrays and shipping selection cross this boundary, never patient/practice.
+      const parsed = z
+        .object({
+          prescriptions: z
+            .array(z.object({ medicationId: z.string().min(1) }).passthrough())
+            .min(1)
+            .max(20),
+          otcItems: z
+            .array(
+              z
+                .object({ catalogItemId: z.string().min(1), quantity: z.number().int().positive() })
+                .passthrough(),
+            )
+            .max(20)
+            .optional(),
+          shipping: z.object({ selection: z.enum(["lowest_cost", "fastest", "manual"]) }),
+        })
+        .parse(JSON.parse(data.itemsJson));
+      return w.preview(
+        data.patientToken,
+        parsed as Pick<PreviewOrderParams, "prescriptions" | "otcItems" | "shipping">,
+      );
+    });
+  });
 
-  return {
-    practiceId: practice.id,
-    team,
-    testNpi: TEST_PROVIDER_NPI,
-    userId: user.id,
-  };
-});
+export const saveDraft = createServerFn({ method: "POST" })
+  .validator(z.object({ token }))
+  .handler(async ({ data }) => {
+    const w = await import("./workflow.server");
+    return w.safely(() => w.createDraft(data.token));
+  });
+
+export const reviewAllergies = createServerFn({ method: "POST" })
+  .validator(z.object({ token, confirmed: z.literal(true) }))
+  .handler(async ({ data }) => {
+    const w = await import("./workflow.server");
+    return w.safely(() => w.recordAllergies(data.token));
+  });
+
+export const signOrder = createServerFn({ method: "POST" })
+  .validator(
+    z.object({ token, npi: z.enum(["1234567893", "1111111112"]), attested: z.literal(true) }),
+  )
+  .handler(async ({ data }) => {
+    const w = await import("./workflow.server");
+    return w.safely(() => w.sign(data.token, data.npi));
+  });
+
+export const refreshOrder = createServerFn({ method: "POST" })
+  .validator(z.object({ token }))
+  .handler(async ({ data }) => {
+    const w = await import("./workflow.server");
+    return w.safely(() => w.refresh(data.token));
+  });

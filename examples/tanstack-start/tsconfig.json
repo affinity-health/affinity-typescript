@@ -12,5 +12,5 @@
     "target": "ES2023",
     "types": ["vite/client"]
   },
-  "include": ["src", "vite.config.ts"]
+  "include": ["src", "scripts", "vite.config.ts", "alchemy.run.ts"]
 }
