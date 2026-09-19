@@ -20,6 +20,13 @@ import {
   CreateOrderRequestOtcItemsInnerToJSON,
   CreateOrderRequestOtcItemsInnerToJSONTyped,
 } from "./CreateOrderRequestOtcItemsInner";
+import type { CreateOrderRequestPatient } from "./CreateOrderRequestPatient";
+import {
+  CreateOrderRequestPatientFromJSON,
+  CreateOrderRequestPatientFromJSONTyped,
+  CreateOrderRequestPatientToJSON,
+  CreateOrderRequestPatientToJSONTyped,
+} from "./CreateOrderRequestPatient";
 import type { PreviewOrderRequestShipping } from "./PreviewOrderRequestShipping";
 import {
   PreviewOrderRequestShippingFromJSON,
@@ -58,7 +65,19 @@ export interface PreviewOrderRequest {
    * @type {string}
    * @memberof PreviewOrderRequest
    */
-  patientId: string;
+  patientId?: string | null;
+  /**
+   *
+   * @type {string}
+   * @memberof PreviewOrderRequest
+   */
+  patientExternalId?: string | null;
+  /**
+   *
+   * @type {CreateOrderRequestPatient}
+   * @memberof PreviewOrderRequest
+   */
+  patient?: CreateOrderRequestPatient | null;
   /**
    *
    * @type {string}
@@ -96,7 +115,6 @@ export interface PreviewOrderRequest {
  */
 export function instanceOfPreviewOrderRequest(value: object): value is PreviewOrderRequest {
   if (!("practiceId" in value) || value["practiceId"] === undefined) return false;
-  if (!("patientId" in value) || value["patientId"] === undefined) return false;
   if (!("prescriptions" in value) || value["prescriptions"] === undefined) return false;
   return true;
 }
@@ -118,7 +136,10 @@ export function PreviewOrderRequestFromJSONTyped(
         ? undefined
         : (json["otcItems"] as Array<any>).map(CreateOrderRequestOtcItemsInnerFromJSON),
     practiceId: json["practiceId"],
-    patientId: json["patientId"],
+    patientId: json["patientId"] == null ? undefined : json["patientId"],
+    patientExternalId: json["patientExternalId"] == null ? undefined : json["patientExternalId"],
+    patient:
+      json["patient"] == null ? undefined : CreateOrderRequestPatientFromJSON(json["patient"]),
     userId: json["userId"] == null ? undefined : json["userId"],
     shippingAddressId: json["shippingAddressId"] == null ? undefined : json["shippingAddressId"],
     externalOrderId: json["externalOrderId"] == null ? undefined : json["externalOrderId"],
@@ -149,6 +170,8 @@ export function PreviewOrderRequestToJSONTyped(
         : (value["otcItems"] as Array<any>).map(CreateOrderRequestOtcItemsInnerToJSON),
     practiceId: value["practiceId"],
     patientId: value["patientId"],
+    patientExternalId: value["patientExternalId"],
+    patient: CreateOrderRequestPatientToJSON(value["patient"]),
     userId: value["userId"],
     shippingAddressId: value["shippingAddressId"],
     externalOrderId: value["externalOrderId"],

@@ -7,6 +7,8 @@
 | `otcItems`          | [Array&lt;CreateOrderRequestOtcItemsInner&gt;](CreateOrderRequestOtcItemsInner.md)             |
 | `practiceId`        | string                                                                                         |
 | `patientId`         | string                                                                                         |
+| `patientExternalId` | string                                                                                         |
+| `patient`           | [CreateOrderRequestPatient](CreateOrderRequestPatient.md)                                      |
 | `userId`            | string                                                                                         |
 | `shippingAddressId` | string                                                                                         |
 | `externalOrderId`   | string                                                                                         |

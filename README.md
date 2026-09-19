@@ -66,6 +66,11 @@ eligibility, signing, or actor-attribution checks.
 
 ## Prescription defaults and previews
 
+The unreleased contract adds `patientExternalId` and inline `patient` selectors to previews, plus
+`orders.signAndSubmit`. See [the EMR workflow example](examples/emr-order.ts) for server-side
+review, retries, partial submission recovery, and webhook processing. These additions require the
+matching API deployment and are not available in previously published SDK versions.
+
 These methods are available in stable SDK 1.9.0 and later.
 Use them on your server with an existing patient in the selected practice.
 

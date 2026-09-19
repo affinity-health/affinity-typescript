@@ -105,6 +105,16 @@ import {
   RejectOrderResponseToJSON,
 } from "../models/RejectOrderResponse";
 import {
+  type SignAndSubmitOrderRequest,
+  SignAndSubmitOrderRequestFromJSON,
+  SignAndSubmitOrderRequestToJSON,
+} from "../models/SignAndSubmitOrderRequest";
+import {
+  type SignAndSubmitOrderResponse,
+  SignAndSubmitOrderResponseFromJSON,
+  SignAndSubmitOrderResponseToJSON,
+} from "../models/SignAndSubmitOrderResponse";
+import {
   type SignOrderRequest,
   SignOrderRequestFromJSON,
   SignOrderRequestToJSON,
@@ -239,6 +249,13 @@ export interface RejectOrderOperationRequest {
   orderId: string;
   idempotencyKey: string;
   rejectOrderRequest: RejectOrderRequest;
+  affinityVersion?: string;
+}
+
+export interface SignAndSubmitOrderOperationRequest {
+  orderId: string;
+  idempotencyKey: string;
+  signAndSubmitOrderRequest: SignAndSubmitOrderRequest;
   affinityVersion?: string;
 }
 
@@ -1210,7 +1227,7 @@ export class OrdersApi extends runtime.BaseAPI {
   }
 
   /**
-   * Requires orders:write and catalog:read. Resolves defaults and explicit edits for one existing patient and 1–20 prescriptions. Returns exact directions, dispense values, eligible shipping and estimated line prices. Complete previews contain an orders.create input. Does not create an order, reserve pricing, sign, charge or transmit. No idempotency key is required. Creation and signing recheck current requirements.
+   * Requires orders:write and catalog:read. Supply exactly one of patientId, patientExternalId, or inline patient details. External-ID lookup additionally requires patients:read; inline details require patients:write. Resolves defaults and explicit edits for 1–20 prescriptions. Reuses stored patient details when identifiers match; otherwise previews inline details without creating a patient. Complete previews contain an orders.create input. Does not create records, reserve prices, sign, charge or transmit. No idempotency key is required. Creation and signing recheck current requirements.
    * Preview an order
    */
   async previewOrderRaw(
@@ -1226,7 +1243,7 @@ export class OrdersApi extends runtime.BaseAPI {
   }
 
   /**
-   * Requires orders:write and catalog:read. Resolves defaults and explicit edits for one existing patient and 1–20 prescriptions. Returns exact directions, dispense values, eligible shipping and estimated line prices. Complete previews contain an orders.create input. Does not create an order, reserve pricing, sign, charge or transmit. No idempotency key is required. Creation and signing recheck current requirements.
+   * Requires orders:write and catalog:read. Supply exactly one of patientId, patientExternalId, or inline patient details. External-ID lookup additionally requires patients:read; inline details require patients:write. Resolves defaults and explicit edits for 1–20 prescriptions. Reuses stored patient details when identifiers match; otherwise previews inline details without creating a patient. Complete previews contain an orders.create input. Does not create records, reserve prices, sign, charge or transmit. No idempotency key is required. Creation and signing recheck current requirements.
    * Preview an order
    */
   async previewOrder(
@@ -1331,6 +1348,103 @@ export class OrdersApi extends runtime.BaseAPI {
     initOverrides?: RequestInit | runtime.InitOverrideFunction,
   ): Promise<RejectOrderResponse> {
     const response = await this.rejectOrderRaw(requestParameters, initOverrides);
+    return await response.value();
+  }
+
+  /**
+   * Creates request options for signAndSubmitOrder without sending the request
+   */
+  async signAndSubmitOrderRequestOpts(
+    requestParameters: SignAndSubmitOrderOperationRequest,
+  ): Promise<runtime.RequestOpts> {
+    if (requestParameters["orderId"] == null) {
+      throw new runtime.RequiredError(
+        "orderId",
+        'Required parameter "orderId" was null or undefined when calling signAndSubmitOrder().',
+      );
+    }
+
+    if (requestParameters["idempotencyKey"] == null) {
+      throw new runtime.RequiredError(
+        "idempotencyKey",
+        'Required parameter "idempotencyKey" was null or undefined when calling signAndSubmitOrder().',
+      );
+    }
+
+    if (requestParameters["signAndSubmitOrderRequest"] == null) {
+      throw new runtime.RequiredError(
+        "signAndSubmitOrderRequest",
+        'Required parameter "signAndSubmitOrderRequest" was null or undefined when calling signAndSubmitOrder().',
+      );
+    }
+
+    const queryParameters: any = {};
+
+    const headerParameters: runtime.HTTPHeaders = {};
+
+    headerParameters["Content-Type"] = "application/json";
+
+    if (requestParameters["affinityVersion"] != null) {
+      headerParameters["Affinity-Version"] = String(requestParameters["affinityVersion"]);
+    }
+
+    if (requestParameters["idempotencyKey"] != null) {
+      headerParameters["Idempotency-Key"] = String(requestParameters["idempotencyKey"]);
+    }
+
+    if (this.configuration && this.configuration.accessToken) {
+      const token = this.configuration.accessToken;
+      const tokenString = await token("bearerAuth", []);
+
+      if (tokenString) {
+        headerParameters["Authorization"] = `Bearer ${tokenString}`;
+      }
+    }
+    if (this.configuration && this.configuration.apiKey) {
+      headerParameters["x-affinity-api-key"] =
+        await this.configuration.apiKey("x-affinity-api-key"); // affinityApiKey authentication
+    }
+
+    let urlPath = `/v1/orders/{orderId}/sign-and-submit`;
+    urlPath = urlPath.replace(
+      "{orderId}",
+      encodeURIComponent(String(requestParameters["orderId"])),
+    );
+
+    return {
+      path: urlPath,
+      method: "POST",
+      headers: headerParameters,
+      query: queryParameters,
+      body: SignAndSubmitOrderRequestToJSON(requestParameters["signAndSubmitOrderRequest"]),
+    };
+  }
+
+  /**
+   * Requires orders:sign, clinician actor headers, Idempotency-Key, and attestation to every exact prescription version. Signs the complete order, then attempts submission of each signed prescription. Returns per-prescription outcomes. Signing remains committed if submission fails. Replay the same key after an uncertain response; after resolving a reported submission failure, use Submit order with a new key without signing again. Submitted means queued, not pharmacy acceptance.
+   * Sign and submit order
+   */
+  async signAndSubmitOrderRaw(
+    requestParameters: SignAndSubmitOrderOperationRequest,
+    initOverrides?: RequestInit | runtime.InitOverrideFunction,
+  ): Promise<runtime.ApiResponse<SignAndSubmitOrderResponse>> {
+    const requestOptions = await this.signAndSubmitOrderRequestOpts(requestParameters);
+    const response = await this.request(requestOptions, initOverrides);
+
+    return new runtime.JSONApiResponse(response, (jsonValue) =>
+      SignAndSubmitOrderResponseFromJSON(jsonValue),
+    );
+  }
+
+  /**
+   * Requires orders:sign, clinician actor headers, Idempotency-Key, and attestation to every exact prescription version. Signs the complete order, then attempts submission of each signed prescription. Returns per-prescription outcomes. Signing remains committed if submission fails. Replay the same key after an uncertain response; after resolving a reported submission failure, use Submit order with a new key without signing again. Submitted means queued, not pharmacy acceptance.
+   * Sign and submit order
+   */
+  async signAndSubmitOrder(
+    requestParameters: SignAndSubmitOrderOperationRequest,
+    initOverrides?: RequestInit | runtime.InitOverrideFunction,
+  ): Promise<SignAndSubmitOrderResponse> {
+    const response = await this.signAndSubmitOrderRaw(requestParameters, initOverrides);
     return await response.value();
   }
 

@@ -13,6 +13,13 @@
  */
 
 import { mapValues } from "../runtime";
+import type { PreviewOrderResponseOneOfOrderInputOneOfPrescriptionsInnerClinical } from "./PreviewOrderResponseOneOfOrderInputOneOfPrescriptionsInnerClinical";
+import {
+  PreviewOrderResponseOneOfOrderInputOneOfPrescriptionsInnerClinicalFromJSON,
+  PreviewOrderResponseOneOfOrderInputOneOfPrescriptionsInnerClinicalFromJSONTyped,
+  PreviewOrderResponseOneOfOrderInputOneOfPrescriptionsInnerClinicalToJSON,
+  PreviewOrderResponseOneOfOrderInputOneOfPrescriptionsInnerClinicalToJSONTyped,
+} from "./PreviewOrderResponseOneOfOrderInputOneOfPrescriptionsInnerClinical";
 import type { CreateOrderRequestPrescriptionsInnerStructuredSig } from "./CreateOrderRequestPrescriptionsInnerStructuredSig";
 import {
   CreateOrderRequestPrescriptionsInnerStructuredSigFromJSON,
@@ -27,94 +34,87 @@ import {
   CreateOrderRequestPrescriptionsInnerDispensingToJSON,
   CreateOrderRequestPrescriptionsInnerDispensingToJSONTyped,
 } from "./CreateOrderRequestPrescriptionsInnerDispensing";
-import type { PreviewOrderResponseOneOfOrderInputPrescriptionsInnerClinical } from "./PreviewOrderResponseOneOfOrderInputPrescriptionsInnerClinical";
-import {
-  PreviewOrderResponseOneOfOrderInputPrescriptionsInnerClinicalFromJSON,
-  PreviewOrderResponseOneOfOrderInputPrescriptionsInnerClinicalFromJSONTyped,
-  PreviewOrderResponseOneOfOrderInputPrescriptionsInnerClinicalToJSON,
-  PreviewOrderResponseOneOfOrderInputPrescriptionsInnerClinicalToJSONTyped,
-} from "./PreviewOrderResponseOneOfOrderInputPrescriptionsInnerClinical";
 
 /**
  *
  * @export
- * @interface PreviewOrderResponseOneOfOrderInputPrescriptionsInner
+ * @interface PreviewOrderResponseOneOfOrderInputOneOfPrescriptionsInner
  */
-export interface PreviewOrderResponseOneOfOrderInputPrescriptionsInner {
+export interface PreviewOrderResponseOneOfOrderInputOneOfPrescriptionsInner {
   /**
    *
    * @type {string}
-   * @memberof PreviewOrderResponseOneOfOrderInputPrescriptionsInner
+   * @memberof PreviewOrderResponseOneOfOrderInputOneOfPrescriptionsInner
    */
   externalPrescriptionId?: string | null;
   /**
    *
-   * @type {PreviewOrderResponseOneOfOrderInputPrescriptionsInnerClinical}
-   * @memberof PreviewOrderResponseOneOfOrderInputPrescriptionsInner
+   * @type {PreviewOrderResponseOneOfOrderInputOneOfPrescriptionsInnerClinical}
+   * @memberof PreviewOrderResponseOneOfOrderInputOneOfPrescriptionsInner
    */
-  clinical?: PreviewOrderResponseOneOfOrderInputPrescriptionsInnerClinical | null;
+  clinical?: PreviewOrderResponseOneOfOrderInputOneOfPrescriptionsInnerClinical | null;
   /**
    *
    * @type {string}
-   * @memberof PreviewOrderResponseOneOfOrderInputPrescriptionsInner
+   * @memberof PreviewOrderResponseOneOfOrderInputOneOfPrescriptionsInner
    */
   pharmacyId?: string | null;
   /**
    *
    * @type {number}
-   * @memberof PreviewOrderResponseOneOfOrderInputPrescriptionsInner
+   * @memberof PreviewOrderResponseOneOfOrderInputOneOfPrescriptionsInner
    */
   daysSupply: number;
   /**
    *
    * @type {CreateOrderRequestPrescriptionsInnerDispensing}
-   * @memberof PreviewOrderResponseOneOfOrderInputPrescriptionsInner
+   * @memberof PreviewOrderResponseOneOfOrderInputOneOfPrescriptionsInner
    */
   dispensing: CreateOrderRequestPrescriptionsInnerDispensing;
   /**
    *
    * @type {string}
-   * @memberof PreviewOrderResponseOneOfOrderInputPrescriptionsInner
+   * @memberof PreviewOrderResponseOneOfOrderInputOneOfPrescriptionsInner
    */
   directions: string;
   /**
    *
    * @type {string}
-   * @memberof PreviewOrderResponseOneOfOrderInputPrescriptionsInner
+   * @memberof PreviewOrderResponseOneOfOrderInputOneOfPrescriptionsInner
    */
   medicationId: string;
   /**
    *
    * @type {number}
-   * @memberof PreviewOrderResponseOneOfOrderInputPrescriptionsInner
+   * @memberof PreviewOrderResponseOneOfOrderInputOneOfPrescriptionsInner
    */
   quantity: number;
   /**
    *
    * @type {string}
-   * @memberof PreviewOrderResponseOneOfOrderInputPrescriptionsInner
+   * @memberof PreviewOrderResponseOneOfOrderInputOneOfPrescriptionsInner
    */
   quantityUnit: string;
   /**
    *
    * @type {number}
-   * @memberof PreviewOrderResponseOneOfOrderInputPrescriptionsInner
+   * @memberof PreviewOrderResponseOneOfOrderInputOneOfPrescriptionsInner
    */
   refills: number;
   /**
    *
    * @type {CreateOrderRequestPrescriptionsInnerStructuredSig}
-   * @memberof PreviewOrderResponseOneOfOrderInputPrescriptionsInner
+   * @memberof PreviewOrderResponseOneOfOrderInputOneOfPrescriptionsInner
    */
   structuredSig?: CreateOrderRequestPrescriptionsInnerStructuredSig | null;
 }
 
 /**
- * Check if a given object implements the PreviewOrderResponseOneOfOrderInputPrescriptionsInner interface.
+ * Check if a given object implements the PreviewOrderResponseOneOfOrderInputOneOfPrescriptionsInner interface.
  */
-export function instanceOfPreviewOrderResponseOneOfOrderInputPrescriptionsInner(
+export function instanceOfPreviewOrderResponseOneOfOrderInputOneOfPrescriptionsInner(
   value: object,
-): value is PreviewOrderResponseOneOfOrderInputPrescriptionsInner {
+): value is PreviewOrderResponseOneOfOrderInputOneOfPrescriptionsInner {
   if (!("daysSupply" in value) || value["daysSupply"] === undefined) return false;
   if (!("dispensing" in value) || value["dispensing"] === undefined) return false;
   if (!("directions" in value) || value["directions"] === undefined) return false;
@@ -125,16 +125,16 @@ export function instanceOfPreviewOrderResponseOneOfOrderInputPrescriptionsInner(
   return true;
 }
 
-export function PreviewOrderResponseOneOfOrderInputPrescriptionsInnerFromJSON(
+export function PreviewOrderResponseOneOfOrderInputOneOfPrescriptionsInnerFromJSON(
   json: any,
-): PreviewOrderResponseOneOfOrderInputPrescriptionsInner {
-  return PreviewOrderResponseOneOfOrderInputPrescriptionsInnerFromJSONTyped(json, false);
+): PreviewOrderResponseOneOfOrderInputOneOfPrescriptionsInner {
+  return PreviewOrderResponseOneOfOrderInputOneOfPrescriptionsInnerFromJSONTyped(json, false);
 }
 
-export function PreviewOrderResponseOneOfOrderInputPrescriptionsInnerFromJSONTyped(
+export function PreviewOrderResponseOneOfOrderInputOneOfPrescriptionsInnerFromJSONTyped(
   json: any,
   ignoreDiscriminator: boolean,
-): PreviewOrderResponseOneOfOrderInputPrescriptionsInner {
+): PreviewOrderResponseOneOfOrderInputOneOfPrescriptionsInner {
   if (json == null) {
     return json;
   }
@@ -144,7 +144,9 @@ export function PreviewOrderResponseOneOfOrderInputPrescriptionsInnerFromJSONTyp
     clinical:
       json["clinical"] == null
         ? undefined
-        : PreviewOrderResponseOneOfOrderInputPrescriptionsInnerClinicalFromJSON(json["clinical"]),
+        : PreviewOrderResponseOneOfOrderInputOneOfPrescriptionsInnerClinicalFromJSON(
+            json["clinical"],
+          ),
     pharmacyId: json["pharmacyId"] == null ? undefined : json["pharmacyId"],
     daysSupply: json["daysSupply"],
     dispensing: CreateOrderRequestPrescriptionsInnerDispensingFromJSON(json["dispensing"]),
@@ -160,14 +162,14 @@ export function PreviewOrderResponseOneOfOrderInputPrescriptionsInnerFromJSONTyp
   };
 }
 
-export function PreviewOrderResponseOneOfOrderInputPrescriptionsInnerToJSON(
+export function PreviewOrderResponseOneOfOrderInputOneOfPrescriptionsInnerToJSON(
   json: any,
-): PreviewOrderResponseOneOfOrderInputPrescriptionsInner {
-  return PreviewOrderResponseOneOfOrderInputPrescriptionsInnerToJSONTyped(json, false);
+): PreviewOrderResponseOneOfOrderInputOneOfPrescriptionsInner {
+  return PreviewOrderResponseOneOfOrderInputOneOfPrescriptionsInnerToJSONTyped(json, false);
 }
 
-export function PreviewOrderResponseOneOfOrderInputPrescriptionsInnerToJSONTyped(
-  value?: PreviewOrderResponseOneOfOrderInputPrescriptionsInner | null,
+export function PreviewOrderResponseOneOfOrderInputOneOfPrescriptionsInnerToJSONTyped(
+  value?: PreviewOrderResponseOneOfOrderInputOneOfPrescriptionsInner | null,
   ignoreDiscriminator: boolean = false,
 ): any {
   if (value == null) {
@@ -176,7 +178,7 @@ export function PreviewOrderResponseOneOfOrderInputPrescriptionsInnerToJSONTyped
 
   return {
     externalPrescriptionId: value["externalPrescriptionId"],
-    clinical: PreviewOrderResponseOneOfOrderInputPrescriptionsInnerClinicalToJSON(
+    clinical: PreviewOrderResponseOneOfOrderInputOneOfPrescriptionsInnerClinicalToJSON(
       value["clinical"],
     ),
     pharmacyId: value["pharmacyId"],

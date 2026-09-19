@@ -7,10 +7,10 @@ function contract() {
 }
 
 describe("facade contract coverage", () => {
-  test("accounts for all 73 current operations", () => {
+  test("accounts for all 74 current operations", () => {
     const coverage = validateFacadeOperationCoverage(spec);
-    expect(coverage.contractOperations).toHaveLength(73);
-    expect(coverage.mappedOperations).toHaveLength(73);
+    expect(coverage.contractOperations).toHaveLength(74);
+    expect(coverage.mappedOperations).toHaveLength(74);
     expect(coverage.rawOnlyOperations).toEqual([
       "getOrderTestSimulation",
       "updateOrderTestSimulation",

@@ -15,6 +15,7 @@ All URIs are relative to *https://api.joinaffinityai.com*
 | [**listOrders**](OrdersApi.md#listorders)                                        | **GET** /v1/orders                                             | List orders                     |
 | [**previewOrder**](OrdersApi.md#previeworderoperation)                           | **POST** /v1/order-previews                                    | Preview an order                |
 | [**rejectOrder**](OrdersApi.md#rejectorderoperation)                             | **POST** /v1/orders/{orderId}/rejection                        | Reject order                    |
+| [**signAndSubmitOrder**](OrdersApi.md#signandsubmitorderoperation)               | **POST** /v1/orders/{orderId}/sign-and-submit                  | Sign and submit order           |
 | [**signOrder**](OrdersApi.md#signorderoperation)                                 | **POST** /v1/orders/{orderId}/sign                             | Sign order                      |
 | [**submitOrder**](OrdersApi.md#submitorderoperation)                             | **POST** /v1/orders/{orderId}/submit                           | Submit order                    |
 | [**updateOrderPrescription**](OrdersApi.md#updateorderprescriptionoperation)     | **PATCH** /v1/orders/{orderId}/prescriptions/{prescriptionId}  | Update prescription in order    |
@@ -855,7 +856,7 @@ example().catch(console.error);
 
 Preview an order
 
-Requires orders:write and catalog:read. Resolves defaults and explicit edits for one existing patient and 1–20 prescriptions. Returns exact directions, dispense values, eligible shipping and estimated line prices. Complete previews contain an orders.create input. Does not create an order, reserve pricing, sign, charge or transmit. No idempotency key is required. Creation and signing recheck current requirements.
+Requires orders:write and catalog:read. Supply exactly one of patientId, patientExternalId, or inline patient details. External-ID lookup additionally requires patients:read; inline details require patients:write. Resolves defaults and explicit edits for 1–20 prescriptions. Reuses stored patient details when identifiers match; otherwise previews inline details without creating a patient. Complete previews contain an orders.create input. Does not create records, reserve prices, sign, charge or transmit. No idempotency key is required. Creation and signing recheck current requirements.
 
 ### Example
 
@@ -1006,6 +1007,92 @@ example().catch(console.error);
 | Status code | Description | Response headers |
 | ----------- | ----------- | ---------------- |
 | **200**     | HTTP 200    | -                |
+| **400**     | HTTP 400    | -                |
+| **401**     | HTTP 401    | -                |
+| **403**     | HTTP 403    | -                |
+| **404**     | HTTP 404    | -                |
+| **409**     | HTTP 409    | -                |
+| **429**     | HTTP 429    | -                |
+
+[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
+
+## signAndSubmitOrder
+
+> SignAndSubmitOrderResponse signAndSubmitOrder(orderId, idempotencyKey, signAndSubmitOrderRequest, affinityVersion)
+
+Sign and submit order
+
+Requires orders:sign, clinician actor headers, Idempotency-Key, and attestation to every exact prescription version. Signs the complete order, then attempts submission of each signed prescription. Returns per-prescription outcomes. Signing remains committed if submission fails. Replay the same key after an uncertain response; after resolving a reported submission failure, use Submit order with a new key without signing again. Submitted means queued, not pharmacy acceptance.
+
+### Example
+
+```ts
+import {
+  Configuration,
+  OrdersApi,
+} from '@affinity-health/sdk';
+import type { SignAndSubmitOrderOperationRequest } from '@affinity-health/sdk';
+
+async function example() {
+  console.log("🚀 Testing @affinity-health/sdk SDK...");
+  const config = new Configuration({
+    // Configure HTTP bearer authorization: bearerAuth
+    accessToken: "YOUR BEARER TOKEN",
+    // To configure API key authorization: affinityApiKey
+    apiKey: "YOUR API KEY",
+  });
+  const api = new OrdersApi(config);
+
+  const body = {
+    // string
+    orderId: ord_01j2y8m6jcc9tt24af5pw9x1bc,
+    // string
+    idempotencyKey: idempotencyKey_example,
+    // SignAndSubmitOrderRequest
+    signAndSubmitOrderRequest: ...,
+    // string (optional)
+    affinityVersion: affinityVersion_example,
+  } satisfies SignAndSubmitOrderOperationRequest;
+
+  try {
+    const data = await api.signAndSubmitOrder(body);
+    console.log(data);
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+// Run the test
+example().catch(console.error);
+```
+
+### Parameters
+
+| Name                          | Type                                                      | Description | Notes                                |
+| ----------------------------- | --------------------------------------------------------- | ----------- | ------------------------------------ |
+| **orderId**                   | `string`                                                  |             | [Defaults to `undefined`]            |
+| **idempotencyKey**            | `string`                                                  |             | [Defaults to `undefined`]            |
+| **signAndSubmitOrderRequest** | [SignAndSubmitOrderRequest](SignAndSubmitOrderRequest.md) |             |                                      |
+| **affinityVersion**           | `string`                                                  |             | [Optional] [Defaults to `undefined`] |
+
+### Return type
+
+[**SignAndSubmitOrderResponse**](SignAndSubmitOrderResponse.md)
+
+### Authorization
+
+[bearerAuth](../README.md#bearerAuth), [affinityApiKey](../README.md#affinityApiKey)
+
+### HTTP request headers
+
+- **Content-Type**: `application/json`
+- **Accept**: `application/json`
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+| ----------- | ----------- | ---------------- |
+| **202**     | HTTP 202    | -                |
 | **400**     | HTTP 400    | -                |
 | **401**     | HTTP 401    | -                |
 | **403**     | HTTP 403    | -                |

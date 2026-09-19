@@ -4674,7 +4674,7 @@
           },
           "required": true
         },
-        "description": "Requires orders:write and catalog:read. Resolves defaults and explicit edits for one existing patient and 1–20 prescriptions. Returns exact directions, dispense values, eligible shipping and estimated line prices. Complete previews contain an orders.create input. Does not create an order, reserve pricing, sign, charge or transmit. No idempotency key is required. Creation and signing recheck current requirements.",
+        "description": "Requires orders:write and catalog:read. Supply exactly one of patientId, patientExternalId, or inline patient details. External-ID lookup additionally requires patients:read; inline details require patients:write. Resolves defaults and explicit edits for 1–20 prescriptions. Reuses stored patient details when identifiers match; otherwise previews inline details without creating a patient. Complete previews contain an orders.create input. Does not create records, reserve prices, sign, charge or transmit. No idempotency key is required. Creation and signing recheck current requirements.",
         "summary": "Preview an order",
         "x-visibility": "public"
       }
@@ -4807,6 +4807,137 @@
         },
         "description": "Requires orders:sign, Idempotency-Key, and the clinician's registered external ID in Affinity-Actor-Id with Affinity-Actor-Type: user. Attest to every exact prescription version. Live requires approved organizations and verified prescribing authority. Signing does not submit to a pharmacy; use Submit order.",
         "summary": "Sign order",
+        "x-visibility": "public"
+      }
+    },
+    "/v1/orders/{orderId}/sign-and-submit": {
+      "post": {
+        "tags": [
+          "Orders"
+        ],
+        "operationId": "signAndSubmitOrder",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "orderId",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^ord_[0-9a-hjkmnp-tv-z]{26}$",
+              "examples": [
+                "ord_01j2y8m6jcc9tt24af5pw9x1bc"
+              ]
+            }
+          },
+          {
+            "in": "header",
+            "name": "Affinity-Version",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "header",
+            "name": "Idempotency-Key",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          },
+          {
+            "affinityApiKey": []
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "HTTP 202",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SignAndSubmitOrderResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "HTTP 400",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "HTTP 401",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "HTTP 403",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "HTTP 404",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "HTTP 409",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "HTTP 429",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SignAndSubmitOrderRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "description": "Requires orders:sign, clinician actor headers, Idempotency-Key, and attestation to every exact prescription version. Signs the complete order, then attempts submission of each signed prescription. Returns per-prescription outcomes. Signing remains committed if submission fails. Replay the same key after an uncertain response; after resolving a reported submission failure, use Submit order with a new key without signing again. Submitted means queued, not pharmacy acceptance.",
+        "summary": "Sign and submit order",
         "x-visibility": "public"
       }
     },
@@ -25673,10 +25804,670 @@
             ]
           },
           "patientId": {
-            "type": "string",
-            "pattern": "^pat_[0-9a-hjkmnp-tv-z]{26}$",
-            "examples": [
-              "pat_01j2y8m6jcc9tt24af5pw9x1bc"
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^pat_[0-9a-hjkmnp-tv-z]{26}$",
+                "examples": [
+                  "pat_01j2y8m6jcc9tt24af5pw9x1bc"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "patientExternalId": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "patient": {
+            "anyOf": [
+              {
+                "type": "object",
+                "properties": {
+                  "address": {
+                    "anyOf": [
+                      {
+                        "anyOf": [
+                          {
+                            "type": "object",
+                            "properties": {
+                              "city": {
+                                "type": "string"
+                              },
+                              "line1": {
+                                "type": "string"
+                              },
+                              "line2": {
+                                "anyOf": [
+                                  {
+                                    "anyOf": [
+                                      {
+                                        "type": "string"
+                                      },
+                                      {
+                                        "type": "null"
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "type": "null"
+                                  }
+                                ]
+                              },
+                              "postalCode": {
+                                "type": "string"
+                              },
+                              "state": {
+                                "type": "string"
+                              },
+                              "country": {
+                                "anyOf": [
+                                  {
+                                    "type": "string",
+                                    "enum": [
+                                      "US"
+                                    ]
+                                  },
+                                  {
+                                    "type": "null"
+                                  }
+                                ]
+                              }
+                            },
+                            "required": [
+                              "city",
+                              "line1",
+                              "postalCode",
+                              "state"
+                            ],
+                            "additionalProperties": false
+                          },
+                          {
+                            "type": "null"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "clinicalProfile": {
+                    "anyOf": [
+                      {
+                        "type": "object",
+                        "properties": {
+                          "currentMedications": {
+                            "type": "array",
+                            "items": {
+                              "type": "string"
+                            },
+                            "maxItems": 100
+                          },
+                          "heightInches": {
+                            "anyOf": [
+                              {
+                                "anyOf": [
+                                  {
+                                    "anyOf": [
+                                      {
+                                        "type": "number",
+                                        "exclusiveMinimum": 0
+                                      },
+                                      {
+                                        "type": "string",
+                                        "enum": [
+                                          "Infinity",
+                                          "-Infinity",
+                                          "NaN"
+                                        ]
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "type": "null"
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          },
+                          "reviewedAt": {
+                            "anyOf": [
+                              {
+                                "anyOf": [
+                                  {
+                                    "type": "string"
+                                  },
+                                  {
+                                    "type": "null"
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          },
+                          "weightPounds": {
+                            "anyOf": [
+                              {
+                                "anyOf": [
+                                  {
+                                    "anyOf": [
+                                      {
+                                        "type": "number",
+                                        "exclusiveMinimum": 0
+                                      },
+                                      {
+                                        "type": "string",
+                                        "enum": [
+                                          "Infinity",
+                                          "-Infinity",
+                                          "NaN"
+                                        ]
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "type": "null"
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          }
+                        },
+                        "required": [
+                          "currentMedications"
+                        ],
+                        "additionalProperties": false
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "dateOfBirth": {
+                    "type": "string",
+                    "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+                  },
+                  "email": {
+                    "anyOf": [
+                      {
+                        "anyOf": [
+                          {
+                            "type": "string"
+                          },
+                          {
+                            "type": "null"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "externalId": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "externalIdentities": {
+                    "anyOf": [
+                      {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "source": {
+                              "type": "string"
+                            },
+                            "value": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "source",
+                            "value"
+                          ],
+                          "additionalProperties": false
+                        },
+                        "maxItems": 50
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "addresses": {
+                    "anyOf": [
+                      {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "anyOf": [
+                                {
+                                  "type": "string",
+                                  "pattern": "^addr_[0-9a-hjkmnp-tv-z]{26}$",
+                                  "examples": [
+                                    "addr_01j2y8m6jcc9tt24af5pw9x1bc"
+                                  ]
+                                },
+                                {
+                                  "type": "null"
+                                }
+                              ]
+                            },
+                            "address": {
+                              "type": "object",
+                              "properties": {
+                                "city": {
+                                  "type": "string"
+                                },
+                                "country": {
+                                  "anyOf": [
+                                    {
+                                      "type": "string",
+                                      "enum": [
+                                        "US"
+                                      ]
+                                    },
+                                    {
+                                      "type": "null"
+                                    }
+                                  ]
+                                },
+                                "line1": {
+                                  "type": "string"
+                                },
+                                "line2": {
+                                  "anyOf": [
+                                    {
+                                      "anyOf": [
+                                        {
+                                          "type": "string"
+                                        },
+                                        {
+                                          "type": "null"
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "type": "null"
+                                    }
+                                  ]
+                                },
+                                "postalCode": {
+                                  "type": "string"
+                                },
+                                "state": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "city",
+                                "line1",
+                                "postalCode",
+                                "state"
+                              ],
+                              "additionalProperties": false
+                            },
+                            "label": {
+                              "type": "string"
+                            },
+                            "preferredShipping": {
+                              "type": "boolean"
+                            },
+                            "recipientName": {
+                              "anyOf": [
+                                {
+                                  "type": "string"
+                                },
+                                {
+                                  "type": "null"
+                                }
+                              ]
+                            }
+                          },
+                          "required": [
+                            "address",
+                            "label",
+                            "preferredShipping",
+                            "recipientName"
+                          ],
+                          "additionalProperties": false
+                        },
+                        "maxItems": 50
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "encounters": {
+                    "anyOf": [
+                      {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "notes": {
+                              "anyOf": [
+                                {
+                                  "type": "string",
+                                  "maxLength": 5000
+                                },
+                                {
+                                  "type": "null"
+                                }
+                              ]
+                            },
+                            "occurredAt": {
+                              "type": "string"
+                            },
+                            "providerName": {
+                              "anyOf": [
+                                {
+                                  "type": "string"
+                                },
+                                {
+                                  "type": "null"
+                                }
+                              ]
+                            },
+                            "type": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "notes",
+                            "occurredAt",
+                            "providerName",
+                            "type"
+                          ],
+                          "additionalProperties": false
+                        }
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "gender": {
+                    "anyOf": [
+                      {
+                        "type": "string",
+                        "enum": [
+                          "f",
+                          "m",
+                          "o",
+                          "u"
+                        ]
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "locationId": {
+                    "anyOf": [
+                      {
+                        "type": "string",
+                        "pattern": "^loc_[0-9a-hjkmnp-tv-z]{26}$",
+                        "examples": [
+                          "loc_01j2y8m6jcc9tt24af5pw9x1bc"
+                        ]
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "metadata": {
+                    "anyOf": [
+                      {
+                        "type": "object"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "medicalRecordNumber": {
+                    "anyOf": [
+                      {
+                        "anyOf": [
+                          {
+                            "type": "string"
+                          },
+                          {
+                            "type": "null"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "measurements": {
+                    "anyOf": [
+                      {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "heightCentimeters": {
+                              "anyOf": [
+                                {
+                                  "anyOf": [
+                                    {
+                                      "type": "number",
+                                      "exclusiveMinimum": 0
+                                    },
+                                    {
+                                      "type": "string",
+                                      "enum": [
+                                        "Infinity",
+                                        "-Infinity",
+                                        "NaN"
+                                      ]
+                                    }
+                                  ]
+                                },
+                                {
+                                  "type": "null"
+                                }
+                              ]
+                            },
+                            "recordedAt": {
+                              "type": "string"
+                            },
+                            "source": {
+                              "type": "string"
+                            },
+                            "weightKilograms": {
+                              "anyOf": [
+                                {
+                                  "anyOf": [
+                                    {
+                                      "type": "number",
+                                      "exclusiveMinimum": 0
+                                    },
+                                    {
+                                      "type": "string",
+                                      "enum": [
+                                        "Infinity",
+                                        "-Infinity",
+                                        "NaN"
+                                      ]
+                                    }
+                                  ]
+                                },
+                                {
+                                  "type": "null"
+                                }
+                              ]
+                            }
+                          },
+                          "required": [
+                            "heightCentimeters",
+                            "recordedAt",
+                            "source",
+                            "weightKilograms"
+                          ],
+                          "additionalProperties": false
+                        }
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "name": {
+                    "type": "object",
+                    "properties": {
+                      "first": {
+                        "type": "string"
+                      },
+                      "last": {
+                        "type": "string"
+                      },
+                      "middle": {
+                        "anyOf": [
+                          {
+                            "anyOf": [
+                              {
+                                "type": "string"
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "null"
+                          }
+                        ]
+                      },
+                      "preferred": {
+                        "anyOf": [
+                          {
+                            "anyOf": [
+                              {
+                                "type": "string"
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "null"
+                          }
+                        ]
+                      }
+                    },
+                    "required": [
+                      "first",
+                      "last"
+                    ],
+                    "additionalProperties": false
+                  },
+                  "phone": {
+                    "anyOf": [
+                      {
+                        "anyOf": [
+                          {
+                            "type": "string"
+                          },
+                          {
+                            "type": "null"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "programs": {
+                    "anyOf": [
+                      {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "endedAt": {
+                              "anyOf": [
+                                {
+                                  "type": "string"
+                                },
+                                {
+                                  "type": "null"
+                                }
+                              ]
+                            },
+                            "name": {
+                              "type": "string"
+                            },
+                            "startedAt": {
+                              "type": "string"
+                            },
+                            "status": {
+                              "type": "string",
+                              "enum": [
+                                "active",
+                                "completed",
+                                "paused"
+                              ]
+                            }
+                          },
+                          "required": [
+                            "endedAt",
+                            "name",
+                            "startedAt",
+                            "status"
+                          ],
+                          "additionalProperties": false
+                        }
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  }
+                },
+                "required": [
+                  "dateOfBirth",
+                  "name"
+                ],
+                "additionalProperties": false
+              },
+              {
+                "type": "null"
+              }
             ]
           },
           "userId": {
@@ -26270,7 +27061,6 @@
         },
         "required": [
           "practiceId",
-          "patientId",
           "prescriptions"
         ],
         "additionalProperties": false,
@@ -26782,16 +27572,430 @@
                 ]
               },
               "orderInput": {
-                "type": "object",
-                "properties": {
-                  "otcItems": {
-                    "anyOf": [
-                      {
+                "oneOf": [
+                  {
+                    "type": "object",
+                    "properties": {
+                      "otcItems": {
+                        "anyOf": [
+                          {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "catalogItemId": {
+                                  "type": "string",
+                                  "allOf": [
+                                    {
+                                      "pattern": "^cat_[0-9a-hjkmnp-tv-z]{26}$",
+                                      "examples": [
+                                        "cat_01j2y8m6jcc9tt24af5pw9x1bc"
+                                      ]
+                                    }
+                                  ]
+                                },
+                                "quantity": {
+                                  "type": "integer",
+                                  "allOf": [
+                                    {
+                                      "minimum": 1,
+                                      "maximum": 100
+                                    }
+                                  ]
+                                }
+                              },
+                              "required": [
+                                "catalogItemId",
+                                "quantity"
+                              ],
+                              "additionalProperties": false
+                            },
+                            "allOf": [
+                              {
+                                "maxItems": 20
+                              }
+                            ]
+                          },
+                          {
+                            "type": "null"
+                          }
+                        ]
+                      },
+                      "practiceId": {
+                        "type": "string",
+                        "pattern": "^prac_[0-9a-hjkmnp-tv-z]{26}$",
+                        "examples": [
+                          "prac_01j2y8m6jcc9tt24af5pw9x1bc"
+                        ]
+                      },
+                      "userId": {
+                        "anyOf": [
+                          {
+                            "type": "string",
+                            "allOf": [
+                              {
+                                "pattern": "^user_[0-9a-hjkmnp-tv-z]{26}$",
+                                "examples": [
+                                  "user_01j2y8m6jcc9tt24af5pw9x1bc"
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "type": "null"
+                          }
+                        ]
+                      },
+                      "shippingAddressId": {
+                        "anyOf": [
+                          {
+                            "type": "string",
+                            "allOf": [
+                              {
+                                "pattern": "^addr_[0-9a-hjkmnp-tv-z]{26}$",
+                                "examples": [
+                                  "addr_01j2y8m6jcc9tt24af5pw9x1bc"
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "type": "null"
+                          }
+                        ]
+                      },
+                      "externalOrderId": {
+                        "anyOf": [
+                          {
+                            "type": "string",
+                            "allOf": [
+                              {
+                                "minLength": 1
+                              },
+                              {
+                                "maxLength": 200
+                              },
+                              {
+                                "pattern": "\\S"
+                              },
+                              {
+                                "pattern": "^[^\\p{Cc}\\p{Cs}]*$"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "null"
+                          }
+                        ]
+                      },
+                      "prescriptions": {
                         "type": "array",
                         "items": {
                           "type": "object",
                           "properties": {
-                            "catalogItemId": {
+                            "externalPrescriptionId": {
+                              "anyOf": [
+                                {
+                                  "type": "string",
+                                  "allOf": [
+                                    {
+                                      "minLength": 1
+                                    },
+                                    {
+                                      "maxLength": 200
+                                    },
+                                    {
+                                      "pattern": "\\S"
+                                    },
+                                    {
+                                      "pattern": "^[^\\p{Cc}\\p{Cs}]*$"
+                                    }
+                                  ]
+                                },
+                                {
+                                  "type": "null"
+                                }
+                              ]
+                            },
+                            "clinical": {
+                              "anyOf": [
+                                {
+                                  "type": "object",
+                                  "properties": {
+                                    "compoundingReason": {
+                                      "anyOf": [
+                                        {
+                                          "type": "object",
+                                          "properties": {
+                                            "category": {
+                                              "anyOf": [
+                                                {
+                                                  "type": "string",
+                                                  "enum": [
+                                                    "alcohol_free",
+                                                    "drug_shortage",
+                                                    "commercial_product_discontinued",
+                                                    "modified_release",
+                                                    "inactive_ingredient_sensitivity",
+                                                    "inactive_ingredient_toxicity",
+                                                    "concentration_adjustment",
+                                                    "alternate_route",
+                                                    "dosage_form_unavailable",
+                                                    "flavor_adjustment",
+                                                    "tablet_burden",
+                                                    "patient_cannot_use_commercial_product",
+                                                    "no_approved_product_available",
+                                                    "no_rationale_required",
+                                                    "other_patient_specific_need"
+                                                  ]
+                                                },
+                                                {
+                                                  "type": "null"
+                                                }
+                                              ]
+                                            },
+                                            "context": {
+                                              "anyOf": [
+                                                {
+                                                  "type": "string"
+                                                },
+                                                {
+                                                  "type": "null"
+                                                }
+                                              ]
+                                            }
+                                          },
+                                          "additionalProperties": false
+                                        },
+                                        {
+                                          "type": "null"
+                                        }
+                                      ]
+                                    },
+                                    "currentMedications": {
+                                      "anyOf": [
+                                        {
+                                          "type": "array",
+                                          "items": {
+                                            "type": "string"
+                                          },
+                                          "allOf": [
+                                            {
+                                              "maxItems": 100
+                                            }
+                                          ]
+                                        },
+                                        {
+                                          "type": "null"
+                                        }
+                                      ]
+                                    },
+                                    "diagnoses": {
+                                      "anyOf": [
+                                        {
+                                          "type": "array",
+                                          "items": {
+                                            "type": "object",
+                                            "properties": {
+                                              "code": {
+                                                "type": "string"
+                                              },
+                                              "display": {
+                                                "type": "string"
+                                              }
+                                            },
+                                            "required": [
+                                              "code",
+                                              "display"
+                                            ],
+                                            "additionalProperties": false
+                                          },
+                                          "allOf": [
+                                            {
+                                              "maxItems": 20
+                                            }
+                                          ]
+                                        },
+                                        {
+                                          "type": "null"
+                                        }
+                                      ]
+                                    },
+                                    "observations": {
+                                      "anyOf": [
+                                        {
+                                          "type": "array",
+                                          "items": {
+                                            "type": "object",
+                                            "properties": {
+                                              "display": {
+                                                "type": "string"
+                                              },
+                                              "unit": {
+                                                "type": "string"
+                                              },
+                                              "value": {
+                                                "anyOf": [
+                                                  {
+                                                    "type": "number",
+                                                    "allOf": [
+                                                      {
+                                                        "exclusiveMinimum": 0
+                                                      }
+                                                    ]
+                                                  },
+                                                  {
+                                                    "type": "string",
+                                                    "enum": [
+                                                      "Infinity",
+                                                      "-Infinity",
+                                                      "NaN"
+                                                    ]
+                                                  }
+                                                ]
+                                              }
+                                            },
+                                            "required": [
+                                              "display",
+                                              "unit",
+                                              "value"
+                                            ],
+                                            "additionalProperties": false
+                                          },
+                                          "allOf": [
+                                            {
+                                              "maxItems": 20
+                                            }
+                                          ]
+                                        },
+                                        {
+                                          "type": "null"
+                                        }
+                                      ]
+                                    }
+                                  },
+                                  "additionalProperties": false
+                                },
+                                {
+                                  "type": "null"
+                                }
+                              ]
+                            },
+                            "pharmacyId": {
+                              "anyOf": [
+                                {
+                                  "type": "string",
+                                  "allOf": [
+                                    {
+                                      "pattern": "^pharm_[0-9a-hjkmnp-tv-z]{26}$",
+                                      "examples": [
+                                        "pharm_01j2y8m6jcc9tt24af5pw9x1bc"
+                                      ]
+                                    }
+                                  ]
+                                },
+                                {
+                                  "type": "null"
+                                }
+                              ]
+                            },
+                            "daysSupply": {
+                              "type": "integer",
+                              "allOf": [
+                                {
+                                  "minimum": 1
+                                },
+                                {
+                                  "maximum": 365
+                                }
+                              ]
+                            },
+                            "dispensing": {
+                              "type": "object",
+                              "properties": {
+                                "dispenseUponAcceptance": {
+                                  "anyOf": [
+                                    {
+                                      "type": "boolean"
+                                    },
+                                    {
+                                      "type": "null"
+                                    }
+                                  ]
+                                },
+                                "shippingOptionId": {
+                                  "anyOf": [
+                                    {
+                                      "type": "string",
+                                      "allOf": [
+                                        {
+                                          "pattern": "^shp_[0-9a-hjkmnp-tv-z]{26}$",
+                                          "examples": [
+                                            "shp_01j2y8m6jcc9tt24af5pw9x1bc"
+                                          ]
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "type": "null"
+                                    }
+                                  ]
+                                },
+                                "shippingDestinationType": {
+                                  "anyOf": [
+                                    {
+                                      "type": "string",
+                                      "enum": [
+                                        "patient"
+                                      ]
+                                    },
+                                    {
+                                      "type": "null"
+                                    }
+                                  ]
+                                },
+                                "pharmacyNotes": {
+                                  "anyOf": [
+                                    {
+                                      "type": "string"
+                                    },
+                                    {
+                                      "type": "null"
+                                    }
+                                  ]
+                                },
+                                "requestedFillDate": {
+                                  "anyOf": [
+                                    {
+                                      "type": "string",
+                                      "allOf": [
+                                        {
+                                          "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "type": "null"
+                                    }
+                                  ]
+                                },
+                                "substitutionPermitted": {
+                                  "anyOf": [
+                                    {
+                                      "type": "boolean"
+                                    },
+                                    {
+                                      "type": "null"
+                                    }
+                                  ]
+                                }
+                              },
+                              "additionalProperties": false
+                            },
+                            "directions": {
+                              "type": "string"
+                            },
+                            "medicationId": {
                               "type": "string",
                               "allOf": [
                                 {
@@ -26803,253 +28007,767 @@
                               ]
                             },
                             "quantity": {
+                              "type": "number"
+                            },
+                            "quantityUnit": {
+                              "type": "string"
+                            },
+                            "refills": {
                               "type": "integer",
                               "allOf": [
                                 {
-                                  "minimum": 1,
-                                  "maximum": 100
+                                  "minimum": 0
+                                },
+                                {
+                                  "maximum": 99
+                                }
+                              ]
+                            },
+                            "structuredSig": {
+                              "anyOf": [
+                                {
+                                  "type": "object",
+                                  "properties": {
+                                    "dose": {
+                                      "type": "string"
+                                    },
+                                    "doseUnit": {
+                                      "type": "string"
+                                    },
+                                    "duration": {
+                                      "anyOf": [
+                                        {
+                                          "type": "string"
+                                        },
+                                        {
+                                          "type": "null"
+                                        }
+                                      ]
+                                    },
+                                    "frequency": {
+                                      "type": "string"
+                                    },
+                                    "indication": {
+                                      "anyOf": [
+                                        {
+                                          "type": "string"
+                                        },
+                                        {
+                                          "type": "null"
+                                        }
+                                      ]
+                                    },
+                                    "maxDailyUse": {
+                                      "anyOf": [
+                                        {
+                                          "type": "string"
+                                        },
+                                        {
+                                          "type": "null"
+                                        }
+                                      ]
+                                    },
+                                    "prn": {
+                                      "anyOf": [
+                                        {
+                                          "type": "boolean"
+                                        },
+                                        {
+                                          "type": "null"
+                                        }
+                                      ]
+                                    },
+                                    "route": {
+                                      "type": "string"
+                                    },
+                                    "titrationSchedule": {
+                                      "anyOf": [
+                                        {
+                                          "type": "string"
+                                        },
+                                        {
+                                          "type": "null"
+                                        }
+                                      ]
+                                    }
+                                  },
+                                  "required": [
+                                    "dose",
+                                    "doseUnit",
+                                    "frequency",
+                                    "route"
+                                  ],
+                                  "additionalProperties": false
+                                },
+                                {
+                                  "type": "null"
                                 }
                               ]
                             }
                           },
                           "required": [
-                            "catalogItemId",
-                            "quantity"
+                            "daysSupply",
+                            "dispensing",
+                            "directions",
+                            "medicationId",
+                            "quantity",
+                            "quantityUnit",
+                            "refills"
                           ],
                           "additionalProperties": false
-                        },
-                        "allOf": [
-                          {
-                            "maxItems": 20
-                          }
-                        ]
+                        }
                       },
-                      {
-                        "type": "null"
-                      }
-                    ]
-                  },
-                  "practiceId": {
-                    "type": "string",
-                    "pattern": "^prac_[0-9a-hjkmnp-tv-z]{26}$",
-                    "examples": [
-                      "prac_01j2y8m6jcc9tt24af5pw9x1bc"
-                    ]
-                  },
-                  "patientId": {
-                    "type": "string",
-                    "pattern": "^pat_[0-9a-hjkmnp-tv-z]{26}$",
-                    "examples": [
-                      "pat_01j2y8m6jcc9tt24af5pw9x1bc"
-                    ]
-                  },
-                  "userId": {
-                    "anyOf": [
-                      {
+                      "patientId": {
                         "type": "string",
-                        "allOf": [
+                        "pattern": "^pat_[0-9a-hjkmnp-tv-z]{26}$",
+                        "examples": [
+                          "pat_01j2y8m6jcc9tt24af5pw9x1bc"
+                        ]
+                      }
+                    },
+                    "required": [
+                      "practiceId",
+                      "prescriptions",
+                      "patientId"
+                    ],
+                    "additionalProperties": false
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "otcItems": {
+                        "anyOf": [
                           {
-                            "pattern": "^user_[0-9a-hjkmnp-tv-z]{26}$",
-                            "examples": [
-                              "user_01j2y8m6jcc9tt24af5pw9x1bc"
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "catalogItemId": {
+                                  "type": "string",
+                                  "allOf": [
+                                    {
+                                      "pattern": "^cat_[0-9a-hjkmnp-tv-z]{26}$",
+                                      "examples": [
+                                        "cat_01j2y8m6jcc9tt24af5pw9x1bc"
+                                      ]
+                                    }
+                                  ]
+                                },
+                                "quantity": {
+                                  "type": "integer",
+                                  "allOf": [
+                                    {
+                                      "minimum": 1,
+                                      "maximum": 100
+                                    }
+                                  ]
+                                }
+                              },
+                              "required": [
+                                "catalogItemId",
+                                "quantity"
+                              ],
+                              "additionalProperties": false
+                            },
+                            "allOf": [
+                              {
+                                "maxItems": 20
+                              }
                             ]
+                          },
+                          {
+                            "type": "null"
                           }
                         ]
                       },
-                      {
-                        "type": "null"
-                      }
-                    ]
-                  },
-                  "shippingAddressId": {
-                    "anyOf": [
-                      {
+                      "practiceId": {
                         "type": "string",
-                        "allOf": [
+                        "pattern": "^prac_[0-9a-hjkmnp-tv-z]{26}$",
+                        "examples": [
+                          "prac_01j2y8m6jcc9tt24af5pw9x1bc"
+                        ]
+                      },
+                      "userId": {
+                        "anyOf": [
                           {
-                            "pattern": "^addr_[0-9a-hjkmnp-tv-z]{26}$",
-                            "examples": [
-                              "addr_01j2y8m6jcc9tt24af5pw9x1bc"
+                            "type": "string",
+                            "allOf": [
+                              {
+                                "pattern": "^user_[0-9a-hjkmnp-tv-z]{26}$",
+                                "examples": [
+                                  "user_01j2y8m6jcc9tt24af5pw9x1bc"
+                                ]
+                              }
                             ]
+                          },
+                          {
+                            "type": "null"
                           }
                         ]
                       },
-                      {
-                        "type": "null"
-                      }
-                    ]
-                  },
-                  "externalOrderId": {
-                    "anyOf": [
-                      {
-                        "type": "string",
-                        "allOf": [
+                      "shippingAddressId": {
+                        "anyOf": [
                           {
-                            "minLength": 1
+                            "type": "string",
+                            "allOf": [
+                              {
+                                "pattern": "^addr_[0-9a-hjkmnp-tv-z]{26}$",
+                                "examples": [
+                                  "addr_01j2y8m6jcc9tt24af5pw9x1bc"
+                                ]
+                              }
+                            ]
                           },
                           {
-                            "maxLength": 200
-                          },
-                          {
-                            "pattern": "\\S"
-                          },
-                          {
-                            "pattern": "^[^\\p{Cc}\\p{Cs}]*$"
+                            "type": "null"
                           }
                         ]
                       },
-                      {
-                        "type": "null"
-                      }
-                    ]
-                  },
-                  "prescriptions": {
-                    "type": "array",
-                    "items": {
-                      "type": "object",
-                      "properties": {
-                        "externalPrescriptionId": {
-                          "anyOf": [
-                            {
-                              "type": "string",
-                              "allOf": [
+                      "externalOrderId": {
+                        "anyOf": [
+                          {
+                            "type": "string",
+                            "allOf": [
+                              {
+                                "minLength": 1
+                              },
+                              {
+                                "maxLength": 200
+                              },
+                              {
+                                "pattern": "\\S"
+                              },
+                              {
+                                "pattern": "^[^\\p{Cc}\\p{Cs}]*$"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "null"
+                          }
+                        ]
+                      },
+                      "prescriptions": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "externalPrescriptionId": {
+                              "anyOf": [
                                 {
-                                  "minLength": 1
+                                  "type": "string",
+                                  "allOf": [
+                                    {
+                                      "minLength": 1
+                                    },
+                                    {
+                                      "maxLength": 200
+                                    },
+                                    {
+                                      "pattern": "\\S"
+                                    },
+                                    {
+                                      "pattern": "^[^\\p{Cc}\\p{Cs}]*$"
+                                    }
+                                  ]
                                 },
                                 {
-                                  "maxLength": 200
-                                },
-                                {
-                                  "pattern": "\\S"
-                                },
-                                {
-                                  "pattern": "^[^\\p{Cc}\\p{Cs}]*$"
+                                  "type": "null"
                                 }
                               ]
                             },
-                            {
-                              "type": "null"
-                            }
-                          ]
-                        },
-                        "clinical": {
-                          "anyOf": [
-                            {
-                              "type": "object",
-                              "properties": {
-                                "compoundingReason": {
-                                  "anyOf": [
-                                    {
-                                      "type": "object",
-                                      "properties": {
-                                        "category": {
-                                          "anyOf": [
-                                            {
-                                              "type": "string",
-                                              "enum": [
-                                                "alcohol_free",
-                                                "drug_shortage",
-                                                "commercial_product_discontinued",
-                                                "modified_release",
-                                                "inactive_ingredient_sensitivity",
-                                                "inactive_ingredient_toxicity",
-                                                "concentration_adjustment",
-                                                "alternate_route",
-                                                "dosage_form_unavailable",
-                                                "flavor_adjustment",
-                                                "tablet_burden",
-                                                "patient_cannot_use_commercial_product",
-                                                "no_approved_product_available",
-                                                "no_rationale_required",
-                                                "other_patient_specific_need"
+                            "clinical": {
+                              "anyOf": [
+                                {
+                                  "type": "object",
+                                  "properties": {
+                                    "compoundingReason": {
+                                      "anyOf": [
+                                        {
+                                          "type": "object",
+                                          "properties": {
+                                            "category": {
+                                              "anyOf": [
+                                                {
+                                                  "type": "string",
+                                                  "enum": [
+                                                    "alcohol_free",
+                                                    "drug_shortage",
+                                                    "commercial_product_discontinued",
+                                                    "modified_release",
+                                                    "inactive_ingredient_sensitivity",
+                                                    "inactive_ingredient_toxicity",
+                                                    "concentration_adjustment",
+                                                    "alternate_route",
+                                                    "dosage_form_unavailable",
+                                                    "flavor_adjustment",
+                                                    "tablet_burden",
+                                                    "patient_cannot_use_commercial_product",
+                                                    "no_approved_product_available",
+                                                    "no_rationale_required",
+                                                    "other_patient_specific_need"
+                                                  ]
+                                                },
+                                                {
+                                                  "type": "null"
+                                                }
                                               ]
                                             },
+                                            "context": {
+                                              "anyOf": [
+                                                {
+                                                  "type": "string"
+                                                },
+                                                {
+                                                  "type": "null"
+                                                }
+                                              ]
+                                            }
+                                          },
+                                          "additionalProperties": false
+                                        },
+                                        {
+                                          "type": "null"
+                                        }
+                                      ]
+                                    },
+                                    "currentMedications": {
+                                      "anyOf": [
+                                        {
+                                          "type": "array",
+                                          "items": {
+                                            "type": "string"
+                                          },
+                                          "allOf": [
                                             {
-                                              "type": "null"
+                                              "maxItems": 100
                                             }
                                           ]
                                         },
-                                        "context": {
-                                          "anyOf": [
-                                            {
-                                              "type": "string"
+                                        {
+                                          "type": "null"
+                                        }
+                                      ]
+                                    },
+                                    "diagnoses": {
+                                      "anyOf": [
+                                        {
+                                          "type": "array",
+                                          "items": {
+                                            "type": "object",
+                                            "properties": {
+                                              "code": {
+                                                "type": "string"
+                                              },
+                                              "display": {
+                                                "type": "string"
+                                              }
                                             },
+                                            "required": [
+                                              "code",
+                                              "display"
+                                            ],
+                                            "additionalProperties": false
+                                          },
+                                          "allOf": [
                                             {
-                                              "type": "null"
+                                              "maxItems": 20
                                             }
                                           ]
+                                        },
+                                        {
+                                          "type": "null"
                                         }
-                                      },
-                                      "additionalProperties": false
+                                      ]
+                                    },
+                                    "observations": {
+                                      "anyOf": [
+                                        {
+                                          "type": "array",
+                                          "items": {
+                                            "type": "object",
+                                            "properties": {
+                                              "display": {
+                                                "type": "string"
+                                              },
+                                              "unit": {
+                                                "type": "string"
+                                              },
+                                              "value": {
+                                                "anyOf": [
+                                                  {
+                                                    "type": "number",
+                                                    "allOf": [
+                                                      {
+                                                        "exclusiveMinimum": 0
+                                                      }
+                                                    ]
+                                                  },
+                                                  {
+                                                    "type": "string",
+                                                    "enum": [
+                                                      "Infinity",
+                                                      "-Infinity",
+                                                      "NaN"
+                                                    ]
+                                                  }
+                                                ]
+                                              }
+                                            },
+                                            "required": [
+                                              "display",
+                                              "unit",
+                                              "value"
+                                            ],
+                                            "additionalProperties": false
+                                          },
+                                          "allOf": [
+                                            {
+                                              "maxItems": 20
+                                            }
+                                          ]
+                                        },
+                                        {
+                                          "type": "null"
+                                        }
+                                      ]
+                                    }
+                                  },
+                                  "additionalProperties": false
+                                },
+                                {
+                                  "type": "null"
+                                }
+                              ]
+                            },
+                            "pharmacyId": {
+                              "anyOf": [
+                                {
+                                  "type": "string",
+                                  "allOf": [
+                                    {
+                                      "pattern": "^pharm_[0-9a-hjkmnp-tv-z]{26}$",
+                                      "examples": [
+                                        "pharm_01j2y8m6jcc9tt24af5pw9x1bc"
+                                      ]
+                                    }
+                                  ]
+                                },
+                                {
+                                  "type": "null"
+                                }
+                              ]
+                            },
+                            "daysSupply": {
+                              "type": "integer",
+                              "allOf": [
+                                {
+                                  "minimum": 1
+                                },
+                                {
+                                  "maximum": 365
+                                }
+                              ]
+                            },
+                            "dispensing": {
+                              "type": "object",
+                              "properties": {
+                                "dispenseUponAcceptance": {
+                                  "anyOf": [
+                                    {
+                                      "type": "boolean"
                                     },
                                     {
                                       "type": "null"
                                     }
                                   ]
                                 },
-                                "currentMedications": {
+                                "shippingOptionId": {
                                   "anyOf": [
                                     {
-                                      "type": "array",
-                                      "items": {
+                                      "type": "string",
+                                      "allOf": [
+                                        {
+                                          "pattern": "^shp_[0-9a-hjkmnp-tv-z]{26}$",
+                                          "examples": [
+                                            "shp_01j2y8m6jcc9tt24af5pw9x1bc"
+                                          ]
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "type": "null"
+                                    }
+                                  ]
+                                },
+                                "shippingDestinationType": {
+                                  "anyOf": [
+                                    {
+                                      "type": "string",
+                                      "enum": [
+                                        "patient"
+                                      ]
+                                    },
+                                    {
+                                      "type": "null"
+                                    }
+                                  ]
+                                },
+                                "pharmacyNotes": {
+                                  "anyOf": [
+                                    {
+                                      "type": "string"
+                                    },
+                                    {
+                                      "type": "null"
+                                    }
+                                  ]
+                                },
+                                "requestedFillDate": {
+                                  "anyOf": [
+                                    {
+                                      "type": "string",
+                                      "allOf": [
+                                        {
+                                          "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "type": "null"
+                                    }
+                                  ]
+                                },
+                                "substitutionPermitted": {
+                                  "anyOf": [
+                                    {
+                                      "type": "boolean"
+                                    },
+                                    {
+                                      "type": "null"
+                                    }
+                                  ]
+                                }
+                              },
+                              "additionalProperties": false
+                            },
+                            "directions": {
+                              "type": "string"
+                            },
+                            "medicationId": {
+                              "type": "string",
+                              "allOf": [
+                                {
+                                  "pattern": "^cat_[0-9a-hjkmnp-tv-z]{26}$",
+                                  "examples": [
+                                    "cat_01j2y8m6jcc9tt24af5pw9x1bc"
+                                  ]
+                                }
+                              ]
+                            },
+                            "quantity": {
+                              "type": "number"
+                            },
+                            "quantityUnit": {
+                              "type": "string"
+                            },
+                            "refills": {
+                              "type": "integer",
+                              "allOf": [
+                                {
+                                  "minimum": 0
+                                },
+                                {
+                                  "maximum": 99
+                                }
+                              ]
+                            },
+                            "structuredSig": {
+                              "anyOf": [
+                                {
+                                  "type": "object",
+                                  "properties": {
+                                    "dose": {
+                                      "type": "string"
+                                    },
+                                    "doseUnit": {
+                                      "type": "string"
+                                    },
+                                    "duration": {
+                                      "anyOf": [
+                                        {
+                                          "type": "string"
+                                        },
+                                        {
+                                          "type": "null"
+                                        }
+                                      ]
+                                    },
+                                    "frequency": {
+                                      "type": "string"
+                                    },
+                                    "indication": {
+                                      "anyOf": [
+                                        {
+                                          "type": "string"
+                                        },
+                                        {
+                                          "type": "null"
+                                        }
+                                      ]
+                                    },
+                                    "maxDailyUse": {
+                                      "anyOf": [
+                                        {
+                                          "type": "string"
+                                        },
+                                        {
+                                          "type": "null"
+                                        }
+                                      ]
+                                    },
+                                    "prn": {
+                                      "anyOf": [
+                                        {
+                                          "type": "boolean"
+                                        },
+                                        {
+                                          "type": "null"
+                                        }
+                                      ]
+                                    },
+                                    "route": {
+                                      "type": "string"
+                                    },
+                                    "titrationSchedule": {
+                                      "anyOf": [
+                                        {
+                                          "type": "string"
+                                        },
+                                        {
+                                          "type": "null"
+                                        }
+                                      ]
+                                    }
+                                  },
+                                  "required": [
+                                    "dose",
+                                    "doseUnit",
+                                    "frequency",
+                                    "route"
+                                  ],
+                                  "additionalProperties": false
+                                },
+                                {
+                                  "type": "null"
+                                }
+                              ]
+                            }
+                          },
+                          "required": [
+                            "daysSupply",
+                            "dispensing",
+                            "directions",
+                            "medicationId",
+                            "quantity",
+                            "quantityUnit",
+                            "refills"
+                          ],
+                          "additionalProperties": false
+                        }
+                      },
+                      "patient": {
+                        "type": "object",
+                        "properties": {
+                          "address": {
+                            "anyOf": [
+                              {
+                                "anyOf": [
+                                  {
+                                    "type": "object",
+                                    "properties": {
+                                      "city": {
                                         "type": "string"
                                       },
-                                      "allOf": [
-                                        {
-                                          "maxItems": 100
-                                        }
-                                      ]
-                                    },
-                                    {
-                                      "type": "null"
-                                    }
-                                  ]
-                                },
-                                "diagnoses": {
-                                  "anyOf": [
-                                    {
-                                      "type": "array",
-                                      "items": {
-                                        "type": "object",
-                                        "properties": {
-                                          "code": {
-                                            "type": "string"
-                                          },
-                                          "display": {
-                                            "type": "string"
-                                          }
-                                        },
-                                        "required": [
-                                          "code",
-                                          "display"
-                                        ],
-                                        "additionalProperties": false
+                                      "line1": {
+                                        "type": "string"
                                       },
-                                      "allOf": [
-                                        {
-                                          "maxItems": 20
-                                        }
-                                      ]
+                                      "line2": {
+                                        "anyOf": [
+                                          {
+                                            "anyOf": [
+                                              {
+                                                "type": "string"
+                                              },
+                                              {
+                                                "type": "null"
+                                              }
+                                            ]
+                                          },
+                                          {
+                                            "type": "null"
+                                          }
+                                        ]
+                                      },
+                                      "postalCode": {
+                                        "type": "string"
+                                      },
+                                      "state": {
+                                        "type": "string"
+                                      },
+                                      "country": {
+                                        "anyOf": [
+                                          {
+                                            "type": "string",
+                                            "enum": [
+                                              "US"
+                                            ]
+                                          },
+                                          {
+                                            "type": "null"
+                                          }
+                                        ]
+                                      }
                                     },
-                                    {
-                                      "type": "null"
-                                    }
-                                  ]
-                                },
-                                "observations": {
-                                  "anyOf": [
-                                    {
-                                      "type": "array",
-                                      "items": {
-                                        "type": "object",
-                                        "properties": {
-                                          "display": {
-                                            "type": "string"
-                                          },
-                                          "unit": {
-                                            "type": "string"
-                                          },
-                                          "value": {
+                                    "required": [
+                                      "city",
+                                      "line1",
+                                      "postalCode",
+                                      "state"
+                                    ],
+                                    "additionalProperties": false
+                                  },
+                                  {
+                                    "type": "null"
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          },
+                          "clinicalProfile": {
+                            "anyOf": [
+                              {
+                                "type": "object",
+                                "properties": {
+                                  "currentMedications": {
+                                    "type": "array",
+                                    "items": {
+                                      "type": "string"
+                                    },
+                                    "allOf": [
+                                      {
+                                        "maxItems": 100
+                                      }
+                                    ]
+                                  },
+                                  "heightInches": {
+                                    "anyOf": [
+                                      {
+                                        "anyOf": [
+                                          {
                                             "anyOf": [
                                               {
                                                 "type": "number",
@@ -27068,257 +28786,585 @@
                                                 ]
                                               }
                                             ]
+                                          },
+                                          {
+                                            "type": "null"
                                           }
-                                        },
-                                        "required": [
-                                          "display",
-                                          "unit",
-                                          "value"
-                                        ],
-                                        "additionalProperties": false
+                                        ]
                                       },
-                                      "allOf": [
+                                      {
+                                        "type": "null"
+                                      }
+                                    ]
+                                  },
+                                  "reviewedAt": {
+                                    "anyOf": [
+                                      {
+                                        "anyOf": [
+                                          {
+                                            "type": "string"
+                                          },
+                                          {
+                                            "type": "null"
+                                          }
+                                        ]
+                                      },
+                                      {
+                                        "type": "null"
+                                      }
+                                    ]
+                                  },
+                                  "weightPounds": {
+                                    "anyOf": [
+                                      {
+                                        "anyOf": [
+                                          {
+                                            "anyOf": [
+                                              {
+                                                "type": "number",
+                                                "allOf": [
+                                                  {
+                                                    "exclusiveMinimum": 0
+                                                  }
+                                                ]
+                                              },
+                                              {
+                                                "type": "string",
+                                                "enum": [
+                                                  "Infinity",
+                                                  "-Infinity",
+                                                  "NaN"
+                                                ]
+                                              }
+                                            ]
+                                          },
+                                          {
+                                            "type": "null"
+                                          }
+                                        ]
+                                      },
+                                      {
+                                        "type": "null"
+                                      }
+                                    ]
+                                  }
+                                },
+                                "required": [
+                                  "currentMedications"
+                                ],
+                                "additionalProperties": false
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          },
+                          "dateOfBirth": {
+                            "type": "string",
+                            "allOf": [
+                              {
+                                "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+                              }
+                            ]
+                          },
+                          "email": {
+                            "anyOf": [
+                              {
+                                "anyOf": [
+                                  {
+                                    "type": "string"
+                                  },
+                                  {
+                                    "type": "null"
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          },
+                          "externalId": {
+                            "anyOf": [
+                              {
+                                "type": "string"
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          },
+                          "externalIdentities": {
+                            "anyOf": [
+                              {
+                                "type": "array",
+                                "items": {
+                                  "type": "object",
+                                  "properties": {
+                                    "source": {
+                                      "type": "string"
+                                    },
+                                    "value": {
+                                      "type": "string"
+                                    }
+                                  },
+                                  "required": [
+                                    "source",
+                                    "value"
+                                  ],
+                                  "additionalProperties": false
+                                },
+                                "allOf": [
+                                  {
+                                    "maxItems": 50
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          },
+                          "addresses": {
+                            "anyOf": [
+                              {
+                                "type": "array",
+                                "items": {
+                                  "type": "object",
+                                  "properties": {
+                                    "id": {
+                                      "anyOf": [
                                         {
-                                          "maxItems": 20
+                                          "type": "string",
+                                          "allOf": [
+                                            {
+                                              "pattern": "^addr_[0-9a-hjkmnp-tv-z]{26}$",
+                                              "examples": [
+                                                "addr_01j2y8m6jcc9tt24af5pw9x1bc"
+                                              ]
+                                            }
+                                          ]
+                                        },
+                                        {
+                                          "type": "null"
                                         }
                                       ]
                                     },
-                                    {
-                                      "type": "null"
-                                    }
-                                  ]
-                                }
-                              },
-                              "additionalProperties": false
-                            },
-                            {
-                              "type": "null"
-                            }
-                          ]
-                        },
-                        "pharmacyId": {
-                          "anyOf": [
-                            {
-                              "type": "string",
-                              "allOf": [
-                                {
-                                  "pattern": "^pharm_[0-9a-hjkmnp-tv-z]{26}$",
-                                  "examples": [
-                                    "pharm_01j2y8m6jcc9tt24af5pw9x1bc"
-                                  ]
-                                }
-                              ]
-                            },
-                            {
-                              "type": "null"
-                            }
-                          ]
-                        },
-                        "daysSupply": {
-                          "type": "integer",
-                          "minimum": 1,
-                          "maximum": 365
-                        },
-                        "dispensing": {
-                          "type": "object",
-                          "properties": {
-                            "dispenseUponAcceptance": {
-                              "anyOf": [
-                                {
-                                  "type": "boolean"
-                                },
-                                {
-                                  "type": "null"
-                                }
-                              ]
-                            },
-                            "shippingOptionId": {
-                              "anyOf": [
-                                {
-                                  "type": "string",
-                                  "pattern": "^shp_[0-9a-hjkmnp-tv-z]{26}$",
-                                  "examples": [
-                                    "shp_01j2y8m6jcc9tt24af5pw9x1bc"
-                                  ]
-                                },
-                                {
-                                  "type": "null"
-                                }
-                              ]
-                            },
-                            "shippingDestinationType": {
-                              "anyOf": [
-                                {
-                                  "type": "string",
-                                  "enum": [
-                                    "patient"
-                                  ]
-                                },
-                                {
-                                  "type": "null"
-                                }
-                              ]
-                            },
-                            "pharmacyNotes": {
-                              "anyOf": [
-                                {
-                                  "type": "string"
-                                },
-                                {
-                                  "type": "null"
-                                }
-                              ]
-                            },
-                            "requestedFillDate": {
-                              "anyOf": [
-                                {
-                                  "type": "string",
-                                  "allOf": [
-                                    {
-                                      "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
-                                    }
-                                  ]
-                                },
-                                {
-                                  "type": "null"
-                                }
-                              ]
-                            },
-                            "substitutionPermitted": {
-                              "anyOf": [
-                                {
-                                  "type": "boolean"
-                                },
-                                {
-                                  "type": "null"
-                                }
-                              ]
-                            }
-                          },
-                          "additionalProperties": false
-                        },
-                        "directions": {
-                          "type": "string"
-                        },
-                        "medicationId": {
-                          "type": "string",
-                          "pattern": "^cat_[0-9a-hjkmnp-tv-z]{26}$",
-                          "examples": [
-                            "cat_01j2y8m6jcc9tt24af5pw9x1bc"
-                          ]
-                        },
-                        "quantity": {
-                          "type": "number"
-                        },
-                        "quantityUnit": {
-                          "type": "string"
-                        },
-                        "refills": {
-                          "type": "integer",
-                          "minimum": 0,
-                          "maximum": 99
-                        },
-                        "structuredSig": {
-                          "anyOf": [
-                            {
-                              "type": "object",
-                              "properties": {
-                                "dose": {
-                                  "type": "string"
-                                },
-                                "doseUnit": {
-                                  "type": "string"
-                                },
-                                "duration": {
-                                  "anyOf": [
-                                    {
+                                    "address": {
+                                      "type": "object",
+                                      "properties": {
+                                        "city": {
+                                          "type": "string"
+                                        },
+                                        "country": {
+                                          "anyOf": [
+                                            {
+                                              "type": "string",
+                                              "enum": [
+                                                "US"
+                                              ]
+                                            },
+                                            {
+                                              "type": "null"
+                                            }
+                                          ]
+                                        },
+                                        "line1": {
+                                          "type": "string"
+                                        },
+                                        "line2": {
+                                          "anyOf": [
+                                            {
+                                              "anyOf": [
+                                                {
+                                                  "type": "string"
+                                                },
+                                                {
+                                                  "type": "null"
+                                                }
+                                              ]
+                                            },
+                                            {
+                                              "type": "null"
+                                            }
+                                          ]
+                                        },
+                                        "postalCode": {
+                                          "type": "string"
+                                        },
+                                        "state": {
+                                          "type": "string"
+                                        }
+                                      },
+                                      "required": [
+                                        "city",
+                                        "line1",
+                                        "postalCode",
+                                        "state"
+                                      ],
+                                      "additionalProperties": false
+                                    },
+                                    "label": {
                                       "type": "string"
                                     },
-                                    {
-                                      "type": "null"
-                                    }
-                                  ]
-                                },
-                                "frequency": {
-                                  "type": "string"
-                                },
-                                "indication": {
-                                  "anyOf": [
-                                    {
-                                      "type": "string"
-                                    },
-                                    {
-                                      "type": "null"
-                                    }
-                                  ]
-                                },
-                                "maxDailyUse": {
-                                  "anyOf": [
-                                    {
-                                      "type": "string"
-                                    },
-                                    {
-                                      "type": "null"
-                                    }
-                                  ]
-                                },
-                                "prn": {
-                                  "anyOf": [
-                                    {
+                                    "preferredShipping": {
                                       "type": "boolean"
                                     },
-                                    {
-                                      "type": "null"
+                                    "recipientName": {
+                                      "anyOf": [
+                                        {
+                                          "type": "string"
+                                        },
+                                        {
+                                          "type": "null"
+                                        }
+                                      ]
                                     }
-                                  ]
+                                  },
+                                  "required": [
+                                    "address",
+                                    "label",
+                                    "preferredShipping",
+                                    "recipientName"
+                                  ],
+                                  "additionalProperties": false
                                 },
-                                "route": {
-                                  "type": "string"
-                                },
-                                "titrationSchedule": {
-                                  "anyOf": [
-                                    {
+                                "allOf": [
+                                  {
+                                    "maxItems": 50
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          },
+                          "encounters": {
+                            "anyOf": [
+                              {
+                                "type": "array",
+                                "items": {
+                                  "type": "object",
+                                  "properties": {
+                                    "notes": {
+                                      "anyOf": [
+                                        {
+                                          "type": "string",
+                                          "allOf": [
+                                            {
+                                              "maxLength": 5000
+                                            }
+                                          ]
+                                        },
+                                        {
+                                          "type": "null"
+                                        }
+                                      ]
+                                    },
+                                    "occurredAt": {
                                       "type": "string"
                                     },
-                                    {
-                                      "type": "null"
+                                    "providerName": {
+                                      "anyOf": [
+                                        {
+                                          "type": "string"
+                                        },
+                                        {
+                                          "type": "null"
+                                        }
+                                      ]
+                                    },
+                                    "type": {
+                                      "type": "string"
                                     }
-                                  ]
+                                  },
+                                  "required": [
+                                    "notes",
+                                    "occurredAt",
+                                    "providerName",
+                                    "type"
+                                  ],
+                                  "additionalProperties": false
                                 }
                               },
-                              "required": [
-                                "dose",
-                                "doseUnit",
-                                "frequency",
-                                "route"
-                              ],
-                              "additionalProperties": false
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          },
+                          "gender": {
+                            "anyOf": [
+                              {
+                                "type": "string",
+                                "enum": [
+                                  "f",
+                                  "m",
+                                  "o",
+                                  "u"
+                                ]
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          },
+                          "locationId": {
+                            "anyOf": [
+                              {
+                                "type": "string",
+                                "allOf": [
+                                  {
+                                    "pattern": "^loc_[0-9a-hjkmnp-tv-z]{26}$",
+                                    "examples": [
+                                      "loc_01j2y8m6jcc9tt24af5pw9x1bc"
+                                    ]
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          },
+                          "metadata": {
+                            "anyOf": [
+                              {
+                                "type": "object"
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          },
+                          "medicalRecordNumber": {
+                            "anyOf": [
+                              {
+                                "anyOf": [
+                                  {
+                                    "type": "string"
+                                  },
+                                  {
+                                    "type": "null"
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          },
+                          "measurements": {
+                            "anyOf": [
+                              {
+                                "type": "array",
+                                "items": {
+                                  "type": "object",
+                                  "properties": {
+                                    "heightCentimeters": {
+                                      "anyOf": [
+                                        {
+                                          "anyOf": [
+                                            {
+                                              "type": "number",
+                                              "allOf": [
+                                                {
+                                                  "exclusiveMinimum": 0
+                                                }
+                                              ]
+                                            },
+                                            {
+                                              "type": "string",
+                                              "enum": [
+                                                "Infinity",
+                                                "-Infinity",
+                                                "NaN"
+                                              ]
+                                            }
+                                          ]
+                                        },
+                                        {
+                                          "type": "null"
+                                        }
+                                      ]
+                                    },
+                                    "recordedAt": {
+                                      "type": "string"
+                                    },
+                                    "source": {
+                                      "type": "string"
+                                    },
+                                    "weightKilograms": {
+                                      "anyOf": [
+                                        {
+                                          "anyOf": [
+                                            {
+                                              "type": "number",
+                                              "allOf": [
+                                                {
+                                                  "exclusiveMinimum": 0
+                                                }
+                                              ]
+                                            },
+                                            {
+                                              "type": "string",
+                                              "enum": [
+                                                "Infinity",
+                                                "-Infinity",
+                                                "NaN"
+                                              ]
+                                            }
+                                          ]
+                                        },
+                                        {
+                                          "type": "null"
+                                        }
+                                      ]
+                                    }
+                                  },
+                                  "required": [
+                                    "heightCentimeters",
+                                    "recordedAt",
+                                    "source",
+                                    "weightKilograms"
+                                  ],
+                                  "additionalProperties": false
+                                }
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          },
+                          "name": {
+                            "type": "object",
+                            "properties": {
+                              "first": {
+                                "type": "string"
+                              },
+                              "last": {
+                                "type": "string"
+                              },
+                              "middle": {
+                                "anyOf": [
+                                  {
+                                    "anyOf": [
+                                      {
+                                        "type": "string"
+                                      },
+                                      {
+                                        "type": "null"
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "type": "null"
+                                  }
+                                ]
+                              },
+                              "preferred": {
+                                "anyOf": [
+                                  {
+                                    "anyOf": [
+                                      {
+                                        "type": "string"
+                                      },
+                                      {
+                                        "type": "null"
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "type": "null"
+                                  }
+                                ]
+                              }
                             },
-                            {
-                              "type": "null"
-                            }
-                          ]
-                        }
-                      },
-                      "required": [
-                        "daysSupply",
-                        "dispensing",
-                        "directions",
-                        "medicationId",
-                        "quantity",
-                        "quantityUnit",
-                        "refills"
-                      ],
-                      "additionalProperties": false
-                    }
+                            "required": [
+                              "first",
+                              "last"
+                            ],
+                            "additionalProperties": false
+                          },
+                          "phone": {
+                            "anyOf": [
+                              {
+                                "anyOf": [
+                                  {
+                                    "type": "string"
+                                  },
+                                  {
+                                    "type": "null"
+                                  }
+                                ]
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          },
+                          "programs": {
+                            "anyOf": [
+                              {
+                                "type": "array",
+                                "items": {
+                                  "type": "object",
+                                  "properties": {
+                                    "endedAt": {
+                                      "anyOf": [
+                                        {
+                                          "type": "string"
+                                        },
+                                        {
+                                          "type": "null"
+                                        }
+                                      ]
+                                    },
+                                    "name": {
+                                      "type": "string"
+                                    },
+                                    "startedAt": {
+                                      "type": "string"
+                                    },
+                                    "status": {
+                                      "type": "string",
+                                      "enum": [
+                                        "active",
+                                        "completed",
+                                        "paused"
+                                      ]
+                                    }
+                                  },
+                                  "required": [
+                                    "endedAt",
+                                    "name",
+                                    "startedAt",
+                                    "status"
+                                  ],
+                                  "additionalProperties": false
+                                }
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          }
+                        },
+                        "required": [
+                          "dateOfBirth",
+                          "name"
+                        ],
+                        "additionalProperties": false
+                      }
+                    },
+                    "required": [
+                      "practiceId",
+                      "prescriptions",
+                      "patient"
+                    ],
+                    "additionalProperties": false
                   }
-                },
-                "required": [
-                  "practiceId",
-                  "patientId",
-                  "prescriptions"
-                ],
-                "additionalProperties": false
+                ]
               }
             },
             "required": [
@@ -27950,6 +29996,185 @@
           "prescriptions",
           "signedAt",
           "status"
+        ],
+        "additionalProperties": false
+      },
+      "SignAndSubmitOrderRequest": {
+        "type": "object",
+        "properties": {
+          "practiceId": {
+            "type": "string",
+            "pattern": "^prac_[0-9a-hjkmnp-tv-z]{26}$",
+            "examples": [
+              "prac_01j2y8m6jcc9tt24af5pw9x1bc"
+            ]
+          },
+          "userId": {
+            "type": "string",
+            "pattern": "^user_[0-9a-hjkmnp-tv-z]{26}$",
+            "examples": [
+              "user_01j2y8m6jcc9tt24af5pw9x1bc"
+            ]
+          },
+          "signatureAttestation": {
+            "type": "boolean",
+            "enum": [
+              true
+            ]
+          },
+          "expectedVersions": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "prescriptionId": {
+                  "type": "string",
+                  "pattern": "^rx_[0-9a-hjkmnp-tv-z]{26}$",
+                  "examples": [
+                    "rx_01j2y8m6jcc9tt24af5pw9x1bc"
+                  ]
+                },
+                "version": {
+                  "type": "integer",
+                  "minimum": 1
+                }
+              },
+              "required": [
+                "prescriptionId",
+                "version"
+              ],
+              "additionalProperties": false
+            },
+            "minItems": 1,
+            "maxItems": 20
+          }
+        },
+        "required": [
+          "practiceId",
+          "userId",
+          "signatureAttestation",
+          "expectedVersions"
+        ],
+        "additionalProperties": false,
+        "title": "SignAndSubmitOrderRequest"
+      },
+      "SignAndSubmitOrderResponse": {
+        "title": "SignAndSubmitOrderResponse",
+        "type": "object",
+        "properties": {
+          "object": {
+            "type": "string",
+            "enum": [
+              "order_sign_and_submission"
+            ]
+          },
+          "orderId": {
+            "type": "string",
+            "pattern": "^ord_[0-9a-hjkmnp-tv-z]{26}$",
+            "examples": [
+              "ord_01j2y8m6jcc9tt24af5pw9x1bc"
+            ]
+          },
+          "signedAt": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "submitted",
+              "partially_submitted",
+              "not_submitted"
+            ]
+          },
+          "prescriptions": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "prescriptionId": {
+                  "type": "string",
+                  "pattern": "^rx_[0-9a-hjkmnp-tv-z]{26}$",
+                  "examples": [
+                    "rx_01j2y8m6jcc9tt24af5pw9x1bc"
+                  ]
+                },
+                "status": {
+                  "type": "string",
+                  "enum": [
+                    "submitted",
+                    "failed"
+                  ]
+                },
+                "fulfillmentOrderId": {
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "pattern": "^ord_[0-9a-hjkmnp-tv-z]{26}$",
+                      "examples": [
+                        "ord_01j2y8m6jcc9tt24af5pw9x1bc"
+                      ]
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "error": {
+                  "anyOf": [
+                    {
+                      "type": "object",
+                      "properties": {
+                        "code": {
+                          "type": "string"
+                        },
+                        "detail": {
+                          "type": "string"
+                        },
+                        "status": {
+                          "anyOf": [
+                            {
+                              "type": "number"
+                            },
+                            {
+                              "type": "string",
+                              "enum": [
+                                "Infinity",
+                                "-Infinity",
+                                "NaN"
+                              ]
+                            }
+                          ]
+                        }
+                      },
+                      "required": [
+                        "code",
+                        "detail",
+                        "status"
+                      ],
+                      "additionalProperties": false
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                }
+              },
+              "required": [
+                "prescriptionId",
+                "status",
+                "fulfillmentOrderId",
+                "error"
+              ],
+              "additionalProperties": false
+            }
+          }
+        },
+        "required": [
+          "object",
+          "orderId",
+          "signedAt",
+          "status",
+          "prescriptions"
         ],
         "additionalProperties": false
       },

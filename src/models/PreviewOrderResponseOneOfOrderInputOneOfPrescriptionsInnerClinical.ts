@@ -38,54 +38,57 @@ import {
 /**
  *
  * @export
- * @interface PreviewOrderResponseOneOfOrderInputPrescriptionsInnerClinical
+ * @interface PreviewOrderResponseOneOfOrderInputOneOfPrescriptionsInnerClinical
  */
-export interface PreviewOrderResponseOneOfOrderInputPrescriptionsInnerClinical {
+export interface PreviewOrderResponseOneOfOrderInputOneOfPrescriptionsInnerClinical {
   /**
    *
    * @type {CreateOrderRequestPrescriptionsInnerClinicalCompoundingReason}
-   * @memberof PreviewOrderResponseOneOfOrderInputPrescriptionsInnerClinical
+   * @memberof PreviewOrderResponseOneOfOrderInputOneOfPrescriptionsInnerClinical
    */
   compoundingReason?: CreateOrderRequestPrescriptionsInnerClinicalCompoundingReason | null;
   /**
    *
    * @type {Array<string>}
-   * @memberof PreviewOrderResponseOneOfOrderInputPrescriptionsInnerClinical
+   * @memberof PreviewOrderResponseOneOfOrderInputOneOfPrescriptionsInnerClinical
    */
   currentMedications?: Array<string> | null;
   /**
    *
    * @type {Array<CreateOrderRequestPrescriptionsInnerClinicalDiagnosesInner>}
-   * @memberof PreviewOrderResponseOneOfOrderInputPrescriptionsInnerClinical
+   * @memberof PreviewOrderResponseOneOfOrderInputOneOfPrescriptionsInnerClinical
    */
   diagnoses?: Array<CreateOrderRequestPrescriptionsInnerClinicalDiagnosesInner> | null;
   /**
    *
    * @type {Array<CreateOrderRequestPrescriptionsInnerClinicalObservationsInner>}
-   * @memberof PreviewOrderResponseOneOfOrderInputPrescriptionsInnerClinical
+   * @memberof PreviewOrderResponseOneOfOrderInputOneOfPrescriptionsInnerClinical
    */
   observations?: Array<CreateOrderRequestPrescriptionsInnerClinicalObservationsInner> | null;
 }
 
 /**
- * Check if a given object implements the PreviewOrderResponseOneOfOrderInputPrescriptionsInnerClinical interface.
+ * Check if a given object implements the PreviewOrderResponseOneOfOrderInputOneOfPrescriptionsInnerClinical interface.
  */
-export function instanceOfPreviewOrderResponseOneOfOrderInputPrescriptionsInnerClinical(
+export function instanceOfPreviewOrderResponseOneOfOrderInputOneOfPrescriptionsInnerClinical(
   value: object,
-): value is PreviewOrderResponseOneOfOrderInputPrescriptionsInnerClinical {
+): value is PreviewOrderResponseOneOfOrderInputOneOfPrescriptionsInnerClinical {
   return true;
 }
 
-export function PreviewOrderResponseOneOfOrderInputPrescriptionsInnerClinicalFromJSON(
+export function PreviewOrderResponseOneOfOrderInputOneOfPrescriptionsInnerClinicalFromJSON(
   json: any,
-): PreviewOrderResponseOneOfOrderInputPrescriptionsInnerClinical {
-  return PreviewOrderResponseOneOfOrderInputPrescriptionsInnerClinicalFromJSONTyped(json, false);
+): PreviewOrderResponseOneOfOrderInputOneOfPrescriptionsInnerClinical {
+  return PreviewOrderResponseOneOfOrderInputOneOfPrescriptionsInnerClinicalFromJSONTyped(
+    json,
+    false,
+  );
 }
 
-export function PreviewOrderResponseOneOfOrderInputPrescriptionsInnerClinicalFromJSONTyped(
+export function PreviewOrderResponseOneOfOrderInputOneOfPrescriptionsInnerClinicalFromJSONTyped(
   json: any,
   ignoreDiscriminator: boolean,
-): PreviewOrderResponseOneOfOrderInputPrescriptionsInnerClinical {
+): PreviewOrderResponseOneOfOrderInputOneOfPrescriptionsInnerClinical {
   if (json == null) {
     return json;
   }
@@ -112,14 +115,14 @@ export function PreviewOrderResponseOneOfOrderInputPrescriptionsInnerClinicalFro
   };
 }
 
-export function PreviewOrderResponseOneOfOrderInputPrescriptionsInnerClinicalToJSON(
+export function PreviewOrderResponseOneOfOrderInputOneOfPrescriptionsInnerClinicalToJSON(
   json: any,
-): PreviewOrderResponseOneOfOrderInputPrescriptionsInnerClinical {
-  return PreviewOrderResponseOneOfOrderInputPrescriptionsInnerClinicalToJSONTyped(json, false);
+): PreviewOrderResponseOneOfOrderInputOneOfPrescriptionsInnerClinical {
+  return PreviewOrderResponseOneOfOrderInputOneOfPrescriptionsInnerClinicalToJSONTyped(json, false);
 }
 
-export function PreviewOrderResponseOneOfOrderInputPrescriptionsInnerClinicalToJSONTyped(
-  value?: PreviewOrderResponseOneOfOrderInputPrescriptionsInnerClinical | null,
+export function PreviewOrderResponseOneOfOrderInputOneOfPrescriptionsInnerClinicalToJSONTyped(
+  value?: PreviewOrderResponseOneOfOrderInputOneOfPrescriptionsInnerClinical | null,
   ignoreDiscriminator: boolean = false,
 ): any {
   if (value == null) {

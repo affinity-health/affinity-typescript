@@ -10,6 +10,7 @@ import type {
   ListOrderEventsRequest,
   PreviewOrderOperationRequest,
   SignOrderOperationRequest,
+  SignAndSubmitOrderOperationRequest,
   SubmitOrderOperationRequest,
   RejectOrderOperationRequest,
   AddOrderPrescriptionOperationRequest,
@@ -23,6 +24,7 @@ import type { CancelOrderRequest } from "../models/CancelOrderRequest";
 import type { ActOnOrderExceptionRequest } from "../models/ActOnOrderExceptionRequest";
 import type { PreviewOrderRequest } from "../models/PreviewOrderRequest";
 import type { SignOrderRequest } from "../models/SignOrderRequest";
+import type { SignAndSubmitOrderRequest } from "../models/SignAndSubmitOrderRequest";
 import type { SubmitOrderRequest } from "../models/SubmitOrderRequest";
 import type { RejectOrderRequest } from "../models/RejectOrderRequest";
 import type { AddOrderPrescriptionRequest } from "../models/AddOrderPrescriptionRequest";
@@ -76,12 +78,17 @@ export type ListOrderEventsParams = Omit<
 >;
 export type PreviewOrderParams = Omit<
   PreviewOrderRequest,
-  "practiceId" | "patientId" | "prescriptions"
-> & {
-  practiceId: NonNullable<PreviewOrderRequest["practiceId"]>;
-  patientId: NonNullable<PreviewOrderRequest["patientId"]>;
-  prescriptions: NonNullable<PreviewOrderRequest["prescriptions"]>;
-};
+  "patientId" | "patientExternalId" | "patient"
+> &
+  (
+    | { patientId: string; patientExternalId?: never; patient?: never }
+    | { patientExternalId: string; patientId?: never; patient?: never }
+    | {
+        patient: NonNullable<PreviewOrderRequest["patient"]>;
+        patientId?: never;
+        patientExternalId?: never;
+      }
+  );
 export type SignOrderParams = Omit<
   SignOrderRequest,
   "practiceId" | "userId" | "signatureAttestation" | "expectedVersions"
@@ -90,6 +97,15 @@ export type SignOrderParams = Omit<
   userId: NonNullable<SignOrderRequest["userId"]>;
   signatureAttestation: NonNullable<SignOrderRequest["signatureAttestation"]>;
   expectedVersions: NonNullable<SignOrderRequest["expectedVersions"]>;
+};
+export type SignAndSubmitOrderParams = Omit<
+  SignAndSubmitOrderRequest,
+  "practiceId" | "userId" | "signatureAttestation" | "expectedVersions"
+> & {
+  practiceId: NonNullable<SignAndSubmitOrderRequest["practiceId"]>;
+  userId: NonNullable<SignAndSubmitOrderRequest["userId"]>;
+  signatureAttestation: NonNullable<SignAndSubmitOrderRequest["signatureAttestation"]>;
+  expectedVersions: NonNullable<SignAndSubmitOrderRequest["expectedVersions"]>;
 };
 export type SubmitOrderParams = Omit<SubmitOrderRequest, "practiceId" | "userId"> & {
   practiceId: NonNullable<SubmitOrderRequest["practiceId"]>;
@@ -290,6 +306,21 @@ export class OrdersResource {
       {
         orderId: orderId,
         signOrderRequest: params,
+        ...commonHeaders(options),
+        idempotencyKey: requiredIdempotencyKey(options),
+      },
+      requestOverrides(options),
+    );
+  }
+  signAndSubmit(
+    orderId: string,
+    params: SignAndSubmitOrderParams,
+    options?: MutationOptions,
+  ): ReturnType<OrdersApi["signAndSubmitOrder"]> {
+    return this.api.signAndSubmitOrder(
+      {
+        orderId: orderId,
+        signAndSubmitOrderRequest: params,
         ...commonHeaders(options),
         idempotencyKey: requiredIdempotencyKey(options),
       },

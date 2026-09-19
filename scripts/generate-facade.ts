@@ -307,6 +307,13 @@ function bodyAliases(operation: OperationDetails): string[] {
       typeAlias(alias, expression),
     ];
   }
+  if (operation.operationId === "previewOrder") {
+    expression = `Omit<${model}, "patientId" | "patientExternalId" | "patient"> & (
+  | { patientId: string; patientExternalId?: never; patient?: never }
+  | { patientExternalId: string; patientId?: never; patient?: never }
+  | { patient: NonNullable<${model}["patient"]>; patientId?: never; patientExternalId?: never }
+)`;
+  }
   if (operation.operationId === "createOrderBatch") {
     const quantity = orderQuantityExpression(operation);
     expression = `Omit<${model}, "practiceId" | "orders"> & {

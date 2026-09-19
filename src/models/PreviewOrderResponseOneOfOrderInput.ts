@@ -12,83 +12,29 @@
  * Do not edit the class manually.
  */
 
-import { mapValues } from "../runtime";
-import type { CreateOrderRequestOtcItemsInner } from "./CreateOrderRequestOtcItemsInner";
+import type { PreviewOrderResponseOneOfOrderInputOneOf } from "./PreviewOrderResponseOneOfOrderInputOneOf";
 import {
-  CreateOrderRequestOtcItemsInnerFromJSON,
-  CreateOrderRequestOtcItemsInnerFromJSONTyped,
-  CreateOrderRequestOtcItemsInnerToJSON,
-  CreateOrderRequestOtcItemsInnerToJSONTyped,
-} from "./CreateOrderRequestOtcItemsInner";
-import type { PreviewOrderResponseOneOfOrderInputPrescriptionsInner } from "./PreviewOrderResponseOneOfOrderInputPrescriptionsInner";
+  instanceOfPreviewOrderResponseOneOfOrderInputOneOf,
+  PreviewOrderResponseOneOfOrderInputOneOfFromJSON,
+  PreviewOrderResponseOneOfOrderInputOneOfFromJSONTyped,
+  PreviewOrderResponseOneOfOrderInputOneOfToJSON,
+} from "./PreviewOrderResponseOneOfOrderInputOneOf";
+import type { PreviewOrderResponseOneOfOrderInputOneOf1 } from "./PreviewOrderResponseOneOfOrderInputOneOf1";
 import {
-  PreviewOrderResponseOneOfOrderInputPrescriptionsInnerFromJSON,
-  PreviewOrderResponseOneOfOrderInputPrescriptionsInnerFromJSONTyped,
-  PreviewOrderResponseOneOfOrderInputPrescriptionsInnerToJSON,
-  PreviewOrderResponseOneOfOrderInputPrescriptionsInnerToJSONTyped,
-} from "./PreviewOrderResponseOneOfOrderInputPrescriptionsInner";
+  instanceOfPreviewOrderResponseOneOfOrderInputOneOf1,
+  PreviewOrderResponseOneOfOrderInputOneOf1FromJSON,
+  PreviewOrderResponseOneOfOrderInputOneOf1FromJSONTyped,
+  PreviewOrderResponseOneOfOrderInputOneOf1ToJSON,
+} from "./PreviewOrderResponseOneOfOrderInputOneOf1";
 
 /**
+ * @type PreviewOrderResponseOneOfOrderInput
  *
  * @export
- * @interface PreviewOrderResponseOneOfOrderInput
  */
-export interface PreviewOrderResponseOneOfOrderInput {
-  /**
-   *
-   * @type {Array<CreateOrderRequestOtcItemsInner>}
-   * @memberof PreviewOrderResponseOneOfOrderInput
-   */
-  otcItems?: Array<CreateOrderRequestOtcItemsInner> | null;
-  /**
-   *
-   * @type {string}
-   * @memberof PreviewOrderResponseOneOfOrderInput
-   */
-  practiceId: string;
-  /**
-   *
-   * @type {string}
-   * @memberof PreviewOrderResponseOneOfOrderInput
-   */
-  patientId: string;
-  /**
-   *
-   * @type {string}
-   * @memberof PreviewOrderResponseOneOfOrderInput
-   */
-  userId?: string | null;
-  /**
-   *
-   * @type {string}
-   * @memberof PreviewOrderResponseOneOfOrderInput
-   */
-  shippingAddressId?: string | null;
-  /**
-   *
-   * @type {string}
-   * @memberof PreviewOrderResponseOneOfOrderInput
-   */
-  externalOrderId?: string | null;
-  /**
-   *
-   * @type {Array<PreviewOrderResponseOneOfOrderInputPrescriptionsInner>}
-   * @memberof PreviewOrderResponseOneOfOrderInput
-   */
-  prescriptions: Array<PreviewOrderResponseOneOfOrderInputPrescriptionsInner>;
-}
-
-/**
- * Check if a given object implements the PreviewOrderResponseOneOfOrderInput interface.
- */
-export function instanceOfPreviewOrderResponseOneOfOrderInput(
-  value: object,
-): value is PreviewOrderResponseOneOfOrderInput {
-  if (!("practiceId" in value) || value["practiceId"] === undefined) return false;
-  if (!("patientId" in value) || value["patientId"] === undefined) return false;
-  if (!("prescriptions" in value) || value["prescriptions"] === undefined) return false;
-  return true;
-}
+export type PreviewOrderResponseOneOfOrderInput =
+  | PreviewOrderResponseOneOfOrderInputOneOf
+  | PreviewOrderResponseOneOfOrderInputOneOf1;
 
 export function PreviewOrderResponseOneOfOrderInputFromJSON(
   json: any,
@@ -103,25 +49,19 @@ export function PreviewOrderResponseOneOfOrderInputFromJSONTyped(
   if (json == null) {
     return json;
   }
-  return {
-    otcItems:
-      json["otcItems"] == null
-        ? undefined
-        : (json["otcItems"] as Array<any>).map(CreateOrderRequestOtcItemsInnerFromJSON),
-    practiceId: json["practiceId"],
-    patientId: json["patientId"],
-    userId: json["userId"] == null ? undefined : json["userId"],
-    shippingAddressId: json["shippingAddressId"] == null ? undefined : json["shippingAddressId"],
-    externalOrderId: json["externalOrderId"] == null ? undefined : json["externalOrderId"],
-    prescriptions: (json["prescriptions"] as Array<any>).map(
-      PreviewOrderResponseOneOfOrderInputPrescriptionsInnerFromJSON,
-    ),
-  };
+  if (typeof json !== "object") {
+    return json;
+  }
+  if (instanceOfPreviewOrderResponseOneOfOrderInputOneOf(json)) {
+    return PreviewOrderResponseOneOfOrderInputOneOfFromJSONTyped(json, true);
+  }
+  if (instanceOfPreviewOrderResponseOneOfOrderInputOneOf1(json)) {
+    return PreviewOrderResponseOneOfOrderInputOneOf1FromJSONTyped(json, true);
+  }
+  return {} as any;
 }
 
-export function PreviewOrderResponseOneOfOrderInputToJSON(
-  json: any,
-): PreviewOrderResponseOneOfOrderInput {
+export function PreviewOrderResponseOneOfOrderInputToJSON(json: any): any {
   return PreviewOrderResponseOneOfOrderInputToJSONTyped(json, false);
 }
 
@@ -132,19 +72,18 @@ export function PreviewOrderResponseOneOfOrderInputToJSONTyped(
   if (value == null) {
     return value;
   }
-
-  return {
-    otcItems:
-      value["otcItems"] == null
-        ? undefined
-        : (value["otcItems"] as Array<any>).map(CreateOrderRequestOtcItemsInnerToJSON),
-    practiceId: value["practiceId"],
-    patientId: value["patientId"],
-    userId: value["userId"],
-    shippingAddressId: value["shippingAddressId"],
-    externalOrderId: value["externalOrderId"],
-    prescriptions: (value["prescriptions"] as Array<any>).map(
-      PreviewOrderResponseOneOfOrderInputPrescriptionsInnerToJSON,
-    ),
-  };
+  if (typeof value !== "object") {
+    return value;
+  }
+  if (instanceOfPreviewOrderResponseOneOfOrderInputOneOf(value)) {
+    return PreviewOrderResponseOneOfOrderInputOneOfToJSON(
+      value as PreviewOrderResponseOneOfOrderInputOneOf,
+    );
+  }
+  if (instanceOfPreviewOrderResponseOneOfOrderInputOneOf1(value)) {
+    return PreviewOrderResponseOneOfOrderInputOneOf1ToJSON(
+      value as PreviewOrderResponseOneOfOrderInputOneOf1,
+    );
+  }
+  return {};
 }

@@ -27,6 +27,7 @@ export const facadeOperationMap = {
   listOrders: { resource: "orders", method: "list" },
   rejectOrder: { resource: "orders", method: "reject" },
   signOrder: { resource: "orders", method: "sign" },
+  signAndSubmitOrder: { resource: "orders", method: "signAndSubmit" },
   submitOrder: { resource: "orders", method: "submit" },
   updateOrderPrescription: { resource: "orders", method: "updatePrescription" },
   updateOrderTestSimulation: { resource: "orders", rawOnly: true },
