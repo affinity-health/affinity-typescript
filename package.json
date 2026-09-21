@@ -36,7 +36,7 @@
   },
   "scripts": {
     "build": "bun run clean && tsgo -p tsconfig.json && bun scripts/fix-declaration-imports.ts && bun build src/index.ts --outfile=dist/index.js --target=node --format=esm",
-    "check": "bun run scripts:check && bun run generate:check && bun run build && bun run package:check && bun run package:consumer-check && bun test && bun run example:check",
+    "check": "bun run scripts:check && bun run generate:check && bun run build && bun run package:check && bun run package:consumer-check && bun test ./test && bun run example:check",
     "clean": "rm -rf dist",
     "dev": "dev up --cwd .",
     "example:dev": "bun run --cwd examples/tanstack-start dev",
