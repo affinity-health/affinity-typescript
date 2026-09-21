@@ -1,5 +1,16 @@
-import { Affinity, AffinityError, verifyAffinityWebhook } from "@affinity-health/sdk";
+import {
+  Affinity,
+  AffinityError,
+  ResponseError,
+  affinityErrorFromResponse,
+  verifyAffinityWebhook,
+} from "@affinity-health/sdk";
 import type { Order, PreviewOrderParams } from "@affinity-health/sdk";
+
+type ReviewedAllergies = Omit<
+  Parameters<Affinity["patients"]["replaceAllergies"]>[2],
+  "reviewStatus"
+> & { reviewStatus: "no_known" | "recorded" };
 
 // Server-side only. These functions do not run on import.
 // First-use NPI registration needs team:write. Test NPI: 1234567893.
@@ -9,37 +20,50 @@ export async function createTestWorkflow(apiKey: string) {
   if ((await affinity.apiKeys.retrieve()).livemode)
     throw new Error("This example only accepts a Test key");
 
+  async function preparePatient(input: {
+    practiceId: string;
+    patientExternalId: string;
+    persistedCreationKey: string;
+  }) {
+    // Creation resolves an existing externalId without replacing its demographics.
+    // Use only synthetic identities in this Test example.
+    const patient = await affinity.patients.create(
+      input.practiceId,
+      {
+        externalId: input.patientExternalId,
+        name: { first: "Synthetic", last: "Patient" },
+        dateOfBirth: "1990-01-01",
+        email: "patient@example.test",
+        phone: "2025550199",
+        address: {
+          line1: "100 Test St",
+          city: "Austin",
+          state: "TX",
+          postalCode: "78701",
+          country: "US" as const,
+        },
+      },
+      { idempotencyKey: input.persistedCreationKey },
+    );
+    const allergies = await affinity.patients.retrieveAllergies(input.practiceId, patient.id);
+    // Display the existing history in the EMR and collect the clinician's review.
+    // An empty, not_reviewed history does not mean no known allergies.
+    return { patient, allergies };
+  }
+
   async function preview(input: {
     practiceId: string;
+    patientId: string;
     clinicianNpi?: string;
     medicationId: string;
     supplyId: string;
     // Pass the full array back after edits. Explicit overrides replace defaults.
     prescriptions?: PreviewOrderParams["prescriptions"];
-    existingPatientExternalId?: string;
   }) {
-    const patient = input.existingPatientExternalId
-      ? { patientExternalId: input.existingPatientExternalId }
-      : {
-          patient: {
-            externalId: "synthetic-emr-patient-123",
-            name: { first: "Synthetic", last: "Patient" },
-            dateOfBirth: "1990-01-01",
-            email: "patient@example.test",
-            phone: "2025550199",
-            address: {
-              line1: "100 Test St",
-              city: "Austin",
-              state: "TX",
-              postalCode: "78701",
-              country: "US" as const,
-            },
-          },
-        };
     return affinity.orders.preview({
       practiceId: input.practiceId,
       ...(input.clinicianNpi ? { prescriber: { npi: input.clinicianNpi } } : {}),
-      ...patient,
+      patientId: input.patientId,
       prescriptions: input.prescriptions ?? [
         { medicationId: input.medicationId, preset: "default" },
       ],
@@ -51,15 +75,37 @@ export async function createTestWorkflow(apiKey: string) {
   async function saveDraft(
     acceptedPreview: Awaited<ReturnType<typeof preview>>,
     persistedCreationKey: string,
+    allergyReview: {
+      // Load this explicit clinician decision from your EMR's review record.
+      reviewedAllergies: ReviewedAllergies;
+      persistedReviewKey: string;
+    },
   ) {
     if (acceptedPreview.status !== "complete")
       return { status: "needs_input" as const, issues: acceptedPreview.issues };
+    const patientId =
+      "patientId" in acceptedPreview.orderInput ? acceptedPreview.orderInput.patientId : undefined;
+    if (!patientId) throw new Error("Prepare the patient and preview with its patientId first");
+    const reviewed = allergyReview.reviewedAllergies;
+    if (
+      (reviewed.reviewStatus !== "no_known" && reviewed.reviewStatus !== "recorded") ||
+      (reviewed.reviewStatus === "no_known" && reviewed.allergies.length !== 0) ||
+      (reviewed.reviewStatus === "recorded" && reviewed.allergies.length === 0)
+    )
+      throw new Error("Provide an explicit allergy review with the complete reviewed history");
+    await affinity.patients.replaceAllergies(
+      acceptedPreview.orderInput.practiceId,
+      patientId,
+      reviewed,
+      { idempotencyKey: allergyReview.persistedReviewKey },
+    );
     const draft = await affinity.orders.create(acceptedPreview.orderInput, {
       idempotencyKey: persistedCreationKey,
     });
     // Show this complete order to the clinician, including supplies and shipping.
-    // Complete actual allergy review through patients.replaceAllergies before signing.
-    // A new patient's missing history must not be converted to "no known allergies".
+    // The draft snapshots the allergy history just recorded. If history changes
+    // afterward, cancel the unsigned draft and create and review a replacement.
+    // Retry unchanged input with the same keys; a new review needs new keys.
     const order = await affinity.orders.retrieve(draft.id);
     return { status: "draft" as const, order };
   }
@@ -103,7 +149,9 @@ export async function createTestWorkflow(apiKey: string) {
           idempotencyKey: approval.persistedSigningKey,
         },
       );
-    } catch (error) {
+    } catch (cause) {
+      const error =
+        cause instanceof ResponseError ? await affinityErrorFromResponse(cause.response) : cause;
       if (
         error instanceof AffinityError &&
         error.statusCode === 409 &&
@@ -140,7 +188,7 @@ export async function createTestWorkflow(apiKey: string) {
     );
   }
 
-  return { preview, shippingSummary, saveDraft, signAndSend, retrySubmission };
+  return { preparePatient, preview, shippingSummary, saveDraft, signAndSend, retrySubmission };
 }
 
 export async function receiveWebhook(

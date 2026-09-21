@@ -1,4 +1,9 @@
-import { Affinity, AffinityError } from "@affinity-health/sdk";
+import {
+  Affinity,
+  AffinityError,
+  ResponseError,
+  affinityErrorFromResponse,
+} from "@affinity-health/sdk";
 import type { CreateOrderParams, Order, PreviewOrderParams } from "@affinity-health/sdk";
 import { accessPassword, seal, unseal } from "./security.server";
 
@@ -31,7 +36,9 @@ export async function client() {
 export async function safely<T>(action: () => Promise<T>) {
   try {
     return { ok: true as const, value: await action() };
-  } catch (cause) {
+  } catch (error) {
+    const cause =
+      error instanceof ResponseError ? await affinityErrorFromResponse(error.response) : error;
     // Do not serialize SDK request/response objects or headers into browser errors.
     return {
       ok: false as const,
