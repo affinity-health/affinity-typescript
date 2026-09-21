@@ -13034,6 +13034,55 @@
             "items": {
               "type": "object",
               "properties": {
+                "catalogDetails": {
+                  "type": "object",
+                  "properties": {
+                    "attributes": {
+                      "type": "object",
+                      "additionalProperties": {
+                        "anyOf": [
+                          {
+                            "type": "string"
+                          },
+                          {
+                            "type": "array",
+                            "items": {
+                              "type": "string"
+                            }
+                          }
+                        ]
+                      }
+                    },
+                    "directions": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "kind": {
+                            "type": "string",
+                            "enum": [
+                              "suggested",
+                              "template"
+                            ]
+                          },
+                          "text": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "kind",
+                          "text"
+                        ],
+                        "additionalProperties": false
+                      }
+                    }
+                  },
+                  "required": [
+                    "attributes",
+                    "directions"
+                  ],
+                  "additionalProperties": false
+                },
                 "composition": {
                   "type": "object",
                   "properties": {
@@ -13346,7 +13395,8 @@
                     {
                       "type": "null"
                     }
-                  ]
+                  ],
+                  "description": "Primary product photo, falling back to dosage-form artwork. Null when neither is available."
                 },
                 "imageUrls": {
                   "type": "array",
@@ -14217,6 +14267,7 @@
                 }
               },
               "required": [
+                "catalogDetails",
                 "composition",
                 "allowedStates",
                 "availability",
@@ -23146,6 +23197,12 @@
             "items": {
               "type": "object",
               "properties": {
+                "deliveryId": {
+                  "type": "string"
+                },
+                "endpointId": {
+                  "type": "string"
+                },
                 "attemptNumber": {
                   "type": "integer",
                   "allOf": [
@@ -23252,6 +23309,8 @@
                 }
               },
               "required": [
+                "deliveryId",
+                "endpointId",
                 "attemptNumber",
                 "completedAt",
                 "durationMs",
@@ -23427,6 +23486,12 @@
             "items": {
               "type": "object",
               "properties": {
+                "deliveryId": {
+                  "type": "string"
+                },
+                "endpointId": {
+                  "type": "string"
+                },
                 "attemptNumber": {
                   "type": "integer",
                   "allOf": [
@@ -23533,6 +23598,8 @@
                 }
               },
               "required": [
+                "deliveryId",
+                "endpointId",
                 "attemptNumber",
                 "completedAt",
                 "durationMs",
@@ -24650,6 +24717,55 @@
           "catalog": {
             "type": "object",
             "properties": {
+              "catalogDetails": {
+                "type": "object",
+                "properties": {
+                  "attributes": {
+                    "type": "object",
+                    "additionalProperties": {
+                      "anyOf": [
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  "directions": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "kind": {
+                          "type": "string",
+                          "enum": [
+                            "suggested",
+                            "template"
+                          ]
+                        },
+                        "text": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "kind",
+                        "text"
+                      ],
+                      "additionalProperties": false
+                    }
+                  }
+                },
+                "required": [
+                  "attributes",
+                  "directions"
+                ],
+                "additionalProperties": false
+              },
               "composition": {
                 "type": "object",
                 "properties": {
@@ -24962,7 +25078,8 @@
                   {
                     "type": "null"
                   }
-                ]
+                ],
+                "description": "Primary product photo, falling back to dosage-form artwork. Null when neither is available."
               },
               "imageUrls": {
                 "type": "array",
@@ -25833,6 +25950,7 @@
               }
             },
             "required": [
+              "catalogDetails",
               "composition",
               "allowedStates",
               "availability",

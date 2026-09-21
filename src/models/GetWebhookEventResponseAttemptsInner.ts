@@ -29,6 +29,18 @@ import {
 export interface GetWebhookEventResponseAttemptsInner {
   /**
    *
+   * @type {string}
+   * @memberof GetWebhookEventResponseAttemptsInner
+   */
+  deliveryId: string;
+  /**
+   *
+   * @type {string}
+   * @memberof GetWebhookEventResponseAttemptsInner
+   */
+  endpointId: string;
+  /**
+   *
    * @type {number}
    * @memberof GetWebhookEventResponseAttemptsInner
    */
@@ -100,6 +112,8 @@ export type GetWebhookEventResponseAttemptsInnerTriggerEnum =
 export function instanceOfGetWebhookEventResponseAttemptsInner(
   value: object,
 ): value is GetWebhookEventResponseAttemptsInner {
+  if (!("deliveryId" in value) || value["deliveryId"] === undefined) return false;
+  if (!("endpointId" in value) || value["endpointId"] === undefined) return false;
   if (!("attemptNumber" in value) || value["attemptNumber"] === undefined) return false;
   if (!("completedAt" in value) || value["completedAt"] === undefined) return false;
   if (!("durationMs" in value) || value["durationMs"] === undefined) return false;
@@ -126,6 +140,8 @@ export function GetWebhookEventResponseAttemptsInnerFromJSONTyped(
     return json;
   }
   return {
+    deliveryId: json["deliveryId"],
+    endpointId: json["endpointId"],
     attemptNumber: json["attemptNumber"],
     completedAt: json["completedAt"],
     durationMs:
@@ -159,6 +175,8 @@ export function GetWebhookEventResponseAttemptsInnerToJSONTyped(
   }
 
   return {
+    deliveryId: value["deliveryId"],
+    endpointId: value["endpointId"],
     attemptNumber: value["attemptNumber"],
     completedAt: value["completedAt"],
     durationMs: ListCatalogItemsResponseDataInnerPrescriptionRequirementsQuantityIncrementMaxToJSON(

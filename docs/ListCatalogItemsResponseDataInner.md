@@ -4,6 +4,7 @@
 
 | Name                       | Type                                                                                                                                       |
 | -------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
+| `catalogDetails`           | [ListCatalogItemsResponseDataInnerCatalogDetails](ListCatalogItemsResponseDataInnerCatalogDetails.md)                                      |
 | `composition`              | [ListCatalogItemsResponseDataInnerComposition](ListCatalogItemsResponseDataInnerComposition.md)                                            |
 | `allowedStates`            | Array&lt;string&gt;                                                                                                                        |
 | `availability`             | string                                                                                                                                     |

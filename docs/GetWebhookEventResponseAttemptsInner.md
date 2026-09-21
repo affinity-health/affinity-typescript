@@ -4,6 +4,8 @@
 
 | Name             | Type                                                                                                                                                              |
 | ---------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `deliveryId`     | string                                                                                                                                                            |
+| `endpointId`     | string                                                                                                                                                            |
 | `attemptNumber`  | number                                                                                                                                                            |
 | `completedAt`    | string                                                                                                                                                            |
 | `durationMs`     | [ListCatalogItemsResponseDataInnerPrescriptionRequirementsQuantityIncrementMax](ListCatalogItemsResponseDataInnerPrescriptionRequirementsQuantityIncrementMax.md) |

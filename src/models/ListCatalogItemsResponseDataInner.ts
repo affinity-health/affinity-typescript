@@ -13,6 +13,13 @@
  */
 
 import { mapValues } from "../runtime";
+import type { ListCatalogItemsResponseDataInnerCatalogDetails } from "./ListCatalogItemsResponseDataInnerCatalogDetails";
+import {
+  ListCatalogItemsResponseDataInnerCatalogDetailsFromJSON,
+  ListCatalogItemsResponseDataInnerCatalogDetailsFromJSONTyped,
+  ListCatalogItemsResponseDataInnerCatalogDetailsToJSON,
+  ListCatalogItemsResponseDataInnerCatalogDetailsToJSONTyped,
+} from "./ListCatalogItemsResponseDataInnerCatalogDetails";
 import type { ListCatalogItemsResponseDataInnerPrescriptionRequirements } from "./ListCatalogItemsResponseDataInnerPrescriptionRequirements";
 import {
   ListCatalogItemsResponseDataInnerPrescriptionRequirementsFromJSON,
@@ -69,6 +76,12 @@ import {
  * @interface ListCatalogItemsResponseDataInner
  */
 export interface ListCatalogItemsResponseDataInner {
+  /**
+   *
+   * @type {ListCatalogItemsResponseDataInnerCatalogDetails}
+   * @memberof ListCatalogItemsResponseDataInner
+   */
+  catalogDetails: ListCatalogItemsResponseDataInnerCatalogDetails;
   /**
    *
    * @type {ListCatalogItemsResponseDataInnerComposition}
@@ -154,7 +167,7 @@ export interface ListCatalogItemsResponseDataInner {
    */
   id: string;
   /**
-   *
+   * Primary product photo, falling back to dosage-form artwork. Null when neither is available.
    * @type {string}
    * @memberof ListCatalogItemsResponseDataInner
    */
@@ -272,6 +285,7 @@ export type ListCatalogItemsResponseDataInnerObjectEnum =
 export function instanceOfListCatalogItemsResponseDataInner(
   value: object,
 ): value is ListCatalogItemsResponseDataInner {
+  if (!("catalogDetails" in value) || value["catalogDetails"] === undefined) return false;
   if (!("composition" in value) || value["composition"] === undefined) return false;
   if (!("allowedStates" in value) || value["allowedStates"] === undefined) return false;
   if (!("availability" in value) || value["availability"] === undefined) return false;
@@ -321,6 +335,7 @@ export function ListCatalogItemsResponseDataInnerFromJSONTyped(
     return json;
   }
   return {
+    catalogDetails: ListCatalogItemsResponseDataInnerCatalogDetailsFromJSON(json["catalogDetails"]),
     composition: ListCatalogItemsResponseDataInnerCompositionFromJSON(json["composition"]),
     allowedStates: json["allowedStates"],
     availability: json["availability"],
@@ -376,6 +391,7 @@ export function ListCatalogItemsResponseDataInnerToJSONTyped(
   }
 
   return {
+    catalogDetails: ListCatalogItemsResponseDataInnerCatalogDetailsToJSON(value["catalogDetails"]),
     composition: ListCatalogItemsResponseDataInnerCompositionToJSON(value["composition"]),
     allowedStates: value["allowedStates"],
     availability: value["availability"],

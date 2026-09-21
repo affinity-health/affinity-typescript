@@ -7,6 +7,12 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 
 ## [Unreleased]
 
+## [1.10.2] - 2026-09-21
+
+### Fixed
+
+- Regenerate catalog and webhook response types from the deployed `2026-08-11` API contract, including catalog details and webhook delivery identifiers.
+
 ## [1.10.0] - 2026-09-19
 
 ### Added
