@@ -13,13 +13,13 @@
  */
 
 import { mapValues } from "../runtime";
-import type { ListCatalogItemsResponseDataInnerPrescriptionRequirementsAllowedQuantitiesInnerValue } from "./ListCatalogItemsResponseDataInnerPrescriptionRequirementsAllowedQuantitiesInnerValue";
+import type { ListCatalogItemsResponseDataInnerMedicationGroupOfferCount } from "./ListCatalogItemsResponseDataInnerMedicationGroupOfferCount";
 import {
-  ListCatalogItemsResponseDataInnerPrescriptionRequirementsAllowedQuantitiesInnerValueFromJSON,
-  ListCatalogItemsResponseDataInnerPrescriptionRequirementsAllowedQuantitiesInnerValueFromJSONTyped,
-  ListCatalogItemsResponseDataInnerPrescriptionRequirementsAllowedQuantitiesInnerValueToJSON,
-  ListCatalogItemsResponseDataInnerPrescriptionRequirementsAllowedQuantitiesInnerValueToJSONTyped,
-} from "./ListCatalogItemsResponseDataInnerPrescriptionRequirementsAllowedQuantitiesInnerValue";
+  ListCatalogItemsResponseDataInnerMedicationGroupOfferCountFromJSON,
+  ListCatalogItemsResponseDataInnerMedicationGroupOfferCountFromJSONTyped,
+  ListCatalogItemsResponseDataInnerMedicationGroupOfferCountToJSON,
+  ListCatalogItemsResponseDataInnerMedicationGroupOfferCountToJSONTyped,
+} from "./ListCatalogItemsResponseDataInnerMedicationGroupOfferCount";
 import type { ListCatalogItemsResponseDataInnerPrescriptionRequirementsQuantityIncrementMax } from "./ListCatalogItemsResponseDataInnerPrescriptionRequirementsQuantityIncrementMax";
 import {
   ListCatalogItemsResponseDataInnerPrescriptionRequirementsQuantityIncrementMaxFromJSON,
@@ -54,10 +54,10 @@ export interface ListCatalogItemsResponseDataInnerPrescriptionRequirementsQuanti
   unit: string;
   /**
    *
-   * @type {ListCatalogItemsResponseDataInnerPrescriptionRequirementsAllowedQuantitiesInnerValue}
+   * @type {ListCatalogItemsResponseDataInnerMedicationGroupOfferCount}
    * @memberof ListCatalogItemsResponseDataInnerPrescriptionRequirementsQuantityIncrement
    */
-  value: ListCatalogItemsResponseDataInnerPrescriptionRequirementsAllowedQuantitiesInnerValue;
+  value: ListCatalogItemsResponseDataInnerMedicationGroupOfferCount;
 }
 
 /**
@@ -101,10 +101,7 @@ export function ListCatalogItemsResponseDataInnerPrescriptionRequirementsQuantit
             json["min"],
           ),
     unit: json["unit"],
-    value:
-      ListCatalogItemsResponseDataInnerPrescriptionRequirementsAllowedQuantitiesInnerValueFromJSON(
-        json["value"],
-      ),
+    value: ListCatalogItemsResponseDataInnerMedicationGroupOfferCountFromJSON(json["value"]),
   };
 }
 
@@ -133,9 +130,6 @@ export function ListCatalogItemsResponseDataInnerPrescriptionRequirementsQuantit
       value["min"],
     ),
     unit: value["unit"],
-    value:
-      ListCatalogItemsResponseDataInnerPrescriptionRequirementsAllowedQuantitiesInnerValueToJSON(
-        value["value"],
-      ),
+    value: ListCatalogItemsResponseDataInnerMedicationGroupOfferCountToJSON(value["value"]),
   };
 }

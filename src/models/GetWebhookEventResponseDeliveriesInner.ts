@@ -13,13 +13,13 @@
  */
 
 import { mapValues } from "../runtime";
-import type { ListCatalogItemsResponseDataInnerPrescriptionRequirementsAllowedQuantitiesInnerValue } from "./ListCatalogItemsResponseDataInnerPrescriptionRequirementsAllowedQuantitiesInnerValue";
+import type { ListCatalogItemsResponseDataInnerMedicationGroupOfferCount } from "./ListCatalogItemsResponseDataInnerMedicationGroupOfferCount";
 import {
-  ListCatalogItemsResponseDataInnerPrescriptionRequirementsAllowedQuantitiesInnerValueFromJSON,
-  ListCatalogItemsResponseDataInnerPrescriptionRequirementsAllowedQuantitiesInnerValueFromJSONTyped,
-  ListCatalogItemsResponseDataInnerPrescriptionRequirementsAllowedQuantitiesInnerValueToJSON,
-  ListCatalogItemsResponseDataInnerPrescriptionRequirementsAllowedQuantitiesInnerValueToJSONTyped,
-} from "./ListCatalogItemsResponseDataInnerPrescriptionRequirementsAllowedQuantitiesInnerValue";
+  ListCatalogItemsResponseDataInnerMedicationGroupOfferCountFromJSON,
+  ListCatalogItemsResponseDataInnerMedicationGroupOfferCountFromJSONTyped,
+  ListCatalogItemsResponseDataInnerMedicationGroupOfferCountToJSON,
+  ListCatalogItemsResponseDataInnerMedicationGroupOfferCountToJSONTyped,
+} from "./ListCatalogItemsResponseDataInnerMedicationGroupOfferCount";
 
 /**
  *
@@ -29,10 +29,10 @@ import {
 export interface GetWebhookEventResponseDeliveriesInner {
   /**
    *
-   * @type {ListCatalogItemsResponseDataInnerPrescriptionRequirementsAllowedQuantitiesInnerValue}
+   * @type {ListCatalogItemsResponseDataInnerMedicationGroupOfferCount}
    * @memberof GetWebhookEventResponseDeliveriesInner
    */
-  automaticAttemptCount: ListCatalogItemsResponseDataInnerPrescriptionRequirementsAllowedQuantitiesInnerValue;
+  automaticAttemptCount: ListCatalogItemsResponseDataInnerMedicationGroupOfferCount;
   /**
    *
    * @type {string}
@@ -114,10 +114,9 @@ export function GetWebhookEventResponseDeliveriesInnerFromJSONTyped(
     return json;
   }
   return {
-    automaticAttemptCount:
-      ListCatalogItemsResponseDataInnerPrescriptionRequirementsAllowedQuantitiesInnerValueFromJSON(
-        json["automaticAttemptCount"],
-      ),
+    automaticAttemptCount: ListCatalogItemsResponseDataInnerMedicationGroupOfferCountFromJSON(
+      json["automaticAttemptCount"],
+    ),
     endpointId: json["endpointId"],
     id: json["id"],
     lastErrorCode: json["lastErrorCode"],
@@ -142,10 +141,9 @@ export function GetWebhookEventResponseDeliveriesInnerToJSONTyped(
   }
 
   return {
-    automaticAttemptCount:
-      ListCatalogItemsResponseDataInnerPrescriptionRequirementsAllowedQuantitiesInnerValueToJSON(
-        value["automaticAttemptCount"],
-      ),
+    automaticAttemptCount: ListCatalogItemsResponseDataInnerMedicationGroupOfferCountToJSON(
+      value["automaticAttemptCount"],
+    ),
     endpointId: value["endpointId"],
     id: value["id"],
     lastErrorCode: value["lastErrorCode"],

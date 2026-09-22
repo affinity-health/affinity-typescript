@@ -62,6 +62,13 @@ import {
   ListCatalogItemsResponseDataInnerQuantityConstraintToJSON,
   ListCatalogItemsResponseDataInnerQuantityConstraintToJSONTyped,
 } from "./ListCatalogItemsResponseDataInnerQuantityConstraint";
+import type { ListCatalogItemsResponseDataInnerMedicationGroup } from "./ListCatalogItemsResponseDataInnerMedicationGroup";
+import {
+  ListCatalogItemsResponseDataInnerMedicationGroupFromJSON,
+  ListCatalogItemsResponseDataInnerMedicationGroupFromJSONTyped,
+  ListCatalogItemsResponseDataInnerMedicationGroupToJSON,
+  ListCatalogItemsResponseDataInnerMedicationGroupToJSONTyped,
+} from "./ListCatalogItemsResponseDataInnerMedicationGroup";
 import type { ListCatalogItemsResponseDataInnerComposition } from "./ListCatalogItemsResponseDataInnerComposition";
 import {
   ListCatalogItemsResponseDataInnerCompositionFromJSON,
@@ -178,6 +185,12 @@ export interface ListCatalogItemsResponseDataInner {
    * @memberof ListCatalogItemsResponseDataInner
    */
   imageUrls: Array<string>;
+  /**
+   *
+   * @type {ListCatalogItemsResponseDataInnerMedicationGroup}
+   * @memberof ListCatalogItemsResponseDataInner
+   */
+  medicationGroup?: ListCatalogItemsResponseDataInnerMedicationGroup | null;
   /**
    *
    * @type {boolean}
@@ -354,6 +367,10 @@ export function ListCatalogItemsResponseDataInnerFromJSONTyped(
     id: json["id"],
     imageUrl: json["imageUrl"],
     imageUrls: json["imageUrls"],
+    medicationGroup:
+      json["medicationGroup"] == null
+        ? undefined
+        : ListCatalogItemsResponseDataInnerMedicationGroupFromJSON(json["medicationGroup"]),
     isOrderable: json["isOrderable"],
     livemode: json["livemode"],
     name: json["name"],
@@ -410,6 +427,9 @@ export function ListCatalogItemsResponseDataInnerToJSONTyped(
     id: value["id"],
     imageUrl: value["imageUrl"],
     imageUrls: value["imageUrls"],
+    medicationGroup: ListCatalogItemsResponseDataInnerMedicationGroupToJSON(
+      value["medicationGroup"],
+    ),
     isOrderable: value["isOrderable"],
     livemode: value["livemode"],
     name: value["name"],

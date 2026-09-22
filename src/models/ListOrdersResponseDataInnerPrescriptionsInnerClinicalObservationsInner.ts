@@ -13,13 +13,13 @@
  */
 
 import { mapValues } from "../runtime";
-import type { ListCatalogItemsResponseDataInnerPrescriptionRequirementsAllowedQuantitiesInnerValue } from "./ListCatalogItemsResponseDataInnerPrescriptionRequirementsAllowedQuantitiesInnerValue";
+import type { ListCatalogItemsResponseDataInnerMedicationGroupOfferCount } from "./ListCatalogItemsResponseDataInnerMedicationGroupOfferCount";
 import {
-  ListCatalogItemsResponseDataInnerPrescriptionRequirementsAllowedQuantitiesInnerValueFromJSON,
-  ListCatalogItemsResponseDataInnerPrescriptionRequirementsAllowedQuantitiesInnerValueFromJSONTyped,
-  ListCatalogItemsResponseDataInnerPrescriptionRequirementsAllowedQuantitiesInnerValueToJSON,
-  ListCatalogItemsResponseDataInnerPrescriptionRequirementsAllowedQuantitiesInnerValueToJSONTyped,
-} from "./ListCatalogItemsResponseDataInnerPrescriptionRequirementsAllowedQuantitiesInnerValue";
+  ListCatalogItemsResponseDataInnerMedicationGroupOfferCountFromJSON,
+  ListCatalogItemsResponseDataInnerMedicationGroupOfferCountFromJSONTyped,
+  ListCatalogItemsResponseDataInnerMedicationGroupOfferCountToJSON,
+  ListCatalogItemsResponseDataInnerMedicationGroupOfferCountToJSONTyped,
+} from "./ListCatalogItemsResponseDataInnerMedicationGroupOfferCount";
 
 /**
  *
@@ -41,10 +41,10 @@ export interface ListOrdersResponseDataInnerPrescriptionsInnerClinicalObservatio
   display: string;
   /**
    *
-   * @type {ListCatalogItemsResponseDataInnerPrescriptionRequirementsAllowedQuantitiesInnerValue}
+   * @type {ListCatalogItemsResponseDataInnerMedicationGroupOfferCount}
    * @memberof ListOrdersResponseDataInnerPrescriptionsInnerClinicalObservationsInner
    */
-  value: ListCatalogItemsResponseDataInnerPrescriptionRequirementsAllowedQuantitiesInnerValue;
+  value: ListCatalogItemsResponseDataInnerMedicationGroupOfferCount;
   /**
    *
    * @type {string}
@@ -84,10 +84,7 @@ export function ListOrdersResponseDataInnerPrescriptionsInnerClinicalObservation
   return {
     code: json["code"] == null ? undefined : json["code"],
     display: json["display"],
-    value:
-      ListCatalogItemsResponseDataInnerPrescriptionRequirementsAllowedQuantitiesInnerValueFromJSON(
-        json["value"],
-      ),
+    value: ListCatalogItemsResponseDataInnerMedicationGroupOfferCountFromJSON(json["value"]),
     unit: json["unit"],
   };
 }
@@ -112,10 +109,7 @@ export function ListOrdersResponseDataInnerPrescriptionsInnerClinicalObservation
   return {
     code: value["code"],
     display: value["display"],
-    value:
-      ListCatalogItemsResponseDataInnerPrescriptionRequirementsAllowedQuantitiesInnerValueToJSON(
-        value["value"],
-      ),
+    value: ListCatalogItemsResponseDataInnerMedicationGroupOfferCountToJSON(value["value"]),
     unit: value["unit"],
   };
 }

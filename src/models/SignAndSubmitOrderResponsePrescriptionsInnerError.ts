@@ -13,13 +13,13 @@
  */
 
 import { mapValues } from "../runtime";
-import type { ListCatalogItemsResponseDataInnerPrescriptionRequirementsAllowedQuantitiesInnerValue } from "./ListCatalogItemsResponseDataInnerPrescriptionRequirementsAllowedQuantitiesInnerValue";
+import type { ListCatalogItemsResponseDataInnerMedicationGroupOfferCount } from "./ListCatalogItemsResponseDataInnerMedicationGroupOfferCount";
 import {
-  ListCatalogItemsResponseDataInnerPrescriptionRequirementsAllowedQuantitiesInnerValueFromJSON,
-  ListCatalogItemsResponseDataInnerPrescriptionRequirementsAllowedQuantitiesInnerValueFromJSONTyped,
-  ListCatalogItemsResponseDataInnerPrescriptionRequirementsAllowedQuantitiesInnerValueToJSON,
-  ListCatalogItemsResponseDataInnerPrescriptionRequirementsAllowedQuantitiesInnerValueToJSONTyped,
-} from "./ListCatalogItemsResponseDataInnerPrescriptionRequirementsAllowedQuantitiesInnerValue";
+  ListCatalogItemsResponseDataInnerMedicationGroupOfferCountFromJSON,
+  ListCatalogItemsResponseDataInnerMedicationGroupOfferCountFromJSONTyped,
+  ListCatalogItemsResponseDataInnerMedicationGroupOfferCountToJSON,
+  ListCatalogItemsResponseDataInnerMedicationGroupOfferCountToJSONTyped,
+} from "./ListCatalogItemsResponseDataInnerMedicationGroupOfferCount";
 
 /**
  *
@@ -41,10 +41,10 @@ export interface SignAndSubmitOrderResponsePrescriptionsInnerError {
   detail: string;
   /**
    *
-   * @type {ListCatalogItemsResponseDataInnerPrescriptionRequirementsAllowedQuantitiesInnerValue}
+   * @type {ListCatalogItemsResponseDataInnerMedicationGroupOfferCount}
    * @memberof SignAndSubmitOrderResponsePrescriptionsInnerError
    */
-  status: ListCatalogItemsResponseDataInnerPrescriptionRequirementsAllowedQuantitiesInnerValue;
+  status: ListCatalogItemsResponseDataInnerMedicationGroupOfferCount;
 }
 
 /**
@@ -75,10 +75,7 @@ export function SignAndSubmitOrderResponsePrescriptionsInnerErrorFromJSONTyped(
   return {
     code: json["code"],
     detail: json["detail"],
-    status:
-      ListCatalogItemsResponseDataInnerPrescriptionRequirementsAllowedQuantitiesInnerValueFromJSON(
-        json["status"],
-      ),
+    status: ListCatalogItemsResponseDataInnerMedicationGroupOfferCountFromJSON(json["status"]),
   };
 }
 
@@ -99,9 +96,6 @@ export function SignAndSubmitOrderResponsePrescriptionsInnerErrorToJSONTyped(
   return {
     code: value["code"],
     detail: value["detail"],
-    status:
-      ListCatalogItemsResponseDataInnerPrescriptionRequirementsAllowedQuantitiesInnerValueToJSON(
-        value["status"],
-      ),
+    status: ListCatalogItemsResponseDataInnerMedicationGroupOfferCountToJSON(value["status"]),
   };
 }

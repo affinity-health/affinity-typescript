@@ -13,13 +13,13 @@
  */
 
 import { mapValues } from "../runtime";
-import type { ListCatalogItemsResponseDataInnerPrescriptionRequirementsAllowedQuantitiesInnerValue } from "./ListCatalogItemsResponseDataInnerPrescriptionRequirementsAllowedQuantitiesInnerValue";
+import type { ListCatalogItemsResponseDataInnerMedicationGroupOfferCount } from "./ListCatalogItemsResponseDataInnerMedicationGroupOfferCount";
 import {
-  ListCatalogItemsResponseDataInnerPrescriptionRequirementsAllowedQuantitiesInnerValueFromJSON,
-  ListCatalogItemsResponseDataInnerPrescriptionRequirementsAllowedQuantitiesInnerValueFromJSONTyped,
-  ListCatalogItemsResponseDataInnerPrescriptionRequirementsAllowedQuantitiesInnerValueToJSON,
-  ListCatalogItemsResponseDataInnerPrescriptionRequirementsAllowedQuantitiesInnerValueToJSONTyped,
-} from "./ListCatalogItemsResponseDataInnerPrescriptionRequirementsAllowedQuantitiesInnerValue";
+  ListCatalogItemsResponseDataInnerMedicationGroupOfferCountFromJSON,
+  ListCatalogItemsResponseDataInnerMedicationGroupOfferCountFromJSONTyped,
+  ListCatalogItemsResponseDataInnerMedicationGroupOfferCountToJSON,
+  ListCatalogItemsResponseDataInnerMedicationGroupOfferCountToJSONTyped,
+} from "./ListCatalogItemsResponseDataInnerMedicationGroupOfferCount";
 
 /**
  *
@@ -83,10 +83,10 @@ export interface CreateOrderResponsePrescriptionsInner {
   object: CreateOrderResponsePrescriptionsInnerObjectEnum;
   /**
    *
-   * @type {ListCatalogItemsResponseDataInnerPrescriptionRequirementsAllowedQuantitiesInnerValue}
+   * @type {ListCatalogItemsResponseDataInnerMedicationGroupOfferCount}
    * @memberof CreateOrderResponsePrescriptionsInner
    */
-  quantity: ListCatalogItemsResponseDataInnerPrescriptionRequirementsAllowedQuantitiesInnerValue;
+  quantity: ListCatalogItemsResponseDataInnerMedicationGroupOfferCount;
   /**
    *
    * @type {string}
@@ -171,10 +171,7 @@ export function CreateOrderResponsePrescriptionsInnerFromJSONTyped(
     medicationId: json["medicationId"],
     medicationName: json["medicationName"],
     object: json["object"],
-    quantity:
-      ListCatalogItemsResponseDataInnerPrescriptionRequirementsAllowedQuantitiesInnerValueFromJSON(
-        json["quantity"],
-      ),
+    quantity: ListCatalogItemsResponseDataInnerMedicationGroupOfferCountFromJSON(json["quantity"]),
     quantityUnit: json["quantityUnit"],
     refills: json["refills"],
     status: json["status"],
@@ -205,10 +202,7 @@ export function CreateOrderResponsePrescriptionsInnerToJSONTyped(
     medicationId: value["medicationId"],
     medicationName: value["medicationName"],
     object: value["object"],
-    quantity:
-      ListCatalogItemsResponseDataInnerPrescriptionRequirementsAllowedQuantitiesInnerValueToJSON(
-        value["quantity"],
-      ),
+    quantity: ListCatalogItemsResponseDataInnerMedicationGroupOfferCountToJSON(value["quantity"]),
     quantityUnit: value["quantityUnit"],
     refills: value["refills"],
     status: value["status"],

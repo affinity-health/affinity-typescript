@@ -13,13 +13,13 @@
  */
 
 import { mapValues } from "../runtime";
-import type { ListCatalogItemsResponseDataInnerPrescriptionRequirementsAllowedQuantitiesInnerValue } from "./ListCatalogItemsResponseDataInnerPrescriptionRequirementsAllowedQuantitiesInnerValue";
+import type { ListCatalogItemsResponseDataInnerMedicationGroupOfferCount } from "./ListCatalogItemsResponseDataInnerMedicationGroupOfferCount";
 import {
-  ListCatalogItemsResponseDataInnerPrescriptionRequirementsAllowedQuantitiesInnerValueFromJSON,
-  ListCatalogItemsResponseDataInnerPrescriptionRequirementsAllowedQuantitiesInnerValueFromJSONTyped,
-  ListCatalogItemsResponseDataInnerPrescriptionRequirementsAllowedQuantitiesInnerValueToJSON,
-  ListCatalogItemsResponseDataInnerPrescriptionRequirementsAllowedQuantitiesInnerValueToJSONTyped,
-} from "./ListCatalogItemsResponseDataInnerPrescriptionRequirementsAllowedQuantitiesInnerValue";
+  ListCatalogItemsResponseDataInnerMedicationGroupOfferCountFromJSON,
+  ListCatalogItemsResponseDataInnerMedicationGroupOfferCountFromJSONTyped,
+  ListCatalogItemsResponseDataInnerMedicationGroupOfferCountToJSON,
+  ListCatalogItemsResponseDataInnerMedicationGroupOfferCountToJSONTyped,
+} from "./ListCatalogItemsResponseDataInnerMedicationGroupOfferCount";
 
 /**
  *
@@ -29,16 +29,16 @@ import {
 export interface GetPracticeTeamResponsePrescribers {
   /**
    *
-   * @type {ListCatalogItemsResponseDataInnerPrescriptionRequirementsAllowedQuantitiesInnerValue}
+   * @type {ListCatalogItemsResponseDataInnerMedicationGroupOfferCount}
    * @memberof GetPracticeTeamResponsePrescribers
    */
-  total: ListCatalogItemsResponseDataInnerPrescriptionRequirementsAllowedQuantitiesInnerValue;
+  total: ListCatalogItemsResponseDataInnerMedicationGroupOfferCount;
   /**
    *
-   * @type {ListCatalogItemsResponseDataInnerPrescriptionRequirementsAllowedQuantitiesInnerValue}
+   * @type {ListCatalogItemsResponseDataInnerMedicationGroupOfferCount}
    * @memberof GetPracticeTeamResponsePrescribers
    */
-  active: ListCatalogItemsResponseDataInnerPrescriptionRequirementsAllowedQuantitiesInnerValue;
+  active: ListCatalogItemsResponseDataInnerMedicationGroupOfferCount;
 }
 
 /**
@@ -66,14 +66,8 @@ export function GetPracticeTeamResponsePrescribersFromJSONTyped(
     return json;
   }
   return {
-    total:
-      ListCatalogItemsResponseDataInnerPrescriptionRequirementsAllowedQuantitiesInnerValueFromJSON(
-        json["total"],
-      ),
-    active:
-      ListCatalogItemsResponseDataInnerPrescriptionRequirementsAllowedQuantitiesInnerValueFromJSON(
-        json["active"],
-      ),
+    total: ListCatalogItemsResponseDataInnerMedicationGroupOfferCountFromJSON(json["total"]),
+    active: ListCatalogItemsResponseDataInnerMedicationGroupOfferCountFromJSON(json["active"]),
   };
 }
 
@@ -92,13 +86,7 @@ export function GetPracticeTeamResponsePrescribersToJSONTyped(
   }
 
   return {
-    total:
-      ListCatalogItemsResponseDataInnerPrescriptionRequirementsAllowedQuantitiesInnerValueToJSON(
-        value["total"],
-      ),
-    active:
-      ListCatalogItemsResponseDataInnerPrescriptionRequirementsAllowedQuantitiesInnerValueToJSON(
-        value["active"],
-      ),
+    total: ListCatalogItemsResponseDataInnerMedicationGroupOfferCountToJSON(value["total"]),
+    active: ListCatalogItemsResponseDataInnerMedicationGroupOfferCountToJSON(value["active"]),
   };
 }

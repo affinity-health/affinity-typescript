@@ -19,6 +19,38 @@ test("supplies share the catalog resource and serialize the kind filter", async 
   expect(new URL(request!.url).searchParams.get("catalogKind")).toBe("otc");
 });
 
+test("catalog discovery preserves grouping, related-offer filters, and pagination", async () => {
+  const requests: Request[] = [];
+  const medicationGroup = { offerCount: 3, pharmacyCount: 2, strengths: ["5 mg", "10 mg"] };
+  const affinity = new Affinity("sk_test_example", {
+    fetch: async (input, init) => {
+      requests.push(new Request(input, init));
+      return Response.json({
+        object: "list",
+        data: [
+          { id: medicationId, medicationGroup, fulfillmentInclusions: [], shippingOptions: [] },
+        ],
+        hasMore: true,
+        url: "/v1/catalog/items",
+      });
+    },
+  });
+  const page = await affinity.catalog.list({ view: "medications", query: "tadalafil", limit: 25 });
+  expect(page.data[0]?.medicationGroup).toEqual(medicationGroup);
+  expect(new URL(requests[0]!.url).searchParams.get("view")).toBe("medications");
+
+  await affinity.catalog.list({
+    view: "offers",
+    relatedToCatalogItemId: medicationId,
+    startingAfter: page.data[0]!.id,
+    limit: 25,
+  });
+  const query = new URL(requests[1]!.url).searchParams;
+  expect(query.get("view")).toBe("offers");
+  expect(query.get("relatedToCatalogItemId")).toBe(medicationId);
+  expect(query.get("startingAfter")).toBe(medicationId);
+});
+
 test("prescribing options serialize the item and practice scope", async () => {
   let request: Request | undefined;
   const affinity = new Affinity("sk_test_example", {

@@ -13,13 +13,13 @@
  */
 
 import { mapValues } from "../runtime";
-import type { ListCatalogItemsResponseDataInnerPrescriptionRequirementsAllowedQuantitiesInnerValue } from "./ListCatalogItemsResponseDataInnerPrescriptionRequirementsAllowedQuantitiesInnerValue";
+import type { ListCatalogItemsResponseDataInnerMedicationGroupOfferCount } from "./ListCatalogItemsResponseDataInnerMedicationGroupOfferCount";
 import {
-  ListCatalogItemsResponseDataInnerPrescriptionRequirementsAllowedQuantitiesInnerValueFromJSON,
-  ListCatalogItemsResponseDataInnerPrescriptionRequirementsAllowedQuantitiesInnerValueFromJSONTyped,
-  ListCatalogItemsResponseDataInnerPrescriptionRequirementsAllowedQuantitiesInnerValueToJSON,
-  ListCatalogItemsResponseDataInnerPrescriptionRequirementsAllowedQuantitiesInnerValueToJSONTyped,
-} from "./ListCatalogItemsResponseDataInnerPrescriptionRequirementsAllowedQuantitiesInnerValue";
+  ListCatalogItemsResponseDataInnerMedicationGroupOfferCountFromJSON,
+  ListCatalogItemsResponseDataInnerMedicationGroupOfferCountFromJSONTyped,
+  ListCatalogItemsResponseDataInnerMedicationGroupOfferCountToJSON,
+  ListCatalogItemsResponseDataInnerMedicationGroupOfferCountToJSONTyped,
+} from "./ListCatalogItemsResponseDataInnerMedicationGroupOfferCount";
 
 /**
  *
@@ -47,10 +47,10 @@ export interface ListCatalogItemsResponseDataInnerPrescriptionRequirementsAllowe
   unit: string;
   /**
    *
-   * @type {ListCatalogItemsResponseDataInnerPrescriptionRequirementsAllowedQuantitiesInnerValue}
+   * @type {ListCatalogItemsResponseDataInnerMedicationGroupOfferCount}
    * @memberof ListCatalogItemsResponseDataInnerPrescriptionRequirementsAllowedQuantitiesInner
    */
-  value: ListCatalogItemsResponseDataInnerPrescriptionRequirementsAllowedQuantitiesInnerValue;
+  value: ListCatalogItemsResponseDataInnerMedicationGroupOfferCount;
 }
 
 /**
@@ -85,10 +85,7 @@ export function ListCatalogItemsResponseDataInnerPrescriptionRequirementsAllowed
     daysSupply: json["daysSupply"] == null ? undefined : json["daysSupply"],
     label: json["label"],
     unit: json["unit"],
-    value:
-      ListCatalogItemsResponseDataInnerPrescriptionRequirementsAllowedQuantitiesInnerValueFromJSON(
-        json["value"],
-      ),
+    value: ListCatalogItemsResponseDataInnerMedicationGroupOfferCountFromJSON(json["value"]),
   };
 }
 
@@ -113,9 +110,6 @@ export function ListCatalogItemsResponseDataInnerPrescriptionRequirementsAllowed
     daysSupply: value["daysSupply"],
     label: value["label"],
     unit: value["unit"],
-    value:
-      ListCatalogItemsResponseDataInnerPrescriptionRequirementsAllowedQuantitiesInnerValueToJSON(
-        value["value"],
-      ),
+    value: ListCatalogItemsResponseDataInnerMedicationGroupOfferCountToJSON(value["value"]),
   };
 }

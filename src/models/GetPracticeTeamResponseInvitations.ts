@@ -13,13 +13,13 @@
  */
 
 import { mapValues } from "../runtime";
-import type { ListCatalogItemsResponseDataInnerPrescriptionRequirementsAllowedQuantitiesInnerValue } from "./ListCatalogItemsResponseDataInnerPrescriptionRequirementsAllowedQuantitiesInnerValue";
+import type { ListCatalogItemsResponseDataInnerMedicationGroupOfferCount } from "./ListCatalogItemsResponseDataInnerMedicationGroupOfferCount";
 import {
-  ListCatalogItemsResponseDataInnerPrescriptionRequirementsAllowedQuantitiesInnerValueFromJSON,
-  ListCatalogItemsResponseDataInnerPrescriptionRequirementsAllowedQuantitiesInnerValueFromJSONTyped,
-  ListCatalogItemsResponseDataInnerPrescriptionRequirementsAllowedQuantitiesInnerValueToJSON,
-  ListCatalogItemsResponseDataInnerPrescriptionRequirementsAllowedQuantitiesInnerValueToJSONTyped,
-} from "./ListCatalogItemsResponseDataInnerPrescriptionRequirementsAllowedQuantitiesInnerValue";
+  ListCatalogItemsResponseDataInnerMedicationGroupOfferCountFromJSON,
+  ListCatalogItemsResponseDataInnerMedicationGroupOfferCountFromJSONTyped,
+  ListCatalogItemsResponseDataInnerMedicationGroupOfferCountToJSON,
+  ListCatalogItemsResponseDataInnerMedicationGroupOfferCountToJSONTyped,
+} from "./ListCatalogItemsResponseDataInnerMedicationGroupOfferCount";
 
 /**
  *
@@ -29,16 +29,16 @@ import {
 export interface GetPracticeTeamResponseInvitations {
   /**
    *
-   * @type {ListCatalogItemsResponseDataInnerPrescriptionRequirementsAllowedQuantitiesInnerValue}
+   * @type {ListCatalogItemsResponseDataInnerMedicationGroupOfferCount}
    * @memberof GetPracticeTeamResponseInvitations
    */
-  pending: ListCatalogItemsResponseDataInnerPrescriptionRequirementsAllowedQuantitiesInnerValue;
+  pending: ListCatalogItemsResponseDataInnerMedicationGroupOfferCount;
   /**
    *
-   * @type {ListCatalogItemsResponseDataInnerPrescriptionRequirementsAllowedQuantitiesInnerValue}
+   * @type {ListCatalogItemsResponseDataInnerMedicationGroupOfferCount}
    * @memberof GetPracticeTeamResponseInvitations
    */
-  expired: ListCatalogItemsResponseDataInnerPrescriptionRequirementsAllowedQuantitiesInnerValue;
+  expired: ListCatalogItemsResponseDataInnerMedicationGroupOfferCount;
 }
 
 /**
@@ -66,14 +66,8 @@ export function GetPracticeTeamResponseInvitationsFromJSONTyped(
     return json;
   }
   return {
-    pending:
-      ListCatalogItemsResponseDataInnerPrescriptionRequirementsAllowedQuantitiesInnerValueFromJSON(
-        json["pending"],
-      ),
-    expired:
-      ListCatalogItemsResponseDataInnerPrescriptionRequirementsAllowedQuantitiesInnerValueFromJSON(
-        json["expired"],
-      ),
+    pending: ListCatalogItemsResponseDataInnerMedicationGroupOfferCountFromJSON(json["pending"]),
+    expired: ListCatalogItemsResponseDataInnerMedicationGroupOfferCountFromJSON(json["expired"]),
   };
 }
 
@@ -92,13 +86,7 @@ export function GetPracticeTeamResponseInvitationsToJSONTyped(
   }
 
   return {
-    pending:
-      ListCatalogItemsResponseDataInnerPrescriptionRequirementsAllowedQuantitiesInnerValueToJSON(
-        value["pending"],
-      ),
-    expired:
-      ListCatalogItemsResponseDataInnerPrescriptionRequirementsAllowedQuantitiesInnerValueToJSON(
-        value["expired"],
-      ),
+    pending: ListCatalogItemsResponseDataInnerMedicationGroupOfferCountToJSON(value["pending"]),
+    expired: ListCatalogItemsResponseDataInnerMedicationGroupOfferCountToJSON(value["expired"]),
   };
 }

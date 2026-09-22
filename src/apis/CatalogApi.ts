@@ -51,6 +51,8 @@ import {
 } from "../models/RetrievePrescribingOptionsResponse";
 
 export interface ListCatalogItemsRequest {
+  view?: ListCatalogItemsViewEnum;
+  relatedToCatalogItemId?: string | null;
   catalogKind?: ListCatalogItemsCatalogKindEnum;
   sort?: ListCatalogItemsSortEnum;
   catalogItemId?: string | null;
@@ -105,6 +107,14 @@ export class CatalogApi extends runtime.BaseAPI {
     requestParameters: ListCatalogItemsRequest,
   ): Promise<runtime.RequestOpts> {
     const queryParameters: any = {};
+
+    if (requestParameters["view"] != null) {
+      queryParameters["view"] = requestParameters["view"];
+    }
+
+    if (requestParameters["relatedToCatalogItemId"] != null) {
+      queryParameters["relatedToCatalogItemId"] = requestParameters["relatedToCatalogItemId"];
+    }
 
     if (requestParameters["catalogKind"] != null) {
       queryParameters["catalogKind"] = requestParameters["catalogKind"];
@@ -200,7 +210,7 @@ export class CatalogApi extends runtime.BaseAPI {
   }
 
   /**
-   * Lists catalog items for the authenticated account and mode. When practiceId is supplied, a practice price overrides the platform price and missing overrides inherit the platform price.
+   * Lists catalog items for the authenticated account and mode. Use view=medications for priced prescription groups with offer counts, pharmacy counts, and strengths; the default view=offers returns individual offers. Use relatedToCatalogItemId to find offers for the same medication and route. When practiceId is supplied, a practice price overrides the platform price and missing overrides inherit the platform price.
    * List catalog items
    */
   async listCatalogItemsRaw(
@@ -216,7 +226,7 @@ export class CatalogApi extends runtime.BaseAPI {
   }
 
   /**
-   * Lists catalog items for the authenticated account and mode. When practiceId is supplied, a practice price overrides the platform price and missing overrides inherit the platform price.
+   * Lists catalog items for the authenticated account and mode. Use view=medications for priced prescription groups with offer counts, pharmacy counts, and strengths; the default view=offers returns individual offers. Use relatedToCatalogItemId to find offers for the same medication and route. When practiceId is supplied, a practice price overrides the platform price and missing overrides inherit the platform price.
    * List catalog items
    */
   async listCatalogItems(
@@ -499,6 +509,15 @@ export class CatalogApi extends runtime.BaseAPI {
   }
 }
 
+/**
+ * @export
+ */
+export const ListCatalogItemsViewEnum = {
+  Offers: "offers",
+  Medications: "medications",
+} as const;
+export type ListCatalogItemsViewEnum =
+  (typeof ListCatalogItemsViewEnum)[keyof typeof ListCatalogItemsViewEnum];
 /**
  * @export
  */

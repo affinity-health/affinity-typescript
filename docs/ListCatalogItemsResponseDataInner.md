@@ -21,6 +21,7 @@
 | `id`                       | string                                                                                                                                     |
 | `imageUrl`                 | string                                                                                                                                     |
 | `imageUrls`                | Array&lt;string&gt;                                                                                                                        |
+| `medicationGroup`          | [ListCatalogItemsResponseDataInnerMedicationGroup](ListCatalogItemsResponseDataInnerMedicationGroup.md)                                    |
 | `isOrderable`              | boolean                                                                                                                                    |
 | `livemode`                 | boolean                                                                                                                                    |
 | `name`                     | string                                                                                                                                     |

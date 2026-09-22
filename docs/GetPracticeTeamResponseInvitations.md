@@ -2,9 +2,9 @@
 
 ## Properties
 
-| Name      | Type                                                                                                                                                                            |
-| --------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `pending` | [ListCatalogItemsResponseDataInnerPrescriptionRequirementsAllowedQuantitiesInnerValue](ListCatalogItemsResponseDataInnerPrescriptionRequirementsAllowedQuantitiesInnerValue.md) |
-| `expired` | [ListCatalogItemsResponseDataInnerPrescriptionRequirementsAllowedQuantitiesInnerValue](ListCatalogItemsResponseDataInnerPrescriptionRequirementsAllowedQuantitiesInnerValue.md) |
+| Name      | Type                                                                                                                        |
+| --------- | --------------------------------------------------------------------------------------------------------------------------- |
+| `pending` | [ListCatalogItemsResponseDataInnerMedicationGroupOfferCount](ListCatalogItemsResponseDataInnerMedicationGroupOfferCount.md) |
+| `expired` | [ListCatalogItemsResponseDataInnerMedicationGroupOfferCount](ListCatalogItemsResponseDataInnerMedicationGroupOfferCount.md) |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)

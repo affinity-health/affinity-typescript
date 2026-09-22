@@ -7,6 +7,13 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 
 ## [Unreleased]
 
+## [1.11.0] - 2026-09-22
+
+### Added
+
+- Discover grouped medications with `catalog.list({ view: "medications" })`, including offer counts, pharmacy counts, and available strengths.
+- Retrieve related offers for the same medication and route with the `relatedToCatalogItemId` catalog filter.
+
 ## [1.10.4] - 2026-09-22
 
 ### Added

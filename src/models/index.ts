@@ -115,10 +115,11 @@ export * from "./ListCatalogItemsResponseDataInnerCompositionIngredientsInnerStr
 export * from "./ListCatalogItemsResponseDataInnerCompositionIngredientsInnerStrengthOneOf2";
 export * from "./ListCatalogItemsResponseDataInnerCompositionIngredientsInnerStrengthOneOfAmount";
 export * from "./ListCatalogItemsResponseDataInnerFulfillmentInclusionsInner";
+export * from "./ListCatalogItemsResponseDataInnerMedicationGroup";
+export * from "./ListCatalogItemsResponseDataInnerMedicationGroupOfferCount";
 export * from "./ListCatalogItemsResponseDataInnerOrdering";
 export * from "./ListCatalogItemsResponseDataInnerPrescriptionRequirements";
 export * from "./ListCatalogItemsResponseDataInnerPrescriptionRequirementsAllowedQuantitiesInner";
-export * from "./ListCatalogItemsResponseDataInnerPrescriptionRequirementsAllowedQuantitiesInnerValue";
 export * from "./ListCatalogItemsResponseDataInnerPrescriptionRequirementsDefaultQuantity";
 export * from "./ListCatalogItemsResponseDataInnerPrescriptionRequirementsQuantityIncrement";
 export * from "./ListCatalogItemsResponseDataInnerPrescriptionRequirementsQuantityIncrementMax";

@@ -11,11 +11,11 @@ All URIs are relative to *https://api.joinaffinityai.com*
 
 ## listCatalogItems
 
-> ListCatalogItemsResponse listCatalogItems(catalogKind, sort, catalogItemId, availability, pharmacyIds, dosageForms, endingBefore, hideControlledSubstances, hideUnpriced, limit, orgId, practiceId, query, requirement, routes, startingAfter, affinityVersion)
+> ListCatalogItemsResponse listCatalogItems(view, relatedToCatalogItemId, catalogKind, sort, catalogItemId, availability, pharmacyIds, dosageForms, endingBefore, hideControlledSubstances, hideUnpriced, limit, orgId, practiceId, query, requirement, routes, startingAfter, affinityVersion)
 
 List catalog items
 
-Lists catalog items for the authenticated account and mode. When practiceId is supplied, a practice price overrides the platform price and missing overrides inherit the platform price.
+Lists catalog items for the authenticated account and mode. Use view&#x3D;medications for priced prescription groups with offer counts, pharmacy counts, and strengths; the default view&#x3D;offers returns individual offers. Use relatedToCatalogItemId to find offers for the same medication and route. When practiceId is supplied, a practice price overrides the platform price and missing overrides inherit the platform price.
 
 ### Example
 
@@ -37,6 +37,10 @@ async function example() {
   const api = new CatalogApi(config);
 
   const body = {
+    // 'offers' | 'medications' (optional)
+    view: view_example,
+    // string (optional)
+    relatedToCatalogItemId: cat_01j2y8m6jcc9tt24af5pw9x1bc,
     // 'prescription' | 'otc' (optional)
     catalogKind: catalogKind_example,
     // 'relevance' | 'name_asc' | 'name_desc' (optional)
@@ -89,6 +93,8 @@ example().catch(console.error);
 
 | Name                         | Type                                    | Description | Notes                                                                          |
 | ---------------------------- | --------------------------------------- | ----------- | ------------------------------------------------------------------------------ |
+| **view**                     | `offers`, `medications`                 |             | [Optional] [Defaults to `undefined`] [Enum: offers, medications]               |
+| **relatedToCatalogItemId**   | `string`                                |             | [Optional] [Defaults to `undefined`]                                           |
 | **catalogKind**              | `prescription`, `otc`                   |             | [Optional] [Defaults to `undefined`] [Enum: prescription, otc]                 |
 | **sort**                     | `relevance`, `name_asc`, `name_desc`    |             | [Optional] [Defaults to `undefined`] [Enum: relevance, name_asc, name_desc]    |
 | **catalogItemId**            | `string`                                |             | [Optional] [Defaults to `undefined`]                                           |

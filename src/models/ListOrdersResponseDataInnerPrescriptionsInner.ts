@@ -13,13 +13,6 @@
  */
 
 import { mapValues } from "../runtime";
-import type { ListCatalogItemsResponseDataInnerPrescriptionRequirementsAllowedQuantitiesInnerValue } from "./ListCatalogItemsResponseDataInnerPrescriptionRequirementsAllowedQuantitiesInnerValue";
-import {
-  ListCatalogItemsResponseDataInnerPrescriptionRequirementsAllowedQuantitiesInnerValueFromJSON,
-  ListCatalogItemsResponseDataInnerPrescriptionRequirementsAllowedQuantitiesInnerValueFromJSONTyped,
-  ListCatalogItemsResponseDataInnerPrescriptionRequirementsAllowedQuantitiesInnerValueToJSON,
-  ListCatalogItemsResponseDataInnerPrescriptionRequirementsAllowedQuantitiesInnerValueToJSONTyped,
-} from "./ListCatalogItemsResponseDataInnerPrescriptionRequirementsAllowedQuantitiesInnerValue";
 import type { ListOrdersResponseDataInnerPrescriptionsInnerPatientSnapshot } from "./ListOrdersResponseDataInnerPrescriptionsInnerPatientSnapshot";
 import {
   ListOrdersResponseDataInnerPrescriptionsInnerPatientSnapshotFromJSON,
@@ -48,6 +41,13 @@ import {
   ListOrdersResponseDataInnerPrescriptionsInnerStructuredSigToJSON,
   ListOrdersResponseDataInnerPrescriptionsInnerStructuredSigToJSONTyped,
 } from "./ListOrdersResponseDataInnerPrescriptionsInnerStructuredSig";
+import type { ListCatalogItemsResponseDataInnerMedicationGroupOfferCount } from "./ListCatalogItemsResponseDataInnerMedicationGroupOfferCount";
+import {
+  ListCatalogItemsResponseDataInnerMedicationGroupOfferCountFromJSON,
+  ListCatalogItemsResponseDataInnerMedicationGroupOfferCountFromJSONTyped,
+  ListCatalogItemsResponseDataInnerMedicationGroupOfferCountToJSON,
+  ListCatalogItemsResponseDataInnerMedicationGroupOfferCountToJSONTyped,
+} from "./ListCatalogItemsResponseDataInnerMedicationGroupOfferCount";
 import type { ListOrdersResponseDataInnerPrescriptionsInnerClinical } from "./ListOrdersResponseDataInnerPrescriptionsInnerClinical";
 import {
   ListOrdersResponseDataInnerPrescriptionsInnerClinicalFromJSON,
@@ -161,10 +161,10 @@ export interface ListOrdersResponseDataInnerPrescriptionsInner {
   medicationName: string;
   /**
    *
-   * @type {ListCatalogItemsResponseDataInnerPrescriptionRequirementsAllowedQuantitiesInnerValue}
+   * @type {ListCatalogItemsResponseDataInnerMedicationGroupOfferCount}
    * @memberof ListOrdersResponseDataInnerPrescriptionsInner
    */
-  quantity: ListCatalogItemsResponseDataInnerPrescriptionRequirementsAllowedQuantitiesInnerValue;
+  quantity: ListCatalogItemsResponseDataInnerMedicationGroupOfferCount;
   /**
    *
    * @type {string}
@@ -259,10 +259,7 @@ export function ListOrdersResponseDataInnerPrescriptionsInnerFromJSONTyped(
     dosageForm: json["dosageForm"],
     id: json["id"],
     medicationName: json["medicationName"],
-    quantity:
-      ListCatalogItemsResponseDataInnerPrescriptionRequirementsAllowedQuantitiesInnerValueFromJSON(
-        json["quantity"],
-      ),
+    quantity: ListCatalogItemsResponseDataInnerMedicationGroupOfferCountFromJSON(json["quantity"]),
     quantityUnit: json["quantityUnit"],
     refills: json["refills"],
     status: json["status"],
@@ -308,10 +305,7 @@ export function ListOrdersResponseDataInnerPrescriptionsInnerToJSONTyped(
     dosageForm: value["dosageForm"],
     id: value["id"],
     medicationName: value["medicationName"],
-    quantity:
-      ListCatalogItemsResponseDataInnerPrescriptionRequirementsAllowedQuantitiesInnerValueToJSON(
-        value["quantity"],
-      ),
+    quantity: ListCatalogItemsResponseDataInnerMedicationGroupOfferCountToJSON(value["quantity"]),
     quantityUnit: value["quantityUnit"],
     refills: value["refills"],
     status: value["status"],

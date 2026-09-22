@@ -866,6 +866,44 @@
         "parameters": [
           {
             "in": "query",
+            "name": "view",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "enum": [
+                    "offers",
+                    "medications"
+                  ]
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
+          },
+          {
+            "in": "query",
+            "name": "relatedToCatalogItemId",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "pattern": "^cat_[0-9a-hjkmnp-tv-z]{26}$",
+                  "examples": [
+                    "cat_01j2y8m6jcc9tt24af5pw9x1bc"
+                  ]
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
+          },
+          {
+            "in": "query",
             "name": "catalogKind",
             "required": false,
             "schema": {
@@ -1309,7 +1347,7 @@
             }
           }
         },
-        "description": "Lists catalog items for the authenticated account and mode. When practiceId is supplied, a practice price overrides the platform price and missing overrides inherit the platform price.",
+        "description": "Lists catalog items for the authenticated account and mode. Use view=medications for priced prescription groups with offer counts, pharmacy counts, and strengths; the default view=offers returns individual offers. Use relatedToCatalogItemId to find offers for the same medication and route. When practiceId is supplied, a practice price overrides the platform price and missing overrides inherit the platform price.",
         "summary": "List catalog items",
         "x-pier-pagination": {
           "cursorField": "id",
@@ -13409,6 +13447,60 @@
                     }
                   ]
                 },
+                "medicationGroup": {
+                  "anyOf": [
+                    {
+                      "type": "object",
+                      "properties": {
+                        "offerCount": {
+                          "anyOf": [
+                            {
+                              "type": "number"
+                            },
+                            {
+                              "type": "string",
+                              "enum": [
+                                "Infinity",
+                                "-Infinity",
+                                "NaN"
+                              ]
+                            }
+                          ]
+                        },
+                        "pharmacyCount": {
+                          "anyOf": [
+                            {
+                              "type": "number"
+                            },
+                            {
+                              "type": "string",
+                              "enum": [
+                                "Infinity",
+                                "-Infinity",
+                                "NaN"
+                              ]
+                            }
+                          ]
+                        },
+                        "strengths": {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          }
+                        }
+                      },
+                      "required": [
+                        "offerCount",
+                        "pharmacyCount",
+                        "strengths"
+                      ],
+                      "additionalProperties": false
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
                 "isOrderable": {
                   "type": "boolean"
                 },
@@ -25237,6 +25329,60 @@
                 "allOf": [
                   {
                     "maxItems": 40
+                  }
+                ]
+              },
+              "medicationGroup": {
+                "anyOf": [
+                  {
+                    "type": "object",
+                    "properties": {
+                      "offerCount": {
+                        "anyOf": [
+                          {
+                            "type": "number"
+                          },
+                          {
+                            "type": "string",
+                            "enum": [
+                              "Infinity",
+                              "-Infinity",
+                              "NaN"
+                            ]
+                          }
+                        ]
+                      },
+                      "pharmacyCount": {
+                        "anyOf": [
+                          {
+                            "type": "number"
+                          },
+                          {
+                            "type": "string",
+                            "enum": [
+                              "Infinity",
+                              "-Infinity",
+                              "NaN"
+                            ]
+                          }
+                        ]
+                      },
+                      "strengths": {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        }
+                      }
+                    },
+                    "required": [
+                      "offerCount",
+                      "pharmacyCount",
+                      "strengths"
+                    ],
+                    "additionalProperties": false
+                  },
+                  {
+                    "type": "null"
                   }
                 ]
               },
