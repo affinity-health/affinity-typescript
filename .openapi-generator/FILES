@@ -62,7 +62,6 @@ docs/CreatePracticeLocationRequest.md
 docs/CreatePracticeLocationResponse.md
 docs/CreatePracticeRequest.md
 docs/CreatePracticeRequestAttestations.md
-docs/CreatePracticeRequestPrescribersInner.md
 docs/CreatePracticeResponse.md
 docs/CreatePracticeTeamLicenseRequest.md
 docs/CreatePracticeTeamLicenseResponse.md
@@ -225,7 +224,8 @@ docs/PreviewOrderRequestShipping.md
 docs/PreviewOrderResponse.md
 docs/PreviewOrderResponseOneOf.md
 docs/PreviewOrderResponseOneOf1.md
-docs/PreviewOrderResponseOneOfIssuesInner.md
+docs/PreviewOrderResponseOneOfClinicalIssuesInner.md
+docs/PreviewOrderResponseOneOfClinicalRequirementsInner.md
 docs/PreviewOrderResponseOneOfOrderInput.md
 docs/PreviewOrderResponseOneOfOrderInputOneOf.md
 docs/PreviewOrderResponseOneOfOrderInputOneOf1.md
@@ -387,7 +387,6 @@ src/models/CreatePracticeLocationRequest.ts
 src/models/CreatePracticeLocationResponse.ts
 src/models/CreatePracticeRequest.ts
 src/models/CreatePracticeRequestAttestations.ts
-src/models/CreatePracticeRequestPrescribersInner.ts
 src/models/CreatePracticeResponse.ts
 src/models/CreatePracticeTeamLicenseRequest.ts
 src/models/CreatePracticeTeamLicenseResponse.ts
@@ -545,7 +544,8 @@ src/models/PreviewOrderRequestShipping.ts
 src/models/PreviewOrderResponse.ts
 src/models/PreviewOrderResponseOneOf.ts
 src/models/PreviewOrderResponseOneOf1.ts
-src/models/PreviewOrderResponseOneOfIssuesInner.ts
+src/models/PreviewOrderResponseOneOfClinicalIssuesInner.ts
+src/models/PreviewOrderResponseOneOfClinicalRequirementsInner.ts
 src/models/PreviewOrderResponseOneOfOrderInput.ts
 src/models/PreviewOrderResponseOneOfOrderInputOneOf.ts
 src/models/PreviewOrderResponseOneOfOrderInputOneOf1.ts

@@ -13,13 +13,13 @@
  */
 
 import { mapValues } from "../runtime";
-import type { CreatePracticeRequestPrescribersInner } from "./CreatePracticeRequestPrescribersInner";
+import type { ListPracticesResponseDataInnerPrescribersInner } from "./ListPracticesResponseDataInnerPrescribersInner";
 import {
-  CreatePracticeRequestPrescribersInnerFromJSON,
-  CreatePracticeRequestPrescribersInnerFromJSONTyped,
-  CreatePracticeRequestPrescribersInnerToJSON,
-  CreatePracticeRequestPrescribersInnerToJSONTyped,
-} from "./CreatePracticeRequestPrescribersInner";
+  ListPracticesResponseDataInnerPrescribersInnerFromJSON,
+  ListPracticesResponseDataInnerPrescribersInnerFromJSONTyped,
+  ListPracticesResponseDataInnerPrescribersInnerToJSON,
+  ListPracticesResponseDataInnerPrescribersInnerToJSONTyped,
+} from "./ListPracticesResponseDataInnerPrescribersInner";
 import type { UpdatePracticeRequestAttestations } from "./UpdatePracticeRequestAttestations";
 import {
   UpdatePracticeRequestAttestationsFromJSON,
@@ -98,10 +98,10 @@ export interface UpdatePracticeRequest {
   name?: string | null;
   /**
    *
-   * @type {Array<CreatePracticeRequestPrescribersInner>}
+   * @type {Array<ListPracticesResponseDataInnerPrescribersInner>}
    * @memberof UpdatePracticeRequest
    */
-  prescribers?: Array<CreatePracticeRequestPrescribersInner> | null;
+  prescribers?: Array<ListPracticesResponseDataInnerPrescribersInner> | null;
   /**
    *
    * @type {ListPracticesResponseDataInnerContactsCompliance}
@@ -167,7 +167,9 @@ export function UpdatePracticeRequestFromJSONTyped(
     prescribers:
       json["prescribers"] == null
         ? undefined
-        : (json["prescribers"] as Array<any>).map(CreatePracticeRequestPrescribersInnerFromJSON),
+        : (json["prescribers"] as Array<any>).map(
+            ListPracticesResponseDataInnerPrescribersInnerFromJSON,
+          ),
     primaryContact:
       json["primaryContact"] == null
         ? undefined
@@ -204,7 +206,9 @@ export function UpdatePracticeRequestToJSONTyped(
     prescribers:
       value["prescribers"] == null
         ? undefined
-        : (value["prescribers"] as Array<any>).map(CreatePracticeRequestPrescribersInnerToJSON),
+        : (value["prescribers"] as Array<any>).map(
+            ListPracticesResponseDataInnerPrescribersInnerToJSON,
+          ),
     primaryContact: ListPracticesResponseDataInnerContactsComplianceToJSON(value["primaryContact"]),
     supportEmail: value["supportEmail"],
     supportPhone: value["supportPhone"],

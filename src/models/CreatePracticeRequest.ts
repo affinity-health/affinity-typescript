@@ -13,6 +13,13 @@
  */
 
 import { mapValues } from "../runtime";
+import type { ListPracticesResponseDataInnerPrescribersInner } from "./ListPracticesResponseDataInnerPrescribersInner";
+import {
+  ListPracticesResponseDataInnerPrescribersInnerFromJSON,
+  ListPracticesResponseDataInnerPrescribersInnerFromJSONTyped,
+  ListPracticesResponseDataInnerPrescribersInnerToJSON,
+  ListPracticesResponseDataInnerPrescribersInnerToJSONTyped,
+} from "./ListPracticesResponseDataInnerPrescribersInner";
 import type { ListPatientAddressesResponseDataInnerAddress } from "./ListPatientAddressesResponseDataInnerAddress";
 import {
   ListPatientAddressesResponseDataInnerAddressFromJSON,
@@ -27,13 +34,6 @@ import {
   CreatePracticeRequestAttestationsToJSON,
   CreatePracticeRequestAttestationsToJSONTyped,
 } from "./CreatePracticeRequestAttestations";
-import type { CreatePracticeRequestPrescribersInner } from "./CreatePracticeRequestPrescribersInner";
-import {
-  CreatePracticeRequestPrescribersInnerFromJSON,
-  CreatePracticeRequestPrescribersInnerFromJSONTyped,
-  CreatePracticeRequestPrescribersInnerToJSON,
-  CreatePracticeRequestPrescribersInnerToJSONTyped,
-} from "./CreatePracticeRequestPrescribersInner";
 import type { ListPracticesResponseDataInnerContactsCompliance } from "./ListPracticesResponseDataInnerContactsCompliance";
 import {
   ListPracticesResponseDataInnerContactsComplianceFromJSON,
@@ -98,10 +98,10 @@ export interface CreatePracticeRequest {
   name: string;
   /**
    *
-   * @type {Array<CreatePracticeRequestPrescribersInner>}
+   * @type {Array<ListPracticesResponseDataInnerPrescribersInner>}
    * @memberof CreatePracticeRequest
    */
-  prescribers?: Array<CreatePracticeRequestPrescribersInner> | null;
+  prescribers?: Array<ListPracticesResponseDataInnerPrescribersInner> | null;
   /**
    *
    * @type {ListPracticesResponseDataInnerContactsCompliance}
@@ -164,7 +164,9 @@ export function CreatePracticeRequestFromJSONTyped(
     prescribers:
       json["prescribers"] == null
         ? undefined
-        : (json["prescribers"] as Array<any>).map(CreatePracticeRequestPrescribersInnerFromJSON),
+        : (json["prescribers"] as Array<any>).map(
+            ListPracticesResponseDataInnerPrescribersInnerFromJSON,
+          ),
     primaryContact:
       json["primaryContact"] == null
         ? undefined
@@ -201,7 +203,9 @@ export function CreatePracticeRequestToJSONTyped(
     prescribers:
       value["prescribers"] == null
         ? undefined
-        : (value["prescribers"] as Array<any>).map(CreatePracticeRequestPrescribersInnerToJSON),
+        : (value["prescribers"] as Array<any>).map(
+            ListPracticesResponseDataInnerPrescribersInnerToJSON,
+          ),
     primaryContact: ListPracticesResponseDataInnerContactsComplianceToJSON(value["primaryContact"]),
     supportEmail: value["supportEmail"],
     supportPhone: value["supportPhone"],

@@ -7,6 +7,18 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 
 ## [Unreleased]
 
+## [1.10.4] - 2026-09-22
+
+### Added
+
+- Generate medication and diagnosis review statuses, pharmacy requirements, and clinical preview issues from the updated API contract.
+- Document requirement discovery, explicit none responses, draft completeness, and signing validation errors.
+
+### Fixed
+
+- Remove an outdated count of typed resource methods from the README.
+- Synchronize the practice prescriber contract to allow empty license-state lists, matching optional state-license records in the API.
+
 ## [1.10.2] - 2026-09-21
 
 ### Fixed

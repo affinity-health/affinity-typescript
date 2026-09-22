@@ -28,7 +28,7 @@ const orderInput = {
       quantity: 30,
       quantityUnit: "capsule",
       refills: 0,
-      clinical: { compoundingReason: { category: CompoundingReason.ConcentrationAdjustment } },
+      clinical: { medicationReviewStatus: "none", currentMedications: [], diagnosisReviewStatus: "none", diagnoses: [], compoundingReason: { category: CompoundingReason.ConcentrationAdjustment } },
       structuredSig: {
         dose: "1",
         doseUnit: "capsule",
@@ -64,6 +64,10 @@ async function previewAndCreate() {
     prescriptions: [{ medicationId: orderInput.prescriptions[0].medicationId, preset: "default" }],
     shipping: { selection: "lowest_cost" },
   });
+  const satisfied: boolean = preview.clinicalRequirementsSatisfied;
+  const paths: string[] = preview.clinicalIssues.map(issue => issue.path);
+  void satisfied;
+  void paths;
   if (preview.status === "complete") {
     return sdk.orders.create(preview.orderInput, mutationOptions);
   }

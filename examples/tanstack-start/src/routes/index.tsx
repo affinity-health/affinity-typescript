@@ -108,7 +108,7 @@ function Example() {
   return (
     <main>
       <header>
-        <p className="eyebrow">Affinity SDK 1.10.2 · Test mode</p>
+        <p className="eyebrow">Affinity SDK · Test mode</p>
         <h1>From your EMR to an order.</h1>
         <p className="lede">
           Real requests to the deployed API with synthetic data. Orders go to the simulator, never a

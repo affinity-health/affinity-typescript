@@ -1,6 +1,6 @@
 # TanStack Start EMR example
 
-This independently packaged example installs the published `@affinity-health/sdk@1.10.2`.
+This independently packaged example installs the published `@affinity-health/sdk`.
 It sends real requests to `https://api.joinaffinityai.com`. Ordering accepts **Test keys only**.
 An optional, separate Live key with only `practices:read` shows the Live practice directory.
 Use only synthetic data. Test orders go to Affinity's simulator, not PerfectRx or a real pharmacy.

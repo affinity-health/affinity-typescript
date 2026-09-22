@@ -66,13 +66,9 @@ eligibility, signing, or actor-attribution checks.
 
 ## Prescription defaults and previews
 
-The unreleased contract adds `patientExternalId` and inline `patient` selectors to previews, plus
-`orders.signAndSubmit`. See [the EMR workflow example](examples/emr-order.ts) for server-side
-review, retries, partial submission recovery, and webhook processing. These additions require the
-matching API deployment and are not available in previously published SDK versions.
-
-These methods are available in stable SDK 1.9.0 and later.
-Use them on your server with an existing patient in the selected practice.
+Previews accept a patient ID, integration external ID, or inline patient details.
+See [the EMR workflow example](examples/emr-order.ts) for server-side review, signing,
+retries, partial submission recovery, and webhook processing.
 
 ```ts
 const options = await affinity.catalog.retrievePrescribingOptions(catalogItemId, { practiceId });
@@ -198,7 +194,7 @@ instead of comparing `"approved"` and `"pending"`.
 The public resource groups are `account`, `apiKeys`, `catalog`, `locations`, `orders`, `patients`,
 `platformPricing`, `practices`, `sessions`, `team`, and `webhooks`.
 
-The SDK exposes 69 typed resource methods. The two Test order simulation controls remain available
+The SDK exposes typed methods for public API resources. The two Test order simulation controls remain available
 through `rawRequest`. The generated OpenAPI transport and models remain private implementation
 details of the package root.
 Use `rawRequest` to call a preview endpoint or another API path that the installed SDK version does
@@ -253,9 +249,14 @@ source OpenAPI contract and run the generator.
 
 ## Errors and webhooks
 
-`ResponseError`, `FetchError`, and `RequiredError` remain exported so callers can catch failures
-from the generated transport used internally. Use `affinityErrorFromResponse(error.response)` to
-convert an HTTP `ResponseError` into a typed Affinity error.
+Resource methods throw `ResponseError` for unsuccessful HTTP responses. Convert it with
+`await affinityErrorFromResponse(error.response)` to inspect `code`, `statusCode`, `requestId`,
+and `retryable`. Clinical validation failures have HTTP status 422 and code
+`clinical_requirements_unmet`; field issues are in the parsed error's `problem?.data?.issues`.
+Check this extensible data before rendering issue messages beside their field paths. Correct and
+review the prescription before signing again. Do not log clinical response bodies.
+
+`FetchError` represents a failed connection; `RequiredError` identifies a missing SDK argument.
 
 Verify webhook signatures against the exact raw request body with `verifyAffinityWebhook`; it
 returns a validated `AffinityWebhookEvent` for the supported event types.
@@ -296,3 +297,34 @@ API keys stay server-side. Only synthetic Test-mode orders are accepted.
 ## License
 
 MIT
+
+## Pharmacy clinical requirements
+
+Fetch `catalog.retrievePrescribingOptions(catalogItemId, { practiceId })` when selecting a medication.
+Read `options.catalog.prescriptionRequirements` to render required fields without hard-coding pharmacy names.
+`medicationReview: "required"` and `diagnosisReview: "required"` accept a populated list or an explicit
+reviewed none. `diagnosis: "required"` requires an actual diagnosis. Allergy review is required before signing.
+
+Include review statuses in each prescription's `clinical` object, or in `overrides.clinical` for previews:
+
+```json
+{
+  "currentMedications": [],
+  "medicationReviewStatus": "none",
+  "diagnoses": [],
+  "diagnosisReviewStatus": "none"
+}
+```
+
+Use `"recorded"` for populated lists. An empty list without a review status is unreviewed.
+Only send `"none"` after the clinician explicitly confirms it. Record patient allergies or
+`reviewStatus: "no_known"` through the patient allergies endpoint.
+
+Call `orders.preview` before saving or signing. Display `preview.clinicalIssues` using their
+`path` and `message`, and use `preview.clinicalRequirements` for required-field state.
+`preview.status === "complete"` means a draft can be created; it can coexist with
+`preview.clinicalRequirementsSatisfied === false`. The clinical flag does not establish signing
+authority or Live eligibility. The API checks current requirements again at signing and transmission.
+
+See the [compiled example](examples/clinical-requirements.ts) and
+[prescribing guide](https://docs.joinaffinityai.com/guides/prescribing-defaults/).

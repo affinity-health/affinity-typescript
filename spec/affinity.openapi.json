@@ -13958,6 +13958,34 @@
                         "required"
                       ]
                     },
+                    "medicationReview": {
+                      "anyOf": [
+                        {
+                          "type": "string",
+                          "enum": [
+                            "optional",
+                            "required"
+                          ]
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ]
+                    },
+                    "diagnosisReview": {
+                      "anyOf": [
+                        {
+                          "type": "string",
+                          "enum": [
+                            "optional",
+                            "required"
+                          ]
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ]
+                    },
                     "maxRefills": {
                       "anyOf": [
                         {
@@ -16179,6 +16207,36 @@
                                   }
                                 ]
                               },
+                              "medicationReviewStatus": {
+                                "anyOf": [
+                                  {
+                                    "type": "string",
+                                    "enum": [
+                                      "not_reviewed",
+                                      "none",
+                                      "recorded"
+                                    ]
+                                  },
+                                  {
+                                    "type": "null"
+                                  }
+                                ]
+                              },
+                              "diagnosisReviewStatus": {
+                                "anyOf": [
+                                  {
+                                    "type": "string",
+                                    "enum": [
+                                      "not_reviewed",
+                                      "none",
+                                      "recorded"
+                                    ]
+                                  },
+                                  {
+                                    "type": "null"
+                                  }
+                                ]
+                              },
                               "conditions": {
                                 "anyOf": [
                                   {
@@ -17691,6 +17749,36 @@
                                 }
                               },
                               "additionalProperties": false
+                            },
+                            {
+                              "type": "null"
+                            }
+                          ]
+                        },
+                        "medicationReviewStatus": {
+                          "anyOf": [
+                            {
+                              "type": "string",
+                              "enum": [
+                                "not_reviewed",
+                                "none",
+                                "recorded"
+                              ]
+                            },
+                            {
+                              "type": "null"
+                            }
+                          ]
+                        },
+                        "diagnosisReviewStatus": {
+                          "anyOf": [
+                            {
+                              "type": "string",
+                              "enum": [
+                                "not_reviewed",
+                                "none",
+                                "recorded"
+                              ]
                             },
                             {
                               "type": "null"
@@ -19745,6 +19833,36 @@
                             }
                           ]
                         },
+                        "medicationReviewStatus": {
+                          "anyOf": [
+                            {
+                              "type": "string",
+                              "enum": [
+                                "not_reviewed",
+                                "none",
+                                "recorded"
+                              ]
+                            },
+                            {
+                              "type": "null"
+                            }
+                          ]
+                        },
+                        "diagnosisReviewStatus": {
+                          "anyOf": [
+                            {
+                              "type": "string",
+                              "enum": [
+                                "not_reviewed",
+                                "none",
+                                "recorded"
+                              ]
+                            },
+                            {
+                              "type": "null"
+                            }
+                          ]
+                        },
                         "conditions": {
                           "anyOf": [
                             {
@@ -21698,6 +21816,36 @@
                                 ],
                                 "additionalProperties": false
                               }
+                            },
+                            {
+                              "type": "null"
+                            }
+                          ]
+                        },
+                        "medicationReviewStatus": {
+                          "anyOf": [
+                            {
+                              "type": "string",
+                              "enum": [
+                                "not_reviewed",
+                                "none",
+                                "recorded"
+                              ]
+                            },
+                            {
+                              "type": "null"
+                            }
+                          ]
+                        },
+                        "diagnosisReviewStatus": {
+                          "anyOf": [
+                            {
+                              "type": "string",
+                              "enum": [
+                                "not_reviewed",
+                                "none",
+                                "recorded"
+                              ]
                             },
                             {
                               "type": "null"
@@ -25641,6 +25789,34 @@
                       "required"
                     ]
                   },
+                  "medicationReview": {
+                    "anyOf": [
+                      {
+                        "type": "string",
+                        "enum": [
+                          "optional",
+                          "required"
+                        ]
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "diagnosisReview": {
+                    "anyOf": [
+                      {
+                        "type": "string",
+                        "enum": [
+                          "optional",
+                          "required"
+                        ]
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
                   "maxRefills": {
                     "anyOf": [
                       {
@@ -27328,6 +27504,36 @@
                                         }
                                       ]
                                     },
+                                    "medicationReviewStatus": {
+                                      "anyOf": [
+                                        {
+                                          "type": "string",
+                                          "enum": [
+                                            "not_reviewed",
+                                            "none",
+                                            "recorded"
+                                          ]
+                                        },
+                                        {
+                                          "type": "null"
+                                        }
+                                      ]
+                                    },
+                                    "diagnosisReviewStatus": {
+                                      "anyOf": [
+                                        {
+                                          "type": "string",
+                                          "enum": [
+                                            "not_reviewed",
+                                            "none",
+                                            "recorded"
+                                          ]
+                                        },
+                                        {
+                                          "type": "null"
+                                        }
+                                      ]
+                                    },
                                     "currentMedications": {
                                       "anyOf": [
                                         {
@@ -27578,6 +27784,73 @@
           {
             "type": "object",
             "properties": {
+              "clinicalRequirementsSatisfied": {
+                "type": "boolean"
+              },
+              "clinicalIssues": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string"
+                    },
+                    "path": {
+                      "type": "string"
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "path",
+                    "message"
+                  ],
+                  "additionalProperties": false
+                }
+              },
+              "clinicalRequirements": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "field": {
+                      "type": "string"
+                    },
+                    "label": {
+                      "type": "string"
+                    },
+                    "type": {
+                      "type": "string",
+                      "enum": [
+                        "allergy_review",
+                        "medication_review",
+                        "diagnosis_review",
+                        "diagnosis"
+                      ]
+                    },
+                    "required": {
+                      "type": "boolean"
+                    },
+                    "status": {
+                      "type": "string",
+                      "enum": [
+                        "missing",
+                        "satisfied"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "field",
+                    "label",
+                    "type",
+                    "required",
+                    "status"
+                  ],
+                  "additionalProperties": false
+                }
+              },
               "otcItems": {
                 "type": "array",
                 "items": {
@@ -28380,6 +28653,36 @@
                                         }
                                       ]
                                     },
+                                    "medicationReviewStatus": {
+                                      "anyOf": [
+                                        {
+                                          "type": "string",
+                                          "enum": [
+                                            "not_reviewed",
+                                            "none",
+                                            "recorded"
+                                          ]
+                                        },
+                                        {
+                                          "type": "null"
+                                        }
+                                      ]
+                                    },
+                                    "diagnosisReviewStatus": {
+                                      "anyOf": [
+                                        {
+                                          "type": "string",
+                                          "enum": [
+                                            "not_reviewed",
+                                            "none",
+                                            "recorded"
+                                          ]
+                                        },
+                                        {
+                                          "type": "null"
+                                        }
+                                      ]
+                                    },
                                     "currentMedications": {
                                       "anyOf": [
                                         {
@@ -29043,6 +29346,36 @@
                                             }
                                           },
                                           "additionalProperties": false
+                                        },
+                                        {
+                                          "type": "null"
+                                        }
+                                      ]
+                                    },
+                                    "medicationReviewStatus": {
+                                      "anyOf": [
+                                        {
+                                          "type": "string",
+                                          "enum": [
+                                            "not_reviewed",
+                                            "none",
+                                            "recorded"
+                                          ]
+                                        },
+                                        {
+                                          "type": "null"
+                                        }
+                                      ]
+                                    },
+                                    "diagnosisReviewStatus": {
+                                      "anyOf": [
+                                        {
+                                          "type": "string",
+                                          "enum": [
+                                            "not_reviewed",
+                                            "none",
+                                            "recorded"
+                                          ]
                                         },
                                         {
                                           "type": "null"
@@ -30102,6 +30435,9 @@
               }
             },
             "required": [
+              "clinicalRequirementsSatisfied",
+              "clinicalIssues",
+              "clinicalRequirements",
               "otcItems",
               "shippingGroups",
               "totals",
@@ -30117,6 +30453,73 @@
           {
             "type": "object",
             "properties": {
+              "clinicalRequirementsSatisfied": {
+                "type": "boolean"
+              },
+              "clinicalIssues": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string"
+                    },
+                    "path": {
+                      "type": "string"
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "path",
+                    "message"
+                  ],
+                  "additionalProperties": false
+                }
+              },
+              "clinicalRequirements": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "field": {
+                      "type": "string"
+                    },
+                    "label": {
+                      "type": "string"
+                    },
+                    "type": {
+                      "type": "string",
+                      "enum": [
+                        "allergy_review",
+                        "medication_review",
+                        "diagnosis_review",
+                        "diagnosis"
+                      ]
+                    },
+                    "required": {
+                      "type": "boolean"
+                    },
+                    "status": {
+                      "type": "string",
+                      "enum": [
+                        "missing",
+                        "satisfied"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "field",
+                    "label",
+                    "type",
+                    "required",
+                    "status"
+                  ],
+                  "additionalProperties": false
+                }
+              },
               "otcItems": {
                 "type": "array",
                 "items": {
@@ -30629,6 +31032,9 @@
               }
             },
             "required": [
+              "clinicalRequirementsSatisfied",
+              "clinicalIssues",
+              "clinicalRequirements",
               "otcItems",
               "shippingGroups",
               "totals",
@@ -38214,12 +38620,7 @@
                         "type": "array",
                         "items": {
                           "type": "string"
-                        },
-                        "allOf": [
-                          {
-                            "minItems": 1
-                          }
-                        ]
+                        }
                       },
                       "name": {
                         "type": "string"
@@ -38519,8 +38920,7 @@
                       "type": "array",
                       "items": {
                         "type": "string"
-                      },
-                      "minItems": 1
+                      }
                     },
                     "name": {
                       "type": "string"
@@ -38913,12 +39313,7 @@
                   "type": "array",
                   "items": {
                     "type": "string"
-                  },
-                  "allOf": [
-                    {
-                      "minItems": 1
-                    }
-                  ]
+                  }
                 },
                 "name": {
                   "type": "string"
@@ -39212,12 +39607,7 @@
                   "type": "array",
                   "items": {
                     "type": "string"
-                  },
-                  "allOf": [
-                    {
-                      "minItems": 1
-                    }
-                  ]
+                  }
                 },
                 "name": {
                   "type": "string"
@@ -39513,8 +39903,7 @@
                       "type": "array",
                       "items": {
                         "type": "string"
-                      },
-                      "minItems": 1
+                      }
                     },
                     "name": {
                       "type": "string"
@@ -39862,12 +40251,7 @@
                   "type": "array",
                   "items": {
                     "type": "string"
-                  },
-                  "allOf": [
-                    {
-                      "minItems": 1
-                    }
-                  ]
+                  }
                 },
                 "name": {
                   "type": "string"
@@ -45297,6 +45681,36 @@
                           }
                         ]
                       },
+                      "medicationReviewStatus": {
+                        "anyOf": [
+                          {
+                            "type": "string",
+                            "enum": [
+                              "not_reviewed",
+                              "none",
+                              "recorded"
+                            ]
+                          },
+                          {
+                            "type": "null"
+                          }
+                        ]
+                      },
+                      "diagnosisReviewStatus": {
+                        "anyOf": [
+                          {
+                            "type": "string",
+                            "enum": [
+                              "not_reviewed",
+                              "none",
+                              "recorded"
+                            ]
+                          },
+                          {
+                            "type": "null"
+                          }
+                        ]
+                      },
                       "currentMedications": {
                         "anyOf": [
                           {
@@ -45921,6 +46335,36 @@
                               }
                             },
                             "additionalProperties": false
+                          },
+                          {
+                            "type": "null"
+                          }
+                        ]
+                      },
+                      "medicationReviewStatus": {
+                        "anyOf": [
+                          {
+                            "type": "string",
+                            "enum": [
+                              "not_reviewed",
+                              "none",
+                              "recorded"
+                            ]
+                          },
+                          {
+                            "type": "null"
+                          }
+                        ]
+                      },
+                      "diagnosisReviewStatus": {
+                        "anyOf": [
+                          {
+                            "type": "string",
+                            "enum": [
+                              "not_reviewed",
+                              "none",
+                              "recorded"
+                            ]
                           },
                           {
                             "type": "null"
@@ -47368,6 +47812,36 @@
                                       }
                                     },
                                     "additionalProperties": false
+                                  },
+                                  {
+                                    "type": "null"
+                                  }
+                                ]
+                              },
+                              "medicationReviewStatus": {
+                                "anyOf": [
+                                  {
+                                    "type": "string",
+                                    "enum": [
+                                      "not_reviewed",
+                                      "none",
+                                      "recorded"
+                                    ]
+                                  },
+                                  {
+                                    "type": "null"
+                                  }
+                                ]
+                              },
+                              "diagnosisReviewStatus": {
+                                "anyOf": [
+                                  {
+                                    "type": "string",
+                                    "enum": [
+                                      "not_reviewed",
+                                      "none",
+                                      "recorded"
+                                    ]
                                   },
                                   {
                                     "type": "null"

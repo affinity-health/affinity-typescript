@@ -16,51 +16,51 @@ import { mapValues } from "../runtime";
 /**
  *
  * @export
- * @interface PreviewOrderResponseOneOfIssuesInner
+ * @interface PreviewOrderResponseOneOfClinicalIssuesInner
  */
-export interface PreviewOrderResponseOneOfIssuesInner {
+export interface PreviewOrderResponseOneOfClinicalIssuesInner {
   /**
    *
    * @type {string}
-   * @memberof PreviewOrderResponseOneOfIssuesInner
+   * @memberof PreviewOrderResponseOneOfClinicalIssuesInner
    */
   code: string;
   /**
    *
    * @type {string}
-   * @memberof PreviewOrderResponseOneOfIssuesInner
+   * @memberof PreviewOrderResponseOneOfClinicalIssuesInner
    */
   path: string;
   /**
    *
    * @type {string}
-   * @memberof PreviewOrderResponseOneOfIssuesInner
+   * @memberof PreviewOrderResponseOneOfClinicalIssuesInner
    */
   message: string;
 }
 
 /**
- * Check if a given object implements the PreviewOrderResponseOneOfIssuesInner interface.
+ * Check if a given object implements the PreviewOrderResponseOneOfClinicalIssuesInner interface.
  */
-export function instanceOfPreviewOrderResponseOneOfIssuesInner(
+export function instanceOfPreviewOrderResponseOneOfClinicalIssuesInner(
   value: object,
-): value is PreviewOrderResponseOneOfIssuesInner {
+): value is PreviewOrderResponseOneOfClinicalIssuesInner {
   if (!("code" in value) || value["code"] === undefined) return false;
   if (!("path" in value) || value["path"] === undefined) return false;
   if (!("message" in value) || value["message"] === undefined) return false;
   return true;
 }
 
-export function PreviewOrderResponseOneOfIssuesInnerFromJSON(
+export function PreviewOrderResponseOneOfClinicalIssuesInnerFromJSON(
   json: any,
-): PreviewOrderResponseOneOfIssuesInner {
-  return PreviewOrderResponseOneOfIssuesInnerFromJSONTyped(json, false);
+): PreviewOrderResponseOneOfClinicalIssuesInner {
+  return PreviewOrderResponseOneOfClinicalIssuesInnerFromJSONTyped(json, false);
 }
 
-export function PreviewOrderResponseOneOfIssuesInnerFromJSONTyped(
+export function PreviewOrderResponseOneOfClinicalIssuesInnerFromJSONTyped(
   json: any,
   ignoreDiscriminator: boolean,
-): PreviewOrderResponseOneOfIssuesInner {
+): PreviewOrderResponseOneOfClinicalIssuesInner {
   if (json == null) {
     return json;
   }
@@ -71,14 +71,14 @@ export function PreviewOrderResponseOneOfIssuesInnerFromJSONTyped(
   };
 }
 
-export function PreviewOrderResponseOneOfIssuesInnerToJSON(
+export function PreviewOrderResponseOneOfClinicalIssuesInnerToJSON(
   json: any,
-): PreviewOrderResponseOneOfIssuesInner {
-  return PreviewOrderResponseOneOfIssuesInnerToJSONTyped(json, false);
+): PreviewOrderResponseOneOfClinicalIssuesInner {
+  return PreviewOrderResponseOneOfClinicalIssuesInnerToJSONTyped(json, false);
 }
 
-export function PreviewOrderResponseOneOfIssuesInnerToJSONTyped(
-  value?: PreviewOrderResponseOneOfIssuesInner | null,
+export function PreviewOrderResponseOneOfClinicalIssuesInnerToJSONTyped(
+  value?: PreviewOrderResponseOneOfClinicalIssuesInner | null,
   ignoreDiscriminator: boolean = false,
 ): any {
   if (value == null) {

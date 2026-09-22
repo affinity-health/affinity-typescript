@@ -1,4 +1,4 @@
-# PreviewOrderResponseOneOfIssuesInner
+# PreviewOrderResponseOneOfClinicalIssuesInner
 
 ## Properties
 

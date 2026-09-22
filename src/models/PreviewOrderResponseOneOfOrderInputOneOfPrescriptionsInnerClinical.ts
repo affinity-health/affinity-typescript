@@ -49,6 +49,18 @@ export interface PreviewOrderResponseOneOfOrderInputOneOfPrescriptionsInnerClini
   compoundingReason?: CreateOrderRequestPrescriptionsInnerClinicalCompoundingReason | null;
   /**
    *
+   * @type {PreviewOrderResponseOneOfOrderInputOneOfPrescriptionsInnerClinicalMedicationReviewStatusEnum}
+   * @memberof PreviewOrderResponseOneOfOrderInputOneOfPrescriptionsInnerClinical
+   */
+  medicationReviewStatus?: PreviewOrderResponseOneOfOrderInputOneOfPrescriptionsInnerClinicalMedicationReviewStatusEnum | null;
+  /**
+   *
+   * @type {PreviewOrderResponseOneOfOrderInputOneOfPrescriptionsInnerClinicalDiagnosisReviewStatusEnum}
+   * @memberof PreviewOrderResponseOneOfOrderInputOneOfPrescriptionsInnerClinical
+   */
+  diagnosisReviewStatus?: PreviewOrderResponseOneOfOrderInputOneOfPrescriptionsInnerClinicalDiagnosisReviewStatusEnum | null;
+  /**
+   *
    * @type {Array<string>}
    * @memberof PreviewOrderResponseOneOfOrderInputOneOfPrescriptionsInnerClinical
    */
@@ -66,6 +78,30 @@ export interface PreviewOrderResponseOneOfOrderInputOneOfPrescriptionsInnerClini
    */
   observations?: Array<CreateOrderRequestPrescriptionsInnerClinicalObservationsInner> | null;
 }
+
+/**
+ * @export
+ */
+export const PreviewOrderResponseOneOfOrderInputOneOfPrescriptionsInnerClinicalMedicationReviewStatusEnum =
+  {
+    NotReviewed: "not_reviewed",
+    None: "none",
+    Recorded: "recorded",
+  } as const;
+export type PreviewOrderResponseOneOfOrderInputOneOfPrescriptionsInnerClinicalMedicationReviewStatusEnum =
+  (typeof PreviewOrderResponseOneOfOrderInputOneOfPrescriptionsInnerClinicalMedicationReviewStatusEnum)[keyof typeof PreviewOrderResponseOneOfOrderInputOneOfPrescriptionsInnerClinicalMedicationReviewStatusEnum];
+
+/**
+ * @export
+ */
+export const PreviewOrderResponseOneOfOrderInputOneOfPrescriptionsInnerClinicalDiagnosisReviewStatusEnum =
+  {
+    NotReviewed: "not_reviewed",
+    None: "none",
+    Recorded: "recorded",
+  } as const;
+export type PreviewOrderResponseOneOfOrderInputOneOfPrescriptionsInnerClinicalDiagnosisReviewStatusEnum =
+  (typeof PreviewOrderResponseOneOfOrderInputOneOfPrescriptionsInnerClinicalDiagnosisReviewStatusEnum)[keyof typeof PreviewOrderResponseOneOfOrderInputOneOfPrescriptionsInnerClinicalDiagnosisReviewStatusEnum];
 
 /**
  * Check if a given object implements the PreviewOrderResponseOneOfOrderInputOneOfPrescriptionsInnerClinical interface.
@@ -99,6 +135,10 @@ export function PreviewOrderResponseOneOfOrderInputOneOfPrescriptionsInnerClinic
         : CreateOrderRequestPrescriptionsInnerClinicalCompoundingReasonFromJSON(
             json["compoundingReason"],
           ),
+    medicationReviewStatus:
+      json["medicationReviewStatus"] == null ? undefined : json["medicationReviewStatus"],
+    diagnosisReviewStatus:
+      json["diagnosisReviewStatus"] == null ? undefined : json["diagnosisReviewStatus"],
     currentMedications: json["currentMedications"] == null ? undefined : json["currentMedications"],
     diagnoses:
       json["diagnoses"] == null
@@ -133,6 +173,8 @@ export function PreviewOrderResponseOneOfOrderInputOneOfPrescriptionsInnerClinic
     compoundingReason: CreateOrderRequestPrescriptionsInnerClinicalCompoundingReasonToJSON(
       value["compoundingReason"],
     ),
+    medicationReviewStatus: value["medicationReviewStatus"],
+    diagnosisReviewStatus: value["diagnosisReviewStatus"],
     currentMedications: value["currentMedications"],
     diagnoses:
       value["diagnoses"] == null

@@ -115,6 +115,18 @@ export interface ListCatalogItemsResponseDataInnerPrescriptionRequirements {
   diagnosis: ListCatalogItemsResponseDataInnerPrescriptionRequirementsDiagnosisEnum;
   /**
    *
+   * @type {ListCatalogItemsResponseDataInnerPrescriptionRequirementsMedicationReviewEnum}
+   * @memberof ListCatalogItemsResponseDataInnerPrescriptionRequirements
+   */
+  medicationReview?: ListCatalogItemsResponseDataInnerPrescriptionRequirementsMedicationReviewEnum | null;
+  /**
+   *
+   * @type {ListCatalogItemsResponseDataInnerPrescriptionRequirementsDiagnosisReviewEnum}
+   * @memberof ListCatalogItemsResponseDataInnerPrescriptionRequirements
+   */
+  diagnosisReview?: ListCatalogItemsResponseDataInnerPrescriptionRequirementsDiagnosisReviewEnum | null;
+  /**
+   *
    * @type {number}
    * @memberof ListCatalogItemsResponseDataInnerPrescriptionRequirements
    */
@@ -218,6 +230,26 @@ export type ListCatalogItemsResponseDataInnerPrescriptionRequirementsDiagnosisEn
 /**
  * @export
  */
+export const ListCatalogItemsResponseDataInnerPrescriptionRequirementsMedicationReviewEnum = {
+  Optional: "optional",
+  Required: "required",
+} as const;
+export type ListCatalogItemsResponseDataInnerPrescriptionRequirementsMedicationReviewEnum =
+  (typeof ListCatalogItemsResponseDataInnerPrescriptionRequirementsMedicationReviewEnum)[keyof typeof ListCatalogItemsResponseDataInnerPrescriptionRequirementsMedicationReviewEnum];
+
+/**
+ * @export
+ */
+export const ListCatalogItemsResponseDataInnerPrescriptionRequirementsDiagnosisReviewEnum = {
+  Optional: "optional",
+  Required: "required",
+} as const;
+export type ListCatalogItemsResponseDataInnerPrescriptionRequirementsDiagnosisReviewEnum =
+  (typeof ListCatalogItemsResponseDataInnerPrescriptionRequirementsDiagnosisReviewEnum)[keyof typeof ListCatalogItemsResponseDataInnerPrescriptionRequirementsDiagnosisReviewEnum];
+
+/**
+ * @export
+ */
 export const ListCatalogItemsResponseDataInnerPrescriptionRequirementsPharmacyNotesEnum = {
   NotSupported: "not_supported",
   Optional: "optional",
@@ -303,6 +335,8 @@ export function ListCatalogItemsResponseDataInnerPrescriptionRequirementsFromJSO
           ),
     defaultSigs: json["defaultSigs"] == null ? undefined : json["defaultSigs"],
     diagnosis: json["diagnosis"],
+    medicationReview: json["medicationReview"] == null ? undefined : json["medicationReview"],
+    diagnosisReview: json["diagnosisReview"] == null ? undefined : json["diagnosisReview"],
     maxRefills: json["maxRefills"] == null ? undefined : json["maxRefills"],
     notes: json["notes"] == null ? undefined : json["notes"],
     pharmacyNotes: json["pharmacyNotes"],
@@ -348,6 +382,8 @@ export function ListCatalogItemsResponseDataInnerPrescriptionRequirementsToJSONT
       ),
     defaultSigs: value["defaultSigs"],
     diagnosis: value["diagnosis"],
+    medicationReview: value["medicationReview"],
+    diagnosisReview: value["diagnosisReview"],
     maxRefills: value["maxRefills"],
     notes: value["notes"],
     pharmacyNotes: value["pharmacyNotes"],

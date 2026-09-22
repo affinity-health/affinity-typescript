@@ -63,6 +63,18 @@ export interface ListOrdersResponseDataInnerPrescriptionsInnerClinical {
   allergies?: Array<ListOrdersResponseDataInnerPrescriptionsInnerClinicalAllergiesInner> | null;
   /**
    *
+   * @type {ListOrdersResponseDataInnerPrescriptionsInnerClinicalMedicationReviewStatusEnum}
+   * @memberof ListOrdersResponseDataInnerPrescriptionsInnerClinical
+   */
+  medicationReviewStatus?: ListOrdersResponseDataInnerPrescriptionsInnerClinicalMedicationReviewStatusEnum | null;
+  /**
+   *
+   * @type {ListOrdersResponseDataInnerPrescriptionsInnerClinicalDiagnosisReviewStatusEnum}
+   * @memberof ListOrdersResponseDataInnerPrescriptionsInnerClinical
+   */
+  diagnosisReviewStatus?: ListOrdersResponseDataInnerPrescriptionsInnerClinicalDiagnosisReviewStatusEnum | null;
+  /**
+   *
    * @type {Array<ListOrdersResponseDataInnerPrescriptionsInnerClinicalAllergiesInnerReactionsInner>}
    * @memberof ListOrdersResponseDataInnerPrescriptionsInnerClinical
    */
@@ -86,6 +98,28 @@ export interface ListOrdersResponseDataInnerPrescriptionsInnerClinical {
    */
   observations?: Array<ListOrdersResponseDataInnerPrescriptionsInnerClinicalObservationsInner> | null;
 }
+
+/**
+ * @export
+ */
+export const ListOrdersResponseDataInnerPrescriptionsInnerClinicalMedicationReviewStatusEnum = {
+  NotReviewed: "not_reviewed",
+  None: "none",
+  Recorded: "recorded",
+} as const;
+export type ListOrdersResponseDataInnerPrescriptionsInnerClinicalMedicationReviewStatusEnum =
+  (typeof ListOrdersResponseDataInnerPrescriptionsInnerClinicalMedicationReviewStatusEnum)[keyof typeof ListOrdersResponseDataInnerPrescriptionsInnerClinicalMedicationReviewStatusEnum];
+
+/**
+ * @export
+ */
+export const ListOrdersResponseDataInnerPrescriptionsInnerClinicalDiagnosisReviewStatusEnum = {
+  NotReviewed: "not_reviewed",
+  None: "none",
+  Recorded: "recorded",
+} as const;
+export type ListOrdersResponseDataInnerPrescriptionsInnerClinicalDiagnosisReviewStatusEnum =
+  (typeof ListOrdersResponseDataInnerPrescriptionsInnerClinicalDiagnosisReviewStatusEnum)[keyof typeof ListOrdersResponseDataInnerPrescriptionsInnerClinicalDiagnosisReviewStatusEnum];
 
 /**
  * Check if a given object implements the ListOrdersResponseDataInnerPrescriptionsInnerClinical interface.
@@ -116,6 +150,10 @@ export function ListOrdersResponseDataInnerPrescriptionsInnerClinicalFromJSONTyp
         : (json["allergies"] as Array<any>).map(
             ListOrdersResponseDataInnerPrescriptionsInnerClinicalAllergiesInnerFromJSON,
           ),
+    medicationReviewStatus:
+      json["medicationReviewStatus"] == null ? undefined : json["medicationReviewStatus"],
+    diagnosisReviewStatus:
+      json["diagnosisReviewStatus"] == null ? undefined : json["diagnosisReviewStatus"],
     conditions:
       json["conditions"] == null
         ? undefined
@@ -164,6 +202,8 @@ export function ListOrdersResponseDataInnerPrescriptionsInnerClinicalToJSONTyped
         : (value["allergies"] as Array<any>).map(
             ListOrdersResponseDataInnerPrescriptionsInnerClinicalAllergiesInnerToJSON,
           ),
+    medicationReviewStatus: value["medicationReviewStatus"],
+    diagnosisReviewStatus: value["diagnosisReviewStatus"],
     conditions:
       value["conditions"] == null
         ? undefined

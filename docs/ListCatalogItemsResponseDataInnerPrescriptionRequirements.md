@@ -16,6 +16,8 @@
 | `quantityIncrement`        | [ListCatalogItemsResponseDataInnerPrescriptionRequirementsQuantityIncrement](ListCatalogItemsResponseDataInnerPrescriptionRequirementsQuantityIncrement.md)                        |
 | `defaultSigs`              | Array&lt;string&gt;                                                                                                                                                                |
 | `diagnosis`                | string                                                                                                                                                                             |
+| `medicationReview`         | string                                                                                                                                                                             |
+| `diagnosisReview`          | string                                                                                                                                                                             |
 | `maxRefills`               | number                                                                                                                                                                             |
 | `notes`                    | Array&lt;string&gt;                                                                                                                                                                |
 | `pharmacyNotes`            | string                                                                                                                                                                             |

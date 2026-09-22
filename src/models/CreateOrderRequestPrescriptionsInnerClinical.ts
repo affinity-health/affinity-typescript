@@ -49,6 +49,18 @@ export interface CreateOrderRequestPrescriptionsInnerClinical {
   compoundingReason?: CreateOrderRequestPrescriptionsInnerClinicalCompoundingReason | null;
   /**
    *
+   * @type {CreateOrderRequestPrescriptionsInnerClinicalMedicationReviewStatusEnum}
+   * @memberof CreateOrderRequestPrescriptionsInnerClinical
+   */
+  medicationReviewStatus?: CreateOrderRequestPrescriptionsInnerClinicalMedicationReviewStatusEnum | null;
+  /**
+   *
+   * @type {CreateOrderRequestPrescriptionsInnerClinicalDiagnosisReviewStatusEnum}
+   * @memberof CreateOrderRequestPrescriptionsInnerClinical
+   */
+  diagnosisReviewStatus?: CreateOrderRequestPrescriptionsInnerClinicalDiagnosisReviewStatusEnum | null;
+  /**
+   *
    * @type {Array<string>}
    * @memberof CreateOrderRequestPrescriptionsInnerClinical
    */
@@ -66,6 +78,28 @@ export interface CreateOrderRequestPrescriptionsInnerClinical {
    */
   observations?: Array<CreateOrderRequestPrescriptionsInnerClinicalObservationsInner> | null;
 }
+
+/**
+ * @export
+ */
+export const CreateOrderRequestPrescriptionsInnerClinicalMedicationReviewStatusEnum = {
+  NotReviewed: "not_reviewed",
+  None: "none",
+  Recorded: "recorded",
+} as const;
+export type CreateOrderRequestPrescriptionsInnerClinicalMedicationReviewStatusEnum =
+  (typeof CreateOrderRequestPrescriptionsInnerClinicalMedicationReviewStatusEnum)[keyof typeof CreateOrderRequestPrescriptionsInnerClinicalMedicationReviewStatusEnum];
+
+/**
+ * @export
+ */
+export const CreateOrderRequestPrescriptionsInnerClinicalDiagnosisReviewStatusEnum = {
+  NotReviewed: "not_reviewed",
+  None: "none",
+  Recorded: "recorded",
+} as const;
+export type CreateOrderRequestPrescriptionsInnerClinicalDiagnosisReviewStatusEnum =
+  (typeof CreateOrderRequestPrescriptionsInnerClinicalDiagnosisReviewStatusEnum)[keyof typeof CreateOrderRequestPrescriptionsInnerClinicalDiagnosisReviewStatusEnum];
 
 /**
  * Check if a given object implements the CreateOrderRequestPrescriptionsInnerClinical interface.
@@ -96,6 +130,10 @@ export function CreateOrderRequestPrescriptionsInnerClinicalFromJSONTyped(
         : CreateOrderRequestPrescriptionsInnerClinicalCompoundingReasonFromJSON(
             json["compoundingReason"],
           ),
+    medicationReviewStatus:
+      json["medicationReviewStatus"] == null ? undefined : json["medicationReviewStatus"],
+    diagnosisReviewStatus:
+      json["diagnosisReviewStatus"] == null ? undefined : json["diagnosisReviewStatus"],
     currentMedications: json["currentMedications"] == null ? undefined : json["currentMedications"],
     diagnoses:
       json["diagnoses"] == null
@@ -130,6 +168,8 @@ export function CreateOrderRequestPrescriptionsInnerClinicalToJSONTyped(
     compoundingReason: CreateOrderRequestPrescriptionsInnerClinicalCompoundingReasonToJSON(
       value["compoundingReason"],
     ),
+    medicationReviewStatus: value["medicationReviewStatus"],
+    diagnosisReviewStatus: value["diagnosisReviewStatus"],
     currentMedications: value["currentMedications"],
     diagnoses:
       value["diagnoses"] == null

@@ -1,5 +1,5 @@
 import { expect, test } from "bun:test";
-import { Affinity, CompoundingReason } from "../src";
+import { Affinity, CompoundingReason, ResponseError, affinityErrorFromResponse } from "../src";
 
 const practiceId = "prac_01k123456789abcdefghjkmnpq";
 const patientId = "pat_01k123456789abcdefghjkmnpq";
@@ -116,6 +116,23 @@ test("preview preserves custom SIGs and returns a directly creatable payload", a
                 estimatedTotalCents: 1800,
               },
               issues: [],
+              clinicalRequirementsSatisfied: false,
+              clinicalRequirements: [
+                {
+                  field: "prescriptions.0.clinical.medicationReviewStatus",
+                  label: "Current medications",
+                  type: "medication_review",
+                  required: true,
+                  status: "missing",
+                },
+              ],
+              clinicalIssues: [
+                {
+                  code: "medication_review_required",
+                  path: "prescriptions.0.clinical.medicationReviewStatus",
+                  message: "Review current medications or confirm the patient takes none.",
+                },
+              ],
               orderInput,
             }
           : { prescriptions: [], fulfillments: [], otcItems: [] },
@@ -132,11 +149,26 @@ test("preview preserves custom SIGs and returns a directly creatable payload", a
         overrides: {
           sig: { format: "free_text", text: "Take 1 tablet by mouth once daily." },
           daysSupply: 30,
+          clinical: {
+            currentMedications: [],
+            medicationReviewStatus: "none",
+            diagnoses: [],
+            diagnosisReviewStatus: "none",
+          },
         },
       },
     ],
   });
   expect(preview.status).toBe("complete");
+  expect(preview.clinicalRequirementsSatisfied).toBe(false);
+  expect(preview.clinicalRequirements[0]?.required).toBe(true);
+  expect(preview.clinicalIssues[0]?.code).toBe("medication_review_required");
+  expect((await requests[0]!.clone().json()).prescriptions[0].overrides.clinical).toEqual({
+    currentMedications: [],
+    medicationReviewStatus: "none",
+    diagnoses: [],
+    diagnosisReviewStatus: "none",
+  });
   expect(preview.totals.estimatedTotalCents).toBe(1800);
   expect(preview.shippingGroups[0]!.prescriptionIndexes).toEqual([0]);
   expect((await requests[0]!.clone().json()).otcItems).toEqual(orderInput.otcItems);
@@ -168,6 +200,9 @@ test("incomplete previews preserve null payload and actionable issues", async ()
         object: "order_preview",
         livemode: false,
         status: "incomplete",
+        clinicalRequirementsSatisfied: true,
+        clinicalRequirements: [],
+        clinicalIssues: [],
         otcItems: [],
         shippingGroups: [],
         totals: {
@@ -222,4 +257,48 @@ test("typed compounding reasons serialize without a dummy context or vendor code
   expect((await request!.json()).prescriptions[0].clinical.compoundingReason).toEqual({
     category: "concentration_adjustment",
   });
+});
+
+test("clinical 422 errors preserve field issues and are not retried", async () => {
+  let calls = 0;
+  const issues = [
+    {
+      code: "diagnosis_review_required",
+      path: "prescriptions.0.clinical.diagnosisReviewStatus",
+      message: "Review diagnoses.",
+      prescriptionId: "rx_synthetic",
+      pharmacy: "Synthetic Pharmacy",
+    },
+  ];
+  const affinity = new Affinity("sk_test_example", {
+    fetch: async () => {
+      calls++;
+      return Response.json(
+        {
+          type: "https://api.joinaffinityai.com/problems/clinical-requirements-unmet",
+          title: "Clinical requirements unmet",
+          instance: "urn:affinity:request:req_synthetic",
+          requestId: "req_synthetic",
+          status: 422,
+          code: "clinical_requirements_unmet",
+          detail: "Review clinical information before signing.",
+          data: { issues },
+        },
+        { status: 422 },
+      );
+    },
+  });
+  try {
+    await affinity.orders.retrieve("ord_synthetic");
+    throw new Error("Expected a clinical error");
+  } catch (error) {
+    expect(error).toBeInstanceOf(ResponseError);
+    if (!(error instanceof ResponseError)) throw error;
+    const parsed = await affinityErrorFromResponse(error.response);
+    expect(parsed.statusCode).toBe(422);
+    expect(parsed.code).toBe("clinical_requirements_unmet");
+    expect(parsed.problem?.data?.issues).toEqual(issues);
+    expect(parsed.retryable).toBe(false);
+  }
+  expect(calls).toBe(1);
 });
