@@ -9,7 +9,6 @@ import { OrdersApi } from "./apis/OrdersApi";
 import { PatientsApi } from "./apis/PatientsApi";
 import { PlatformPricingApi } from "./apis/PlatformPricingApi";
 import { PracticesApi } from "./apis/PracticesApi";
-import { SessionsApi } from "./apis/SessionsApi";
 import { TeamApi } from "./apis/TeamApi";
 import { WebhooksApi } from "./apis/WebhooksApi";
 
@@ -23,7 +22,6 @@ export class RawClient {
   readonly patients: PatientsApi;
   readonly platformPricing: PlatformPricingApi;
   readonly practices: PracticesApi;
-  readonly sessions: SessionsApi;
   readonly team: TeamApi;
   readonly webhooks: WebhooksApi;
 
@@ -36,7 +34,6 @@ export class RawClient {
     this.patients = new PatientsApi(configuration);
     this.platformPricing = new PlatformPricingApi(configuration);
     this.practices = new PracticesApi(configuration);
-    this.sessions = new SessionsApi(configuration);
     this.team = new TeamApi(configuration);
     this.webhooks = new WebhooksApi(configuration);
   }

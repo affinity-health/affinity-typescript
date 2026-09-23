@@ -1,16 +1,29 @@
 import { describe, expect, test } from "bun:test";
 import { facadeOperationMap, validateFacadeOperationCoverage } from "../scripts/facade-map";
-import spec from "../spec/affinity.openapi.json";
+import pinnedSpec from "../spec/affinity.openapi.json";
+import { sdkContract } from "../scripts/sdk-contract";
+const spec = sdkContract(pinnedSpec);
 
 function contract() {
   return structuredClone(spec) as any;
 }
 
 describe("facade contract coverage", () => {
-  test("accounts for all 74 current operations", () => {
+  test("excludes only session paths without changing the pinned contract", () => {
+    expect(pinnedSpec.paths["/v1/hosted-sessions"]).toBeDefined();
+    expect(pinnedSpec.paths["/v1/component-sessions"]).toBeDefined();
+    expect(Object.keys(pinnedSpec.paths).filter((path) => !(path in spec.paths))).toEqual([
+      "/v1/component-sessions",
+      "/v1/hosted-sessions",
+    ]);
+    for (const [path, item] of Object.entries(spec.paths)) {
+      expect(item).toEqual(pinnedSpec.paths[path as keyof typeof pinnedSpec.paths]);
+    }
+  });
+  test("accounts for all 72 included SDK operations", () => {
     const coverage = validateFacadeOperationCoverage(spec);
-    expect(coverage.contractOperations).toHaveLength(74);
-    expect(coverage.mappedOperations).toHaveLength(74);
+    expect(coverage.contractOperations).toHaveLength(72);
+    expect(coverage.mappedOperations).toHaveLength(72);
     expect(coverage.rawOnlyOperations).toEqual([
       "getOrderTestSimulation",
       "updateOrderTestSimulation",

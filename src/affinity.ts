@@ -12,7 +12,6 @@ import {
   PatientsResource,
   PlatformPricingResource,
   PracticesResource,
-  SessionsResource,
   TeamResource,
   WebhooksResource,
 } from "./resources";
@@ -48,7 +47,6 @@ export class Affinity {
   readonly patients: PatientsResource;
   readonly platformPricing: PlatformPricingResource;
   readonly practices: PracticesResource;
-  readonly sessions: SessionsResource;
   readonly team: TeamResource;
   readonly webhooks: WebhooksResource;
   private readonly transport: FetchAPI;
@@ -103,7 +101,6 @@ export class Affinity {
     this.patients = new PatientsResource(raw.patients);
     this.platformPricing = new PlatformPricingResource(raw.platformPricing);
     this.practices = new PracticesResource(raw.practices);
-    this.sessions = new SessionsResource(raw.sessions);
     this.team = new TeamResource(raw.team);
     this.webhooks = new WebhooksResource(raw.webhooks);
   }

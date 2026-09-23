@@ -278,7 +278,6 @@ docs/RevokeWebhookGrantResponse.md
 docs/RotateWebhookEndpointSecretResponse.md
 docs/SaveWebhookGrantRequest.md
 docs/SaveWebhookGrantResponse.md
-docs/SessionsApi.md
 docs/SetDefaultPatientAddressResponse.md
 docs/SignAndSubmitOrderRequest.md
 docs/SignAndSubmitOrderResponse.md
@@ -326,7 +325,6 @@ src/apis/OrdersApi.ts
 src/apis/PatientsApi.ts
 src/apis/PlatformPricingApi.ts
 src/apis/PracticesApi.ts
-src/apis/SessionsApi.ts
 src/apis/TeamApi.ts
 src/apis/WebhooksApi.ts
 src/apis/index.ts

@@ -8,6 +8,5 @@ export * from "./OrdersApi";
 export * from "./PatientsApi";
 export * from "./PlatformPricingApi";
 export * from "./PracticesApi";
-export * from "./SessionsApi";
 export * from "./TeamApi";
 export * from "./WebhooksApi";

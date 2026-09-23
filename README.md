@@ -192,7 +192,9 @@ instead of comparing `"approved"` and `"pending"`.
 ## Resources and generated contract
 
 The public resource groups are `account`, `apiKeys`, `catalog`, `locations`, `orders`, `patients`,
-`platformPricing`, `practices`, `sessions`, `team`, and `webhooks`.
+`platformPricing`, `practices`, `team`, and `webhooks`.
+
+Hosted-session and component-session creation are temporarily unavailable in this SDK.
 
 The SDK exposes typed methods for public API resources. The two Test order simulation controls remain available
 through `rawRequest`. The generated OpenAPI transport and models remain private implementation

@@ -19,6 +19,8 @@ if ("raw" in client || typeof client.rawRequest !== "function") {
   throw new Error("rawRequest is unavailable or generated raw clients are public");
 }
 
+if ("sessions" in client) throw new Error("Session creation must remain absent from the package");
+
 for (const resource of [
   "account",
   "apiKeys",
@@ -28,7 +30,6 @@ for (const resource of [
   "patients",
   "platformPricing",
   "practices",
-  "sessions",
   "team",
   "webhooks",
 ]) {
@@ -44,7 +45,6 @@ for (const [group, method] of [
   ["patients", "list"],
   ["patients", "retrieveAllergies"],
   ["practices", "list"],
-  ["sessions", "createHosted"],
   ["team", "retrieve"],
   ["team", "createUser"],
   ["webhooks", "list"],
@@ -63,7 +63,6 @@ for (const [group, method] of [
   ["patients", "listPatients"],
   ["practices", "createPractice"],
   ["practices", "listPractices"],
-  ["sessions", "createHostedSession"],
   ["team", "getPracticeTeam"],
   ["team", "registerUser"],
   ["webhooks", "listWebhookEndpoints"],

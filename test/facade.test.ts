@@ -109,6 +109,10 @@ function header(request: Request, name: string) {
 }
 
 describe("Affinity public facade", () => {
+  test("temporarily omits session creation", () => {
+    const { affinity } = client({ actor });
+    expect("sessions" in affinity).toBe(false);
+  });
   test("maps representative methods for every resource to the contract path", async () => {
     const { affinity, requests } = client({ actor });
 
@@ -125,12 +129,6 @@ describe("Affinity public facade", () => {
     await issue(affinity.patients.list(practiceId, { limit: 5 }));
     await issue(affinity.platformPricing.retrieve(catalogItemId, { practiceId }));
     await issue(affinity.practices.retrieve(practiceId));
-    await issue(
-      affinity.sessions.createHosted(
-        { flow: "order_review", orderId, practiceId },
-        { idempotencyKey: "session-123" },
-      ),
-    );
     await issue(affinity.team.listMembers(practiceId, { limit: 5 }));
     await issue(affinity.webhooks.list({}, { organizationId: "acct_01k123456789abcdefghjkmnpq" }));
 
@@ -143,7 +141,6 @@ describe("Affinity public facade", () => {
       `/v1/practices/${practiceId}/patients`,
       `/v1/catalog/items/${catalogItemId}/selling-price`,
       `/v1/practices/${practiceId}`,
-      "/v1/hosted-sessions",
       `/v1/practices/${practiceId}/team/members`,
       "/v1/webhook-endpoints",
     ]);

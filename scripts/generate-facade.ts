@@ -1,11 +1,12 @@
+import { sdkContract } from "./sdk-contract";
 import { mkdir, readFile, rm, writeFile } from "node:fs/promises";
 import { resolve } from "node:path";
 import { facadeOperationMap, validateFacadeOperationCoverage } from "./facade-map";
 
 const root = resolve(import.meta.dir, "..");
-const spec = JSON.parse(
-  await readFile(resolve(root, "spec/affinity.openapi.json"), "utf8"),
-) as Spec;
+const spec = sdkContract(
+  JSON.parse(await readFile(resolve(root, "spec/affinity.openapi.json"), "utf8")) as Spec,
+);
 const apiVersion = spec.info?.version;
 const baseUrl = spec.servers?.[0]?.url;
 if (!apiVersion || !baseUrl)
@@ -28,7 +29,6 @@ const resourceDefinitions = {
     apiFile: "PlatformPricingApi",
   },
   practices: { className: "PracticesResource", apiClass: "PracticesApi", apiFile: "PracticesApi" },
-  sessions: { className: "SessionsResource", apiClass: "SessionsApi", apiFile: "SessionsApi" },
   team: { className: "TeamResource", apiClass: "TeamApi", apiFile: "TeamApi" },
   webhooks: { className: "WebhooksResource", apiClass: "WebhooksApi", apiFile: "WebhooksApi" },
 } as const;
@@ -611,7 +611,6 @@ import {
   PatientsResource,
   PlatformPricingResource,
   PracticesResource,
-  SessionsResource,
   TeamResource,
   WebhooksResource,
 } from "./resources";
@@ -647,7 +646,6 @@ export class Affinity {
   readonly patients: PatientsResource;
   readonly platformPricing: PlatformPricingResource;
   readonly practices: PracticesResource;
-  readonly sessions: SessionsResource;
   readonly team: TeamResource;
   readonly webhooks: WebhooksResource;
   private readonly transport: FetchAPI;

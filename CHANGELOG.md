@@ -7,6 +7,10 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 
 ## [Unreleased]
 
+### Removed
+
+- Temporarily remove hosted-session and component-session creation from the SDK. Existing `sessions.createHosted` and `sessions.createComponent` calls must not upgrade until migrated or support returns. The server endpoints are unchanged.
+
 ## [1.11.0] - 2026-09-22
 
 ### Added

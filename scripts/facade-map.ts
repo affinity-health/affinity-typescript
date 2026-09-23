@@ -47,8 +47,6 @@ export const facadeOperationMap = {
   getPractice: { resource: "practices", method: "retrieve" },
   listPractices: { resource: "practices", method: "list" },
   updatePractice: { resource: "practices", method: "update" },
-  createComponentSession: { resource: "sessions", method: "createComponent" },
-  createHostedSession: { resource: "sessions", method: "createHosted" },
   createPracticeTeamLicense: { resource: "team", method: "createLicense" },
   getPracticeTeam: { resource: "team", method: "retrieve" },
   getPracticeTeamInvitation: { resource: "team", method: "retrieveInvitation" },
@@ -95,7 +93,6 @@ export const facadeResources = [
   "patients",
   "platformPricing",
   "practices",
-  "sessions",
   "team",
   "webhooks",
 ] as const;

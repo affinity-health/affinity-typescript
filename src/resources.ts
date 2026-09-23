@@ -8,7 +8,6 @@ export * from "./resources/orders.js";
 export * from "./resources/patients.js";
 export * from "./resources/platformPricing.js";
 export * from "./resources/practices.js";
-export * from "./resources/sessions.js";
 export * from "./resources/team.js";
 export * from "./resources/webhooks.js";
 export type {

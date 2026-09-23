@@ -1,3 +1,5 @@
+import { sdkContract } from "./sdk-contract";
+
 /** Normalize JSON Schema null unions for the TypeScript generator's OpenAPI 3.0 reader.
  * The pinned 3.1 contract remains unchanged; only the temporary generator input is converted.
  */
@@ -80,6 +82,10 @@ export function generatorContract(value: unknown): any {
 if (import.meta.main) {
   await Bun.write(
     process.argv[3]!,
-    JSON.stringify(generatorContract(await Bun.file(process.argv[2]!).json()), null, 2),
+    JSON.stringify(
+      generatorContract(sdkContract(await Bun.file(process.argv[2]!).json())),
+      null,
+      2,
+    ),
   );
 }
