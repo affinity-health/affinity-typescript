@@ -55,10 +55,10 @@ const catalogParams: ListCatalogItemsParams = {
   limit: 10,
   startingAfter: "cat_01j2y8m6jcc9tt24af5pw9x1bc",
 };
-void sdk.catalog.list(catalogParams);
+void sdk.catalog.items.list(catalogParams);
 void sdk.orders.create(orderInput, mutationOptions);
 async function previewAndCreate() {
-  const preview = await sdk.orders.preview({
+  const preview = await sdk.orderPreviews.create({
     practiceId: orderInput.practiceId,
     patientId: orderInput.patientId,
     prescriptions: [{ medicationId: orderInput.prescriptions[0].medicationId, preset: "default" }],
@@ -79,7 +79,7 @@ const reason: CompoundingReason = "alternate_route";
 // @ts-expect-error vendor codes are not Affinity reason categories
 const invalidReason: CompoundingReason = "CONC_ADJUST";
 async function typedReasons() {
-  const options = await sdk.catalog.retrievePrescribingOptions("cat_example", { practiceId: orderInput.practiceId });
+  const options = await sdk.catalog.items.prescribingOptions.retrieve("cat_example", { practiceId: orderInput.practiceId });
   const category: CompoundingReason | undefined = options.compoundingReason.choices[0]?.category;
   return category;
 }

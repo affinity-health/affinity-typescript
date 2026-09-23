@@ -8,7 +8,7 @@ import {
 import type { Order, PreviewOrderParams } from "@affinity-health/sdk";
 
 type ReviewedAllergies = Omit<
-  Parameters<Affinity["patients"]["replaceAllergies"]>[2],
+  Parameters<Affinity["practices"]["patients"]["allergies"]["update"]>[2],
   "reviewStatus"
 > & { reviewStatus: "no_known" | "recorded" };
 
@@ -17,7 +17,7 @@ type ReviewedAllergies = Omit<
 // Persist mutation keys, reviewed versions, and outcomes in your EMR database.
 export async function createTestWorkflow(apiKey: string) {
   const affinity = new Affinity(apiKey, { maxNetworkRetries: 2 });
-  if ((await affinity.apiKeys.retrieve()).livemode)
+  if ((await affinity.auth.access.retrieve()).livemode)
     throw new Error("This example only accepts a Test key");
 
   async function preparePatient(input: {
@@ -27,7 +27,7 @@ export async function createTestWorkflow(apiKey: string) {
   }) {
     // Creation resolves an existing externalId without replacing its demographics.
     // Use only synthetic identities in this Test example.
-    const patient = await affinity.patients.create(
+    const patient = await affinity.practices.patients.create(
       input.practiceId,
       {
         externalId: input.patientExternalId,
@@ -45,7 +45,10 @@ export async function createTestWorkflow(apiKey: string) {
       },
       { idempotencyKey: input.persistedCreationKey },
     );
-    const allergies = await affinity.patients.retrieveAllergies(input.practiceId, patient.id);
+    const allergies = await affinity.practices.patients.allergies.retrieve(
+      input.practiceId,
+      patient.id,
+    );
     // Display the existing history in the EMR and collect the clinician's review.
     // An empty, not_reviewed history does not mean no known allergies.
     return { patient, allergies };
@@ -60,7 +63,7 @@ export async function createTestWorkflow(apiKey: string) {
     // Pass the full array back after edits. Explicit overrides replace defaults.
     prescriptions?: PreviewOrderParams["prescriptions"];
   }) {
-    return affinity.orders.preview({
+    return affinity.orderPreviews.create({
       practiceId: input.practiceId,
       ...(input.clinicianNpi ? { prescriber: { npi: input.clinicianNpi } } : {}),
       patientId: input.patientId,
@@ -93,7 +96,7 @@ export async function createTestWorkflow(apiKey: string) {
       (reviewed.reviewStatus === "recorded" && reviewed.allergies.length === 0)
     )
       throw new Error("Provide an explicit allergy review with the complete reviewed history");
-    await affinity.patients.replaceAllergies(
+    await affinity.practices.patients.allergies.update(
       acceptedPreview.orderInput.practiceId,
       patientId,
       reviewed,

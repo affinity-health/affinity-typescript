@@ -14,7 +14,7 @@ test("supplies share the catalog resource and serialize the kind filter", async 
       return Response.json({ object: "list", data: [], hasMore: false, url: "/v1/catalog/items" });
     },
   });
-  await affinity.catalog.list({ catalogKind: "otc", limit: 10 });
+  await affinity.catalog.items.list({ catalogKind: "otc", limit: 10 });
   expect(new URL(request!.url).pathname).toBe("/v1/catalog/items");
   expect(new URL(request!.url).searchParams.get("catalogKind")).toBe("otc");
 });
@@ -35,11 +35,15 @@ test("catalog discovery preserves grouping, related-offer filters, and paginatio
       });
     },
   });
-  const page = await affinity.catalog.list({ view: "medications", query: "tadalafil", limit: 25 });
+  const page = await affinity.catalog.items.list({
+    view: "medications",
+    query: "tadalafil",
+    limit: 25,
+  });
   expect(page.data[0]?.medicationGroup).toEqual(medicationGroup);
   expect(new URL(requests[0]!.url).searchParams.get("view")).toBe("medications");
 
-  await affinity.catalog.list({
+  await affinity.catalog.items.list({
     view: "offers",
     relatedToCatalogItemId: medicationId,
     startingAfter: page.data[0]!.id,
@@ -88,7 +92,9 @@ test("prescribing options serialize the item and practice scope", async () => {
       });
     },
   });
-  const options = await affinity.catalog.retrievePrescribingOptions(medicationId, { practiceId });
+  const options = await affinity.catalog.items.prescribingOptions.retrieve(medicationId, {
+    practiceId,
+  });
   expect(options.compoundingReason.choices[0]?.category).toBe(
     CompoundingReason.ConcentrationAdjustment,
   );
@@ -171,7 +177,7 @@ test("preview preserves custom SIGs and returns a directly creatable payload", a
       );
     },
   });
-  const preview = await affinity.orders.preview({
+  const preview = await affinity.orderPreviews.create({
     otcItems: orderInput.otcItems,
     practiceId,
     patientId,
@@ -249,7 +255,7 @@ test("incomplete previews preserve null payload and actionable issues", async ()
         orderInput: null,
       }),
   });
-  const preview = await affinity.orders.preview({
+  const preview = await affinity.orderPreviews.create({
     practiceId,
     patientId,
     prescriptions: [{ medicationId }],

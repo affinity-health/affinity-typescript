@@ -10,7 +10,10 @@
     "skipLibCheck": true,
     "strict": true,
     "target": "ES2023",
-    "types": ["vite/client"]
+    "types": ["vite/client"],
+    "paths": {
+      "@affinity-health/sdk": ["../../dist/index"]
+    }
   },
   "include": ["src", "scripts", "vite.config.ts", "alchemy.run.ts"]
 }

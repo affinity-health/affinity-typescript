@@ -23,7 +23,9 @@ export async function verifyPublicTypes(affinity: Affinity, practiceId: string) 
     const typed: Practice = item;
     void typed;
   }
-  const patients: Patient[] = await affinity.patients.list(id).autoPagingToArray({ limit: 10 });
+  const patients: Patient[] = await affinity.practices.patients
+    .list(id)
+    .autoPagingToArray({ limit: 10 });
   return { id, enabled, name, invalid, patients };
 }
 export type PublicTypes = [Order, CreatedOrder, CatalogItem, PracticeLocation];

@@ -597,6 +597,52 @@ ${Object.entries(resourceDefinitions)
 }`;
 await output("src/raw.ts", rawClientSource);
 
+// Build the public hierarchy separately from the OpenAPI tag-based adapters.
+// Bound methods preserve request types, pagination helpers, and actor defaults.
+type Namespace = { [key: string]: Namespace | string };
+const publicTree: Namespace = {};
+for (const operation of details) {
+  const mapping = facadeOperationMap[operation.operationId as keyof typeof facadeOperationMap];
+  if (!("publicPath" in mapping))
+    throw new Error(`Missing public path for ${operation.operationId}`);
+  const parts = mapping.publicPath.split(".");
+  let node = publicTree;
+  for (const part of parts.slice(0, -1)) {
+    node[part] ??= {};
+    if (typeof node[part] === "string")
+      throw new Error(`Namespace collision at ${mapping.publicPath}`);
+    node = node[part] as Namespace;
+  }
+  const leaf = parts.at(-1)!;
+  if (node[leaf]) throw new Error(`Duplicate public path ${mapping.publicPath}`);
+  node[leaf] = `${operation.resource}.${operation.publicMethod}.bind(${operation.resource})`;
+}
+function renderNamespace(node: Namespace): string {
+  return `{ ${Object.entries(node)
+    .map(([key, value]) => `${key}: ${typeof value === "string" ? value : renderNamespace(value)}`)
+    .join(",\n")} }`;
+}
+const publicRoots = Object.keys(publicTree);
+function renderNamespaceType(node: Namespace): string {
+  return `{ ${Object.entries(node)
+    .map(([key, value]) => {
+      if (typeof value !== "string") return `readonly ${key}: ${renderNamespaceType(value)}`;
+      const [resource, method] = value.split(".");
+      const definition = resourceDefinitions[resource as keyof typeof resourceDefinitions];
+      return `readonly ${key}: ${definition.className}["${method}"]`;
+    })
+    .join(";\n")} }`;
+}
+const publicFactory = `function createPublicResources(raw: RawClient, actor: AffinityActor): ${renderNamespaceType(publicTree)} {
+${Object.entries(resourceDefinitions)
+  .map(
+    ([resource, { className }]) =>
+      `  const ${resource} = new ${className}(raw.${resource}${grouped.get(resource as keyof typeof resourceDefinitions)?.some((operation) => operation.requiredHeaders.some((header) => headerName(header) === "affinity-actor-type")) ? ", actor" : ""});`,
+  )
+  .join("\n")}
+  return ${renderNamespace(publicTree)};
+}`;
+
 await output(
   "src/affinity.ts",
   `import { Configuration, FetchError, ResponseError, type FetchAPI } from "./runtime";
@@ -637,17 +683,10 @@ export interface RawRequestOptions extends RequestOptions {
   idempotencyKey?: string;
 }
 
+${publicFactory}
+
 export class Affinity {
-  readonly account: AccountResource;
-  readonly apiKeys: APIKeysResource;
-  readonly catalog: CatalogResource;
-  readonly locations: LocationsResource;
-  readonly orders: OrdersResource;
-  readonly patients: PatientsResource;
-  readonly platformPricing: PlatformPricingResource;
-  readonly practices: PracticesResource;
-  readonly team: TeamResource;
-  readonly webhooks: WebhooksResource;
+${publicRoots.map((name) => `  readonly ${name}: ReturnType<typeof createPublicResources>["${name}"];`).join("\n")}
   private readonly transport: FetchAPI;
   private readonly apiKey: string;
   private readonly options: AffinityOptions;
@@ -690,12 +729,8 @@ export class Affinity {
       },
     });
     const raw = new RawClient(configuration);
-${Object.entries(resourceDefinitions)
-  .map(
-    ([resource, { className, apiClass }]) =>
-      `    this.${resource} = new ${className}(raw.${resource}${grouped.get(resource as keyof typeof resourceDefinitions)?.some((operation) => operation.requiredHeaders.some((header) => headerName(header) === "affinity-actor-type")) ? ", actor" : ""});`,
-  )
-  .join("\n")}
+    const resources = createPublicResources(raw, actor);
+${publicRoots.map((name) => `    this.${name} = resources.${name};`).join("\n")}
   }
 
   withActor(actor: AffinityActor): Affinity {

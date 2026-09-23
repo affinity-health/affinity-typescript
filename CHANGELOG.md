@@ -7,6 +7,12 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 
 ## [Unreleased]
 
+## [1.12.0] - 2026-09-23
+
+### Changed
+
+- Breaking: SDK resources now follow the API URL hierarchy. IDs remain positional arguments and hyphenated segments use camelCase. See the README migration table.
+
 ### Removed
 
 - Temporarily remove hosted-session and component-session creation from the SDK. Existing `sessions.createHosted` and `sessions.createComponent` calls must not upgrade until migrated or support returns. The server endpoints are unchanged.

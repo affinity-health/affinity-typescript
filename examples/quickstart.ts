@@ -4,11 +4,11 @@ const apiKey = process.env.AFFINITY_API_KEY;
 if (!apiKey) throw new Error("Set AFFINITY_API_KEY to a test-mode service key");
 
 const affinity = new Affinity(apiKey);
-const access = await affinity.apiKeys.retrieve();
+const access = await affinity.auth.access.retrieve();
 if (access.livemode) throw new Error("This quickstart only runs with a test-mode key");
 
-const catalog = await affinity.catalog.list({ limit: 10, query: "semaglutide" });
-const pharmacies = await affinity.catalog.listPharmacies({ limit: 10 });
+const catalog = await affinity.catalog.items.list({ limit: 10, query: "semaglutide" });
+const pharmacies = await affinity.pharmacies.list({ limit: 10 });
 console.log(`Found ${catalog.data.length} matching test catalog items`);
 console.log(`Found ${pharmacies.data.length} pharmacies available to this test account`);
 
@@ -32,7 +32,7 @@ if (process.env.RUN_AFFINITY_MUTATION_EXAMPLE === "1") {
     name: "Northstar Wellness",
     primaryContact: { email: "ops@example.com", name: "Clinical Operations" },
   });
-  const patient = await affinity.patients.create(practice.id, {
+  const patient = await affinity.practices.patients.create(practice.id, {
     address: {
       city: "Los Angeles",
       country: "US",
@@ -46,13 +46,13 @@ if (process.env.RUN_AFFINITY_MUTATION_EXAMPLE === "1") {
     name: { first: "Demo", last: "Patient" },
     phone: "+13135550100",
   });
-  await affinity.patients.replaceAllergies(practice.id, patient.id, {
+  await affinity.practices.patients.allergies.update(practice.id, patient.id, {
     allergies: [],
     reviewStatus: "no_known",
   });
-  const allergies = await affinity.patients.retrieveAllergies(practice.id, patient.id);
+  const allergies = await affinity.practices.patients.allergies.retrieve(practice.id, patient.id);
 
-  const practiceCatalog = await affinity.catalog.list({
+  const practiceCatalog = await affinity.catalog.items.list({
     limit: 10,
     practiceId: practice.id,
     query: "semaglutide",

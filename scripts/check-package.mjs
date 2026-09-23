@@ -21,55 +21,37 @@ if ("raw" in client || typeof client.rawRequest !== "function") {
 
 if ("sessions" in client) throw new Error("Session creation must remain absent from the package");
 
-for (const resource of [
-  "account",
+for (const path of [
+  "account.retrieve",
+  "auth.access.retrieve",
+  "catalog.items.list",
+  "pharmacies.list",
+  "practices.locations.list",
+  "practices.patients.allergies.retrieve",
+  "practices.team.members.list",
+  "practices.team.prescribers.licenses.create",
+  "orders.events.list",
+  "orders.prescriptions.create",
+  "orderBatches.create",
+  "orderPreviews.create",
+  "webhookEndpoints.list",
+  "webhookEvents.list",
+  "webhookGrants.list",
+]) {
+  if (typeof path.split(".").reduce((node, key) => node?.[key], client) !== "function")
+    throw new Error(`Missing public method: ${path}`);
+}
+for (const name of [
   "apiKeys",
-  "catalog",
   "locations",
-  "orders",
   "patients",
   "platformPricing",
-  "practices",
   "team",
   "webhooks",
+  "hostedSessions",
+  "componentSessions",
 ]) {
-  if (!(resource in client)) throw new Error(`${resource} resource missing`);
-}
-
-for (const [group, method] of [
-  ["account", "retrieve"],
-  ["apiKeys", "retrieve"],
-  ["catalog", "list"],
-  ["locations", "list"],
-  ["orders", "list"],
-  ["patients", "list"],
-  ["patients", "retrieveAllergies"],
-  ["practices", "list"],
-  ["team", "retrieve"],
-  ["team", "createUser"],
-  ["webhooks", "list"],
-]) {
-  if (typeof client[group][method] !== "function") {
-    throw new Error(`${group}.${method} method missing`);
-  }
-}
-
-for (const [group, method] of [
-  ["apiKeys", "getApiAccess"],
-  ["catalog", "listCatalogItems"],
-  ["locations", "listPracticeLocations"],
-  ["orders", "listOrders"],
-  ["patients", "getPatientAllergies"],
-  ["patients", "listPatients"],
-  ["practices", "createPractice"],
-  ["practices", "listPractices"],
-  ["team", "getPracticeTeam"],
-  ["team", "registerUser"],
-  ["webhooks", "listWebhookEndpoints"],
-]) {
-  if (method in client[group]) {
-    throw new Error(`generated method leaked into public ${group}: ${method}`);
-  }
+  if (name in client) throw new Error(`Retired resource still exposed: ${name}`);
 }
 
 const docsRoot = new URL("../docs/", import.meta.url);

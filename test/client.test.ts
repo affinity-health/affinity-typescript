@@ -36,7 +36,7 @@ describe("Affinity client", () => {
       },
     });
 
-    const access = await affinity.apiKeys.retrieve();
+    const access = await affinity.auth.access.retrieve();
 
     expect(access.livemode).toBe(false);
     expect(request?.url).toBe("https://api.joinaffinityai.com/v1/auth/access");
@@ -59,7 +59,7 @@ describe("Affinity client", () => {
       },
     });
 
-    const result = await affinity.catalog.list({
+    const result = await affinity.catalog.items.list({
       limit: 10,
       practiceId: "prac_01k123456789abcdefghjkmnp",
       query: "semaglutide",

@@ -26,7 +26,7 @@ export async function client() {
   if (!key) throw new Error("Set AFFINITY_EXAMPLE_API_KEY on the server.");
   const affinity = new Affinity(key, { maxNetworkRetries: 2 });
   // Check the deployed API, not a key-prefix guess. Every operation fails closed.
-  const access = await affinity.apiKeys.retrieve();
+  const access = await affinity.auth.access.retrieve();
   if (access.livemode !== false) throw new Error("This example refuses Live-mode API keys.");
   if (access.serviceAccount.subjectType !== "platform")
     throw new Error("Use a platform Test key to list its practices.");
@@ -75,8 +75,8 @@ export async function practices(startingAfter?: string, mode: "test" | "live" = 
       throw new Error("Set AFFINITY_EXAMPLE_DIRECTORY_KEY to a Live practices:read-only key.");
     directory = new Affinity(key);
     const [live, test] = await Promise.all([
-      directory.apiKeys.retrieve(),
-      affinity.apiKeys.retrieve(),
+      directory.auth.access.retrieve(),
+      affinity.auth.access.retrieve(),
     ]);
     if (
       live.livemode !== true ||
@@ -104,7 +104,7 @@ export async function practices(startingAfter?: string, mode: "test" | "live" = 
 export async function prepare(runId: string, practiceId: string) {
   const { affinity } = await client();
   const practice = await affinity.practices.retrieve(practiceId);
-  const patient = await affinity.patients.create(
+  const patient = await affinity.practices.patients.create(
     practiceId,
     {
       ...syntheticPatient,
@@ -125,7 +125,7 @@ export async function prepare(runId: string, practiceId: string) {
 
 export async function catalog(practiceId: string, query: string, startingAfter?: string) {
   const { affinity } = await client();
-  return affinity.catalog.list({
+  return affinity.catalog.items.list({
     practiceId,
     query,
     startingAfter,
@@ -142,7 +142,7 @@ export async function preview(
   const { affinity } = await client();
   const patient = receipt<PatientReceipt>(token, "patient");
   const { practiceId } = patient;
-  const result = await affinity.orders.preview({
+  const result = await affinity.orderPreviews.create({
     ...items,
     practiceId,
     patientId: patient.patientId,
@@ -191,7 +191,7 @@ export async function recordAllergies(token: string) {
   const { affinity } = await client();
   const patient = receipt<PatientReceipt>(token, "patient");
   const { practiceId } = patient;
-  return affinity.patients.replaceAllergies(
+  return affinity.practices.patients.allergies.update(
     practiceId,
     patient.patientId,
     { allergies: [], reviewStatus: "no_known" },

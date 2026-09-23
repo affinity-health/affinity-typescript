@@ -1,6 +1,6 @@
 # TanStack Start EMR example
 
-This independently packaged example installs the published `@affinity-health/sdk`.
+This example validates the SDK built from this checkout. Run `bun run build` from the repository root first. TypeScript and Vite resolve `@affinity-health/sdk` to that build.
 It sends real requests to `https://api.joinaffinityai.com`. Ordering accepts **Test keys only**.
 An optional, separate Live key with only `practices:read` shows the Live practice directory.
 Use only synthetic data. Test orders go to Affinity's simulator, not PerfectRx or a real pharmacy.

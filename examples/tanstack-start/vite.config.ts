@@ -4,6 +4,11 @@ import { fileURLToPath } from "node:url";
 import { defineConfig } from "vite-plus";
 
 export default defineConfig({
+  resolve: {
+    alias: {
+      "@affinity-health/sdk": fileURLToPath(new URL("../../dist/index.js", import.meta.url)),
+    },
+  },
   plugins: [tanstackStart(), react()],
   root: fileURLToPath(new URL(".", import.meta.url)),
   server: {

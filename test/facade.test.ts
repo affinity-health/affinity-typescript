@@ -122,15 +122,17 @@ describe("Affinity public facade", () => {
         { organizationId: "acct_01k123456789abcdefghjkmnpq" },
       ),
     );
-    await issue(affinity.apiKeys.retrieve());
-    await issue(affinity.catalog.list({ limit: 10, query: "semaglutide" }));
-    await issue(affinity.locations.list(practiceId, { limit: 5 }));
+    await issue(affinity.auth.access.retrieve());
+    await issue(affinity.catalog.items.list({ limit: 10, query: "semaglutide" }));
+    await issue(affinity.practices.locations.list(practiceId, { limit: 5 }));
     await issue(affinity.orders.retrieve(orderId));
-    await issue(affinity.patients.list(practiceId, { limit: 5 }));
-    await issue(affinity.platformPricing.retrieve(catalogItemId, { practiceId }));
+    await issue(affinity.practices.patients.list(practiceId, { limit: 5 }));
+    await issue(affinity.catalog.items.sellingPrice.retrieve(catalogItemId, { practiceId }));
     await issue(affinity.practices.retrieve(practiceId));
-    await issue(affinity.team.listMembers(practiceId, { limit: 5 }));
-    await issue(affinity.webhooks.list({}, { organizationId: "acct_01k123456789abcdefghjkmnpq" }));
+    await issue(affinity.practices.team.members.list(practiceId, { limit: 5 }));
+    await issue(
+      affinity.webhookEndpoints.list({}, { organizationId: "acct_01k123456789abcdefghjkmnpq" }),
+    );
 
     expect(requests.map((request) => new URL(request.url).pathname)).toEqual([
       "/v1/account",
@@ -185,9 +187,9 @@ describe("Affinity public facade", () => {
     const { affinity, requests } = client({ actor });
     const pharmacyId = "pharm_01j2y8m6jcc9tt24af5pw9x1bc";
 
-    await issue(affinity.catalog.listPharmacies({ pharmacyId }));
+    await issue(affinity.pharmacies.list({ pharmacyId }));
     await issue(
-      affinity.locations.create(
+      affinity.practices.locations.create(
         practiceId,
         { name: "Primary location" },
         { idempotencyKey: "location-create-123" },
@@ -206,7 +208,7 @@ describe("Affinity public facade", () => {
     });
 
     await issue(
-      affinity.patients.list(
+      affinity.practices.patients.list(
         practiceId,
         { limit: 2 },
         {
@@ -367,7 +369,7 @@ describe("Affinity public facade", () => {
         )
         .join("");
       await expectFailure(
-        () => affinity.catalog.list({}, { headers: { [bypass]: "spoofed" } }),
+        () => affinity.catalog.items.list({}, { headers: { [bypass]: "spoofed" } }),
         /reserved/i,
       );
       expect(requests).toHaveLength(0);
@@ -425,7 +427,7 @@ describe("Affinity public facade", () => {
 
     await expectFailure(
       () =>
-        affinity.orders.createBatch(
+        affinity.orderBatches.create(
           { practiceId, orders: [{ prescriptions: [validPrescription] }] },
           options,
         ),
@@ -433,7 +435,7 @@ describe("Affinity public facade", () => {
     );
     await expectFailure(
       () =>
-        affinity.orders.createBatch(
+        affinity.orderBatches.create(
           {
             practiceId,
             orders: [
@@ -453,7 +455,7 @@ describe("Affinity public facade", () => {
     );
     await expectFailure(
       () =>
-        affinity.orders.createBatch(
+        affinity.orderBatches.create(
           { practiceId, orders: [{ patientId, prescriptions: [] }] },
           options,
         ),
@@ -461,7 +463,7 @@ describe("Affinity public facade", () => {
     );
     await expectFailure(
       () =>
-        affinity.orders.createBatch(
+        affinity.orderBatches.create(
           {
             practiceId,
             orders: [
@@ -490,7 +492,7 @@ describe("Affinity public facade", () => {
       ],
     };
 
-    await issue(affinity.orders.createBatch(batch, { idempotencyKey: "batch-create-123" }));
+    await issue(affinity.orderBatches.create(batch, { idempotencyKey: "batch-create-123" }));
 
     expect(requests[0]!.method).toBe("POST");
     expect(requests[0]!.url).toBe(`${baseUrl}/v1/order-batches`);
@@ -525,7 +527,9 @@ describe("Affinity public facade", () => {
     const controller = new AbortController();
     const { affinity, requests } = client({ actor });
 
-    await issue(affinity.patients.list(practiceId, {}, { actor, signal: controller.signal }));
+    await issue(
+      affinity.practices.patients.list(practiceId, {}, { actor, signal: controller.signal }),
+    );
 
     expect(requests[0]!.capturedSignal?.aborted).toBe(false);
   });
@@ -534,7 +538,7 @@ describe("Affinity public facade", () => {
     const { affinity, requests } = client();
 
     await issue(
-      affinity.webhooks.update(
+      affinity.webhookEndpoints.update(
         endpointId,
         {
           description: "Orders",
@@ -566,9 +570,9 @@ describe("Affinity public facade", () => {
   test("uses ergonomic names for allergy retrieval and Team user creation", async () => {
     const { affinity, requests } = client({ actor });
 
-    await issue(affinity.patients.retrieveAllergies(practiceId, patientId));
+    await issue(affinity.practices.patients.allergies.retrieve(practiceId, patientId));
     await issue(
-      affinity.team.createUser(
+      affinity.practices.users.create(
         practiceId,
         {
           externalId: "ehr-user-123",
@@ -610,7 +614,7 @@ test("rejects explicitly blank patient IDs even alongside inline patient data", 
     );
     await expectFailure(
       () =>
-        affinity.orders.createBatch(
+        affinity.orderBatches.create(
           {
             practiceId,
             orders: [{ patientId, patient, prescriptions: [validPrescription] }],

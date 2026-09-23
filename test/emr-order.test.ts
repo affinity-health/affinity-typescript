@@ -3,21 +3,48 @@ import { Affinity } from "../src";
 
 test("prescriber selectors serialize without userId or actor options, including inheritance", async () => {
   const requests: Request[] = [];
-  const affinity = new Affinity("sk_test_example", { fetch: async (input, init) => {
-    requests.push(new Request(input, init));
-    return Response.json({ object: "order_sign_and_submission", orderId: "ord_test", signedAt: "2026-09-19T12:00:00Z", status: "submitted", prescriptions: [] }, { status: 202 });
-  } });
-  for (const prescriber of [{ npi: "1234567893" }, { id: "prov_test" }, { externalId: "emr-clinician" }, undefined]) {
-    await affinity.orders.signAndSubmit("ord_test", {
-      practiceId: "prac_test", prescriber, signatureAttestation: true,
-      expectedVersions: [{ prescriptionId: "rx_one", version: 1 }],
-    }, { idempotencyKey: "approval-" + requests.length });
+  const affinity = new Affinity("sk_test_example", {
+    fetch: async (input, init) => {
+      requests.push(new Request(input, init));
+      return Response.json(
+        {
+          object: "order_sign_and_submission",
+          orderId: "ord_test",
+          signedAt: "2026-09-19T12:00:00Z",
+          status: "submitted",
+          prescriptions: [],
+        },
+        { status: 202 },
+      );
+    },
+  });
+  for (const prescriber of [
+    { npi: "1234567893" },
+    { id: "prov_test" },
+    { externalId: "emr-clinician" },
+    undefined,
+  ]) {
+    await affinity.orders.signAndSubmit(
+      "ord_test",
+      {
+        practiceId: "prac_test",
+        prescriber,
+        signatureAttestation: true,
+        expectedVersions: [{ prescriptionId: "rx_one", version: 1 }],
+      },
+      { idempotencyKey: "approval-" + requests.length },
+    );
   }
   expect((await requests[0]!.json()).prescriber).toEqual({ npi: "1234567893" });
   expect((await requests[1]!.json()).prescriber).toEqual({ id: "prov_test" });
   expect((await requests[2]!.json()).prescriber).toEqual({ externalId: "emr-clinician" });
-  expect(await requests[3]!.json()).toEqual({ practiceId: "prac_test", signatureAttestation: true, expectedVersions: [{ prescriptionId: "rx_one", version: 1 }] });
-  for (const request of requests) expect(request.headers.get("Affinity-Actor-Type")).not.toBe("user");
+  expect(await requests[3]!.json()).toEqual({
+    practiceId: "prac_test",
+    signatureAttestation: true,
+    expectedVersions: [{ prescriptionId: "rx_one", version: 1 }],
+  });
+  for (const request of requests)
+    expect(request.headers.get("Affinity-Actor-Type")).not.toBe("user");
 });
 
 test("preview serializes external and inline patient selectors without a patient ID", async () => {
@@ -38,12 +65,12 @@ test("preview serializes external and inline patient selectors without a patient
       });
     },
   });
-  await affinity.orders.preview({
+  await affinity.orderPreviews.create({
     practiceId: "prac_test",
     patientExternalId: "emr-123",
     prescriptions: [{ medicationId: "cat_test", preset: "default" }],
   });
-  await affinity.orders.preview({
+  await affinity.orderPreviews.create({
     practiceId: "prac_test",
     patient: { name: { first: "Synthetic", last: "Patient" }, dateOfBirth: "1990-01-01" },
     prescriptions: [{ medicationId: "cat_test" }],

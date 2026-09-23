@@ -19,9 +19,9 @@ import { Affinity } from "@affinity-health/sdk";
 
 const affinity = new Affinity(process.env.AFFINITY_API_KEY!);
 
-const access = await affinity.apiKeys.retrieve();
+const access = await affinity.auth.access.retrieve();
 const practices = await affinity.practices.list({ limit: 25 });
-const catalog = await affinity.catalog.list({ query: "semaglutide", limit: 10 });
+const catalog = await affinity.catalog.items.list({ query: "semaglutide", limit: 10 });
 
 console.log(access, practices.data, catalog.data);
 ```
@@ -30,7 +30,7 @@ Resource methods use names such as `create`, `retrieve`, `list`, `update`, `canc
 `submit`. Request bodies are passed directly, while path identifiers are separate arguments:
 
 ```ts
-const patient = await affinity.patients.create("prac_...", {
+const patient = await affinity.practices.patients.create("prac_...", {
   dateOfBirth: "1990-01-01",
   email: "patient@example.com",
   externalId: "patient-456",
@@ -71,8 +71,10 @@ See [the EMR workflow example](examples/emr-order.ts) for server-side review, si
 retries, partial submission recovery, and webhook processing.
 
 ```ts
-const options = await affinity.catalog.retrievePrescribingOptions(catalogItemId, { practiceId });
-const preview = await affinity.orders.preview({
+const options = await affinity.catalog.items.prescribingOptions.retrieve(catalogItemId, {
+  practiceId,
+});
+const preview = await affinity.orderPreviews.create({
   practiceId,
   patientId,
   prescriptions: [
@@ -94,9 +96,9 @@ template, or free-text directions, quantity, days supply, refills, clinical cont
 Previews do not create, sign, charge, or transmit an order. Never infer patient-specific rationale,
 diagnoses, or allergy review from defaults. Creation and signing recheck current requirements.
 
-Supplies use `catalog.list({ catalogKind: "otc" })`. Read each item's `ordering` requirements and
+Supplies use `catalog.items.list({ catalogKind: "otc" })`. Read each item's `ordering` requirements and
 `fulfillmentInclusions`. Add purchased supplies with `otcItems: [{ catalogItemId, quantity: 1 }]`
-on `orders.preview`, `orders.create`, or each patient order in a batch. PerfectRx supplies require
+on `orderPreviews.create`, `orders.create`, or each patient order in a batch. PerfectRx supplies require
 an accompanying PerfectRx prescription and attach to its shipment without another delivery fee.
 Do not add supplies already included by the pharmacy unless the clinician requests extra items.
 
@@ -191,8 +193,9 @@ instead of comparing `"approved"` and `"pending"`.
 
 ## Resources and generated contract
 
-The public resource groups are `account`, `apiKeys`, `catalog`, `locations`, `orders`, `patients`,
-`platformPricing`, `practices`, `team`, and `webhooks`.
+The public resource groups are `account`, `auth`, `catalog`, `pharmacies`, `orders`,
+`orderPreviews`, `orderBatches`, `practices`, `webhookEndpoints`, `webhookEvents`, and `webhookGrants`.
+Patients, locations, and team resources are nested under `practices`.
 
 Hosted-session and component-session creation are temporarily unavailable in this SDK.
 
@@ -271,7 +274,9 @@ Use the typed Affinity category. The API translates it to the pharmacy's enum; i
 import { Affinity, CompoundingReason } from "@affinity-health/sdk";
 
 const affinity = new Affinity(process.env.AFFINITY_API_KEY!);
-const options = await affinity.catalog.retrievePrescribingOptions(catalogItemId, { practiceId });
+const options = await affinity.catalog.items.prescribingOptions.retrieve(catalogItemId, {
+  practiceId,
+});
 // Render options.compoundingReason.choices for the clinician to select.
 // Check context/contextRequired and contextPrompt before collecting additional text.
 
@@ -281,7 +286,7 @@ const clinical = {
     // context: clinicianEnteredExplanation, // Include when the medication requires it.
   },
 };
-// Pass clinical in a prescription to orders.create, or in orders.preview overrides.
+// Pass clinical in a prescription to orders.create, or in orderPreviews.create overrides.
 ```
 
 Only offer categories returned for the medication. A required patient-specific explanation cannot be replaced by a category. Category-only pharmacies accept omitted context; text-only pharmacies accept `{ context: clinicianEnteredExplanation }`. The API rechecks current requirements during creation and signing.
@@ -302,7 +307,7 @@ MIT
 
 ## Pharmacy clinical requirements
 
-Fetch `catalog.retrievePrescribingOptions(catalogItemId, { practiceId })` when selecting a medication.
+Fetch `catalog.items.prescribingOptions.retrieve(catalogItemId, { practiceId })` when selecting a medication.
 Read `options.catalog.prescriptionRequirements` to render required fields without hard-coding pharmacy names.
 `medicationReview: "required"` and `diagnosisReview: "required"` accept a populated list or an explicit
 reviewed none. `diagnosis: "required"` requires an actual diagnosis. Allergy review is required before signing.
@@ -322,7 +327,7 @@ Use `"recorded"` for populated lists. An empty list without a review status is u
 Only send `"none"` after the clinician explicitly confirms it. Record patient allergies or
 `reviewStatus: "no_known"` through the patient allergies endpoint.
 
-Call `orders.preview` before saving or signing. Display `preview.clinicalIssues` using their
+Call `orderPreviews.create` before saving or signing. Display `preview.clinicalIssues` using their
 `path` and `message`, and use `preview.clinicalRequirements` for required-field state.
 `preview.status === "complete"` means a draft can be created; it can coexist with
 `preview.clinicalRequirementsSatisfied === false`. The clinical flag does not establish signing
@@ -330,3 +335,68 @@ authority or Live eligibility. The API checks current requirements again at sign
 
 See the [compiled example](examples/clinical-requirements.ts) and
 [prescribing guide](https://docs.joinaffinityai.com/guides/prescribing-defaults/).
+
+## Migrating to 1.12.0
+
+Resource namespaces follow static API path segments after `/v1`. Hyphenated segments use camelCase; path IDs remain positional arguments in URL order. HTTP operations become `list`, `retrieve`, `create`, `update`, or `delete`. Action endpoints retain their action name, such as `orders.sign()`. These replace the previous names; no deprecated aliases are exposed.
+
+| Previous method                      | 1.12.0 method                                 |
+| ------------------------------------ | --------------------------------------------- |
+| `locations.list`                     | `practices.locations.list`                    |
+| `locations.create`                   | `practices.locations.create`                  |
+| `locations.retrieve`                 | `practices.locations.retrieve`                |
+| `locations.update`                   | `practices.locations.update`                  |
+| `locations.archive`                  | `practices.locations.archive`                 |
+| `catalog.list`                       | `catalog.items.list`                          |
+| `catalog.listPharmacies`             | `pharmacies.list`                             |
+| `catalog.listShippingOptions`        | `catalog.items.shippingOptions.list`          |
+| `orders.actOnException`              | `orders.exceptions.actions.create`            |
+| `orders.listEvents`                  | `orders.events.list`                          |
+| `webhooks.list`                      | `webhookEndpoints.list`                       |
+| `webhooks.create`                    | `webhookEndpoints.create`                     |
+| `webhooks.update`                    | `webhookEndpoints.update`                     |
+| `webhooks.delete`                    | `webhookEndpoints.delete`                     |
+| `webhooks.rotateSecret`              | `webhookEndpoints.rotateSecret`               |
+| `webhooks.test`                      | `webhookEndpoints.test`                       |
+| `webhooks.listEvents`                | `webhookEvents.list`                          |
+| `webhooks.retrieveEvent`             | `webhookEvents.retrieve`                      |
+| `webhooks.replayEvent`               | `webhookEvents.replay`                        |
+| `catalog.retrievePrescribingOptions` | `catalog.items.prescribingOptions.retrieve`   |
+| `orders.preview`                     | `orderPreviews.create`                        |
+| `orders.reject`                      | `orders.rejection.create`                     |
+| `team.createUser`                    | `practices.users.create`                      |
+| `patients.listAddresses`             | `practices.patients.addresses.list`           |
+| `patients.createAddress`             | `practices.patients.addresses.create`         |
+| `patients.updateAddress`             | `practices.patients.addresses.update`         |
+| `patients.archiveAddress`            | `practices.patients.addresses.delete`         |
+| `patients.setDefaultAddress`         | `practices.patients.addresses.default.update` |
+| `team.invite`                        | `practices.team.invitations.create`           |
+| `team.listInvitations`               | `practices.team.invitations.list`             |
+| `team.retrieve`                      | `practices.team.retrieve`                     |
+| `team.listMembers`                   | `practices.team.members.list`                 |
+| `team.listPrescribers`               | `practices.team.prescribers.list`             |
+| `team.retrieveMember`                | `practices.team.members.retrieve`             |
+| `team.updateMember`                  | `practices.team.members.update`               |
+| `team.retrievePrescriber`            | `practices.team.prescribers.retrieve`         |
+| `team.updatePrescriber`              | `practices.team.prescribers.update`           |
+| `team.createLicense`                 | `practices.team.prescribers.licenses.create`  |
+| `team.updateLicense`                 | `practices.team.prescribers.licenses.update`  |
+| `team.retrieveInvitation`            | `practices.team.invitations.retrieve`         |
+| `team.revokeInvitation`              | `practices.team.invitations.delete`           |
+| `team.resendInvitation`              | `practices.team.invitations.resend`           |
+| `apiKeys.retrieve`                   | `auth.access.retrieve`                        |
+| `patients.list`                      | `practices.patients.list`                     |
+| `patients.create`                    | `practices.patients.create`                   |
+| `patients.retrieve`                  | `practices.patients.retrieve`                 |
+| `patients.delete`                    | `practices.patients.delete`                   |
+| `patients.update`                    | `practices.patients.update`                   |
+| `patients.retrieveAllergies`         | `practices.patients.allergies.retrieve`       |
+| `patients.replaceAllergies`          | `practices.patients.allergies.update`         |
+| `orders.addPrescription`             | `orders.prescriptions.create`                 |
+| `orders.updatePrescription`          | `orders.prescriptions.update`                 |
+| `orders.createBatch`                 | `orderBatches.create`                         |
+| `platformPricing.retrieve`           | `catalog.items.sellingPrice.retrieve`         |
+| `platformPricing.update`             | `catalog.items.sellingPrice.update`           |
+| `webhooks.listGrants`                | `webhookGrants.list`                          |
+| `webhooks.saveGrant`                 | `webhookGrants.update`                        |
+| `webhooks.revokeGrant`               | `webhookGrants.delete`                        |

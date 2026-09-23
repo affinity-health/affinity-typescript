@@ -189,11 +189,11 @@ test("required endpoint generates one key per call and preserves it across retri
       );
     },
   });
-  await affinity.patients.create("practice", {
+  await affinity.practices.patients.create("practice", {
     name: { first: "Synthetic", last: "Patient" },
     dateOfBirth: "1990-01-01",
   });
-  await affinity.patients.create("practice", {
+  await affinity.practices.patients.create("practice", {
     name: { first: "Synthetic", last: "Patient" },
     dateOfBirth: "1990-01-01",
   });

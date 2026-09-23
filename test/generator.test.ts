@@ -37,7 +37,7 @@ describe("facade contract coverage", () => {
     expect(
       validateFacadeOperationCoverage(changed, {
         ...facadeOperationMap,
-        futureOperation: { resource: "account", method: "future" },
+        futureOperation: { resource: "account", method: "future", publicPath: "future.retrieve" },
       }).mappedOperations,
     ).toContain("futureOperation");
   });
@@ -72,7 +72,7 @@ describe("facade contract coverage", () => {
     expect(() =>
       validateFacadeOperationCoverage(spec, {
         ...facadeOperationMap,
-        getAccount: { resource: "future", method: "retrieve" },
+        getAccount: { resource: "future", method: "retrieve", publicPath: "future.retrieve" },
       } as any),
     ).toThrow(/unknown resources/i);
   });

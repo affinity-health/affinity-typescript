@@ -11,9 +11,12 @@ declare const selectedCategory: CompoundingReason | undefined;
 declare const clinicianEnteredExplanation: string;
 declare const persistedOrderCreationKey: string;
 
-const options = await affinity.catalog.retrievePrescribingOptions(prescription.medicationId, {
-  practiceId,
-});
+const options = await affinity.catalog.items.prescribingOptions.retrieve(
+  prescription.medicationId,
+  {
+    practiceId,
+  },
+);
 const context = clinicianEnteredExplanation.trim();
 const compoundingReason =
   selectedCategory || context
@@ -23,7 +26,7 @@ const compoundingReason =
       }
     : undefined;
 
-const preview = await affinity.orders.preview({
+const preview = await affinity.orderPreviews.create({
   practiceId,
   patientId,
   prescriptions: [

@@ -4,12 +4,14 @@ import { Affinity, ResponseError, affinityErrorFromResponse } from "@affinity-he
 const affinity = new Affinity("sk_test_example");
 const practiceId = "prac_synthetic";
 const medicationId = "cat_synthetic";
-const options = await affinity.catalog.retrievePrescribingOptions(medicationId, { practiceId });
+const options = await affinity.catalog.items.prescribingOptions.retrieve(medicationId, {
+  practiceId,
+});
 const requirements = options.catalog.prescriptionRequirements;
 // Render requirements before collecting clinician-reviewed information.
 void requirements;
 
-const preview = await affinity.orders.preview({
+const preview = await affinity.orderPreviews.create({
   practiceId,
   patientId: "pat_synthetic",
   prescriptions: [
