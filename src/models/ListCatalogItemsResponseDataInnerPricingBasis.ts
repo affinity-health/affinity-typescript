@@ -26,6 +26,13 @@ import {
   ListCatalogItemsResponseDataInnerPricingBasisOneOf1FromJSONTyped,
   ListCatalogItemsResponseDataInnerPricingBasisOneOf1ToJSON,
 } from "./ListCatalogItemsResponseDataInnerPricingBasisOneOf1";
+import type { ListCatalogItemsResponseDataInnerPricingBasisOneOf2 } from "./ListCatalogItemsResponseDataInnerPricingBasisOneOf2";
+import {
+  instanceOfListCatalogItemsResponseDataInnerPricingBasisOneOf2,
+  ListCatalogItemsResponseDataInnerPricingBasisOneOf2FromJSON,
+  ListCatalogItemsResponseDataInnerPricingBasisOneOf2FromJSONTyped,
+  ListCatalogItemsResponseDataInnerPricingBasisOneOf2ToJSON,
+} from "./ListCatalogItemsResponseDataInnerPricingBasisOneOf2";
 
 /**
  * @type ListCatalogItemsResponseDataInnerPricingBasis
@@ -34,7 +41,8 @@ import {
  */
 export type ListCatalogItemsResponseDataInnerPricingBasis =
   | ListCatalogItemsResponseDataInnerPricingBasisOneOf
-  | ListCatalogItemsResponseDataInnerPricingBasisOneOf1;
+  | ListCatalogItemsResponseDataInnerPricingBasisOneOf1
+  | ListCatalogItemsResponseDataInnerPricingBasisOneOf2;
 
 export function ListCatalogItemsResponseDataInnerPricingBasisFromJSON(
   json: any,
@@ -57,6 +65,9 @@ export function ListCatalogItemsResponseDataInnerPricingBasisFromJSONTyped(
   }
   if (instanceOfListCatalogItemsResponseDataInnerPricingBasisOneOf1(json)) {
     return ListCatalogItemsResponseDataInnerPricingBasisOneOf1FromJSONTyped(json, true);
+  }
+  if (instanceOfListCatalogItemsResponseDataInnerPricingBasisOneOf2(json)) {
+    return ListCatalogItemsResponseDataInnerPricingBasisOneOf2FromJSONTyped(json, true);
   }
   return {} as any;
 }
@@ -83,6 +94,11 @@ export function ListCatalogItemsResponseDataInnerPricingBasisToJSONTyped(
   if (instanceOfListCatalogItemsResponseDataInnerPricingBasisOneOf1(value)) {
     return ListCatalogItemsResponseDataInnerPricingBasisOneOf1ToJSON(
       value as ListCatalogItemsResponseDataInnerPricingBasisOneOf1,
+    );
+  }
+  if (instanceOfListCatalogItemsResponseDataInnerPricingBasisOneOf2(value)) {
+    return ListCatalogItemsResponseDataInnerPricingBasisOneOf2ToJSON(
+      value as ListCatalogItemsResponseDataInnerPricingBasisOneOf2,
     );
   }
   return {};

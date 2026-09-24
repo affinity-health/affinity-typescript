@@ -25,5 +25,6 @@
 | `prescriptions`                | [Array&lt;ListOrdersResponseDataInnerPrescriptionsInner&gt;](ListOrdersResponseDataInnerPrescriptionsInner.md)     |
 | `status`                       | string                                                                                                             |
 | `updatedAt`                    | string                                                                                                             |
+| `cancellation`                 | [CancelOrderResponseCancellation](CancelOrderResponseCancellation.md)                                              |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)

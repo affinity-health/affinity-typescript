@@ -39,10 +39,10 @@ export interface CreateWebhookEndpointRequest {
   payloadStyle?: CreateWebhookEndpointRequestPayloadStyleEnum | null;
   /**
    *
-   * @type {Array<string>}
+   * @type {Array<CreateWebhookEndpointRequestSubscribedEventsEnum>}
    * @memberof CreateWebhookEndpointRequest
    */
-  subscribedEvents?: Array<string> | null;
+  subscribedEvents?: Array<CreateWebhookEndpointRequestSubscribedEventsEnum> | null;
   /**
    *
    * @type {string}
@@ -60,6 +60,34 @@ export const CreateWebhookEndpointRequestPayloadStyleEnum = {
 } as const;
 export type CreateWebhookEndpointRequestPayloadStyleEnum =
   (typeof CreateWebhookEndpointRequestPayloadStyleEnum)[keyof typeof CreateWebhookEndpointRequestPayloadStyleEnum];
+
+/**
+ * @export
+ */
+export const CreateWebhookEndpointRequestSubscribedEventsEnum = {
+  WebhookEndpointTest: "webhook_endpoint.test",
+  CancellationRequested: "cancellation.requested",
+  CancellationSent: "cancellation.sent",
+  CancellationConfirmed: "cancellation.confirmed",
+  CancellationRejected: "cancellation.rejected",
+  CancellationFailed: "cancellation.failed",
+  CancellationTooLate: "cancellation.too_late",
+  OrderCreated: "order.created",
+  OrderUpdated: "order.updated",
+  OrderReviewRequested: "order.review_requested",
+  OrderChangesRequested: "order.changes_requested",
+  OrderSigned: "order.signed",
+  OrderRejected: "order.rejected",
+  OrderSubmitted: "order.submitted",
+  OrderAccepted: "order.accepted",
+  OrderProcessing: "order.processing",
+  OrderShipped: "order.shipped",
+  OrderDelivered: "order.delivered",
+  OrderBlocked: "order.blocked",
+  OrderCancelled: "order.cancelled",
+} as const;
+export type CreateWebhookEndpointRequestSubscribedEventsEnum =
+  (typeof CreateWebhookEndpointRequestSubscribedEventsEnum)[keyof typeof CreateWebhookEndpointRequestSubscribedEventsEnum];
 
 /**
  * Check if a given object implements the CreateWebhookEndpointRequest interface.

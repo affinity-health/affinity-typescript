@@ -30,31 +30,31 @@ export interface UpdateWebhookEndpointRequest {
    * @type {string}
    * @memberof UpdateWebhookEndpointRequest
    */
-  description: string;
+  description?: string | null;
   /**
    *
    * @type {UpdateWebhookEndpointRequestPayloadStyleEnum}
    * @memberof UpdateWebhookEndpointRequest
    */
-  payloadStyle: UpdateWebhookEndpointRequestPayloadStyleEnum;
+  payloadStyle?: UpdateWebhookEndpointRequestPayloadStyleEnum | null;
   /**
    *
    * @type {UpdateWebhookEndpointRequestStatusEnum}
    * @memberof UpdateWebhookEndpointRequest
    */
-  status: UpdateWebhookEndpointRequestStatusEnum;
+  status?: UpdateWebhookEndpointRequestStatusEnum | null;
   /**
    *
-   * @type {Array<string>}
+   * @type {Array<UpdateWebhookEndpointRequestSubscribedEventsEnum>}
    * @memberof UpdateWebhookEndpointRequest
    */
-  subscribedEvents: Array<string>;
+  subscribedEvents?: Array<UpdateWebhookEndpointRequestSubscribedEventsEnum> | null;
   /**
    *
    * @type {string}
    * @memberof UpdateWebhookEndpointRequest
    */
-  url: string;
+  url?: string | null;
 }
 
 /**
@@ -79,16 +79,39 @@ export type UpdateWebhookEndpointRequestStatusEnum =
   (typeof UpdateWebhookEndpointRequestStatusEnum)[keyof typeof UpdateWebhookEndpointRequestStatusEnum];
 
 /**
+ * @export
+ */
+export const UpdateWebhookEndpointRequestSubscribedEventsEnum = {
+  WebhookEndpointTest: "webhook_endpoint.test",
+  CancellationRequested: "cancellation.requested",
+  CancellationSent: "cancellation.sent",
+  CancellationConfirmed: "cancellation.confirmed",
+  CancellationRejected: "cancellation.rejected",
+  CancellationFailed: "cancellation.failed",
+  CancellationTooLate: "cancellation.too_late",
+  OrderCreated: "order.created",
+  OrderUpdated: "order.updated",
+  OrderReviewRequested: "order.review_requested",
+  OrderChangesRequested: "order.changes_requested",
+  OrderSigned: "order.signed",
+  OrderRejected: "order.rejected",
+  OrderSubmitted: "order.submitted",
+  OrderAccepted: "order.accepted",
+  OrderProcessing: "order.processing",
+  OrderShipped: "order.shipped",
+  OrderDelivered: "order.delivered",
+  OrderBlocked: "order.blocked",
+  OrderCancelled: "order.cancelled",
+} as const;
+export type UpdateWebhookEndpointRequestSubscribedEventsEnum =
+  (typeof UpdateWebhookEndpointRequestSubscribedEventsEnum)[keyof typeof UpdateWebhookEndpointRequestSubscribedEventsEnum];
+
+/**
  * Check if a given object implements the UpdateWebhookEndpointRequest interface.
  */
 export function instanceOfUpdateWebhookEndpointRequest(
   value: object,
 ): value is UpdateWebhookEndpointRequest {
-  if (!("description" in value) || value["description"] === undefined) return false;
-  if (!("payloadStyle" in value) || value["payloadStyle"] === undefined) return false;
-  if (!("status" in value) || value["status"] === undefined) return false;
-  if (!("subscribedEvents" in value) || value["subscribedEvents"] === undefined) return false;
-  if (!("url" in value) || value["url"] === undefined) return false;
   return true;
 }
 
@@ -105,11 +128,11 @@ export function UpdateWebhookEndpointRequestFromJSONTyped(
   }
   return {
     practiceIds: json["practiceIds"] == null ? undefined : json["practiceIds"],
-    description: json["description"],
-    payloadStyle: json["payloadStyle"],
-    status: json["status"],
-    subscribedEvents: json["subscribedEvents"],
-    url: json["url"],
+    description: json["description"] == null ? undefined : json["description"],
+    payloadStyle: json["payloadStyle"] == null ? undefined : json["payloadStyle"],
+    status: json["status"] == null ? undefined : json["status"],
+    subscribedEvents: json["subscribedEvents"] == null ? undefined : json["subscribedEvents"],
+    url: json["url"] == null ? undefined : json["url"],
   };
 }
 

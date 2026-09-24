@@ -40,16 +40,7 @@ export type ListWebhookEndpointsParams = Omit<
 export type CreateWebhookEndpointParams = Omit<CreateWebhookEndpointRequest, "url"> & {
   url: NonNullable<CreateWebhookEndpointRequest["url"]>;
 };
-export type UpdateWebhookEndpointParams = Omit<
-  UpdateWebhookEndpointRequest,
-  "description" | "payloadStyle" | "status" | "subscribedEvents" | "url"
-> & {
-  description: NonNullable<UpdateWebhookEndpointRequest["description"]>;
-  payloadStyle: NonNullable<UpdateWebhookEndpointRequest["payloadStyle"]>;
-  status: NonNullable<UpdateWebhookEndpointRequest["status"]>;
-  subscribedEvents: NonNullable<UpdateWebhookEndpointRequest["subscribedEvents"]>;
-  url: NonNullable<UpdateWebhookEndpointRequest["url"]>;
-};
+export type UpdateWebhookEndpointParams = UpdateWebhookEndpointRequest;
 export type ListWebhookEventsParams = Omit<
   ListWebhookEventsRequest,
   | "affinityVersion"

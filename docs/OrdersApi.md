@@ -217,7 +217,7 @@ example().catch(console.error);
 
 Cancel order
 
-Confirms cancellation locally before external submission; otherwise creates an acknowledged pharmacy cancellation request. Shipment possession makes the request too late.
+Requests cancellation. HTTP 200 means the request was handled; check cancellation.status for confirmed, pending, partial, or failed. Only confirmed means the entire order is cancelled. Shipment possession makes a fulfillment cancellation too late.
 
 ### Example
 

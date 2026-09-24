@@ -11,6 +11,10 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 
 ### Fixed
 
+- Support status-only webhook endpoint updates, published webhook event names, and item-based catalog pricing.
+
+- Expose cancellation status and per-fulfillment outcomes so a failed cancellation is distinguishable from confirmation or a pending request.
+
 - Accept additive fields in signed order webhooks, including metadata and estimated delivery dates, while retaining signature and required-field validation.
 
 ## [1.12.0] - 2026-09-23

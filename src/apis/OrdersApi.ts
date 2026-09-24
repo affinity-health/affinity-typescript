@@ -593,7 +593,7 @@ export class OrdersApi extends runtime.BaseAPI {
   }
 
   /**
-   * Confirms cancellation locally before external submission; otherwise creates an acknowledged pharmacy cancellation request. Shipment possession makes the request too late.
+   * Requests cancellation. HTTP 200 means the request was handled; check cancellation.status for confirmed, pending, partial, or failed. Only confirmed means the entire order is cancelled. Shipment possession makes a fulfillment cancellation too late.
    * Cancel order
    */
   async cancelOrderRaw(
@@ -609,7 +609,7 @@ export class OrdersApi extends runtime.BaseAPI {
   }
 
   /**
-   * Confirms cancellation locally before external submission; otherwise creates an acknowledged pharmacy cancellation request. Shipment possession makes the request too late.
+   * Requests cancellation. HTTP 200 means the request was handled; check cancellation.status for confirmed, pending, partial, or failed. Only confirmed means the entire order is cancelled. Shipment possession makes a fulfillment cancellation too late.
    * Cancel order
    */
   async cancelOrder(

@@ -27,10 +27,10 @@ export interface ListCatalogItemsResponseDataInnerPricingBasisOneOf {
   kind: ListCatalogItemsResponseDataInnerPricingBasisOneOfKindEnum;
   /**
    *
-   * @type {string}
+   * @type {ListCatalogItemsResponseDataInnerPricingBasisOneOfQuantityEnum}
    * @memberof ListCatalogItemsResponseDataInnerPricingBasisOneOf
    */
-  quantity: string;
+  quantity: ListCatalogItemsResponseDataInnerPricingBasisOneOfQuantityEnum;
   /**
    *
    * @type {string}
@@ -43,10 +43,19 @@ export interface ListCatalogItemsResponseDataInnerPricingBasisOneOf {
  * @export
  */
 export const ListCatalogItemsResponseDataInnerPricingBasisOneOfKindEnum = {
-  Package: "package",
+  Item: "item",
 } as const;
 export type ListCatalogItemsResponseDataInnerPricingBasisOneOfKindEnum =
   (typeof ListCatalogItemsResponseDataInnerPricingBasisOneOfKindEnum)[keyof typeof ListCatalogItemsResponseDataInnerPricingBasisOneOfKindEnum];
+
+/**
+ * @export
+ */
+export const ListCatalogItemsResponseDataInnerPricingBasisOneOfQuantityEnum = {
+  _1: "1",
+} as const;
+export type ListCatalogItemsResponseDataInnerPricingBasisOneOfQuantityEnum =
+  (typeof ListCatalogItemsResponseDataInnerPricingBasisOneOfQuantityEnum)[keyof typeof ListCatalogItemsResponseDataInnerPricingBasisOneOfQuantityEnum];
 
 /**
  * Check if a given object implements the ListCatalogItemsResponseDataInnerPricingBasisOneOf interface.

@@ -16,6 +16,8 @@ permissions:
 
 jobs:
   publish:
+    # Local operator releases are already verified and published before the GitHub release.
+    if: github.event_name == 'workflow_dispatch' || !contains(github.event.release.body, '<!-- published-locally -->')
     # npm provenance only accepts GitHub-hosted runners.
     runs-on: ubuntu-latest
     env:

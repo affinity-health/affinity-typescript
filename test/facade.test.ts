@@ -626,3 +626,38 @@ test("rejects explicitly blank patient IDs even alongside inline patient data", 
   }
   expect(requests).toHaveLength(0);
 });
+
+test("webhook reactivation sends only the provided status", async () => {
+  const { affinity, requests } = client();
+  await affinity.webhookEndpoints.update(
+    endpointId,
+    { status: "active" },
+    {
+      idempotencyKey: "reactivate-synthetic-endpoint",
+    },
+  );
+  expect(requests[0]!.method).toBe("PATCH");
+  expect(new URL(requests[0]!.url).pathname).toBe(`/v1/webhook-endpoints/${endpointId}`);
+  expect(await requestBody(requests[0]!)).toEqual({ status: "active" });
+});
+
+test("cancellation preserves a failed outcome when the order remains active", async () => {
+  const cancellation = {
+    status: "failed",
+    outcomes: [
+      { cancellationId: "cancl_synthetic", fulfillmentId: "ful_synthetic", status: "failed" },
+    ],
+  };
+  const { affinity } = client({
+    fetch: async () => Response.json({ ...minimalResponse, status: "processing", cancellation }),
+  });
+  const result = await affinity.orders.cancel(
+    orderId,
+    { reason: "Synthetic cancellation" },
+    {
+      idempotencyKey: "cancel-synthetic-order",
+    },
+  );
+  expect(result.status).toBe("processing");
+  expect(result.cancellation).toEqual(cancellation);
+});

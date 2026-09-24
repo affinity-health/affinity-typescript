@@ -48,6 +48,13 @@ import {
   ListOrdersResponseDataInnerPrescriptionsInnerToJSON,
   ListOrdersResponseDataInnerPrescriptionsInnerToJSONTyped,
 } from "./ListOrdersResponseDataInnerPrescriptionsInner";
+import type { CancelOrderResponseCancellation } from "./CancelOrderResponseCancellation";
+import {
+  CancelOrderResponseCancellationFromJSON,
+  CancelOrderResponseCancellationFromJSONTyped,
+  CancelOrderResponseCancellationToJSON,
+  CancelOrderResponseCancellationToJSONTyped,
+} from "./CancelOrderResponseCancellation";
 
 /**
  *
@@ -181,6 +188,12 @@ export interface CancelOrderResponse {
    * @memberof CancelOrderResponse
    */
   updatedAt: string;
+  /**
+   *
+   * @type {CancelOrderResponseCancellation}
+   * @memberof CancelOrderResponse
+   */
+  cancellation: CancelOrderResponseCancellation;
 }
 
 /**
@@ -240,6 +253,7 @@ export function instanceOfCancelOrderResponse(value: object): value is CancelOrd
   if (!("prescriptions" in value) || value["prescriptions"] === undefined) return false;
   if (!("status" in value) || value["status"] === undefined) return false;
   if (!("updatedAt" in value) || value["updatedAt"] === undefined) return false;
+  if (!("cancellation" in value) || value["cancellation"] === undefined) return false;
   return true;
 }
 
@@ -284,6 +298,7 @@ export function CancelOrderResponseFromJSONTyped(
     ),
     status: json["status"],
     updatedAt: json["updatedAt"],
+    cancellation: CancelOrderResponseCancellationFromJSON(json["cancellation"]),
   };
 }
 
@@ -327,5 +342,6 @@ export function CancelOrderResponseToJSONTyped(
     ),
     status: value["status"],
     updatedAt: value["updatedAt"],
+    cancellation: CancelOrderResponseCancellationToJSON(value["cancellation"]),
   };
 }
