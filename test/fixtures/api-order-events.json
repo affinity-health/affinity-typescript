@@ -1,0 +1,278 @@
+[
+  {
+    "input": {
+      "createdAt": "2026-09-24T00:00:00.000Z",
+      "data": {
+        "metadata": {
+          "source": "synthetic",
+          "sequence": 1
+        },
+        "prescriptions": [
+          {
+            "id": "rx_01k1a2b3c4d5e6f7g8h9j0k1m2",
+            "externalPrescriptionId": "synthetic-rx"
+          }
+        ],
+        "status": "shipped",
+        "practiceId": "prac_01k1a2b3c4d5e6f7g8h9j0k1m2",
+        "externalOrderId": "synthetic-order",
+        "carrier": "Test Carrier",
+        "shippedAt": "2026-09-24T00:00:00.000Z",
+        "estimatedDeliveryAt": "2026-09-24T00:00:00.000Z",
+        "deliveredAt": null,
+        "trackingNumber": "TEST-1",
+        "trackingUrl": "https://example.test/tracking",
+        "trackingStatus": "in_transit",
+        "updatedAt": "2026-09-24T00:00:00.000Z",
+        "reviewStatus": null,
+        "review": null,
+        "fulfillments": []
+      },
+      "eventId": "evt_01k1a2b3c4d5e6f7g8h9j0k1m2",
+      "livemode": false,
+      "objectId": "ord_01k1a2b3c4d5e6f7g8h9j0k1m2",
+      "objectType": "order",
+      "organizationId": "acct_01k1a2b3c4d5e6f7g8h9j0k1m2",
+      "payloadStyle": "snapshot",
+      "type": "cancellation.failed",
+      "previousAttributes": {
+        "metadata": {},
+        "estimatedDeliveryAt": null
+      }
+    },
+    "body": "{\"api_version\":\"2026-08-11\",\"created\":1790208000,\"id\":\"evt_01k1a2b3c4d5e6f7g8h9j0k1m2\",\"livemode\":false,\"object\":\"event\",\"organization_id\":\"acct_01k1a2b3c4d5e6f7g8h9j0k1m2\",\"request_id\":null,\"data\":{\"object\":{\"metadata\":{\"source\":\"synthetic\",\"sequence\":1},\"prescriptions\":[{\"id\":\"rx_01k1a2b3c4d5e6f7g8h9j0k1m2\",\"external_prescription_id\":\"synthetic-rx\"}],\"carrier\":\"Test Carrier\",\"delivered_at\":null,\"estimated_delivery_at\":\"2026-09-24T00:00:00.000Z\",\"external_order_id\":\"synthetic-order\",\"fulfillments\":[],\"id\":\"ord_01k1a2b3c4d5e6f7g8h9j0k1m2\",\"object\":\"order\",\"practice_id\":\"prac_01k1a2b3c4d5e6f7g8h9j0k1m2\",\"review\":null,\"review_status\":null,\"shipped_at\":\"2026-09-24T00:00:00.000Z\",\"status\":\"shipped\",\"tracking_number\":\"TEST-1\",\"tracking_status\":\"in_transit\",\"tracking_url\":\"https://example.test/tracking\",\"updated_at\":\"2026-09-24T00:00:00.000Z\"},\"previous_attributes\":{\"metadata\":{},\"estimated_delivery_at\":null}},\"type\":\"cancellation.failed\"}",
+    "secret": "whsec_test_synthetic_contract_fixture",
+    "timestamp": 1790208000,
+    "signature": "t=1790208000,v1=98badc2c47b3747b28dc1b6fcb343cb42b08db1a595a5abe715be97518ef513f"
+  },
+  {
+    "input": {
+      "createdAt": "2026-09-24T00:00:00.000Z",
+      "data": {
+        "metadata": {
+          "source": "synthetic",
+          "sequence": 1
+        },
+        "prescriptions": [
+          {
+            "id": "rx_01k1a2b3c4d5e6f7g8h9j0k1m2",
+            "externalPrescriptionId": "synthetic-rx"
+          }
+        ],
+        "status": "shipped",
+        "practiceId": "prac_01k1a2b3c4d5e6f7g8h9j0k1m2",
+        "externalOrderId": "synthetic-order",
+        "carrier": "Test Carrier",
+        "shippedAt": "2026-09-24T00:00:00.000Z",
+        "estimatedDeliveryAt": "2026-09-24T00:00:00.000Z",
+        "deliveredAt": null,
+        "trackingNumber": "TEST-1",
+        "trackingUrl": "https://example.test/tracking",
+        "trackingStatus": "in_transit",
+        "updatedAt": "2026-09-24T00:00:00.000Z",
+        "reviewStatus": null,
+        "review": null,
+        "fulfillments": []
+      },
+      "eventId": "evt_01k1a2b3c4d5e6f7g8h9j0k1m2",
+      "livemode": false,
+      "objectId": "ord_01k1a2b3c4d5e6f7g8h9j0k1m2",
+      "objectType": "order",
+      "organizationId": "acct_01k1a2b3c4d5e6f7g8h9j0k1m2",
+      "payloadStyle": "thin",
+      "type": "cancellation.failed",
+      "previousAttributes": {
+        "metadata": {},
+        "estimatedDeliveryAt": null
+      }
+    },
+    "body": "{\"api_version\":\"2026-08-11\",\"created\":1790208000,\"id\":\"evt_01k1a2b3c4d5e6f7g8h9j0k1m2\",\"livemode\":false,\"object\":\"event\",\"organization_id\":\"acct_01k1a2b3c4d5e6f7g8h9j0k1m2\",\"request_id\":null,\"data\":{\"object\":{\"id\":\"ord_01k1a2b3c4d5e6f7g8h9j0k1m2\",\"object\":\"order\"}},\"type\":\"cancellation.failed\"}",
+    "secret": "whsec_test_synthetic_contract_fixture",
+    "timestamp": 1790208000,
+    "signature": "t=1790208000,v1=63da241a7a3395faf5f3710094469cd0805e91ff82b022e9c29fefd7dbe30d01"
+  },
+  {
+    "input": {
+      "createdAt": "2026-09-24T00:00:00.000Z",
+      "data": {
+        "metadata": {
+          "source": "synthetic",
+          "sequence": 1
+        },
+        "prescriptions": [
+          {
+            "id": "rx_01k1a2b3c4d5e6f7g8h9j0k1m2",
+            "externalPrescriptionId": "synthetic-rx"
+          }
+        ],
+        "status": "shipped",
+        "practiceId": "prac_01k1a2b3c4d5e6f7g8h9j0k1m2",
+        "externalOrderId": "synthetic-order",
+        "carrier": "Test Carrier",
+        "shippedAt": "2026-09-24T00:00:00.000Z",
+        "estimatedDeliveryAt": "2026-09-24T00:00:00.000Z",
+        "deliveredAt": null,
+        "trackingNumber": "TEST-1",
+        "trackingUrl": "https://example.test/tracking",
+        "trackingStatus": "in_transit",
+        "updatedAt": "2026-09-24T00:00:00.000Z",
+        "reviewStatus": null,
+        "review": null,
+        "fulfillments": []
+      },
+      "eventId": "evt_01k1a2b3c4d5e6f7g8h9j0k1m2",
+      "livemode": false,
+      "objectId": "ord_01k1a2b3c4d5e6f7g8h9j0k1m2",
+      "objectType": "order",
+      "organizationId": "acct_01k1a2b3c4d5e6f7g8h9j0k1m2",
+      "payloadStyle": "snapshot",
+      "type": "order.created",
+      "previousAttributes": {
+        "metadata": {},
+        "estimatedDeliveryAt": null
+      }
+    },
+    "body": "{\"api_version\":\"2026-08-11\",\"created\":1790208000,\"id\":\"evt_01k1a2b3c4d5e6f7g8h9j0k1m2\",\"livemode\":false,\"object\":\"event\",\"organization_id\":\"acct_01k1a2b3c4d5e6f7g8h9j0k1m2\",\"request_id\":null,\"data\":{\"object\":{\"metadata\":{\"source\":\"synthetic\",\"sequence\":1},\"prescriptions\":[{\"id\":\"rx_01k1a2b3c4d5e6f7g8h9j0k1m2\",\"external_prescription_id\":\"synthetic-rx\"}],\"carrier\":\"Test Carrier\",\"delivered_at\":null,\"estimated_delivery_at\":\"2026-09-24T00:00:00.000Z\",\"external_order_id\":\"synthetic-order\",\"fulfillments\":[],\"id\":\"ord_01k1a2b3c4d5e6f7g8h9j0k1m2\",\"object\":\"order\",\"practice_id\":\"prac_01k1a2b3c4d5e6f7g8h9j0k1m2\",\"review\":null,\"review_status\":null,\"shipped_at\":\"2026-09-24T00:00:00.000Z\",\"status\":\"shipped\",\"tracking_number\":\"TEST-1\",\"tracking_status\":\"in_transit\",\"tracking_url\":\"https://example.test/tracking\",\"updated_at\":\"2026-09-24T00:00:00.000Z\"},\"previous_attributes\":{\"metadata\":{},\"estimated_delivery_at\":null}},\"type\":\"order.created\"}",
+    "secret": "whsec_test_synthetic_contract_fixture",
+    "timestamp": 1790208000,
+    "signature": "t=1790208000,v1=aaaa3157d51cd0f33bf167ca0756788e98667014fa49f43cad806673976f29b3"
+  },
+  {
+    "input": {
+      "createdAt": "2026-09-24T00:00:00.000Z",
+      "data": {
+        "metadata": {
+          "source": "synthetic",
+          "sequence": 1
+        },
+        "prescriptions": [
+          {
+            "id": "rx_01k1a2b3c4d5e6f7g8h9j0k1m2",
+            "externalPrescriptionId": "synthetic-rx"
+          }
+        ],
+        "status": "shipped",
+        "practiceId": "prac_01k1a2b3c4d5e6f7g8h9j0k1m2",
+        "externalOrderId": "synthetic-order",
+        "carrier": "Test Carrier",
+        "shippedAt": "2026-09-24T00:00:00.000Z",
+        "estimatedDeliveryAt": "2026-09-24T00:00:00.000Z",
+        "deliveredAt": null,
+        "trackingNumber": "TEST-1",
+        "trackingUrl": "https://example.test/tracking",
+        "trackingStatus": "in_transit",
+        "updatedAt": "2026-09-24T00:00:00.000Z",
+        "reviewStatus": null,
+        "review": null,
+        "fulfillments": []
+      },
+      "eventId": "evt_01k1a2b3c4d5e6f7g8h9j0k1m2",
+      "livemode": false,
+      "objectId": "ord_01k1a2b3c4d5e6f7g8h9j0k1m2",
+      "objectType": "order",
+      "organizationId": "acct_01k1a2b3c4d5e6f7g8h9j0k1m2",
+      "payloadStyle": "thin",
+      "type": "order.created",
+      "previousAttributes": {
+        "metadata": {},
+        "estimatedDeliveryAt": null
+      }
+    },
+    "body": "{\"api_version\":\"2026-08-11\",\"created\":1790208000,\"id\":\"evt_01k1a2b3c4d5e6f7g8h9j0k1m2\",\"livemode\":false,\"object\":\"event\",\"organization_id\":\"acct_01k1a2b3c4d5e6f7g8h9j0k1m2\",\"request_id\":null,\"data\":{\"object\":{\"id\":\"ord_01k1a2b3c4d5e6f7g8h9j0k1m2\",\"object\":\"order\"}},\"type\":\"order.created\"}",
+    "secret": "whsec_test_synthetic_contract_fixture",
+    "timestamp": 1790208000,
+    "signature": "t=1790208000,v1=e992d58bc64b39195d85e25e3f1a85905c761e386d2fd6ce02e1bf633d505ac1"
+  },
+  {
+    "input": {
+      "createdAt": "2026-09-24T00:00:00.000Z",
+      "data": {
+        "metadata": {
+          "source": "synthetic",
+          "sequence": 1
+        },
+        "prescriptions": [
+          {
+            "id": "rx_01k1a2b3c4d5e6f7g8h9j0k1m2",
+            "externalPrescriptionId": "synthetic-rx"
+          }
+        ],
+        "status": "shipped",
+        "practiceId": "prac_01k1a2b3c4d5e6f7g8h9j0k1m2",
+        "externalOrderId": "synthetic-order",
+        "carrier": "Test Carrier",
+        "shippedAt": "2026-09-24T00:00:00.000Z",
+        "estimatedDeliveryAt": "2026-09-24T00:00:00.000Z",
+        "deliveredAt": null,
+        "trackingNumber": "TEST-1",
+        "trackingUrl": "https://example.test/tracking",
+        "trackingStatus": "in_transit",
+        "updatedAt": "2026-09-24T00:00:00.000Z",
+        "reviewStatus": null,
+        "review": null,
+        "fulfillments": []
+      },
+      "eventId": "evt_01k1a2b3c4d5e6f7g8h9j0k1m2",
+      "livemode": false,
+      "objectId": "ord_01k1a2b3c4d5e6f7g8h9j0k1m2",
+      "objectType": "order",
+      "organizationId": "acct_01k1a2b3c4d5e6f7g8h9j0k1m2",
+      "payloadStyle": "snapshot",
+      "type": "order.shipped",
+      "previousAttributes": {
+        "metadata": {},
+        "estimatedDeliveryAt": null
+      }
+    },
+    "body": "{\"api_version\":\"2026-08-11\",\"created\":1790208000,\"id\":\"evt_01k1a2b3c4d5e6f7g8h9j0k1m2\",\"livemode\":false,\"object\":\"event\",\"organization_id\":\"acct_01k1a2b3c4d5e6f7g8h9j0k1m2\",\"request_id\":null,\"data\":{\"object\":{\"metadata\":{\"source\":\"synthetic\",\"sequence\":1},\"prescriptions\":[{\"id\":\"rx_01k1a2b3c4d5e6f7g8h9j0k1m2\",\"external_prescription_id\":\"synthetic-rx\"}],\"carrier\":\"Test Carrier\",\"delivered_at\":null,\"estimated_delivery_at\":\"2026-09-24T00:00:00.000Z\",\"external_order_id\":\"synthetic-order\",\"fulfillments\":[],\"id\":\"ord_01k1a2b3c4d5e6f7g8h9j0k1m2\",\"object\":\"order\",\"practice_id\":\"prac_01k1a2b3c4d5e6f7g8h9j0k1m2\",\"review\":null,\"review_status\":null,\"shipped_at\":\"2026-09-24T00:00:00.000Z\",\"status\":\"shipped\",\"tracking_number\":\"TEST-1\",\"tracking_status\":\"in_transit\",\"tracking_url\":\"https://example.test/tracking\",\"updated_at\":\"2026-09-24T00:00:00.000Z\"},\"previous_attributes\":{\"metadata\":{},\"estimated_delivery_at\":null}},\"type\":\"order.shipped\"}",
+    "secret": "whsec_test_synthetic_contract_fixture",
+    "timestamp": 1790208000,
+    "signature": "t=1790208000,v1=73f5df7b98516da924b6699060802a6ef043dfacf1bcde6494de0a7a300bbee1"
+  },
+  {
+    "input": {
+      "createdAt": "2026-09-24T00:00:00.000Z",
+      "data": {
+        "metadata": {
+          "source": "synthetic",
+          "sequence": 1
+        },
+        "prescriptions": [
+          {
+            "id": "rx_01k1a2b3c4d5e6f7g8h9j0k1m2",
+            "externalPrescriptionId": "synthetic-rx"
+          }
+        ],
+        "status": "shipped",
+        "practiceId": "prac_01k1a2b3c4d5e6f7g8h9j0k1m2",
+        "externalOrderId": "synthetic-order",
+        "carrier": "Test Carrier",
+        "shippedAt": "2026-09-24T00:00:00.000Z",
+        "estimatedDeliveryAt": "2026-09-24T00:00:00.000Z",
+        "deliveredAt": null,
+        "trackingNumber": "TEST-1",
+        "trackingUrl": "https://example.test/tracking",
+        "trackingStatus": "in_transit",
+        "updatedAt": "2026-09-24T00:00:00.000Z",
+        "reviewStatus": null,
+        "review": null,
+        "fulfillments": []
+      },
+      "eventId": "evt_01k1a2b3c4d5e6f7g8h9j0k1m2",
+      "livemode": false,
+      "objectId": "ord_01k1a2b3c4d5e6f7g8h9j0k1m2",
+      "objectType": "order",
+      "organizationId": "acct_01k1a2b3c4d5e6f7g8h9j0k1m2",
+      "payloadStyle": "thin",
+      "type": "order.shipped",
+      "previousAttributes": {
+        "metadata": {},
+        "estimatedDeliveryAt": null
+      }
+    },
+    "body": "{\"api_version\":\"2026-08-11\",\"created\":1790208000,\"id\":\"evt_01k1a2b3c4d5e6f7g8h9j0k1m2\",\"livemode\":false,\"object\":\"event\",\"organization_id\":\"acct_01k1a2b3c4d5e6f7g8h9j0k1m2\",\"request_id\":null,\"data\":{\"object\":{\"id\":\"ord_01k1a2b3c4d5e6f7g8h9j0k1m2\",\"object\":\"order\"}},\"type\":\"order.shipped\"}",
+    "secret": "whsec_test_synthetic_contract_fixture",
+    "timestamp": 1790208000,
+    "signature": "t=1790208000,v1=545a141997d6bec7a5bf9766deb8f96662ce6c6622b3eea05aeffcfdd10ce21c"
+  }
+]

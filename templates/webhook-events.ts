@@ -23,6 +23,14 @@ export interface AffinityThinOrderWebhookObject {
 export interface AffinityOrderWebhookObject extends AffinityThinOrderWebhookObject {
   carrier?: string | null;
   delivered_at?: string | null;
+  estimated_delivery_at?: string | null;
+  metadata?: Record<string, string | number | boolean | null>;
+  prescriptions?: Array<{ id: AffinityPublicId<"rx">; external_prescription_id: string | null }>;
+  fulfillments?: Array<Record<string, unknown>>;
+  review?: Record<string, unknown> | null;
+  review_status?: string | null;
+  tracking_status?: string | null;
+  tracking_url?: string | null;
   external_order_id?: string | null;
   practice_id?: AffinityPublicId<"prac"> | null;
   shipped_at?: string | null;
@@ -199,7 +207,7 @@ export async function verifyAffinityWebhook(input: {
 export function parseAffinityWebhookEvent(value: unknown): AffinityWebhookEvent {
   try {
     const event = requireRecord(value, "event");
-    requireExactKeys(event, [
+    requireFields(event, [
       "api_version",
       "created",
       "data",
@@ -233,10 +241,10 @@ export function parseAffinityWebhookEvent(value: unknown): AffinityWebhookEvent 
     }
     const data = requireRecord(event.data, "data");
     if (event.type === "webhook_endpoint.test") {
-      requireExactKeys(data, ["object"]);
+      requireFields(data, ["object"]);
       parseWebhookEndpointObject(data.object);
     } else {
-      requireExactKeys(data, ["object", "previous_attributes"], ["previous_attributes"]);
+      requireFields(data, ["object", "previous_attributes"], ["previous_attributes"]);
       parseOrderObject(data.object, false);
       if (data.previous_attributes !== undefined) {
         parseOrderObject(data.previous_attributes, true);
@@ -276,7 +284,7 @@ export function parseAffinityWebhookSignature(value: string | null) {
 
 function parseWebhookEndpointObject(value: unknown) {
   const object = requireRecord(value, "data.object");
-  requireExactKeys(object, ["id", "object"]);
+  requireFields(object, ["id", "object"]);
   requirePublicId(object.id, "whe");
   if (object.object !== "webhook_endpoint") {
     throw new Error("data.object.object is invalid");
@@ -298,7 +306,7 @@ function parseOrderObject(value: unknown, previousAttributes: boolean) {
     "tracking_number",
     "updated_at",
   ];
-  requireExactKeys(
+  requireFields(
     object,
     previousAttributes ? snapshotKeys : ["id", "object", ...snapshotKeys],
     snapshotKeys,
@@ -309,6 +317,27 @@ function parseOrderObject(value: unknown, previousAttributes: boolean) {
   }
   requireOptionalNullableString(object, "carrier");
   requireOptionalDateTime(object, "delivered_at", true);
+  requireOptionalDateTime(object, "estimated_delivery_at", true);
+  if (object.metadata !== undefined) {
+    const metadata = requireRecord(object.metadata, "metadata");
+    for (const value of Object.values(metadata)) {
+      if (value !== null && typeof value !== "string" && typeof value !== "boolean" &&
+          !(typeof value === "number" && Number.isFinite(value))) throw new Error("metadata is invalid");
+    }
+  }
+  if (object.prescriptions !== undefined) {
+    if (!Array.isArray(object.prescriptions)) throw new Error("prescriptions is invalid");
+    for (const value of object.prescriptions) {
+      const prescription = requireRecord(value, "prescription");
+      requirePublicId(prescription.id, "rx");
+      requireFields(prescription, ["id", "external_prescription_id"]);
+      requireOptionalNullableString(prescription, "external_prescription_id");
+    }
+  }
+  if (object.fulfillments !== undefined && !Array.isArray(object.fulfillments))
+    throw new Error("fulfillments is invalid");
+  if (object.review !== undefined && object.review !== null) requireRecord(object.review, "review");
+  for (const key of ["review_status", "tracking_status", "tracking_url"]) requireOptionalNullableString(object, key);
   requireOptionalNullableString(object, "external_order_id");
   if (object.practice_id !== undefined && object.practice_id !== null) {
     requirePublicId(object.practice_id, "prac");
@@ -332,15 +361,13 @@ function requireRecord(value: unknown, name: string): Record<string, unknown> {
   return value as Record<string, unknown>;
 }
 
-function requireExactKeys(
+function requireFields(
   value: Record<string, unknown>,
   allowed: readonly string[],
   optional: readonly string[] = [],
 ) {
-  const allowedSet = new Set(allowed);
-  for (const key of Object.keys(value)) {
-    if (!allowedSet.has(key)) throw new Error(`unexpected field ${key}`);
-  }
+  // Signed payloads may gain fields within the same API version. Validate the known
+  // contract without rejecting additive fields or changing the verified raw body.
   const optionalSet = new Set(optional);
   for (const key of allowed) {
     if (!optionalSet.has(key) && !(key in value)) throw new Error(`missing field ${key}`);
