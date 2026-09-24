@@ -7,6 +7,8 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 
 ## [Unreleased]
 
+## [1.12.1] - 2026-09-24
+
 ### Fixed
 
 - Accept additive fields in signed order webhooks, including metadata and estimated delivery dates, while retaining signature and required-field validation.
