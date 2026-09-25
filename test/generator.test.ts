@@ -10,14 +10,18 @@ function contract() {
 
 describe("facade contract coverage", () => {
   test("excludes only session paths without changing the pinned contract", () => {
-    expect(pinnedSpec.paths["/v1/hosted-sessions"]).toBeDefined();
-    expect(pinnedSpec.paths["/v1/component-sessions"]).toBeDefined();
-    expect(Object.keys(pinnedSpec.paths).filter((path) => !(path in spec.paths))).toEqual([
+    const input = structuredClone(pinnedSpec) as any;
+    input.paths["/v1/component-sessions"] = { post: { operationId: "createComponentSession" } };
+    input.paths["/v1/hosted-sessions"] = { post: { operationId: "createHostedSession" } };
+    const original = structuredClone(input);
+    const filtered = sdkContract(input);
+    expect(Object.keys(input.paths).filter((path) => !(path in filtered.paths))).toEqual([
       "/v1/component-sessions",
       "/v1/hosted-sessions",
     ]);
-    for (const [path, item] of Object.entries(spec.paths)) {
-      expect(item).toEqual(pinnedSpec.paths[path as keyof typeof pinnedSpec.paths]);
+    expect(input).toEqual(original);
+    for (const [path, item] of Object.entries(filtered.paths)) {
+      expect(item).toEqual(input.paths[path]);
     }
   });
   test("accounts for all 72 included SDK operations", () => {

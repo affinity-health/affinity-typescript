@@ -27,7 +27,7 @@ All URIs are relative to *https://api.joinaffinityai.com*
 
 Handle order exception
 
-Acknowledge, retry, contact, assign, or resolve an order exception.
+Acknowledge, retry, contact, or resolve an order exception in the credential\&#39;s Test/Live mode. assign_to_me requires a signed-in dashboard user; API keys receive 400 and may use acknowledge instead. Actor headers do not create a dashboard assignee.
 
 ### Example
 

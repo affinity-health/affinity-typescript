@@ -20,11 +20,11 @@ import { mapValues } from "../runtime";
  */
 export interface GetAccountResponseMembership {
   /**
-   *
-   * @type {Array<GetAccountResponseMembershipPermissionsEnum>}
+   * Effective API scopes for a service key; dashboard permissions for a signed-in member.
+   * @type {Array<string>}
    * @memberof GetAccountResponseMembership
    */
-  permissions: Array<GetAccountResponseMembershipPermissionsEnum>;
+  permissions: Array<string>;
   /**
    *
    * @type {GetAccountResponseMembershipRoleEnum}
@@ -48,23 +48,6 @@ export interface GetAccountResponseMembership {
 /**
  * @export
  */
-export const GetAccountResponseMembershipPermissionsEnum = {
-  BillingManage: "billing:manage",
-  BillingRead: "billing:read",
-  ManageApi: "manage_api",
-  ManageOrders: "manage_orders",
-  ManagePractices: "manage_practices",
-  ManageOrganization: "manage_organization",
-  ReadCatalog: "read_catalog",
-  ReadOrders: "read_orders",
-  ReviewOrders: "review_orders",
-} as const;
-export type GetAccountResponseMembershipPermissionsEnum =
-  (typeof GetAccountResponseMembershipPermissionsEnum)[keyof typeof GetAccountResponseMembershipPermissionsEnum];
-
-/**
- * @export
- */
 export const GetAccountResponseMembershipRoleEnum = {
   Administrator: "administrator",
   ClinicalReviewer: "clinical_reviewer",
@@ -72,6 +55,7 @@ export const GetAccountResponseMembershipRoleEnum = {
   Operations: "operations",
   Owner: "owner",
   Viewer: "viewer",
+  ServiceKey: "service_key",
 } as const;
 export type GetAccountResponseMembershipRoleEnum =
   (typeof GetAccountResponseMembershipRoleEnum)[keyof typeof GetAccountResponseMembershipRoleEnum];

@@ -134,7 +134,7 @@ export interface GetOrderResponse {
    */
   patientName: string;
   /**
-   *
+   * The patient's current clinical state. This is not the saved delivery state; use each prescription's deliveryAddress for shipping.
    * @type {string}
    * @memberof GetOrderResponse
    */

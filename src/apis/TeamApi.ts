@@ -575,7 +575,7 @@ export class TeamApi extends runtime.BaseAPI {
   }
 
   /**
-   * Requires team:read. Returns current account membership, roles, location access, and prescriber connection. The member ID identifies practice access; it is not the integration user ID used by orders or sessions.
+   * Requires team:read. Returns current account membership, roles, location access, and prescriber connection. The member ID identifies practice access; it is not the integration user ID used by orders.
    * Get member
    */
   async getPracticeTeamMemberRaw(
@@ -591,7 +591,7 @@ export class TeamApi extends runtime.BaseAPI {
   }
 
   /**
-   * Requires team:read. Returns current account membership, roles, location access, and prescriber connection. The member ID identifies practice access; it is not the integration user ID used by orders or sessions.
+   * Requires team:read. Returns current account membership, roles, location access, and prescriber connection. The member ID identifies practice access; it is not the integration user ID used by orders.
    * Get member
    */
   async getPracticeTeamMember(

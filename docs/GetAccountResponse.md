@@ -5,6 +5,8 @@
 | Name            | Type                                                            |
 | --------------- | --------------------------------------------------------------- |
 | `account`       | [GetAccountResponseAccount](GetAccountResponseAccount.md)       |
+| `livemode`      | boolean                                                         |
+| `scopes`        | Array&lt;string&gt;                                             |
 | `membership`    | [GetAccountResponseMembership](GetAccountResponseMembership.md) |
 | `operatingMode` | string                                                          |
 | `user`          | [GetAccountResponseUser](GetAccountResponseUser.md)             |

@@ -69,7 +69,7 @@ export class AccountApi extends runtime.BaseAPI {
   }
 
   /**
-   * Returns the platform organization and the current role.
+   * Returns the platform organization, request livemode, and effective access. API keys report scopes and the service_key role; dashboard sessions report membership permissions. operatingMode describes organization Live access, not the credential\'s Test/Live mode.
    * Read account
    */
   async getAccountRaw(
@@ -85,7 +85,7 @@ export class AccountApi extends runtime.BaseAPI {
   }
 
   /**
-   * Returns the platform organization and the current role.
+   * Returns the platform organization, request livemode, and effective access. API keys report scopes and the service_key role; dashboard sessions report membership permissions. operatingMode describes organization Live access, not the credential\'s Test/Live mode.
    * Read account
    */
   async getAccount(

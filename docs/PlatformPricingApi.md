@@ -13,7 +13,7 @@ All URIs are relative to *https://api.joinaffinityai.com*
 
 Read selling price
 
-Requires selling_prices:read. Omit practiceId for the platform default, or supply a managed practice. A null amount inherits the next applicable price. Amounts use the catalog pricing basis, in USD cents.
+Requires selling_prices:read. Omit practiceId for the platform default, or supply a managed practice. A null amount inherits the next applicable price. Amounts use the catalog pricing basis, in USD cents. purchaseAmountCents is the platform\&#39;s Affinity purchase price for that same basis. requiresReview indicates changed product pricing terms, not a below-purchase-price discount.
 
 ### Example
 
@@ -93,7 +93,7 @@ example().catch(console.error);
 
 Set selling price
 
-Requires selling_prices:write. Sets a platform default or managed practice override in the current Test/Live mode. Send baseVersion from Read selling price. Null removes the override. Prices use the catalog pricing basis. This does not change the platform\&#39;s Affinity purchase price or collect practice payments.
+Requires selling_prices:write. Sets a platform default or managed practice override in the current Test/Live mode. Send baseVersion from Read selling price. Null removes the override. Prices use the catalog pricing basis. Intentional discounts below purchaseAmountCents are allowed; compare these amounts to warn about selling below your Affinity purchase price. This does not change the platform\&#39;s Affinity purchase price or collect practice payments.
 
 ### Example
 

@@ -88,6 +88,18 @@ export interface ListOrdersResponseDataInnerPrescriptionsInner {
    */
   patientSnapshot: ListOrdersResponseDataInnerPrescriptionsInnerPatientSnapshot;
   /**
+   * The saved delivery address for this prescription version. Patient profile updates do not replace it. Review this address before signing.
+   * @type {object}
+   * @memberof ListOrdersResponseDataInnerPrescriptionsInner
+   */
+  deliveryAddress: object | null;
+  /**
+   * Whether the saved delivery address differs from the current primary patient address. This can be intentional; confirm the delivery address before signing.
+   * @type {boolean}
+   * @memberof ListOrdersResponseDataInnerPrescriptionsInner
+   */
+  deliveryAddressDiffersFromPatient: boolean;
+  /**
    *
    * @type {ListOrdersResponseDataInnerPrescriptionsInnerProviderSnapshot}
    * @memberof ListOrdersResponseDataInnerPrescriptionsInner
@@ -200,6 +212,12 @@ export function instanceOfListOrdersResponseDataInnerPrescriptionsInner(
   if (!("version" in value) || value["version"] === undefined) return false;
   if (!("daysSupply" in value) || value["daysSupply"] === undefined) return false;
   if (!("patientSnapshot" in value) || value["patientSnapshot"] === undefined) return false;
+  if (!("deliveryAddress" in value) || value["deliveryAddress"] === undefined) return false;
+  if (
+    !("deliveryAddressDiffersFromPatient" in value) ||
+    value["deliveryAddressDiffersFromPatient"] === undefined
+  )
+    return false;
   if (!("providerSnapshot" in value) || value["providerSnapshot"] === undefined) return false;
   if (!("clinical" in value) || value["clinical"] === undefined) return false;
   if (!("dispensing" in value) || value["dispensing"] === undefined) return false;
@@ -243,6 +261,8 @@ export function ListOrdersResponseDataInnerPrescriptionsInnerFromJSONTyped(
     patientSnapshot: ListOrdersResponseDataInnerPrescriptionsInnerPatientSnapshotFromJSON(
       json["patientSnapshot"],
     ),
+    deliveryAddress: json["deliveryAddress"],
+    deliveryAddressDiffersFromPatient: json["deliveryAddressDiffersFromPatient"],
     providerSnapshot: ListOrdersResponseDataInnerPrescriptionsInnerProviderSnapshotFromJSON(
       json["providerSnapshot"],
     ),
@@ -289,6 +309,8 @@ export function ListOrdersResponseDataInnerPrescriptionsInnerToJSONTyped(
     patientSnapshot: ListOrdersResponseDataInnerPrescriptionsInnerPatientSnapshotToJSON(
       value["patientSnapshot"],
     ),
+    deliveryAddress: value["deliveryAddress"],
+    deliveryAddressDiffersFromPatient: value["deliveryAddressDiffersFromPatient"],
     providerSnapshot: ListOrdersResponseDataInnerPrescriptionsInnerProviderSnapshotToJSON(
       value["providerSnapshot"],
     ),

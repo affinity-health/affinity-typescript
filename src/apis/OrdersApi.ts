@@ -383,7 +383,7 @@ export class OrdersApi extends runtime.BaseAPI {
   }
 
   /**
-   * Acknowledge, retry, contact, assign, or resolve an order exception.
+   * Acknowledge, retry, contact, or resolve an order exception in the credential\'s Test/Live mode. assign_to_me requires a signed-in dashboard user; API keys receive 400 and may use acknowledge instead. Actor headers do not create a dashboard assignee.
    * Handle order exception
    */
   async actOnOrderExceptionRaw(
@@ -399,7 +399,7 @@ export class OrdersApi extends runtime.BaseAPI {
   }
 
   /**
-   * Acknowledge, retry, contact, assign, or resolve an order exception.
+   * Acknowledge, retry, contact, or resolve an order exception in the credential\'s Test/Live mode. assign_to_me requires a signed-in dashboard user; API keys receive 400 and may use acknowledge instead. Actor headers do not create a dashboard assignee.
    * Handle order exception
    */
   async actOnOrderException(

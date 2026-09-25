@@ -48,13 +48,25 @@ export interface GetAccountResponse {
    */
   account: GetAccountResponseAccount;
   /**
+   * True for a Live request; false for a Test request.
+   * @type {boolean}
+   * @memberof GetAccountResponse
+   */
+  livemode: boolean;
+  /**
+   * Effective scopes of the authenticated API key. Null for a dashboard session; use membership.permissions for that session.
+   * @type {Array<string>}
+   * @memberof GetAccountResponse
+   */
+  scopes: Array<string> | null;
+  /**
    *
    * @type {GetAccountResponseMembership}
    * @memberof GetAccountResponse
    */
   membership: GetAccountResponseMembership;
   /**
-   *
+   * The organization's Live-access status, independent of this request's livemode.
    * @type {GetAccountResponseOperatingModeEnum}
    * @memberof GetAccountResponse
    */
@@ -84,6 +96,8 @@ export type GetAccountResponseOperatingModeEnum =
  */
 export function instanceOfGetAccountResponse(value: object): value is GetAccountResponse {
   if (!("account" in value) || value["account"] === undefined) return false;
+  if (!("livemode" in value) || value["livemode"] === undefined) return false;
+  if (!("scopes" in value) || value["scopes"] === undefined) return false;
   if (!("membership" in value) || value["membership"] === undefined) return false;
   if (!("operatingMode" in value) || value["operatingMode"] === undefined) return false;
   if (!("user" in value) || value["user"] === undefined) return false;
@@ -103,6 +117,8 @@ export function GetAccountResponseFromJSONTyped(
   }
   return {
     account: GetAccountResponseAccountFromJSON(json["account"]),
+    livemode: json["livemode"],
+    scopes: json["scopes"] == null ? null : json["scopes"],
     membership: GetAccountResponseMembershipFromJSON(json["membership"]),
     operatingMode: json["operatingMode"],
     user: GetAccountResponseUserFromJSON(json["user"]),
@@ -123,6 +139,8 @@ export function GetAccountResponseToJSONTyped(
 
   return {
     account: GetAccountResponseAccountToJSON(value["account"]),
+    livemode: value["livemode"],
+    scopes: value["scopes"],
     membership: GetAccountResponseMembershipToJSON(value["membership"]),
     operatingMode: value["operatingMode"],
     user: GetAccountResponseUserToJSON(value["user"]),

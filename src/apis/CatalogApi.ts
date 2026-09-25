@@ -394,7 +394,7 @@ export class CatalogApi extends runtime.BaseAPI {
   }
 
   /**
-   * Returns at most 50 reviewed shipping services eligible for a catalog item, destination, and API mode.
+   * Returns an array of at most 50 reviewed shipping services eligible for a catalog item, destination, and API mode. destinationState must be a USPS state or territory code. Each option has one temperature; pharmacy catalog summaries list all supported temperatures.
    * List shipping options
    */
   async listShippingOptionsRaw(
@@ -410,7 +410,7 @@ export class CatalogApi extends runtime.BaseAPI {
   }
 
   /**
-   * Returns at most 50 reviewed shipping services eligible for a catalog item, destination, and API mode.
+   * Returns an array of at most 50 reviewed shipping services eligible for a catalog item, destination, and API mode. destinationState must be a USPS state or territory code. Each option has one temperature; pharmacy catalog summaries list all supported temperatures.
    * List shipping options
    */
   async listShippingOptions(
