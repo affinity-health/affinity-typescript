@@ -86,6 +86,7 @@ export async function createTestWorkflow(apiKey: string) {
   ) {
     if (acceptedPreview.status !== "complete")
       return { status: "needs_input" as const, issues: acceptedPreview.issues };
+    if (!acceptedPreview.orderInput) throw new Error("Complete preview is missing order input");
     const patientId =
       "patientId" in acceptedPreview.orderInput ? acceptedPreview.orderInput.patientId : undefined;
     if (!patientId) throw new Error("Prepare the patient and preview with its patientId first");

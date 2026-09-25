@@ -1,4 +1,4 @@
-# PreviewOrderResponseOneOfShippingGroupsInner
+# PreviewOrderResponseShippingGroupsInner
 
 ## Properties
 

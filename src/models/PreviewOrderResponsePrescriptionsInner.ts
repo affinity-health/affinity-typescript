@@ -38,85 +38,85 @@ import {
 /**
  *
  * @export
- * @interface PreviewOrderResponseOneOfPrescriptionsInner
+ * @interface PreviewOrderResponsePrescriptionsInner
  */
-export interface PreviewOrderResponseOneOfPrescriptionsInner {
+export interface PreviewOrderResponsePrescriptionsInner {
   /**
    *
    * @type {string}
-   * @memberof PreviewOrderResponseOneOfPrescriptionsInner
+   * @memberof PreviewOrderResponsePrescriptionsInner
    */
   medicationId: string;
   /**
    *
    * @type {string}
-   * @memberof PreviewOrderResponseOneOfPrescriptionsInner
+   * @memberof PreviewOrderResponsePrescriptionsInner
    */
   revision: string;
   /**
    *
    * @type {string}
-   * @memberof PreviewOrderResponseOneOfPrescriptionsInner
+   * @memberof PreviewOrderResponsePrescriptionsInner
    */
   directions: string;
   /**
    *
    * @type {ListOrdersResponseDataInnerPrescriptionsInnerStructuredSig}
-   * @memberof PreviewOrderResponseOneOfPrescriptionsInner
+   * @memberof PreviewOrderResponsePrescriptionsInner
    */
   structuredSig: ListOrdersResponseDataInnerPrescriptionsInnerStructuredSig | null;
   /**
    *
-   * @type {PreviewOrderResponseOneOfPrescriptionsInnerFormatEnum}
-   * @memberof PreviewOrderResponseOneOfPrescriptionsInner
+   * @type {PreviewOrderResponsePrescriptionsInnerFormatEnum}
+   * @memberof PreviewOrderResponsePrescriptionsInner
    */
-  format: PreviewOrderResponseOneOfPrescriptionsInnerFormatEnum;
+  format: PreviewOrderResponsePrescriptionsInnerFormatEnum;
   /**
    *
    * @type {RetrievePrescribingOptionsResponsePresetsInnerQuantity}
-   * @memberof PreviewOrderResponseOneOfPrescriptionsInner
+   * @memberof PreviewOrderResponsePrescriptionsInner
    */
   quantity: RetrievePrescribingOptionsResponsePresetsInnerQuantity | null;
   /**
    *
    * @type {number}
-   * @memberof PreviewOrderResponseOneOfPrescriptionsInner
+   * @memberof PreviewOrderResponsePrescriptionsInner
    */
   daysSupply: number | null;
   /**
    *
-   * @type {PreviewOrderResponseOneOfPrescriptionsInnerDaysSupplySourceEnum}
-   * @memberof PreviewOrderResponseOneOfPrescriptionsInner
+   * @type {PreviewOrderResponsePrescriptionsInnerDaysSupplySourceEnum}
+   * @memberof PreviewOrderResponsePrescriptionsInner
    */
-  daysSupplySource: PreviewOrderResponseOneOfPrescriptionsInnerDaysSupplySourceEnum;
+  daysSupplySource: PreviewOrderResponsePrescriptionsInnerDaysSupplySourceEnum;
   /**
    *
    * @type {number}
-   * @memberof PreviewOrderResponseOneOfPrescriptionsInner
+   * @memberof PreviewOrderResponsePrescriptionsInner
    */
   refills: number;
   /**
    *
    * @type {Array<ListShippingOptionsResponseInner>}
-   * @memberof PreviewOrderResponseOneOfPrescriptionsInner
+   * @memberof PreviewOrderResponsePrescriptionsInner
    */
   shippingOptions: Array<ListShippingOptionsResponseInner>;
   /**
    *
    * @type {string}
-   * @memberof PreviewOrderResponseOneOfPrescriptionsInner
+   * @memberof PreviewOrderResponsePrescriptionsInner
    */
   shippingOptionId: string | null;
   /**
    *
    * @type {number}
-   * @memberof PreviewOrderResponseOneOfPrescriptionsInner
+   * @memberof PreviewOrderResponsePrescriptionsInner
    */
   medicationSubtotalCents: number | null;
   /**
    *
    * @type {number}
-   * @memberof PreviewOrderResponseOneOfPrescriptionsInner
+   * @memberof PreviewOrderResponsePrescriptionsInner
    */
   shippingAmountCents: number | null;
 }
@@ -124,31 +124,31 @@ export interface PreviewOrderResponseOneOfPrescriptionsInner {
 /**
  * @export
  */
-export const PreviewOrderResponseOneOfPrescriptionsInnerFormatEnum = {
+export const PreviewOrderResponsePrescriptionsInnerFormatEnum = {
   Structured: "structured",
   FreeText: "free_text",
 } as const;
-export type PreviewOrderResponseOneOfPrescriptionsInnerFormatEnum =
-  (typeof PreviewOrderResponseOneOfPrescriptionsInnerFormatEnum)[keyof typeof PreviewOrderResponseOneOfPrescriptionsInnerFormatEnum];
+export type PreviewOrderResponsePrescriptionsInnerFormatEnum =
+  (typeof PreviewOrderResponsePrescriptionsInnerFormatEnum)[keyof typeof PreviewOrderResponsePrescriptionsInnerFormatEnum];
 
 /**
  * @export
  */
-export const PreviewOrderResponseOneOfPrescriptionsInnerDaysSupplySourceEnum = {
+export const PreviewOrderResponsePrescriptionsInnerDaysSupplySourceEnum = {
   Manual: "manual",
   Calculated: "calculated",
   Preset: "preset",
   Missing: "missing",
 } as const;
-export type PreviewOrderResponseOneOfPrescriptionsInnerDaysSupplySourceEnum =
-  (typeof PreviewOrderResponseOneOfPrescriptionsInnerDaysSupplySourceEnum)[keyof typeof PreviewOrderResponseOneOfPrescriptionsInnerDaysSupplySourceEnum];
+export type PreviewOrderResponsePrescriptionsInnerDaysSupplySourceEnum =
+  (typeof PreviewOrderResponsePrescriptionsInnerDaysSupplySourceEnum)[keyof typeof PreviewOrderResponsePrescriptionsInnerDaysSupplySourceEnum];
 
 /**
- * Check if a given object implements the PreviewOrderResponseOneOfPrescriptionsInner interface.
+ * Check if a given object implements the PreviewOrderResponsePrescriptionsInner interface.
  */
-export function instanceOfPreviewOrderResponseOneOfPrescriptionsInner(
+export function instanceOfPreviewOrderResponsePrescriptionsInner(
   value: object,
-): value is PreviewOrderResponseOneOfPrescriptionsInner {
+): value is PreviewOrderResponsePrescriptionsInner {
   if (!("medicationId" in value) || value["medicationId"] === undefined) return false;
   if (!("revision" in value) || value["revision"] === undefined) return false;
   if (!("directions" in value) || value["directions"] === undefined) return false;
@@ -166,16 +166,16 @@ export function instanceOfPreviewOrderResponseOneOfPrescriptionsInner(
   return true;
 }
 
-export function PreviewOrderResponseOneOfPrescriptionsInnerFromJSON(
+export function PreviewOrderResponsePrescriptionsInnerFromJSON(
   json: any,
-): PreviewOrderResponseOneOfPrescriptionsInner {
-  return PreviewOrderResponseOneOfPrescriptionsInnerFromJSONTyped(json, false);
+): PreviewOrderResponsePrescriptionsInner {
+  return PreviewOrderResponsePrescriptionsInnerFromJSONTyped(json, false);
 }
 
-export function PreviewOrderResponseOneOfPrescriptionsInnerFromJSONTyped(
+export function PreviewOrderResponsePrescriptionsInnerFromJSONTyped(
   json: any,
   ignoreDiscriminator: boolean,
-): PreviewOrderResponseOneOfPrescriptionsInner {
+): PreviewOrderResponsePrescriptionsInner {
   if (json == null) {
     return json;
   }
@@ -200,14 +200,14 @@ export function PreviewOrderResponseOneOfPrescriptionsInnerFromJSONTyped(
   };
 }
 
-export function PreviewOrderResponseOneOfPrescriptionsInnerToJSON(
+export function PreviewOrderResponsePrescriptionsInnerToJSON(
   json: any,
-): PreviewOrderResponseOneOfPrescriptionsInner {
-  return PreviewOrderResponseOneOfPrescriptionsInnerToJSONTyped(json, false);
+): PreviewOrderResponsePrescriptionsInner {
+  return PreviewOrderResponsePrescriptionsInnerToJSONTyped(json, false);
 }
 
-export function PreviewOrderResponseOneOfPrescriptionsInnerToJSONTyped(
-  value?: PreviewOrderResponseOneOfPrescriptionsInner | null,
+export function PreviewOrderResponsePrescriptionsInnerToJSONTyped(
+  value?: PreviewOrderResponsePrescriptionsInner | null,
   ignoreDiscriminator: boolean = false,
 ): any {
   if (value == null) {

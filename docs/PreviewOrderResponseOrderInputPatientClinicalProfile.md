@@ -1,4 +1,4 @@
-# PreviewOrderResponseOneOfOrderInputOneOf1PatientClinicalProfile
+# PreviewOrderResponseOrderInputPatientClinicalProfile
 
 ## Properties
 

@@ -16,49 +16,49 @@ import { mapValues } from "../runtime";
 /**
  *
  * @export
- * @interface PreviewOrderResponseOneOfShippingGroupsInner
+ * @interface PreviewOrderResponseShippingGroupsInner
  */
-export interface PreviewOrderResponseOneOfShippingGroupsInner {
+export interface PreviewOrderResponseShippingGroupsInner {
   /**
    *
    * @type {string}
-   * @memberof PreviewOrderResponseOneOfShippingGroupsInner
+   * @memberof PreviewOrderResponseShippingGroupsInner
    */
   key: string;
   /**
    *
    * @type {string}
-   * @memberof PreviewOrderResponseOneOfShippingGroupsInner
+   * @memberof PreviewOrderResponseShippingGroupsInner
    */
   pharmacy: string;
   /**
    *
    * @type {string}
-   * @memberof PreviewOrderResponseOneOfShippingGroupsInner
+   * @memberof PreviewOrderResponseShippingGroupsInner
    */
   label: string;
   /**
    *
-   * @type {PreviewOrderResponseOneOfShippingGroupsInnerTemperatureEnum}
-   * @memberof PreviewOrderResponseOneOfShippingGroupsInner
+   * @type {PreviewOrderResponseShippingGroupsInnerTemperatureEnum}
+   * @memberof PreviewOrderResponseShippingGroupsInner
    */
-  temperature: PreviewOrderResponseOneOfShippingGroupsInnerTemperatureEnum;
+  temperature: PreviewOrderResponseShippingGroupsInnerTemperatureEnum;
   /**
    *
    * @type {number}
-   * @memberof PreviewOrderResponseOneOfShippingGroupsInner
+   * @memberof PreviewOrderResponseShippingGroupsInner
    */
   amountCents: number;
   /**
    *
    * @type {number}
-   * @memberof PreviewOrderResponseOneOfShippingGroupsInner
+   * @memberof PreviewOrderResponseShippingGroupsInner
    */
   itemCount: number;
   /**
    * Zero-based indexes into the preview prescriptions array. This is an estimated shipping charge group, not a guarantee of one physical package.
    * @type {Array<number>}
-   * @memberof PreviewOrderResponseOneOfShippingGroupsInner
+   * @memberof PreviewOrderResponseShippingGroupsInner
    */
   prescriptionIndexes: Array<number>;
 }
@@ -66,19 +66,19 @@ export interface PreviewOrderResponseOneOfShippingGroupsInner {
 /**
  * @export
  */
-export const PreviewOrderResponseOneOfShippingGroupsInnerTemperatureEnum = {
+export const PreviewOrderResponseShippingGroupsInnerTemperatureEnum = {
   Ambient: "ambient",
   Refrigerated: "refrigerated",
 } as const;
-export type PreviewOrderResponseOneOfShippingGroupsInnerTemperatureEnum =
-  (typeof PreviewOrderResponseOneOfShippingGroupsInnerTemperatureEnum)[keyof typeof PreviewOrderResponseOneOfShippingGroupsInnerTemperatureEnum];
+export type PreviewOrderResponseShippingGroupsInnerTemperatureEnum =
+  (typeof PreviewOrderResponseShippingGroupsInnerTemperatureEnum)[keyof typeof PreviewOrderResponseShippingGroupsInnerTemperatureEnum];
 
 /**
- * Check if a given object implements the PreviewOrderResponseOneOfShippingGroupsInner interface.
+ * Check if a given object implements the PreviewOrderResponseShippingGroupsInner interface.
  */
-export function instanceOfPreviewOrderResponseOneOfShippingGroupsInner(
+export function instanceOfPreviewOrderResponseShippingGroupsInner(
   value: object,
-): value is PreviewOrderResponseOneOfShippingGroupsInner {
+): value is PreviewOrderResponseShippingGroupsInner {
   if (!("key" in value) || value["key"] === undefined) return false;
   if (!("pharmacy" in value) || value["pharmacy"] === undefined) return false;
   if (!("label" in value) || value["label"] === undefined) return false;
@@ -89,16 +89,16 @@ export function instanceOfPreviewOrderResponseOneOfShippingGroupsInner(
   return true;
 }
 
-export function PreviewOrderResponseOneOfShippingGroupsInnerFromJSON(
+export function PreviewOrderResponseShippingGroupsInnerFromJSON(
   json: any,
-): PreviewOrderResponseOneOfShippingGroupsInner {
-  return PreviewOrderResponseOneOfShippingGroupsInnerFromJSONTyped(json, false);
+): PreviewOrderResponseShippingGroupsInner {
+  return PreviewOrderResponseShippingGroupsInnerFromJSONTyped(json, false);
 }
 
-export function PreviewOrderResponseOneOfShippingGroupsInnerFromJSONTyped(
+export function PreviewOrderResponseShippingGroupsInnerFromJSONTyped(
   json: any,
   ignoreDiscriminator: boolean,
-): PreviewOrderResponseOneOfShippingGroupsInner {
+): PreviewOrderResponseShippingGroupsInner {
   if (json == null) {
     return json;
   }
@@ -113,14 +113,14 @@ export function PreviewOrderResponseOneOfShippingGroupsInnerFromJSONTyped(
   };
 }
 
-export function PreviewOrderResponseOneOfShippingGroupsInnerToJSON(
+export function PreviewOrderResponseShippingGroupsInnerToJSON(
   json: any,
-): PreviewOrderResponseOneOfShippingGroupsInner {
-  return PreviewOrderResponseOneOfShippingGroupsInnerToJSONTyped(json, false);
+): PreviewOrderResponseShippingGroupsInner {
+  return PreviewOrderResponseShippingGroupsInnerToJSONTyped(json, false);
 }
 
-export function PreviewOrderResponseOneOfShippingGroupsInnerToJSONTyped(
-  value?: PreviewOrderResponseOneOfShippingGroupsInner | null,
+export function PreviewOrderResponseShippingGroupsInnerToJSONTyped(
+  value?: PreviewOrderResponseShippingGroupsInner | null,
   ignoreDiscriminator: boolean = false,
 ): any {
   if (value == null) {

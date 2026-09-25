@@ -12,27 +12,179 @@
  * Do not edit the class manually.
  */
 
-import type { PreviewOrderResponseOneOf } from "./PreviewOrderResponseOneOf";
+import { mapValues } from "../runtime";
+import type { CreateOrderResponseOtcItemsInner } from "./CreateOrderResponseOtcItemsInner";
 import {
-  instanceOfPreviewOrderResponseOneOf,
-  PreviewOrderResponseOneOfFromJSON,
-  PreviewOrderResponseOneOfFromJSONTyped,
-  PreviewOrderResponseOneOfToJSON,
-} from "./PreviewOrderResponseOneOf";
-import type { PreviewOrderResponseOneOf1 } from "./PreviewOrderResponseOneOf1";
+  CreateOrderResponseOtcItemsInnerFromJSON,
+  CreateOrderResponseOtcItemsInnerFromJSONTyped,
+  CreateOrderResponseOtcItemsInnerToJSON,
+  CreateOrderResponseOtcItemsInnerToJSONTyped,
+} from "./CreateOrderResponseOtcItemsInner";
+import type { PreviewOrderResponseOrderInput } from "./PreviewOrderResponseOrderInput";
 import {
-  instanceOfPreviewOrderResponseOneOf1,
-  PreviewOrderResponseOneOf1FromJSON,
-  PreviewOrderResponseOneOf1FromJSONTyped,
-  PreviewOrderResponseOneOf1ToJSON,
-} from "./PreviewOrderResponseOneOf1";
+  PreviewOrderResponseOrderInputFromJSON,
+  PreviewOrderResponseOrderInputFromJSONTyped,
+  PreviewOrderResponseOrderInputToJSON,
+  PreviewOrderResponseOrderInputToJSONTyped,
+} from "./PreviewOrderResponseOrderInput";
+import type { PreviewOrderResponseClinicalRequirementsInner } from "./PreviewOrderResponseClinicalRequirementsInner";
+import {
+  PreviewOrderResponseClinicalRequirementsInnerFromJSON,
+  PreviewOrderResponseClinicalRequirementsInnerFromJSONTyped,
+  PreviewOrderResponseClinicalRequirementsInnerToJSON,
+  PreviewOrderResponseClinicalRequirementsInnerToJSONTyped,
+} from "./PreviewOrderResponseClinicalRequirementsInner";
+import type { PreviewOrderResponsePrescriptionsInner } from "./PreviewOrderResponsePrescriptionsInner";
+import {
+  PreviewOrderResponsePrescriptionsInnerFromJSON,
+  PreviewOrderResponsePrescriptionsInnerFromJSONTyped,
+  PreviewOrderResponsePrescriptionsInnerToJSON,
+  PreviewOrderResponsePrescriptionsInnerToJSONTyped,
+} from "./PreviewOrderResponsePrescriptionsInner";
+import type { PreviewOrderResponseClinicalIssuesInner } from "./PreviewOrderResponseClinicalIssuesInner";
+import {
+  PreviewOrderResponseClinicalIssuesInnerFromJSON,
+  PreviewOrderResponseClinicalIssuesInnerFromJSONTyped,
+  PreviewOrderResponseClinicalIssuesInnerToJSON,
+  PreviewOrderResponseClinicalIssuesInnerToJSONTyped,
+} from "./PreviewOrderResponseClinicalIssuesInner";
+import type { PreviewOrderResponseShippingGroupsInner } from "./PreviewOrderResponseShippingGroupsInner";
+import {
+  PreviewOrderResponseShippingGroupsInnerFromJSON,
+  PreviewOrderResponseShippingGroupsInnerFromJSONTyped,
+  PreviewOrderResponseShippingGroupsInnerToJSON,
+  PreviewOrderResponseShippingGroupsInnerToJSONTyped,
+} from "./PreviewOrderResponseShippingGroupsInner";
+import type { PreviewOrderResponseTotals } from "./PreviewOrderResponseTotals";
+import {
+  PreviewOrderResponseTotalsFromJSON,
+  PreviewOrderResponseTotalsFromJSONTyped,
+  PreviewOrderResponseTotalsToJSON,
+  PreviewOrderResponseTotalsToJSONTyped,
+} from "./PreviewOrderResponseTotals";
 
 /**
- * @type PreviewOrderResponse
  *
  * @export
+ * @interface PreviewOrderResponse
  */
-export type PreviewOrderResponse = PreviewOrderResponseOneOf | PreviewOrderResponseOneOf1;
+export interface PreviewOrderResponse {
+  /**
+   *
+   * @type {boolean}
+   * @memberof PreviewOrderResponse
+   */
+  clinicalRequirementsSatisfied: boolean;
+  /**
+   *
+   * @type {Array<PreviewOrderResponseClinicalIssuesInner>}
+   * @memberof PreviewOrderResponse
+   */
+  clinicalIssues: Array<PreviewOrderResponseClinicalIssuesInner>;
+  /**
+   *
+   * @type {Array<PreviewOrderResponseClinicalRequirementsInner>}
+   * @memberof PreviewOrderResponse
+   */
+  clinicalRequirements: Array<PreviewOrderResponseClinicalRequirementsInner>;
+  /**
+   *
+   * @type {Array<CreateOrderResponseOtcItemsInner>}
+   * @memberof PreviewOrderResponse
+   */
+  otcItems: Array<CreateOrderResponseOtcItemsInner>;
+  /**
+   *
+   * @type {Array<PreviewOrderResponseShippingGroupsInner>}
+   * @memberof PreviewOrderResponse
+   */
+  shippingGroups: Array<PreviewOrderResponseShippingGroupsInner>;
+  /**
+   *
+   * @type {PreviewOrderResponseTotals}
+   * @memberof PreviewOrderResponse
+   */
+  totals: PreviewOrderResponseTotals;
+  /**
+   *
+   * @type {PreviewOrderResponseObjectEnum}
+   * @memberof PreviewOrderResponse
+   */
+  object: PreviewOrderResponseObjectEnum;
+  /**
+   *
+   * @type {boolean}
+   * @memberof PreviewOrderResponse
+   */
+  livemode: boolean;
+  /**
+   *
+   * @type {Array<PreviewOrderResponsePrescriptionsInner>}
+   * @memberof PreviewOrderResponse
+   */
+  prescriptions: Array<PreviewOrderResponsePrescriptionsInner>;
+  /**
+   *
+   * @type {Array<PreviewOrderResponseClinicalIssuesInner>}
+   * @memberof PreviewOrderResponse
+   */
+  issues: Array<PreviewOrderResponseClinicalIssuesInner>;
+  /**
+   *
+   * @type {PreviewOrderResponseStatusEnum}
+   * @memberof PreviewOrderResponse
+   */
+  status: PreviewOrderResponseStatusEnum;
+  /**
+   *
+   * @type {PreviewOrderResponseOrderInput}
+   * @memberof PreviewOrderResponse
+   */
+  orderInput: PreviewOrderResponseOrderInput | null;
+}
+
+/**
+ * @export
+ */
+export const PreviewOrderResponseObjectEnum = {
+  OrderPreview: "order_preview",
+} as const;
+export type PreviewOrderResponseObjectEnum =
+  (typeof PreviewOrderResponseObjectEnum)[keyof typeof PreviewOrderResponseObjectEnum];
+
+/**
+ * @export
+ */
+export const PreviewOrderResponseStatusEnum = {
+  Complete: "complete",
+  Incomplete: "incomplete",
+} as const;
+export type PreviewOrderResponseStatusEnum =
+  (typeof PreviewOrderResponseStatusEnum)[keyof typeof PreviewOrderResponseStatusEnum];
+
+/**
+ * Check if a given object implements the PreviewOrderResponse interface.
+ */
+export function instanceOfPreviewOrderResponse(value: object): value is PreviewOrderResponse {
+  if (
+    !("clinicalRequirementsSatisfied" in value) ||
+    value["clinicalRequirementsSatisfied"] === undefined
+  )
+    return false;
+  if (!("clinicalIssues" in value) || value["clinicalIssues"] === undefined) return false;
+  if (!("clinicalRequirements" in value) || value["clinicalRequirements"] === undefined)
+    return false;
+  if (!("otcItems" in value) || value["otcItems"] === undefined) return false;
+  if (!("shippingGroups" in value) || value["shippingGroups"] === undefined) return false;
+  if (!("totals" in value) || value["totals"] === undefined) return false;
+  if (!("object" in value) || value["object"] === undefined) return false;
+  if (!("livemode" in value) || value["livemode"] === undefined) return false;
+  if (!("prescriptions" in value) || value["prescriptions"] === undefined) return false;
+  if (!("issues" in value) || value["issues"] === undefined) return false;
+  if (!("status" in value) || value["status"] === undefined) return false;
+  if (!("orderInput" in value) || value["orderInput"] === undefined) return false;
+  return true;
+}
 
 export function PreviewOrderResponseFromJSON(json: any): PreviewOrderResponse {
   return PreviewOrderResponseFromJSONTyped(json, false);
@@ -45,19 +197,31 @@ export function PreviewOrderResponseFromJSONTyped(
   if (json == null) {
     return json;
   }
-  if (typeof json !== "object") {
-    return json;
-  }
-  if (instanceOfPreviewOrderResponseOneOf(json)) {
-    return PreviewOrderResponseOneOfFromJSONTyped(json, true);
-  }
-  if (instanceOfPreviewOrderResponseOneOf1(json)) {
-    return PreviewOrderResponseOneOf1FromJSONTyped(json, true);
-  }
-  return {} as any;
+  return {
+    clinicalRequirementsSatisfied: json["clinicalRequirementsSatisfied"],
+    clinicalIssues: (json["clinicalIssues"] as Array<any>).map(
+      PreviewOrderResponseClinicalIssuesInnerFromJSON,
+    ),
+    clinicalRequirements: (json["clinicalRequirements"] as Array<any>).map(
+      PreviewOrderResponseClinicalRequirementsInnerFromJSON,
+    ),
+    otcItems: (json["otcItems"] as Array<any>).map(CreateOrderResponseOtcItemsInnerFromJSON),
+    shippingGroups: (json["shippingGroups"] as Array<any>).map(
+      PreviewOrderResponseShippingGroupsInnerFromJSON,
+    ),
+    totals: PreviewOrderResponseTotalsFromJSON(json["totals"]),
+    object: json["object"],
+    livemode: json["livemode"],
+    prescriptions: (json["prescriptions"] as Array<any>).map(
+      PreviewOrderResponsePrescriptionsInnerFromJSON,
+    ),
+    issues: (json["issues"] as Array<any>).map(PreviewOrderResponseClinicalIssuesInnerFromJSON),
+    status: json["status"],
+    orderInput: PreviewOrderResponseOrderInputFromJSON(json["orderInput"]),
+  };
 }
 
-export function PreviewOrderResponseToJSON(json: any): any {
+export function PreviewOrderResponseToJSON(json: any): PreviewOrderResponse {
   return PreviewOrderResponseToJSONTyped(json, false);
 }
 
@@ -68,14 +232,27 @@ export function PreviewOrderResponseToJSONTyped(
   if (value == null) {
     return value;
   }
-  if (typeof value !== "object") {
-    return value;
-  }
-  if (instanceOfPreviewOrderResponseOneOf(value)) {
-    return PreviewOrderResponseOneOfToJSON(value as PreviewOrderResponseOneOf);
-  }
-  if (instanceOfPreviewOrderResponseOneOf1(value)) {
-    return PreviewOrderResponseOneOf1ToJSON(value as PreviewOrderResponseOneOf1);
-  }
-  return {};
+
+  return {
+    clinicalRequirementsSatisfied: value["clinicalRequirementsSatisfied"],
+    clinicalIssues: (value["clinicalIssues"] as Array<any>).map(
+      PreviewOrderResponseClinicalIssuesInnerToJSON,
+    ),
+    clinicalRequirements: (value["clinicalRequirements"] as Array<any>).map(
+      PreviewOrderResponseClinicalRequirementsInnerToJSON,
+    ),
+    otcItems: (value["otcItems"] as Array<any>).map(CreateOrderResponseOtcItemsInnerToJSON),
+    shippingGroups: (value["shippingGroups"] as Array<any>).map(
+      PreviewOrderResponseShippingGroupsInnerToJSON,
+    ),
+    totals: PreviewOrderResponseTotalsToJSON(value["totals"]),
+    object: value["object"],
+    livemode: value["livemode"],
+    prescriptions: (value["prescriptions"] as Array<any>).map(
+      PreviewOrderResponsePrescriptionsInnerToJSON,
+    ),
+    issues: (value["issues"] as Array<any>).map(PreviewOrderResponseClinicalIssuesInnerToJSON),
+    status: value["status"],
+    orderInput: PreviewOrderResponseOrderInputToJSON(value["orderInput"]),
+  };
 }

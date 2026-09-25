@@ -4,7 +4,6 @@
 
 | Name                | Type                |
 | ------------------- | ------------------- |
-| `allowedOrigins`    | Array&lt;string&gt; |
 | `allowedReturnUrls` | Array&lt;string&gt; |
 | `displayName`       | string              |
 | `id`                | string              |

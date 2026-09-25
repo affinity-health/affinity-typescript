@@ -67,73 +67,73 @@ export interface RegisterUserRequestProfileDetails {
    * @type {string}
    * @memberof RegisterUserRequestProfileDetails
    */
-  firstName: string;
+  firstName?: string | null;
   /**
    *
    * @type {string}
    * @memberof RegisterUserRequestProfileDetails
    */
-  middleName: string;
+  middleName?: string | null;
   /**
    *
    * @type {string}
    * @memberof RegisterUserRequestProfileDetails
    */
-  lastName: string;
+  lastName?: string | null;
   /**
    *
    * @type {string}
    * @memberof RegisterUserRequestProfileDetails
    */
-  namePrefix: string;
+  namePrefix?: string | null;
   /**
    *
    * @type {string}
    * @memberof RegisterUserRequestProfileDetails
    */
-  nameSuffix: string;
+  nameSuffix?: string | null;
   /**
    *
    * @type {string}
    * @memberof RegisterUserRequestProfileDetails
    */
-  fax: string;
+  fax?: string | null;
   /**
    *
    * @type {Array<RegisterUserRequestProfileDetailsSpecialtiesInner>}
    * @memberof RegisterUserRequestProfileDetails
    */
-  specialties: Array<RegisterUserRequestProfileDetailsSpecialtiesInner>;
+  specialties?: Array<RegisterUserRequestProfileDetailsSpecialtiesInner> | null;
   /**
    *
    * @type {Array<RegisterUserRequestProfileDetailsAddressesInner>}
    * @memberof RegisterUserRequestProfileDetails
    */
-  addresses: Array<RegisterUserRequestProfileDetailsAddressesInner>;
+  addresses?: Array<RegisterUserRequestProfileDetailsAddressesInner> | null;
   /**
    *
    * @type {Array<RegisterUserRequestProfileDetailsOtherNamesInner>}
    * @memberof RegisterUserRequestProfileDetails
    */
-  otherNames: Array<RegisterUserRequestProfileDetailsOtherNamesInner>;
+  otherNames?: Array<RegisterUserRequestProfileDetailsOtherNamesInner> | null;
   /**
    *
    * @type {Array<RegisterUserRequestProfileDetailsIdentifiersInner>}
    * @memberof RegisterUserRequestProfileDetails
    */
-  identifiers: Array<RegisterUserRequestProfileDetailsIdentifiersInner>;
+  identifiers?: Array<RegisterUserRequestProfileDetailsIdentifiersInner> | null;
   /**
    *
    * @type {Array<RegisterUserRequestProfileDetailsEndpointsInner>}
    * @memberof RegisterUserRequestProfileDetails
    */
-  endpoints: Array<RegisterUserRequestProfileDetailsEndpointsInner>;
+  endpoints?: Array<RegisterUserRequestProfileDetailsEndpointsInner> | null;
   /**
    *
    * @type {Array<RegisterUserRequestProfileDetailsCertificationsInner>}
    * @memberof RegisterUserRequestProfileDetails
    */
-  certifications: Array<RegisterUserRequestProfileDetailsCertificationsInner>;
+  certifications?: Array<RegisterUserRequestProfileDetailsCertificationsInner> | null;
 }
 
 /**
@@ -142,18 +142,6 @@ export interface RegisterUserRequestProfileDetails {
 export function instanceOfRegisterUserRequestProfileDetails(
   value: object,
 ): value is RegisterUserRequestProfileDetails {
-  if (!("firstName" in value) || value["firstName"] === undefined) return false;
-  if (!("middleName" in value) || value["middleName"] === undefined) return false;
-  if (!("lastName" in value) || value["lastName"] === undefined) return false;
-  if (!("namePrefix" in value) || value["namePrefix"] === undefined) return false;
-  if (!("nameSuffix" in value) || value["nameSuffix"] === undefined) return false;
-  if (!("fax" in value) || value["fax"] === undefined) return false;
-  if (!("specialties" in value) || value["specialties"] === undefined) return false;
-  if (!("addresses" in value) || value["addresses"] === undefined) return false;
-  if (!("otherNames" in value) || value["otherNames"] === undefined) return false;
-  if (!("identifiers" in value) || value["identifiers"] === undefined) return false;
-  if (!("endpoints" in value) || value["endpoints"] === undefined) return false;
-  if (!("certifications" in value) || value["certifications"] === undefined) return false;
   return true;
 }
 
@@ -171,30 +159,48 @@ export function RegisterUserRequestProfileDetailsFromJSONTyped(
     return json;
   }
   return {
-    firstName: json["firstName"],
-    middleName: json["middleName"],
-    lastName: json["lastName"],
-    namePrefix: json["namePrefix"],
-    nameSuffix: json["nameSuffix"],
-    fax: json["fax"],
-    specialties: (json["specialties"] as Array<any>).map(
-      RegisterUserRequestProfileDetailsSpecialtiesInnerFromJSON,
-    ),
-    addresses: (json["addresses"] as Array<any>).map(
-      RegisterUserRequestProfileDetailsAddressesInnerFromJSON,
-    ),
-    otherNames: (json["otherNames"] as Array<any>).map(
-      RegisterUserRequestProfileDetailsOtherNamesInnerFromJSON,
-    ),
-    identifiers: (json["identifiers"] as Array<any>).map(
-      RegisterUserRequestProfileDetailsIdentifiersInnerFromJSON,
-    ),
-    endpoints: (json["endpoints"] as Array<any>).map(
-      RegisterUserRequestProfileDetailsEndpointsInnerFromJSON,
-    ),
-    certifications: (json["certifications"] as Array<any>).map(
-      RegisterUserRequestProfileDetailsCertificationsInnerFromJSON,
-    ),
+    firstName: json["firstName"] == null ? undefined : json["firstName"],
+    middleName: json["middleName"] == null ? undefined : json["middleName"],
+    lastName: json["lastName"] == null ? undefined : json["lastName"],
+    namePrefix: json["namePrefix"] == null ? undefined : json["namePrefix"],
+    nameSuffix: json["nameSuffix"] == null ? undefined : json["nameSuffix"],
+    fax: json["fax"] == null ? undefined : json["fax"],
+    specialties:
+      json["specialties"] == null
+        ? undefined
+        : (json["specialties"] as Array<any>).map(
+            RegisterUserRequestProfileDetailsSpecialtiesInnerFromJSON,
+          ),
+    addresses:
+      json["addresses"] == null
+        ? undefined
+        : (json["addresses"] as Array<any>).map(
+            RegisterUserRequestProfileDetailsAddressesInnerFromJSON,
+          ),
+    otherNames:
+      json["otherNames"] == null
+        ? undefined
+        : (json["otherNames"] as Array<any>).map(
+            RegisterUserRequestProfileDetailsOtherNamesInnerFromJSON,
+          ),
+    identifiers:
+      json["identifiers"] == null
+        ? undefined
+        : (json["identifiers"] as Array<any>).map(
+            RegisterUserRequestProfileDetailsIdentifiersInnerFromJSON,
+          ),
+    endpoints:
+      json["endpoints"] == null
+        ? undefined
+        : (json["endpoints"] as Array<any>).map(
+            RegisterUserRequestProfileDetailsEndpointsInnerFromJSON,
+          ),
+    certifications:
+      json["certifications"] == null
+        ? undefined
+        : (json["certifications"] as Array<any>).map(
+            RegisterUserRequestProfileDetailsCertificationsInnerFromJSON,
+          ),
   };
 }
 
@@ -219,23 +225,41 @@ export function RegisterUserRequestProfileDetailsToJSONTyped(
     namePrefix: value["namePrefix"],
     nameSuffix: value["nameSuffix"],
     fax: value["fax"],
-    specialties: (value["specialties"] as Array<any>).map(
-      RegisterUserRequestProfileDetailsSpecialtiesInnerToJSON,
-    ),
-    addresses: (value["addresses"] as Array<any>).map(
-      RegisterUserRequestProfileDetailsAddressesInnerToJSON,
-    ),
-    otherNames: (value["otherNames"] as Array<any>).map(
-      RegisterUserRequestProfileDetailsOtherNamesInnerToJSON,
-    ),
-    identifiers: (value["identifiers"] as Array<any>).map(
-      RegisterUserRequestProfileDetailsIdentifiersInnerToJSON,
-    ),
-    endpoints: (value["endpoints"] as Array<any>).map(
-      RegisterUserRequestProfileDetailsEndpointsInnerToJSON,
-    ),
-    certifications: (value["certifications"] as Array<any>).map(
-      RegisterUserRequestProfileDetailsCertificationsInnerToJSON,
-    ),
+    specialties:
+      value["specialties"] == null
+        ? undefined
+        : (value["specialties"] as Array<any>).map(
+            RegisterUserRequestProfileDetailsSpecialtiesInnerToJSON,
+          ),
+    addresses:
+      value["addresses"] == null
+        ? undefined
+        : (value["addresses"] as Array<any>).map(
+            RegisterUserRequestProfileDetailsAddressesInnerToJSON,
+          ),
+    otherNames:
+      value["otherNames"] == null
+        ? undefined
+        : (value["otherNames"] as Array<any>).map(
+            RegisterUserRequestProfileDetailsOtherNamesInnerToJSON,
+          ),
+    identifiers:
+      value["identifiers"] == null
+        ? undefined
+        : (value["identifiers"] as Array<any>).map(
+            RegisterUserRequestProfileDetailsIdentifiersInnerToJSON,
+          ),
+    endpoints:
+      value["endpoints"] == null
+        ? undefined
+        : (value["endpoints"] as Array<any>).map(
+            RegisterUserRequestProfileDetailsEndpointsInnerToJSON,
+          ),
+    certifications:
+      value["certifications"] == null
+        ? undefined
+        : (value["certifications"] as Array<any>).map(
+            RegisterUserRequestProfileDetailsCertificationsInnerToJSON,
+          ),
   };
 }

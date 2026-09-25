@@ -197,8 +197,6 @@ The public resource groups are `account`, `auth`, `catalog`, `pharmacies`, `orde
 `orderPreviews`, `orderBatches`, `practices`, `webhookEndpoints`, `webhookEvents`, and `webhookGrants`.
 Patients, locations, and team resources are nested under `practices`.
 
-Hosted-session and component-session creation are temporarily unavailable in this SDK.
-
 The SDK exposes typed methods for public API resources. The two Test order simulation controls remain available
 through `rawRequest`. The generated OpenAPI transport and models remain private implementation
 details of the package root.

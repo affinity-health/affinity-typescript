@@ -24,12 +24,6 @@ export interface GetAccountResponseAccount {
    * @type {Array<string>}
    * @memberof GetAccountResponseAccount
    */
-  allowedOrigins: Array<string>;
-  /**
-   *
-   * @type {Array<string>}
-   * @memberof GetAccountResponseAccount
-   */
   allowedReturnUrls: Array<string>;
   /**
    *
@@ -101,7 +95,6 @@ export type GetAccountResponseAccountStatusEnum =
 export function instanceOfGetAccountResponseAccount(
   value: object,
 ): value is GetAccountResponseAccount {
-  if (!("allowedOrigins" in value) || value["allowedOrigins"] === undefined) return false;
   if (!("allowedReturnUrls" in value) || value["allowedReturnUrls"] === undefined) return false;
   if (!("displayName" in value) || value["displayName"] === undefined) return false;
   if (!("id" in value) || value["id"] === undefined) return false;
@@ -125,7 +118,6 @@ export function GetAccountResponseAccountFromJSONTyped(
     return json;
   }
   return {
-    allowedOrigins: json["allowedOrigins"],
     allowedReturnUrls: json["allowedReturnUrls"],
     displayName: json["displayName"],
     id: json["id"],
@@ -150,7 +142,6 @@ export function GetAccountResponseAccountToJSONTyped(
   }
 
   return {
-    allowedOrigins: value["allowedOrigins"],
     allowedReturnUrls: value["allowedReturnUrls"],
     displayName: value["displayName"],
     id: value["id"],

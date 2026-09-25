@@ -430,6 +430,19 @@ function renderMethod(operation: OperationDetails): string {
       return paginate((cursor) => this.api.${operation.apiMethod}({ ${fields.join(", ")}, ...cursor }, requestOverrides(options)), params);
     }`;
   }
+  if (operation.operationId === "previewOrder") {
+    return `  ${operation.publicMethod}(${args.join(", ")}): Promise<PreviewOrderResult> {
+    return this.api.${operation.apiMethod}({ ${fields.join(", ")} }, requestOverrides(options)).then((preview) => {
+      if (preview.status === "complete") {
+        if (!preview.orderInput) throw new Error("Complete preview is missing order input");
+        validateCreateOrderParams(preview.orderInput as CreateOrderParams);
+      } else if (preview.orderInput !== null) {
+        throw new Error("Incomplete preview unexpectedly has order input");
+      }
+      return preview as PreviewOrderResult;
+    });
+  }`;
+  }
   const domainType = (
     {
       createPractice: "Practice",
@@ -531,10 +544,24 @@ function resourceSource(
     apiImport,
     'import type { Practice, Patient, Order, CreatedOrder, PracticeLocation } from "../domain";',
     'import { paginate, type ApiListPromise } from "./pagination";',
+    ...(operations.some((operation) => operation.operationId === "previewOrder")
+      ? ['import type { PreviewOrderResponse } from "../models/PreviewOrderResponse";']
+      : []),
     ...modelImports,
     `import { ${sharedImports.join(", ")} } from "./shared";`,
     "",
     ...new Set(aliases),
+    ...(operations.some((operation) => operation.operationId === "previewOrder")
+      ? [
+          typeAlias(
+            "PreviewOrderResult",
+            `Omit<PreviewOrderResponse, "status" | "orderInput"> & (
+  | { status: "complete"; orderInput: CreateOrderParams }
+  | { status: "incomplete"; orderInput: null }
+)`,
+          ),
+        ]
+      : []),
     ...(operations.some(
       (operation) =>
         operation.operationId === "createOrder" || operation.operationId === "createOrderBatch",

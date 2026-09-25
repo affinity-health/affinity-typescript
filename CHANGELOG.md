@@ -7,6 +7,14 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 
 ## [Unreleased]
 
+## [1.12.2] - 2026-09-25
+
+### Changed
+
+- Match the deployed order-preview response contract, including nullable order input and named nested models that other language client generators can import.
+- Accept partial clinician profile details in Team invitations and expose the accepted member's integration-scoped external ID.
+- Remove unreleased embedded-component fields and scopes from generated public models.
+
 ## [1.12.1] - 2026-09-24
 
 ### Fixed

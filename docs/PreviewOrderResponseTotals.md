@@ -1,4 +1,4 @@
-# PreviewOrderResponseOneOfTotals
+# PreviewOrderResponseTotals
 
 ## Properties
 

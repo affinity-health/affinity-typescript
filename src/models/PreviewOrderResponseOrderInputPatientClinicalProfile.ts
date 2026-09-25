@@ -24,55 +24,55 @@ import {
 /**
  *
  * @export
- * @interface PreviewOrderResponseOneOfOrderInputOneOf1PatientClinicalProfile
+ * @interface PreviewOrderResponseOrderInputPatientClinicalProfile
  */
-export interface PreviewOrderResponseOneOfOrderInputOneOf1PatientClinicalProfile {
+export interface PreviewOrderResponseOrderInputPatientClinicalProfile {
   /**
    *
    * @type {Array<string>}
-   * @memberof PreviewOrderResponseOneOfOrderInputOneOf1PatientClinicalProfile
+   * @memberof PreviewOrderResponseOrderInputPatientClinicalProfile
    */
   currentMedications: Array<string>;
   /**
    *
    * @type {CreateOrderRequestPatientClinicalProfileHeightInches}
-   * @memberof PreviewOrderResponseOneOfOrderInputOneOf1PatientClinicalProfile
+   * @memberof PreviewOrderResponseOrderInputPatientClinicalProfile
    */
   heightInches?: CreateOrderRequestPatientClinicalProfileHeightInches | null;
   /**
    *
    * @type {string}
-   * @memberof PreviewOrderResponseOneOfOrderInputOneOf1PatientClinicalProfile
+   * @memberof PreviewOrderResponseOrderInputPatientClinicalProfile
    */
   reviewedAt?: string | null;
   /**
    *
    * @type {CreateOrderRequestPatientClinicalProfileHeightInches}
-   * @memberof PreviewOrderResponseOneOfOrderInputOneOf1PatientClinicalProfile
+   * @memberof PreviewOrderResponseOrderInputPatientClinicalProfile
    */
   weightPounds?: CreateOrderRequestPatientClinicalProfileHeightInches | null;
 }
 
 /**
- * Check if a given object implements the PreviewOrderResponseOneOfOrderInputOneOf1PatientClinicalProfile interface.
+ * Check if a given object implements the PreviewOrderResponseOrderInputPatientClinicalProfile interface.
  */
-export function instanceOfPreviewOrderResponseOneOfOrderInputOneOf1PatientClinicalProfile(
+export function instanceOfPreviewOrderResponseOrderInputPatientClinicalProfile(
   value: object,
-): value is PreviewOrderResponseOneOfOrderInputOneOf1PatientClinicalProfile {
+): value is PreviewOrderResponseOrderInputPatientClinicalProfile {
   if (!("currentMedications" in value) || value["currentMedications"] === undefined) return false;
   return true;
 }
 
-export function PreviewOrderResponseOneOfOrderInputOneOf1PatientClinicalProfileFromJSON(
+export function PreviewOrderResponseOrderInputPatientClinicalProfileFromJSON(
   json: any,
-): PreviewOrderResponseOneOfOrderInputOneOf1PatientClinicalProfile {
-  return PreviewOrderResponseOneOfOrderInputOneOf1PatientClinicalProfileFromJSONTyped(json, false);
+): PreviewOrderResponseOrderInputPatientClinicalProfile {
+  return PreviewOrderResponseOrderInputPatientClinicalProfileFromJSONTyped(json, false);
 }
 
-export function PreviewOrderResponseOneOfOrderInputOneOf1PatientClinicalProfileFromJSONTyped(
+export function PreviewOrderResponseOrderInputPatientClinicalProfileFromJSONTyped(
   json: any,
   ignoreDiscriminator: boolean,
-): PreviewOrderResponseOneOfOrderInputOneOf1PatientClinicalProfile {
+): PreviewOrderResponseOrderInputPatientClinicalProfile {
   if (json == null) {
     return json;
   }
@@ -90,14 +90,14 @@ export function PreviewOrderResponseOneOfOrderInputOneOf1PatientClinicalProfileF
   };
 }
 
-export function PreviewOrderResponseOneOfOrderInputOneOf1PatientClinicalProfileToJSON(
+export function PreviewOrderResponseOrderInputPatientClinicalProfileToJSON(
   json: any,
-): PreviewOrderResponseOneOfOrderInputOneOf1PatientClinicalProfile {
-  return PreviewOrderResponseOneOfOrderInputOneOf1PatientClinicalProfileToJSONTyped(json, false);
+): PreviewOrderResponseOrderInputPatientClinicalProfile {
+  return PreviewOrderResponseOrderInputPatientClinicalProfileToJSONTyped(json, false);
 }
 
-export function PreviewOrderResponseOneOfOrderInputOneOf1PatientClinicalProfileToJSONTyped(
-  value?: PreviewOrderResponseOneOfOrderInputOneOf1PatientClinicalProfile | null,
+export function PreviewOrderResponseOrderInputPatientClinicalProfileToJSONTyped(
+  value?: PreviewOrderResponseOrderInputPatientClinicalProfile | null,
   ignoreDiscriminator: boolean = false,
 ): any {
   if (value == null) {

@@ -217,6 +217,7 @@ test("preview preserves custom SIGs and returns a directly creatable payload", a
     text: "Take 1 tablet by mouth once daily.",
   });
   if (preview.status !== "complete") throw new Error("Expected complete preview");
+  if (!preview.orderInput) throw new Error("Complete preview is missing order input");
   await affinity.orders.create(preview.orderInput, { idempotencyKey: "reviewed-preview" });
   expect((await requests[1]!.clone().json()).otcItems).toEqual(orderInput.otcItems);
   expect((await requests[1]!.clone().json()).prescriptions[0].dispensing.shippingOptionId).toBe(
@@ -263,6 +264,44 @@ test("incomplete previews preserve null payload and actionable issues", async ()
   expect(preview.status).toBe("incomplete");
   expect(preview.orderInput).toBeNull();
   expect(preview.issues).toEqual(issues);
+});
+
+test("complete previews reject a missing or ambiguous patient selector", async () => {
+  for (const orderInput of [
+    null,
+    { practiceId, patientId, patient: { name: { first: "Pat", last: "Example" } }, prescriptions: [] },
+  ]) {
+    const affinity = new Affinity("sk_test_example", {
+      fetch: async () =>
+        Response.json({
+          object: "order_preview",
+          livemode: false,
+          status: "complete",
+          clinicalRequirementsSatisfied: true,
+          clinicalRequirements: [],
+          clinicalIssues: [],
+          otcItems: [],
+          shippingGroups: [],
+          totals: {
+            currency: "USD",
+            medicationSubtotalCents: 0,
+            supplySubtotalCents: 0,
+            shippingTotalCents: 0,
+            estimatedTotalCents: 0,
+          },
+          prescriptions: [],
+          issues: [],
+          orderInput,
+        }),
+    });
+    await expect(
+      affinity.orderPreviews.create({
+        practiceId,
+        patientId,
+        prescriptions: [{ medicationId, preset: "default" }],
+      }),
+    ).rejects.toThrow();
+  }
 });
 
 test("typed compounding reasons serialize without a dummy context or vendor code", async () => {

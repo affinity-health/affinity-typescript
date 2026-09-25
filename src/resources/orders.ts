@@ -19,6 +19,7 @@ import type {
 } from "../apis/OrdersApi";
 import type { Practice, Patient, Order, CreatedOrder, PracticeLocation } from "../domain";
 import { paginate, type ApiListPromise } from "./pagination";
+import type { PreviewOrderResponse } from "../models/PreviewOrderResponse";
 import type { CreateOrderRequest } from "../models/CreateOrderRequest";
 import type { CancelOrderRequest } from "../models/CancelOrderRequest";
 import type { ActOnOrderExceptionRequest } from "../models/ActOnOrderExceptionRequest";
@@ -152,6 +153,11 @@ export type CreateOrderBatchParams = Omit<CreateOrderBatchRequest, "practiceId" 
   practiceId: NonNullable<CreateOrderBatchRequest["practiceId"]>;
   orders: CreateOrderBatchOrderParams[];
 };
+export type PreviewOrderResult = Omit<PreviewOrderResponse, "status" | "orderInput"> &
+  (
+    | { status: "complete"; orderInput: CreateOrderParams }
+    | { status: "incomplete"; orderInput: null }
+  );
 function validateOrderPatient(
   params: { patientId?: unknown; patient?: unknown },
   label: string,
@@ -284,14 +290,21 @@ export class OrdersResource {
       params,
     );
   }
-  preview(
-    params: PreviewOrderParams,
-    options?: RequestOptions,
-  ): ReturnType<OrdersApi["previewOrder"]> {
-    return this.api.previewOrder(
-      { previewOrderRequest: params, ...commonHeaders(options) },
-      requestOverrides(options),
-    );
+  preview(params: PreviewOrderParams, options?: RequestOptions): Promise<PreviewOrderResult> {
+    return this.api
+      .previewOrder(
+        { previewOrderRequest: params, ...commonHeaders(options) },
+        requestOverrides(options),
+      )
+      .then((preview) => {
+        if (preview.status === "complete") {
+          if (!preview.orderInput) throw new Error("Complete preview is missing order input");
+          validateCreateOrderParams(preview.orderInput as CreateOrderParams);
+        } else if (preview.orderInput !== null) {
+          throw new Error("Incomplete preview unexpectedly has order input");
+        }
+        return preview as PreviewOrderResult;
+      });
   }
   sign(
     orderId: string,

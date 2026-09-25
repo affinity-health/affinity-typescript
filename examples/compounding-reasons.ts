@@ -49,6 +49,7 @@ if (preview.status === "incomplete") {
   // Display preview.issues beside the affected fields. Nothing has been created.
 } else {
   // After the clinician reviews these exact values:
+  if (!preview.orderInput) throw new Error("Complete preview is missing order input");
   const order = await affinity.orders.create(preview.orderInput, {
     idempotencyKey: persistedOrderCreationKey,
   });

@@ -150,7 +150,7 @@ export async function preview(
   return {
     result,
     previewToken:
-      result.status === "complete"
+      result.status === "complete" && result.orderInput
         ? seal<PreviewReceipt>(
             "preview",
             {

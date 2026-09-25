@@ -20,13 +20,6 @@ import {
   CreateOrderRequestPatientAddressesInnerToJSON,
   CreateOrderRequestPatientAddressesInnerToJSONTyped,
 } from "./CreateOrderRequestPatientAddressesInner";
-import type { PreviewOrderResponseOneOfOrderInputOneOf1PatientClinicalProfile } from "./PreviewOrderResponseOneOfOrderInputOneOf1PatientClinicalProfile";
-import {
-  PreviewOrderResponseOneOfOrderInputOneOf1PatientClinicalProfileFromJSON,
-  PreviewOrderResponseOneOfOrderInputOneOf1PatientClinicalProfileFromJSONTyped,
-  PreviewOrderResponseOneOfOrderInputOneOf1PatientClinicalProfileToJSON,
-  PreviewOrderResponseOneOfOrderInputOneOf1PatientClinicalProfileToJSONTyped,
-} from "./PreviewOrderResponseOneOfOrderInputOneOf1PatientClinicalProfile";
 import type { CreateOrderRequestPatientName } from "./CreateOrderRequestPatientName";
 import {
   CreateOrderRequestPatientNameFromJSON,
@@ -41,6 +34,13 @@ import {
   CreateOrderRequestPatientEncountersInnerToJSON,
   CreateOrderRequestPatientEncountersInnerToJSONTyped,
 } from "./CreateOrderRequestPatientEncountersInner";
+import type { PreviewOrderResponseOrderInputPatientClinicalProfile } from "./PreviewOrderResponseOrderInputPatientClinicalProfile";
+import {
+  PreviewOrderResponseOrderInputPatientClinicalProfileFromJSON,
+  PreviewOrderResponseOrderInputPatientClinicalProfileFromJSONTyped,
+  PreviewOrderResponseOrderInputPatientClinicalProfileToJSON,
+  PreviewOrderResponseOrderInputPatientClinicalProfileToJSONTyped,
+} from "./PreviewOrderResponseOrderInputPatientClinicalProfile";
 import type { CreateOrderRequestPatientAddress } from "./CreateOrderRequestPatientAddress";
 import {
   CreateOrderRequestPatientAddressFromJSON,
@@ -73,103 +73,103 @@ import {
 /**
  *
  * @export
- * @interface PreviewOrderResponseOneOfOrderInputOneOf1Patient
+ * @interface PreviewOrderResponseOrderInputPatient
  */
-export interface PreviewOrderResponseOneOfOrderInputOneOf1Patient {
+export interface PreviewOrderResponseOrderInputPatient {
   /**
    *
    * @type {CreateOrderRequestPatientAddress}
-   * @memberof PreviewOrderResponseOneOfOrderInputOneOf1Patient
+   * @memberof PreviewOrderResponseOrderInputPatient
    */
   address?: CreateOrderRequestPatientAddress | null;
   /**
    *
-   * @type {PreviewOrderResponseOneOfOrderInputOneOf1PatientClinicalProfile}
-   * @memberof PreviewOrderResponseOneOfOrderInputOneOf1Patient
+   * @type {PreviewOrderResponseOrderInputPatientClinicalProfile}
+   * @memberof PreviewOrderResponseOrderInputPatient
    */
-  clinicalProfile?: PreviewOrderResponseOneOfOrderInputOneOf1PatientClinicalProfile | null;
+  clinicalProfile?: PreviewOrderResponseOrderInputPatientClinicalProfile | null;
   /**
    *
    * @type {string}
-   * @memberof PreviewOrderResponseOneOfOrderInputOneOf1Patient
+   * @memberof PreviewOrderResponseOrderInputPatient
    */
   dateOfBirth: string;
   /**
    *
    * @type {string}
-   * @memberof PreviewOrderResponseOneOfOrderInputOneOf1Patient
+   * @memberof PreviewOrderResponseOrderInputPatient
    */
   email?: string | null;
   /**
    *
    * @type {string}
-   * @memberof PreviewOrderResponseOneOfOrderInputOneOf1Patient
+   * @memberof PreviewOrderResponseOrderInputPatient
    */
   externalId?: string | null;
   /**
    *
    * @type {Array<CreateOrderRequestPatientExternalIdentitiesInner>}
-   * @memberof PreviewOrderResponseOneOfOrderInputOneOf1Patient
+   * @memberof PreviewOrderResponseOrderInputPatient
    */
   externalIdentities?: Array<CreateOrderRequestPatientExternalIdentitiesInner> | null;
   /**
    *
    * @type {Array<CreateOrderRequestPatientAddressesInner>}
-   * @memberof PreviewOrderResponseOneOfOrderInputOneOf1Patient
+   * @memberof PreviewOrderResponseOrderInputPatient
    */
   addresses?: Array<CreateOrderRequestPatientAddressesInner> | null;
   /**
    *
    * @type {Array<CreateOrderRequestPatientEncountersInner>}
-   * @memberof PreviewOrderResponseOneOfOrderInputOneOf1Patient
+   * @memberof PreviewOrderResponseOrderInputPatient
    */
   encounters?: Array<CreateOrderRequestPatientEncountersInner> | null;
   /**
    *
-   * @type {PreviewOrderResponseOneOfOrderInputOneOf1PatientGenderEnum}
-   * @memberof PreviewOrderResponseOneOfOrderInputOneOf1Patient
+   * @type {PreviewOrderResponseOrderInputPatientGenderEnum}
+   * @memberof PreviewOrderResponseOrderInputPatient
    */
-  gender?: PreviewOrderResponseOneOfOrderInputOneOf1PatientGenderEnum | null;
+  gender?: PreviewOrderResponseOrderInputPatientGenderEnum | null;
   /**
    *
    * @type {string}
-   * @memberof PreviewOrderResponseOneOfOrderInputOneOf1Patient
+   * @memberof PreviewOrderResponseOrderInputPatient
    */
   locationId?: string | null;
   /**
    *
    * @type {object}
-   * @memberof PreviewOrderResponseOneOfOrderInputOneOf1Patient
+   * @memberof PreviewOrderResponseOrderInputPatient
    */
   metadata?: object | null;
   /**
    *
    * @type {string}
-   * @memberof PreviewOrderResponseOneOfOrderInputOneOf1Patient
+   * @memberof PreviewOrderResponseOrderInputPatient
    */
   medicalRecordNumber?: string | null;
   /**
    *
    * @type {Array<CreateOrderRequestPatientMeasurementsInner>}
-   * @memberof PreviewOrderResponseOneOfOrderInputOneOf1Patient
+   * @memberof PreviewOrderResponseOrderInputPatient
    */
   measurements?: Array<CreateOrderRequestPatientMeasurementsInner> | null;
   /**
    *
    * @type {CreateOrderRequestPatientName}
-   * @memberof PreviewOrderResponseOneOfOrderInputOneOf1Patient
+   * @memberof PreviewOrderResponseOrderInputPatient
    */
   name: CreateOrderRequestPatientName;
   /**
    *
    * @type {string}
-   * @memberof PreviewOrderResponseOneOfOrderInputOneOf1Patient
+   * @memberof PreviewOrderResponseOrderInputPatient
    */
   phone?: string | null;
   /**
    *
    * @type {Array<CreateOrderRequestPatientProgramsInner>}
-   * @memberof PreviewOrderResponseOneOfOrderInputOneOf1Patient
+   * @memberof PreviewOrderResponseOrderInputPatient
    */
   programs?: Array<CreateOrderRequestPatientProgramsInner> | null;
 }
@@ -177,36 +177,36 @@ export interface PreviewOrderResponseOneOfOrderInputOneOf1Patient {
 /**
  * @export
  */
-export const PreviewOrderResponseOneOfOrderInputOneOf1PatientGenderEnum = {
+export const PreviewOrderResponseOrderInputPatientGenderEnum = {
   F: "f",
   M: "m",
   O: "o",
   U: "u",
 } as const;
-export type PreviewOrderResponseOneOfOrderInputOneOf1PatientGenderEnum =
-  (typeof PreviewOrderResponseOneOfOrderInputOneOf1PatientGenderEnum)[keyof typeof PreviewOrderResponseOneOfOrderInputOneOf1PatientGenderEnum];
+export type PreviewOrderResponseOrderInputPatientGenderEnum =
+  (typeof PreviewOrderResponseOrderInputPatientGenderEnum)[keyof typeof PreviewOrderResponseOrderInputPatientGenderEnum];
 
 /**
- * Check if a given object implements the PreviewOrderResponseOneOfOrderInputOneOf1Patient interface.
+ * Check if a given object implements the PreviewOrderResponseOrderInputPatient interface.
  */
-export function instanceOfPreviewOrderResponseOneOfOrderInputOneOf1Patient(
+export function instanceOfPreviewOrderResponseOrderInputPatient(
   value: object,
-): value is PreviewOrderResponseOneOfOrderInputOneOf1Patient {
+): value is PreviewOrderResponseOrderInputPatient {
   if (!("dateOfBirth" in value) || value["dateOfBirth"] === undefined) return false;
   if (!("name" in value) || value["name"] === undefined) return false;
   return true;
 }
 
-export function PreviewOrderResponseOneOfOrderInputOneOf1PatientFromJSON(
+export function PreviewOrderResponseOrderInputPatientFromJSON(
   json: any,
-): PreviewOrderResponseOneOfOrderInputOneOf1Patient {
-  return PreviewOrderResponseOneOfOrderInputOneOf1PatientFromJSONTyped(json, false);
+): PreviewOrderResponseOrderInputPatient {
+  return PreviewOrderResponseOrderInputPatientFromJSONTyped(json, false);
 }
 
-export function PreviewOrderResponseOneOfOrderInputOneOf1PatientFromJSONTyped(
+export function PreviewOrderResponseOrderInputPatientFromJSONTyped(
   json: any,
   ignoreDiscriminator: boolean,
-): PreviewOrderResponseOneOfOrderInputOneOf1Patient {
+): PreviewOrderResponseOrderInputPatient {
   if (json == null) {
     return json;
   }
@@ -218,9 +218,7 @@ export function PreviewOrderResponseOneOfOrderInputOneOf1PatientFromJSONTyped(
     clinicalProfile:
       json["clinicalProfile"] == null
         ? undefined
-        : PreviewOrderResponseOneOfOrderInputOneOf1PatientClinicalProfileFromJSON(
-            json["clinicalProfile"],
-          ),
+        : PreviewOrderResponseOrderInputPatientClinicalProfileFromJSON(json["clinicalProfile"]),
     dateOfBirth: json["dateOfBirth"],
     email: json["email"] == null ? undefined : json["email"],
     externalId: json["externalId"] == null ? undefined : json["externalId"],
@@ -258,14 +256,14 @@ export function PreviewOrderResponseOneOfOrderInputOneOf1PatientFromJSONTyped(
   };
 }
 
-export function PreviewOrderResponseOneOfOrderInputOneOf1PatientToJSON(
+export function PreviewOrderResponseOrderInputPatientToJSON(
   json: any,
-): PreviewOrderResponseOneOfOrderInputOneOf1Patient {
-  return PreviewOrderResponseOneOfOrderInputOneOf1PatientToJSONTyped(json, false);
+): PreviewOrderResponseOrderInputPatient {
+  return PreviewOrderResponseOrderInputPatientToJSONTyped(json, false);
 }
 
-export function PreviewOrderResponseOneOfOrderInputOneOf1PatientToJSONTyped(
-  value?: PreviewOrderResponseOneOfOrderInputOneOf1Patient | null,
+export function PreviewOrderResponseOrderInputPatientToJSONTyped(
+  value?: PreviewOrderResponseOrderInputPatient | null,
   ignoreDiscriminator: boolean = false,
 ): any {
   if (value == null) {
@@ -274,7 +272,7 @@ export function PreviewOrderResponseOneOfOrderInputOneOf1PatientToJSONTyped(
 
   return {
     address: CreateOrderRequestPatientAddressToJSON(value["address"]),
-    clinicalProfile: PreviewOrderResponseOneOfOrderInputOneOf1PatientClinicalProfileToJSON(
+    clinicalProfile: PreviewOrderResponseOrderInputPatientClinicalProfileToJSON(
       value["clinicalProfile"],
     ),
     dateOfBirth: value["dateOfBirth"],

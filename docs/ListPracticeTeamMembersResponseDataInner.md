@@ -5,6 +5,7 @@
 | Name          | Type                                                                                                  |
 | ------------- | ----------------------------------------------------------------------------------------------------- |
 | `id`          | string                                                                                                |
+| `externalId`  | string                                                                                                |
 | `name`        | string                                                                                                |
 | `email`       | string                                                                                                |
 | `locationIds` | Array&lt;string&gt;                                                                                   |

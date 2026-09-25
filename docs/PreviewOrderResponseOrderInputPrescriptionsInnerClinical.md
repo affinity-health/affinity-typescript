@@ -1,4 +1,4 @@
-# PreviewOrderResponseOneOfOrderInputOneOfPrescriptionsInnerClinical
+# PreviewOrderResponseOrderInputPrescriptionsInnerClinical
 
 ## Properties
 

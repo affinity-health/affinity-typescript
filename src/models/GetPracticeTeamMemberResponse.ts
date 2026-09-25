@@ -34,6 +34,12 @@ export interface GetPracticeTeamMemberResponse {
    */
   id: string;
   /**
+   * This integration's external ID for the accepted invitee in the API key's mode. Null for members invited outside this integration.
+   * @type {string}
+   * @memberof GetPracticeTeamMemberResponse
+   */
+  externalId: string | null;
+  /**
    *
    * @type {string}
    * @memberof GetPracticeTeamMemberResponse
@@ -72,6 +78,7 @@ export function instanceOfGetPracticeTeamMemberResponse(
   value: object,
 ): value is GetPracticeTeamMemberResponse {
   if (!("id" in value) || value["id"] === undefined) return false;
+  if (!("externalId" in value) || value["externalId"] === undefined) return false;
   if (!("name" in value) || value["name"] === undefined) return false;
   if (!("email" in value) || value["email"] === undefined) return false;
   if (!("locationIds" in value) || value["locationIds"] === undefined) return false;
@@ -93,6 +100,7 @@ export function GetPracticeTeamMemberResponseFromJSONTyped(
   }
   return {
     id: json["id"],
+    externalId: json["externalId"],
     name: json["name"],
     email: json["email"],
     locationIds: json["locationIds"],
@@ -115,6 +123,7 @@ export function GetPracticeTeamMemberResponseToJSONTyped(
 
   return {
     id: value["id"],
+    externalId: value["externalId"],
     name: value["name"],
     email: value["email"],
     locationIds: value["locationIds"],

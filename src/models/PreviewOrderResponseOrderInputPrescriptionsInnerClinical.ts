@@ -38,43 +38,43 @@ import {
 /**
  *
  * @export
- * @interface PreviewOrderResponseOneOfOrderInputOneOfPrescriptionsInnerClinical
+ * @interface PreviewOrderResponseOrderInputPrescriptionsInnerClinical
  */
-export interface PreviewOrderResponseOneOfOrderInputOneOfPrescriptionsInnerClinical {
+export interface PreviewOrderResponseOrderInputPrescriptionsInnerClinical {
   /**
    *
    * @type {CreateOrderRequestPrescriptionsInnerClinicalCompoundingReason}
-   * @memberof PreviewOrderResponseOneOfOrderInputOneOfPrescriptionsInnerClinical
+   * @memberof PreviewOrderResponseOrderInputPrescriptionsInnerClinical
    */
   compoundingReason?: CreateOrderRequestPrescriptionsInnerClinicalCompoundingReason | null;
   /**
    *
-   * @type {PreviewOrderResponseOneOfOrderInputOneOfPrescriptionsInnerClinicalMedicationReviewStatusEnum}
-   * @memberof PreviewOrderResponseOneOfOrderInputOneOfPrescriptionsInnerClinical
+   * @type {PreviewOrderResponseOrderInputPrescriptionsInnerClinicalMedicationReviewStatusEnum}
+   * @memberof PreviewOrderResponseOrderInputPrescriptionsInnerClinical
    */
-  medicationReviewStatus?: PreviewOrderResponseOneOfOrderInputOneOfPrescriptionsInnerClinicalMedicationReviewStatusEnum | null;
+  medicationReviewStatus?: PreviewOrderResponseOrderInputPrescriptionsInnerClinicalMedicationReviewStatusEnum | null;
   /**
    *
-   * @type {PreviewOrderResponseOneOfOrderInputOneOfPrescriptionsInnerClinicalDiagnosisReviewStatusEnum}
-   * @memberof PreviewOrderResponseOneOfOrderInputOneOfPrescriptionsInnerClinical
+   * @type {PreviewOrderResponseOrderInputPrescriptionsInnerClinicalDiagnosisReviewStatusEnum}
+   * @memberof PreviewOrderResponseOrderInputPrescriptionsInnerClinical
    */
-  diagnosisReviewStatus?: PreviewOrderResponseOneOfOrderInputOneOfPrescriptionsInnerClinicalDiagnosisReviewStatusEnum | null;
+  diagnosisReviewStatus?: PreviewOrderResponseOrderInputPrescriptionsInnerClinicalDiagnosisReviewStatusEnum | null;
   /**
    *
    * @type {Array<string>}
-   * @memberof PreviewOrderResponseOneOfOrderInputOneOfPrescriptionsInnerClinical
+   * @memberof PreviewOrderResponseOrderInputPrescriptionsInnerClinical
    */
   currentMedications?: Array<string> | null;
   /**
    *
    * @type {Array<CreateOrderRequestPrescriptionsInnerClinicalDiagnosesInner>}
-   * @memberof PreviewOrderResponseOneOfOrderInputOneOfPrescriptionsInnerClinical
+   * @memberof PreviewOrderResponseOrderInputPrescriptionsInnerClinical
    */
   diagnoses?: Array<CreateOrderRequestPrescriptionsInnerClinicalDiagnosesInner> | null;
   /**
    *
    * @type {Array<CreateOrderRequestPrescriptionsInnerClinicalObservationsInner>}
-   * @memberof PreviewOrderResponseOneOfOrderInputOneOfPrescriptionsInnerClinical
+   * @memberof PreviewOrderResponseOrderInputPrescriptionsInnerClinical
    */
   observations?: Array<CreateOrderRequestPrescriptionsInnerClinicalObservationsInner> | null;
 }
@@ -82,49 +82,44 @@ export interface PreviewOrderResponseOneOfOrderInputOneOfPrescriptionsInnerClini
 /**
  * @export
  */
-export const PreviewOrderResponseOneOfOrderInputOneOfPrescriptionsInnerClinicalMedicationReviewStatusEnum =
-  {
-    NotReviewed: "not_reviewed",
-    None: "none",
-    Recorded: "recorded",
-  } as const;
-export type PreviewOrderResponseOneOfOrderInputOneOfPrescriptionsInnerClinicalMedicationReviewStatusEnum =
-  (typeof PreviewOrderResponseOneOfOrderInputOneOfPrescriptionsInnerClinicalMedicationReviewStatusEnum)[keyof typeof PreviewOrderResponseOneOfOrderInputOneOfPrescriptionsInnerClinicalMedicationReviewStatusEnum];
+export const PreviewOrderResponseOrderInputPrescriptionsInnerClinicalMedicationReviewStatusEnum = {
+  NotReviewed: "not_reviewed",
+  None: "none",
+  Recorded: "recorded",
+} as const;
+export type PreviewOrderResponseOrderInputPrescriptionsInnerClinicalMedicationReviewStatusEnum =
+  (typeof PreviewOrderResponseOrderInputPrescriptionsInnerClinicalMedicationReviewStatusEnum)[keyof typeof PreviewOrderResponseOrderInputPrescriptionsInnerClinicalMedicationReviewStatusEnum];
 
 /**
  * @export
  */
-export const PreviewOrderResponseOneOfOrderInputOneOfPrescriptionsInnerClinicalDiagnosisReviewStatusEnum =
-  {
-    NotReviewed: "not_reviewed",
-    None: "none",
-    Recorded: "recorded",
-  } as const;
-export type PreviewOrderResponseOneOfOrderInputOneOfPrescriptionsInnerClinicalDiagnosisReviewStatusEnum =
-  (typeof PreviewOrderResponseOneOfOrderInputOneOfPrescriptionsInnerClinicalDiagnosisReviewStatusEnum)[keyof typeof PreviewOrderResponseOneOfOrderInputOneOfPrescriptionsInnerClinicalDiagnosisReviewStatusEnum];
+export const PreviewOrderResponseOrderInputPrescriptionsInnerClinicalDiagnosisReviewStatusEnum = {
+  NotReviewed: "not_reviewed",
+  None: "none",
+  Recorded: "recorded",
+} as const;
+export type PreviewOrderResponseOrderInputPrescriptionsInnerClinicalDiagnosisReviewStatusEnum =
+  (typeof PreviewOrderResponseOrderInputPrescriptionsInnerClinicalDiagnosisReviewStatusEnum)[keyof typeof PreviewOrderResponseOrderInputPrescriptionsInnerClinicalDiagnosisReviewStatusEnum];
 
 /**
- * Check if a given object implements the PreviewOrderResponseOneOfOrderInputOneOfPrescriptionsInnerClinical interface.
+ * Check if a given object implements the PreviewOrderResponseOrderInputPrescriptionsInnerClinical interface.
  */
-export function instanceOfPreviewOrderResponseOneOfOrderInputOneOfPrescriptionsInnerClinical(
+export function instanceOfPreviewOrderResponseOrderInputPrescriptionsInnerClinical(
   value: object,
-): value is PreviewOrderResponseOneOfOrderInputOneOfPrescriptionsInnerClinical {
+): value is PreviewOrderResponseOrderInputPrescriptionsInnerClinical {
   return true;
 }
 
-export function PreviewOrderResponseOneOfOrderInputOneOfPrescriptionsInnerClinicalFromJSON(
+export function PreviewOrderResponseOrderInputPrescriptionsInnerClinicalFromJSON(
   json: any,
-): PreviewOrderResponseOneOfOrderInputOneOfPrescriptionsInnerClinical {
-  return PreviewOrderResponseOneOfOrderInputOneOfPrescriptionsInnerClinicalFromJSONTyped(
-    json,
-    false,
-  );
+): PreviewOrderResponseOrderInputPrescriptionsInnerClinical {
+  return PreviewOrderResponseOrderInputPrescriptionsInnerClinicalFromJSONTyped(json, false);
 }
 
-export function PreviewOrderResponseOneOfOrderInputOneOfPrescriptionsInnerClinicalFromJSONTyped(
+export function PreviewOrderResponseOrderInputPrescriptionsInnerClinicalFromJSONTyped(
   json: any,
   ignoreDiscriminator: boolean,
-): PreviewOrderResponseOneOfOrderInputOneOfPrescriptionsInnerClinical {
+): PreviewOrderResponseOrderInputPrescriptionsInnerClinical {
   if (json == null) {
     return json;
   }
@@ -155,14 +150,14 @@ export function PreviewOrderResponseOneOfOrderInputOneOfPrescriptionsInnerClinic
   };
 }
 
-export function PreviewOrderResponseOneOfOrderInputOneOfPrescriptionsInnerClinicalToJSON(
+export function PreviewOrderResponseOrderInputPrescriptionsInnerClinicalToJSON(
   json: any,
-): PreviewOrderResponseOneOfOrderInputOneOfPrescriptionsInnerClinical {
-  return PreviewOrderResponseOneOfOrderInputOneOfPrescriptionsInnerClinicalToJSONTyped(json, false);
+): PreviewOrderResponseOrderInputPrescriptionsInnerClinical {
+  return PreviewOrderResponseOrderInputPrescriptionsInnerClinicalToJSONTyped(json, false);
 }
 
-export function PreviewOrderResponseOneOfOrderInputOneOfPrescriptionsInnerClinicalToJSONTyped(
-  value?: PreviewOrderResponseOneOfOrderInputOneOfPrescriptionsInnerClinical | null,
+export function PreviewOrderResponseOrderInputPrescriptionsInnerClinicalToJSONTyped(
+  value?: PreviewOrderResponseOrderInputPrescriptionsInnerClinical | null,
   ignoreDiscriminator: boolean = false,
 ): any {
   if (value == null) {

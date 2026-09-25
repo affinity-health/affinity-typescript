@@ -16,37 +16,37 @@ import { mapValues } from "../runtime";
 /**
  *
  * @export
- * @interface PreviewOrderResponseOneOfTotals
+ * @interface PreviewOrderResponseTotals
  */
-export interface PreviewOrderResponseOneOfTotals {
+export interface PreviewOrderResponseTotals {
   /**
    *
-   * @type {PreviewOrderResponseOneOfTotalsCurrencyEnum}
-   * @memberof PreviewOrderResponseOneOfTotals
+   * @type {PreviewOrderResponseTotalsCurrencyEnum}
+   * @memberof PreviewOrderResponseTotals
    */
-  currency: PreviewOrderResponseOneOfTotalsCurrencyEnum;
+  currency: PreviewOrderResponseTotalsCurrencyEnum;
   /**
    *
    * @type {number}
-   * @memberof PreviewOrderResponseOneOfTotals
+   * @memberof PreviewOrderResponseTotals
    */
   medicationSubtotalCents: number | null;
   /**
    *
    * @type {number}
-   * @memberof PreviewOrderResponseOneOfTotals
+   * @memberof PreviewOrderResponseTotals
    */
   supplySubtotalCents: number | null;
   /**
    *
    * @type {number}
-   * @memberof PreviewOrderResponseOneOfTotals
+   * @memberof PreviewOrderResponseTotals
    */
   shippingTotalCents: number | null;
   /**
    *
    * @type {number}
-   * @memberof PreviewOrderResponseOneOfTotals
+   * @memberof PreviewOrderResponseTotals
    */
   estimatedTotalCents: number | null;
 }
@@ -54,18 +54,18 @@ export interface PreviewOrderResponseOneOfTotals {
 /**
  * @export
  */
-export const PreviewOrderResponseOneOfTotalsCurrencyEnum = {
+export const PreviewOrderResponseTotalsCurrencyEnum = {
   Usd: "USD",
 } as const;
-export type PreviewOrderResponseOneOfTotalsCurrencyEnum =
-  (typeof PreviewOrderResponseOneOfTotalsCurrencyEnum)[keyof typeof PreviewOrderResponseOneOfTotalsCurrencyEnum];
+export type PreviewOrderResponseTotalsCurrencyEnum =
+  (typeof PreviewOrderResponseTotalsCurrencyEnum)[keyof typeof PreviewOrderResponseTotalsCurrencyEnum];
 
 /**
- * Check if a given object implements the PreviewOrderResponseOneOfTotals interface.
+ * Check if a given object implements the PreviewOrderResponseTotals interface.
  */
-export function instanceOfPreviewOrderResponseOneOfTotals(
+export function instanceOfPreviewOrderResponseTotals(
   value: object,
-): value is PreviewOrderResponseOneOfTotals {
+): value is PreviewOrderResponseTotals {
   if (!("currency" in value) || value["currency"] === undefined) return false;
   if (!("medicationSubtotalCents" in value) || value["medicationSubtotalCents"] === undefined)
     return false;
@@ -75,16 +75,14 @@ export function instanceOfPreviewOrderResponseOneOfTotals(
   return true;
 }
 
-export function PreviewOrderResponseOneOfTotalsFromJSON(
-  json: any,
-): PreviewOrderResponseOneOfTotals {
-  return PreviewOrderResponseOneOfTotalsFromJSONTyped(json, false);
+export function PreviewOrderResponseTotalsFromJSON(json: any): PreviewOrderResponseTotals {
+  return PreviewOrderResponseTotalsFromJSONTyped(json, false);
 }
 
-export function PreviewOrderResponseOneOfTotalsFromJSONTyped(
+export function PreviewOrderResponseTotalsFromJSONTyped(
   json: any,
   ignoreDiscriminator: boolean,
-): PreviewOrderResponseOneOfTotals {
+): PreviewOrderResponseTotals {
   if (json == null) {
     return json;
   }
@@ -97,12 +95,12 @@ export function PreviewOrderResponseOneOfTotalsFromJSONTyped(
   };
 }
 
-export function PreviewOrderResponseOneOfTotalsToJSON(json: any): PreviewOrderResponseOneOfTotals {
-  return PreviewOrderResponseOneOfTotalsToJSONTyped(json, false);
+export function PreviewOrderResponseTotalsToJSON(json: any): PreviewOrderResponseTotals {
+  return PreviewOrderResponseTotalsToJSONTyped(json, false);
 }
 
-export function PreviewOrderResponseOneOfTotalsToJSONTyped(
-  value?: PreviewOrderResponseOneOfTotals | null,
+export function PreviewOrderResponseTotalsToJSONTyped(
+  value?: PreviewOrderResponseTotals | null,
   ignoreDiscriminator: boolean = false,
 ): any {
   if (value == null) {
