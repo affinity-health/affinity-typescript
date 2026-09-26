@@ -119,7 +119,7 @@ async function example() {
 
   const body = {
     // string
-    practiceId: practiceId_example,
+    practiceId: prac_01j2y8m6jcc9tt24af5pw9x1bc,
     // string (optional)
     affinityVersion: affinityVersion_example,
   } satisfies GetPracticeRequest;
@@ -287,7 +287,7 @@ async function example() {
 
   const body = {
     // string
-    practiceId: practiceId_example,
+    practiceId: prac_01j2y8m6jcc9tt24af5pw9x1bc,
     // UpdatePracticeRequest
     updatePracticeRequest: ...,
     // string (optional)

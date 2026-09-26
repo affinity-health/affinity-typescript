@@ -240,7 +240,7 @@ async function example() {
 
   const body = {
     // string
-    orderId: orderId_example,
+    orderId: ord_01j2y8m6jcc9tt24af5pw9x1bc,
     // string
     idempotencyKey: idempotencyKey_example,
     // CancelOrderRequest
@@ -510,7 +510,7 @@ async function example() {
 
   const body = {
     // string
-    orderId: orderId_example,
+    orderId: ord_01j2y8m6jcc9tt24af5pw9x1bc,
     // string (optional)
     affinityVersion: affinityVersion_example,
     // string | Required for user actors and optional for system actors. Omit both actor headers to use the authenticated service account as a system actor. (optional)
@@ -594,7 +594,7 @@ async function example() {
 
   const body = {
     // string
-    orderId: orderId_example,
+    orderId: ord_01j2y8m6jcc9tt24af5pw9x1bc,
     // string (optional)
     affinityVersion: affinityVersion_example,
   } satisfies GetOrderTestSimulationRequest;
@@ -670,7 +670,7 @@ async function example() {
 
   const body = {
     // string
-    orderId: orderId_example,
+    orderId: ord_01j2y8m6jcc9tt24af5pw9x1bc,
     // string (optional)
     endingBefore: evt_01j2y8m6jcc9tt24af5pw9x1bc,
     // number (optional)
@@ -1413,7 +1413,7 @@ async function example() {
 
   const body = {
     // string
-    orderId: orderId_example,
+    orderId: ord_01j2y8m6jcc9tt24af5pw9x1bc,
     // string
     idempotencyKey: idempotencyKey_example,
     // UpdateOrderTestSimulationRequest

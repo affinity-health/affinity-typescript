@@ -27,7 +27,7 @@
             "required": true,
             "schema": {
               "type": "string",
-              "pattern": "^prac_[0-9a-hjkmnp-tv-z]{26}$",
+              "pattern": "^prac_[0-7][0-9a-hjkmnp-tv-z]{25}$",
               "examples": [
                 "prac_01j2y8m6jcc9tt24af5pw9x1bc"
               ]
@@ -52,7 +52,7 @@
               "anyOf": [
                 {
                   "type": "string",
-                  "pattern": "^loc_[0-9a-hjkmnp-tv-z]{26}$",
+                  "pattern": "^loc_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                   "examples": [
                     "loc_01j2y8m6jcc9tt24af5pw9x1bc"
                   ]
@@ -71,7 +71,7 @@
               "anyOf": [
                 {
                   "type": "string",
-                  "pattern": "^loc_[0-9a-hjkmnp-tv-z]{26}$",
+                  "pattern": "^loc_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                   "examples": [
                     "loc_01j2y8m6jcc9tt24af5pw9x1bc"
                   ]
@@ -210,7 +210,7 @@
             "required": true,
             "schema": {
               "type": "string",
-              "pattern": "^prac_[0-9a-hjkmnp-tv-z]{26}$",
+              "pattern": "^prac_[0-7][0-9a-hjkmnp-tv-z]{25}$",
               "examples": [
                 "prac_01j2y8m6jcc9tt24af5pw9x1bc"
               ]
@@ -341,7 +341,7 @@
             "required": true,
             "schema": {
               "type": "string",
-              "pattern": "^prac_[0-9a-hjkmnp-tv-z]{26}$",
+              "pattern": "^prac_[0-7][0-9a-hjkmnp-tv-z]{25}$",
               "examples": [
                 "prac_01j2y8m6jcc9tt24af5pw9x1bc"
               ]
@@ -353,7 +353,7 @@
             "required": true,
             "schema": {
               "type": "string",
-              "pattern": "^loc_[0-9a-hjkmnp-tv-z]{26}$",
+              "pattern": "^loc_[0-7][0-9a-hjkmnp-tv-z]{25}$",
               "examples": [
                 "loc_01j2y8m6jcc9tt24af5pw9x1bc"
               ]
@@ -464,7 +464,7 @@
             "required": true,
             "schema": {
               "type": "string",
-              "pattern": "^prac_[0-9a-hjkmnp-tv-z]{26}$",
+              "pattern": "^prac_[0-7][0-9a-hjkmnp-tv-z]{25}$",
               "examples": [
                 "prac_01j2y8m6jcc9tt24af5pw9x1bc"
               ]
@@ -476,7 +476,7 @@
             "required": true,
             "schema": {
               "type": "string",
-              "pattern": "^loc_[0-9a-hjkmnp-tv-z]{26}$",
+              "pattern": "^loc_[0-7][0-9a-hjkmnp-tv-z]{25}$",
               "examples": [
                 "loc_01j2y8m6jcc9tt24af5pw9x1bc"
               ]
@@ -607,7 +607,7 @@
             "required": true,
             "schema": {
               "type": "string",
-              "pattern": "^prac_[0-9a-hjkmnp-tv-z]{26}$",
+              "pattern": "^prac_[0-7][0-9a-hjkmnp-tv-z]{25}$",
               "examples": [
                 "prac_01j2y8m6jcc9tt24af5pw9x1bc"
               ]
@@ -619,7 +619,7 @@
             "required": true,
             "schema": {
               "type": "string",
-              "pattern": "^loc_[0-9a-hjkmnp-tv-z]{26}$",
+              "pattern": "^loc_[0-7][0-9a-hjkmnp-tv-z]{25}$",
               "examples": [
                 "loc_01j2y8m6jcc9tt24af5pw9x1bc"
               ]
@@ -742,7 +742,7 @@
               "anyOf": [
                 {
                   "type": "string",
-                  "pattern": "^acct_[0-9a-hjkmnp-tv-z]{26}$",
+                  "pattern": "^acct_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                   "examples": [
                     "acct_01j2y8m6jcc9tt24af5pw9x1bc"
                   ]
@@ -891,7 +891,7 @@
               "anyOf": [
                 {
                   "type": "string",
-                  "pattern": "^cat_[0-9a-hjkmnp-tv-z]{26}$",
+                  "pattern": "^cat_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                   "examples": [
                     "cat_01j2y8m6jcc9tt24af5pw9x1bc"
                   ]
@@ -949,7 +949,7 @@
               "anyOf": [
                 {
                   "type": "string",
-                  "pattern": "^cat_[0-9a-hjkmnp-tv-z]{26}$",
+                  "pattern": "^cat_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                   "examples": [
                     "cat_01j2y8m6jcc9tt24af5pw9x1bc"
                   ]
@@ -990,7 +990,7 @@
                   "anyOf": [
                     {
                       "type": "string",
-                      "pattern": "^pharm_[0-9a-hjkmnp-tv-z]{26}$",
+                      "pattern": "^pharm_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                       "examples": [
                         "pharm_01j2y8m6jcc9tt24af5pw9x1bc"
                       ]
@@ -999,7 +999,7 @@
                       "type": "array",
                       "items": {
                         "type": "string",
-                        "pattern": "^pharm_[0-9a-hjkmnp-tv-z]{26}$",
+                        "pattern": "^pharm_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                         "examples": [
                           "pharm_01j2y8m6jcc9tt24af5pw9x1bc"
                         ]
@@ -1074,7 +1074,7 @@
               "anyOf": [
                 {
                   "type": "string",
-                  "pattern": "^cat_[0-9a-hjkmnp-tv-z]{26}$",
+                  "pattern": "^cat_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                   "examples": [
                     "cat_01j2y8m6jcc9tt24af5pw9x1bc"
                   ]
@@ -1120,7 +1120,7 @@
               "anyOf": [
                 {
                   "type": "string",
-                  "pattern": "^acct_[0-9a-hjkmnp-tv-z]{26}$",
+                  "pattern": "^acct_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                   "examples": [
                     "acct_01j2y8m6jcc9tt24af5pw9x1bc"
                   ]
@@ -1139,7 +1139,7 @@
               "anyOf": [
                 {
                   "type": "string",
-                  "pattern": "^prac_[0-9a-hjkmnp-tv-z]{26}$",
+                  "pattern": "^prac_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                   "examples": [
                     "prac_01j2y8m6jcc9tt24af5pw9x1bc"
                   ]
@@ -1237,7 +1237,7 @@
               "anyOf": [
                 {
                   "type": "string",
-                  "pattern": "^cat_[0-9a-hjkmnp-tv-z]{26}$",
+                  "pattern": "^cat_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                   "examples": [
                     "cat_01j2y8m6jcc9tt24af5pw9x1bc"
                   ]
@@ -1371,7 +1371,7 @@
               "anyOf": [
                 {
                   "type": "string",
-                  "pattern": "^pharm_[0-9a-hjkmnp-tv-z]{26}$",
+                  "pattern": "^pharm_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                   "examples": [
                     "pharm_01j2y8m6jcc9tt24af5pw9x1bc"
                   ]
@@ -1401,7 +1401,7 @@
               "anyOf": [
                 {
                   "type": "string",
-                  "pattern": "^acct_[0-9a-hjkmnp-tv-z]{26}$",
+                  "pattern": "^acct_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                   "examples": [
                     "acct_01j2y8m6jcc9tt24af5pw9x1bc"
                   ]
@@ -1420,7 +1420,7 @@
               "anyOf": [
                 {
                   "type": "string",
-                  "pattern": "^pharm_[0-9a-hjkmnp-tv-z]{26}$",
+                  "pattern": "^pharm_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                   "examples": [
                     "pharm_01j2y8m6jcc9tt24af5pw9x1bc"
                   ]
@@ -1469,7 +1469,7 @@
               "anyOf": [
                 {
                   "type": "string",
-                  "pattern": "^pharm_[0-9a-hjkmnp-tv-z]{26}$",
+                  "pattern": "^pharm_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                   "examples": [
                     "pharm_01j2y8m6jcc9tt24af5pw9x1bc"
                   ]
@@ -1601,7 +1601,7 @@
             "required": true,
             "schema": {
               "type": "string",
-              "pattern": "^cat_[0-9a-hjkmnp-tv-z]{26}$",
+              "pattern": "^cat_[0-7][0-9a-hjkmnp-tv-z]{25}$",
               "examples": [
                 "cat_01j2y8m6jcc9tt24af5pw9x1bc"
               ]
@@ -1822,7 +1822,7 @@
               "anyOf": [
                 {
                   "type": "string",
-                  "pattern": "^ord_[0-9a-hjkmnp-tv-z]{26}$",
+                  "pattern": "^ord_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                   "examples": [
                     "ord_01j2y8m6jcc9tt24af5pw9x1bc"
                   ]
@@ -1852,7 +1852,7 @@
               "anyOf": [
                 {
                   "type": "string",
-                  "pattern": "^ord_[0-9a-hjkmnp-tv-z]{26}$",
+                  "pattern": "^ord_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                   "examples": [
                     "ord_01j2y8m6jcc9tt24af5pw9x1bc"
                   ]
@@ -1871,7 +1871,7 @@
               "anyOf": [
                 {
                   "type": "string",
-                  "pattern": "^pat_[0-9a-hjkmnp-tv-z]{26}$",
+                  "pattern": "^pat_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                   "examples": [
                     "pat_01j2y8m6jcc9tt24af5pw9x1bc"
                   ]
@@ -1905,7 +1905,7 @@
               "anyOf": [
                 {
                   "type": "string",
-                  "pattern": "^prac_[0-9a-hjkmnp-tv-z]{26}$",
+                  "pattern": "^prac_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                   "examples": [
                     "prac_01j2y8m6jcc9tt24af5pw9x1bc"
                   ]
@@ -1943,7 +1943,7 @@
               "anyOf": [
                 {
                   "type": "string",
-                  "pattern": "^ord_[0-9a-hjkmnp-tv-z]{26}$",
+                  "pattern": "^ord_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                   "examples": [
                     "ord_01j2y8m6jcc9tt24af5pw9x1bc"
                   ]
@@ -2275,7 +2275,10 @@
             "required": true,
             "schema": {
               "type": "string",
-              "pattern": "^ord_[0-9a-hjkmnp-tv-z]{26}$"
+              "pattern": "^ord_[0-7][0-9a-hjkmnp-tv-z]{25}$",
+              "examples": [
+                "ord_01j2y8m6jcc9tt24af5pw9x1bc"
+              ]
             }
           },
           {
@@ -2412,7 +2415,10 @@
             "required": true,
             "schema": {
               "type": "string",
-              "pattern": "^ord_[0-9a-hjkmnp-tv-z]{26}$"
+              "pattern": "^ord_[0-7][0-9a-hjkmnp-tv-z]{25}$",
+              "examples": [
+                "ord_01j2y8m6jcc9tt24af5pw9x1bc"
+              ]
             }
           },
           {
@@ -2568,7 +2574,7 @@
             "required": true,
             "schema": {
               "type": "string",
-              "pattern": "^fex_[0-9a-hjkmnp-tv-z]{26}$",
+              "pattern": "^fex_[0-7][0-9a-hjkmnp-tv-z]{25}$",
               "examples": [
                 "fex_01j2y8m6jcc9tt24af5pw9x1bc"
               ]
@@ -2580,7 +2586,7 @@
             "required": true,
             "schema": {
               "type": "string",
-              "pattern": "^ord_[0-9a-hjkmnp-tv-z]{26}$",
+              "pattern": "^ord_[0-7][0-9a-hjkmnp-tv-z]{25}$",
               "examples": [
                 "ord_01j2y8m6jcc9tt24af5pw9x1bc"
               ]
@@ -2741,7 +2747,7 @@
               "anyOf": [
                 {
                   "type": "string",
-                  "pattern": "^evt_[0-9a-hjkmnp-tv-z]{26}$",
+                  "pattern": "^evt_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                   "examples": [
                     "evt_01j2y8m6jcc9tt24af5pw9x1bc"
                   ]
@@ -2769,7 +2775,10 @@
             "required": true,
             "schema": {
               "type": "string",
-              "pattern": "^ord_[0-9a-hjkmnp-tv-z]{26}$"
+              "pattern": "^ord_[0-7][0-9a-hjkmnp-tv-z]{25}$",
+              "examples": [
+                "ord_01j2y8m6jcc9tt24af5pw9x1bc"
+              ]
             }
           },
           {
@@ -2780,7 +2789,7 @@
               "anyOf": [
                 {
                   "type": "string",
-                  "pattern": "^evt_[0-9a-hjkmnp-tv-z]{26}$",
+                  "pattern": "^evt_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                   "examples": [
                     "evt_01j2y8m6jcc9tt24af5pw9x1bc"
                   ]
@@ -2929,7 +2938,7 @@
             "required": false,
             "schema": {
               "type": "string",
-              "pattern": "^whe_[0-9a-hjkmnp-tv-z]{26}$",
+              "pattern": "^whe_[0-7][0-9a-hjkmnp-tv-z]{25}$",
               "examples": [
                 "whe_01j2y8m6jcc9tt24af5pw9x1bc"
               ]
@@ -2952,7 +2961,7 @@
             "required": false,
             "schema": {
               "type": "string",
-              "pattern": "^whe_[0-9a-hjkmnp-tv-z]{26}$",
+              "pattern": "^whe_[0-7][0-9a-hjkmnp-tv-z]{25}$",
               "examples": [
                 "whe_01j2y8m6jcc9tt24af5pw9x1bc"
               ]
@@ -3224,7 +3233,10 @@
             "required": true,
             "schema": {
               "type": "string",
-              "pattern": "^whe_[0-9a-hjkmnp-tv-z]{26}$"
+              "pattern": "^whe_[0-7][0-9a-hjkmnp-tv-z]{25}$",
+              "examples": [
+                "whe_01j2y8m6jcc9tt24af5pw9x1bc"
+              ]
             }
           },
           {
@@ -3369,7 +3381,10 @@
             "required": true,
             "schema": {
               "type": "string",
-              "pattern": "^whe_[0-9a-hjkmnp-tv-z]{26}$"
+              "pattern": "^whe_[0-7][0-9a-hjkmnp-tv-z]{25}$",
+              "examples": [
+                "whe_01j2y8m6jcc9tt24af5pw9x1bc"
+              ]
             }
           },
           {
@@ -3505,7 +3520,10 @@
             "required": true,
             "schema": {
               "type": "string",
-              "pattern": "^whe_[0-9a-hjkmnp-tv-z]{26}$"
+              "pattern": "^whe_[0-7][0-9a-hjkmnp-tv-z]{25}$",
+              "examples": [
+                "whe_01j2y8m6jcc9tt24af5pw9x1bc"
+              ]
             }
           },
           {
@@ -3641,7 +3659,10 @@
             "required": true,
             "schema": {
               "type": "string",
-              "pattern": "^whe_[0-9a-hjkmnp-tv-z]{26}$"
+              "pattern": "^whe_[0-7][0-9a-hjkmnp-tv-z]{25}$",
+              "examples": [
+                "whe_01j2y8m6jcc9tt24af5pw9x1bc"
+              ]
             }
           },
           {
@@ -3779,7 +3800,7 @@
               "anyOf": [
                 {
                   "type": "string",
-                  "pattern": "^evt_[0-9a-hjkmnp-tv-z]{26}$",
+                  "pattern": "^evt_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                   "examples": [
                     "evt_01j2y8m6jcc9tt24af5pw9x1bc"
                   ]
@@ -3830,7 +3851,7 @@
               "anyOf": [
                 {
                   "type": "string",
-                  "pattern": "^evt_[0-9a-hjkmnp-tv-z]{26}$",
+                  "pattern": "^evt_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                   "examples": [
                     "evt_01j2y8m6jcc9tt24af5pw9x1bc"
                   ]
@@ -3970,7 +3991,10 @@
             "required": true,
             "schema": {
               "type": "string",
-              "pattern": "^evt_[0-9a-hjkmnp-tv-z]{26}$"
+              "pattern": "^evt_[0-7][0-9a-hjkmnp-tv-z]{25}$",
+              "examples": [
+                "evt_01j2y8m6jcc9tt24af5pw9x1bc"
+              ]
             }
           },
           {
@@ -4098,7 +4122,10 @@
             "required": true,
             "schema": {
               "type": "string",
-              "pattern": "^evt_[0-9a-hjkmnp-tv-z]{26}$"
+              "pattern": "^evt_[0-7][0-9a-hjkmnp-tv-z]{25}$",
+              "examples": [
+                "evt_01j2y8m6jcc9tt24af5pw9x1bc"
+              ]
             }
           },
           {
@@ -4234,7 +4261,10 @@
             "required": true,
             "schema": {
               "type": "string",
-              "pattern": "^ord_[0-9a-hjkmnp-tv-z]{26}$"
+              "pattern": "^ord_[0-7][0-9a-hjkmnp-tv-z]{25}$",
+              "examples": [
+                "ord_01j2y8m6jcc9tt24af5pw9x1bc"
+              ]
             }
           },
           {
@@ -4352,7 +4382,10 @@
             "required": true,
             "schema": {
               "type": "string",
-              "pattern": "^ord_[0-9a-hjkmnp-tv-z]{26}$"
+              "pattern": "^ord_[0-7][0-9a-hjkmnp-tv-z]{25}$",
+              "examples": [
+                "ord_01j2y8m6jcc9tt24af5pw9x1bc"
+              ]
             }
           },
           {
@@ -4490,7 +4523,7 @@
             "required": true,
             "schema": {
               "type": "string",
-              "pattern": "^cat_[0-9a-hjkmnp-tv-z]{26}$",
+              "pattern": "^cat_[0-7][0-9a-hjkmnp-tv-z]{25}$",
               "examples": [
                 "cat_01j2y8m6jcc9tt24af5pw9x1bc"
               ]
@@ -4502,7 +4535,7 @@
             "required": true,
             "schema": {
               "type": "string",
-              "pattern": "^prac_[0-9a-hjkmnp-tv-z]{26}$",
+              "pattern": "^prac_[0-7][0-9a-hjkmnp-tv-z]{25}$",
               "examples": [
                 "prac_01j2y8m6jcc9tt24af5pw9x1bc"
               ]
@@ -4726,7 +4759,7 @@
             "required": true,
             "schema": {
               "type": "string",
-              "pattern": "^ord_[0-9a-hjkmnp-tv-z]{26}$",
+              "pattern": "^ord_[0-7][0-9a-hjkmnp-tv-z]{25}$",
               "examples": [
                 "ord_01j2y8m6jcc9tt24af5pw9x1bc"
               ]
@@ -4877,7 +4910,7 @@
             "required": true,
             "schema": {
               "type": "string",
-              "pattern": "^ord_[0-9a-hjkmnp-tv-z]{26}$",
+              "pattern": "^ord_[0-7][0-9a-hjkmnp-tv-z]{25}$",
               "examples": [
                 "ord_01j2y8m6jcc9tt24af5pw9x1bc"
               ]
@@ -5028,7 +5061,7 @@
             "required": true,
             "schema": {
               "type": "string",
-              "pattern": "^ord_[0-9a-hjkmnp-tv-z]{26}$",
+              "pattern": "^ord_[0-7][0-9a-hjkmnp-tv-z]{25}$",
               "examples": [
                 "ord_01j2y8m6jcc9tt24af5pw9x1bc"
               ]
@@ -5179,7 +5212,7 @@
             "required": true,
             "schema": {
               "type": "string",
-              "pattern": "^ord_[0-9a-hjkmnp-tv-z]{26}$",
+              "pattern": "^ord_[0-7][0-9a-hjkmnp-tv-z]{25}$",
               "examples": [
                 "ord_01j2y8m6jcc9tt24af5pw9x1bc"
               ]
@@ -5330,7 +5363,7 @@
             "required": true,
             "schema": {
               "type": "string",
-              "pattern": "^prac_[0-9a-hjkmnp-tv-z]{26}$",
+              "pattern": "^prac_[0-7][0-9a-hjkmnp-tv-z]{25}$",
               "examples": [
                 "prac_01j2y8m6jcc9tt24af5pw9x1bc"
               ]
@@ -5481,7 +5514,7 @@
             "required": true,
             "schema": {
               "type": "string",
-              "pattern": "^prac_[0-9a-hjkmnp-tv-z]{26}$",
+              "pattern": "^prac_[0-7][0-9a-hjkmnp-tv-z]{25}$",
               "examples": [
                 "prac_01j2y8m6jcc9tt24af5pw9x1bc"
               ]
@@ -5493,7 +5526,7 @@
             "required": true,
             "schema": {
               "type": "string",
-              "pattern": "^pat_[0-9a-hjkmnp-tv-z]{26}$",
+              "pattern": "^pat_[0-7][0-9a-hjkmnp-tv-z]{25}$",
               "examples": [
                 "pat_01j2y8m6jcc9tt24af5pw9x1bc"
               ]
@@ -5527,7 +5560,7 @@
               "anyOf": [
                 {
                   "type": "string",
-                  "pattern": "^addr_[0-9a-hjkmnp-tv-z]{26}$",
+                  "pattern": "^addr_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                   "examples": [
                     "addr_01j2y8m6jcc9tt24af5pw9x1bc"
                   ]
@@ -5546,7 +5579,7 @@
               "anyOf": [
                 {
                   "type": "string",
-                  "pattern": "^addr_[0-9a-hjkmnp-tv-z]{26}$",
+                  "pattern": "^addr_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                   "examples": [
                     "addr_01j2y8m6jcc9tt24af5pw9x1bc"
                   ]
@@ -5694,7 +5727,7 @@
             "required": true,
             "schema": {
               "type": "string",
-              "pattern": "^prac_[0-9a-hjkmnp-tv-z]{26}$",
+              "pattern": "^prac_[0-7][0-9a-hjkmnp-tv-z]{25}$",
               "examples": [
                 "prac_01j2y8m6jcc9tt24af5pw9x1bc"
               ]
@@ -5706,7 +5739,7 @@
             "required": true,
             "schema": {
               "type": "string",
-              "pattern": "^pat_[0-9a-hjkmnp-tv-z]{26}$",
+              "pattern": "^pat_[0-7][0-9a-hjkmnp-tv-z]{25}$",
               "examples": [
                 "pat_01j2y8m6jcc9tt24af5pw9x1bc"
               ]
@@ -5855,7 +5888,7 @@
             "required": true,
             "schema": {
               "type": "string",
-              "pattern": "^prac_[0-9a-hjkmnp-tv-z]{26}$",
+              "pattern": "^prac_[0-7][0-9a-hjkmnp-tv-z]{25}$",
               "examples": [
                 "prac_01j2y8m6jcc9tt24af5pw9x1bc"
               ]
@@ -5867,7 +5900,7 @@
             "required": true,
             "schema": {
               "type": "string",
-              "pattern": "^pat_[0-9a-hjkmnp-tv-z]{26}$",
+              "pattern": "^pat_[0-7][0-9a-hjkmnp-tv-z]{25}$",
               "examples": [
                 "pat_01j2y8m6jcc9tt24af5pw9x1bc"
               ]
@@ -5879,7 +5912,7 @@
             "required": true,
             "schema": {
               "type": "string",
-              "pattern": "^addr_[0-9a-hjkmnp-tv-z]{26}$",
+              "pattern": "^addr_[0-7][0-9a-hjkmnp-tv-z]{25}$",
               "examples": [
                 "addr_01j2y8m6jcc9tt24af5pw9x1bc"
               ]
@@ -6025,7 +6058,7 @@
             "required": true,
             "schema": {
               "type": "string",
-              "pattern": "^prac_[0-9a-hjkmnp-tv-z]{26}$",
+              "pattern": "^prac_[0-7][0-9a-hjkmnp-tv-z]{25}$",
               "examples": [
                 "prac_01j2y8m6jcc9tt24af5pw9x1bc"
               ]
@@ -6037,7 +6070,7 @@
             "required": true,
             "schema": {
               "type": "string",
-              "pattern": "^pat_[0-9a-hjkmnp-tv-z]{26}$",
+              "pattern": "^pat_[0-7][0-9a-hjkmnp-tv-z]{25}$",
               "examples": [
                 "pat_01j2y8m6jcc9tt24af5pw9x1bc"
               ]
@@ -6049,7 +6082,7 @@
             "required": true,
             "schema": {
               "type": "string",
-              "pattern": "^addr_[0-9a-hjkmnp-tv-z]{26}$",
+              "pattern": "^addr_[0-7][0-9a-hjkmnp-tv-z]{25}$",
               "examples": [
                 "addr_01j2y8m6jcc9tt24af5pw9x1bc"
               ]
@@ -6188,7 +6221,7 @@
             "required": true,
             "schema": {
               "type": "string",
-              "pattern": "^prac_[0-9a-hjkmnp-tv-z]{26}$",
+              "pattern": "^prac_[0-7][0-9a-hjkmnp-tv-z]{25}$",
               "examples": [
                 "prac_01j2y8m6jcc9tt24af5pw9x1bc"
               ]
@@ -6200,7 +6233,7 @@
             "required": true,
             "schema": {
               "type": "string",
-              "pattern": "^pat_[0-9a-hjkmnp-tv-z]{26}$",
+              "pattern": "^pat_[0-7][0-9a-hjkmnp-tv-z]{25}$",
               "examples": [
                 "pat_01j2y8m6jcc9tt24af5pw9x1bc"
               ]
@@ -6212,7 +6245,7 @@
             "required": true,
             "schema": {
               "type": "string",
-              "pattern": "^addr_[0-9a-hjkmnp-tv-z]{26}$",
+              "pattern": "^addr_[0-7][0-9a-hjkmnp-tv-z]{25}$",
               "examples": [
                 "addr_01j2y8m6jcc9tt24af5pw9x1bc"
               ]
@@ -6351,7 +6384,7 @@
             "required": true,
             "schema": {
               "type": "string",
-              "pattern": "^prac_[0-9a-hjkmnp-tv-z]{26}$",
+              "pattern": "^prac_[0-7][0-9a-hjkmnp-tv-z]{25}$",
               "examples": [
                 "prac_01j2y8m6jcc9tt24af5pw9x1bc"
               ]
@@ -6490,7 +6523,7 @@
             "required": true,
             "schema": {
               "type": "string",
-              "pattern": "^prac_[0-9a-hjkmnp-tv-z]{26}$",
+              "pattern": "^prac_[0-7][0-9a-hjkmnp-tv-z]{25}$",
               "examples": [
                 "prac_01j2y8m6jcc9tt24af5pw9x1bc"
               ]
@@ -6515,7 +6548,7 @@
               "anyOf": [
                 {
                   "type": "string",
-                  "pattern": "^invite_[0-9a-hjkmnp-tv-z]{26}$",
+                  "pattern": "^invite_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                   "examples": [
                     "invite_01j2y8m6jcc9tt24af5pw9x1bc"
                   ]
@@ -6534,7 +6567,7 @@
               "anyOf": [
                 {
                   "type": "string",
-                  "pattern": "^invite_[0-9a-hjkmnp-tv-z]{26}$",
+                  "pattern": "^invite_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                   "examples": [
                     "invite_01j2y8m6jcc9tt24af5pw9x1bc"
                   ]
@@ -6710,7 +6743,7 @@
             "required": true,
             "schema": {
               "type": "string",
-              "pattern": "^prac_[0-9a-hjkmnp-tv-z]{26}$",
+              "pattern": "^prac_[0-7][0-9a-hjkmnp-tv-z]{25}$",
               "examples": [
                 "prac_01j2y8m6jcc9tt24af5pw9x1bc"
               ]
@@ -6823,7 +6856,7 @@
             "required": true,
             "schema": {
               "type": "string",
-              "pattern": "^prac_[0-9a-hjkmnp-tv-z]{26}$",
+              "pattern": "^prac_[0-7][0-9a-hjkmnp-tv-z]{25}$",
               "examples": [
                 "prac_01j2y8m6jcc9tt24af5pw9x1bc"
               ]
@@ -6848,7 +6881,7 @@
               "anyOf": [
                 {
                   "type": "string",
-                  "pattern": "^mbr_[0-9a-hjkmnp-tv-z]{26}$",
+                  "pattern": "^mbr_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                   "examples": [
                     "mbr_01j2y8m6jcc9tt24af5pw9x1bc"
                   ]
@@ -6867,7 +6900,7 @@
               "anyOf": [
                 {
                   "type": "string",
-                  "pattern": "^mbr_[0-9a-hjkmnp-tv-z]{26}$",
+                  "pattern": "^mbr_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                   "examples": [
                     "mbr_01j2y8m6jcc9tt24af5pw9x1bc"
                   ]
@@ -7046,7 +7079,7 @@
             "required": true,
             "schema": {
               "type": "string",
-              "pattern": "^prac_[0-9a-hjkmnp-tv-z]{26}$",
+              "pattern": "^prac_[0-7][0-9a-hjkmnp-tv-z]{25}$",
               "examples": [
                 "prac_01j2y8m6jcc9tt24af5pw9x1bc"
               ]
@@ -7071,7 +7104,7 @@
               "anyOf": [
                 {
                   "type": "string",
-                  "pattern": "^prov_[0-9a-hjkmnp-tv-z]{26}$",
+                  "pattern": "^prov_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                   "examples": [
                     "prov_01j2y8m6jcc9tt24af5pw9x1bc"
                   ]
@@ -7090,7 +7123,7 @@
               "anyOf": [
                 {
                   "type": "string",
-                  "pattern": "^prov_[0-9a-hjkmnp-tv-z]{26}$",
+                  "pattern": "^prov_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                   "examples": [
                     "prov_01j2y8m6jcc9tt24af5pw9x1bc"
                   ]
@@ -7278,7 +7311,7 @@
             "required": true,
             "schema": {
               "type": "string",
-              "pattern": "^prac_[0-9a-hjkmnp-tv-z]{26}$",
+              "pattern": "^prac_[0-7][0-9a-hjkmnp-tv-z]{25}$",
               "examples": [
                 "prac_01j2y8m6jcc9tt24af5pw9x1bc"
               ]
@@ -7290,7 +7323,7 @@
             "required": true,
             "schema": {
               "type": "string",
-              "pattern": "^mbr_[0-9a-hjkmnp-tv-z]{26}$",
+              "pattern": "^mbr_[0-7][0-9a-hjkmnp-tv-z]{25}$",
               "examples": [
                 "mbr_01j2y8m6jcc9tt24af5pw9x1bc"
               ]
@@ -7401,7 +7434,7 @@
             "required": true,
             "schema": {
               "type": "string",
-              "pattern": "^prac_[0-9a-hjkmnp-tv-z]{26}$",
+              "pattern": "^prac_[0-7][0-9a-hjkmnp-tv-z]{25}$",
               "examples": [
                 "prac_01j2y8m6jcc9tt24af5pw9x1bc"
               ]
@@ -7413,7 +7446,7 @@
             "required": true,
             "schema": {
               "type": "string",
-              "pattern": "^mbr_[0-9a-hjkmnp-tv-z]{26}$",
+              "pattern": "^mbr_[0-7][0-9a-hjkmnp-tv-z]{25}$",
               "examples": [
                 "mbr_01j2y8m6jcc9tt24af5pw9x1bc"
               ]
@@ -7544,7 +7577,7 @@
             "required": true,
             "schema": {
               "type": "string",
-              "pattern": "^prac_[0-9a-hjkmnp-tv-z]{26}$",
+              "pattern": "^prac_[0-7][0-9a-hjkmnp-tv-z]{25}$",
               "examples": [
                 "prac_01j2y8m6jcc9tt24af5pw9x1bc"
               ]
@@ -7556,7 +7589,7 @@
             "required": true,
             "schema": {
               "type": "string",
-              "pattern": "^prov_[0-9a-hjkmnp-tv-z]{26}$",
+              "pattern": "^prov_[0-7][0-9a-hjkmnp-tv-z]{25}$",
               "examples": [
                 "prov_01j2y8m6jcc9tt24af5pw9x1bc"
               ]
@@ -7667,7 +7700,7 @@
             "required": true,
             "schema": {
               "type": "string",
-              "pattern": "^prac_[0-9a-hjkmnp-tv-z]{26}$",
+              "pattern": "^prac_[0-7][0-9a-hjkmnp-tv-z]{25}$",
               "examples": [
                 "prac_01j2y8m6jcc9tt24af5pw9x1bc"
               ]
@@ -7679,7 +7712,7 @@
             "required": true,
             "schema": {
               "type": "string",
-              "pattern": "^prov_[0-9a-hjkmnp-tv-z]{26}$",
+              "pattern": "^prov_[0-7][0-9a-hjkmnp-tv-z]{25}$",
               "examples": [
                 "prov_01j2y8m6jcc9tt24af5pw9x1bc"
               ]
@@ -7810,7 +7843,7 @@
             "required": true,
             "schema": {
               "type": "string",
-              "pattern": "^prac_[0-9a-hjkmnp-tv-z]{26}$",
+              "pattern": "^prac_[0-7][0-9a-hjkmnp-tv-z]{25}$",
               "examples": [
                 "prac_01j2y8m6jcc9tt24af5pw9x1bc"
               ]
@@ -7822,7 +7855,7 @@
             "required": true,
             "schema": {
               "type": "string",
-              "pattern": "^prov_[0-9a-hjkmnp-tv-z]{26}$",
+              "pattern": "^prov_[0-7][0-9a-hjkmnp-tv-z]{25}$",
               "examples": [
                 "prov_01j2y8m6jcc9tt24af5pw9x1bc"
               ]
@@ -7953,7 +7986,7 @@
             "required": true,
             "schema": {
               "type": "string",
-              "pattern": "^prac_[0-9a-hjkmnp-tv-z]{26}$",
+              "pattern": "^prac_[0-7][0-9a-hjkmnp-tv-z]{25}$",
               "examples": [
                 "prac_01j2y8m6jcc9tt24af5pw9x1bc"
               ]
@@ -7965,7 +7998,7 @@
             "required": true,
             "schema": {
               "type": "string",
-              "pattern": "^prov_[0-9a-hjkmnp-tv-z]{26}$",
+              "pattern": "^prov_[0-7][0-9a-hjkmnp-tv-z]{25}$",
               "examples": [
                 "prov_01j2y8m6jcc9tt24af5pw9x1bc"
               ]
@@ -7977,7 +8010,7 @@
             "required": true,
             "schema": {
               "type": "string",
-              "pattern": "^lic_[0-9a-hjkmnp-tv-z]{26}$",
+              "pattern": "^lic_[0-7][0-9a-hjkmnp-tv-z]{25}$",
               "examples": [
                 "lic_01j2y8m6jcc9tt24af5pw9x1bc"
               ]
@@ -8108,7 +8141,7 @@
             "required": true,
             "schema": {
               "type": "string",
-              "pattern": "^prac_[0-9a-hjkmnp-tv-z]{26}$",
+              "pattern": "^prac_[0-7][0-9a-hjkmnp-tv-z]{25}$",
               "examples": [
                 "prac_01j2y8m6jcc9tt24af5pw9x1bc"
               ]
@@ -8120,7 +8153,7 @@
             "required": true,
             "schema": {
               "type": "string",
-              "pattern": "^invite_[0-9a-hjkmnp-tv-z]{26}$",
+              "pattern": "^invite_[0-7][0-9a-hjkmnp-tv-z]{25}$",
               "examples": [
                 "invite_01j2y8m6jcc9tt24af5pw9x1bc"
               ]
@@ -8231,7 +8264,7 @@
             "required": true,
             "schema": {
               "type": "string",
-              "pattern": "^prac_[0-9a-hjkmnp-tv-z]{26}$",
+              "pattern": "^prac_[0-7][0-9a-hjkmnp-tv-z]{25}$",
               "examples": [
                 "prac_01j2y8m6jcc9tt24af5pw9x1bc"
               ]
@@ -8243,7 +8276,7 @@
             "required": true,
             "schema": {
               "type": "string",
-              "pattern": "^invite_[0-9a-hjkmnp-tv-z]{26}$",
+              "pattern": "^invite_[0-7][0-9a-hjkmnp-tv-z]{25}$",
               "examples": [
                 "invite_01j2y8m6jcc9tt24af5pw9x1bc"
               ]
@@ -8364,7 +8397,7 @@
             "required": true,
             "schema": {
               "type": "string",
-              "pattern": "^prac_[0-9a-hjkmnp-tv-z]{26}$",
+              "pattern": "^prac_[0-7][0-9a-hjkmnp-tv-z]{25}$",
               "examples": [
                 "prac_01j2y8m6jcc9tt24af5pw9x1bc"
               ]
@@ -8376,7 +8409,7 @@
             "required": true,
             "schema": {
               "type": "string",
-              "pattern": "^invite_[0-9a-hjkmnp-tv-z]{26}$",
+              "pattern": "^invite_[0-7][0-9a-hjkmnp-tv-z]{25}$",
               "examples": [
                 "invite_01j2y8m6jcc9tt24af5pw9x1bc"
               ]
@@ -8607,7 +8640,7 @@
               "anyOf": [
                 {
                   "type": "string",
-                  "pattern": "^prac_[0-9a-hjkmnp-tv-z]{26}$",
+                  "pattern": "^prac_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                   "examples": [
                     "prac_01j2y8m6jcc9tt24af5pw9x1bc"
                   ]
@@ -8637,7 +8670,7 @@
               "anyOf": [
                 {
                   "type": "string",
-                  "pattern": "^prac_[0-9a-hjkmnp-tv-z]{26}$",
+                  "pattern": "^prac_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                   "examples": [
                     "prac_01j2y8m6jcc9tt24af5pw9x1bc"
                   ]
@@ -8896,7 +8929,10 @@
             "required": true,
             "schema": {
               "type": "string",
-              "pattern": "^prac_[0-9a-hjkmnp-tv-z]{26}$"
+              "pattern": "^prac_[0-7][0-9a-hjkmnp-tv-z]{25}$",
+              "examples": [
+                "prac_01j2y8m6jcc9tt24af5pw9x1bc"
+              ]
             }
           },
           {
@@ -9014,7 +9050,10 @@
             "required": true,
             "schema": {
               "type": "string",
-              "pattern": "^prac_[0-9a-hjkmnp-tv-z]{26}$"
+              "pattern": "^prac_[0-7][0-9a-hjkmnp-tv-z]{25}$",
+              "examples": [
+                "prac_01j2y8m6jcc9tt24af5pw9x1bc"
+              ]
             }
           },
           {
@@ -9154,7 +9193,7 @@
               "anyOf": [
                 {
                   "type": "string",
-                  "pattern": "^pat_[0-9a-hjkmnp-tv-z]{26}$",
+                  "pattern": "^pat_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                   "examples": [
                     "pat_01j2y8m6jcc9tt24af5pw9x1bc"
                   ]
@@ -9281,7 +9320,10 @@
             "required": true,
             "schema": {
               "type": "string",
-              "pattern": "^prac_[0-9a-hjkmnp-tv-z]{26}$"
+              "pattern": "^prac_[0-7][0-9a-hjkmnp-tv-z]{25}$",
+              "examples": [
+                "prac_01j2y8m6jcc9tt24af5pw9x1bc"
+              ]
             }
           },
           {
@@ -9343,7 +9385,7 @@
               "anyOf": [
                 {
                   "type": "string",
-                  "pattern": "^pat_[0-9a-hjkmnp-tv-z]{26}$",
+                  "pattern": "^pat_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                   "examples": [
                     "pat_01j2y8m6jcc9tt24af5pw9x1bc"
                   ]
@@ -9526,7 +9568,10 @@
             "required": true,
             "schema": {
               "type": "string",
-              "pattern": "^prac_[0-9a-hjkmnp-tv-z]{26}$"
+              "pattern": "^prac_[0-7][0-9a-hjkmnp-tv-z]{25}$",
+              "examples": [
+                "prac_01j2y8m6jcc9tt24af5pw9x1bc"
+              ]
             }
           },
           {
@@ -9682,7 +9727,10 @@
             "required": true,
             "schema": {
               "type": "string",
-              "pattern": "^pat_[0-9a-hjkmnp-tv-z]{26}$"
+              "pattern": "^pat_[0-7][0-9a-hjkmnp-tv-z]{25}$",
+              "examples": [
+                "pat_01j2y8m6jcc9tt24af5pw9x1bc"
+              ]
             }
           },
           {
@@ -9691,7 +9739,10 @@
             "required": true,
             "schema": {
               "type": "string",
-              "pattern": "^prac_[0-9a-hjkmnp-tv-z]{26}$"
+              "pattern": "^prac_[0-7][0-9a-hjkmnp-tv-z]{25}$",
+              "examples": [
+                "prac_01j2y8m6jcc9tt24af5pw9x1bc"
+              ]
             }
           },
           {
@@ -9827,7 +9878,10 @@
             "required": true,
             "schema": {
               "type": "string",
-              "pattern": "^pat_[0-9a-hjkmnp-tv-z]{26}$"
+              "pattern": "^pat_[0-7][0-9a-hjkmnp-tv-z]{25}$",
+              "examples": [
+                "pat_01j2y8m6jcc9tt24af5pw9x1bc"
+              ]
             }
           },
           {
@@ -9836,7 +9890,10 @@
             "required": true,
             "schema": {
               "type": "string",
-              "pattern": "^prac_[0-9a-hjkmnp-tv-z]{26}$"
+              "pattern": "^prac_[0-7][0-9a-hjkmnp-tv-z]{25}$",
+              "examples": [
+                "prac_01j2y8m6jcc9tt24af5pw9x1bc"
+              ]
             }
           },
           {
@@ -9980,7 +10037,10 @@
             "required": true,
             "schema": {
               "type": "string",
-              "pattern": "^pat_[0-9a-hjkmnp-tv-z]{26}$"
+              "pattern": "^pat_[0-7][0-9a-hjkmnp-tv-z]{25}$",
+              "examples": [
+                "pat_01j2y8m6jcc9tt24af5pw9x1bc"
+              ]
             }
           },
           {
@@ -9989,7 +10049,10 @@
             "required": true,
             "schema": {
               "type": "string",
-              "pattern": "^prac_[0-9a-hjkmnp-tv-z]{26}$"
+              "pattern": "^prac_[0-7][0-9a-hjkmnp-tv-z]{25}$",
+              "examples": [
+                "prac_01j2y8m6jcc9tt24af5pw9x1bc"
+              ]
             }
           },
           {
@@ -10145,7 +10208,7 @@
             "required": true,
             "schema": {
               "type": "string",
-              "pattern": "^pat_[0-9a-hjkmnp-tv-z]{26}$",
+              "pattern": "^pat_[0-7][0-9a-hjkmnp-tv-z]{25}$",
               "examples": [
                 "pat_01j2y8m6jcc9tt24af5pw9x1bc"
               ]
@@ -10157,7 +10220,7 @@
             "required": true,
             "schema": {
               "type": "string",
-              "pattern": "^prac_[0-9a-hjkmnp-tv-z]{26}$",
+              "pattern": "^prac_[0-7][0-9a-hjkmnp-tv-z]{25}$",
               "examples": [
                 "prac_01j2y8m6jcc9tt24af5pw9x1bc"
               ]
@@ -10296,7 +10359,7 @@
             "required": true,
             "schema": {
               "type": "string",
-              "pattern": "^pat_[0-9a-hjkmnp-tv-z]{26}$",
+              "pattern": "^pat_[0-7][0-9a-hjkmnp-tv-z]{25}$",
               "examples": [
                 "pat_01j2y8m6jcc9tt24af5pw9x1bc"
               ]
@@ -10308,7 +10371,7 @@
             "required": true,
             "schema": {
               "type": "string",
-              "pattern": "^prac_[0-9a-hjkmnp-tv-z]{26}$",
+              "pattern": "^prac_[0-7][0-9a-hjkmnp-tv-z]{25}$",
               "examples": [
                 "prac_01j2y8m6jcc9tt24af5pw9x1bc"
               ]
@@ -10467,7 +10530,7 @@
             "required": true,
             "schema": {
               "type": "string",
-              "pattern": "^ord_[0-9a-hjkmnp-tv-z]{26}$",
+              "pattern": "^ord_[0-7][0-9a-hjkmnp-tv-z]{25}$",
               "examples": [
                 "ord_01j2y8m6jcc9tt24af5pw9x1bc"
               ]
@@ -10636,7 +10699,7 @@
             "required": true,
             "schema": {
               "type": "string",
-              "pattern": "^ord_[0-9a-hjkmnp-tv-z]{26}$",
+              "pattern": "^ord_[0-7][0-9a-hjkmnp-tv-z]{25}$",
               "examples": [
                 "ord_01j2y8m6jcc9tt24af5pw9x1bc"
               ]
@@ -10648,7 +10711,7 @@
             "required": true,
             "schema": {
               "type": "string",
-              "pattern": "^rx_[0-9a-hjkmnp-tv-z]{26}$",
+              "pattern": "^rx_[0-7][0-9a-hjkmnp-tv-z]{25}$",
               "examples": [
                 "rx_01j2y8m6jcc9tt24af5pw9x1bc"
               ]
@@ -10974,7 +11037,7 @@
             "required": true,
             "schema": {
               "type": "string",
-              "pattern": "^cat_[0-9a-hjkmnp-tv-z]{26}$",
+              "pattern": "^cat_[0-7][0-9a-hjkmnp-tv-z]{25}$",
               "examples": [
                 "cat_01j2y8m6jcc9tt24af5pw9x1bc"
               ]
@@ -10988,7 +11051,7 @@
               "anyOf": [
                 {
                   "type": "string",
-                  "pattern": "^prac_[0-9a-hjkmnp-tv-z]{26}$",
+                  "pattern": "^prac_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                   "examples": [
                     "prac_01j2y8m6jcc9tt24af5pw9x1bc"
                   ]
@@ -11104,7 +11167,7 @@
             "required": true,
             "schema": {
               "type": "string",
-              "pattern": "^cat_[0-9a-hjkmnp-tv-z]{26}$",
+              "pattern": "^cat_[0-7][0-9a-hjkmnp-tv-z]{25}$",
               "examples": [
                 "cat_01j2y8m6jcc9tt24af5pw9x1bc"
               ]
@@ -11248,7 +11311,7 @@
               "anyOf": [
                 {
                   "type": "string",
-                  "pattern": "^acct_[0-9a-hjkmnp-tv-z]{26}$",
+                  "pattern": "^acct_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                   "examples": [
                     "acct_01j2y8m6jcc9tt24af5pw9x1bc"
                   ]
@@ -11267,7 +11330,7 @@
               "anyOf": [
                 {
                   "type": "string",
-                  "pattern": "^acct_[0-9a-hjkmnp-tv-z]{26}$",
+                  "pattern": "^acct_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                   "examples": [
                     "acct_01j2y8m6jcc9tt24af5pw9x1bc"
                   ]
@@ -11389,7 +11452,7 @@
             "required": true,
             "schema": {
               "type": "string",
-              "pattern": "^acct_[0-9a-hjkmnp-tv-z]{26}$",
+              "pattern": "^acct_[0-7][0-9a-hjkmnp-tv-z]{25}$",
               "examples": [
                 "acct_01j2y8m6jcc9tt24af5pw9x1bc"
               ]
@@ -11518,7 +11581,7 @@
             "required": true,
             "schema": {
               "type": "string",
-              "pattern": "^acct_[0-9a-hjkmnp-tv-z]{26}$",
+              "pattern": "^acct_[0-7][0-9a-hjkmnp-tv-z]{25}$",
               "examples": [
                 "acct_01j2y8m6jcc9tt24af5pw9x1bc"
               ]
@@ -11686,7 +11749,7 @@
               "properties": {
                 "id": {
                   "type": "string",
-                  "pattern": "^loc_[0-9a-hjkmnp-tv-z]{26}$",
+                  "pattern": "^loc_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                   "examples": [
                     "loc_01j2y8m6jcc9tt24af5pw9x1bc"
                   ]
@@ -11699,7 +11762,7 @@
                 },
                 "practiceId": {
                   "type": "string",
-                  "pattern": "^prac_[0-9a-hjkmnp-tv-z]{26}$",
+                  "pattern": "^prac_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                   "examples": [
                     "prac_01j2y8m6jcc9tt24af5pw9x1bc"
                   ]
@@ -11984,7 +12047,7 @@
         "properties": {
           "id": {
             "type": "string",
-            "pattern": "^loc_[0-9a-hjkmnp-tv-z]{26}$",
+            "pattern": "^loc_[0-7][0-9a-hjkmnp-tv-z]{25}$",
             "examples": [
               "loc_01j2y8m6jcc9tt24af5pw9x1bc"
             ]
@@ -11997,7 +12060,7 @@
           },
           "practiceId": {
             "type": "string",
-            "pattern": "^prac_[0-9a-hjkmnp-tv-z]{26}$",
+            "pattern": "^prac_[0-7][0-9a-hjkmnp-tv-z]{25}$",
             "examples": [
               "prac_01j2y8m6jcc9tt24af5pw9x1bc"
             ]
@@ -12117,7 +12180,7 @@
         "properties": {
           "id": {
             "type": "string",
-            "pattern": "^loc_[0-9a-hjkmnp-tv-z]{26}$",
+            "pattern": "^loc_[0-7][0-9a-hjkmnp-tv-z]{25}$",
             "examples": [
               "loc_01j2y8m6jcc9tt24af5pw9x1bc"
             ]
@@ -12130,7 +12193,7 @@
           },
           "practiceId": {
             "type": "string",
-            "pattern": "^prac_[0-9a-hjkmnp-tv-z]{26}$",
+            "pattern": "^prac_[0-7][0-9a-hjkmnp-tv-z]{25}$",
             "examples": [
               "prac_01j2y8m6jcc9tt24af5pw9x1bc"
             ]
@@ -12397,7 +12460,7 @@
         "properties": {
           "id": {
             "type": "string",
-            "pattern": "^loc_[0-9a-hjkmnp-tv-z]{26}$",
+            "pattern": "^loc_[0-7][0-9a-hjkmnp-tv-z]{25}$",
             "examples": [
               "loc_01j2y8m6jcc9tt24af5pw9x1bc"
             ]
@@ -12410,7 +12473,7 @@
           },
           "practiceId": {
             "type": "string",
-            "pattern": "^prac_[0-9a-hjkmnp-tv-z]{26}$",
+            "pattern": "^prac_[0-7][0-9a-hjkmnp-tv-z]{25}$",
             "examples": [
               "prac_01j2y8m6jcc9tt24af5pw9x1bc"
             ]
@@ -12530,7 +12593,7 @@
         "properties": {
           "id": {
             "type": "string",
-            "pattern": "^loc_[0-9a-hjkmnp-tv-z]{26}$",
+            "pattern": "^loc_[0-7][0-9a-hjkmnp-tv-z]{25}$",
             "examples": [
               "loc_01j2y8m6jcc9tt24af5pw9x1bc"
             ]
@@ -12543,7 +12606,7 @@
           },
           "practiceId": {
             "type": "string",
-            "pattern": "^prac_[0-9a-hjkmnp-tv-z]{26}$",
+            "pattern": "^prac_[0-7][0-9a-hjkmnp-tv-z]{25}$",
             "examples": [
               "prac_01j2y8m6jcc9tt24af5pw9x1bc"
             ]
@@ -12675,7 +12738,7 @@
               },
               "id": {
                 "type": "string",
-                "pattern": "^acct_[0-9a-hjkmnp-tv-z]{26}$",
+                "pattern": "^acct_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                 "examples": [
                   "acct_01j2y8m6jcc9tt24af5pw9x1bc"
                 ]
@@ -13194,7 +13257,7 @@
                   "type": "string",
                   "allOf": [
                     {
-                      "pattern": "^pharm_[0-9a-hjkmnp-tv-z]{26}$",
+                      "pattern": "^pharm_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                       "examples": [
                         "pharm_01j2y8m6jcc9tt24af5pw9x1bc"
                       ]
@@ -13217,7 +13280,7 @@
                   "type": "string",
                   "allOf": [
                     {
-                      "pattern": "^cat_[0-9a-hjkmnp-tv-z]{26}$",
+                      "pattern": "^cat_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                       "examples": [
                         "cat_01j2y8m6jcc9tt24af5pw9x1bc"
                       ]
@@ -14156,7 +14219,7 @@
                         "type": "string",
                         "allOf": [
                           {
-                            "pattern": "^shp_[0-9a-hjkmnp-tv-z]{26}$",
+                            "pattern": "^shp_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                             "examples": [
                               "shp_01j2y8m6jcc9tt24af5pw9x1bc"
                             ]
@@ -14352,7 +14415,7 @@
                 },
                 "id": {
                   "type": "string",
-                  "pattern": "^pharm_[0-9a-hjkmnp-tv-z]{26}$",
+                  "pattern": "^pharm_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                   "examples": [
                     "pharm_01j2y8m6jcc9tt24af5pw9x1bc"
                   ]
@@ -14543,7 +14606,7 @@
                       },
                       "id": {
                         "type": "string",
-                        "pattern": "^shp_[0-9a-hjkmnp-tv-z]{26}$",
+                        "pattern": "^shp_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                         "examples": [
                           "shp_01j2y8m6jcc9tt24af5pw9x1bc"
                         ]
@@ -14694,7 +14757,7 @@
               "type": "string",
               "allOf": [
                 {
-                  "pattern": "^shp_[0-9a-hjkmnp-tv-z]{26}$",
+                  "pattern": "^shp_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                   "examples": [
                     "shp_01j2y8m6jcc9tt24af5pw9x1bc"
                   ]
@@ -14753,7 +14816,7 @@
                         "type": "string",
                         "allOf": [
                           {
-                            "pattern": "^cat_[0-9a-hjkmnp-tv-z]{26}$",
+                            "pattern": "^cat_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                             "examples": [
                               "cat_01j2y8m6jcc9tt24af5pw9x1bc"
                             ]
@@ -14764,7 +14827,7 @@
                         "type": "string",
                         "allOf": [
                           {
-                            "pattern": "^rx_[0-9a-hjkmnp-tv-z]{26}$",
+                            "pattern": "^rx_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                             "examples": [
                               "rx_01j2y8m6jcc9tt24af5pw9x1bc"
                             ]
@@ -14941,7 +15004,7 @@
                               "type": "string",
                               "allOf": [
                                 {
-                                  "pattern": "^cancl_[0-9a-hjkmnp-tv-z]{26}$",
+                                  "pattern": "^cancl_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                                   "examples": [
                                     "cancl_01j2y8m6jcc9tt24af5pw9x1bc"
                                   ]
@@ -15051,7 +15114,7 @@
                             "type": "string",
                             "allOf": [
                               {
-                                "pattern": "^pharm_[0-9a-hjkmnp-tv-z]{26}$",
+                                "pattern": "^pharm_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                                 "examples": [
                                   "pharm_01j2y8m6jcc9tt24af5pw9x1bc"
                                 ]
@@ -15070,7 +15133,7 @@
                         "type": "string",
                         "allOf": [
                           {
-                            "pattern": "^ord_[0-9a-hjkmnp-tv-z]{26}$",
+                            "pattern": "^ord_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                             "examples": [
                               "ord_01j2y8m6jcc9tt24af5pw9x1bc"
                             ]
@@ -15081,7 +15144,7 @@
                         "type": "string",
                         "allOf": [
                           {
-                            "pattern": "^rx_[0-9a-hjkmnp-tv-z]{26}$",
+                            "pattern": "^rx_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                             "examples": [
                               "rx_01j2y8m6jcc9tt24af5pw9x1bc"
                             ]
@@ -15189,7 +15252,7 @@
                               "type": "string",
                               "allOf": [
                                 {
-                                  "pattern": "^fex_[0-9a-hjkmnp-tv-z]{26}$",
+                                  "pattern": "^fex_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                                   "examples": [
                                     "fex_01j2y8m6jcc9tt24af5pw9x1bc"
                                   ]
@@ -15379,7 +15442,7 @@
                               "type": "string",
                               "allOf": [
                                 {
-                                  "pattern": "^ship_[0-9a-hjkmnp-tv-z]{26}$",
+                                  "pattern": "^ship_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                                   "examples": [
                                     "ship_01j2y8m6jcc9tt24af5pw9x1bc"
                                   ]
@@ -15415,7 +15478,7 @@
                                   "type": "string",
                                   "allOf": [
                                     {
-                                      "pattern": "^ship_[0-9a-hjkmnp-tv-z]{26}$",
+                                      "pattern": "^ship_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                                       "examples": [
                                         "ship_01j2y8m6jcc9tt24af5pw9x1bc"
                                       ]
@@ -15553,7 +15616,7 @@
                 },
                 "id": {
                   "type": "string",
-                  "pattern": "^ord_[0-9a-hjkmnp-tv-z]{26}$",
+                  "pattern": "^ord_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                   "examples": [
                     "ord_01j2y8m6jcc9tt24af5pw9x1bc"
                   ]
@@ -15618,7 +15681,7 @@
                 },
                 "patientId": {
                   "type": "string",
-                  "pattern": "^pat_[0-9a-hjkmnp-tv-z]{26}$",
+                  "pattern": "^pat_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                   "examples": [
                     "pat_01j2y8m6jcc9tt24af5pw9x1bc"
                   ]
@@ -15632,7 +15695,7 @@
                 },
                 "practiceId": {
                   "type": "string",
-                  "pattern": "^prac_[0-9a-hjkmnp-tv-z]{26}$",
+                  "pattern": "^prac_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                   "examples": [
                     "prac_01j2y8m6jcc9tt24af5pw9x1bc"
                   ]
@@ -15741,7 +15804,7 @@
                               "type": "string",
                               "allOf": [
                                 {
-                                  "pattern": "^prov_[0-9a-hjkmnp-tv-z]{26}$",
+                                  "pattern": "^prov_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                                   "examples": [
                                     "prov_01j2y8m6jcc9tt24af5pw9x1bc"
                                   ]
@@ -16555,7 +16618,7 @@
                             "type": "string",
                             "allOf": [
                               {
-                                "pattern": "^cat_[0-9a-hjkmnp-tv-z]{26}$",
+                                "pattern": "^cat_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                                 "examples": [
                                   "cat_01j2y8m6jcc9tt24af5pw9x1bc"
                                 ]
@@ -16573,7 +16636,7 @@
                             "type": "string",
                             "allOf": [
                               {
-                                "pattern": "^pharm_[0-9a-hjkmnp-tv-z]{26}$",
+                                "pattern": "^pharm_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                                 "examples": [
                                   "pharm_01j2y8m6jcc9tt24af5pw9x1bc"
                                 ]
@@ -16612,7 +16675,7 @@
                         "type": "string",
                         "allOf": [
                           {
-                            "pattern": "^rx_[0-9a-hjkmnp-tv-z]{26}$",
+                            "pattern": "^rx_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                             "examples": [
                               "rx_01j2y8m6jcc9tt24af5pw9x1bc"
                             ]
@@ -16765,7 +16828,7 @@
         "properties": {
           "practiceId": {
             "type": "string",
-            "pattern": "^prac_[0-9a-hjkmnp-tv-z]{26}$",
+            "pattern": "^prac_[0-7][0-9a-hjkmnp-tv-z]{25}$",
             "examples": [
               "prac_01j2y8m6jcc9tt24af5pw9x1bc"
             ]
@@ -16774,7 +16837,7 @@
             "anyOf": [
               {
                 "type": "string",
-                "pattern": "^user_[0-9a-hjkmnp-tv-z]{26}$",
+                "pattern": "^user_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                 "examples": [
                   "user_01j2y8m6jcc9tt24af5pw9x1bc"
                 ]
@@ -16793,7 +16856,7 @@
                     "anyOf": [
                       {
                         "type": "string",
-                        "pattern": "^prov_[0-9a-hjkmnp-tv-z]{26}$",
+                        "pattern": "^prov_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                         "examples": [
                           "prov_01j2y8m6jcc9tt24af5pw9x1bc"
                         ]
@@ -16874,7 +16937,7 @@
                   "properties": {
                     "catalogItemId": {
                       "type": "string",
-                      "pattern": "^cat_[0-9a-hjkmnp-tv-z]{26}$",
+                      "pattern": "^cat_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                       "examples": [
                         "cat_01j2y8m6jcc9tt24af5pw9x1bc"
                       ]
@@ -16955,7 +17018,7 @@
             "anyOf": [
               {
                 "type": "string",
-                "pattern": "^pat_[0-9a-hjkmnp-tv-z]{26}$",
+                "pattern": "^pat_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                 "examples": [
                   "pat_01j2y8m6jcc9tt24af5pw9x1bc"
                 ]
@@ -17229,7 +17292,7 @@
                               "anyOf": [
                                 {
                                   "type": "string",
-                                  "pattern": "^addr_[0-9a-hjkmnp-tv-z]{26}$",
+                                  "pattern": "^addr_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                                   "examples": [
                                     "addr_01j2y8m6jcc9tt24af5pw9x1bc"
                                   ]
@@ -17422,7 +17485,7 @@
                     "anyOf": [
                       {
                         "type": "string",
-                        "pattern": "^loc_[0-9a-hjkmnp-tv-z]{26}$",
+                        "pattern": "^loc_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                         "examples": [
                           "loc_01j2y8m6jcc9tt24af5pw9x1bc"
                         ]
@@ -17689,7 +17752,7 @@
             "anyOf": [
               {
                 "type": "string",
-                "pattern": "^addr_[0-9a-hjkmnp-tv-z]{26}$",
+                "pattern": "^addr_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                 "examples": [
                   "addr_01j2y8m6jcc9tt24af5pw9x1bc"
                 ]
@@ -17904,7 +17967,7 @@
                   "anyOf": [
                     {
                       "type": "string",
-                      "pattern": "^pharm_[0-9a-hjkmnp-tv-z]{26}$",
+                      "pattern": "^pharm_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                       "examples": [
                         "pharm_01j2y8m6jcc9tt24af5pw9x1bc"
                       ]
@@ -17936,7 +17999,7 @@
                       "anyOf": [
                         {
                           "type": "string",
-                          "pattern": "^shp_[0-9a-hjkmnp-tv-z]{26}$",
+                          "pattern": "^shp_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                           "examples": [
                             "shp_01j2y8m6jcc9tt24af5pw9x1bc"
                           ]
@@ -18010,7 +18073,7 @@
                 },
                 "medicationId": {
                   "type": "string",
-                  "pattern": "^cat_[0-9a-hjkmnp-tv-z]{26}$",
+                  "pattern": "^cat_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                   "examples": [
                     "cat_01j2y8m6jcc9tt24af5pw9x1bc"
                   ]
@@ -18162,7 +18225,7 @@
                   "type": "string",
                   "allOf": [
                     {
-                      "pattern": "^cat_[0-9a-hjkmnp-tv-z]{26}$",
+                      "pattern": "^cat_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                       "examples": [
                         "cat_01j2y8m6jcc9tt24af5pw9x1bc"
                       ]
@@ -18263,7 +18326,7 @@
           },
           "id": {
             "type": "string",
-            "pattern": "^ord_[0-9a-hjkmnp-tv-z]{26}$",
+            "pattern": "^ord_[0-7][0-9a-hjkmnp-tv-z]{25}$",
             "examples": [
               "ord_01j2y8m6jcc9tt24af5pw9x1bc"
             ]
@@ -18279,14 +18342,14 @@
           },
           "patientId": {
             "type": "string",
-            "pattern": "^pat_[0-9a-hjkmnp-tv-z]{26}$",
+            "pattern": "^pat_[0-7][0-9a-hjkmnp-tv-z]{25}$",
             "examples": [
               "pat_01j2y8m6jcc9tt24af5pw9x1bc"
             ]
           },
           "practiceId": {
             "type": "string",
-            "pattern": "^prac_[0-9a-hjkmnp-tv-z]{26}$",
+            "pattern": "^prac_[0-7][0-9a-hjkmnp-tv-z]{25}$",
             "examples": [
               "prac_01j2y8m6jcc9tt24af5pw9x1bc"
             ]
@@ -18300,7 +18363,7 @@
                   "type": "string",
                   "allOf": [
                     {
-                      "pattern": "^pharm_[0-9a-hjkmnp-tv-z]{26}$",
+                      "pattern": "^pharm_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                       "examples": [
                         "pharm_01j2y8m6jcc9tt24af5pw9x1bc"
                       ]
@@ -18349,7 +18412,7 @@
                   "type": "string",
                   "allOf": [
                     {
-                      "pattern": "^rx_[0-9a-hjkmnp-tv-z]{26}$",
+                      "pattern": "^rx_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                       "examples": [
                         "rx_01j2y8m6jcc9tt24af5pw9x1bc"
                       ]
@@ -18362,7 +18425,7 @@
                       "type": "string",
                       "allOf": [
                         {
-                          "pattern": "^cat_[0-9a-hjkmnp-tv-z]{26}$",
+                          "pattern": "^cat_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                           "examples": [
                             "cat_01j2y8m6jcc9tt24af5pw9x1bc"
                           ]
@@ -18433,7 +18496,7 @@
             "anyOf": [
               {
                 "type": "string",
-                "pattern": "^user_[0-9a-hjkmnp-tv-z]{26}$",
+                "pattern": "^user_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                 "examples": [
                   "user_01j2y8m6jcc9tt24af5pw9x1bc"
                 ]
@@ -18485,7 +18548,7 @@
                   "type": "string",
                   "allOf": [
                     {
-                      "pattern": "^cat_[0-9a-hjkmnp-tv-z]{26}$",
+                      "pattern": "^cat_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                       "examples": [
                         "cat_01j2y8m6jcc9tt24af5pw9x1bc"
                       ]
@@ -18496,7 +18559,7 @@
                   "type": "string",
                   "allOf": [
                     {
-                      "pattern": "^rx_[0-9a-hjkmnp-tv-z]{26}$",
+                      "pattern": "^rx_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                       "examples": [
                         "rx_01j2y8m6jcc9tt24af5pw9x1bc"
                       ]
@@ -18673,7 +18736,7 @@
                         "type": "string",
                         "allOf": [
                           {
-                            "pattern": "^cancl_[0-9a-hjkmnp-tv-z]{26}$",
+                            "pattern": "^cancl_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                             "examples": [
                               "cancl_01j2y8m6jcc9tt24af5pw9x1bc"
                             ]
@@ -18783,7 +18846,7 @@
                       "type": "string",
                       "allOf": [
                         {
-                          "pattern": "^pharm_[0-9a-hjkmnp-tv-z]{26}$",
+                          "pattern": "^pharm_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                           "examples": [
                             "pharm_01j2y8m6jcc9tt24af5pw9x1bc"
                           ]
@@ -18802,7 +18865,7 @@
                   "type": "string",
                   "allOf": [
                     {
-                      "pattern": "^ord_[0-9a-hjkmnp-tv-z]{26}$",
+                      "pattern": "^ord_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                       "examples": [
                         "ord_01j2y8m6jcc9tt24af5pw9x1bc"
                       ]
@@ -18813,7 +18876,7 @@
                   "type": "string",
                   "allOf": [
                     {
-                      "pattern": "^rx_[0-9a-hjkmnp-tv-z]{26}$",
+                      "pattern": "^rx_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                       "examples": [
                         "rx_01j2y8m6jcc9tt24af5pw9x1bc"
                       ]
@@ -18921,7 +18984,7 @@
                         "type": "string",
                         "allOf": [
                           {
-                            "pattern": "^fex_[0-9a-hjkmnp-tv-z]{26}$",
+                            "pattern": "^fex_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                             "examples": [
                               "fex_01j2y8m6jcc9tt24af5pw9x1bc"
                             ]
@@ -19111,7 +19174,7 @@
                         "type": "string",
                         "allOf": [
                           {
-                            "pattern": "^ship_[0-9a-hjkmnp-tv-z]{26}$",
+                            "pattern": "^ship_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                             "examples": [
                               "ship_01j2y8m6jcc9tt24af5pw9x1bc"
                             ]
@@ -19147,7 +19210,7 @@
                             "type": "string",
                             "allOf": [
                               {
-                                "pattern": "^ship_[0-9a-hjkmnp-tv-z]{26}$",
+                                "pattern": "^ship_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                                 "examples": [
                                   "ship_01j2y8m6jcc9tt24af5pw9x1bc"
                                 ]
@@ -19285,7 +19348,7 @@
           },
           "id": {
             "type": "string",
-            "pattern": "^ord_[0-9a-hjkmnp-tv-z]{26}$",
+            "pattern": "^ord_[0-7][0-9a-hjkmnp-tv-z]{25}$",
             "examples": [
               "ord_01j2y8m6jcc9tt24af5pw9x1bc"
             ]
@@ -19350,7 +19413,7 @@
           },
           "patientId": {
             "type": "string",
-            "pattern": "^pat_[0-9a-hjkmnp-tv-z]{26}$",
+            "pattern": "^pat_[0-7][0-9a-hjkmnp-tv-z]{25}$",
             "examples": [
               "pat_01j2y8m6jcc9tt24af5pw9x1bc"
             ]
@@ -19364,7 +19427,7 @@
           },
           "practiceId": {
             "type": "string",
-            "pattern": "^prac_[0-9a-hjkmnp-tv-z]{26}$",
+            "pattern": "^prac_[0-7][0-9a-hjkmnp-tv-z]{25}$",
             "examples": [
               "prac_01j2y8m6jcc9tt24af5pw9x1bc"
             ]
@@ -19473,7 +19536,7 @@
                         "type": "string",
                         "allOf": [
                           {
-                            "pattern": "^prov_[0-9a-hjkmnp-tv-z]{26}$",
+                            "pattern": "^prov_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                             "examples": [
                               "prov_01j2y8m6jcc9tt24af5pw9x1bc"
                             ]
@@ -20287,7 +20350,7 @@
                       "type": "string",
                       "allOf": [
                         {
-                          "pattern": "^cat_[0-9a-hjkmnp-tv-z]{26}$",
+                          "pattern": "^cat_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                           "examples": [
                             "cat_01j2y8m6jcc9tt24af5pw9x1bc"
                           ]
@@ -20305,7 +20368,7 @@
                       "type": "string",
                       "allOf": [
                         {
-                          "pattern": "^pharm_[0-9a-hjkmnp-tv-z]{26}$",
+                          "pattern": "^pharm_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                           "examples": [
                             "pharm_01j2y8m6jcc9tt24af5pw9x1bc"
                           ]
@@ -20344,7 +20407,7 @@
                   "type": "string",
                   "allOf": [
                     {
-                      "pattern": "^rx_[0-9a-hjkmnp-tv-z]{26}$",
+                      "pattern": "^rx_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                       "examples": [
                         "rx_01j2y8m6jcc9tt24af5pw9x1bc"
                       ]
@@ -20498,7 +20561,7 @@
                   "type": "string",
                   "allOf": [
                     {
-                      "pattern": "^cat_[0-9a-hjkmnp-tv-z]{26}$",
+                      "pattern": "^cat_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                       "examples": [
                         "cat_01j2y8m6jcc9tt24af5pw9x1bc"
                       ]
@@ -20509,7 +20572,7 @@
                   "type": "string",
                   "allOf": [
                     {
-                      "pattern": "^rx_[0-9a-hjkmnp-tv-z]{26}$",
+                      "pattern": "^rx_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                       "examples": [
                         "rx_01j2y8m6jcc9tt24af5pw9x1bc"
                       ]
@@ -20686,7 +20749,7 @@
                         "type": "string",
                         "allOf": [
                           {
-                            "pattern": "^cancl_[0-9a-hjkmnp-tv-z]{26}$",
+                            "pattern": "^cancl_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                             "examples": [
                               "cancl_01j2y8m6jcc9tt24af5pw9x1bc"
                             ]
@@ -20796,7 +20859,7 @@
                       "type": "string",
                       "allOf": [
                         {
-                          "pattern": "^pharm_[0-9a-hjkmnp-tv-z]{26}$",
+                          "pattern": "^pharm_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                           "examples": [
                             "pharm_01j2y8m6jcc9tt24af5pw9x1bc"
                           ]
@@ -20815,7 +20878,7 @@
                   "type": "string",
                   "allOf": [
                     {
-                      "pattern": "^ord_[0-9a-hjkmnp-tv-z]{26}$",
+                      "pattern": "^ord_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                       "examples": [
                         "ord_01j2y8m6jcc9tt24af5pw9x1bc"
                       ]
@@ -20826,7 +20889,7 @@
                   "type": "string",
                   "allOf": [
                     {
-                      "pattern": "^rx_[0-9a-hjkmnp-tv-z]{26}$",
+                      "pattern": "^rx_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                       "examples": [
                         "rx_01j2y8m6jcc9tt24af5pw9x1bc"
                       ]
@@ -20934,7 +20997,7 @@
                         "type": "string",
                         "allOf": [
                           {
-                            "pattern": "^fex_[0-9a-hjkmnp-tv-z]{26}$",
+                            "pattern": "^fex_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                             "examples": [
                               "fex_01j2y8m6jcc9tt24af5pw9x1bc"
                             ]
@@ -21124,7 +21187,7 @@
                         "type": "string",
                         "allOf": [
                           {
-                            "pattern": "^ship_[0-9a-hjkmnp-tv-z]{26}$",
+                            "pattern": "^ship_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                             "examples": [
                               "ship_01j2y8m6jcc9tt24af5pw9x1bc"
                             ]
@@ -21160,7 +21223,7 @@
                             "type": "string",
                             "allOf": [
                               {
-                                "pattern": "^ship_[0-9a-hjkmnp-tv-z]{26}$",
+                                "pattern": "^ship_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                                 "examples": [
                                   "ship_01j2y8m6jcc9tt24af5pw9x1bc"
                                 ]
@@ -21298,7 +21361,7 @@
           },
           "id": {
             "type": "string",
-            "pattern": "^ord_[0-9a-hjkmnp-tv-z]{26}$",
+            "pattern": "^ord_[0-7][0-9a-hjkmnp-tv-z]{25}$",
             "examples": [
               "ord_01j2y8m6jcc9tt24af5pw9x1bc"
             ]
@@ -21363,7 +21426,7 @@
           },
           "patientId": {
             "type": "string",
-            "pattern": "^pat_[0-9a-hjkmnp-tv-z]{26}$",
+            "pattern": "^pat_[0-7][0-9a-hjkmnp-tv-z]{25}$",
             "examples": [
               "pat_01j2y8m6jcc9tt24af5pw9x1bc"
             ]
@@ -21377,7 +21440,7 @@
           },
           "practiceId": {
             "type": "string",
-            "pattern": "^prac_[0-9a-hjkmnp-tv-z]{26}$",
+            "pattern": "^prac_[0-7][0-9a-hjkmnp-tv-z]{25}$",
             "examples": [
               "prac_01j2y8m6jcc9tt24af5pw9x1bc"
             ]
@@ -21486,7 +21549,7 @@
                         "type": "string",
                         "allOf": [
                           {
-                            "pattern": "^prov_[0-9a-hjkmnp-tv-z]{26}$",
+                            "pattern": "^prov_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                             "examples": [
                               "prov_01j2y8m6jcc9tt24af5pw9x1bc"
                             ]
@@ -22300,7 +22363,7 @@
                       "type": "string",
                       "allOf": [
                         {
-                          "pattern": "^cat_[0-9a-hjkmnp-tv-z]{26}$",
+                          "pattern": "^cat_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                           "examples": [
                             "cat_01j2y8m6jcc9tt24af5pw9x1bc"
                           ]
@@ -22318,7 +22381,7 @@
                       "type": "string",
                       "allOf": [
                         {
-                          "pattern": "^pharm_[0-9a-hjkmnp-tv-z]{26}$",
+                          "pattern": "^pharm_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                           "examples": [
                             "pharm_01j2y8m6jcc9tt24af5pw9x1bc"
                           ]
@@ -22357,7 +22420,7 @@
                   "type": "string",
                   "allOf": [
                     {
-                      "pattern": "^rx_[0-9a-hjkmnp-tv-z]{26}$",
+                      "pattern": "^rx_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                       "examples": [
                         "rx_01j2y8m6jcc9tt24af5pw9x1bc"
                       ]
@@ -22472,14 +22535,14 @@
                   "properties": {
                     "cancellationId": {
                       "type": "string",
-                      "pattern": "^cancl_[0-9a-hjkmnp-tv-z]{26}$",
+                      "pattern": "^cancl_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                       "examples": [
                         "cancl_01j2y8m6jcc9tt24af5pw9x1bc"
                       ]
                     },
                     "fulfillmentId": {
                       "type": "string",
-                      "pattern": "^ord_[0-9a-hjkmnp-tv-z]{26}$",
+                      "pattern": "^ord_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                       "examples": [
                         "ord_01j2y8m6jcc9tt24af5pw9x1bc"
                       ]
@@ -22579,7 +22642,7 @@
           },
           "exceptionId": {
             "type": "string",
-            "pattern": "^fex_[0-9a-hjkmnp-tv-z]{26}$",
+            "pattern": "^fex_[0-7][0-9a-hjkmnp-tv-z]{25}$",
             "examples": [
               "fex_01j2y8m6jcc9tt24af5pw9x1bc"
             ]
@@ -22617,7 +22680,7 @@
                 },
                 "id": {
                   "type": "string",
-                  "pattern": "^evt_[0-9a-hjkmnp-tv-z]{26}$",
+                  "pattern": "^evt_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                   "examples": [
                     "evt_01j2y8m6jcc9tt24af5pw9x1bc"
                   ]
@@ -22678,7 +22741,7 @@
               "properties": {
                 "organizationId": {
                   "type": "string",
-                  "pattern": "^acct_[0-9a-hjkmnp-tv-z]{26}$",
+                  "pattern": "^acct_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                   "examples": [
                     "acct_01j2y8m6jcc9tt24af5pw9x1bc"
                   ]
@@ -22689,7 +22752,7 @@
                     "type": "string",
                     "allOf": [
                       {
-                        "pattern": "^prac_[0-9a-hjkmnp-tv-z]{26}$",
+                        "pattern": "^prac_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                         "examples": [
                           "prac_01j2y8m6jcc9tt24af5pw9x1bc"
                         ]
@@ -22712,7 +22775,7 @@
                 },
                 "id": {
                   "type": "string",
-                  "pattern": "^whe_[0-9a-hjkmnp-tv-z]{26}$",
+                  "pattern": "^whe_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                   "examples": [
                     "whe_01j2y8m6jcc9tt24af5pw9x1bc"
                   ]
@@ -22804,7 +22867,7 @@
             "type": "array",
             "items": {
               "type": "string",
-              "pattern": "^prac_[0-9a-hjkmnp-tv-z]{26}$",
+              "pattern": "^prac_[0-7][0-9a-hjkmnp-tv-z]{25}$",
               "examples": [
                 "prac_01j2y8m6jcc9tt24af5pw9x1bc"
               ]
@@ -22866,7 +22929,7 @@
         "properties": {
           "organizationId": {
             "type": "string",
-            "pattern": "^acct_[0-9a-hjkmnp-tv-z]{26}$",
+            "pattern": "^acct_[0-7][0-9a-hjkmnp-tv-z]{25}$",
             "examples": [
               "acct_01j2y8m6jcc9tt24af5pw9x1bc"
             ]
@@ -22877,7 +22940,7 @@
               "type": "string",
               "allOf": [
                 {
-                  "pattern": "^prac_[0-9a-hjkmnp-tv-z]{26}$",
+                  "pattern": "^prac_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                   "examples": [
                     "prac_01j2y8m6jcc9tt24af5pw9x1bc"
                   ]
@@ -22900,7 +22963,7 @@
           },
           "id": {
             "type": "string",
-            "pattern": "^whe_[0-9a-hjkmnp-tv-z]{26}$",
+            "pattern": "^whe_[0-7][0-9a-hjkmnp-tv-z]{25}$",
             "examples": [
               "whe_01j2y8m6jcc9tt24af5pw9x1bc"
             ]
@@ -22971,7 +23034,7 @@
             "type": "array",
             "items": {
               "type": "string",
-              "pattern": "^prac_[0-9a-hjkmnp-tv-z]{26}$",
+              "pattern": "^prac_[0-7][0-9a-hjkmnp-tv-z]{25}$",
               "examples": [
                 "prac_01j2y8m6jcc9tt24af5pw9x1bc"
               ]
@@ -23038,7 +23101,7 @@
         "properties": {
           "organizationId": {
             "type": "string",
-            "pattern": "^acct_[0-9a-hjkmnp-tv-z]{26}$",
+            "pattern": "^acct_[0-7][0-9a-hjkmnp-tv-z]{25}$",
             "examples": [
               "acct_01j2y8m6jcc9tt24af5pw9x1bc"
             ]
@@ -23049,7 +23112,7 @@
               "type": "string",
               "allOf": [
                 {
-                  "pattern": "^prac_[0-9a-hjkmnp-tv-z]{26}$",
+                  "pattern": "^prac_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                   "examples": [
                     "prac_01j2y8m6jcc9tt24af5pw9x1bc"
                   ]
@@ -23072,7 +23135,7 @@
           },
           "id": {
             "type": "string",
-            "pattern": "^whe_[0-9a-hjkmnp-tv-z]{26}$",
+            "pattern": "^whe_[0-7][0-9a-hjkmnp-tv-z]{25}$",
             "examples": [
               "whe_01j2y8m6jcc9tt24af5pw9x1bc"
             ]
@@ -23138,7 +23201,7 @@
         "properties": {
           "organizationId": {
             "type": "string",
-            "pattern": "^acct_[0-9a-hjkmnp-tv-z]{26}$",
+            "pattern": "^acct_[0-7][0-9a-hjkmnp-tv-z]{25}$",
             "examples": [
               "acct_01j2y8m6jcc9tt24af5pw9x1bc"
             ]
@@ -23149,7 +23212,7 @@
               "type": "string",
               "allOf": [
                 {
-                  "pattern": "^prac_[0-9a-hjkmnp-tv-z]{26}$",
+                  "pattern": "^prac_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                   "examples": [
                     "prac_01j2y8m6jcc9tt24af5pw9x1bc"
                   ]
@@ -23172,7 +23235,7 @@
           },
           "id": {
             "type": "string",
-            "pattern": "^whe_[0-9a-hjkmnp-tv-z]{26}$",
+            "pattern": "^whe_[0-7][0-9a-hjkmnp-tv-z]{25}$",
             "examples": [
               "whe_01j2y8m6jcc9tt24af5pw9x1bc"
             ]
@@ -23238,7 +23301,7 @@
         "properties": {
           "organizationId": {
             "type": "string",
-            "pattern": "^acct_[0-9a-hjkmnp-tv-z]{26}$",
+            "pattern": "^acct_[0-7][0-9a-hjkmnp-tv-z]{25}$",
             "examples": [
               "acct_01j2y8m6jcc9tt24af5pw9x1bc"
             ]
@@ -23249,7 +23312,7 @@
               "type": "string",
               "allOf": [
                 {
-                  "pattern": "^prac_[0-9a-hjkmnp-tv-z]{26}$",
+                  "pattern": "^prac_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                   "examples": [
                     "prac_01j2y8m6jcc9tt24af5pw9x1bc"
                   ]
@@ -23272,7 +23335,7 @@
           },
           "id": {
             "type": "string",
-            "pattern": "^whe_[0-9a-hjkmnp-tv-z]{26}$",
+            "pattern": "^whe_[0-7][0-9a-hjkmnp-tv-z]{25}$",
             "examples": [
               "whe_01j2y8m6jcc9tt24af5pw9x1bc"
             ]
@@ -23369,7 +23432,7 @@
                 },
                 "id": {
                   "type": "string",
-                  "pattern": "^evt_[0-9a-hjkmnp-tv-z]{26}$",
+                  "pattern": "^evt_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                   "examples": [
                     "evt_01j2y8m6jcc9tt24af5pw9x1bc"
                   ]
@@ -23451,7 +23514,7 @@
           },
           "id": {
             "type": "string",
-            "pattern": "^evt_[0-9a-hjkmnp-tv-z]{26}$",
+            "pattern": "^evt_[0-7][0-9a-hjkmnp-tv-z]{25}$",
             "examples": [
               "evt_01j2y8m6jcc9tt24af5pw9x1bc"
             ]
@@ -23554,7 +23617,7 @@
                   "type": "string",
                   "allOf": [
                     {
-                      "pattern": "^wha_[0-9a-hjkmnp-tv-z]{26}$",
+                      "pattern": "^wha_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                       "examples": [
                         "wha_01j2y8m6jcc9tt24af5pw9x1bc"
                       ]
@@ -23635,7 +23698,7 @@
                   "type": "string",
                   "allOf": [
                     {
-                      "pattern": "^whe_[0-9a-hjkmnp-tv-z]{26}$",
+                      "pattern": "^whe_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                       "examples": [
                         "whe_01j2y8m6jcc9tt24af5pw9x1bc"
                       ]
@@ -23646,7 +23709,7 @@
                   "type": "string",
                   "allOf": [
                     {
-                      "pattern": "^whd_[0-9a-hjkmnp-tv-z]{26}$",
+                      "pattern": "^whd_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                       "examples": [
                         "whd_01j2y8m6jcc9tt24af5pw9x1bc"
                       ]
@@ -23740,7 +23803,7 @@
           },
           "id": {
             "type": "string",
-            "pattern": "^evt_[0-9a-hjkmnp-tv-z]{26}$",
+            "pattern": "^evt_[0-7][0-9a-hjkmnp-tv-z]{25}$",
             "examples": [
               "evt_01j2y8m6jcc9tt24af5pw9x1bc"
             ]
@@ -23843,7 +23906,7 @@
                   "type": "string",
                   "allOf": [
                     {
-                      "pattern": "^wha_[0-9a-hjkmnp-tv-z]{26}$",
+                      "pattern": "^wha_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                       "examples": [
                         "wha_01j2y8m6jcc9tt24af5pw9x1bc"
                       ]
@@ -23924,7 +23987,7 @@
                   "type": "string",
                   "allOf": [
                     {
-                      "pattern": "^whe_[0-9a-hjkmnp-tv-z]{26}$",
+                      "pattern": "^whe_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                       "examples": [
                         "whe_01j2y8m6jcc9tt24af5pw9x1bc"
                       ]
@@ -23935,7 +23998,7 @@
                   "type": "string",
                   "allOf": [
                     {
-                      "pattern": "^whd_[0-9a-hjkmnp-tv-z]{26}$",
+                      "pattern": "^whd_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                       "examples": [
                         "whd_01j2y8m6jcc9tt24af5pw9x1bc"
                       ]
@@ -24982,14 +25045,14 @@
           },
           "catalogItemId": {
             "type": "string",
-            "pattern": "^cat_[0-9a-hjkmnp-tv-z]{26}$",
+            "pattern": "^cat_[0-7][0-9a-hjkmnp-tv-z]{25}$",
             "examples": [
               "cat_01j2y8m6jcc9tt24af5pw9x1bc"
             ]
           },
           "practiceId": {
             "type": "string",
-            "pattern": "^prac_[0-9a-hjkmnp-tv-z]{26}$",
+            "pattern": "^prac_[0-7][0-9a-hjkmnp-tv-z]{25}$",
             "examples": [
               "prac_01j2y8m6jcc9tt24af5pw9x1bc"
             ]
@@ -25327,7 +25390,7 @@
                 "type": "string",
                 "allOf": [
                   {
-                    "pattern": "^pharm_[0-9a-hjkmnp-tv-z]{26}$",
+                    "pattern": "^pharm_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                     "examples": [
                       "pharm_01j2y8m6jcc9tt24af5pw9x1bc"
                     ]
@@ -25350,7 +25413,7 @@
                 "type": "string",
                 "allOf": [
                   {
-                    "pattern": "^cat_[0-9a-hjkmnp-tv-z]{26}$",
+                    "pattern": "^cat_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                     "examples": [
                       "cat_01j2y8m6jcc9tt24af5pw9x1bc"
                     ]
@@ -26289,7 +26352,7 @@
                       "type": "string",
                       "allOf": [
                         {
-                          "pattern": "^shp_[0-9a-hjkmnp-tv-z]{26}$",
+                          "pattern": "^shp_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                           "examples": [
                             "shp_01j2y8m6jcc9tt24af5pw9x1bc"
                           ]
@@ -26584,7 +26647,7 @@
                   "properties": {
                     "catalogItemId": {
                       "type": "string",
-                      "pattern": "^cat_[0-9a-hjkmnp-tv-z]{26}$",
+                      "pattern": "^cat_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                       "examples": [
                         "cat_01j2y8m6jcc9tt24af5pw9x1bc"
                       ]
@@ -26610,7 +26673,7 @@
           },
           "practiceId": {
             "type": "string",
-            "pattern": "^prac_[0-9a-hjkmnp-tv-z]{26}$",
+            "pattern": "^prac_[0-7][0-9a-hjkmnp-tv-z]{25}$",
             "examples": [
               "prac_01j2y8m6jcc9tt24af5pw9x1bc"
             ]
@@ -26619,7 +26682,7 @@
             "anyOf": [
               {
                 "type": "string",
-                "pattern": "^pat_[0-9a-hjkmnp-tv-z]{26}$",
+                "pattern": "^pat_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                 "examples": [
                   "pat_01j2y8m6jcc9tt24af5pw9x1bc"
                 ]
@@ -26904,7 +26967,7 @@
                               "anyOf": [
                                 {
                                   "type": "string",
-                                  "pattern": "^addr_[0-9a-hjkmnp-tv-z]{26}$",
+                                  "pattern": "^addr_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                                   "examples": [
                                     "addr_01j2y8m6jcc9tt24af5pw9x1bc"
                                   ]
@@ -27097,7 +27160,7 @@
                     "anyOf": [
                       {
                         "type": "string",
-                        "pattern": "^loc_[0-9a-hjkmnp-tv-z]{26}$",
+                        "pattern": "^loc_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                         "examples": [
                           "loc_01j2y8m6jcc9tt24af5pw9x1bc"
                         ]
@@ -27364,7 +27427,7 @@
             "anyOf": [
               {
                 "type": "string",
-                "pattern": "^user_[0-9a-hjkmnp-tv-z]{26}$",
+                "pattern": "^user_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                 "examples": [
                   "user_01j2y8m6jcc9tt24af5pw9x1bc"
                 ]
@@ -27383,7 +27446,7 @@
                     "anyOf": [
                       {
                         "type": "string",
-                        "pattern": "^prov_[0-9a-hjkmnp-tv-z]{26}$",
+                        "pattern": "^prov_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                         "examples": [
                           "prov_01j2y8m6jcc9tt24af5pw9x1bc"
                         ]
@@ -27459,7 +27522,7 @@
             "anyOf": [
               {
                 "type": "string",
-                "pattern": "^addr_[0-9a-hjkmnp-tv-z]{26}$",
+                "pattern": "^addr_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                 "examples": [
                   "addr_01j2y8m6jcc9tt24af5pw9x1bc"
                 ]
@@ -27487,7 +27550,7 @@
               "properties": {
                 "medicationId": {
                   "type": "string",
-                  "pattern": "^cat_[0-9a-hjkmnp-tv-z]{26}$",
+                  "pattern": "^cat_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                   "examples": [
                     "cat_01j2y8m6jcc9tt24af5pw9x1bc"
                   ]
@@ -27952,7 +28015,7 @@
                                   "anyOf": [
                                     {
                                       "type": "string",
-                                      "pattern": "^shp_[0-9a-hjkmnp-tv-z]{26}$",
+                                      "pattern": "^shp_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                                       "examples": [
                                         "shp_01j2y8m6jcc9tt24af5pw9x1bc"
                                       ]
@@ -28157,7 +28220,7 @@
               "properties": {
                 "catalogItemId": {
                   "type": "string",
-                  "pattern": "^cat_[0-9a-hjkmnp-tv-z]{26}$",
+                  "pattern": "^cat_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                   "examples": [
                     "cat_01j2y8m6jcc9tt24af5pw9x1bc"
                   ]
@@ -28309,7 +28372,7 @@
               "properties": {
                 "medicationId": {
                   "type": "string",
-                  "pattern": "^cat_[0-9a-hjkmnp-tv-z]{26}$",
+                  "pattern": "^cat_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                   "examples": [
                     "cat_01j2y8m6jcc9tt24af5pw9x1bc"
                   ]
@@ -28511,7 +28574,7 @@
                         "type": "string",
                         "allOf": [
                           {
-                            "pattern": "^shp_[0-9a-hjkmnp-tv-z]{26}$",
+                            "pattern": "^shp_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                             "examples": [
                               "shp_01j2y8m6jcc9tt24af5pw9x1bc"
                             ]
@@ -28551,7 +28614,7 @@
                   "anyOf": [
                     {
                       "type": "string",
-                      "pattern": "^shp_[0-9a-hjkmnp-tv-z]{26}$",
+                      "pattern": "^shp_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                       "examples": [
                         "shp_01j2y8m6jcc9tt24af5pw9x1bc"
                       ]
@@ -28646,7 +28709,7 @@
                               "type": "string",
                               "allOf": [
                                 {
-                                  "pattern": "^cat_[0-9a-hjkmnp-tv-z]{26}$",
+                                  "pattern": "^cat_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                                   "examples": [
                                     "cat_01j2y8m6jcc9tt24af5pw9x1bc"
                                   ]
@@ -28682,7 +28745,7 @@
                   },
                   "practiceId": {
                     "type": "string",
-                    "pattern": "^prac_[0-9a-hjkmnp-tv-z]{26}$",
+                    "pattern": "^prac_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                     "examples": [
                       "prac_01j2y8m6jcc9tt24af5pw9x1bc"
                     ]
@@ -28693,7 +28756,7 @@
                         "type": "string",
                         "allOf": [
                           {
-                            "pattern": "^user_[0-9a-hjkmnp-tv-z]{26}$",
+                            "pattern": "^user_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                             "examples": [
                               "user_01j2y8m6jcc9tt24af5pw9x1bc"
                             ]
@@ -28716,7 +28779,7 @@
                                 "type": "string",
                                 "allOf": [
                                   {
-                                    "pattern": "^prov_[0-9a-hjkmnp-tv-z]{26}$",
+                                    "pattern": "^prov_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                                     "examples": [
                                       "prov_01j2y8m6jcc9tt24af5pw9x1bc"
                                     ]
@@ -28800,7 +28863,7 @@
                         "type": "string",
                         "allOf": [
                           {
-                            "pattern": "^addr_[0-9a-hjkmnp-tv-z]{26}$",
+                            "pattern": "^addr_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                             "examples": [
                               "addr_01j2y8m6jcc9tt24af5pw9x1bc"
                             ]
@@ -29065,7 +29128,7 @@
                               "type": "string",
                               "allOf": [
                                 {
-                                  "pattern": "^pharm_[0-9a-hjkmnp-tv-z]{26}$",
+                                  "pattern": "^pharm_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                                   "examples": [
                                     "pharm_01j2y8m6jcc9tt24af5pw9x1bc"
                                   ]
@@ -29099,7 +29162,7 @@
                               "anyOf": [
                                 {
                                   "type": "string",
-                                  "pattern": "^shp_[0-9a-hjkmnp-tv-z]{26}$",
+                                  "pattern": "^shp_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                                   "examples": [
                                     "shp_01j2y8m6jcc9tt24af5pw9x1bc"
                                   ]
@@ -29173,7 +29236,7 @@
                         },
                         "medicationId": {
                           "type": "string",
-                          "pattern": "^cat_[0-9a-hjkmnp-tv-z]{26}$",
+                          "pattern": "^cat_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                           "examples": [
                             "cat_01j2y8m6jcc9tt24af5pw9x1bc"
                           ]
@@ -29287,7 +29350,7 @@
                     "anyOf": [
                       {
                         "type": "string",
-                        "pattern": "^pat_[0-9a-hjkmnp-tv-z]{26}$",
+                        "pattern": "^pat_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                         "examples": [
                           "pat_01j2y8m6jcc9tt24af5pw9x1bc"
                         ]
@@ -29605,7 +29668,7 @@
                                           "type": "string",
                                           "allOf": [
                                             {
-                                              "pattern": "^addr_[0-9a-hjkmnp-tv-z]{26}$",
+                                              "pattern": "^addr_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                                               "examples": [
                                                 "addr_01j2y8m6jcc9tt24af5pw9x1bc"
                                               ]
@@ -29832,7 +29895,7 @@
                                 "type": "string",
                                 "allOf": [
                                   {
-                                    "pattern": "^loc_[0-9a-hjkmnp-tv-z]{26}$",
+                                    "pattern": "^loc_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                                     "examples": [
                                       "loc_01j2y8m6jcc9tt24af5pw9x1bc"
                                     ]
@@ -30159,7 +30222,7 @@
         "properties": {
           "practiceId": {
             "type": "string",
-            "pattern": "^prac_[0-9a-hjkmnp-tv-z]{26}$",
+            "pattern": "^prac_[0-7][0-9a-hjkmnp-tv-z]{25}$",
             "examples": [
               "prac_01j2y8m6jcc9tt24af5pw9x1bc"
             ]
@@ -30168,7 +30231,7 @@
             "anyOf": [
               {
                 "type": "string",
-                "pattern": "^user_[0-9a-hjkmnp-tv-z]{26}$",
+                "pattern": "^user_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                 "examples": [
                   "user_01j2y8m6jcc9tt24af5pw9x1bc"
                 ]
@@ -30187,7 +30250,7 @@
                     "anyOf": [
                       {
                         "type": "string",
-                        "pattern": "^prov_[0-9a-hjkmnp-tv-z]{26}$",
+                        "pattern": "^prov_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                         "examples": [
                           "prov_01j2y8m6jcc9tt24af5pw9x1bc"
                         ]
@@ -30286,7 +30349,7 @@
                   "properties": {
                     "prescriptionId": {
                       "type": "string",
-                      "pattern": "^rx_[0-9a-hjkmnp-tv-z]{26}$",
+                      "pattern": "^rx_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                       "examples": [
                         "rx_01j2y8m6jcc9tt24af5pw9x1bc"
                       ]
@@ -30340,7 +30403,7 @@
         "properties": {
           "orderId": {
             "type": "string",
-            "pattern": "^ord_[0-9a-hjkmnp-tv-z]{26}$",
+            "pattern": "^ord_[0-7][0-9a-hjkmnp-tv-z]{25}$",
             "examples": [
               "ord_01j2y8m6jcc9tt24af5pw9x1bc"
             ]
@@ -30349,7 +30412,7 @@
             "type": "array",
             "items": {
               "type": "string",
-              "pattern": "^rx_[0-9a-hjkmnp-tv-z]{26}$",
+              "pattern": "^rx_[0-7][0-9a-hjkmnp-tv-z]{25}$",
               "examples": [
                 "rx_01j2y8m6jcc9tt24af5pw9x1bc"
               ]
@@ -30378,7 +30441,7 @@
         "properties": {
           "practiceId": {
             "type": "string",
-            "pattern": "^prac_[0-9a-hjkmnp-tv-z]{26}$",
+            "pattern": "^prac_[0-7][0-9a-hjkmnp-tv-z]{25}$",
             "examples": [
               "prac_01j2y8m6jcc9tt24af5pw9x1bc"
             ]
@@ -30387,7 +30450,7 @@
             "anyOf": [
               {
                 "type": "string",
-                "pattern": "^user_[0-9a-hjkmnp-tv-z]{26}$",
+                "pattern": "^user_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                 "examples": [
                   "user_01j2y8m6jcc9tt24af5pw9x1bc"
                 ]
@@ -30406,7 +30469,7 @@
                     "anyOf": [
                       {
                         "type": "string",
-                        "pattern": "^prov_[0-9a-hjkmnp-tv-z]{26}$",
+                        "pattern": "^prov_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                         "examples": [
                           "prov_01j2y8m6jcc9tt24af5pw9x1bc"
                         ]
@@ -30505,7 +30568,7 @@
                   "properties": {
                     "prescriptionId": {
                       "type": "string",
-                      "pattern": "^rx_[0-9a-hjkmnp-tv-z]{26}$",
+                      "pattern": "^rx_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                       "examples": [
                         "rx_01j2y8m6jcc9tt24af5pw9x1bc"
                       ]
@@ -30565,7 +30628,7 @@
           },
           "orderId": {
             "type": "string",
-            "pattern": "^ord_[0-9a-hjkmnp-tv-z]{26}$",
+            "pattern": "^ord_[0-7][0-9a-hjkmnp-tv-z]{25}$",
             "examples": [
               "ord_01j2y8m6jcc9tt24af5pw9x1bc"
             ]
@@ -30588,7 +30651,7 @@
               "properties": {
                 "prescriptionId": {
                   "type": "string",
-                  "pattern": "^rx_[0-9a-hjkmnp-tv-z]{26}$",
+                  "pattern": "^rx_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                   "examples": [
                     "rx_01j2y8m6jcc9tt24af5pw9x1bc"
                   ]
@@ -30604,7 +30667,7 @@
                   "anyOf": [
                     {
                       "type": "string",
-                      "pattern": "^ord_[0-9a-hjkmnp-tv-z]{26}$",
+                      "pattern": "^ord_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                       "examples": [
                         "ord_01j2y8m6jcc9tt24af5pw9x1bc"
                       ]
@@ -30678,7 +30741,7 @@
         "properties": {
           "practiceId": {
             "type": "string",
-            "pattern": "^prac_[0-9a-hjkmnp-tv-z]{26}$",
+            "pattern": "^prac_[0-7][0-9a-hjkmnp-tv-z]{25}$",
             "examples": [
               "prac_01j2y8m6jcc9tt24af5pw9x1bc"
             ]
@@ -30687,7 +30750,7 @@
             "anyOf": [
               {
                 "type": "string",
-                "pattern": "^user_[0-9a-hjkmnp-tv-z]{26}$",
+                "pattern": "^user_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                 "examples": [
                   "user_01j2y8m6jcc9tt24af5pw9x1bc"
                 ]
@@ -30706,7 +30769,7 @@
                     "anyOf": [
                       {
                         "type": "string",
-                        "pattern": "^prov_[0-9a-hjkmnp-tv-z]{26}$",
+                        "pattern": "^prov_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                         "examples": [
                           "prov_01j2y8m6jcc9tt24af5pw9x1bc"
                         ]
@@ -30797,7 +30860,7 @@
           },
           "orderId": {
             "type": "string",
-            "pattern": "^ord_[0-9a-hjkmnp-tv-z]{26}$",
+            "pattern": "^ord_[0-7][0-9a-hjkmnp-tv-z]{25}$",
             "examples": [
               "ord_01j2y8m6jcc9tt24af5pw9x1bc"
             ]
@@ -30821,7 +30884,7 @@
         "properties": {
           "practiceId": {
             "type": "string",
-            "pattern": "^prac_[0-9a-hjkmnp-tv-z]{26}$",
+            "pattern": "^prac_[0-7][0-9a-hjkmnp-tv-z]{25}$",
             "examples": [
               "prac_01j2y8m6jcc9tt24af5pw9x1bc"
             ]
@@ -30830,7 +30893,7 @@
             "anyOf": [
               {
                 "type": "string",
-                "pattern": "^user_[0-9a-hjkmnp-tv-z]{26}$",
+                "pattern": "^user_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                 "examples": [
                   "user_01j2y8m6jcc9tt24af5pw9x1bc"
                 ]
@@ -30849,7 +30912,7 @@
                     "anyOf": [
                       {
                         "type": "string",
-                        "pattern": "^prov_[0-9a-hjkmnp-tv-z]{26}$",
+                        "pattern": "^prov_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                         "examples": [
                           "prov_01j2y8m6jcc9tt24af5pw9x1bc"
                         ]
@@ -30945,7 +31008,7 @@
                   "properties": {
                     "prescriptionId": {
                       "type": "string",
-                      "pattern": "^rx_[0-9a-hjkmnp-tv-z]{26}$",
+                      "pattern": "^rx_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                       "examples": [
                         "rx_01j2y8m6jcc9tt24af5pw9x1bc"
                       ]
@@ -30999,7 +31062,7 @@
         "properties": {
           "orderId": {
             "type": "string",
-            "pattern": "^ord_[0-9a-hjkmnp-tv-z]{26}$",
+            "pattern": "^ord_[0-7][0-9a-hjkmnp-tv-z]{25}$",
             "examples": [
               "ord_01j2y8m6jcc9tt24af5pw9x1bc"
             ]
@@ -31546,7 +31609,7 @@
                 "type": "array",
                 "items": {
                   "type": "string",
-                  "pattern": "^loc_[0-9a-hjkmnp-tv-z]{26}$",
+                  "pattern": "^loc_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                   "examples": [
                     "loc_01j2y8m6jcc9tt24af5pw9x1bc"
                   ]
@@ -31587,21 +31650,21 @@
           },
           "id": {
             "type": "string",
-            "pattern": "^user_[0-9a-hjkmnp-tv-z]{26}$",
+            "pattern": "^user_[0-7][0-9a-hjkmnp-tv-z]{25}$",
             "examples": [
               "user_01j2y8m6jcc9tt24af5pw9x1bc"
             ]
           },
           "practiceId": {
             "type": "string",
-            "pattern": "^prac_[0-9a-hjkmnp-tv-z]{26}$",
+            "pattern": "^prac_[0-7][0-9a-hjkmnp-tv-z]{25}$",
             "examples": [
               "prac_01j2y8m6jcc9tt24af5pw9x1bc"
             ]
           },
           "memberId": {
             "type": "string",
-            "pattern": "^mbr_[0-9a-hjkmnp-tv-z]{26}$",
+            "pattern": "^mbr_[0-7][0-9a-hjkmnp-tv-z]{25}$",
             "examples": [
               "mbr_01j2y8m6jcc9tt24af5pw9x1bc"
             ]
@@ -31610,7 +31673,7 @@
             "anyOf": [
               {
                 "type": "string",
-                "pattern": "^prov_[0-9a-hjkmnp-tv-z]{26}$",
+                "pattern": "^prov_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                 "examples": [
                   "prov_01j2y8m6jcc9tt24af5pw9x1bc"
                 ]
@@ -31651,7 +31714,7 @@
                   "type": "string",
                   "allOf": [
                     {
-                      "pattern": "^addr_[0-9a-hjkmnp-tv-z]{26}$",
+                      "pattern": "^addr_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                       "examples": [
                         "addr_01j2y8m6jcc9tt24af5pw9x1bc"
                       ]
@@ -31961,7 +32024,7 @@
         "properties": {
           "id": {
             "type": "string",
-            "pattern": "^addr_[0-9a-hjkmnp-tv-z]{26}$",
+            "pattern": "^addr_[0-7][0-9a-hjkmnp-tv-z]{25}$",
             "examples": [
               "addr_01j2y8m6jcc9tt24af5pw9x1bc"
             ]
@@ -32247,7 +32310,7 @@
         "properties": {
           "id": {
             "type": "string",
-            "pattern": "^addr_[0-9a-hjkmnp-tv-z]{26}$",
+            "pattern": "^addr_[0-7][0-9a-hjkmnp-tv-z]{25}$",
             "examples": [
               "addr_01j2y8m6jcc9tt24af5pw9x1bc"
             ]
@@ -32403,7 +32466,7 @@
         "properties": {
           "id": {
             "type": "string",
-            "pattern": "^addr_[0-9a-hjkmnp-tv-z]{26}$",
+            "pattern": "^addr_[0-7][0-9a-hjkmnp-tv-z]{25}$",
             "examples": [
               "addr_01j2y8m6jcc9tt24af5pw9x1bc"
             ]
@@ -32559,7 +32622,7 @@
         "properties": {
           "id": {
             "type": "string",
-            "pattern": "^addr_[0-9a-hjkmnp-tv-z]{26}$",
+            "pattern": "^addr_[0-7][0-9a-hjkmnp-tv-z]{25}$",
             "examples": [
               "addr_01j2y8m6jcc9tt24af5pw9x1bc"
             ]
@@ -33238,7 +33301,7 @@
                 "type": "array",
                 "items": {
                   "type": "string",
-                  "pattern": "^loc_[0-9a-hjkmnp-tv-z]{26}$",
+                  "pattern": "^loc_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                   "examples": [
                     "loc_01j2y8m6jcc9tt24af5pw9x1bc"
                   ]
@@ -33270,7 +33333,7 @@
                 "type": "string",
                 "allOf": [
                   {
-                    "pattern": "^user_[0-9a-hjkmnp-tv-z]{26}$",
+                    "pattern": "^user_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                     "examples": [
                       "user_01j2y8m6jcc9tt24af5pw9x1bc"
                     ]
@@ -33318,7 +33381,7 @@
                         "type": "string",
                         "allOf": [
                           {
-                            "pattern": "^invite_[0-9a-hjkmnp-tv-z]{26}$",
+                            "pattern": "^invite_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                             "examples": [
                               "invite_01j2y8m6jcc9tt24af5pw9x1bc"
                             ]
@@ -33347,7 +33410,7 @@
                               "type": "string",
                               "allOf": [
                                 {
-                                  "pattern": "^role_[0-9a-hjkmnp-tv-z]{26}$",
+                                  "pattern": "^role_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                                   "examples": [
                                     "role_01j2y8m6jcc9tt24af5pw9x1bc"
                                   ]
@@ -33405,7 +33468,7 @@
                         "type": "string",
                         "allOf": [
                           {
-                            "pattern": "^mbr_[0-9a-hjkmnp-tv-z]{26}$",
+                            "pattern": "^mbr_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                             "examples": [
                               "mbr_01j2y8m6jcc9tt24af5pw9x1bc"
                             ]
@@ -33424,7 +33487,7 @@
                               "type": "string",
                               "allOf": [
                                 {
-                                  "pattern": "^role_[0-9a-hjkmnp-tv-z]{26}$",
+                                  "pattern": "^role_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                                   "examples": [
                                     "role_01j2y8m6jcc9tt24af5pw9x1bc"
                                   ]
@@ -33468,7 +33531,7 @@
                                     "type": "string",
                                     "allOf": [
                                       {
-                                        "pattern": "^prov_[0-9a-hjkmnp-tv-z]{26}$",
+                                        "pattern": "^prov_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                                         "examples": [
                                           "prov_01j2y8m6jcc9tt24af5pw9x1bc"
                                         ]
@@ -33561,7 +33624,7 @@
                                           "type": "string",
                                           "allOf": [
                                             {
-                                              "pattern": "^lic_[0-9a-hjkmnp-tv-z]{26}$",
+                                              "pattern": "^lic_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                                               "examples": [
                                                 "lic_01j2y8m6jcc9tt24af5pw9x1bc"
                                               ]
@@ -33683,7 +33746,7 @@
                   "type": "string",
                   "allOf": [
                     {
-                      "pattern": "^invite_[0-9a-hjkmnp-tv-z]{26}$",
+                      "pattern": "^invite_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                       "examples": [
                         "invite_01j2y8m6jcc9tt24af5pw9x1bc"
                       ]
@@ -33728,7 +33791,7 @@
                         "type": "string",
                         "allOf": [
                           {
-                            "pattern": "^role_[0-9a-hjkmnp-tv-z]{26}$",
+                            "pattern": "^role_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                             "examples": [
                               "role_01j2y8m6jcc9tt24af5pw9x1bc"
                             ]
@@ -33763,7 +33826,7 @@
                     "type": "string",
                     "allOf": [
                       {
-                        "pattern": "^loc_[0-9a-hjkmnp-tv-z]{26}$",
+                        "pattern": "^loc_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                         "examples": [
                           "loc_01j2y8m6jcc9tt24af5pw9x1bc"
                         ]
@@ -33793,7 +33856,7 @@
                       "type": "string",
                       "allOf": [
                         {
-                          "pattern": "^user_[0-9a-hjkmnp-tv-z]{26}$",
+                          "pattern": "^user_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                           "examples": [
                             "user_01j2y8m6jcc9tt24af5pw9x1bc"
                           ]
@@ -33822,7 +33885,7 @@
                       "type": "string",
                       "allOf": [
                         {
-                          "pattern": "^mbr_[0-9a-hjkmnp-tv-z]{26}$",
+                          "pattern": "^mbr_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                           "examples": [
                             "mbr_01j2y8m6jcc9tt24af5pw9x1bc"
                           ]
@@ -33840,7 +33903,7 @@
                       "type": "string",
                       "allOf": [
                         {
-                          "pattern": "^prov_[0-9a-hjkmnp-tv-z]{26}$",
+                          "pattern": "^prov_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                           "examples": [
                             "prov_01j2y8m6jcc9tt24af5pw9x1bc"
                           ]
@@ -33861,7 +33924,7 @@
                           "type": "string",
                           "allOf": [
                             {
-                              "pattern": "^user_[0-9a-hjkmnp-tv-z]{26}$",
+                              "pattern": "^user_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                               "examples": [
                                 "user_01j2y8m6jcc9tt24af5pw9x1bc"
                               ]
@@ -33909,7 +33972,7 @@
                                   "type": "string",
                                   "allOf": [
                                     {
-                                      "pattern": "^invite_[0-9a-hjkmnp-tv-z]{26}$",
+                                      "pattern": "^invite_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                                       "examples": [
                                         "invite_01j2y8m6jcc9tt24af5pw9x1bc"
                                       ]
@@ -33938,7 +34001,7 @@
                                         "type": "string",
                                         "allOf": [
                                           {
-                                            "pattern": "^role_[0-9a-hjkmnp-tv-z]{26}$",
+                                            "pattern": "^role_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                                             "examples": [
                                               "role_01j2y8m6jcc9tt24af5pw9x1bc"
                                             ]
@@ -33996,7 +34059,7 @@
                                   "type": "string",
                                   "allOf": [
                                     {
-                                      "pattern": "^mbr_[0-9a-hjkmnp-tv-z]{26}$",
+                                      "pattern": "^mbr_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                                       "examples": [
                                         "mbr_01j2y8m6jcc9tt24af5pw9x1bc"
                                       ]
@@ -34015,7 +34078,7 @@
                                         "type": "string",
                                         "allOf": [
                                           {
-                                            "pattern": "^role_[0-9a-hjkmnp-tv-z]{26}$",
+                                            "pattern": "^role_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                                             "examples": [
                                               "role_01j2y8m6jcc9tt24af5pw9x1bc"
                                             ]
@@ -34059,7 +34122,7 @@
                                               "type": "string",
                                               "allOf": [
                                                 {
-                                                  "pattern": "^prov_[0-9a-hjkmnp-tv-z]{26}$",
+                                                  "pattern": "^prov_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                                                   "examples": [
                                                     "prov_01j2y8m6jcc9tt24af5pw9x1bc"
                                                   ]
@@ -34152,7 +34215,7 @@
                                                     "type": "string",
                                                     "allOf": [
                                                       {
-                                                        "pattern": "^lic_[0-9a-hjkmnp-tv-z]{26}$",
+                                                        "pattern": "^lic_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                                                         "examples": [
                                                           "lic_01j2y8m6jcc9tt24af5pw9x1bc"
                                                         ]
@@ -34307,7 +34370,7 @@
           },
           "practiceId": {
             "type": "string",
-            "pattern": "^prac_[0-9a-hjkmnp-tv-z]{26}$",
+            "pattern": "^prac_[0-7][0-9a-hjkmnp-tv-z]{25}$",
             "examples": [
               "prac_01j2y8m6jcc9tt24af5pw9x1bc"
             ]
@@ -34469,7 +34532,7 @@
               "properties": {
                 "id": {
                   "type": "string",
-                  "pattern": "^mbr_[0-9a-hjkmnp-tv-z]{26}$",
+                  "pattern": "^mbr_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                   "examples": [
                     "mbr_01j2y8m6jcc9tt24af5pw9x1bc"
                   ]
@@ -34504,7 +34567,7 @@
                     "type": "string",
                     "allOf": [
                       {
-                        "pattern": "^loc_[0-9a-hjkmnp-tv-z]{26}$",
+                        "pattern": "^loc_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                         "examples": [
                           "loc_01j2y8m6jcc9tt24af5pw9x1bc"
                         ]
@@ -34525,7 +34588,7 @@
                       "type": "string",
                       "allOf": [
                         {
-                          "pattern": "^mbr_[0-9a-hjkmnp-tv-z]{26}$",
+                          "pattern": "^mbr_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                           "examples": [
                             "mbr_01j2y8m6jcc9tt24af5pw9x1bc"
                           ]
@@ -34544,7 +34607,7 @@
                             "type": "string",
                             "allOf": [
                               {
-                                "pattern": "^role_[0-9a-hjkmnp-tv-z]{26}$",
+                                "pattern": "^role_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                                 "examples": [
                                   "role_01j2y8m6jcc9tt24af5pw9x1bc"
                                 ]
@@ -34588,7 +34651,7 @@
                                   "type": "string",
                                   "allOf": [
                                     {
-                                      "pattern": "^prov_[0-9a-hjkmnp-tv-z]{26}$",
+                                      "pattern": "^prov_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                                       "examples": [
                                         "prov_01j2y8m6jcc9tt24af5pw9x1bc"
                                       ]
@@ -34681,7 +34744,7 @@
                                         "type": "string",
                                         "allOf": [
                                           {
-                                            "pattern": "^lic_[0-9a-hjkmnp-tv-z]{26}$",
+                                            "pattern": "^lic_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                                             "examples": [
                                               "lic_01j2y8m6jcc9tt24af5pw9x1bc"
                                             ]
@@ -34804,7 +34867,7 @@
                   "type": "string",
                   "allOf": [
                     {
-                      "pattern": "^prov_[0-9a-hjkmnp-tv-z]{26}$",
+                      "pattern": "^prov_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                       "examples": [
                         "prov_01j2y8m6jcc9tt24af5pw9x1bc"
                       ]
@@ -34897,7 +34960,7 @@
                         "type": "string",
                         "allOf": [
                           {
-                            "pattern": "^lic_[0-9a-hjkmnp-tv-z]{26}$",
+                            "pattern": "^lic_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                             "examples": [
                               "lic_01j2y8m6jcc9tt24af5pw9x1bc"
                             ]
@@ -34972,7 +35035,7 @@
         "properties": {
           "id": {
             "type": "string",
-            "pattern": "^mbr_[0-9a-hjkmnp-tv-z]{26}$",
+            "pattern": "^mbr_[0-7][0-9a-hjkmnp-tv-z]{25}$",
             "examples": [
               "mbr_01j2y8m6jcc9tt24af5pw9x1bc"
             ]
@@ -35007,7 +35070,7 @@
               "type": "string",
               "allOf": [
                 {
-                  "pattern": "^loc_[0-9a-hjkmnp-tv-z]{26}$",
+                  "pattern": "^loc_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                   "examples": [
                     "loc_01j2y8m6jcc9tt24af5pw9x1bc"
                   ]
@@ -35028,7 +35091,7 @@
                 "type": "string",
                 "allOf": [
                   {
-                    "pattern": "^mbr_[0-9a-hjkmnp-tv-z]{26}$",
+                    "pattern": "^mbr_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                     "examples": [
                       "mbr_01j2y8m6jcc9tt24af5pw9x1bc"
                     ]
@@ -35047,7 +35110,7 @@
                       "type": "string",
                       "allOf": [
                         {
-                          "pattern": "^role_[0-9a-hjkmnp-tv-z]{26}$",
+                          "pattern": "^role_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                           "examples": [
                             "role_01j2y8m6jcc9tt24af5pw9x1bc"
                           ]
@@ -35091,7 +35154,7 @@
                             "type": "string",
                             "allOf": [
                               {
-                                "pattern": "^prov_[0-9a-hjkmnp-tv-z]{26}$",
+                                "pattern": "^prov_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                                 "examples": [
                                   "prov_01j2y8m6jcc9tt24af5pw9x1bc"
                                 ]
@@ -35184,7 +35247,7 @@
                                   "type": "string",
                                   "allOf": [
                                     {
-                                      "pattern": "^lic_[0-9a-hjkmnp-tv-z]{26}$",
+                                      "pattern": "^lic_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                                       "examples": [
                                         "lic_01j2y8m6jcc9tt24af5pw9x1bc"
                                       ]
@@ -35336,7 +35399,7 @@
                 "type": "array",
                 "items": {
                   "type": "string",
-                  "pattern": "^loc_[0-9a-hjkmnp-tv-z]{26}$",
+                  "pattern": "^loc_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                   "examples": [
                     "loc_01j2y8m6jcc9tt24af5pw9x1bc"
                   ]
@@ -35359,7 +35422,7 @@
         "properties": {
           "id": {
             "type": "string",
-            "pattern": "^mbr_[0-9a-hjkmnp-tv-z]{26}$",
+            "pattern": "^mbr_[0-7][0-9a-hjkmnp-tv-z]{25}$",
             "examples": [
               "mbr_01j2y8m6jcc9tt24af5pw9x1bc"
             ]
@@ -35394,7 +35457,7 @@
               "type": "string",
               "allOf": [
                 {
-                  "pattern": "^loc_[0-9a-hjkmnp-tv-z]{26}$",
+                  "pattern": "^loc_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                   "examples": [
                     "loc_01j2y8m6jcc9tt24af5pw9x1bc"
                   ]
@@ -35415,7 +35478,7 @@
                 "type": "string",
                 "allOf": [
                   {
-                    "pattern": "^mbr_[0-9a-hjkmnp-tv-z]{26}$",
+                    "pattern": "^mbr_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                     "examples": [
                       "mbr_01j2y8m6jcc9tt24af5pw9x1bc"
                     ]
@@ -35434,7 +35497,7 @@
                       "type": "string",
                       "allOf": [
                         {
-                          "pattern": "^role_[0-9a-hjkmnp-tv-z]{26}$",
+                          "pattern": "^role_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                           "examples": [
                             "role_01j2y8m6jcc9tt24af5pw9x1bc"
                           ]
@@ -35478,7 +35541,7 @@
                             "type": "string",
                             "allOf": [
                               {
-                                "pattern": "^prov_[0-9a-hjkmnp-tv-z]{26}$",
+                                "pattern": "^prov_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                                 "examples": [
                                   "prov_01j2y8m6jcc9tt24af5pw9x1bc"
                                 ]
@@ -35571,7 +35634,7 @@
                                   "type": "string",
                                   "allOf": [
                                     {
-                                      "pattern": "^lic_[0-9a-hjkmnp-tv-z]{26}$",
+                                      "pattern": "^lic_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                                       "examples": [
                                         "lic_01j2y8m6jcc9tt24af5pw9x1bc"
                                       ]
@@ -35665,7 +35728,7 @@
         "properties": {
           "id": {
             "type": "string",
-            "pattern": "^prov_[0-9a-hjkmnp-tv-z]{26}$",
+            "pattern": "^prov_[0-7][0-9a-hjkmnp-tv-z]{25}$",
             "examples": [
               "prov_01j2y8m6jcc9tt24af5pw9x1bc"
             ]
@@ -35756,7 +35819,7 @@
                   "type": "string",
                   "allOf": [
                     {
-                      "pattern": "^lic_[0-9a-hjkmnp-tv-z]{26}$",
+                      "pattern": "^lic_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                       "examples": [
                         "lic_01j2y8m6jcc9tt24af5pw9x1bc"
                       ]
@@ -35929,7 +35992,7 @@
         "properties": {
           "id": {
             "type": "string",
-            "pattern": "^prov_[0-9a-hjkmnp-tv-z]{26}$",
+            "pattern": "^prov_[0-7][0-9a-hjkmnp-tv-z]{25}$",
             "examples": [
               "prov_01j2y8m6jcc9tt24af5pw9x1bc"
             ]
@@ -36020,7 +36083,7 @@
                   "type": "string",
                   "allOf": [
                     {
-                      "pattern": "^lic_[0-9a-hjkmnp-tv-z]{26}$",
+                      "pattern": "^lic_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                       "examples": [
                         "lic_01j2y8m6jcc9tt24af5pw9x1bc"
                       ]
@@ -36107,7 +36170,7 @@
         "properties": {
           "id": {
             "type": "string",
-            "pattern": "^lic_[0-9a-hjkmnp-tv-z]{26}$",
+            "pattern": "^lic_[0-7][0-9a-hjkmnp-tv-z]{25}$",
             "examples": [
               "lic_01j2y8m6jcc9tt24af5pw9x1bc"
             ]
@@ -36187,7 +36250,7 @@
         "properties": {
           "id": {
             "type": "string",
-            "pattern": "^lic_[0-9a-hjkmnp-tv-z]{26}$",
+            "pattern": "^lic_[0-7][0-9a-hjkmnp-tv-z]{25}$",
             "examples": [
               "lic_01j2y8m6jcc9tt24af5pw9x1bc"
             ]
@@ -36223,7 +36286,7 @@
         "properties": {
           "id": {
             "type": "string",
-            "pattern": "^invite_[0-9a-hjkmnp-tv-z]{26}$",
+            "pattern": "^invite_[0-7][0-9a-hjkmnp-tv-z]{25}$",
             "examples": [
               "invite_01j2y8m6jcc9tt24af5pw9x1bc"
             ]
@@ -36266,7 +36329,7 @@
                   "type": "string",
                   "allOf": [
                     {
-                      "pattern": "^role_[0-9a-hjkmnp-tv-z]{26}$",
+                      "pattern": "^role_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                       "examples": [
                         "role_01j2y8m6jcc9tt24af5pw9x1bc"
                       ]
@@ -36301,7 +36364,7 @@
               "type": "string",
               "allOf": [
                 {
-                  "pattern": "^loc_[0-9a-hjkmnp-tv-z]{26}$",
+                  "pattern": "^loc_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                   "examples": [
                     "loc_01j2y8m6jcc9tt24af5pw9x1bc"
                   ]
@@ -36331,7 +36394,7 @@
                 "type": "string",
                 "allOf": [
                   {
-                    "pattern": "^user_[0-9a-hjkmnp-tv-z]{26}$",
+                    "pattern": "^user_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                     "examples": [
                       "user_01j2y8m6jcc9tt24af5pw9x1bc"
                     ]
@@ -36360,7 +36423,7 @@
                 "type": "string",
                 "allOf": [
                   {
-                    "pattern": "^mbr_[0-9a-hjkmnp-tv-z]{26}$",
+                    "pattern": "^mbr_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                     "examples": [
                       "mbr_01j2y8m6jcc9tt24af5pw9x1bc"
                     ]
@@ -36378,7 +36441,7 @@
                 "type": "string",
                 "allOf": [
                   {
-                    "pattern": "^prov_[0-9a-hjkmnp-tv-z]{26}$",
+                    "pattern": "^prov_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                     "examples": [
                       "prov_01j2y8m6jcc9tt24af5pw9x1bc"
                     ]
@@ -36399,7 +36462,7 @@
                     "type": "string",
                     "allOf": [
                       {
-                        "pattern": "^user_[0-9a-hjkmnp-tv-z]{26}$",
+                        "pattern": "^user_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                         "examples": [
                           "user_01j2y8m6jcc9tt24af5pw9x1bc"
                         ]
@@ -36447,7 +36510,7 @@
                             "type": "string",
                             "allOf": [
                               {
-                                "pattern": "^invite_[0-9a-hjkmnp-tv-z]{26}$",
+                                "pattern": "^invite_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                                 "examples": [
                                   "invite_01j2y8m6jcc9tt24af5pw9x1bc"
                                 ]
@@ -36476,7 +36539,7 @@
                                   "type": "string",
                                   "allOf": [
                                     {
-                                      "pattern": "^role_[0-9a-hjkmnp-tv-z]{26}$",
+                                      "pattern": "^role_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                                       "examples": [
                                         "role_01j2y8m6jcc9tt24af5pw9x1bc"
                                       ]
@@ -36534,7 +36597,7 @@
                             "type": "string",
                             "allOf": [
                               {
-                                "pattern": "^mbr_[0-9a-hjkmnp-tv-z]{26}$",
+                                "pattern": "^mbr_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                                 "examples": [
                                   "mbr_01j2y8m6jcc9tt24af5pw9x1bc"
                                 ]
@@ -36553,7 +36616,7 @@
                                   "type": "string",
                                   "allOf": [
                                     {
-                                      "pattern": "^role_[0-9a-hjkmnp-tv-z]{26}$",
+                                      "pattern": "^role_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                                       "examples": [
                                         "role_01j2y8m6jcc9tt24af5pw9x1bc"
                                       ]
@@ -36597,7 +36660,7 @@
                                         "type": "string",
                                         "allOf": [
                                           {
-                                            "pattern": "^prov_[0-9a-hjkmnp-tv-z]{26}$",
+                                            "pattern": "^prov_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                                             "examples": [
                                               "prov_01j2y8m6jcc9tt24af5pw9x1bc"
                                             ]
@@ -36690,7 +36753,7 @@
                                               "type": "string",
                                               "allOf": [
                                                 {
-                                                  "pattern": "^lic_[0-9a-hjkmnp-tv-z]{26}$",
+                                                  "pattern": "^lic_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                                                   "examples": [
                                                     "lic_01j2y8m6jcc9tt24af5pw9x1bc"
                                                   ]
@@ -36817,7 +36880,7 @@
         "properties": {
           "id": {
             "type": "string",
-            "pattern": "^invite_[0-9a-hjkmnp-tv-z]{26}$",
+            "pattern": "^invite_[0-7][0-9a-hjkmnp-tv-z]{25}$",
             "examples": [
               "invite_01j2y8m6jcc9tt24af5pw9x1bc"
             ]
@@ -36860,7 +36923,7 @@
                   "type": "string",
                   "allOf": [
                     {
-                      "pattern": "^role_[0-9a-hjkmnp-tv-z]{26}$",
+                      "pattern": "^role_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                       "examples": [
                         "role_01j2y8m6jcc9tt24af5pw9x1bc"
                       ]
@@ -36895,7 +36958,7 @@
               "type": "string",
               "allOf": [
                 {
-                  "pattern": "^loc_[0-9a-hjkmnp-tv-z]{26}$",
+                  "pattern": "^loc_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                   "examples": [
                     "loc_01j2y8m6jcc9tt24af5pw9x1bc"
                   ]
@@ -36925,7 +36988,7 @@
                 "type": "string",
                 "allOf": [
                   {
-                    "pattern": "^user_[0-9a-hjkmnp-tv-z]{26}$",
+                    "pattern": "^user_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                     "examples": [
                       "user_01j2y8m6jcc9tt24af5pw9x1bc"
                     ]
@@ -36954,7 +37017,7 @@
                 "type": "string",
                 "allOf": [
                   {
-                    "pattern": "^mbr_[0-9a-hjkmnp-tv-z]{26}$",
+                    "pattern": "^mbr_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                     "examples": [
                       "mbr_01j2y8m6jcc9tt24af5pw9x1bc"
                     ]
@@ -36972,7 +37035,7 @@
                 "type": "string",
                 "allOf": [
                   {
-                    "pattern": "^prov_[0-9a-hjkmnp-tv-z]{26}$",
+                    "pattern": "^prov_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                     "examples": [
                       "prov_01j2y8m6jcc9tt24af5pw9x1bc"
                     ]
@@ -36993,7 +37056,7 @@
                     "type": "string",
                     "allOf": [
                       {
-                        "pattern": "^user_[0-9a-hjkmnp-tv-z]{26}$",
+                        "pattern": "^user_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                         "examples": [
                           "user_01j2y8m6jcc9tt24af5pw9x1bc"
                         ]
@@ -37041,7 +37104,7 @@
                             "type": "string",
                             "allOf": [
                               {
-                                "pattern": "^invite_[0-9a-hjkmnp-tv-z]{26}$",
+                                "pattern": "^invite_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                                 "examples": [
                                   "invite_01j2y8m6jcc9tt24af5pw9x1bc"
                                 ]
@@ -37070,7 +37133,7 @@
                                   "type": "string",
                                   "allOf": [
                                     {
-                                      "pattern": "^role_[0-9a-hjkmnp-tv-z]{26}$",
+                                      "pattern": "^role_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                                       "examples": [
                                         "role_01j2y8m6jcc9tt24af5pw9x1bc"
                                       ]
@@ -37128,7 +37191,7 @@
                             "type": "string",
                             "allOf": [
                               {
-                                "pattern": "^mbr_[0-9a-hjkmnp-tv-z]{26}$",
+                                "pattern": "^mbr_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                                 "examples": [
                                   "mbr_01j2y8m6jcc9tt24af5pw9x1bc"
                                 ]
@@ -37147,7 +37210,7 @@
                                   "type": "string",
                                   "allOf": [
                                     {
-                                      "pattern": "^role_[0-9a-hjkmnp-tv-z]{26}$",
+                                      "pattern": "^role_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                                       "examples": [
                                         "role_01j2y8m6jcc9tt24af5pw9x1bc"
                                       ]
@@ -37191,7 +37254,7 @@
                                         "type": "string",
                                         "allOf": [
                                           {
-                                            "pattern": "^prov_[0-9a-hjkmnp-tv-z]{26}$",
+                                            "pattern": "^prov_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                                             "examples": [
                                               "prov_01j2y8m6jcc9tt24af5pw9x1bc"
                                             ]
@@ -37284,7 +37347,7 @@
                                               "type": "string",
                                               "allOf": [
                                                 {
-                                                  "pattern": "^lic_[0-9a-hjkmnp-tv-z]{26}$",
+                                                  "pattern": "^lic_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                                                   "examples": [
                                                     "lic_01j2y8m6jcc9tt24af5pw9x1bc"
                                                   ]
@@ -37416,7 +37479,7 @@
                 "type": "string",
                 "allOf": [
                   {
-                    "pattern": "^invite_[0-9a-hjkmnp-tv-z]{26}$",
+                    "pattern": "^invite_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                     "examples": [
                       "invite_01j2y8m6jcc9tt24af5pw9x1bc"
                     ]
@@ -37461,7 +37524,7 @@
                       "type": "string",
                       "allOf": [
                         {
-                          "pattern": "^role_[0-9a-hjkmnp-tv-z]{26}$",
+                          "pattern": "^role_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                           "examples": [
                             "role_01j2y8m6jcc9tt24af5pw9x1bc"
                           ]
@@ -37496,7 +37559,7 @@
                   "type": "string",
                   "allOf": [
                     {
-                      "pattern": "^loc_[0-9a-hjkmnp-tv-z]{26}$",
+                      "pattern": "^loc_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                       "examples": [
                         "loc_01j2y8m6jcc9tt24af5pw9x1bc"
                       ]
@@ -37526,7 +37589,7 @@
                     "type": "string",
                     "allOf": [
                       {
-                        "pattern": "^user_[0-9a-hjkmnp-tv-z]{26}$",
+                        "pattern": "^user_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                         "examples": [
                           "user_01j2y8m6jcc9tt24af5pw9x1bc"
                         ]
@@ -37555,7 +37618,7 @@
                     "type": "string",
                     "allOf": [
                       {
-                        "pattern": "^mbr_[0-9a-hjkmnp-tv-z]{26}$",
+                        "pattern": "^mbr_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                         "examples": [
                           "mbr_01j2y8m6jcc9tt24af5pw9x1bc"
                         ]
@@ -37573,7 +37636,7 @@
                     "type": "string",
                     "allOf": [
                       {
-                        "pattern": "^prov_[0-9a-hjkmnp-tv-z]{26}$",
+                        "pattern": "^prov_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                         "examples": [
                           "prov_01j2y8m6jcc9tt24af5pw9x1bc"
                         ]
@@ -37594,7 +37657,7 @@
                         "type": "string",
                         "allOf": [
                           {
-                            "pattern": "^user_[0-9a-hjkmnp-tv-z]{26}$",
+                            "pattern": "^user_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                             "examples": [
                               "user_01j2y8m6jcc9tt24af5pw9x1bc"
                             ]
@@ -37642,7 +37705,7 @@
                                 "type": "string",
                                 "allOf": [
                                   {
-                                    "pattern": "^invite_[0-9a-hjkmnp-tv-z]{26}$",
+                                    "pattern": "^invite_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                                     "examples": [
                                       "invite_01j2y8m6jcc9tt24af5pw9x1bc"
                                     ]
@@ -37671,7 +37734,7 @@
                                       "type": "string",
                                       "allOf": [
                                         {
-                                          "pattern": "^role_[0-9a-hjkmnp-tv-z]{26}$",
+                                          "pattern": "^role_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                                           "examples": [
                                             "role_01j2y8m6jcc9tt24af5pw9x1bc"
                                           ]
@@ -37729,7 +37792,7 @@
                                 "type": "string",
                                 "allOf": [
                                   {
-                                    "pattern": "^mbr_[0-9a-hjkmnp-tv-z]{26}$",
+                                    "pattern": "^mbr_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                                     "examples": [
                                       "mbr_01j2y8m6jcc9tt24af5pw9x1bc"
                                     ]
@@ -37748,7 +37811,7 @@
                                       "type": "string",
                                       "allOf": [
                                         {
-                                          "pattern": "^role_[0-9a-hjkmnp-tv-z]{26}$",
+                                          "pattern": "^role_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                                           "examples": [
                                             "role_01j2y8m6jcc9tt24af5pw9x1bc"
                                           ]
@@ -37792,7 +37855,7 @@
                                             "type": "string",
                                             "allOf": [
                                               {
-                                                "pattern": "^prov_[0-9a-hjkmnp-tv-z]{26}$",
+                                                "pattern": "^prov_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                                                 "examples": [
                                                   "prov_01j2y8m6jcc9tt24af5pw9x1bc"
                                                 ]
@@ -37885,7 +37948,7 @@
                                                   "type": "string",
                                                   "allOf": [
                                                     {
-                                                      "pattern": "^lic_[0-9a-hjkmnp-tv-z]{26}$",
+                                                      "pattern": "^lic_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                                                       "examples": [
                                                         "lic_01j2y8m6jcc9tt24af5pw9x1bc"
                                                       ]
@@ -38028,7 +38091,7 @@
             "properties": {
               "id": {
                 "type": "string",
-                "pattern": "^key_[0-9a-hjkmnp-tv-z]{26}$",
+                "pattern": "^key_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                 "examples": [
                   "key_01j2y8m6jcc9tt24af5pw9x1bc"
                 ]
@@ -38080,7 +38143,7 @@
               },
               "id": {
                 "type": "string",
-                "pattern": "^sa_[0-9a-hjkmnp-tv-z]{26}$",
+                "pattern": "^sa_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                 "examples": [
                   "sa_01j2y8m6jcc9tt24af5pw9x1bc"
                 ]
@@ -38337,7 +38400,7 @@
                 },
                 "id": {
                   "type": "string",
-                  "pattern": "^prac_[0-9a-hjkmnp-tv-z]{26}$",
+                  "pattern": "^prac_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                   "examples": [
                     "prac_01j2y8m6jcc9tt24af5pw9x1bc"
                   ]
@@ -39114,7 +39177,7 @@
           },
           "id": {
             "type": "string",
-            "pattern": "^prac_[0-9a-hjkmnp-tv-z]{26}$",
+            "pattern": "^prac_[0-7][0-9a-hjkmnp-tv-z]{25}$",
             "examples": [
               "prac_01j2y8m6jcc9tt24af5pw9x1bc"
             ]
@@ -39456,7 +39519,7 @@
           },
           "id": {
             "type": "string",
-            "pattern": "^prac_[0-9a-hjkmnp-tv-z]{26}$",
+            "pattern": "^prac_[0-7][0-9a-hjkmnp-tv-z]{25}$",
             "examples": [
               "prac_01j2y8m6jcc9tt24af5pw9x1bc"
             ]
@@ -40184,7 +40247,7 @@
           },
           "id": {
             "type": "string",
-            "pattern": "^prac_[0-9a-hjkmnp-tv-z]{26}$",
+            "pattern": "^prac_[0-7][0-9a-hjkmnp-tv-z]{25}$",
             "examples": [
               "prac_01j2y8m6jcc9tt24af5pw9x1bc"
             ]
@@ -40432,7 +40495,7 @@
                       "type": "string",
                       "allOf": [
                         {
-                          "pattern": "^addr_[0-9a-hjkmnp-tv-z]{26}$",
+                          "pattern": "^addr_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                           "examples": [
                             "addr_01j2y8m6jcc9tt24af5pw9x1bc"
                           ]
@@ -40726,7 +40789,7 @@
                         "type": "string",
                         "allOf": [
                           {
-                            "pattern": "^addr_[0-9a-hjkmnp-tv-z]{26}$",
+                            "pattern": "^addr_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                             "examples": [
                               "addr_01j2y8m6jcc9tt24af5pw9x1bc"
                             ]
@@ -40953,7 +41016,7 @@
                 },
                 "id": {
                   "type": "string",
-                  "pattern": "^pat_[0-9a-hjkmnp-tv-z]{26}$",
+                  "pattern": "^pat_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                   "examples": [
                     "pat_01j2y8m6jcc9tt24af5pw9x1bc"
                   ]
@@ -40968,7 +41031,7 @@
                       "type": "string",
                       "allOf": [
                         {
-                          "pattern": "^loc_[0-9a-hjkmnp-tv-z]{26}$",
+                          "pattern": "^loc_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                           "examples": [
                             "loc_01j2y8m6jcc9tt24af5pw9x1bc"
                           ]
@@ -41006,7 +41069,7 @@
                 },
                 "locationId": {
                   "type": "string",
-                  "pattern": "^loc_[0-9a-hjkmnp-tv-z]{26}$",
+                  "pattern": "^loc_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                   "examples": [
                     "loc_01j2y8m6jcc9tt24af5pw9x1bc"
                   ]
@@ -41204,7 +41267,7 @@
                 },
                 "practiceId": {
                   "type": "string",
-                  "pattern": "^prac_[0-9a-hjkmnp-tv-z]{26}$",
+                  "pattern": "^prac_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                   "examples": [
                     "prac_01j2y8m6jcc9tt24af5pw9x1bc"
                   ]
@@ -41536,7 +41599,7 @@
                       "anyOf": [
                         {
                           "type": "string",
-                          "pattern": "^addr_[0-9a-hjkmnp-tv-z]{26}$",
+                          "pattern": "^addr_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                           "examples": [
                             "addr_01j2y8m6jcc9tt24af5pw9x1bc"
                           ]
@@ -41729,7 +41792,7 @@
             "anyOf": [
               {
                 "type": "string",
-                "pattern": "^loc_[0-9a-hjkmnp-tv-z]{26}$",
+                "pattern": "^loc_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                 "examples": [
                   "loc_01j2y8m6jcc9tt24af5pw9x1bc"
                 ]
@@ -42104,7 +42167,7 @@
                 "type": "string",
                 "allOf": [
                   {
-                    "pattern": "^addr_[0-9a-hjkmnp-tv-z]{26}$",
+                    "pattern": "^addr_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                     "examples": [
                       "addr_01j2y8m6jcc9tt24af5pw9x1bc"
                     ]
@@ -42398,7 +42461,7 @@
                   "type": "string",
                   "allOf": [
                     {
-                      "pattern": "^addr_[0-9a-hjkmnp-tv-z]{26}$",
+                      "pattern": "^addr_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                       "examples": [
                         "addr_01j2y8m6jcc9tt24af5pw9x1bc"
                       ]
@@ -42625,7 +42688,7 @@
           },
           "id": {
             "type": "string",
-            "pattern": "^pat_[0-9a-hjkmnp-tv-z]{26}$",
+            "pattern": "^pat_[0-7][0-9a-hjkmnp-tv-z]{25}$",
             "examples": [
               "pat_01j2y8m6jcc9tt24af5pw9x1bc"
             ]
@@ -42640,7 +42703,7 @@
                 "type": "string",
                 "allOf": [
                   {
-                    "pattern": "^loc_[0-9a-hjkmnp-tv-z]{26}$",
+                    "pattern": "^loc_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                     "examples": [
                       "loc_01j2y8m6jcc9tt24af5pw9x1bc"
                     ]
@@ -42678,7 +42741,7 @@
           },
           "locationId": {
             "type": "string",
-            "pattern": "^loc_[0-9a-hjkmnp-tv-z]{26}$",
+            "pattern": "^loc_[0-7][0-9a-hjkmnp-tv-z]{25}$",
             "examples": [
               "loc_01j2y8m6jcc9tt24af5pw9x1bc"
             ]
@@ -42876,7 +42939,7 @@
           },
           "practiceId": {
             "type": "string",
-            "pattern": "^prac_[0-9a-hjkmnp-tv-z]{26}$",
+            "pattern": "^prac_[0-7][0-9a-hjkmnp-tv-z]{25}$",
             "examples": [
               "prac_01j2y8m6jcc9tt24af5pw9x1bc"
             ]
@@ -43040,7 +43103,7 @@
                 "type": "string",
                 "allOf": [
                   {
-                    "pattern": "^addr_[0-9a-hjkmnp-tv-z]{26}$",
+                    "pattern": "^addr_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                     "examples": [
                       "addr_01j2y8m6jcc9tt24af5pw9x1bc"
                     ]
@@ -43334,7 +43397,7 @@
                   "type": "string",
                   "allOf": [
                     {
-                      "pattern": "^addr_[0-9a-hjkmnp-tv-z]{26}$",
+                      "pattern": "^addr_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                       "examples": [
                         "addr_01j2y8m6jcc9tt24af5pw9x1bc"
                       ]
@@ -43561,7 +43624,7 @@
           },
           "id": {
             "type": "string",
-            "pattern": "^pat_[0-9a-hjkmnp-tv-z]{26}$",
+            "pattern": "^pat_[0-7][0-9a-hjkmnp-tv-z]{25}$",
             "examples": [
               "pat_01j2y8m6jcc9tt24af5pw9x1bc"
             ]
@@ -43576,7 +43639,7 @@
                 "type": "string",
                 "allOf": [
                   {
-                    "pattern": "^loc_[0-9a-hjkmnp-tv-z]{26}$",
+                    "pattern": "^loc_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                     "examples": [
                       "loc_01j2y8m6jcc9tt24af5pw9x1bc"
                     ]
@@ -43614,7 +43677,7 @@
           },
           "locationId": {
             "type": "string",
-            "pattern": "^loc_[0-9a-hjkmnp-tv-z]{26}$",
+            "pattern": "^loc_[0-7][0-9a-hjkmnp-tv-z]{25}$",
             "examples": [
               "loc_01j2y8m6jcc9tt24af5pw9x1bc"
             ]
@@ -43812,7 +43875,7 @@
           },
           "practiceId": {
             "type": "string",
-            "pattern": "^prac_[0-9a-hjkmnp-tv-z]{26}$",
+            "pattern": "^prac_[0-7][0-9a-hjkmnp-tv-z]{25}$",
             "examples": [
               "prac_01j2y8m6jcc9tt24af5pw9x1bc"
             ]
@@ -43872,7 +43935,7 @@
           },
           "id": {
             "type": "string",
-            "pattern": "^pat_[0-9a-hjkmnp-tv-z]{26}$",
+            "pattern": "^pat_[0-7][0-9a-hjkmnp-tv-z]{25}$",
             "examples": [
               "pat_01j2y8m6jcc9tt24af5pw9x1bc"
             ]
@@ -44171,7 +44234,7 @@
                       "anyOf": [
                         {
                           "type": "string",
-                          "pattern": "^addr_[0-9a-hjkmnp-tv-z]{26}$",
+                          "pattern": "^addr_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                           "examples": [
                             "addr_01j2y8m6jcc9tt24af5pw9x1bc"
                           ]
@@ -44364,7 +44427,7 @@
             "anyOf": [
               {
                 "type": "string",
-                "pattern": "^loc_[0-9a-hjkmnp-tv-z]{26}$",
+                "pattern": "^loc_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                 "examples": [
                   "loc_01j2y8m6jcc9tt24af5pw9x1bc"
                 ]
@@ -44766,7 +44829,7 @@
                 "type": "string",
                 "allOf": [
                   {
-                    "pattern": "^addr_[0-9a-hjkmnp-tv-z]{26}$",
+                    "pattern": "^addr_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                     "examples": [
                       "addr_01j2y8m6jcc9tt24af5pw9x1bc"
                     ]
@@ -45060,7 +45123,7 @@
                   "type": "string",
                   "allOf": [
                     {
-                      "pattern": "^addr_[0-9a-hjkmnp-tv-z]{26}$",
+                      "pattern": "^addr_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                       "examples": [
                         "addr_01j2y8m6jcc9tt24af5pw9x1bc"
                       ]
@@ -45287,7 +45350,7 @@
           },
           "id": {
             "type": "string",
-            "pattern": "^pat_[0-9a-hjkmnp-tv-z]{26}$",
+            "pattern": "^pat_[0-7][0-9a-hjkmnp-tv-z]{25}$",
             "examples": [
               "pat_01j2y8m6jcc9tt24af5pw9x1bc"
             ]
@@ -45302,7 +45365,7 @@
                 "type": "string",
                 "allOf": [
                   {
-                    "pattern": "^loc_[0-9a-hjkmnp-tv-z]{26}$",
+                    "pattern": "^loc_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                     "examples": [
                       "loc_01j2y8m6jcc9tt24af5pw9x1bc"
                     ]
@@ -45340,7 +45403,7 @@
           },
           "locationId": {
             "type": "string",
-            "pattern": "^loc_[0-9a-hjkmnp-tv-z]{26}$",
+            "pattern": "^loc_[0-7][0-9a-hjkmnp-tv-z]{25}$",
             "examples": [
               "loc_01j2y8m6jcc9tt24af5pw9x1bc"
             ]
@@ -45538,7 +45601,7 @@
           },
           "practiceId": {
             "type": "string",
-            "pattern": "^prac_[0-9a-hjkmnp-tv-z]{26}$",
+            "pattern": "^prac_[0-7][0-9a-hjkmnp-tv-z]{25}$",
             "examples": [
               "prac_01j2y8m6jcc9tt24af5pw9x1bc"
             ]
@@ -45638,7 +45701,7 @@
                   "type": "string",
                   "allOf": [
                     {
-                      "pattern": "^alg_[0-9a-hjkmnp-tv-z]{26}$",
+                      "pattern": "^alg_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                       "examples": [
                         "alg_01j2y8m6jcc9tt24af5pw9x1bc"
                       ]
@@ -46032,7 +46095,7 @@
                   "type": "string",
                   "allOf": [
                     {
-                      "pattern": "^alg_[0-9a-hjkmnp-tv-z]{26}$",
+                      "pattern": "^alg_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                       "examples": [
                         "alg_01j2y8m6jcc9tt24af5pw9x1bc"
                       ]
@@ -46200,7 +46263,7 @@
           },
           "practiceId": {
             "type": "string",
-            "pattern": "^prac_[0-9a-hjkmnp-tv-z]{26}$",
+            "pattern": "^prac_[0-7][0-9a-hjkmnp-tv-z]{25}$",
             "examples": [
               "prac_01j2y8m6jcc9tt24af5pw9x1bc"
             ]
@@ -46226,7 +46289,7 @@
                   "properties": {
                     "prescriptionId": {
                       "type": "string",
-                      "pattern": "^rx_[0-9a-hjkmnp-tv-z]{26}$",
+                      "pattern": "^rx_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                       "examples": [
                         "rx_01j2y8m6jcc9tt24af5pw9x1bc"
                       ]
@@ -46453,7 +46516,7 @@
                 "anyOf": [
                   {
                     "type": "string",
-                    "pattern": "^pharm_[0-9a-hjkmnp-tv-z]{26}$",
+                    "pattern": "^pharm_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                     "examples": [
                       "pharm_01j2y8m6jcc9tt24af5pw9x1bc"
                     ]
@@ -46485,7 +46548,7 @@
                     "anyOf": [
                       {
                         "type": "string",
-                        "pattern": "^shp_[0-9a-hjkmnp-tv-z]{26}$",
+                        "pattern": "^shp_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                         "examples": [
                           "shp_01j2y8m6jcc9tt24af5pw9x1bc"
                         ]
@@ -46559,7 +46622,7 @@
               },
               "medicationId": {
                 "type": "string",
-                "pattern": "^cat_[0-9a-hjkmnp-tv-z]{26}$",
+                "pattern": "^cat_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                 "examples": [
                   "cat_01j2y8m6jcc9tt24af5pw9x1bc"
                 ]
@@ -46789,14 +46852,14 @@
           },
           "orderId": {
             "type": "string",
-            "pattern": "^ord_[0-9a-hjkmnp-tv-z]{26}$",
+            "pattern": "^ord_[0-7][0-9a-hjkmnp-tv-z]{25}$",
             "examples": [
               "ord_01j2y8m6jcc9tt24af5pw9x1bc"
             ]
           },
           "prescriptionId": {
             "type": "string",
-            "pattern": "^rx_[0-9a-hjkmnp-tv-z]{26}$",
+            "pattern": "^rx_[0-7][0-9a-hjkmnp-tv-z]{25}$",
             "examples": [
               "rx_01j2y8m6jcc9tt24af5pw9x1bc"
             ]
@@ -46810,7 +46873,7 @@
                   "type": "string",
                   "allOf": [
                     {
-                      "pattern": "^rx_[0-9a-hjkmnp-tv-z]{26}$",
+                      "pattern": "^rx_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                       "examples": [
                         "rx_01j2y8m6jcc9tt24af5pw9x1bc"
                       ]
@@ -46918,7 +46981,7 @@
           },
           "practiceId": {
             "type": "string",
-            "pattern": "^prac_[0-9a-hjkmnp-tv-z]{26}$",
+            "pattern": "^prac_[0-7][0-9a-hjkmnp-tv-z]{25}$",
             "examples": [
               "prac_01j2y8m6jcc9tt24af5pw9x1bc"
             ]
@@ -46944,7 +47007,7 @@
                   "properties": {
                     "prescriptionId": {
                       "type": "string",
-                      "pattern": "^rx_[0-9a-hjkmnp-tv-z]{26}$",
+                      "pattern": "^rx_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                       "examples": [
                         "rx_01j2y8m6jcc9tt24af5pw9x1bc"
                       ]
@@ -47153,7 +47216,7 @@
                 "anyOf": [
                   {
                     "type": "string",
-                    "pattern": "^pharm_[0-9a-hjkmnp-tv-z]{26}$",
+                    "pattern": "^pharm_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                     "examples": [
                       "pharm_01j2y8m6jcc9tt24af5pw9x1bc"
                     ]
@@ -47185,7 +47248,7 @@
                     "anyOf": [
                       {
                         "type": "string",
-                        "pattern": "^shp_[0-9a-hjkmnp-tv-z]{26}$",
+                        "pattern": "^shp_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                         "examples": [
                           "shp_01j2y8m6jcc9tt24af5pw9x1bc"
                         ]
@@ -47259,7 +47322,7 @@
               },
               "medicationId": {
                 "type": "string",
-                "pattern": "^cat_[0-9a-hjkmnp-tv-z]{26}$",
+                "pattern": "^cat_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                 "examples": [
                   "cat_01j2y8m6jcc9tt24af5pw9x1bc"
                 ]
@@ -47489,14 +47552,14 @@
           },
           "orderId": {
             "type": "string",
-            "pattern": "^ord_[0-9a-hjkmnp-tv-z]{26}$",
+            "pattern": "^ord_[0-7][0-9a-hjkmnp-tv-z]{25}$",
             "examples": [
               "ord_01j2y8m6jcc9tt24af5pw9x1bc"
             ]
           },
           "prescriptionId": {
             "type": "string",
-            "pattern": "^rx_[0-9a-hjkmnp-tv-z]{26}$",
+            "pattern": "^rx_[0-7][0-9a-hjkmnp-tv-z]{25}$",
             "examples": [
               "rx_01j2y8m6jcc9tt24af5pw9x1bc"
             ]
@@ -47510,7 +47573,7 @@
                   "type": "string",
                   "allOf": [
                     {
-                      "pattern": "^rx_[0-9a-hjkmnp-tv-z]{26}$",
+                      "pattern": "^rx_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                       "examples": [
                         "rx_01j2y8m6jcc9tt24af5pw9x1bc"
                       ]
@@ -47583,7 +47646,7 @@
         "properties": {
           "practiceId": {
             "type": "string",
-            "pattern": "^prac_[0-9a-hjkmnp-tv-z]{26}$",
+            "pattern": "^prac_[0-7][0-9a-hjkmnp-tv-z]{25}$",
             "examples": [
               "prac_01j2y8m6jcc9tt24af5pw9x1bc"
             ]
@@ -47592,7 +47655,7 @@
             "anyOf": [
               {
                 "type": "string",
-                "pattern": "^user_[0-9a-hjkmnp-tv-z]{26}$",
+                "pattern": "^user_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                 "examples": [
                   "user_01j2y8m6jcc9tt24af5pw9x1bc"
                 ]
@@ -47611,7 +47674,7 @@
                     "anyOf": [
                       {
                         "type": "string",
-                        "pattern": "^prov_[0-9a-hjkmnp-tv-z]{26}$",
+                        "pattern": "^prov_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                         "examples": [
                           "prov_01j2y8m6jcc9tt24af5pw9x1bc"
                         ]
@@ -47697,7 +47760,7 @@
                         "properties": {
                           "catalogItemId": {
                             "type": "string",
-                            "pattern": "^cat_[0-9a-hjkmnp-tv-z]{26}$",
+                            "pattern": "^cat_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                             "examples": [
                               "cat_01j2y8m6jcc9tt24af5pw9x1bc"
                             ]
@@ -47778,7 +47841,7 @@
                   "anyOf": [
                     {
                       "type": "string",
-                      "pattern": "^pat_[0-9a-hjkmnp-tv-z]{26}$",
+                      "pattern": "^pat_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                       "examples": [
                         "pat_01j2y8m6jcc9tt24af5pw9x1bc"
                       ]
@@ -48052,7 +48115,7 @@
                                     "anyOf": [
                                       {
                                         "type": "string",
-                                        "pattern": "^addr_[0-9a-hjkmnp-tv-z]{26}$",
+                                        "pattern": "^addr_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                                         "examples": [
                                           "addr_01j2y8m6jcc9tt24af5pw9x1bc"
                                         ]
@@ -48245,7 +48308,7 @@
                           "anyOf": [
                             {
                               "type": "string",
-                              "pattern": "^loc_[0-9a-hjkmnp-tv-z]{26}$",
+                              "pattern": "^loc_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                               "examples": [
                                 "loc_01j2y8m6jcc9tt24af5pw9x1bc"
                               ]
@@ -48512,7 +48575,7 @@
                   "anyOf": [
                     {
                       "type": "string",
-                      "pattern": "^addr_[0-9a-hjkmnp-tv-z]{26}$",
+                      "pattern": "^addr_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                       "examples": [
                         "addr_01j2y8m6jcc9tt24af5pw9x1bc"
                       ]
@@ -48727,7 +48790,7 @@
                         "anyOf": [
                           {
                             "type": "string",
-                            "pattern": "^pharm_[0-9a-hjkmnp-tv-z]{26}$",
+                            "pattern": "^pharm_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                             "examples": [
                               "pharm_01j2y8m6jcc9tt24af5pw9x1bc"
                             ]
@@ -48759,7 +48822,7 @@
                             "anyOf": [
                               {
                                 "type": "string",
-                                "pattern": "^shp_[0-9a-hjkmnp-tv-z]{26}$",
+                                "pattern": "^shp_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                                 "examples": [
                                   "shp_01j2y8m6jcc9tt24af5pw9x1bc"
                                 ]
@@ -48833,7 +48896,7 @@
                       },
                       "medicationId": {
                         "type": "string",
-                        "pattern": "^cat_[0-9a-hjkmnp-tv-z]{26}$",
+                        "pattern": "^cat_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                         "examples": [
                           "cat_01j2y8m6jcc9tt24af5pw9x1bc"
                         ]
@@ -48988,7 +49051,7 @@
           },
           "practiceId": {
             "type": "string",
-            "pattern": "^prac_[0-9a-hjkmnp-tv-z]{26}$",
+            "pattern": "^prac_[0-7][0-9a-hjkmnp-tv-z]{25}$",
             "examples": [
               "prac_01j2y8m6jcc9tt24af5pw9x1bc"
             ]
@@ -48997,7 +49060,7 @@
             "anyOf": [
               {
                 "type": "string",
-                "pattern": "^user_[0-9a-hjkmnp-tv-z]{26}$",
+                "pattern": "^user_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                 "examples": [
                   "user_01j2y8m6jcc9tt24af5pw9x1bc"
                 ]
@@ -49029,7 +49092,7 @@
                         "type": "string",
                         "allOf": [
                           {
-                            "pattern": "^cat_[0-9a-hjkmnp-tv-z]{26}$",
+                            "pattern": "^cat_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                             "examples": [
                               "cat_01j2y8m6jcc9tt24af5pw9x1bc"
                             ]
@@ -49130,7 +49193,7 @@
                 },
                 "id": {
                   "type": "string",
-                  "pattern": "^ord_[0-9a-hjkmnp-tv-z]{26}$",
+                  "pattern": "^ord_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                   "examples": [
                     "ord_01j2y8m6jcc9tt24af5pw9x1bc"
                   ]
@@ -49146,14 +49209,14 @@
                 },
                 "patientId": {
                   "type": "string",
-                  "pattern": "^pat_[0-9a-hjkmnp-tv-z]{26}$",
+                  "pattern": "^pat_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                   "examples": [
                     "pat_01j2y8m6jcc9tt24af5pw9x1bc"
                   ]
                 },
                 "practiceId": {
                   "type": "string",
-                  "pattern": "^prac_[0-9a-hjkmnp-tv-z]{26}$",
+                  "pattern": "^prac_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                   "examples": [
                     "prac_01j2y8m6jcc9tt24af5pw9x1bc"
                   ]
@@ -49167,7 +49230,7 @@
                         "type": "string",
                         "allOf": [
                           {
-                            "pattern": "^pharm_[0-9a-hjkmnp-tv-z]{26}$",
+                            "pattern": "^pharm_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                             "examples": [
                               "pharm_01j2y8m6jcc9tt24af5pw9x1bc"
                             ]
@@ -49216,7 +49279,7 @@
                         "type": "string",
                         "allOf": [
                           {
-                            "pattern": "^rx_[0-9a-hjkmnp-tv-z]{26}$",
+                            "pattern": "^rx_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                             "examples": [
                               "rx_01j2y8m6jcc9tt24af5pw9x1bc"
                             ]
@@ -49229,7 +49292,7 @@
                             "type": "string",
                             "allOf": [
                               {
-                                "pattern": "^cat_[0-9a-hjkmnp-tv-z]{26}$",
+                                "pattern": "^cat_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                                 "examples": [
                                   "cat_01j2y8m6jcc9tt24af5pw9x1bc"
                                 ]
@@ -49300,7 +49363,7 @@
                   "anyOf": [
                     {
                       "type": "string",
-                      "pattern": "^user_[0-9a-hjkmnp-tv-z]{26}$",
+                      "pattern": "^user_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                       "examples": [
                         "user_01j2y8m6jcc9tt24af5pw9x1bc"
                       ]
@@ -49504,7 +49567,7 @@
             "anyOf": [
               {
                 "type": "string",
-                "pattern": "^prac_[0-9a-hjkmnp-tv-z]{26}$",
+                "pattern": "^prac_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                 "examples": [
                   "prac_01j2y8m6jcc9tt24af5pw9x1bc"
                 ]
@@ -49705,7 +49768,7 @@
               "properties": {
                 "id": {
                   "type": "string",
-                  "pattern": "^acct_[0-9a-hjkmnp-tv-z]{26}$",
+                  "pattern": "^acct_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                   "description": "Platform account ID; use as the pagination cursor within this owner's grants.",
                   "examples": [
                     "acct_01j2y8m6jcc9tt24af5pw9x1bc"
@@ -49719,14 +49782,14 @@
                 },
                 "organizationId": {
                   "type": "string",
-                  "pattern": "^acct_[0-9a-hjkmnp-tv-z]{26}$",
+                  "pattern": "^acct_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                   "examples": [
                     "acct_01j2y8m6jcc9tt24af5pw9x1bc"
                   ]
                 },
                 "platformId": {
                   "type": "string",
-                  "pattern": "^acct_[0-9a-hjkmnp-tv-z]{26}$",
+                  "pattern": "^acct_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                   "examples": [
                     "acct_01j2y8m6jcc9tt24af5pw9x1bc"
                   ]
@@ -49810,7 +49873,7 @@
         "properties": {
           "id": {
             "type": "string",
-            "pattern": "^acct_[0-9a-hjkmnp-tv-z]{26}$",
+            "pattern": "^acct_[0-7][0-9a-hjkmnp-tv-z]{25}$",
             "description": "Platform account ID; use as the pagination cursor within this owner's grants.",
             "examples": [
               "acct_01j2y8m6jcc9tt24af5pw9x1bc"
@@ -49824,14 +49887,14 @@
           },
           "organizationId": {
             "type": "string",
-            "pattern": "^acct_[0-9a-hjkmnp-tv-z]{26}$",
+            "pattern": "^acct_[0-7][0-9a-hjkmnp-tv-z]{25}$",
             "examples": [
               "acct_01j2y8m6jcc9tt24af5pw9x1bc"
             ]
           },
           "platformId": {
             "type": "string",
-            "pattern": "^acct_[0-9a-hjkmnp-tv-z]{26}$",
+            "pattern": "^acct_[0-7][0-9a-hjkmnp-tv-z]{25}$",
             "examples": [
               "acct_01j2y8m6jcc9tt24af5pw9x1bc"
             ]
@@ -49880,14 +49943,14 @@
           },
           "organizationId": {
             "type": "string",
-            "pattern": "^acct_[0-9a-hjkmnp-tv-z]{26}$",
+            "pattern": "^acct_[0-7][0-9a-hjkmnp-tv-z]{25}$",
             "examples": [
               "acct_01j2y8m6jcc9tt24af5pw9x1bc"
             ]
           },
           "platformId": {
             "type": "string",
-            "pattern": "^acct_[0-9a-hjkmnp-tv-z]{26}$",
+            "pattern": "^acct_[0-7][0-9a-hjkmnp-tv-z]{25}$",
             "examples": [
               "acct_01j2y8m6jcc9tt24af5pw9x1bc"
             ]

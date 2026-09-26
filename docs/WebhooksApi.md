@@ -128,7 +128,7 @@ async function example() {
 
   const body = {
     // string
-    endpointId: endpointId_example,
+    endpointId: whe_01j2y8m6jcc9tt24af5pw9x1bc,
     // string
     idempotencyKey: idempotencyKey_example,
     // string (optional)
@@ -210,7 +210,7 @@ async function example() {
 
   const body = {
     // string
-    eventId: eventId_example,
+    eventId: evt_01j2y8m6jcc9tt24af5pw9x1bc,
     // string (optional)
     affinityVersion: affinityVersion_example,
     // string | Defaults to the API key organization. A platform may select a practice or pharmacy only with an explicit webhook grant in this mode. This changes the webhook owner, not the caller or event subscriptions. (optional)
@@ -547,7 +547,7 @@ async function example() {
 
   const body = {
     // string
-    eventId: eventId_example,
+    eventId: evt_01j2y8m6jcc9tt24af5pw9x1bc,
     // string
     idempotencyKey: idempotencyKey_example,
     // string (optional)
@@ -709,7 +709,7 @@ async function example() {
 
   const body = {
     // string
-    endpointId: endpointId_example,
+    endpointId: whe_01j2y8m6jcc9tt24af5pw9x1bc,
     // string
     idempotencyKey: idempotencyKey_example,
     // string (optional)
@@ -877,7 +877,7 @@ async function example() {
 
   const body = {
     // string
-    endpointId: endpointId_example,
+    endpointId: whe_01j2y8m6jcc9tt24af5pw9x1bc,
     // string
     idempotencyKey: idempotencyKey_example,
     // string (optional)
@@ -964,7 +964,7 @@ async function example() {
 
   const body = {
     // string
-    endpointId: endpointId_example,
+    endpointId: whe_01j2y8m6jcc9tt24af5pw9x1bc,
     // string
     idempotencyKey: idempotencyKey_example,
     // UpdateWebhookEndpointRequest
