@@ -7,6 +7,18 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 
 ## [Unreleased]
 
+## [1.12.3] - 2026-09-26
+
+### Fixed
+
+- Match webhook endpoint omission and clearing semantics without advertising unsupported null values.
+- Return `ready` after signing, matching the order resource and new webhook snapshots.
+- Preserve historical `accepted` webhook snapshots and normalize omitted pagination cursors.
+
+### Added
+
+- Set a prescriber's `practiceStatus` to deactivate or restore an existing practice association without editing the shared clinician profile.
+
 ## [1.12.2] - 2026-09-25
 
 ### Changed

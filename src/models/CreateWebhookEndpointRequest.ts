@@ -24,25 +24,25 @@ export interface CreateWebhookEndpointRequest {
    * @type {Array<string>}
    * @memberof CreateWebhookEndpointRequest
    */
-  practiceIds?: Array<string> | null;
+  practiceIds?: Array<string>;
   /**
    *
    * @type {string}
    * @memberof CreateWebhookEndpointRequest
    */
-  description?: string | null;
+  description?: string;
   /**
    *
    * @type {CreateWebhookEndpointRequestPayloadStyleEnum}
    * @memberof CreateWebhookEndpointRequest
    */
-  payloadStyle?: CreateWebhookEndpointRequestPayloadStyleEnum | null;
+  payloadStyle?: CreateWebhookEndpointRequestPayloadStyleEnum;
   /**
    *
    * @type {Array<CreateWebhookEndpointRequestSubscribedEventsEnum>}
    * @memberof CreateWebhookEndpointRequest
    */
-  subscribedEvents?: Array<CreateWebhookEndpointRequestSubscribedEventsEnum> | null;
+  subscribedEvents?: Array<CreateWebhookEndpointRequestSubscribedEventsEnum>;
   /**
    *
    * @type {string}

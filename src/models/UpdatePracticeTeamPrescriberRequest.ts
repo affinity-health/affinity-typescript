@@ -57,7 +57,23 @@ export interface UpdatePracticeTeamPrescriberRequest {
    * @memberof UpdatePracticeTeamPrescriberRequest
    */
   address?: RegisterUserRequestAddress | null;
+  /**
+   *
+   * @type {UpdatePracticeTeamPrescriberRequestPracticeStatusEnum}
+   * @memberof UpdatePracticeTeamPrescriberRequest
+   */
+  practiceStatus?: UpdatePracticeTeamPrescriberRequestPracticeStatusEnum;
 }
+
+/**
+ * @export
+ */
+export const UpdatePracticeTeamPrescriberRequestPracticeStatusEnum = {
+  Active: "active",
+  Inactive: "inactive",
+} as const;
+export type UpdatePracticeTeamPrescriberRequestPracticeStatusEnum =
+  (typeof UpdatePracticeTeamPrescriberRequestPracticeStatusEnum)[keyof typeof UpdatePracticeTeamPrescriberRequestPracticeStatusEnum];
 
 /**
  * Check if a given object implements the UpdatePracticeTeamPrescriberRequest interface.
@@ -88,6 +104,7 @@ export function UpdatePracticeTeamPrescriberRequestFromJSONTyped(
     phone: json["phone"] == null ? undefined : json["phone"],
     address:
       json["address"] == null ? undefined : RegisterUserRequestAddressFromJSON(json["address"]),
+    practiceStatus: json["practiceStatus"] == null ? undefined : json["practiceStatus"],
   };
 }
 
@@ -111,5 +128,6 @@ export function UpdatePracticeTeamPrescriberRequestToJSONTyped(
     credentials: value["credentials"],
     phone: value["phone"],
     address: RegisterUserRequestAddressToJSON(value["address"]),
+    practiceStatus: value["practiceStatus"],
   };
 }

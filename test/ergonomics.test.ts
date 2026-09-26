@@ -222,3 +222,9 @@ test("cancellation during retry delay prevents another attempt", async () => {
   await expect(request).rejects.toThrow("Stop retrying");
   expect(attempts).toBe(1);
 });
+
+ test("pagination omits null cursors before sending the initial request", async () => {
+  const requests: unknown[] = [];
+  await paginate(async (cursor) => { requests.push(cursor); return { data: [], hasMore: false }; }, { startingAfter: null, endingBefore: null });
+  expect(requests).toEqual([{ startingAfter: undefined, endingBefore: undefined }]);
+});

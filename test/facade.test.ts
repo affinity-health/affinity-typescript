@@ -641,6 +641,15 @@ test("webhook reactivation sends only the provided status", async () => {
   expect(await requestBody(requests[0]!)).toEqual({ status: "active" });
 });
 
+test("practice prescriber deactivation sends only practice status", async () => {
+  const { affinity, requests } = client();
+  await affinity.practices.team.prescribers.update(practiceId, "prov_01k123456789abcdefghjkmnpq", {
+    practiceStatus: "inactive",
+  });
+  expect(requests[0]!.method).toBe("PATCH");
+  expect(await requestBody(requests[0]!)).toEqual({ practiceStatus: "inactive" });
+});
+
 test("cancellation preserves a failed outcome when the order remains active", async () => {
   const cancellation = {
     status: "failed",

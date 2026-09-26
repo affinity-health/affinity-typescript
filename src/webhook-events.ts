@@ -24,11 +24,12 @@ export const affinityWebhookEventTypes = [
   "order.cancelled",
 ] as const;
 export const affinityOrderStatuses = [
-  "accepted",
   "blocked",
   "cancelled",
   "delivered",
   "draft",
+  "partially_submitted",
+  "requires_provider_signature",
   "processing",
   "ready",
   "rejected",
@@ -43,6 +44,8 @@ export type AffinityOrderWebhookEventType = Exclude<
   "webhook_endpoint.test"
 >;
 export type AffinityOrderStatus = (typeof affinityOrderStatuses)[number];
+/** Historical events retain the order status recorded in their immutable snapshot. */
+export type AffinityOrderWebhookStatus = AffinityOrderStatus | "accepted";
 export type AffinityPublicId<Prefix extends string> = `${Prefix}_${string}`;
 export type AffinityOrganizationId =
   | AffinityPublicId<"acct">
@@ -68,7 +71,7 @@ export interface AffinityOrderWebhookObject extends AffinityThinOrderWebhookObje
   external_order_id?: string | null;
   practice_id?: AffinityPublicId<"prac"> | null;
   shipped_at?: string | null;
-  status?: AffinityOrderStatus;
+  status?: AffinityOrderWebhookStatus;
   tracking_number?: string | null;
   updated_at?: string;
 }
@@ -386,7 +389,8 @@ function parseOrderObject(value: unknown, previousAttributes: boolean) {
   if (
     object.status !== undefined &&
     (typeof object.status !== "string" ||
-      !affinityOrderStatuses.includes(object.status as AffinityOrderStatus))
+      (object.status !== "accepted" &&
+        !affinityOrderStatuses.includes(object.status as AffinityOrderStatus)))
   ) {
     throw new Error("order status is invalid");
   }

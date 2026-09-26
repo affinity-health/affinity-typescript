@@ -1968,10 +1968,10 @@
                     "delivered",
                     "draft",
                     "partially_submitted",
+                    "requires_provider_signature",
                     "processing",
                     "ready",
                     "rejected",
-                    "requires_provider_signature",
                     "shipped",
                     "submitted"
                   ]
@@ -2928,17 +2928,10 @@
             "name": "endingBefore",
             "required": false,
             "schema": {
-              "anyOf": [
-                {
-                  "type": "string",
-                  "pattern": "^whe_[0-9a-hjkmnp-tv-z]{26}$",
-                  "examples": [
-                    "whe_01j2y8m6jcc9tt24af5pw9x1bc"
-                  ]
-                },
-                {
-                  "type": "null"
-                }
+              "type": "string",
+              "pattern": "^whe_[0-9a-hjkmnp-tv-z]{26}$",
+              "examples": [
+                "whe_01j2y8m6jcc9tt24af5pw9x1bc"
               ]
             }
           },
@@ -2958,17 +2951,10 @@
             "name": "startingAfter",
             "required": false,
             "schema": {
-              "anyOf": [
-                {
-                  "type": "string",
-                  "pattern": "^whe_[0-9a-hjkmnp-tv-z]{26}$",
-                  "examples": [
-                    "whe_01j2y8m6jcc9tt24af5pw9x1bc"
-                  ]
-                },
-                {
-                  "type": "null"
-                }
+              "type": "string",
+              "pattern": "^whe_[0-9a-hjkmnp-tv-z]{26}$",
+              "examples": [
+                "whe_01j2y8m6jcc9tt24af5pw9x1bc"
               ]
             }
           },
@@ -7806,7 +7792,7 @@
           },
           "required": true
         },
-        "description": "Requires team:write and an active prescriber with a registered or accepted account connection and active practice membership. Updates only supplied profile fields. NPI cannot be changed. The canonical profile is shared across practices and Test/Live.",
+        "description": "Requires team:write. Set practiceStatus to inactive to remove prescribing access in this practice, or active to restore an existing association. This does not create membership or signing authority. Practice status applies to Test and Live. Shared identity and license edits require Affinity support.",
         "summary": "Update prescriber",
         "x-visibility": "public"
       }
@@ -11350,6 +11336,26 @@
               }
             }
           },
+          "404": {
+            "description": "HTTP 404",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "HTTP 409",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            }
+          },
           "429": {
             "description": "HTTP 429",
             "content": {
@@ -11447,6 +11453,26 @@
           },
           "403": {
             "description": "HTTP 403",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "HTTP 404",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "HTTP 409",
             "content": {
               "application/json": {
                 "schema": {
@@ -11556,6 +11582,26 @@
           },
           "403": {
             "description": "HTTP 403",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "HTTP 404",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "HTTP 409",
             "content": {
               "application/json": {
                 "schema": {
@@ -16646,10 +16692,10 @@
                     "delivered",
                     "draft",
                     "partially_submitted",
+                    "requires_provider_signature",
                     "processing",
                     "ready",
                     "rejected",
-                    "requires_provider_signature",
                     "shipped",
                     "submitted"
                   ]
@@ -16754,8 +16800,7 @@
                   "npi": {
                     "anyOf": [
                       {
-                        "type": "string",
-                        "pattern": "^\\d{10}$"
+                        "type": "string"
                       },
                       {
                         "type": "null"
@@ -20367,10 +20412,10 @@
               "delivered",
               "draft",
               "partially_submitted",
+              "requires_provider_signature",
               "processing",
               "ready",
               "rejected",
-              "requires_provider_signature",
               "shipped",
               "submitted"
             ]
@@ -22374,10 +22419,10 @@
               "delivered",
               "draft",
               "partially_submitted",
+              "requires_provider_signature",
               "processing",
               "ready",
               "rejected",
-              "requires_provider_signature",
               "shipped",
               "submitted"
             ]
@@ -22732,84 +22777,57 @@
         "type": "object",
         "properties": {
           "practiceIds": {
-            "anyOf": [
-              {
-                "type": "array",
-                "items": {
-                  "type": "string",
-                  "pattern": "^prac_[0-9a-hjkmnp-tv-z]{26}$",
-                  "examples": [
-                    "prac_01j2y8m6jcc9tt24af5pw9x1bc"
-                  ]
-                },
-                "maxItems": 100
-              },
-              {
-                "type": "null"
-              }
-            ]
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^prac_[0-9a-hjkmnp-tv-z]{26}$",
+              "examples": [
+                "prac_01j2y8m6jcc9tt24af5pw9x1bc"
+              ]
+            },
+            "maxItems": 100
           },
           "description": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ]
+            "type": "string"
           },
           "payloadStyle": {
-            "anyOf": [
-              {
-                "type": "string",
-                "enum": [
-                  "thin",
-                  "snapshot"
-                ]
-              },
-              {
-                "type": "null"
-              }
+            "type": "string",
+            "enum": [
+              "thin",
+              "snapshot"
             ]
           },
           "subscribedEvents": {
-            "anyOf": [
-              {
-                "type": "array",
-                "items": {
-                  "type": "string",
-                  "enum": [
-                    "webhook_endpoint.test",
-                    "cancellation.requested",
-                    "cancellation.sent",
-                    "cancellation.confirmed",
-                    "cancellation.rejected",
-                    "cancellation.failed",
-                    "cancellation.too_late",
-                    "order.created",
-                    "order.updated",
-                    "order.review_requested",
-                    "order.changes_requested",
-                    "order.signed",
-                    "order.rejected",
-                    "order.submitted",
-                    "order.accepted",
-                    "order.processing",
-                    "order.shipped",
-                    "order.delivered",
-                    "order.blocked",
-                    "order.cancelled"
-                  ]
-                }
-              },
-              {
-                "type": "null"
-              }
-            ]
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "webhook_endpoint.test",
+                "cancellation.requested",
+                "cancellation.sent",
+                "cancellation.confirmed",
+                "cancellation.rejected",
+                "cancellation.failed",
+                "cancellation.too_late",
+                "order.created",
+                "order.updated",
+                "order.review_requested",
+                "order.changes_requested",
+                "order.signed",
+                "order.rejected",
+                "order.submitted",
+                "order.accepted",
+                "order.processing",
+                "order.shipped",
+                "order.delivered",
+                "order.blocked",
+                "order.cancelled"
+              ]
+            }
           },
           "url": {
-            "type": "string"
+            "type": "string",
+            "maxLength": 2048
           }
         },
         "required": [
@@ -22926,106 +22944,65 @@
         "type": "object",
         "properties": {
           "practiceIds": {
-            "anyOf": [
-              {
-                "type": "array",
-                "items": {
-                  "type": "string",
-                  "pattern": "^prac_[0-9a-hjkmnp-tv-z]{26}$",
-                  "examples": [
-                    "prac_01j2y8m6jcc9tt24af5pw9x1bc"
-                  ]
-                },
-                "maxItems": 100
-              },
-              {
-                "type": "null"
-              }
-            ]
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^prac_[0-9a-hjkmnp-tv-z]{26}$",
+              "examples": [
+                "prac_01j2y8m6jcc9tt24af5pw9x1bc"
+              ]
+            },
+            "maxItems": 100
           },
           "description": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ]
+            "type": "string"
           },
           "payloadStyle": {
-            "anyOf": [
-              {
-                "type": "string",
-                "enum": [
-                  "thin",
-                  "snapshot"
-                ]
-              },
-              {
-                "type": "null"
-              }
+            "type": "string",
+            "enum": [
+              "thin",
+              "snapshot"
             ]
           },
           "status": {
-            "anyOf": [
-              {
-                "type": "string",
-                "enum": [
-                  "active",
-                  "suspended",
-                  "disabled"
-                ]
-              },
-              {
-                "type": "null"
-              }
+            "type": "string",
+            "enum": [
+              "active",
+              "suspended",
+              "disabled"
             ]
           },
           "subscribedEvents": {
-            "anyOf": [
-              {
-                "type": "array",
-                "items": {
-                  "type": "string",
-                  "enum": [
-                    "webhook_endpoint.test",
-                    "cancellation.requested",
-                    "cancellation.sent",
-                    "cancellation.confirmed",
-                    "cancellation.rejected",
-                    "cancellation.failed",
-                    "cancellation.too_late",
-                    "order.created",
-                    "order.updated",
-                    "order.review_requested",
-                    "order.changes_requested",
-                    "order.signed",
-                    "order.rejected",
-                    "order.submitted",
-                    "order.accepted",
-                    "order.processing",
-                    "order.shipped",
-                    "order.delivered",
-                    "order.blocked",
-                    "order.cancelled"
-                  ]
-                }
-              },
-              {
-                "type": "null"
-              }
-            ]
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "webhook_endpoint.test",
+                "cancellation.requested",
+                "cancellation.sent",
+                "cancellation.confirmed",
+                "cancellation.rejected",
+                "cancellation.failed",
+                "cancellation.too_late",
+                "order.created",
+                "order.updated",
+                "order.review_requested",
+                "order.changes_requested",
+                "order.signed",
+                "order.rejected",
+                "order.submitted",
+                "order.accepted",
+                "order.processing",
+                "order.shipped",
+                "order.delivered",
+                "order.blocked",
+                "order.cancelled"
+              ]
+            }
           },
           "url": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ]
+            "type": "string",
+            "maxLength": 2048
           }
         },
         "additionalProperties": false,
@@ -27395,8 +27372,7 @@
                   "npi": {
                     "anyOf": [
                       {
-                        "type": "string",
-                        "pattern": "^\\d{10}$"
+                        "type": "string"
                       },
                       {
                         "type": "null"
@@ -28731,12 +28707,7 @@
                           "npi": {
                             "anyOf": [
                               {
-                                "type": "string",
-                                "allOf": [
-                                  {
-                                    "pattern": "^\\d{10}$"
-                                  }
-                                ]
+                                "type": "string"
                               },
                               {
                                 "type": "null"
@@ -30205,8 +30176,7 @@
                   "npi": {
                     "anyOf": [
                       {
-                        "type": "string",
-                        "pattern": "^\\d{10}$"
+                        "type": "string"
                       },
                       {
                         "type": "null"
@@ -30333,7 +30303,7 @@
           "status": {
             "type": "string",
             "enum": [
-              "signed"
+              "ready"
             ]
           }
         },
@@ -30391,8 +30361,7 @@
                   "npi": {
                     "anyOf": [
                       {
-                        "type": "string",
-                        "pattern": "^\\d{10}$"
+                        "type": "string"
                       },
                       {
                         "type": "null"
@@ -30658,8 +30627,7 @@
                   "npi": {
                     "anyOf": [
                       {
-                        "type": "string",
-                        "pattern": "^\\d{10}$"
+                        "type": "string"
                       },
                       {
                         "type": "null"
@@ -30802,8 +30770,7 @@
                   "npi": {
                     "anyOf": [
                       {
-                        "type": "string",
-                        "pattern": "^\\d{10}$"
+                        "type": "string"
                       },
                       {
                         "type": "null"
@@ -35817,6 +35784,13 @@
               {
                 "type": "null"
               }
+            ]
+          },
+          "practiceStatus": {
+            "type": "string",
+            "enum": [
+              "active",
+              "inactive"
             ]
           }
         },
@@ -47444,8 +47418,7 @@
                   "npi": {
                     "anyOf": [
                       {
-                        "type": "string",
-                        "pattern": "^\\d{10}$"
+                        "type": "string"
                       },
                       {
                         "type": "null"
@@ -49849,11 +49822,12 @@
       "order.cancelled"
     ],
     "orderStatuses": [
-      "accepted",
       "blocked",
       "cancelled",
       "delivered",
       "draft",
+      "partially_submitted",
+      "requires_provider_signature",
       "processing",
       "ready",
       "rejected",

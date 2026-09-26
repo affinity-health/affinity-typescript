@@ -63,6 +63,12 @@ describe("Affinity webhook events", () => {
     }
   });
 
+  test("verifies an immutable historical accepted snapshot without rewriting its status", async () => {
+    const historical = { ...event, type: "order.accepted", data: { object: { ...event.data.object, status: "accepted" } } };
+    const body = JSON.stringify(historical);
+    expect(await verifyAffinityWebhook({ body, now, secret, signature: await sign(body, secret, timestamp) })).toEqual(historical);
+  });
+
   test("still rejects malformed known fields with a valid signature", async () => {
     for (const fields of [{ id: "bad" }, { status: "unexpected" }, { metadata: [] }, { estimated_delivery_at: "bad" }]) {
       const body = JSON.stringify({ ...event, data: { object: { ...event.data.object, ...fields } } });

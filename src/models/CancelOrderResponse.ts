@@ -214,10 +214,10 @@ export const CancelOrderResponseStatusEnum = {
   Delivered: "delivered",
   Draft: "draft",
   PartiallySubmitted: "partially_submitted",
+  RequiresProviderSignature: "requires_provider_signature",
   Processing: "processing",
   Ready: "ready",
   Rejected: "rejected",
-  RequiresProviderSignature: "requires_provider_signature",
   Shipped: "shipped",
   Submitted: "submitted",
 } as const;

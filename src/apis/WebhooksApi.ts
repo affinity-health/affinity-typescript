@@ -111,9 +111,9 @@ export interface GetWebhookEventRequest {
 }
 
 export interface ListWebhookEndpointsRequest {
-  endingBefore?: string | null;
+  endingBefore?: string;
   limit?: number;
-  startingAfter?: string | null;
+  startingAfter?: string;
   affinityVersion?: string;
   xAffinityOrganizationId?: string;
 }

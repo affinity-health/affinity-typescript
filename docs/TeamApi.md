@@ -1243,7 +1243,7 @@ example().catch(console.error);
 
 Update prescriber
 
-Requires team:write and an active prescriber with a registered or accepted account connection and active practice membership. Updates only supplied profile fields. NPI cannot be changed. The canonical profile is shared across practices and Test/Live.
+Requires team:write. Set practiceStatus to inactive to remove prescribing access in this practice, or active to restore an existing association. This does not create membership or signing authority. Practice status applies to Test and Live. Shared identity and license edits require Affinity support.
 
 ### Example
 

@@ -1,6 +1,7 @@
 // Code generated from spec/affinity.openapi.json by scripts/generate-facade.ts. DO NOT EDIT.
 
-export type Cursor = { startingAfter?: string | null; endingBefore?: string | null };
+export type Cursor = { startingAfter?: string; endingBefore?: string };
+type InputCursor = { startingAfter?: string | null; endingBefore?: string | null };
 type Page = { data: Array<{ id: string }>; hasMore: boolean };
 
 /** Await one page, or iterate records across pages without changing the list call. */
@@ -11,9 +12,12 @@ export type ApiListPromise<P extends Page> = Promise<P> &
 
 export function paginate<P extends Page>(
   fetchPage: (cursor: Cursor) => Promise<P>,
-  cursor: Cursor,
+  cursor: InputCursor,
 ): ApiListPromise<P> {
-  const first = fetchPage(cursor);
+  const first = fetchPage({
+    startingAfter: cursor.startingAfter ?? undefined,
+    endingBefore: cursor.endingBefore ?? undefined,
+  });
   async function* iterate() {
     let page = await first;
     let previous = cursor.endingBefore ?? cursor.startingAfter;

@@ -49,7 +49,7 @@ export interface SignOrderResponse {
  * @export
  */
 export const SignOrderResponseStatusEnum = {
-  Signed: "signed",
+  Ready: "ready",
 } as const;
 export type SignOrderResponseStatusEnum =
   (typeof SignOrderResponseStatusEnum)[keyof typeof SignOrderResponseStatusEnum];

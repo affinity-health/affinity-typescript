@@ -24,37 +24,37 @@ export interface UpdateWebhookEndpointRequest {
    * @type {Array<string>}
    * @memberof UpdateWebhookEndpointRequest
    */
-  practiceIds?: Array<string> | null;
+  practiceIds?: Array<string>;
   /**
    *
    * @type {string}
    * @memberof UpdateWebhookEndpointRequest
    */
-  description?: string | null;
+  description?: string;
   /**
    *
    * @type {UpdateWebhookEndpointRequestPayloadStyleEnum}
    * @memberof UpdateWebhookEndpointRequest
    */
-  payloadStyle?: UpdateWebhookEndpointRequestPayloadStyleEnum | null;
+  payloadStyle?: UpdateWebhookEndpointRequestPayloadStyleEnum;
   /**
    *
    * @type {UpdateWebhookEndpointRequestStatusEnum}
    * @memberof UpdateWebhookEndpointRequest
    */
-  status?: UpdateWebhookEndpointRequestStatusEnum | null;
+  status?: UpdateWebhookEndpointRequestStatusEnum;
   /**
    *
    * @type {Array<UpdateWebhookEndpointRequestSubscribedEventsEnum>}
    * @memberof UpdateWebhookEndpointRequest
    */
-  subscribedEvents?: Array<UpdateWebhookEndpointRequestSubscribedEventsEnum> | null;
+  subscribedEvents?: Array<UpdateWebhookEndpointRequestSubscribedEventsEnum>;
   /**
    *
    * @type {string}
    * @memberof UpdateWebhookEndpointRequest
    */
-  url?: string | null;
+  url?: string;
 }
 
 /**
