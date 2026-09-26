@@ -6,6 +6,7 @@
 | ------------------ | ----------------------------------------------------------------------------------------------------------- |
 | `metadata`         | [{ [key: string]: ListOrdersResponseDataInnerMetadataValue; }](ListOrdersResponseDataInnerMetadataValue.md) |
 | `practiceId`       | string                                                                                                      |
+| `expectedRevision` | string                                                                                                      |
 | `expectedVersions` | [Array&lt;SignOrderRequestExpectedVersionsInner&gt;](SignOrderRequestExpectedVersionsInner.md)              |
 | `prescription`     | [UpdateOrderPrescriptionRequestPrescription](UpdateOrderPrescriptionRequestPrescription.md)                 |
 

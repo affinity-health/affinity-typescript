@@ -28,6 +28,12 @@ import {
  */
 export interface AddOrderPrescriptionResponse {
   /**
+   * Opaque revision of the complete order prescription set. Send the revision you reviewed as expectedRevision; never replace it automatically after a conflict.
+   * @type {string}
+   * @memberof AddOrderPrescriptionResponse
+   */
+  revision: string;
+  /**
    *
    * @type {AddOrderPrescriptionResponseObjectEnum}
    * @memberof AddOrderPrescriptionResponse
@@ -80,6 +86,7 @@ export type AddOrderPrescriptionResponseObjectEnum =
 export function instanceOfAddOrderPrescriptionResponse(
   value: object,
 ): value is AddOrderPrescriptionResponse {
+  if (!("revision" in value) || value["revision"] === undefined) return false;
   if (!("object" in value) || value["object"] === undefined) return false;
   if (!("externalOrderId" in value) || value["externalOrderId"] === undefined) return false;
   if (!("metadata" in value) || value["metadata"] === undefined) return false;
@@ -101,6 +108,7 @@ export function AddOrderPrescriptionResponseFromJSONTyped(
     return json;
   }
   return {
+    revision: json["revision"],
     object: json["object"],
     externalOrderId: json["externalOrderId"],
     metadata: json["metadata"],
@@ -125,6 +133,7 @@ export function AddOrderPrescriptionResponseToJSONTyped(
   }
 
   return {
+    revision: value["revision"],
     object: value["object"],
     externalOrderId: value["externalOrderId"],
     metadata: value["metadata"],

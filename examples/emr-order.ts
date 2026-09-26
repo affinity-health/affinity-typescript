@@ -144,10 +144,7 @@ export async function createTestWorkflow(apiKey: string) {
           // Omit if the reviewed draft already has the intended prescriber.
           ...(approval.clinicianNpi ? { prescriber: { npi: approval.clinicianNpi } } : {}),
           signatureAttestation: approval.attested,
-          expectedVersions: approval.reviewedOrder.prescriptions.map((rx) => ({
-            prescriptionId: rx.id,
-            version: rx.version,
-          })),
+          expectedRevision: approval.reviewedOrder.revision,
         },
         {
           idempotencyKey: approval.persistedSigningKey,

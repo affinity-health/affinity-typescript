@@ -63,6 +63,12 @@ import {
  */
 export interface CancelOrderResponse {
   /**
+   * Opaque revision of the complete order prescription set. Send the revision you reviewed as expectedRevision; never replace it automatically after a conflict.
+   * @type {string}
+   * @memberof CancelOrderResponse
+   */
+  revision: string;
+  /**
    *
    * @type {Array<ListOrdersResponseDataInnerOtcItemsInner>}
    * @memberof CancelOrderResponse
@@ -228,6 +234,7 @@ export type CancelOrderResponseStatusEnum =
  * Check if a given object implements the CancelOrderResponse interface.
  */
 export function instanceOfCancelOrderResponse(value: object): value is CancelOrderResponse {
+  if (!("revision" in value) || value["revision"] === undefined) return false;
   if (!("otcItems" in value) || value["otcItems"] === undefined) return false;
   if (
     !("practiceMedicationTotalCents" in value) ||
@@ -269,6 +276,7 @@ export function CancelOrderResponseFromJSONTyped(
     return json;
   }
   return {
+    revision: json["revision"],
     otcItems: (json["otcItems"] as Array<any>).map(
       ListOrdersResponseDataInnerOtcItemsInnerFromJSON,
     ),
@@ -315,6 +323,7 @@ export function CancelOrderResponseToJSONTyped(
   }
 
   return {
+    revision: value["revision"],
     otcItems: (value["otcItems"] as Array<any>).map(ListOrdersResponseDataInnerOtcItemsInnerToJSON),
     practiceMedicationTotalCents: value["practiceMedicationTotalCents"],
     externalOrderId: value["externalOrderId"],

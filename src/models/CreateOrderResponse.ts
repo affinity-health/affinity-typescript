@@ -35,6 +35,12 @@ import {
  */
 export interface CreateOrderResponse {
   /**
+   * Opaque revision of the complete order prescription set. Send the revision you reviewed as expectedRevision; never replace it automatically after a conflict.
+   * @type {string}
+   * @memberof CreateOrderResponse
+   */
+  revision: string;
+  /**
    *
    * @type {Array<CreateOrderResponseOtcItemsInner>}
    * @memberof CreateOrderResponse
@@ -130,6 +136,7 @@ export type CreateOrderResponseStatusEnum =
  * Check if a given object implements the CreateOrderResponse interface.
  */
 export function instanceOfCreateOrderResponse(value: object): value is CreateOrderResponse {
+  if (!("revision" in value) || value["revision"] === undefined) return false;
   if (!("otcItems" in value) || value["otcItems"] === undefined) return false;
   if (!("externalOrderId" in value) || value["externalOrderId"] === undefined) return false;
   if (!("metadata" in value) || value["metadata"] === undefined) return false;
@@ -157,6 +164,7 @@ export function CreateOrderResponseFromJSONTyped(
     return json;
   }
   return {
+    revision: json["revision"],
     otcItems: (json["otcItems"] as Array<any>).map(CreateOrderResponseOtcItemsInnerFromJSON),
     externalOrderId: json["externalOrderId"],
     metadata: json["metadata"],
@@ -187,6 +195,7 @@ export function CreateOrderResponseToJSONTyped(
   }
 
   return {
+    revision: value["revision"],
     otcItems: (value["otcItems"] as Array<any>).map(CreateOrderResponseOtcItemsInnerToJSON),
     externalOrderId: value["externalOrderId"],
     metadata: value["metadata"],

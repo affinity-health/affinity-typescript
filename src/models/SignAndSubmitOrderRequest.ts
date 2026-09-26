@@ -59,11 +59,17 @@ export interface SignAndSubmitOrderRequest {
    */
   signatureAttestation: boolean;
   /**
+   * Opaque revision of the complete order prescription set. Send the revision you reviewed as expectedRevision; never replace it automatically after a conflict.
+   * @type {string}
+   * @memberof SignAndSubmitOrderRequest
+   */
+  expectedRevision?: string | null;
+  /**
    *
    * @type {Array<SignOrderRequestExpectedVersionsInner>}
    * @memberof SignAndSubmitOrderRequest
    */
-  expectedVersions: Array<SignOrderRequestExpectedVersionsInner>;
+  expectedVersions?: Array<SignOrderRequestExpectedVersionsInner> | null;
 }
 
 /**
@@ -75,7 +81,6 @@ export function instanceOfSignAndSubmitOrderRequest(
   if (!("practiceId" in value) || value["practiceId"] === undefined) return false;
   if (!("signatureAttestation" in value) || value["signatureAttestation"] === undefined)
     return false;
-  if (!("expectedVersions" in value) || value["expectedVersions"] === undefined) return false;
   return true;
 }
 
@@ -98,9 +103,13 @@ export function SignAndSubmitOrderRequestFromJSONTyped(
         ? undefined
         : CreateOrderRequestPrescriberFromJSON(json["prescriber"]),
     signatureAttestation: json["signatureAttestation"],
-    expectedVersions: (json["expectedVersions"] as Array<any>).map(
-      SignOrderRequestExpectedVersionsInnerFromJSON,
-    ),
+    expectedRevision: json["expectedRevision"] == null ? undefined : json["expectedRevision"],
+    expectedVersions:
+      json["expectedVersions"] == null
+        ? undefined
+        : (json["expectedVersions"] as Array<any>).map(
+            SignOrderRequestExpectedVersionsInnerFromJSON,
+          ),
   };
 }
 
@@ -121,8 +130,12 @@ export function SignAndSubmitOrderRequestToJSONTyped(
     userId: value["userId"],
     prescriber: CreateOrderRequestPrescriberToJSON(value["prescriber"]),
     signatureAttestation: value["signatureAttestation"],
-    expectedVersions: (value["expectedVersions"] as Array<any>).map(
-      SignOrderRequestExpectedVersionsInnerToJSON,
-    ),
+    expectedRevision: value["expectedRevision"],
+    expectedVersions:
+      value["expectedVersions"] == null
+        ? undefined
+        : (value["expectedVersions"] as Array<any>).map(
+            SignOrderRequestExpectedVersionsInnerToJSON,
+          ),
   };
 }

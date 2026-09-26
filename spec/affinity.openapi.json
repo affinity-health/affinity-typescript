@@ -4859,7 +4859,7 @@
           },
           "required": true
         },
-        "description": "Requires orders:sign, Idempotency-Key, and attestation to every exact prescription version. Select prescriber by npi, provider id, or integration-scoped externalId, or inherit the draft's prescriber. First-use registration requires team:write. Actor headers are optional audit metadata with prescriber; legacy userId requires matching clinician actor headers. Signing does not submit to a pharmacy.",
+        "description": "Requires orders:sign, Idempotency-Key, signatureAttestation, and expectedRevision from the reviewed order. Existing integrations may send expectedVersions instead; supply exactly one. A stale revision returns 409 and requires renewed clinician review. Select prescriber by npi, provider id, or integration-scoped externalId, or inherit the draft's prescriber. First-use registration requires team:write. Actor headers are optional audit metadata with prescriber; legacy userId requires matching clinician actor headers. Signing does not submit to a pharmacy.",
         "summary": "Sign order",
         "x-visibility": "public"
       }
@@ -5010,7 +5010,7 @@
           },
           "required": true
         },
-        "description": "Requires orders:sign, Idempotency-Key, and attestation to every exact prescription version. Select prescriber by npi, provider id, or externalId, or inherit the draft's prescriber. First-use registration requires team:write. Actor headers are optional with prescriber; legacy userId requires matching clinician actor headers. Signs the complete order, then attempts each submission. Signing remains committed if submission fails. Replay the same key after an uncertain response; retry reported submission failures through Submit order with a new key. Submitted means queued, not pharmacy acceptance.",
+        "description": "Requires orders:sign, Idempotency-Key, signatureAttestation, and expectedRevision from the reviewed order. Existing integrations may send expectedVersions instead; supply exactly one. A stale revision returns 409 and requires renewed clinician review. Select prescriber by npi, provider id, or externalId, or inherit the draft's prescriber. First-use registration requires team:write. Actor headers are optional with prescriber; legacy userId requires matching clinician actor headers. Signs the complete order, then attempts each submission. Signing remains committed if submission fails. Replay the same key after an uncertain response; retry reported submission failures through Submit order with a new key. Submitted means queued, not pharmacy acceptance.",
         "summary": "Sign and submit order",
         "x-visibility": "public"
       }
@@ -5312,7 +5312,7 @@
           },
           "required": true
         },
-        "description": "Requires orders:sign and Idempotency-Key. Select a prescriber or inherit the draft's prescriber. Legacy userId requires matching clinician actor headers. Permanently rejects the complete unsigned order after checking the exact prescription versions.",
+        "description": "Requires orders:sign and Idempotency-Key. Select a prescriber or inherit the draft's prescriber. Legacy userId requires matching clinician actor headers. Supply expectedRevision from the reviewed order, or expectedVersions for existing integrations. Permanently rejects the complete unsigned order after checking its revision.",
         "summary": "Reject order",
         "x-visibility": "public"
       }
@@ -10618,7 +10618,7 @@
           },
           "required": true
         },
-        "description": "Requires orders:write, Idempotency-Key and the current expectedVersions for every prescription. Adds a complete prescription to an unsigned Order and returns all new versions. Omitted actor context defaults to the authenticated service account as a system actor. Patient and prescriber attribution stay fixed. Signed orders cannot be amended through this endpoint. Signing and submission require orders:sign through their separate endpoints.",
+        "description": "Requires orders:write, Idempotency-Key and expectedRevision from the order being edited. Existing integrations may send expectedVersions instead; supply exactly one. Adds a complete prescription to an unsigned Order and returns all new versions. Omitted actor context defaults to the authenticated service account as a system actor. Patient and prescriber attribution stay fixed. Signed orders cannot be amended through this endpoint. Signing and submission require orders:sign through their separate endpoints.",
         "summary": "Add prescription to order",
         "x-visibility": "public"
       }
@@ -10799,7 +10799,7 @@
           },
           "required": true
         },
-        "description": "Requires orders:write, Idempotency-Key and the current expectedVersions for every prescription. Replaces one prescription with complete medication instructions and returns all new versions. Omitted actor context defaults to the authenticated service account as a system actor. Patient and prescriber attribution stay fixed. Signed orders cannot be amended through this endpoint. Signing and submission require orders:sign through their separate endpoints.",
+        "description": "Requires orders:write, Idempotency-Key and expectedRevision from the order being edited. Existing integrations may send expectedVersions instead; supply exactly one. Replaces one prescription with complete medication instructions and returns all new versions. Omitted actor context defaults to the authenticated service account as a system actor. Patient and prescriber attribution stay fixed. Signed orders cannot be amended through this endpoint. Signing and submission require orders:sign through their separate endpoints.",
         "summary": "Update prescription in order",
         "x-visibility": "public"
       }
@@ -14739,6 +14739,11 @@
             "items": {
               "type": "object",
               "properties": {
+                "revision": {
+                  "type": "string",
+                  "pattern": "^rev_[a-f0-9]{64}$",
+                  "description": "Opaque revision of the complete order prescription set. Send the revision you reviewed as expectedRevision; never replace it automatically after a conflict."
+                },
                 "otcItems": {
                   "type": "array",
                   "items": {
@@ -16705,6 +16710,7 @@
                 }
               },
               "required": [
+                "revision",
                 "otcItems",
                 "practiceMedicationTotalCents",
                 "externalOrderId",
@@ -18142,6 +18148,11 @@
         "title": "CreateOrderResponse",
         "type": "object",
         "properties": {
+          "revision": {
+            "type": "string",
+            "pattern": "^rev_[a-f0-9]{64}$",
+            "description": "Opaque revision of the complete order prescription set. Send the revision you reviewed as expectedRevision; never replace it automatically after a conflict."
+          },
           "otcItems": {
             "type": "array",
             "items": {
@@ -18440,6 +18451,7 @@
           }
         },
         "required": [
+          "revision",
           "otcItems",
           "externalOrderId",
           "metadata",
@@ -18459,6 +18471,11 @@
         "title": "GetOrderResponse",
         "type": "object",
         "properties": {
+          "revision": {
+            "type": "string",
+            "pattern": "^rev_[a-f0-9]{64}$",
+            "description": "Opaque revision of the complete order prescription set. Send the revision you reviewed as expectedRevision; never replace it automatically after a conflict."
+          },
           "otcItems": {
             "type": "array",
             "items": {
@@ -20425,6 +20442,7 @@
           }
         },
         "required": [
+          "revision",
           "otcItems",
           "practiceMedicationTotalCents",
           "externalOrderId",
@@ -20466,6 +20484,11 @@
         "title": "CancelOrderResponse",
         "type": "object",
         "properties": {
+          "revision": {
+            "type": "string",
+            "pattern": "^rev_[a-f0-9]{64}$",
+            "description": "Opaque revision of the complete order prescription set. Send the revision you reviewed as expectedRevision; never replace it automatically after a conflict."
+          },
           "otcItems": {
             "type": "array",
             "items": {
@@ -22490,6 +22513,7 @@
           }
         },
         "required": [
+          "revision",
           "otcItems",
           "practiceMedicationTotalCents",
           "externalOrderId",
@@ -30241,39 +30265,73 @@
               true
             ]
           },
-          "expectedVersions": {
-            "type": "array",
-            "items": {
-              "type": "object",
-              "properties": {
-                "prescriptionId": {
-                  "type": "string",
-                  "pattern": "^rx_[0-9a-hjkmnp-tv-z]{26}$",
-                  "examples": [
-                    "rx_01j2y8m6jcc9tt24af5pw9x1bc"
-                  ]
-                },
-                "version": {
-                  "type": "integer",
-                  "minimum": 1
-                }
+          "expectedRevision": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^rev_[a-f0-9]{64}$",
+                "description": "Opaque revision of the complete order prescription set. Send the revision you reviewed as expectedRevision; never replace it automatically after a conflict."
               },
-              "required": [
-                "prescriptionId",
-                "version"
-              ],
-              "additionalProperties": false
-            },
-            "minItems": 1,
-            "maxItems": 20
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "expectedVersions": {
+            "anyOf": [
+              {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "prescriptionId": {
+                      "type": "string",
+                      "pattern": "^rx_[0-9a-hjkmnp-tv-z]{26}$",
+                      "examples": [
+                        "rx_01j2y8m6jcc9tt24af5pw9x1bc"
+                      ]
+                    },
+                    "version": {
+                      "type": "integer",
+                      "minimum": 1
+                    }
+                  },
+                  "required": [
+                    "prescriptionId",
+                    "version"
+                  ],
+                  "additionalProperties": false
+                },
+                "minItems": 1,
+                "maxItems": 20
+              },
+              {
+                "type": "null"
+              }
+            ]
           }
         },
         "required": [
           "practiceId",
-          "signatureAttestation",
-          "expectedVersions"
+          "signatureAttestation"
         ],
         "additionalProperties": false,
+        "allOf": [
+          {
+            "oneOf": [
+              {
+                "required": [
+                  "expectedRevision"
+                ]
+              },
+              {
+                "required": [
+                  "expectedVersions"
+                ]
+              }
+            ]
+          }
+        ],
         "title": "SignOrderRequest"
       },
       "SignOrderResponse": {
@@ -30426,39 +30484,73 @@
               true
             ]
           },
-          "expectedVersions": {
-            "type": "array",
-            "items": {
-              "type": "object",
-              "properties": {
-                "prescriptionId": {
-                  "type": "string",
-                  "pattern": "^rx_[0-9a-hjkmnp-tv-z]{26}$",
-                  "examples": [
-                    "rx_01j2y8m6jcc9tt24af5pw9x1bc"
-                  ]
-                },
-                "version": {
-                  "type": "integer",
-                  "minimum": 1
-                }
+          "expectedRevision": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^rev_[a-f0-9]{64}$",
+                "description": "Opaque revision of the complete order prescription set. Send the revision you reviewed as expectedRevision; never replace it automatically after a conflict."
               },
-              "required": [
-                "prescriptionId",
-                "version"
-              ],
-              "additionalProperties": false
-            },
-            "minItems": 1,
-            "maxItems": 20
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "expectedVersions": {
+            "anyOf": [
+              {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "prescriptionId": {
+                      "type": "string",
+                      "pattern": "^rx_[0-9a-hjkmnp-tv-z]{26}$",
+                      "examples": [
+                        "rx_01j2y8m6jcc9tt24af5pw9x1bc"
+                      ]
+                    },
+                    "version": {
+                      "type": "integer",
+                      "minimum": 1
+                    }
+                  },
+                  "required": [
+                    "prescriptionId",
+                    "version"
+                  ],
+                  "additionalProperties": false
+                },
+                "minItems": 1,
+                "maxItems": 20
+              },
+              {
+                "type": "null"
+              }
+            ]
           }
         },
         "required": [
           "practiceId",
-          "signatureAttestation",
-          "expectedVersions"
+          "signatureAttestation"
         ],
         "additionalProperties": false,
+        "allOf": [
+          {
+            "oneOf": [
+              {
+                "required": [
+                  "expectedRevision"
+                ]
+              },
+              {
+                "required": [
+                  "expectedVersions"
+                ]
+              }
+            ]
+          }
+        ],
         "title": "SignAndSubmitOrderRequest"
       },
       "SignAndSubmitOrderResponse": {
@@ -30832,39 +30924,73 @@
           "reason": {
             "type": "string"
           },
-          "expectedVersions": {
-            "type": "array",
-            "items": {
-              "type": "object",
-              "properties": {
-                "prescriptionId": {
-                  "type": "string",
-                  "pattern": "^rx_[0-9a-hjkmnp-tv-z]{26}$",
-                  "examples": [
-                    "rx_01j2y8m6jcc9tt24af5pw9x1bc"
-                  ]
-                },
-                "version": {
-                  "type": "integer",
-                  "minimum": 1
-                }
+          "expectedRevision": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^rev_[a-f0-9]{64}$",
+                "description": "Opaque revision of the complete order prescription set. Send the revision you reviewed as expectedRevision; never replace it automatically after a conflict."
               },
-              "required": [
-                "prescriptionId",
-                "version"
-              ],
-              "additionalProperties": false
-            },
-            "minItems": 1,
-            "maxItems": 20
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "expectedVersions": {
+            "anyOf": [
+              {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "prescriptionId": {
+                      "type": "string",
+                      "pattern": "^rx_[0-9a-hjkmnp-tv-z]{26}$",
+                      "examples": [
+                        "rx_01j2y8m6jcc9tt24af5pw9x1bc"
+                      ]
+                    },
+                    "version": {
+                      "type": "integer",
+                      "minimum": 1
+                    }
+                  },
+                  "required": [
+                    "prescriptionId",
+                    "version"
+                  ],
+                  "additionalProperties": false
+                },
+                "minItems": 1,
+                "maxItems": 20
+              },
+              {
+                "type": "null"
+              }
+            ]
           }
         },
         "required": [
           "practiceId",
-          "reason",
-          "expectedVersions"
+          "reason"
         ],
         "additionalProperties": false,
+        "allOf": [
+          {
+            "oneOf": [
+              {
+                "required": [
+                  "expectedRevision"
+                ]
+              },
+              {
+                "required": [
+                  "expectedVersions"
+                ]
+              }
+            ]
+          }
+        ],
         "title": "RejectOrderRequest"
       },
       "RejectOrderResponse": {
@@ -46079,31 +46205,50 @@
               "prac_01j2y8m6jcc9tt24af5pw9x1bc"
             ]
           },
-          "expectedVersions": {
-            "type": "array",
-            "items": {
-              "type": "object",
-              "properties": {
-                "prescriptionId": {
-                  "type": "string",
-                  "pattern": "^rx_[0-9a-hjkmnp-tv-z]{26}$",
-                  "examples": [
-                    "rx_01j2y8m6jcc9tt24af5pw9x1bc"
-                  ]
-                },
-                "version": {
-                  "type": "integer",
-                  "minimum": 1
-                }
+          "expectedRevision": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^rev_[a-f0-9]{64}$",
+                "description": "Opaque revision of the complete order prescription set. Send the revision you reviewed as expectedRevision; never replace it automatically after a conflict."
               },
-              "required": [
-                "prescriptionId",
-                "version"
-              ],
-              "additionalProperties": false
-            },
-            "minItems": 1,
-            "maxItems": 20
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "expectedVersions": {
+            "anyOf": [
+              {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "prescriptionId": {
+                      "type": "string",
+                      "pattern": "^rx_[0-9a-hjkmnp-tv-z]{26}$",
+                      "examples": [
+                        "rx_01j2y8m6jcc9tt24af5pw9x1bc"
+                      ]
+                    },
+                    "version": {
+                      "type": "integer",
+                      "minimum": 1
+                    }
+                  },
+                  "required": [
+                    "prescriptionId",
+                    "version"
+                  ],
+                  "additionalProperties": false
+                },
+                "minItems": 1,
+                "maxItems": 20
+              },
+              {
+                "type": "null"
+              }
+            ]
           },
           "prescription": {
             "type": "object",
@@ -46540,16 +46685,36 @@
         },
         "required": [
           "practiceId",
-          "expectedVersions",
           "prescription"
         ],
         "additionalProperties": false,
+        "allOf": [
+          {
+            "oneOf": [
+              {
+                "required": [
+                  "expectedRevision"
+                ]
+              },
+              {
+                "required": [
+                  "expectedVersions"
+                ]
+              }
+            ]
+          }
+        ],
         "title": "AddOrderPrescriptionRequest"
       },
       "AddOrderPrescriptionResponse": {
         "title": "AddOrderPrescriptionResponse",
         "type": "object",
         "properties": {
+          "revision": {
+            "type": "string",
+            "pattern": "^rev_[a-f0-9]{64}$",
+            "description": "Opaque revision of the complete order prescription set. Send the revision you reviewed as expectedRevision; never replace it automatically after a conflict."
+          },
           "object": {
             "type": "string",
             "enum": [
@@ -46703,6 +46868,7 @@
           }
         },
         "required": [
+          "revision",
           "object",
           "externalOrderId",
           "metadata",
@@ -46757,31 +46923,50 @@
               "prac_01j2y8m6jcc9tt24af5pw9x1bc"
             ]
           },
-          "expectedVersions": {
-            "type": "array",
-            "items": {
-              "type": "object",
-              "properties": {
-                "prescriptionId": {
-                  "type": "string",
-                  "pattern": "^rx_[0-9a-hjkmnp-tv-z]{26}$",
-                  "examples": [
-                    "rx_01j2y8m6jcc9tt24af5pw9x1bc"
-                  ]
-                },
-                "version": {
-                  "type": "integer",
-                  "minimum": 1
-                }
+          "expectedRevision": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^rev_[a-f0-9]{64}$",
+                "description": "Opaque revision of the complete order prescription set. Send the revision you reviewed as expectedRevision; never replace it automatically after a conflict."
               },
-              "required": [
-                "prescriptionId",
-                "version"
-              ],
-              "additionalProperties": false
-            },
-            "minItems": 1,
-            "maxItems": 20
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "expectedVersions": {
+            "anyOf": [
+              {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "prescriptionId": {
+                      "type": "string",
+                      "pattern": "^rx_[0-9a-hjkmnp-tv-z]{26}$",
+                      "examples": [
+                        "rx_01j2y8m6jcc9tt24af5pw9x1bc"
+                      ]
+                    },
+                    "version": {
+                      "type": "integer",
+                      "minimum": 1
+                    }
+                  },
+                  "required": [
+                    "prescriptionId",
+                    "version"
+                  ],
+                  "additionalProperties": false
+                },
+                "minItems": 1,
+                "maxItems": 20
+              },
+              {
+                "type": "null"
+              }
+            ]
           },
           "prescription": {
             "type": "object",
@@ -47200,16 +47385,36 @@
         },
         "required": [
           "practiceId",
-          "expectedVersions",
           "prescription"
         ],
         "additionalProperties": false,
+        "allOf": [
+          {
+            "oneOf": [
+              {
+                "required": [
+                  "expectedRevision"
+                ]
+              },
+              {
+                "required": [
+                  "expectedVersions"
+                ]
+              }
+            ]
+          }
+        ],
         "title": "UpdateOrderPrescriptionRequest"
       },
       "UpdateOrderPrescriptionResponse": {
         "title": "UpdateOrderPrescriptionResponse",
         "type": "object",
         "properties": {
+          "revision": {
+            "type": "string",
+            "pattern": "^rev_[a-f0-9]{64}$",
+            "description": "Opaque revision of the complete order prescription set. Send the revision you reviewed as expectedRevision; never replace it automatically after a conflict."
+          },
           "object": {
             "type": "string",
             "enum": [
@@ -47363,6 +47568,7 @@
           }
         },
         "required": [
+          "revision",
           "object",
           "externalOrderId",
           "metadata",
@@ -48809,6 +49015,11 @@
             "items": {
               "type": "object",
               "properties": {
+                "revision": {
+                  "type": "string",
+                  "pattern": "^rev_[a-f0-9]{64}$",
+                  "description": "Opaque revision of the complete order prescription set. Send the revision you reviewed as expectedRevision; never replace it automatically after a conflict."
+                },
                 "otcItems": {
                   "type": "array",
                   "items": {
@@ -49107,6 +49318,7 @@
                 }
               },
               "required": [
+                "revision",
                 "otcItems",
                 "externalOrderId",
                 "metadata",

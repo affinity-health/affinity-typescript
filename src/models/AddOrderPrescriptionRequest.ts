@@ -54,11 +54,17 @@ export interface AddOrderPrescriptionRequest {
    */
   practiceId: string;
   /**
+   * Opaque revision of the complete order prescription set. Send the revision you reviewed as expectedRevision; never replace it automatically after a conflict.
+   * @type {string}
+   * @memberof AddOrderPrescriptionRequest
+   */
+  expectedRevision?: string | null;
+  /**
    *
    * @type {Array<SignOrderRequestExpectedVersionsInner>}
    * @memberof AddOrderPrescriptionRequest
    */
-  expectedVersions: Array<SignOrderRequestExpectedVersionsInner>;
+  expectedVersions?: Array<SignOrderRequestExpectedVersionsInner> | null;
   /**
    *
    * @type {CreateOrderRequestPrescriptionsInner}
@@ -74,7 +80,6 @@ export function instanceOfAddOrderPrescriptionRequest(
   value: object,
 ): value is AddOrderPrescriptionRequest {
   if (!("practiceId" in value) || value["practiceId"] === undefined) return false;
-  if (!("expectedVersions" in value) || value["expectedVersions"] === undefined) return false;
   if (!("prescription" in value) || value["prescription"] === undefined) return false;
   return true;
 }
@@ -96,9 +101,13 @@ export function AddOrderPrescriptionRequestFromJSONTyped(
         ? undefined
         : mapValues(json["metadata"], ListOrdersResponseDataInnerMetadataValueFromJSON),
     practiceId: json["practiceId"],
-    expectedVersions: (json["expectedVersions"] as Array<any>).map(
-      SignOrderRequestExpectedVersionsInnerFromJSON,
-    ),
+    expectedRevision: json["expectedRevision"] == null ? undefined : json["expectedRevision"],
+    expectedVersions:
+      json["expectedVersions"] == null
+        ? undefined
+        : (json["expectedVersions"] as Array<any>).map(
+            SignOrderRequestExpectedVersionsInnerFromJSON,
+          ),
     prescription: CreateOrderRequestPrescriptionsInnerFromJSON(json["prescription"]),
   };
 }
@@ -121,9 +130,13 @@ export function AddOrderPrescriptionRequestToJSONTyped(
         ? undefined
         : mapValues(value["metadata"], ListOrdersResponseDataInnerMetadataValueToJSON),
     practiceId: value["practiceId"],
-    expectedVersions: (value["expectedVersions"] as Array<any>).map(
-      SignOrderRequestExpectedVersionsInnerToJSON,
-    ),
+    expectedRevision: value["expectedRevision"],
+    expectedVersions:
+      value["expectedVersions"] == null
+        ? undefined
+        : (value["expectedVersions"] as Array<any>).map(
+            SignOrderRequestExpectedVersionsInnerToJSON,
+          ),
     prescription: CreateOrderRequestPrescriptionsInnerToJSON(value["prescription"]),
   };
 }

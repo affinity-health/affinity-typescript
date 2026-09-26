@@ -35,6 +35,12 @@ import {
  */
 export interface CreateOrderBatchResponseOrdersInner {
   /**
+   * Opaque revision of the complete order prescription set. Send the revision you reviewed as expectedRevision; never replace it automatically after a conflict.
+   * @type {string}
+   * @memberof CreateOrderBatchResponseOrdersInner
+   */
+  revision: string;
+  /**
    *
    * @type {Array<CreateOrderResponseOtcItemsInner>}
    * @memberof CreateOrderBatchResponseOrdersInner
@@ -132,6 +138,7 @@ export type CreateOrderBatchResponseOrdersInnerStatusEnum =
 export function instanceOfCreateOrderBatchResponseOrdersInner(
   value: object,
 ): value is CreateOrderBatchResponseOrdersInner {
+  if (!("revision" in value) || value["revision"] === undefined) return false;
   if (!("otcItems" in value) || value["otcItems"] === undefined) return false;
   if (!("externalOrderId" in value) || value["externalOrderId"] === undefined) return false;
   if (!("metadata" in value) || value["metadata"] === undefined) return false;
@@ -161,6 +168,7 @@ export function CreateOrderBatchResponseOrdersInnerFromJSONTyped(
     return json;
   }
   return {
+    revision: json["revision"],
     otcItems: (json["otcItems"] as Array<any>).map(CreateOrderResponseOtcItemsInnerFromJSON),
     externalOrderId: json["externalOrderId"],
     metadata: json["metadata"],
@@ -193,6 +201,7 @@ export function CreateOrderBatchResponseOrdersInnerToJSONTyped(
   }
 
   return {
+    revision: value["revision"],
     otcItems: (value["otcItems"] as Array<any>).map(CreateOrderResponseOtcItemsInnerToJSON),
     externalOrderId: value["externalOrderId"],
     metadata: value["metadata"],

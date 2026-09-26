@@ -4,6 +4,7 @@
 
 | Name                           | Type                                                                                                               |
 | ------------------------------ | ------------------------------------------------------------------------------------------------------------------ |
+| `revision`                     | string                                                                                                             |
 | `otcItems`                     | [Array&lt;ListOrdersResponseDataInnerOtcItemsInner&gt;](ListOrdersResponseDataInnerOtcItemsInner.md)               |
 | `practiceMedicationTotalCents` | number                                                                                                             |
 | `externalOrderId`              | string                                                                                                             |

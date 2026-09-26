@@ -7,6 +7,17 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 
 ## [Unreleased]
 
+## [1.12.4] - 2026-09-26
+
+### Added
+
+- Orders and draft updates return an opaque revision. Send it as `expectedRevision` when signing, signing and submitting, rejecting, or editing drafts.
+- Signing and editing parameter types require either `expectedRevision` or the existing complete `expectedVersions` array.
+
+### Changed
+
+- EMR and TanStack Start examples retain the reviewed order revision and require new clinician review after a conflict.
+
 ## [1.12.3] - 2026-09-26
 
 ### Fixed

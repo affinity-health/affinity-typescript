@@ -57,7 +57,7 @@ type PreviewReceipt = { practiceId: string; input: CreateOrderParams; key: strin
 type ReviewReceipt = {
   practiceId: string;
   orderId: string;
-  versions: { prescriptionId: string; version: number }[];
+  revision: string;
   key: string;
 };
 
@@ -172,7 +172,7 @@ function review(order: Order) {
       {
         practiceId: order.practiceId,
         orderId: order.id,
-        versions: order.prescriptions.map((rx) => ({ prescriptionId: rx.id, version: rx.version })),
+        revision: order.revision,
         key: `sdk-example:sign:${crypto.randomUUID()}`,
       },
       accessPassword(),
@@ -210,7 +210,7 @@ export async function sign(token: string, npi: string) {
       practiceId,
       prescriber: { npi },
       signatureAttestation: true,
-      expectedVersions: accepted.versions,
+      expectedRevision: accepted.revision,
     },
     { idempotencyKey: `${accepted.key}:${npi}` },
   );

@@ -55,6 +55,26 @@ export function generatorContract(value: unknown): any {
     delete output.allOf;
     for (const constraint of constraints) Object.assign(output, constraint);
   }
+  // Required-key alternatives constrain the existing object; they do not add a
+  // model. Keep them in the pinned contract and facade union without letting the
+  // OpenAPI 3.0 generator rename existing public models.
+  if (output.type === "object" && Array.isArray(output.allOf)) {
+    const requiredChoices = output.allOf.filter(
+      (constraint: any) =>
+        Object.keys(constraint).length === 1 &&
+        Array.isArray(constraint.oneOf) &&
+        constraint.oneOf.every(
+          (member: any) => Object.keys(member).length === 1 && Array.isArray(member.required),
+        ),
+    );
+    if (requiredChoices.length) {
+      output["x-json-schema-requiredChoices"] = requiredChoices;
+      output.allOf = output.allOf.filter(
+        (constraint: any) => !requiredChoices.includes(constraint),
+      );
+      if (!output.allOf.length) delete output.allOf;
+    }
+  }
   if (output.const !== undefined) {
     output.enum = [output.const];
     delete output.const;

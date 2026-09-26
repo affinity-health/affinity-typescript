@@ -336,6 +336,32 @@ See the [compiled example](examples/clinical-requirements.ts) and
 
 ## Migrating to 1.12.0
 
+Read the order before showing it to the clinician, then send its revision after approval:
+
+```ts
+const order = await affinity.orders.retrieve(orderId);
+// Show and retain this order in your application's clinician review.
+// After the clinician approves this exact order:
+const result = await affinity.orders.signAndSubmit(
+  order.id,
+  {
+    practiceId: order.practiceId,
+    prescriber: { npi: "1234567893" }, // Synthetic Test prescriber.
+    signatureAttestation: true,
+    expectedRevision: order.revision,
+  },
+  { idempotencyKey: persistedSigningKey },
+);
+```
+
+Omit `prescriber` if the draft already has the intended clinician. Keep the reviewed revision in
+your server-side approval record. The SDK makes one signing request and never fetches a newer order
+to resolve a conflict. A stale revision returns HTTP 409 and requires renewed review. Existing
+integrations can send the complete `expectedVersions` array instead; supply exactly one form.
+Draft edits and rejections accept the same revision contract. Retry an uncertain response with the
+same request and idempotency key. Inspect per-prescription submission results; submitted means
+queued, and pharmacy acceptance arrives later through order reads or webhooks.
+
 Resource namespaces follow static API path segments after `/v1`. Hyphenated segments use camelCase; path IDs remain positional arguments in URL order. HTTP operations become `list`, `retrieve`, `create`, `update`, or `delete`. Action endpoints retain their action name, such as `orders.sign()`. These replace the previous names; no deprecated aliases are exposed.
 
 | Previous method                      | 1.12.0 method                                 |

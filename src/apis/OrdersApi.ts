@@ -488,7 +488,7 @@ export class OrdersApi extends runtime.BaseAPI {
   }
 
   /**
-   * Requires orders:write, Idempotency-Key and the current expectedVersions for every prescription. Adds a complete prescription to an unsigned Order and returns all new versions. Omitted actor context defaults to the authenticated service account as a system actor. Patient and prescriber attribution stay fixed. Signed orders cannot be amended through this endpoint. Signing and submission require orders:sign through their separate endpoints.
+   * Requires orders:write, Idempotency-Key and expectedRevision from the order being edited. Existing integrations may send expectedVersions instead; supply exactly one. Adds a complete prescription to an unsigned Order and returns all new versions. Omitted actor context defaults to the authenticated service account as a system actor. Patient and prescriber attribution stay fixed. Signed orders cannot be amended through this endpoint. Signing and submission require orders:sign through their separate endpoints.
    * Add prescription to order
    */
   async addOrderPrescriptionRaw(
@@ -504,7 +504,7 @@ export class OrdersApi extends runtime.BaseAPI {
   }
 
   /**
-   * Requires orders:write, Idempotency-Key and the current expectedVersions for every prescription. Adds a complete prescription to an unsigned Order and returns all new versions. Omitted actor context defaults to the authenticated service account as a system actor. Patient and prescriber attribution stay fixed. Signed orders cannot be amended through this endpoint. Signing and submission require orders:sign through their separate endpoints.
+   * Requires orders:write, Idempotency-Key and expectedRevision from the order being edited. Existing integrations may send expectedVersions instead; supply exactly one. Adds a complete prescription to an unsigned Order and returns all new versions. Omitted actor context defaults to the authenticated service account as a system actor. Patient and prescriber attribution stay fixed. Signed orders cannot be amended through this endpoint. Signing and submission require orders:sign through their separate endpoints.
    * Add prescription to order
    */
   async addOrderPrescription(
@@ -1324,7 +1324,7 @@ export class OrdersApi extends runtime.BaseAPI {
   }
 
   /**
-   * Requires orders:sign and Idempotency-Key. Select a prescriber or inherit the draft\'s prescriber. Legacy userId requires matching clinician actor headers. Permanently rejects the complete unsigned order after checking the exact prescription versions.
+   * Requires orders:sign and Idempotency-Key. Select a prescriber or inherit the draft\'s prescriber. Legacy userId requires matching clinician actor headers. Supply expectedRevision from the reviewed order, or expectedVersions for existing integrations. Permanently rejects the complete unsigned order after checking its revision.
    * Reject order
    */
   async rejectOrderRaw(
@@ -1340,7 +1340,7 @@ export class OrdersApi extends runtime.BaseAPI {
   }
 
   /**
-   * Requires orders:sign and Idempotency-Key. Select a prescriber or inherit the draft\'s prescriber. Legacy userId requires matching clinician actor headers. Permanently rejects the complete unsigned order after checking the exact prescription versions.
+   * Requires orders:sign and Idempotency-Key. Select a prescriber or inherit the draft\'s prescriber. Legacy userId requires matching clinician actor headers. Supply expectedRevision from the reviewed order, or expectedVersions for existing integrations. Permanently rejects the complete unsigned order after checking its revision.
    * Reject order
    */
   async rejectOrder(
@@ -1421,7 +1421,7 @@ export class OrdersApi extends runtime.BaseAPI {
   }
 
   /**
-   * Requires orders:sign, Idempotency-Key, and attestation to every exact prescription version. Select prescriber by npi, provider id, or externalId, or inherit the draft\'s prescriber. First-use registration requires team:write. Actor headers are optional with prescriber; legacy userId requires matching clinician actor headers. Signs the complete order, then attempts each submission. Signing remains committed if submission fails. Replay the same key after an uncertain response; retry reported submission failures through Submit order with a new key. Submitted means queued, not pharmacy acceptance.
+   * Requires orders:sign, Idempotency-Key, signatureAttestation, and expectedRevision from the reviewed order. Existing integrations may send expectedVersions instead; supply exactly one. A stale revision returns 409 and requires renewed clinician review. Select prescriber by npi, provider id, or externalId, or inherit the draft\'s prescriber. First-use registration requires team:write. Actor headers are optional with prescriber; legacy userId requires matching clinician actor headers. Signs the complete order, then attempts each submission. Signing remains committed if submission fails. Replay the same key after an uncertain response; retry reported submission failures through Submit order with a new key. Submitted means queued, not pharmacy acceptance.
    * Sign and submit order
    */
   async signAndSubmitOrderRaw(
@@ -1437,7 +1437,7 @@ export class OrdersApi extends runtime.BaseAPI {
   }
 
   /**
-   * Requires orders:sign, Idempotency-Key, and attestation to every exact prescription version. Select prescriber by npi, provider id, or externalId, or inherit the draft\'s prescriber. First-use registration requires team:write. Actor headers are optional with prescriber; legacy userId requires matching clinician actor headers. Signs the complete order, then attempts each submission. Signing remains committed if submission fails. Replay the same key after an uncertain response; retry reported submission failures through Submit order with a new key. Submitted means queued, not pharmacy acceptance.
+   * Requires orders:sign, Idempotency-Key, signatureAttestation, and expectedRevision from the reviewed order. Existing integrations may send expectedVersions instead; supply exactly one. A stale revision returns 409 and requires renewed clinician review. Select prescriber by npi, provider id, or externalId, or inherit the draft\'s prescriber. First-use registration requires team:write. Actor headers are optional with prescriber; legacy userId requires matching clinician actor headers. Signs the complete order, then attempts each submission. Signing remains committed if submission fails. Replay the same key after an uncertain response; retry reported submission failures through Submit order with a new key. Submitted means queued, not pharmacy acceptance.
    * Sign and submit order
    */
   async signAndSubmitOrder(
@@ -1518,7 +1518,7 @@ export class OrdersApi extends runtime.BaseAPI {
   }
 
   /**
-   * Requires orders:sign, Idempotency-Key, and attestation to every exact prescription version. Select prescriber by npi, provider id, or integration-scoped externalId, or inherit the draft\'s prescriber. First-use registration requires team:write. Actor headers are optional audit metadata with prescriber; legacy userId requires matching clinician actor headers. Signing does not submit to a pharmacy.
+   * Requires orders:sign, Idempotency-Key, signatureAttestation, and expectedRevision from the reviewed order. Existing integrations may send expectedVersions instead; supply exactly one. A stale revision returns 409 and requires renewed clinician review. Select prescriber by npi, provider id, or integration-scoped externalId, or inherit the draft\'s prescriber. First-use registration requires team:write. Actor headers are optional audit metadata with prescriber; legacy userId requires matching clinician actor headers. Signing does not submit to a pharmacy.
    * Sign order
    */
   async signOrderRaw(
@@ -1534,7 +1534,7 @@ export class OrdersApi extends runtime.BaseAPI {
   }
 
   /**
-   * Requires orders:sign, Idempotency-Key, and attestation to every exact prescription version. Select prescriber by npi, provider id, or integration-scoped externalId, or inherit the draft\'s prescriber. First-use registration requires team:write. Actor headers are optional audit metadata with prescriber; legacy userId requires matching clinician actor headers. Signing does not submit to a pharmacy.
+   * Requires orders:sign, Idempotency-Key, signatureAttestation, and expectedRevision from the reviewed order. Existing integrations may send expectedVersions instead; supply exactly one. A stale revision returns 409 and requires renewed clinician review. Select prescriber by npi, provider id, or integration-scoped externalId, or inherit the draft\'s prescriber. First-use registration requires team:write. Actor headers are optional audit metadata with prescriber; legacy userId requires matching clinician actor headers. Signing does not submit to a pharmacy.
    * Sign order
    */
   async signOrder(
@@ -1733,7 +1733,7 @@ export class OrdersApi extends runtime.BaseAPI {
   }
 
   /**
-   * Requires orders:write, Idempotency-Key and the current expectedVersions for every prescription. Replaces one prescription with complete medication instructions and returns all new versions. Omitted actor context defaults to the authenticated service account as a system actor. Patient and prescriber attribution stay fixed. Signed orders cannot be amended through this endpoint. Signing and submission require orders:sign through their separate endpoints.
+   * Requires orders:write, Idempotency-Key and expectedRevision from the order being edited. Existing integrations may send expectedVersions instead; supply exactly one. Replaces one prescription with complete medication instructions and returns all new versions. Omitted actor context defaults to the authenticated service account as a system actor. Patient and prescriber attribution stay fixed. Signed orders cannot be amended through this endpoint. Signing and submission require orders:sign through their separate endpoints.
    * Update prescription in order
    */
   async updateOrderPrescriptionRaw(
@@ -1749,7 +1749,7 @@ export class OrdersApi extends runtime.BaseAPI {
   }
 
   /**
-   * Requires orders:write, Idempotency-Key and the current expectedVersions for every prescription. Replaces one prescription with complete medication instructions and returns all new versions. Omitted actor context defaults to the authenticated service account as a system actor. Patient and prescriber attribution stay fixed. Signed orders cannot be amended through this endpoint. Signing and submission require orders:sign through their separate endpoints.
+   * Requires orders:write, Idempotency-Key and expectedRevision from the order being edited. Existing integrations may send expectedVersions instead; supply exactly one. Replaces one prescription with complete medication instructions and returns all new versions. Omitted actor context defaults to the authenticated service account as a system actor. Patient and prescriber attribution stay fixed. Signed orders cannot be amended through this endpoint. Signing and submission require orders:sign through their separate endpoints.
    * Update prescription in order
    */
   async updateOrderPrescription(

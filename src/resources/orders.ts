@@ -90,49 +90,73 @@ export type PreviewOrderParams = Omit<
         patientExternalId?: never;
       }
   );
-export type SignOrderParams = Omit<
-  SignOrderRequest,
-  "practiceId" | "signatureAttestation" | "expectedVersions"
-> & {
+export type SignOrderParams = (Omit<SignOrderRequest, "practiceId" | "signatureAttestation"> & {
   practiceId: NonNullable<SignOrderRequest["practiceId"]>;
   signatureAttestation: NonNullable<SignOrderRequest["signatureAttestation"]>;
-  expectedVersions: NonNullable<SignOrderRequest["expectedVersions"]>;
-};
-export type SignAndSubmitOrderParams = Omit<
+}) &
+  (
+    | { expectedRevision: string; expectedVersions?: never }
+    | {
+        expectedVersions: NonNullable<SignOrderRequest["expectedVersions"]>;
+        expectedRevision?: never;
+      }
+  );
+export type SignAndSubmitOrderParams = (Omit<
   SignAndSubmitOrderRequest,
-  "practiceId" | "signatureAttestation" | "expectedVersions"
+  "practiceId" | "signatureAttestation"
 > & {
   practiceId: NonNullable<SignAndSubmitOrderRequest["practiceId"]>;
   signatureAttestation: NonNullable<SignAndSubmitOrderRequest["signatureAttestation"]>;
-  expectedVersions: NonNullable<SignAndSubmitOrderRequest["expectedVersions"]>;
-};
+}) &
+  (
+    | { expectedRevision: string; expectedVersions?: never }
+    | {
+        expectedVersions: NonNullable<SignAndSubmitOrderRequest["expectedVersions"]>;
+        expectedRevision?: never;
+      }
+  );
 export type SubmitOrderParams = Omit<SubmitOrderRequest, "practiceId"> & {
   practiceId: NonNullable<SubmitOrderRequest["practiceId"]>;
 };
-export type RejectOrderParams = Omit<
-  RejectOrderRequest,
-  "practiceId" | "reason" | "expectedVersions"
-> & {
+export type RejectOrderParams = (Omit<RejectOrderRequest, "practiceId" | "reason"> & {
   practiceId: NonNullable<RejectOrderRequest["practiceId"]>;
   reason: NonNullable<RejectOrderRequest["reason"]>;
-  expectedVersions: NonNullable<RejectOrderRequest["expectedVersions"]>;
-};
-export type AddOrderPrescriptionParams = Omit<
+}) &
+  (
+    | { expectedRevision: string; expectedVersions?: never }
+    | {
+        expectedVersions: NonNullable<RejectOrderRequest["expectedVersions"]>;
+        expectedRevision?: never;
+      }
+  );
+export type AddOrderPrescriptionParams = (Omit<
   AddOrderPrescriptionRequest,
-  "practiceId" | "expectedVersions" | "prescription"
+  "practiceId" | "prescription"
 > & {
   practiceId: NonNullable<AddOrderPrescriptionRequest["practiceId"]>;
-  expectedVersions: NonNullable<AddOrderPrescriptionRequest["expectedVersions"]>;
   prescription: NonNullable<AddOrderPrescriptionRequest["prescription"]>;
-};
-export type UpdateOrderPrescriptionParams = Omit<
+}) &
+  (
+    | { expectedRevision: string; expectedVersions?: never }
+    | {
+        expectedVersions: NonNullable<AddOrderPrescriptionRequest["expectedVersions"]>;
+        expectedRevision?: never;
+      }
+  );
+export type UpdateOrderPrescriptionParams = (Omit<
   UpdateOrderPrescriptionRequest,
-  "practiceId" | "expectedVersions" | "prescription"
+  "practiceId" | "prescription"
 > & {
   practiceId: NonNullable<UpdateOrderPrescriptionRequest["practiceId"]>;
-  expectedVersions: NonNullable<UpdateOrderPrescriptionRequest["expectedVersions"]>;
   prescription: NonNullable<UpdateOrderPrescriptionRequest["prescription"]>;
-};
+}) &
+  (
+    | { expectedRevision: string; expectedVersions?: never }
+    | {
+        expectedVersions: NonNullable<UpdateOrderPrescriptionRequest["expectedVersions"]>;
+        expectedRevision?: never;
+      }
+  );
 export type CreateOrderBatchOrderParams = Omit<
   CreateOrderBatchRequest["orders"][number],
   "patientId" | "patient" | "prescriptions"

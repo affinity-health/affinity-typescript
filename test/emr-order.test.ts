@@ -30,7 +30,7 @@ test("prescriber selectors serialize without userId or actor options, including 
         practiceId: "prac_test",
         prescriber,
         signatureAttestation: true,
-        expectedVersions: [{ prescriptionId: "rx_one", version: 1 }],
+        expectedRevision: `rev_${"a".repeat(64)}`,
       },
       { idempotencyKey: "approval-" + requests.length },
     );
@@ -41,7 +41,7 @@ test("prescriber selectors serialize without userId or actor options, including 
   expect(await requests[3]!.json()).toEqual({
     practiceId: "prac_test",
     signatureAttestation: true,
-    expectedVersions: [{ prescriptionId: "rx_one", version: 1 }],
+    expectedRevision: `rev_${"a".repeat(64)}`,
   });
   for (const request of requests)
     expect(request.headers.get("Affinity-Actor-Type")).not.toBe("user");

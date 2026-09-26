@@ -13,10 +13,10 @@ describe("example access and review receipts", () => {
       true,
     );
   });
-  test("preserves exact reviewed versions and retry key", () => {
+  test("preserves the reviewed revision and retry key", () => {
     const reviewed = {
       orderId: "ord_test",
-      versions: [{ prescriptionId: "rx_test", version: 7 }],
+      revision: "rev_reviewed",
       key: "retry-key",
     };
     expect(unseal<typeof reviewed>(seal("review", reviewed, secret), "review", secret)).toEqual(

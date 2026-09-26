@@ -56,6 +56,12 @@ import {
  */
 export interface ListOrdersResponseDataInner {
   /**
+   * Opaque revision of the complete order prescription set. Send the revision you reviewed as expectedRevision; never replace it automatically after a conflict.
+   * @type {string}
+   * @memberof ListOrdersResponseDataInner
+   */
+  revision: string;
+  /**
    *
    * @type {Array<ListOrdersResponseDataInnerOtcItemsInner>}
    * @memberof ListOrdersResponseDataInner
@@ -217,6 +223,7 @@ export type ListOrdersResponseDataInnerStatusEnum =
 export function instanceOfListOrdersResponseDataInner(
   value: object,
 ): value is ListOrdersResponseDataInner {
+  if (!("revision" in value) || value["revision"] === undefined) return false;
   if (!("otcItems" in value) || value["otcItems"] === undefined) return false;
   if (
     !("practiceMedicationTotalCents" in value) ||
@@ -257,6 +264,7 @@ export function ListOrdersResponseDataInnerFromJSONTyped(
     return json;
   }
   return {
+    revision: json["revision"],
     otcItems: (json["otcItems"] as Array<any>).map(
       ListOrdersResponseDataInnerOtcItemsInnerFromJSON,
     ),
@@ -302,6 +310,7 @@ export function ListOrdersResponseDataInnerToJSONTyped(
   }
 
   return {
+    revision: value["revision"],
     otcItems: (value["otcItems"] as Array<any>).map(ListOrdersResponseDataInnerOtcItemsInnerToJSON),
     practiceMedicationTotalCents: value["practiceMedicationTotalCents"],
     externalOrderId: value["externalOrderId"],

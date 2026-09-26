@@ -4,6 +4,7 @@
 
 | Name              | Type                                                                                           |
 | ----------------- | ---------------------------------------------------------------------------------------------- |
+| `revision`        | string                                                                                         |
 | `otcItems`        | [Array&lt;CreateOrderResponseOtcItemsInner&gt;](CreateOrderResponseOtcItemsInner.md)           |
 | `externalOrderId` | string                                                                                         |
 | `metadata`        | any                                                                                            |

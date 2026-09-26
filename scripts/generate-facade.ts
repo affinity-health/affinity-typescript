@@ -338,6 +338,15 @@ function bodyAliases(operation: OperationDetails): string[] {
       typeAlias(alias, expression),
     ];
   }
+  if (
+    operation.bodySchema.properties?.expectedRevision &&
+    operation.bodySchema.properties?.expectedVersions
+  ) {
+    expression = `(${expression}) & (
+  | { expectedRevision: string; expectedVersions?: never }
+  | { expectedVersions: NonNullable<${model}["expectedVersions"]>; expectedRevision?: never }
+)`;
+  }
   return [typeAlias(alias, expression)];
 }
 
