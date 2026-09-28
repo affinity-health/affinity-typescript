@@ -6,4 +6,7 @@ export { ResponseError, FetchError, RequiredError } from "./runtime";
 export type * from "./resources";
 export type * from "./domain";
 export * from "./webhook-events";
+export { AffinityApiClient } from "./forge-client";
+export { AffinityApiError, AffinityApiTimeoutError } from "./forge/index.js";
+export type { AffinityApi } from "./forge/index.js";
 export { CreateOrderRequestPrescriptionsInnerClinicalCompoundingReasonCategoryEnum as CompoundingReason } from "./models/CreateOrderRequestPrescriptionsInnerClinicalCompoundingReason";

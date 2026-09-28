@@ -55,7 +55,6 @@ export interface GetApiAccessResponseServiceAccount {
  * @export
  */
 export const GetApiAccessResponseServiceAccountApiVersionEnum = {
-  _20260811: "2026-08-11",
   _20260928: "2026-09-28",
 } as const;
 export type GetApiAccessResponseServiceAccountApiVersionEnum =

@@ -7,6 +7,18 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 
 ## [Unreleased]
 
+## [1.14.0] - 2026-09-28
+
+### Added
+
+- Export `AffinityApiClient`, the Forge/Fern-generated client, with typed API operations and injectable Fetch transport.
+- Share generation with the Python, Go, PHP, and Java SDK previews.
+
+### Changed
+
+- Target the first release contract, `2026-09-28`, for HTTP requests and new webhook events.
+- Retain verification of immutable pre-release webhook snapshots.
+
 ## [1.13.1] - 2026-09-28
 
 ### Changed

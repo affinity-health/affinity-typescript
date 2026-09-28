@@ -1,6 +1,6 @@
 // Code generated from spec/affinity.openapi.json by scripts/generate-facade.ts. DO NOT EDIT.
 
-export const affinityWebhookApiVersion = "2026-08-11" as const;
+export const affinityWebhookApiVersion = "2026-09-28" as const;
 export const affinityWebhookEventTypes = [
   "webhook_endpoint.test",
   "cancellation.requested",
@@ -86,7 +86,7 @@ export interface AffinityWebhookEndpointObject {
 }
 
 interface AffinityWebhookEventBase<TType extends AffinityWebhookEventType> {
-  api_version: typeof affinityWebhookApiVersion;
+  api_version: typeof affinityWebhookApiVersion | "2026-08-11";
   created: number;
   id: AffinityPublicId<"evt">;
   livemode: boolean;
@@ -255,7 +255,7 @@ export function parseAffinityWebhookEvent(value: unknown): AffinityWebhookEvent 
       "request_id",
       "type",
     ]);
-    if (event.api_version !== affinityWebhookApiVersion) {
+    if (event.api_version !== affinityWebhookApiVersion && event.api_version !== "2026-08-11") {
       throw new Error("api_version is unsupported");
     }
     if (

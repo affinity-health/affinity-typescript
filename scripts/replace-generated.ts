@@ -6,6 +6,11 @@ if (!sourceRoot || !destinationRoot) {
   throw new Error("Usage: bun scripts/replace-generated.ts <generated-root> <repository-root>");
 }
 
+// Forge output is generated centrally from the same pinned public contract.
+const forgeDirectory = resolve(destinationRoot, "src/forge");
+if (await Bun.file(resolve(forgeDirectory, "generation.json")).exists()) {
+  await cp(forgeDirectory, resolve(sourceRoot, "src/forge"), { recursive: true });
+}
 for (const directory of ["src", "docs", ".openapi-generator"]) {
   const destination = resolve(destinationRoot, directory);
   await rm(destination, { force: true, recursive: true });

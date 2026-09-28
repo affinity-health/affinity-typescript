@@ -1,0 +1,12 @@
+export type { ArchivePatientAddressRequest } from "./ArchivePatientAddressRequest.js";
+export { CreatePatientAddressRequest } from "./CreatePatientAddressRequest.js";
+export { CreatePatientRequest } from "./CreatePatientRequest.js";
+export type { DeletePatientRequest } from "./DeletePatientRequest.js";
+export type { GetPatientAllergiesRequest } from "./GetPatientAllergiesRequest.js";
+export type { GetPatientRequest } from "./GetPatientRequest.js";
+export type { ListPatientAddressesRequest } from "./ListPatientAddressesRequest.js";
+export type { ListPatientsRequest } from "./ListPatientsRequest.js";
+export { ReplacePatientAllergiesRequest } from "./ReplacePatientAllergiesRequest.js";
+export type { SetDefaultPatientAddressRequest } from "./SetDefaultPatientAddressRequest.js";
+export { UpdatePatientAddressRequest } from "./UpdatePatientAddressRequest.js";
+export { UpdatePatientRequest } from "./UpdatePatientRequest.js";

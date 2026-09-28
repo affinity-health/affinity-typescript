@@ -6,11 +6,35 @@ over the generated OpenAPI transport layer.
 ## Install
 
 ```sh
-bun add @affinity-health/sdk
+bun add @affinity-health/sdk@1.14.0
 ```
 
 The package supports trusted server-side Bun, Node.js, AWS Lambda, and standards-based worker
 runtimes. Keep service API keys out of browser and mobile bundles.
+
+## Generated client
+
+Version 1.14.0 adds `AffinityApiClient`, generated with Cloudflare Forge and Fern for API
+version `2026-09-28`. The existing `Affinity` resource client below remains supported.
+
+```ts
+import { AffinityApiClient } from "@affinity-health/sdk";
+
+const api = new AffinityApiClient({ apiKey: process.env.AFFINITY_API_KEY! });
+const orders = await api.orders.listOrders({ limit: 25 });
+const practice = await api.practices.getPractice({ practiceId: "prac_..." });
+```
+
+Generated methods use OpenAPI operation names. Request objects combine path parameters,
+query parameters, and body fields. Header parameters use their wire names, such as
+`"Idempotency-Key"`. Supply a stable key for each logical write and reuse it on retry.
+This client defaults to `affinityVersion: "2026-09-28"` and `maxRetries: 0`.
+It returns individual list pages; follow `hasMore` with `startingAfter` to load more.
+Use `AffinityApiError` for HTTP failures and `AffinityApiTimeoutError` for timeouts.
+
+`src/forge/generation.json` records the pinned Forge/Fern versions and source contract hash.
+Generated code is refreshed from the Affinity monorepo SDK pipeline; `bun run generate`
+regenerates the existing resource client while preserving this generated client.
 
 ## Usage
 

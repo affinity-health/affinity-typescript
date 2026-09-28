@@ -13135,10 +13135,13 @@
             "type": "object",
             "properties": {
               "apiVersion": {
-                "type": "string",
-                "enum": [
-                  "2026-08-11",
-                  "2026-09-28"
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "enum": [
+                      "2026-09-28"
+                    ]
+                  }
                 ]
               },
               "displayName": {
@@ -38633,10 +38636,13 @@
             "type": "object",
             "properties": {
               "apiVersion": {
-                "type": "string",
-                "enum": [
-                  "2026-08-11",
-                  "2026-09-28"
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "enum": [
+                      "2026-09-28"
+                    ]
+                  }
                 ]
               },
               "id": {
@@ -50571,7 +50577,7 @@
     }
   ],
   "x-affinity-webhooks": {
-    "apiVersion": "2026-08-11",
+    "apiVersion": "2026-09-28",
     "eventTypes": [
       "webhook_endpoint.test",
       "cancellation.requested",
