@@ -56,7 +56,7 @@ async function example() {
     idempotencyKey: idempotencyKey_example,
     // CreatePracticeTeamLicenseRequest
     createPracticeTeamLicenseRequest: ...,
-    // string (optional)
+    // string | Selects the HTTP API contract for this request only. When omitted, API-key requests use their service account’s stored version. Does not change the stored default. (optional)
     affinityVersion: affinityVersion_example,
   } satisfies CreatePracticeTeamLicenseOperationRequest;
 
@@ -74,13 +74,13 @@ example().catch(console.error);
 
 ### Parameters
 
-| Name                                 | Type                                                                    | Description | Notes                                |
-| ------------------------------------ | ----------------------------------------------------------------------- | ----------- | ------------------------------------ |
-| **practiceId**                       | `string`                                                                |             | [Defaults to `undefined`]            |
-| **prescriberId**                     | `string`                                                                |             | [Defaults to `undefined`]            |
-| **idempotencyKey**                   | `string`                                                                |             | [Defaults to `undefined`]            |
-| **createPracticeTeamLicenseRequest** | [CreatePracticeTeamLicenseRequest](CreatePracticeTeamLicenseRequest.md) |             |                                      |
-| **affinityVersion**                  | `string`                                                                |             | [Optional] [Defaults to `undefined`] |
+| Name                                 | Type                                                                    | Description                                                                                                                                                         | Notes                                |
+| ------------------------------------ | ----------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------ |
+| **practiceId**                       | `string`                                                                |                                                                                                                                                                     | [Defaults to `undefined`]            |
+| **prescriberId**                     | `string`                                                                |                                                                                                                                                                     | [Defaults to `undefined`]            |
+| **idempotencyKey**                   | `string`                                                                |                                                                                                                                                                     | [Defaults to `undefined`]            |
+| **createPracticeTeamLicenseRequest** | [CreatePracticeTeamLicenseRequest](CreatePracticeTeamLicenseRequest.md) |                                                                                                                                                                     |                                      |
+| **affinityVersion**                  | `string`                                                                | Selects the HTTP API contract for this request only. When omitted, API-key requests use their service account’s stored version. Does not change the stored default. | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 
@@ -136,7 +136,7 @@ async function example() {
   const body = {
     // string
     practiceId: prac_01j2y8m6jcc9tt24af5pw9x1bc,
-    // string (optional)
+    // string | Selects the HTTP API contract for this request only. When omitted, API-key requests use their service account’s stored version. Does not change the stored default. (optional)
     affinityVersion: affinityVersion_example,
   } satisfies GetPracticeTeamRequest;
 
@@ -154,10 +154,10 @@ example().catch(console.error);
 
 ### Parameters
 
-| Name                | Type     | Description | Notes                                |
-| ------------------- | -------- | ----------- | ------------------------------------ |
-| **practiceId**      | `string` |             | [Defaults to `undefined`]            |
-| **affinityVersion** | `string` |             | [Optional] [Defaults to `undefined`] |
+| Name                | Type     | Description                                                                                                                                                         | Notes                                |
+| ------------------- | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------ |
+| **practiceId**      | `string` |                                                                                                                                                                     | [Defaults to `undefined`]            |
+| **affinityVersion** | `string` | Selects the HTTP API contract for this request only. When omitted, API-key requests use their service account’s stored version. Does not change the stored default. | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 
@@ -215,7 +215,7 @@ async function example() {
     practiceId: prac_01j2y8m6jcc9tt24af5pw9x1bc,
     // string
     invitationId: invite_01j2y8m6jcc9tt24af5pw9x1bc,
-    // string (optional)
+    // string | Selects the HTTP API contract for this request only. When omitted, API-key requests use their service account’s stored version. Does not change the stored default. (optional)
     affinityVersion: affinityVersion_example,
   } satisfies GetPracticeTeamInvitationRequest;
 
@@ -233,11 +233,11 @@ example().catch(console.error);
 
 ### Parameters
 
-| Name                | Type     | Description | Notes                                |
-| ------------------- | -------- | ----------- | ------------------------------------ |
-| **practiceId**      | `string` |             | [Defaults to `undefined`]            |
-| **invitationId**    | `string` |             | [Defaults to `undefined`]            |
-| **affinityVersion** | `string` |             | [Optional] [Defaults to `undefined`] |
+| Name                | Type     | Description                                                                                                                                                         | Notes                                |
+| ------------------- | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------ |
+| **practiceId**      | `string` |                                                                                                                                                                     | [Defaults to `undefined`]            |
+| **invitationId**    | `string` |                                                                                                                                                                     | [Defaults to `undefined`]            |
+| **affinityVersion** | `string` | Selects the HTTP API contract for this request only. When omitted, API-key requests use their service account’s stored version. Does not change the stored default. | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 
@@ -295,7 +295,7 @@ async function example() {
     practiceId: prac_01j2y8m6jcc9tt24af5pw9x1bc,
     // string
     memberId: mbr_01j2y8m6jcc9tt24af5pw9x1bc,
-    // string (optional)
+    // string | Selects the HTTP API contract for this request only. When omitted, API-key requests use their service account’s stored version. Does not change the stored default. (optional)
     affinityVersion: affinityVersion_example,
   } satisfies GetPracticeTeamMemberRequest;
 
@@ -313,11 +313,11 @@ example().catch(console.error);
 
 ### Parameters
 
-| Name                | Type     | Description | Notes                                |
-| ------------------- | -------- | ----------- | ------------------------------------ |
-| **practiceId**      | `string` |             | [Defaults to `undefined`]            |
-| **memberId**        | `string` |             | [Defaults to `undefined`]            |
-| **affinityVersion** | `string` |             | [Optional] [Defaults to `undefined`] |
+| Name                | Type     | Description                                                                                                                                                         | Notes                                |
+| ------------------- | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------ |
+| **practiceId**      | `string` |                                                                                                                                                                     | [Defaults to `undefined`]            |
+| **memberId**        | `string` |                                                                                                                                                                     | [Defaults to `undefined`]            |
+| **affinityVersion** | `string` | Selects the HTTP API contract for this request only. When omitted, API-key requests use their service account’s stored version. Does not change the stored default. | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 
@@ -375,7 +375,7 @@ async function example() {
     practiceId: prac_01j2y8m6jcc9tt24af5pw9x1bc,
     // string
     prescriberId: prov_01j2y8m6jcc9tt24af5pw9x1bc,
-    // string (optional)
+    // string | Selects the HTTP API contract for this request only. When omitted, API-key requests use their service account’s stored version. Does not change the stored default. (optional)
     affinityVersion: affinityVersion_example,
   } satisfies GetPracticeTeamPrescriberRequest;
 
@@ -393,11 +393,11 @@ example().catch(console.error);
 
 ### Parameters
 
-| Name                | Type     | Description | Notes                                |
-| ------------------- | -------- | ----------- | ------------------------------------ |
-| **practiceId**      | `string` |             | [Defaults to `undefined`]            |
-| **prescriberId**    | `string` |             | [Defaults to `undefined`]            |
-| **affinityVersion** | `string` |             | [Optional] [Defaults to `undefined`] |
+| Name                | Type     | Description                                                                                                                                                         | Notes                                |
+| ------------------- | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------ |
+| **practiceId**      | `string` |                                                                                                                                                                     | [Defaults to `undefined`]            |
+| **prescriberId**    | `string` |                                                                                                                                                                     | [Defaults to `undefined`]            |
+| **affinityVersion** | `string` | Selects the HTTP API contract for this request only. When omitted, API-key requests use their service account’s stored version. Does not change the stored default. | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 
@@ -460,7 +460,7 @@ async function example() {
     idempotencyKey: idempotencyKey_example,
     // InvitePracticeTeamPersonRequest
     invitePracticeTeamPersonRequest: ...,
-    // string (optional)
+    // string | Selects the HTTP API contract for this request only. When omitted, API-key requests use their service account’s stored version. Does not change the stored default. (optional)
     affinityVersion: affinityVersion_example,
   } satisfies InvitePracticeTeamPersonOperationRequest;
 
@@ -478,12 +478,12 @@ example().catch(console.error);
 
 ### Parameters
 
-| Name                                | Type                                                                  | Description | Notes                                |
-| ----------------------------------- | --------------------------------------------------------------------- | ----------- | ------------------------------------ |
-| **practiceId**                      | `string`                                                              |             | [Defaults to `undefined`]            |
-| **idempotencyKey**                  | `string`                                                              |             | [Defaults to `undefined`]            |
-| **invitePracticeTeamPersonRequest** | [InvitePracticeTeamPersonRequest](InvitePracticeTeamPersonRequest.md) |             |                                      |
-| **affinityVersion**                 | `string`                                                              |             | [Optional] [Defaults to `undefined`] |
+| Name                                | Type                                                                  | Description                                                                                                                                                         | Notes                                |
+| ----------------------------------- | --------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------ |
+| **practiceId**                      | `string`                                                              |                                                                                                                                                                     | [Defaults to `undefined`]            |
+| **idempotencyKey**                  | `string`                                                              |                                                                                                                                                                     | [Defaults to `undefined`]            |
+| **invitePracticeTeamPersonRequest** | [InvitePracticeTeamPersonRequest](InvitePracticeTeamPersonRequest.md) |                                                                                                                                                                     |                                      |
+| **affinityVersion**                 | `string`                                                              | Selects the HTTP API contract for this request only. When omitted, API-key requests use their service account’s stored version. Does not change the stored default. | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 
@@ -552,7 +552,7 @@ async function example() {
     email: email_example,
     // string (optional)
     externalId: externalId_example,
-    // string (optional)
+    // string | Selects the HTTP API contract for this request only. When omitted, API-key requests use their service account’s stored version. Does not change the stored default. (optional)
     affinityVersion: affinityVersion_example,
   } satisfies ListPracticeTeamInvitationsRequest;
 
@@ -570,16 +570,16 @@ example().catch(console.error);
 
 ### Parameters
 
-| Name                | Type                                                    | Description | Notes                                                                                      |
-| ------------------- | ------------------------------------------------------- | ----------- | ------------------------------------------------------------------------------------------ |
-| **practiceId**      | `string`                                                |             | [Defaults to `undefined`]                                                                  |
-| **limit**           | `number`                                                |             | [Optional] [Defaults to `25`]                                                              |
-| **startingAfter**   | `string`                                                |             | [Optional] [Defaults to `undefined`]                                                       |
-| **endingBefore**    | `string`                                                |             | [Optional] [Defaults to `undefined`]                                                       |
-| **status**          | `accepted`, `declined`, `pending`, `expired`, `revoked` |             | [Optional] [Defaults to `undefined`] [Enum: accepted, declined, pending, expired, revoked] |
-| **email**           | `string`                                                |             | [Optional] [Defaults to `undefined`]                                                       |
-| **externalId**      | `string`                                                |             | [Optional] [Defaults to `undefined`]                                                       |
-| **affinityVersion** | `string`                                                |             | [Optional] [Defaults to `undefined`]                                                       |
+| Name                | Type                                                    | Description                                                                                                                                                         | Notes                                                                                      |
+| ------------------- | ------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------ |
+| **practiceId**      | `string`                                                |                                                                                                                                                                     | [Defaults to `undefined`]                                                                  |
+| **limit**           | `number`                                                |                                                                                                                                                                     | [Optional] [Defaults to `25`]                                                              |
+| **startingAfter**   | `string`                                                |                                                                                                                                                                     | [Optional] [Defaults to `undefined`]                                                       |
+| **endingBefore**    | `string`                                                |                                                                                                                                                                     | [Optional] [Defaults to `undefined`]                                                       |
+| **status**          | `accepted`, `declined`, `pending`, `expired`, `revoked` |                                                                                                                                                                     | [Optional] [Defaults to `undefined`] [Enum: accepted, declined, pending, expired, revoked] |
+| **email**           | `string`                                                |                                                                                                                                                                     | [Optional] [Defaults to `undefined`]                                                       |
+| **externalId**      | `string`                                                |                                                                                                                                                                     | [Optional] [Defaults to `undefined`]                                                       |
+| **affinityVersion** | `string`                                                | Selects the HTTP API contract for this request only. When omitted, API-key requests use their service account’s stored version. Does not change the stored default. | [Optional] [Defaults to `undefined`]                                                       |
 
 ### Return type
 
@@ -647,7 +647,7 @@ async function example() {
     role: role_example,
     // 'active' | 'disabled' (optional)
     status: status_example,
-    // string (optional)
+    // string | Selects the HTTP API contract for this request only. When omitted, API-key requests use their service account’s stored version. Does not change the stored default. (optional)
     affinityVersion: affinityVersion_example,
   } satisfies ListPracticeTeamMembersRequest;
 
@@ -665,16 +665,16 @@ example().catch(console.error);
 
 ### Parameters
 
-| Name                | Type                                                                             | Description | Notes                                                                                                             |
-| ------------------- | -------------------------------------------------------------------------------- | ----------- | ----------------------------------------------------------------------------------------------------------------- |
-| **practiceId**      | `string`                                                                         |             | [Defaults to `undefined`]                                                                                         |
-| **limit**           | `number`                                                                         |             | [Optional] [Defaults to `25`]                                                                                     |
-| **startingAfter**   | `string`                                                                         |             | [Optional] [Defaults to `undefined`]                                                                              |
-| **endingBefore**    | `string`                                                                         |             | [Optional] [Defaults to `undefined`]                                                                              |
-| **search**          | `string`                                                                         |             | [Optional] [Defaults to `undefined`]                                                                              |
-| **role**            | `owner`, `administrator`, `prescriber`, `clinical_staff`, `billing`, `developer` |             | [Optional] [Defaults to `undefined`] [Enum: owner, administrator, prescriber, clinical_staff, billing, developer] |
-| **status**          | `active`, `disabled`                                                             |             | [Optional] [Defaults to `undefined`] [Enum: active, disabled]                                                     |
-| **affinityVersion** | `string`                                                                         |             | [Optional] [Defaults to `undefined`]                                                                              |
+| Name                | Type                                                                             | Description                                                                                                                                                         | Notes                                                                                                             |
+| ------------------- | -------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------- |
+| **practiceId**      | `string`                                                                         |                                                                                                                                                                     | [Defaults to `undefined`]                                                                                         |
+| **limit**           | `number`                                                                         |                                                                                                                                                                     | [Optional] [Defaults to `25`]                                                                                     |
+| **startingAfter**   | `string`                                                                         |                                                                                                                                                                     | [Optional] [Defaults to `undefined`]                                                                              |
+| **endingBefore**    | `string`                                                                         |                                                                                                                                                                     | [Optional] [Defaults to `undefined`]                                                                              |
+| **search**          | `string`                                                                         |                                                                                                                                                                     | [Optional] [Defaults to `undefined`]                                                                              |
+| **role**            | `owner`, `administrator`, `prescriber`, `clinical_staff`, `billing`, `developer` |                                                                                                                                                                     | [Optional] [Defaults to `undefined`] [Enum: owner, administrator, prescriber, clinical_staff, billing, developer] |
+| **status**          | `active`, `disabled`                                                             |                                                                                                                                                                     | [Optional] [Defaults to `undefined`] [Enum: active, disabled]                                                     |
+| **affinityVersion** | `string`                                                                         | Selects the HTTP API contract for this request only. When omitted, API-key requests use their service account’s stored version. Does not change the stored default. | [Optional] [Defaults to `undefined`]                                                                              |
 
 ### Return type
 
@@ -744,7 +744,7 @@ async function example() {
     state: state_example,
     // 'active' | 'inactive' (optional)
     status: status_example,
-    // string (optional)
+    // string | Selects the HTTP API contract for this request only. When omitted, API-key requests use their service account’s stored version. Does not change the stored default. (optional)
     affinityVersion: affinityVersion_example,
   } satisfies ListPracticeTeamPrescribersRequest;
 
@@ -762,17 +762,17 @@ example().catch(console.error);
 
 ### Parameters
 
-| Name                | Type                 | Description | Notes                                                         |
-| ------------------- | -------------------- | ----------- | ------------------------------------------------------------- |
-| **practiceId**      | `string`             |             | [Defaults to `undefined`]                                     |
-| **limit**           | `number`             |             | [Optional] [Defaults to `25`]                                 |
-| **startingAfter**   | `string`             |             | [Optional] [Defaults to `undefined`]                          |
-| **endingBefore**    | `string`             |             | [Optional] [Defaults to `undefined`]                          |
-| **search**          | `string`             |             | [Optional] [Defaults to `undefined`]                          |
-| **npi**             | `string`             |             | [Optional] [Defaults to `undefined`]                          |
-| **state**           | `string`             |             | [Optional] [Defaults to `undefined`]                          |
-| **status**          | `active`, `inactive` |             | [Optional] [Defaults to `undefined`] [Enum: active, inactive] |
-| **affinityVersion** | `string`             |             | [Optional] [Defaults to `undefined`]                          |
+| Name                | Type                 | Description                                                                                                                                                         | Notes                                                         |
+| ------------------- | -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------- |
+| **practiceId**      | `string`             |                                                                                                                                                                     | [Defaults to `undefined`]                                     |
+| **limit**           | `number`             |                                                                                                                                                                     | [Optional] [Defaults to `25`]                                 |
+| **startingAfter**   | `string`             |                                                                                                                                                                     | [Optional] [Defaults to `undefined`]                          |
+| **endingBefore**    | `string`             |                                                                                                                                                                     | [Optional] [Defaults to `undefined`]                          |
+| **search**          | `string`             |                                                                                                                                                                     | [Optional] [Defaults to `undefined`]                          |
+| **npi**             | `string`             |                                                                                                                                                                     | [Optional] [Defaults to `undefined`]                          |
+| **state**           | `string`             |                                                                                                                                                                     | [Optional] [Defaults to `undefined`]                          |
+| **status**          | `active`, `inactive` |                                                                                                                                                                     | [Optional] [Defaults to `undefined`] [Enum: active, inactive] |
+| **affinityVersion** | `string`             | Selects the HTTP API contract for this request only. When omitted, API-key requests use their service account’s stored version. Does not change the stored default. | [Optional] [Defaults to `undefined`]                          |
 
 ### Return type
 
@@ -835,7 +835,7 @@ async function example() {
     idempotencyKey: idempotencyKey_example,
     // RegisterUserRequest
     registerUserRequest: ...,
-    // string (optional)
+    // string | Selects the HTTP API contract for this request only. When omitted, API-key requests use their service account’s stored version. Does not change the stored default. (optional)
     affinityVersion: affinityVersion_example,
   } satisfies RegisterUserOperationRequest;
 
@@ -853,12 +853,12 @@ example().catch(console.error);
 
 ### Parameters
 
-| Name                    | Type                                          | Description | Notes                                |
-| ----------------------- | --------------------------------------------- | ----------- | ------------------------------------ |
-| **practiceId**          | `string`                                      |             | [Defaults to `undefined`]            |
-| **idempotencyKey**      | `string`                                      |             | [Defaults to `undefined`]            |
-| **registerUserRequest** | [RegisterUserRequest](RegisterUserRequest.md) |             |                                      |
-| **affinityVersion**     | `string`                                      |             | [Optional] [Defaults to `undefined`] |
+| Name                    | Type                                          | Description                                                                                                                                                         | Notes                                |
+| ----------------------- | --------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------ |
+| **practiceId**          | `string`                                      |                                                                                                                                                                     | [Defaults to `undefined`]            |
+| **idempotencyKey**      | `string`                                      |                                                                                                                                                                     | [Defaults to `undefined`]            |
+| **registerUserRequest** | [RegisterUserRequest](RegisterUserRequest.md) |                                                                                                                                                                     |                                      |
+| **affinityVersion**     | `string`                                      | Selects the HTTP API contract for this request only. When omitted, API-key requests use their service account’s stored version. Does not change the stored default. | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 
@@ -920,7 +920,7 @@ async function example() {
     invitationId: invite_01j2y8m6jcc9tt24af5pw9x1bc,
     // string
     idempotencyKey: idempotencyKey_example,
-    // string (optional)
+    // string | Selects the HTTP API contract for this request only. When omitted, API-key requests use their service account’s stored version. Does not change the stored default. (optional)
     affinityVersion: affinityVersion_example,
   } satisfies ResendPracticeTeamInvitationRequest;
 
@@ -938,12 +938,12 @@ example().catch(console.error);
 
 ### Parameters
 
-| Name                | Type     | Description | Notes                                |
-| ------------------- | -------- | ----------- | ------------------------------------ |
-| **practiceId**      | `string` |             | [Defaults to `undefined`]            |
-| **invitationId**    | `string` |             | [Defaults to `undefined`]            |
-| **idempotencyKey**  | `string` |             | [Defaults to `undefined`]            |
-| **affinityVersion** | `string` |             | [Optional] [Defaults to `undefined`] |
+| Name                | Type     | Description                                                                                                                                                         | Notes                                |
+| ------------------- | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------ |
+| **practiceId**      | `string` |                                                                                                                                                                     | [Defaults to `undefined`]            |
+| **invitationId**    | `string` |                                                                                                                                                                     | [Defaults to `undefined`]            |
+| **idempotencyKey**  | `string` |                                                                                                                                                                     | [Defaults to `undefined`]            |
+| **affinityVersion** | `string` | Selects the HTTP API contract for this request only. When omitted, API-key requests use their service account’s stored version. Does not change the stored default. | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 
@@ -1004,7 +1004,7 @@ async function example() {
     invitationId: invite_01j2y8m6jcc9tt24af5pw9x1bc,
     // string
     idempotencyKey: idempotencyKey_example,
-    // string (optional)
+    // string | Selects the HTTP API contract for this request only. When omitted, API-key requests use their service account’s stored version. Does not change the stored default. (optional)
     affinityVersion: affinityVersion_example,
   } satisfies RevokePracticeTeamInvitationRequest;
 
@@ -1022,12 +1022,12 @@ example().catch(console.error);
 
 ### Parameters
 
-| Name                | Type     | Description | Notes                                |
-| ------------------- | -------- | ----------- | ------------------------------------ |
-| **practiceId**      | `string` |             | [Defaults to `undefined`]            |
-| **invitationId**    | `string` |             | [Defaults to `undefined`]            |
-| **idempotencyKey**  | `string` |             | [Defaults to `undefined`]            |
-| **affinityVersion** | `string` |             | [Optional] [Defaults to `undefined`] |
+| Name                | Type     | Description                                                                                                                                                         | Notes                                |
+| ------------------- | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------ |
+| **practiceId**      | `string` |                                                                                                                                                                     | [Defaults to `undefined`]            |
+| **invitationId**    | `string` |                                                                                                                                                                     | [Defaults to `undefined`]            |
+| **idempotencyKey**  | `string` |                                                                                                                                                                     | [Defaults to `undefined`]            |
+| **affinityVersion** | `string` | Selects the HTTP API contract for this request only. When omitted, API-key requests use their service account’s stored version. Does not change the stored default. | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 
@@ -1094,7 +1094,7 @@ async function example() {
     idempotencyKey: idempotencyKey_example,
     // UpdatePracticeTeamLicenseRequest
     updatePracticeTeamLicenseRequest: ...,
-    // string (optional)
+    // string | Selects the HTTP API contract for this request only. When omitted, API-key requests use their service account’s stored version. Does not change the stored default. (optional)
     affinityVersion: affinityVersion_example,
   } satisfies UpdatePracticeTeamLicenseOperationRequest;
 
@@ -1112,14 +1112,14 @@ example().catch(console.error);
 
 ### Parameters
 
-| Name                                 | Type                                                                    | Description | Notes                                |
-| ------------------------------------ | ----------------------------------------------------------------------- | ----------- | ------------------------------------ |
-| **practiceId**                       | `string`                                                                |             | [Defaults to `undefined`]            |
-| **prescriberId**                     | `string`                                                                |             | [Defaults to `undefined`]            |
-| **licenseId**                        | `string`                                                                |             | [Defaults to `undefined`]            |
-| **idempotencyKey**                   | `string`                                                                |             | [Defaults to `undefined`]            |
-| **updatePracticeTeamLicenseRequest** | [UpdatePracticeTeamLicenseRequest](UpdatePracticeTeamLicenseRequest.md) |             |                                      |
-| **affinityVersion**                  | `string`                                                                |             | [Optional] [Defaults to `undefined`] |
+| Name                                 | Type                                                                    | Description                                                                                                                                                         | Notes                                |
+| ------------------------------------ | ----------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------ |
+| **practiceId**                       | `string`                                                                |                                                                                                                                                                     | [Defaults to `undefined`]            |
+| **prescriberId**                     | `string`                                                                |                                                                                                                                                                     | [Defaults to `undefined`]            |
+| **licenseId**                        | `string`                                                                |                                                                                                                                                                     | [Defaults to `undefined`]            |
+| **idempotencyKey**                   | `string`                                                                |                                                                                                                                                                     | [Defaults to `undefined`]            |
+| **updatePracticeTeamLicenseRequest** | [UpdatePracticeTeamLicenseRequest](UpdatePracticeTeamLicenseRequest.md) |                                                                                                                                                                     |                                      |
+| **affinityVersion**                  | `string`                                                                | Selects the HTTP API contract for this request only. When omitted, API-key requests use their service account’s stored version. Does not change the stored default. | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 
@@ -1184,7 +1184,7 @@ async function example() {
     idempotencyKey: idempotencyKey_example,
     // UpdatePracticeTeamMemberRequest
     updatePracticeTeamMemberRequest: ...,
-    // string (optional)
+    // string | Selects the HTTP API contract for this request only. When omitted, API-key requests use their service account’s stored version. Does not change the stored default. (optional)
     affinityVersion: affinityVersion_example,
   } satisfies UpdatePracticeTeamMemberOperationRequest;
 
@@ -1202,13 +1202,13 @@ example().catch(console.error);
 
 ### Parameters
 
-| Name                                | Type                                                                  | Description | Notes                                |
-| ----------------------------------- | --------------------------------------------------------------------- | ----------- | ------------------------------------ |
-| **practiceId**                      | `string`                                                              |             | [Defaults to `undefined`]            |
-| **memberId**                        | `string`                                                              |             | [Defaults to `undefined`]            |
-| **idempotencyKey**                  | `string`                                                              |             | [Defaults to `undefined`]            |
-| **updatePracticeTeamMemberRequest** | [UpdatePracticeTeamMemberRequest](UpdatePracticeTeamMemberRequest.md) |             |                                      |
-| **affinityVersion**                 | `string`                                                              |             | [Optional] [Defaults to `undefined`] |
+| Name                                | Type                                                                  | Description                                                                                                                                                         | Notes                                |
+| ----------------------------------- | --------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------ |
+| **practiceId**                      | `string`                                                              |                                                                                                                                                                     | [Defaults to `undefined`]            |
+| **memberId**                        | `string`                                                              |                                                                                                                                                                     | [Defaults to `undefined`]            |
+| **idempotencyKey**                  | `string`                                                              |                                                                                                                                                                     | [Defaults to `undefined`]            |
+| **updatePracticeTeamMemberRequest** | [UpdatePracticeTeamMemberRequest](UpdatePracticeTeamMemberRequest.md) |                                                                                                                                                                     |                                      |
+| **affinityVersion**                 | `string`                                                              | Selects the HTTP API contract for this request only. When omitted, API-key requests use their service account’s stored version. Does not change the stored default. | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 
@@ -1273,7 +1273,7 @@ async function example() {
     idempotencyKey: idempotencyKey_example,
     // UpdatePracticeTeamPrescriberRequest
     updatePracticeTeamPrescriberRequest: ...,
-    // string (optional)
+    // string | Selects the HTTP API contract for this request only. When omitted, API-key requests use their service account’s stored version. Does not change the stored default. (optional)
     affinityVersion: affinityVersion_example,
   } satisfies UpdatePracticeTeamPrescriberOperationRequest;
 
@@ -1291,13 +1291,13 @@ example().catch(console.error);
 
 ### Parameters
 
-| Name                                    | Type                                                                          | Description | Notes                                |
-| --------------------------------------- | ----------------------------------------------------------------------------- | ----------- | ------------------------------------ |
-| **practiceId**                          | `string`                                                                      |             | [Defaults to `undefined`]            |
-| **prescriberId**                        | `string`                                                                      |             | [Defaults to `undefined`]            |
-| **idempotencyKey**                      | `string`                                                                      |             | [Defaults to `undefined`]            |
-| **updatePracticeTeamPrescriberRequest** | [UpdatePracticeTeamPrescriberRequest](UpdatePracticeTeamPrescriberRequest.md) |             |                                      |
-| **affinityVersion**                     | `string`                                                                      |             | [Optional] [Defaults to `undefined`] |
+| Name                                    | Type                                                                          | Description                                                                                                                                                         | Notes                                |
+| --------------------------------------- | ----------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------ |
+| **practiceId**                          | `string`                                                                      |                                                                                                                                                                     | [Defaults to `undefined`]            |
+| **prescriberId**                        | `string`                                                                      |                                                                                                                                                                     | [Defaults to `undefined`]            |
+| **idempotencyKey**                      | `string`                                                                      |                                                                                                                                                                     | [Defaults to `undefined`]            |
+| **updatePracticeTeamPrescriberRequest** | [UpdatePracticeTeamPrescriberRequest](UpdatePracticeTeamPrescriberRequest.md) |                                                                                                                                                                     |                                      |
+| **affinityVersion**                     | `string`                                                                      | Selects the HTTP API contract for this request only. When omitted, API-key requests use their service account’s stored version. Does not change the stored default. | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 

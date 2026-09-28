@@ -39,7 +39,7 @@ async function example() {
   const body = {
     // CreatePracticeRequest
     createPracticeRequest: ...,
-    // string (optional)
+    // string | Selects the HTTP API contract for this request only. When omitted, API-key requests use their service account’s stored version. Does not change the stored default. (optional)
     affinityVersion: affinityVersion_example,
     // string (optional)
     idempotencyKey: idempotencyKey_example,
@@ -59,11 +59,11 @@ example().catch(console.error);
 
 ### Parameters
 
-| Name                      | Type                                              | Description | Notes                                |
-| ------------------------- | ------------------------------------------------- | ----------- | ------------------------------------ |
-| **createPracticeRequest** | [CreatePracticeRequest](CreatePracticeRequest.md) |             |                                      |
-| **affinityVersion**       | `string`                                          |             | [Optional] [Defaults to `undefined`] |
-| **idempotencyKey**        | `string`                                          |             | [Optional] [Defaults to `undefined`] |
+| Name                      | Type                                              | Description                                                                                                                                                         | Notes                                |
+| ------------------------- | ------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------ |
+| **createPracticeRequest** | [CreatePracticeRequest](CreatePracticeRequest.md) |                                                                                                                                                                     |                                      |
+| **affinityVersion**       | `string`                                          | Selects the HTTP API contract for this request only. When omitted, API-key requests use their service account’s stored version. Does not change the stored default. | [Optional] [Defaults to `undefined`] |
+| **idempotencyKey**        | `string`                                          |                                                                                                                                                                     | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 
@@ -120,7 +120,7 @@ async function example() {
   const body = {
     // string
     practiceId: prac_01j2y8m6jcc9tt24af5pw9x1bc,
-    // string (optional)
+    // string | Selects the HTTP API contract for this request only. When omitted, API-key requests use their service account’s stored version. Does not change the stored default. (optional)
     affinityVersion: affinityVersion_example,
   } satisfies GetPracticeRequest;
 
@@ -138,10 +138,10 @@ example().catch(console.error);
 
 ### Parameters
 
-| Name                | Type     | Description | Notes                                |
-| ------------------- | -------- | ----------- | ------------------------------------ |
-| **practiceId**      | `string` |             | [Defaults to `undefined`]            |
-| **affinityVersion** | `string` |             | [Optional] [Defaults to `undefined`] |
+| Name                | Type     | Description                                                                                                                                                         | Notes                                |
+| ------------------- | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------ |
+| **practiceId**      | `string` |                                                                                                                                                                     | [Defaults to `undefined`]            |
+| **affinityVersion** | `string` | Selects the HTTP API contract for this request only. When omitted, API-key requests use their service account’s stored version. Does not change the stored default. | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 
@@ -204,7 +204,7 @@ async function example() {
     limit: 56,
     // string (optional)
     startingAfter: prac_01j2y8m6jcc9tt24af5pw9x1bc,
-    // string (optional)
+    // string | Selects the HTTP API contract for this request only. When omitted, API-key requests use their service account’s stored version. Does not change the stored default. (optional)
     affinityVersion: affinityVersion_example,
   } satisfies ListPracticesRequest;
 
@@ -222,13 +222,13 @@ example().catch(console.error);
 
 ### Parameters
 
-| Name                | Type     | Description | Notes                                |
-| ------------------- | -------- | ----------- | ------------------------------------ |
-| **search**          | `string` |             | [Optional] [Defaults to `undefined`] |
-| **endingBefore**    | `string` |             | [Optional] [Defaults to `undefined`] |
-| **limit**           | `number` |             | [Optional] [Defaults to `25`]        |
-| **startingAfter**   | `string` |             | [Optional] [Defaults to `undefined`] |
-| **affinityVersion** | `string` |             | [Optional] [Defaults to `undefined`] |
+| Name                | Type     | Description                                                                                                                                                         | Notes                                |
+| ------------------- | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------ |
+| **search**          | `string` |                                                                                                                                                                     | [Optional] [Defaults to `undefined`] |
+| **endingBefore**    | `string` |                                                                                                                                                                     | [Optional] [Defaults to `undefined`] |
+| **limit**           | `number` |                                                                                                                                                                     | [Optional] [Defaults to `25`]        |
+| **startingAfter**   | `string` |                                                                                                                                                                     | [Optional] [Defaults to `undefined`] |
+| **affinityVersion** | `string` | Selects the HTTP API contract for this request only. When omitted, API-key requests use their service account’s stored version. Does not change the stored default. | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 
@@ -290,7 +290,7 @@ async function example() {
     practiceId: prac_01j2y8m6jcc9tt24af5pw9x1bc,
     // UpdatePracticeRequest
     updatePracticeRequest: ...,
-    // string (optional)
+    // string | Selects the HTTP API contract for this request only. When omitted, API-key requests use their service account’s stored version. Does not change the stored default. (optional)
     affinityVersion: affinityVersion_example,
     // string (optional)
     idempotencyKey: idempotencyKey_example,
@@ -310,12 +310,12 @@ example().catch(console.error);
 
 ### Parameters
 
-| Name                      | Type                                              | Description | Notes                                |
-| ------------------------- | ------------------------------------------------- | ----------- | ------------------------------------ |
-| **practiceId**            | `string`                                          |             | [Defaults to `undefined`]            |
-| **updatePracticeRequest** | [UpdatePracticeRequest](UpdatePracticeRequest.md) |             |                                      |
-| **affinityVersion**       | `string`                                          |             | [Optional] [Defaults to `undefined`] |
-| **idempotencyKey**        | `string`                                          |             | [Optional] [Defaults to `undefined`] |
+| Name                      | Type                                              | Description                                                                                                                                                         | Notes                                |
+| ------------------------- | ------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------ |
+| **practiceId**            | `string`                                          |                                                                                                                                                                     | [Defaults to `undefined`]            |
+| **updatePracticeRequest** | [UpdatePracticeRequest](UpdatePracticeRequest.md) |                                                                                                                                                                     |                                      |
+| **affinityVersion**       | `string`                                          | Selects the HTTP API contract for this request only. When omitted, API-key requests use their service account’s stored version. Does not change the stored default. | [Optional] [Defaults to `undefined`] |
+| **idempotencyKey**        | `string`                                          |                                                                                                                                                                     | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 

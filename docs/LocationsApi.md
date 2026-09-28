@@ -41,7 +41,7 @@ async function example() {
     locationId: loc_01j2y8m6jcc9tt24af5pw9x1bc,
     // string
     idempotencyKey: idempotencyKey_example,
-    // string (optional)
+    // string | Selects the HTTP API contract for this request only. When omitted, API-key requests use their service account’s stored version. Does not change the stored default. (optional)
     affinityVersion: affinityVersion_example,
   } satisfies ArchivePracticeLocationRequest;
 
@@ -59,12 +59,12 @@ example().catch(console.error);
 
 ### Parameters
 
-| Name                | Type     | Description | Notes                                |
-| ------------------- | -------- | ----------- | ------------------------------------ |
-| **practiceId**      | `string` |             | [Defaults to `undefined`]            |
-| **locationId**      | `string` |             | [Defaults to `undefined`]            |
-| **idempotencyKey**  | `string` |             | [Defaults to `undefined`]            |
-| **affinityVersion** | `string` |             | [Optional] [Defaults to `undefined`] |
+| Name                | Type     | Description                                                                                                                                                         | Notes                                |
+| ------------------- | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------ |
+| **practiceId**      | `string` |                                                                                                                                                                     | [Defaults to `undefined`]            |
+| **locationId**      | `string` |                                                                                                                                                                     | [Defaults to `undefined`]            |
+| **idempotencyKey**  | `string` |                                                                                                                                                                     | [Defaults to `undefined`]            |
+| **affinityVersion** | `string` | Selects the HTTP API contract for this request only. When omitted, API-key requests use their service account’s stored version. Does not change the stored default. | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 
@@ -127,7 +127,7 @@ async function example() {
     idempotencyKey: idempotencyKey_example,
     // CreatePracticeLocationRequest
     createPracticeLocationRequest: ...,
-    // string (optional)
+    // string | Selects the HTTP API contract for this request only. When omitted, API-key requests use their service account’s stored version. Does not change the stored default. (optional)
     affinityVersion: affinityVersion_example,
   } satisfies CreatePracticeLocationOperationRequest;
 
@@ -145,12 +145,12 @@ example().catch(console.error);
 
 ### Parameters
 
-| Name                              | Type                                                              | Description | Notes                                |
-| --------------------------------- | ----------------------------------------------------------------- | ----------- | ------------------------------------ |
-| **practiceId**                    | `string`                                                          |             | [Defaults to `undefined`]            |
-| **idempotencyKey**                | `string`                                                          |             | [Defaults to `undefined`]            |
-| **createPracticeLocationRequest** | [CreatePracticeLocationRequest](CreatePracticeLocationRequest.md) |             |                                      |
-| **affinityVersion**               | `string`                                                          |             | [Optional] [Defaults to `undefined`] |
+| Name                              | Type                                                              | Description                                                                                                                                                         | Notes                                |
+| --------------------------------- | ----------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------ |
+| **practiceId**                    | `string`                                                          |                                                                                                                                                                     | [Defaults to `undefined`]            |
+| **idempotencyKey**                | `string`                                                          |                                                                                                                                                                     | [Defaults to `undefined`]            |
+| **createPracticeLocationRequest** | [CreatePracticeLocationRequest](CreatePracticeLocationRequest.md) |                                                                                                                                                                     |                                      |
+| **affinityVersion**               | `string`                                                          | Selects the HTTP API contract for this request only. When omitted, API-key requests use their service account’s stored version. Does not change the stored default. | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 
@@ -208,7 +208,7 @@ async function example() {
     practiceId: prac_01j2y8m6jcc9tt24af5pw9x1bc,
     // string
     locationId: loc_01j2y8m6jcc9tt24af5pw9x1bc,
-    // string (optional)
+    // string | Selects the HTTP API contract for this request only. When omitted, API-key requests use their service account’s stored version. Does not change the stored default. (optional)
     affinityVersion: affinityVersion_example,
   } satisfies GetPracticeLocationRequest;
 
@@ -226,11 +226,11 @@ example().catch(console.error);
 
 ### Parameters
 
-| Name                | Type     | Description | Notes                                |
-| ------------------- | -------- | ----------- | ------------------------------------ |
-| **practiceId**      | `string` |             | [Defaults to `undefined`]            |
-| **locationId**      | `string` |             | [Defaults to `undefined`]            |
-| **affinityVersion** | `string` |             | [Optional] [Defaults to `undefined`] |
+| Name                | Type     | Description                                                                                                                                                         | Notes                                |
+| ------------------- | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------ |
+| **practiceId**      | `string` |                                                                                                                                                                     | [Defaults to `undefined`]            |
+| **locationId**      | `string` |                                                                                                                                                                     | [Defaults to `undefined`]            |
+| **affinityVersion** | `string` | Selects the HTTP API contract for this request only. When omitted, API-key requests use their service account’s stored version. Does not change the stored default. | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 
@@ -294,7 +294,7 @@ async function example() {
     endingBefore: loc_01j2y8m6jcc9tt24af5pw9x1bc,
     // 'active' | 'archived' (optional)
     status: status_example,
-    // string (optional)
+    // string | Selects the HTTP API contract for this request only. When omitted, API-key requests use their service account’s stored version. Does not change the stored default. (optional)
     affinityVersion: affinityVersion_example,
   } satisfies ListPracticeLocationsRequest;
 
@@ -312,14 +312,14 @@ example().catch(console.error);
 
 ### Parameters
 
-| Name                | Type                 | Description | Notes                                                         |
-| ------------------- | -------------------- | ----------- | ------------------------------------------------------------- |
-| **practiceId**      | `string`             |             | [Defaults to `undefined`]                                     |
-| **limit**           | `number`             |             | [Optional] [Defaults to `25`]                                 |
-| **startingAfter**   | `string`             |             | [Optional] [Defaults to `undefined`]                          |
-| **endingBefore**    | `string`             |             | [Optional] [Defaults to `undefined`]                          |
-| **status**          | `active`, `archived` |             | [Optional] [Defaults to `undefined`] [Enum: active, archived] |
-| **affinityVersion** | `string`             |             | [Optional] [Defaults to `undefined`]                          |
+| Name                | Type                 | Description                                                                                                                                                         | Notes                                                         |
+| ------------------- | -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------- |
+| **practiceId**      | `string`             |                                                                                                                                                                     | [Defaults to `undefined`]                                     |
+| **limit**           | `number`             |                                                                                                                                                                     | [Optional] [Defaults to `25`]                                 |
+| **startingAfter**   | `string`             |                                                                                                                                                                     | [Optional] [Defaults to `undefined`]                          |
+| **endingBefore**    | `string`             |                                                                                                                                                                     | [Optional] [Defaults to `undefined`]                          |
+| **status**          | `active`, `archived` |                                                                                                                                                                     | [Optional] [Defaults to `undefined`] [Enum: active, archived] |
+| **affinityVersion** | `string`             | Selects the HTTP API contract for this request only. When omitted, API-key requests use their service account’s stored version. Does not change the stored default. | [Optional] [Defaults to `undefined`]                          |
 
 ### Return type
 
@@ -384,7 +384,7 @@ async function example() {
     idempotencyKey: idempotencyKey_example,
     // UpdatePracticeLocationRequest
     updatePracticeLocationRequest: ...,
-    // string (optional)
+    // string | Selects the HTTP API contract for this request only. When omitted, API-key requests use their service account’s stored version. Does not change the stored default. (optional)
     affinityVersion: affinityVersion_example,
   } satisfies UpdatePracticeLocationOperationRequest;
 
@@ -402,13 +402,13 @@ example().catch(console.error);
 
 ### Parameters
 
-| Name                              | Type                                                              | Description | Notes                                |
-| --------------------------------- | ----------------------------------------------------------------- | ----------- | ------------------------------------ |
-| **practiceId**                    | `string`                                                          |             | [Defaults to `undefined`]            |
-| **locationId**                    | `string`                                                          |             | [Defaults to `undefined`]            |
-| **idempotencyKey**                | `string`                                                          |             | [Defaults to `undefined`]            |
-| **updatePracticeLocationRequest** | [UpdatePracticeLocationRequest](UpdatePracticeLocationRequest.md) |             |                                      |
-| **affinityVersion**               | `string`                                                          |             | [Optional] [Defaults to `undefined`] |
+| Name                              | Type                                                              | Description                                                                                                                                                         | Notes                                |
+| --------------------------------- | ----------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------ |
+| **practiceId**                    | `string`                                                          |                                                                                                                                                                     | [Defaults to `undefined`]            |
+| **locationId**                    | `string`                                                          |                                                                                                                                                                     | [Defaults to `undefined`]            |
+| **idempotencyKey**                | `string`                                                          |                                                                                                                                                                     | [Defaults to `undefined`]            |
+| **updatePracticeLocationRequest** | [UpdatePracticeLocationRequest](UpdatePracticeLocationRequest.md) |                                                                                                                                                                     |                                      |
+| **affinityVersion**               | `string`                                                          | Selects the HTTP API contract for this request only. When omitted, API-key requests use their service account’s stored version. Does not change the stored default. | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 

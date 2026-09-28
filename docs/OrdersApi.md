@@ -57,7 +57,7 @@ async function example() {
     idempotencyKey: idempotencyKey_example,
     // ActOnOrderExceptionRequest
     actOnOrderExceptionRequest: ...,
-    // string (optional)
+    // string | Selects the HTTP API contract for this request only. When omitted, API-key requests use their service account’s stored version. Does not change the stored default. (optional)
     affinityVersion: affinityVersion_example,
     // string | Required for user actors and optional for system actors. Omit both actor headers to use the authenticated service account as a system actor. (optional)
     affinityActorId: affinityActorId_example,
@@ -79,15 +79,15 @@ example().catch(console.error);
 
 ### Parameters
 
-| Name                           | Type                                                        | Description                                                                                                                                  | Notes                                |
-| ------------------------------ | ----------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------ |
-| **exceptionId**                | `string`                                                    |                                                                                                                                              | [Defaults to `undefined`]            |
-| **orderId**                    | `string`                                                    |                                                                                                                                              | [Defaults to `undefined`]            |
-| **idempotencyKey**             | `string`                                                    |                                                                                                                                              | [Defaults to `undefined`]            |
-| **actOnOrderExceptionRequest** | [ActOnOrderExceptionRequest](ActOnOrderExceptionRequest.md) |                                                                                                                                              |                                      |
-| **affinityVersion**            | `string`                                                    |                                                                                                                                              | [Optional] [Defaults to `undefined`] |
-| **affinityActorId**            | `string`                                                    | Required for user actors and optional for system actors. Omit both actor headers to use the authenticated service account as a system actor. | [Optional] [Defaults to `undefined`] |
-| **affinityActorType**          | `string`                                                    | Use user when a person initiated the action and system for autonomous work. Omit both actor headers to default to system.                    | [Optional] [Defaults to `undefined`] |
+| Name                           | Type                                                        | Description                                                                                                                                                         | Notes                                |
+| ------------------------------ | ----------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------ |
+| **exceptionId**                | `string`                                                    |                                                                                                                                                                     | [Defaults to `undefined`]            |
+| **orderId**                    | `string`                                                    |                                                                                                                                                                     | [Defaults to `undefined`]            |
+| **idempotencyKey**             | `string`                                                    |                                                                                                                                                                     | [Defaults to `undefined`]            |
+| **actOnOrderExceptionRequest** | [ActOnOrderExceptionRequest](ActOnOrderExceptionRequest.md) |                                                                                                                                                                     |                                      |
+| **affinityVersion**            | `string`                                                    | Selects the HTTP API contract for this request only. When omitted, API-key requests use their service account’s stored version. Does not change the stored default. | [Optional] [Defaults to `undefined`] |
+| **affinityActorId**            | `string`                                                    | Required for user actors and optional for system actors. Omit both actor headers to use the authenticated service account as a system actor.                        | [Optional] [Defaults to `undefined`] |
+| **affinityActorType**          | `string`                                                    | Use user when a person initiated the action and system for autonomous work. Omit both actor headers to default to system.                                           | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 
@@ -151,7 +151,7 @@ async function example() {
     idempotencyKey: idempotencyKey_example,
     // AddOrderPrescriptionRequest
     addOrderPrescriptionRequest: ...,
-    // string (optional)
+    // string | Selects the HTTP API contract for this request only. When omitted, API-key requests use their service account’s stored version. Does not change the stored default. (optional)
     affinityVersion: affinityVersion_example,
     // string | Required for user actors and optional for system actors. Omit both actor headers to use the authenticated service account as a system actor. (optional)
     affinityActorId: affinityActorId_example,
@@ -173,14 +173,14 @@ example().catch(console.error);
 
 ### Parameters
 
-| Name                            | Type                                                          | Description                                                                                                                                  | Notes                                |
-| ------------------------------- | ------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------ |
-| **orderId**                     | `string`                                                      |                                                                                                                                              | [Defaults to `undefined`]            |
-| **idempotencyKey**              | `string`                                                      |                                                                                                                                              | [Defaults to `undefined`]            |
-| **addOrderPrescriptionRequest** | [AddOrderPrescriptionRequest](AddOrderPrescriptionRequest.md) |                                                                                                                                              |                                      |
-| **affinityVersion**             | `string`                                                      |                                                                                                                                              | [Optional] [Defaults to `undefined`] |
-| **affinityActorId**             | `string`                                                      | Required for user actors and optional for system actors. Omit both actor headers to use the authenticated service account as a system actor. | [Optional] [Defaults to `undefined`] |
-| **affinityActorType**           | `string`                                                      | Use user when a person initiated the action and system for autonomous work. Omit both actor headers to default to system.                    | [Optional] [Defaults to `undefined`] |
+| Name                            | Type                                                          | Description                                                                                                                                                         | Notes                                |
+| ------------------------------- | ------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------ |
+| **orderId**                     | `string`                                                      |                                                                                                                                                                     | [Defaults to `undefined`]            |
+| **idempotencyKey**              | `string`                                                      |                                                                                                                                                                     | [Defaults to `undefined`]            |
+| **addOrderPrescriptionRequest** | [AddOrderPrescriptionRequest](AddOrderPrescriptionRequest.md) |                                                                                                                                                                     |                                      |
+| **affinityVersion**             | `string`                                                      | Selects the HTTP API contract for this request only. When omitted, API-key requests use their service account’s stored version. Does not change the stored default. | [Optional] [Defaults to `undefined`] |
+| **affinityActorId**             | `string`                                                      | Required for user actors and optional for system actors. Omit both actor headers to use the authenticated service account as a system actor.                        | [Optional] [Defaults to `undefined`] |
+| **affinityActorType**           | `string`                                                      | Use user when a person initiated the action and system for autonomous work. Omit both actor headers to default to system.                                           | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 
@@ -245,7 +245,7 @@ async function example() {
     idempotencyKey: idempotencyKey_example,
     // CancelOrderRequest
     cancelOrderRequest: ...,
-    // string (optional)
+    // string | Selects the HTTP API contract for this request only. When omitted, API-key requests use their service account’s stored version. Does not change the stored default. (optional)
     affinityVersion: affinityVersion_example,
     // string | Required for user actors and optional for system actors. Omit both actor headers to use the authenticated service account as a system actor. (optional)
     affinityActorId: affinityActorId_example,
@@ -267,14 +267,14 @@ example().catch(console.error);
 
 ### Parameters
 
-| Name                   | Type                                        | Description                                                                                                                                  | Notes                                |
-| ---------------------- | ------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------ |
-| **orderId**            | `string`                                    |                                                                                                                                              | [Defaults to `undefined`]            |
-| **idempotencyKey**     | `string`                                    |                                                                                                                                              | [Defaults to `undefined`]            |
-| **cancelOrderRequest** | [CancelOrderRequest](CancelOrderRequest.md) |                                                                                                                                              |                                      |
-| **affinityVersion**    | `string`                                    |                                                                                                                                              | [Optional] [Defaults to `undefined`] |
-| **affinityActorId**    | `string`                                    | Required for user actors and optional for system actors. Omit both actor headers to use the authenticated service account as a system actor. | [Optional] [Defaults to `undefined`] |
-| **affinityActorType**  | `string`                                    | Use user when a person initiated the action and system for autonomous work. Omit both actor headers to default to system.                    | [Optional] [Defaults to `undefined`] |
+| Name                   | Type                                        | Description                                                                                                                                                         | Notes                                |
+| ---------------------- | ------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------ |
+| **orderId**            | `string`                                    |                                                                                                                                                                     | [Defaults to `undefined`]            |
+| **idempotencyKey**     | `string`                                    |                                                                                                                                                                     | [Defaults to `undefined`]            |
+| **cancelOrderRequest** | [CancelOrderRequest](CancelOrderRequest.md) |                                                                                                                                                                     |                                      |
+| **affinityVersion**    | `string`                                    | Selects the HTTP API contract for this request only. When omitted, API-key requests use their service account’s stored version. Does not change the stored default. | [Optional] [Defaults to `undefined`] |
+| **affinityActorId**    | `string`                                    | Required for user actors and optional for system actors. Omit both actor headers to use the authenticated service account as a system actor.                        | [Optional] [Defaults to `undefined`] |
+| **affinityActorType**  | `string`                                    | Use user when a person initiated the action and system for autonomous work. Omit both actor headers to default to system.                                           | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 
@@ -336,7 +336,7 @@ async function example() {
     idempotencyKey: idempotencyKey_example,
     // CreateOrderRequest
     createOrderRequest: ...,
-    // string (optional)
+    // string | Selects the HTTP API contract for this request only. When omitted, API-key requests use their service account’s stored version. Does not change the stored default. (optional)
     affinityVersion: affinityVersion_example,
     // string | Required for user actors and optional for system actors. Omit both actor headers to use the authenticated service account as a system actor. (optional)
     affinityActorId: affinityActorId_example,
@@ -358,13 +358,13 @@ example().catch(console.error);
 
 ### Parameters
 
-| Name                   | Type                                        | Description                                                                                                                                  | Notes                                |
-| ---------------------- | ------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------ |
-| **idempotencyKey**     | `string`                                    |                                                                                                                                              | [Defaults to `undefined`]            |
-| **createOrderRequest** | [CreateOrderRequest](CreateOrderRequest.md) |                                                                                                                                              |                                      |
-| **affinityVersion**    | `string`                                    |                                                                                                                                              | [Optional] [Defaults to `undefined`] |
-| **affinityActorId**    | `string`                                    | Required for user actors and optional for system actors. Omit both actor headers to use the authenticated service account as a system actor. | [Optional] [Defaults to `undefined`] |
-| **affinityActorType**  | `string`                                    | Use user when a person initiated the action and system for autonomous work. Omit both actor headers to default to system.                    | [Optional] [Defaults to `undefined`] |
+| Name                   | Type                                        | Description                                                                                                                                                         | Notes                                |
+| ---------------------- | ------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------ |
+| **idempotencyKey**     | `string`                                    |                                                                                                                                                                     | [Defaults to `undefined`]            |
+| **createOrderRequest** | [CreateOrderRequest](CreateOrderRequest.md) |                                                                                                                                                                     |                                      |
+| **affinityVersion**    | `string`                                    | Selects the HTTP API contract for this request only. When omitted, API-key requests use their service account’s stored version. Does not change the stored default. | [Optional] [Defaults to `undefined`] |
+| **affinityActorId**    | `string`                                    | Required for user actors and optional for system actors. Omit both actor headers to use the authenticated service account as a system actor.                        | [Optional] [Defaults to `undefined`] |
+| **affinityActorType**  | `string`                                    | Use user when a person initiated the action and system for autonomous work. Omit both actor headers to default to system.                                           | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 
@@ -427,7 +427,7 @@ async function example() {
     idempotencyKey: idempotencyKey_example,
     // CreateOrderBatchRequest
     createOrderBatchRequest: ...,
-    // string (optional)
+    // string | Selects the HTTP API contract for this request only. When omitted, API-key requests use their service account’s stored version. Does not change the stored default. (optional)
     affinityVersion: affinityVersion_example,
     // string | Required for user actors and optional for system actors. Omit both actor headers to use the authenticated service account as a system actor. (optional)
     affinityActorId: affinityActorId_example,
@@ -449,13 +449,13 @@ example().catch(console.error);
 
 ### Parameters
 
-| Name                        | Type                                                  | Description                                                                                                                                  | Notes                                |
-| --------------------------- | ----------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------ |
-| **idempotencyKey**          | `string`                                              |                                                                                                                                              | [Defaults to `undefined`]            |
-| **createOrderBatchRequest** | [CreateOrderBatchRequest](CreateOrderBatchRequest.md) |                                                                                                                                              |                                      |
-| **affinityVersion**         | `string`                                              |                                                                                                                                              | [Optional] [Defaults to `undefined`] |
-| **affinityActorId**         | `string`                                              | Required for user actors and optional for system actors. Omit both actor headers to use the authenticated service account as a system actor. | [Optional] [Defaults to `undefined`] |
-| **affinityActorType**       | `string`                                              | Use user when a person initiated the action and system for autonomous work. Omit both actor headers to default to system.                    | [Optional] [Defaults to `undefined`] |
+| Name                        | Type                                                  | Description                                                                                                                                                         | Notes                                |
+| --------------------------- | ----------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------ |
+| **idempotencyKey**          | `string`                                              |                                                                                                                                                                     | [Defaults to `undefined`]            |
+| **createOrderBatchRequest** | [CreateOrderBatchRequest](CreateOrderBatchRequest.md) |                                                                                                                                                                     |                                      |
+| **affinityVersion**         | `string`                                              | Selects the HTTP API contract for this request only. When omitted, API-key requests use their service account’s stored version. Does not change the stored default. | [Optional] [Defaults to `undefined`] |
+| **affinityActorId**         | `string`                                              | Required for user actors and optional for system actors. Omit both actor headers to use the authenticated service account as a system actor.                        | [Optional] [Defaults to `undefined`] |
+| **affinityActorType**       | `string`                                              | Use user when a person initiated the action and system for autonomous work. Omit both actor headers to default to system.                                           | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 
@@ -511,7 +511,7 @@ async function example() {
   const body = {
     // string
     orderId: ord_01j2y8m6jcc9tt24af5pw9x1bc,
-    // string (optional)
+    // string | Selects the HTTP API contract for this request only. When omitted, API-key requests use their service account’s stored version. Does not change the stored default. (optional)
     affinityVersion: affinityVersion_example,
     // string | Required for user actors and optional for system actors. Omit both actor headers to use the authenticated service account as a system actor. (optional)
     affinityActorId: affinityActorId_example,
@@ -533,12 +533,12 @@ example().catch(console.error);
 
 ### Parameters
 
-| Name                  | Type     | Description                                                                                                                                  | Notes                                |
-| --------------------- | -------- | -------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------ |
-| **orderId**           | `string` |                                                                                                                                              | [Defaults to `undefined`]            |
-| **affinityVersion**   | `string` |                                                                                                                                              | [Optional] [Defaults to `undefined`] |
-| **affinityActorId**   | `string` | Required for user actors and optional for system actors. Omit both actor headers to use the authenticated service account as a system actor. | [Optional] [Defaults to `undefined`] |
-| **affinityActorType** | `string` | Use user when a person initiated the action and system for autonomous work. Omit both actor headers to default to system.                    | [Optional] [Defaults to `undefined`] |
+| Name                  | Type     | Description                                                                                                                                                         | Notes                                |
+| --------------------- | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------ |
+| **orderId**           | `string` |                                                                                                                                                                     | [Defaults to `undefined`]            |
+| **affinityVersion**   | `string` | Selects the HTTP API contract for this request only. When omitted, API-key requests use their service account’s stored version. Does not change the stored default. | [Optional] [Defaults to `undefined`] |
+| **affinityActorId**   | `string` | Required for user actors and optional for system actors. Omit both actor headers to use the authenticated service account as a system actor.                        | [Optional] [Defaults to `undefined`] |
+| **affinityActorType** | `string` | Use user when a person initiated the action and system for autonomous work. Omit both actor headers to default to system.                                           | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 
@@ -595,7 +595,7 @@ async function example() {
   const body = {
     // string
     orderId: ord_01j2y8m6jcc9tt24af5pw9x1bc,
-    // string (optional)
+    // string | Selects the HTTP API contract for this request only. When omitted, API-key requests use their service account’s stored version. Does not change the stored default. (optional)
     affinityVersion: affinityVersion_example,
   } satisfies GetOrderTestSimulationRequest;
 
@@ -613,10 +613,10 @@ example().catch(console.error);
 
 ### Parameters
 
-| Name                | Type     | Description | Notes                                |
-| ------------------- | -------- | ----------- | ------------------------------------ |
-| **orderId**         | `string` |             | [Defaults to `undefined`]            |
-| **affinityVersion** | `string` |             | [Optional] [Defaults to `undefined`] |
+| Name                | Type     | Description                                                                                                                                                         | Notes                                |
+| ------------------- | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------ |
+| **orderId**         | `string` |                                                                                                                                                                     | [Defaults to `undefined`]            |
+| **affinityVersion** | `string` | Selects the HTTP API contract for this request only. When omitted, API-key requests use their service account’s stored version. Does not change the stored default. | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 
@@ -677,7 +677,7 @@ async function example() {
     limit: 56,
     // string (optional)
     startingAfter: evt_01j2y8m6jcc9tt24af5pw9x1bc,
-    // string (optional)
+    // string | Selects the HTTP API contract for this request only. When omitted, API-key requests use their service account’s stored version. Does not change the stored default. (optional)
     affinityVersion: affinityVersion_example,
     // string | Required for user actors and optional for system actors. Omit both actor headers to use the authenticated service account as a system actor. (optional)
     affinityActorId: affinityActorId_example,
@@ -699,15 +699,15 @@ example().catch(console.error);
 
 ### Parameters
 
-| Name                  | Type     | Description                                                                                                                                  | Notes                                |
-| --------------------- | -------- | -------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------ |
-| **orderId**           | `string` |                                                                                                                                              | [Defaults to `undefined`]            |
-| **endingBefore**      | `string` |                                                                                                                                              | [Optional] [Defaults to `undefined`] |
-| **limit**             | `number` |                                                                                                                                              | [Optional] [Defaults to `25`]        |
-| **startingAfter**     | `string` |                                                                                                                                              | [Optional] [Defaults to `undefined`] |
-| **affinityVersion**   | `string` |                                                                                                                                              | [Optional] [Defaults to `undefined`] |
-| **affinityActorId**   | `string` | Required for user actors and optional for system actors. Omit both actor headers to use the authenticated service account as a system actor. | [Optional] [Defaults to `undefined`] |
-| **affinityActorType** | `string` | Use user when a person initiated the action and system for autonomous work. Omit both actor headers to default to system.                    | [Optional] [Defaults to `undefined`] |
+| Name                  | Type     | Description                                                                                                                                                         | Notes                                |
+| --------------------- | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------ |
+| **orderId**           | `string` |                                                                                                                                                                     | [Defaults to `undefined`]            |
+| **endingBefore**      | `string` |                                                                                                                                                                     | [Optional] [Defaults to `undefined`] |
+| **limit**             | `number` |                                                                                                                                                                     | [Optional] [Defaults to `25`]        |
+| **startingAfter**     | `string` |                                                                                                                                                                     | [Optional] [Defaults to `undefined`] |
+| **affinityVersion**   | `string` | Selects the HTTP API contract for this request only. When omitted, API-key requests use their service account’s stored version. Does not change the stored default. | [Optional] [Defaults to `undefined`] |
+| **affinityActorId**   | `string` | Required for user actors and optional for system actors. Omit both actor headers to use the authenticated service account as a system actor.                        | [Optional] [Defaults to `undefined`] |
+| **affinityActorType** | `string` | Use user when a person initiated the action and system for autonomous work. Omit both actor headers to default to system.                                           | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 
@@ -786,7 +786,7 @@ async function example() {
     startingAfter: ord_01j2y8m6jcc9tt24af5pw9x1bc,
     // 'blocked' | 'cancelled' | 'delivered' | 'draft' | 'partially_submitted' | 'requires_provider_signature' | 'processing' | 'ready' | 'rejected' | 'shipped' | 'submitted' (optional)
     status: status_example,
-    // string (optional)
+    // string | Selects the HTTP API contract for this request only. When omitted, API-key requests use their service account’s stored version. Does not change the stored default. (optional)
     affinityVersion: affinityVersion_example,
     // string | Required for user actors and optional for system actors. Omit both actor headers to use the authenticated service account as a system actor. (optional)
     affinityActorId: affinityActorId_example,
@@ -808,24 +808,24 @@ example().catch(console.error);
 
 ### Parameters
 
-| Name                  | Type                                                                                                                                                          | Description                                                                                                                                  | Notes                                                                                                                                                                                |
-| --------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| **query**             | `string`                                                                                                                                                      |                                                                                                                                              | [Optional] [Defaults to `undefined`]                                                                                                                                                 |
-| **externalOrderId**   | `string`                                                                                                                                                      |                                                                                                                                              | [Optional] [Defaults to `undefined`]                                                                                                                                                 |
-| **createdAfter**      | `string`                                                                                                                                                      |                                                                                                                                              | [Optional] [Defaults to `undefined`]                                                                                                                                                 |
-| **createdBefore**     | `string`                                                                                                                                                      |                                                                                                                                              | [Optional] [Defaults to `undefined`]                                                                                                                                                 |
-| **endingBefore**      | `string`                                                                                                                                                      |                                                                                                                                              | [Optional] [Defaults to `undefined`]                                                                                                                                                 |
-| **limit**             | `number`                                                                                                                                                      |                                                                                                                                              | [Optional] [Defaults to `25`]                                                                                                                                                        |
-| **orderId**           | `string`                                                                                                                                                      |                                                                                                                                              | [Optional] [Defaults to `undefined`]                                                                                                                                                 |
-| **patientId**         | `string`                                                                                                                                                      |                                                                                                                                              | [Optional] [Defaults to `undefined`]                                                                                                                                                 |
-| **patientExternalId** | `string`                                                                                                                                                      |                                                                                                                                              | [Optional] [Defaults to `undefined`]                                                                                                                                                 |
-| **practiceId**        | `string`                                                                                                                                                      |                                                                                                                                              | [Optional] [Defaults to `undefined`]                                                                                                                                                 |
-| **sort**              | `newest`, `oldest`                                                                                                                                            |                                                                                                                                              | [Optional] [Defaults to `undefined`] [Enum: newest, oldest]                                                                                                                          |
-| **startingAfter**     | `string`                                                                                                                                                      |                                                                                                                                              | [Optional] [Defaults to `undefined`]                                                                                                                                                 |
-| **status**            | `blocked`, `cancelled`, `delivered`, `draft`, `partially_submitted`, `requires_provider_signature`, `processing`, `ready`, `rejected`, `shipped`, `submitted` |                                                                                                                                              | [Optional] [Defaults to `undefined`] [Enum: blocked, cancelled, delivered, draft, partially_submitted, requires_provider_signature, processing, ready, rejected, shipped, submitted] |
-| **affinityVersion**   | `string`                                                                                                                                                      |                                                                                                                                              | [Optional] [Defaults to `undefined`]                                                                                                                                                 |
-| **affinityActorId**   | `string`                                                                                                                                                      | Required for user actors and optional for system actors. Omit both actor headers to use the authenticated service account as a system actor. | [Optional] [Defaults to `undefined`]                                                                                                                                                 |
-| **affinityActorType** | `string`                                                                                                                                                      | Use user when a person initiated the action and system for autonomous work. Omit both actor headers to default to system.                    | [Optional] [Defaults to `undefined`]                                                                                                                                                 |
+| Name                  | Type                                                                                                                                                          | Description                                                                                                                                                         | Notes                                                                                                                                                                                |
+| --------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| **query**             | `string`                                                                                                                                                      |                                                                                                                                                                     | [Optional] [Defaults to `undefined`]                                                                                                                                                 |
+| **externalOrderId**   | `string`                                                                                                                                                      |                                                                                                                                                                     | [Optional] [Defaults to `undefined`]                                                                                                                                                 |
+| **createdAfter**      | `string`                                                                                                                                                      |                                                                                                                                                                     | [Optional] [Defaults to `undefined`]                                                                                                                                                 |
+| **createdBefore**     | `string`                                                                                                                                                      |                                                                                                                                                                     | [Optional] [Defaults to `undefined`]                                                                                                                                                 |
+| **endingBefore**      | `string`                                                                                                                                                      |                                                                                                                                                                     | [Optional] [Defaults to `undefined`]                                                                                                                                                 |
+| **limit**             | `number`                                                                                                                                                      |                                                                                                                                                                     | [Optional] [Defaults to `25`]                                                                                                                                                        |
+| **orderId**           | `string`                                                                                                                                                      |                                                                                                                                                                     | [Optional] [Defaults to `undefined`]                                                                                                                                                 |
+| **patientId**         | `string`                                                                                                                                                      |                                                                                                                                                                     | [Optional] [Defaults to `undefined`]                                                                                                                                                 |
+| **patientExternalId** | `string`                                                                                                                                                      |                                                                                                                                                                     | [Optional] [Defaults to `undefined`]                                                                                                                                                 |
+| **practiceId**        | `string`                                                                                                                                                      |                                                                                                                                                                     | [Optional] [Defaults to `undefined`]                                                                                                                                                 |
+| **sort**              | `newest`, `oldest`                                                                                                                                            |                                                                                                                                                                     | [Optional] [Defaults to `undefined`] [Enum: newest, oldest]                                                                                                                          |
+| **startingAfter**     | `string`                                                                                                                                                      |                                                                                                                                                                     | [Optional] [Defaults to `undefined`]                                                                                                                                                 |
+| **status**            | `blocked`, `cancelled`, `delivered`, `draft`, `partially_submitted`, `requires_provider_signature`, `processing`, `ready`, `rejected`, `shipped`, `submitted` |                                                                                                                                                                     | [Optional] [Defaults to `undefined`] [Enum: blocked, cancelled, delivered, draft, partially_submitted, requires_provider_signature, processing, ready, rejected, shipped, submitted] |
+| **affinityVersion**   | `string`                                                                                                                                                      | Selects the HTTP API contract for this request only. When omitted, API-key requests use their service account’s stored version. Does not change the stored default. | [Optional] [Defaults to `undefined`]                                                                                                                                                 |
+| **affinityActorId**   | `string`                                                                                                                                                      | Required for user actors and optional for system actors. Omit both actor headers to use the authenticated service account as a system actor.                        | [Optional] [Defaults to `undefined`]                                                                                                                                                 |
+| **affinityActorType** | `string`                                                                                                                                                      | Use user when a person initiated the action and system for autonomous work. Omit both actor headers to default to system.                                           | [Optional] [Defaults to `undefined`]                                                                                                                                                 |
 
 ### Return type
 
@@ -885,7 +885,7 @@ async function example() {
   const body = {
     // PreviewOrderRequest
     previewOrderRequest: ...,
-    // string (optional)
+    // string | Selects the HTTP API contract for this request only. When omitted, API-key requests use their service account’s stored version. Does not change the stored default. (optional)
     affinityVersion: affinityVersion_example,
   } satisfies PreviewOrderOperationRequest;
 
@@ -903,10 +903,10 @@ example().catch(console.error);
 
 ### Parameters
 
-| Name                    | Type                                          | Description | Notes                                |
-| ----------------------- | --------------------------------------------- | ----------- | ------------------------------------ |
-| **previewOrderRequest** | [PreviewOrderRequest](PreviewOrderRequest.md) |             |                                      |
-| **affinityVersion**     | `string`                                      |             | [Optional] [Defaults to `undefined`] |
+| Name                    | Type                                          | Description                                                                                                                                                         | Notes                                |
+| ----------------------- | --------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------ |
+| **previewOrderRequest** | [PreviewOrderRequest](PreviewOrderRequest.md) |                                                                                                                                                                     |                                      |
+| **affinityVersion**     | `string`                                      | Selects the HTTP API contract for this request only. When omitted, API-key requests use their service account’s stored version. Does not change the stored default. | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 
@@ -969,7 +969,7 @@ async function example() {
     idempotencyKey: idempotencyKey_example,
     // RejectOrderRequest
     rejectOrderRequest: ...,
-    // string (optional)
+    // string | Selects the HTTP API contract for this request only. When omitted, API-key requests use their service account’s stored version. Does not change the stored default. (optional)
     affinityVersion: affinityVersion_example,
   } satisfies RejectOrderOperationRequest;
 
@@ -987,12 +987,12 @@ example().catch(console.error);
 
 ### Parameters
 
-| Name                   | Type                                        | Description | Notes                                |
-| ---------------------- | ------------------------------------------- | ----------- | ------------------------------------ |
-| **orderId**            | `string`                                    |             | [Defaults to `undefined`]            |
-| **idempotencyKey**     | `string`                                    |             | [Defaults to `undefined`]            |
-| **rejectOrderRequest** | [RejectOrderRequest](RejectOrderRequest.md) |             |                                      |
-| **affinityVersion**    | `string`                                    |             | [Optional] [Defaults to `undefined`] |
+| Name                   | Type                                        | Description                                                                                                                                                         | Notes                                |
+| ---------------------- | ------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------ |
+| **orderId**            | `string`                                    |                                                                                                                                                                     | [Defaults to `undefined`]            |
+| **idempotencyKey**     | `string`                                    |                                                                                                                                                                     | [Defaults to `undefined`]            |
+| **rejectOrderRequest** | [RejectOrderRequest](RejectOrderRequest.md) |                                                                                                                                                                     |                                      |
+| **affinityVersion**    | `string`                                    | Selects the HTTP API contract for this request only. When omitted, API-key requests use their service account’s stored version. Does not change the stored default. | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 
@@ -1057,7 +1057,7 @@ async function example() {
     idempotencyKey: idempotencyKey_example,
     // SignAndSubmitOrderRequest
     signAndSubmitOrderRequest: ...,
-    // string (optional)
+    // string | Selects the HTTP API contract for this request only. When omitted, API-key requests use their service account’s stored version. Does not change the stored default. (optional)
     affinityVersion: affinityVersion_example,
   } satisfies SignAndSubmitOrderOperationRequest;
 
@@ -1075,12 +1075,12 @@ example().catch(console.error);
 
 ### Parameters
 
-| Name                          | Type                                                      | Description | Notes                                |
-| ----------------------------- | --------------------------------------------------------- | ----------- | ------------------------------------ |
-| **orderId**                   | `string`                                                  |             | [Defaults to `undefined`]            |
-| **idempotencyKey**            | `string`                                                  |             | [Defaults to `undefined`]            |
-| **signAndSubmitOrderRequest** | [SignAndSubmitOrderRequest](SignAndSubmitOrderRequest.md) |             |                                      |
-| **affinityVersion**           | `string`                                                  |             | [Optional] [Defaults to `undefined`] |
+| Name                          | Type                                                      | Description                                                                                                                                                         | Notes                                |
+| ----------------------------- | --------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------ |
+| **orderId**                   | `string`                                                  |                                                                                                                                                                     | [Defaults to `undefined`]            |
+| **idempotencyKey**            | `string`                                                  |                                                                                                                                                                     | [Defaults to `undefined`]            |
+| **signAndSubmitOrderRequest** | [SignAndSubmitOrderRequest](SignAndSubmitOrderRequest.md) |                                                                                                                                                                     |                                      |
+| **affinityVersion**           | `string`                                                  | Selects the HTTP API contract for this request only. When omitted, API-key requests use their service account’s stored version. Does not change the stored default. | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 
@@ -1145,7 +1145,7 @@ async function example() {
     idempotencyKey: idempotencyKey_example,
     // SignOrderRequest
     signOrderRequest: ...,
-    // string (optional)
+    // string | Selects the HTTP API contract for this request only. When omitted, API-key requests use their service account’s stored version. Does not change the stored default. (optional)
     affinityVersion: affinityVersion_example,
   } satisfies SignOrderOperationRequest;
 
@@ -1163,12 +1163,12 @@ example().catch(console.error);
 
 ### Parameters
 
-| Name                 | Type                                    | Description | Notes                                |
-| -------------------- | --------------------------------------- | ----------- | ------------------------------------ |
-| **orderId**          | `string`                                |             | [Defaults to `undefined`]            |
-| **idempotencyKey**   | `string`                                |             | [Defaults to `undefined`]            |
-| **signOrderRequest** | [SignOrderRequest](SignOrderRequest.md) |             |                                      |
-| **affinityVersion**  | `string`                                |             | [Optional] [Defaults to `undefined`] |
+| Name                 | Type                                    | Description                                                                                                                                                         | Notes                                |
+| -------------------- | --------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------ |
+| **orderId**          | `string`                                |                                                                                                                                                                     | [Defaults to `undefined`]            |
+| **idempotencyKey**   | `string`                                |                                                                                                                                                                     | [Defaults to `undefined`]            |
+| **signOrderRequest** | [SignOrderRequest](SignOrderRequest.md) |                                                                                                                                                                     |                                      |
+| **affinityVersion**  | `string`                                | Selects the HTTP API contract for this request only. When omitted, API-key requests use their service account’s stored version. Does not change the stored default. | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 
@@ -1233,7 +1233,7 @@ async function example() {
     idempotencyKey: idempotencyKey_example,
     // SubmitOrderRequest
     submitOrderRequest: ...,
-    // string (optional)
+    // string | Selects the HTTP API contract for this request only. When omitted, API-key requests use their service account’s stored version. Does not change the stored default. (optional)
     affinityVersion: affinityVersion_example,
   } satisfies SubmitOrderOperationRequest;
 
@@ -1251,12 +1251,12 @@ example().catch(console.error);
 
 ### Parameters
 
-| Name                   | Type                                        | Description | Notes                                |
-| ---------------------- | ------------------------------------------- | ----------- | ------------------------------------ |
-| **orderId**            | `string`                                    |             | [Defaults to `undefined`]            |
-| **idempotencyKey**     | `string`                                    |             | [Defaults to `undefined`]            |
-| **submitOrderRequest** | [SubmitOrderRequest](SubmitOrderRequest.md) |             |                                      |
-| **affinityVersion**    | `string`                                    |             | [Optional] [Defaults to `undefined`] |
+| Name                   | Type                                        | Description                                                                                                                                                         | Notes                                |
+| ---------------------- | ------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------ |
+| **orderId**            | `string`                                    |                                                                                                                                                                     | [Defaults to `undefined`]            |
+| **idempotencyKey**     | `string`                                    |                                                                                                                                                                     | [Defaults to `undefined`]            |
+| **submitOrderRequest** | [SubmitOrderRequest](SubmitOrderRequest.md) |                                                                                                                                                                     |                                      |
+| **affinityVersion**    | `string`                                    | Selects the HTTP API contract for this request only. When omitted, API-key requests use their service account’s stored version. Does not change the stored default. | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 
@@ -1323,7 +1323,7 @@ async function example() {
     idempotencyKey: idempotencyKey_example,
     // UpdateOrderPrescriptionRequest
     updateOrderPrescriptionRequest: ...,
-    // string (optional)
+    // string | Selects the HTTP API contract for this request only. When omitted, API-key requests use their service account’s stored version. Does not change the stored default. (optional)
     affinityVersion: affinityVersion_example,
     // string | Required for user actors and optional for system actors. Omit both actor headers to use the authenticated service account as a system actor. (optional)
     affinityActorId: affinityActorId_example,
@@ -1345,15 +1345,15 @@ example().catch(console.error);
 
 ### Parameters
 
-| Name                               | Type                                                                | Description                                                                                                                                  | Notes                                |
-| ---------------------------------- | ------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------ |
-| **orderId**                        | `string`                                                            |                                                                                                                                              | [Defaults to `undefined`]            |
-| **prescriptionId**                 | `string`                                                            |                                                                                                                                              | [Defaults to `undefined`]            |
-| **idempotencyKey**                 | `string`                                                            |                                                                                                                                              | [Defaults to `undefined`]            |
-| **updateOrderPrescriptionRequest** | [UpdateOrderPrescriptionRequest](UpdateOrderPrescriptionRequest.md) |                                                                                                                                              |                                      |
-| **affinityVersion**                | `string`                                                            |                                                                                                                                              | [Optional] [Defaults to `undefined`] |
-| **affinityActorId**                | `string`                                                            | Required for user actors and optional for system actors. Omit both actor headers to use the authenticated service account as a system actor. | [Optional] [Defaults to `undefined`] |
-| **affinityActorType**              | `string`                                                            | Use user when a person initiated the action and system for autonomous work. Omit both actor headers to default to system.                    | [Optional] [Defaults to `undefined`] |
+| Name                               | Type                                                                | Description                                                                                                                                                         | Notes                                |
+| ---------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------ |
+| **orderId**                        | `string`                                                            |                                                                                                                                                                     | [Defaults to `undefined`]            |
+| **prescriptionId**                 | `string`                                                            |                                                                                                                                                                     | [Defaults to `undefined`]            |
+| **idempotencyKey**                 | `string`                                                            |                                                                                                                                                                     | [Defaults to `undefined`]            |
+| **updateOrderPrescriptionRequest** | [UpdateOrderPrescriptionRequest](UpdateOrderPrescriptionRequest.md) |                                                                                                                                                                     |                                      |
+| **affinityVersion**                | `string`                                                            | Selects the HTTP API contract for this request only. When omitted, API-key requests use their service account’s stored version. Does not change the stored default. | [Optional] [Defaults to `undefined`] |
+| **affinityActorId**                | `string`                                                            | Required for user actors and optional for system actors. Omit both actor headers to use the authenticated service account as a system actor.                        | [Optional] [Defaults to `undefined`] |
+| **affinityActorType**              | `string`                                                            | Use user when a person initiated the action and system for autonomous work. Omit both actor headers to default to system.                                           | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 
@@ -1418,7 +1418,7 @@ async function example() {
     idempotencyKey: idempotencyKey_example,
     // UpdateOrderTestSimulationRequest
     updateOrderTestSimulationRequest: ...,
-    // string (optional)
+    // string | Selects the HTTP API contract for this request only. When omitted, API-key requests use their service account’s stored version. Does not change the stored default. (optional)
     affinityVersion: affinityVersion_example,
   } satisfies UpdateOrderTestSimulationOperationRequest;
 
@@ -1436,12 +1436,12 @@ example().catch(console.error);
 
 ### Parameters
 
-| Name                                 | Type                                                                    | Description | Notes                                |
-| ------------------------------------ | ----------------------------------------------------------------------- | ----------- | ------------------------------------ |
-| **orderId**                          | `string`                                                                |             | [Defaults to `undefined`]            |
-| **idempotencyKey**                   | `string`                                                                |             | [Defaults to `undefined`]            |
-| **updateOrderTestSimulationRequest** | [UpdateOrderTestSimulationRequest](UpdateOrderTestSimulationRequest.md) |             |                                      |
-| **affinityVersion**                  | `string`                                                                |             | [Optional] [Defaults to `undefined`] |
+| Name                                 | Type                                                                    | Description                                                                                                                                                         | Notes                                |
+| ------------------------------------ | ----------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------ |
+| **orderId**                          | `string`                                                                |                                                                                                                                                                     | [Defaults to `undefined`]            |
+| **idempotencyKey**                   | `string`                                                                |                                                                                                                                                                     | [Defaults to `undefined`]            |
+| **updateOrderTestSimulationRequest** | [UpdateOrderTestSimulationRequest](UpdateOrderTestSimulationRequest.md) |                                                                                                                                                                     |                                      |
+| **affinityVersion**                  | `string`                                                                | Selects the HTTP API contract for this request only. When omitted, API-key requests use their service account’s stored version. Does not change the stored default. | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 

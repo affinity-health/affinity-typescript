@@ -36,7 +36,7 @@ async function example() {
     catalogItemId: cat_01j2y8m6jcc9tt24af5pw9x1bc,
     // string (optional)
     practiceId: prac_01j2y8m6jcc9tt24af5pw9x1bc,
-    // string (optional)
+    // string | Selects the HTTP API contract for this request only. When omitted, API-key requests use their service account’s stored version. Does not change the stored default. (optional)
     affinityVersion: affinityVersion_example,
   } satisfies PlatformPublicApiSellingPricesReadSellingPriceRequest;
 
@@ -54,11 +54,11 @@ example().catch(console.error);
 
 ### Parameters
 
-| Name                | Type     | Description | Notes                                |
-| ------------------- | -------- | ----------- | ------------------------------------ |
-| **catalogItemId**   | `string` |             | [Defaults to `undefined`]            |
-| **practiceId**      | `string` |             | [Optional] [Defaults to `undefined`] |
-| **affinityVersion** | `string` |             | [Optional] [Defaults to `undefined`] |
+| Name                | Type     | Description                                                                                                                                                         | Notes                                |
+| ------------------- | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------ |
+| **catalogItemId**   | `string` |                                                                                                                                                                     | [Defaults to `undefined`]            |
+| **practiceId**      | `string` |                                                                                                                                                                     | [Optional] [Defaults to `undefined`] |
+| **affinityVersion** | `string` | Selects the HTTP API contract for this request only. When omitted, API-key requests use their service account’s stored version. Does not change the stored default. | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 
@@ -121,7 +121,7 @@ async function example() {
     idempotencyKey: idempotencyKey_example,
     // PlatformPublicApiSellingPricesUpdateSellingPriceRequest
     platformPublicApiSellingPricesUpdateSellingPriceRequest: ...,
-    // string (optional)
+    // string | Selects the HTTP API contract for this request only. When omitted, API-key requests use their service account’s stored version. Does not change the stored default. (optional)
     affinityVersion: affinityVersion_example,
   } satisfies PlatformPublicApiSellingPricesUpdateSellingPriceOperationRequest;
 
@@ -139,12 +139,12 @@ example().catch(console.error);
 
 ### Parameters
 
-| Name                                                        | Type                                                                                                                  | Description | Notes                                |
-| ----------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------- | ----------- | ------------------------------------ |
-| **catalogItemId**                                           | `string`                                                                                                              |             | [Defaults to `undefined`]            |
-| **idempotencyKey**                                          | `string`                                                                                                              |             | [Defaults to `undefined`]            |
-| **platformPublicApiSellingPricesUpdateSellingPriceRequest** | [PlatformPublicApiSellingPricesUpdateSellingPriceRequest](PlatformPublicApiSellingPricesUpdateSellingPriceRequest.md) |             |                                      |
-| **affinityVersion**                                         | `string`                                                                                                              |             | [Optional] [Defaults to `undefined`] |
+| Name                                                        | Type                                                                                                                  | Description                                                                                                                                                         | Notes                                |
+| ----------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------ |
+| **catalogItemId**                                           | `string`                                                                                                              |                                                                                                                                                                     | [Defaults to `undefined`]            |
+| **idempotencyKey**                                          | `string`                                                                                                              |                                                                                                                                                                     | [Defaults to `undefined`]            |
+| **platformPublicApiSellingPricesUpdateSellingPriceRequest** | [PlatformPublicApiSellingPricesUpdateSellingPriceRequest](PlatformPublicApiSellingPricesUpdateSellingPriceRequest.md) |                                                                                                                                                                     |                                      |
+| **affinityVersion**                                         | `string`                                                                                                              | Selects the HTTP API contract for this request only. When omitted, API-key requests use their service account’s stored version. Does not change the stored default. | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 

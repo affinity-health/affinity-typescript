@@ -107,7 +107,8 @@
             "required": false,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "Selects the HTTP API contract for this request only. When omitted, API-key requests use their service account’s stored version. Does not change the stored default."
           }
         ],
         "security": [
@@ -222,7 +223,8 @@
             "required": false,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "Selects the HTTP API contract for this request only. When omitted, API-key requests use their service account’s stored version. Does not change the stored default."
           },
           {
             "in": "header",
@@ -365,7 +367,8 @@
             "required": false,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "Selects the HTTP API contract for this request only. When omitted, API-key requests use their service account’s stored version. Does not change the stored default."
           }
         ],
         "security": [
@@ -488,7 +491,8 @@
             "required": false,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "Selects the HTTP API contract for this request only. When omitted, API-key requests use their service account’s stored version. Does not change the stored default."
           },
           {
             "in": "header",
@@ -631,7 +635,8 @@
             "required": false,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "Selects the HTTP API contract for this request only. When omitted, API-key requests use their service account’s stored version. Does not change the stored default."
           },
           {
             "in": "header",
@@ -749,7 +754,8 @@
             "required": false,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "Selects the HTTP API contract for this request only. When omitted, API-key requests use their service account’s stored version. Does not change the stored default."
           },
           {
             "in": "header",
@@ -887,7 +893,8 @@
             "required": false,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "Selects the HTTP API contract for this request only. When omitted, API-key requests use their service account’s stored version. Does not change the stored default."
           }
         ],
         "security": [
@@ -1382,7 +1389,8 @@
             "required": false,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "Selects the HTTP API contract for this request only. When omitted, API-key requests use their service account’s stored version. Does not change the stored default."
           }
         ],
         "security": [
@@ -1614,7 +1622,8 @@
             "required": false,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "Selects the HTTP API contract for this request only. When omitted, API-key requests use their service account’s stored version. Does not change the stored default."
           }
         ],
         "security": [
@@ -1768,7 +1777,8 @@
             "required": false,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "Selects the HTTP API contract for this request only. When omitted, API-key requests use their service account’s stored version. Does not change the stored default."
           }
         ],
         "security": [
@@ -2116,7 +2126,8 @@
             "required": false,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "Selects the HTTP API contract for this request only. When omitted, API-key requests use their service account’s stored version. Does not change the stored default."
           },
           {
             "in": "header",
@@ -2246,7 +2257,8 @@
             "required": false,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "Selects the HTTP API contract for this request only. When omitted, API-key requests use their service account’s stored version. Does not change the stored default."
           },
           {
             "in": "header",
@@ -2415,7 +2427,8 @@
             "required": false,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "Selects the HTTP API contract for this request only. When omitted, API-key requests use their service account’s stored version. Does not change the stored default."
           },
           {
             "in": "header",
@@ -2555,7 +2568,8 @@
             "required": false,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "Selects the HTTP API contract for this request only. When omitted, API-key requests use their service account’s stored version. Does not change the stored default."
           },
           {
             "in": "header",
@@ -2726,7 +2740,8 @@
             "required": false,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "Selects the HTTP API contract for this request only. When omitted, API-key requests use their service account’s stored version. Does not change the stored default."
           },
           {
             "in": "header",
@@ -2934,7 +2949,8 @@
             "required": false,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "Selects the HTTP API contract for this request only. When omitted, API-key requests use their service account’s stored version. Does not change the stored default."
           },
           {
             "in": "header",
@@ -3101,7 +3117,8 @@
             "required": false,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "Selects the HTTP API contract for this request only. When omitted, API-key requests use their service account’s stored version. Does not change the stored default."
           },
           {
             "in": "header",
@@ -3223,7 +3240,8 @@
             "required": false,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "Selects the HTTP API contract for this request only. When omitted, API-key requests use their service account’s stored version. Does not change the stored default."
           },
           {
             "in": "header",
@@ -3373,7 +3391,8 @@
             "required": false,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "Selects the HTTP API contract for this request only. When omitted, API-key requests use their service account’s stored version. Does not change the stored default."
           },
           {
             "in": "header",
@@ -3521,7 +3540,8 @@
             "required": false,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "Selects the HTTP API contract for this request only. When omitted, API-key requests use their service account’s stored version. Does not change the stored default."
           },
           {
             "in": "header",
@@ -3660,7 +3680,8 @@
             "required": false,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "Selects the HTTP API contract for this request only. When omitted, API-key requests use their service account’s stored version. Does not change the stored default."
           },
           {
             "in": "header",
@@ -3799,7 +3820,8 @@
             "required": false,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "Selects the HTTP API contract for this request only. When omitted, API-key requests use their service account’s stored version. Does not change the stored default."
           },
           {
             "in": "header",
@@ -3996,7 +4018,8 @@
             "required": false,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "Selects the HTTP API contract for this request only. When omitted, API-key requests use their service account’s stored version. Does not change the stored default."
           },
           {
             "in": "header",
@@ -4131,7 +4154,8 @@
             "required": false,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "Selects the HTTP API contract for this request only. When omitted, API-key requests use their service account’s stored version. Does not change the stored default."
           },
           {
             "in": "header",
@@ -4262,7 +4286,8 @@
             "required": false,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "Selects the HTTP API contract for this request only. When omitted, API-key requests use their service account’s stored version. Does not change the stored default."
           },
           {
             "in": "header",
@@ -4401,7 +4426,8 @@
             "required": false,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "Selects the HTTP API contract for this request only. When omitted, API-key requests use their service account’s stored version. Does not change the stored default."
           }
         ],
         "security": [
@@ -4522,7 +4548,8 @@
             "required": false,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "Selects the HTTP API contract for this request only. When omitted, API-key requests use their service account’s stored version. Does not change the stored default."
           },
           {
             "in": "header",
@@ -4675,7 +4702,8 @@
             "required": false,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "Selects the HTTP API contract for this request only. When omitted, API-key requests use their service account’s stored version. Does not change the stored default."
           }
         ],
         "security": [
@@ -4776,7 +4804,8 @@
             "required": false,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "Selects the HTTP API contract for this request only. When omitted, API-key requests use their service account’s stored version. Does not change the stored default."
           }
         ],
         "security": [
@@ -4899,7 +4928,8 @@
             "required": false,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "Selects the HTTP API contract for this request only. When omitted, API-key requests use their service account’s stored version. Does not change the stored default."
           },
           {
             "in": "header",
@@ -5050,7 +5080,8 @@
             "required": false,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "Selects the HTTP API contract for this request only. When omitted, API-key requests use their service account’s stored version. Does not change the stored default."
           },
           {
             "in": "header",
@@ -5201,7 +5232,8 @@
             "required": false,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "Selects the HTTP API contract for this request only. When omitted, API-key requests use their service account’s stored version. Does not change the stored default."
           },
           {
             "in": "header",
@@ -5352,7 +5384,8 @@
             "required": false,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "Selects the HTTP API contract for this request only. When omitted, API-key requests use their service account’s stored version. Does not change the stored default."
           },
           {
             "in": "header",
@@ -5503,7 +5536,8 @@
             "required": false,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "Selects the HTTP API contract for this request only. When omitted, API-key requests use their service account’s stored version. Does not change the stored default."
           },
           {
             "in": "header",
@@ -5735,7 +5769,8 @@
             "required": false,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "Selects the HTTP API contract for this request only. When omitted, API-key requests use their service account’s stored version. Does not change the stored default."
           },
           {
             "in": "header",
@@ -5879,7 +5914,8 @@
             "required": false,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "Selects the HTTP API contract for this request only. When omitted, API-key requests use their service account’s stored version. Does not change the stored default."
           },
           {
             "in": "header",
@@ -6052,7 +6088,8 @@
             "required": false,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "Selects the HTTP API contract for this request only. When omitted, API-key requests use their service account’s stored version. Does not change the stored default."
           },
           {
             "in": "header",
@@ -6222,7 +6259,8 @@
             "required": false,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "Selects the HTTP API contract for this request only. When omitted, API-key requests use their service account’s stored version. Does not change the stored default."
           },
           {
             "in": "header",
@@ -6385,7 +6423,8 @@
             "required": false,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "Selects the HTTP API contract for this request only. When omitted, API-key requests use their service account’s stored version. Does not change the stored default."
           },
           {
             "in": "header",
@@ -6524,7 +6563,8 @@
             "required": false,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "Selects the HTTP API contract for this request only. When omitted, API-key requests use their service account’s stored version. Does not change the stored default."
           },
           {
             "in": "header",
@@ -6766,7 +6806,8 @@
             "required": false,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "Selects the HTTP API contract for this request only. When omitted, API-key requests use their service account’s stored version. Does not change the stored default."
           }
         ],
         "security": [
@@ -6883,7 +6924,8 @@
             "required": false,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "Selects the HTTP API contract for this request only. When omitted, API-key requests use their service account’s stored version. Does not change the stored default."
           }
         ],
         "security": [
@@ -7102,7 +7144,8 @@
             "required": false,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "Selects the HTTP API contract for this request only. When omitted, API-key requests use their service account’s stored version. Does not change the stored default."
           }
         ],
         "security": [
@@ -7334,7 +7377,8 @@
             "required": false,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "Selects the HTTP API contract for this request only. When omitted, API-key requests use their service account’s stored version. Does not change the stored default."
           }
         ],
         "security": [
@@ -7463,7 +7507,8 @@
             "required": false,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "Selects the HTTP API contract for this request only. When omitted, API-key requests use their service account’s stored version. Does not change the stored default."
           }
         ],
         "security": [
@@ -7586,7 +7631,8 @@
             "required": false,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "Selects the HTTP API contract for this request only. When omitted, API-key requests use their service account’s stored version. Does not change the stored default."
           },
           {
             "in": "header",
@@ -7729,7 +7775,8 @@
             "required": false,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "Selects the HTTP API contract for this request only. When omitted, API-key requests use their service account’s stored version. Does not change the stored default."
           }
         ],
         "security": [
@@ -7852,7 +7899,8 @@
             "required": false,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "Selects the HTTP API contract for this request only. When omitted, API-key requests use their service account’s stored version. Does not change the stored default."
           },
           {
             "in": "header",
@@ -7995,7 +8043,8 @@
             "required": false,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "Selects the HTTP API contract for this request only. When omitted, API-key requests use their service account’s stored version. Does not change the stored default."
           },
           {
             "in": "header",
@@ -8150,7 +8199,8 @@
             "required": false,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "Selects the HTTP API contract for this request only. When omitted, API-key requests use their service account’s stored version. Does not change the stored default."
           },
           {
             "in": "header",
@@ -8293,7 +8343,8 @@
             "required": false,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "Selects the HTTP API contract for this request only. When omitted, API-key requests use their service account’s stored version. Does not change the stored default."
           }
         ],
         "security": [
@@ -8416,7 +8467,8 @@
             "required": false,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "Selects the HTTP API contract for this request only. When omitted, API-key requests use their service account’s stored version. Does not change the stored default."
           },
           {
             "in": "header",
@@ -8549,7 +8601,8 @@
             "required": false,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "Selects the HTTP API contract for this request only. When omitted, API-key requests use their service account’s stored version. Does not change the stored default."
           },
           {
             "in": "header",
@@ -8668,7 +8721,8 @@
             "required": false,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "Selects the HTTP API contract for this request only. When omitted, API-key requests use their service account’s stored version. Does not change the stored default."
           }
         ],
         "security": [
@@ -8815,7 +8869,8 @@
             "required": false,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "Selects the HTTP API contract for this request only. When omitted, API-key requests use their service account’s stored version. Does not change the stored default."
           }
         ],
         "security": [
@@ -8928,7 +8983,8 @@
             "required": false,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "Selects the HTTP API contract for this request only. When omitted, API-key requests use their service account’s stored version. Does not change the stored default."
           },
           {
             "in": "header",
@@ -9069,7 +9125,8 @@
             "required": false,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "Selects the HTTP API contract for this request only. When omitted, API-key requests use their service account’s stored version. Does not change the stored default."
           }
         ],
         "security": [
@@ -9190,7 +9247,8 @@
             "required": false,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "Selects the HTTP API contract for this request only. When omitted, API-key requests use their service account’s stored version. Does not change the stored default."
           },
           {
             "in": "header",
@@ -9565,7 +9623,8 @@
             "required": false,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "Selects the HTTP API contract for this request only. When omitted, API-key requests use their service account’s stored version. Does not change the stored default."
           },
           {
             "in": "header",
@@ -9708,7 +9767,8 @@
             "required": false,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "Selects the HTTP API contract for this request only. When omitted, API-key requests use their service account’s stored version. Does not change the stored default."
           },
           {
             "in": "header",
@@ -9879,7 +9939,8 @@
             "required": false,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "Selects the HTTP API contract for this request only. When omitted, API-key requests use their service account’s stored version. Does not change the stored default."
           },
           {
             "in": "header",
@@ -10030,7 +10091,8 @@
             "required": false,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "Selects the HTTP API contract for this request only. When omitted, API-key requests use their service account’s stored version. Does not change the stored default."
           },
           {
             "in": "header",
@@ -10189,7 +10251,8 @@
             "required": false,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "Selects the HTTP API contract for this request only. When omitted, API-key requests use their service account’s stored version. Does not change the stored default."
           },
           {
             "in": "header",
@@ -10360,7 +10423,8 @@
             "required": false,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "Selects the HTTP API contract for this request only. When omitted, API-key requests use their service account’s stored version. Does not change the stored default."
           },
           {
             "in": "header",
@@ -10511,7 +10575,8 @@
             "required": false,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "Selects the HTTP API contract for this request only. When omitted, API-key requests use their service account’s stored version. Does not change the stored default."
           },
           {
             "in": "header",
@@ -10670,7 +10735,8 @@
             "required": false,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "Selects the HTTP API contract for this request only. When omitted, API-key requests use their service account’s stored version. Does not change the stored default."
           },
           {
             "in": "header",
@@ -10851,7 +10917,8 @@
             "required": false,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "Selects the HTTP API contract for this request only. When omitted, API-key requests use their service account’s stored version. Does not change the stored default."
           },
           {
             "in": "header",
@@ -11008,7 +11075,8 @@
             "required": false,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "Selects the HTTP API contract for this request only. When omitted, API-key requests use their service account’s stored version. Does not change the stored default."
           },
           {
             "in": "header",
@@ -11196,7 +11264,8 @@
             "required": false,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "Selects the HTTP API contract for this request only. When omitted, API-key requests use their service account’s stored version. Does not change the stored default."
           }
         ],
         "security": [
@@ -11307,7 +11376,8 @@
             "required": false,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "Selects the HTTP API contract for this request only. When omitted, API-key requests use their service account’s stored version. Does not change the stored default."
           },
           {
             "in": "header",
@@ -11475,7 +11545,8 @@
             "required": false,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "Selects the HTTP API contract for this request only. When omitted, API-key requests use their service account’s stored version. Does not change the stored default."
           }
         ],
         "security": [
@@ -11592,7 +11663,8 @@
             "required": false,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "Selects the HTTP API contract for this request only. When omitted, API-key requests use their service account’s stored version. Does not change the stored default."
           },
           {
             "in": "header",
@@ -11721,7 +11793,8 @@
             "required": false,
             "schema": {
               "type": "string"
-            }
+            },
+            "description": "Selects the HTTP API contract for this request only. When omitted, API-key requests use their service account’s stored version. Does not change the stored default."
           },
           {
             "in": "header",

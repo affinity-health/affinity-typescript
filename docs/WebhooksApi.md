@@ -49,7 +49,7 @@ async function example() {
     idempotencyKey: idempotencyKey_example,
     // CreateWebhookEndpointRequest
     createWebhookEndpointRequest: ...,
-    // string (optional)
+    // string | Selects the HTTP API contract for this request only. When omitted, API-key requests use their service account’s stored version. Does not change the stored default. (optional)
     affinityVersion: affinityVersion_example,
     // string | Defaults to the API key organization. A platform may select a practice or pharmacy only with an explicit webhook grant in this mode. This changes the webhook owner, not the caller or event subscriptions. (optional)
     xAffinityOrganizationId: xAffinityOrganizationId_example,
@@ -73,7 +73,7 @@ example().catch(console.error);
 | -------------------------------- | --------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------ |
 | **idempotencyKey**               | `string`                                                        |                                                                                                                                                                                                             | [Defaults to `undefined`]            |
 | **createWebhookEndpointRequest** | [CreateWebhookEndpointRequest](CreateWebhookEndpointRequest.md) |                                                                                                                                                                                                             |                                      |
-| **affinityVersion**              | `string`                                                        |                                                                                                                                                                                                             | [Optional] [Defaults to `undefined`] |
+| **affinityVersion**              | `string`                                                        | Selects the HTTP API contract for this request only. When omitted, API-key requests use their service account’s stored version. Does not change the stored default.                                         | [Optional] [Defaults to `undefined`] |
 | **xAffinityOrganizationId**      | `string`                                                        | Defaults to the API key organization. A platform may select a practice or pharmacy only with an explicit webhook grant in this mode. This changes the webhook owner, not the caller or event subscriptions. | [Optional] [Defaults to `undefined`] |
 
 ### Return type
@@ -131,7 +131,7 @@ async function example() {
     endpointId: whe_01j2y8m6jcc9tt24af5pw9x1bc,
     // string
     idempotencyKey: idempotencyKey_example,
-    // string (optional)
+    // string | Selects the HTTP API contract for this request only. When omitted, API-key requests use their service account’s stored version. Does not change the stored default. (optional)
     affinityVersion: affinityVersion_example,
     // string | Defaults to the API key organization. A platform may select a practice or pharmacy only with an explicit webhook grant in this mode. This changes the webhook owner, not the caller or event subscriptions. (optional)
     xAffinityOrganizationId: xAffinityOrganizationId_example,
@@ -155,7 +155,7 @@ example().catch(console.error);
 | --------------------------- | -------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------ |
 | **endpointId**              | `string` |                                                                                                                                                                                                             | [Defaults to `undefined`]            |
 | **idempotencyKey**          | `string` |                                                                                                                                                                                                             | [Defaults to `undefined`]            |
-| **affinityVersion**         | `string` |                                                                                                                                                                                                             | [Optional] [Defaults to `undefined`] |
+| **affinityVersion**         | `string` | Selects the HTTP API contract for this request only. When omitted, API-key requests use their service account’s stored version. Does not change the stored default.                                         | [Optional] [Defaults to `undefined`] |
 | **xAffinityOrganizationId** | `string` | Defaults to the API key organization. A platform may select a practice or pharmacy only with an explicit webhook grant in this mode. This changes the webhook owner, not the caller or event subscriptions. | [Optional] [Defaults to `undefined`] |
 
 ### Return type
@@ -211,7 +211,7 @@ async function example() {
   const body = {
     // string
     eventId: evt_01j2y8m6jcc9tt24af5pw9x1bc,
-    // string (optional)
+    // string | Selects the HTTP API contract for this request only. When omitted, API-key requests use their service account’s stored version. Does not change the stored default. (optional)
     affinityVersion: affinityVersion_example,
     // string | Defaults to the API key organization. A platform may select a practice or pharmacy only with an explicit webhook grant in this mode. This changes the webhook owner, not the caller or event subscriptions. (optional)
     xAffinityOrganizationId: xAffinityOrganizationId_example,
@@ -234,7 +234,7 @@ example().catch(console.error);
 | Name                        | Type     | Description                                                                                                                                                                                                 | Notes                                |
 | --------------------------- | -------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------ |
 | **eventId**                 | `string` |                                                                                                                                                                                                             | [Defaults to `undefined`]            |
-| **affinityVersion**         | `string` |                                                                                                                                                                                                             | [Optional] [Defaults to `undefined`] |
+| **affinityVersion**         | `string` | Selects the HTTP API contract for this request only. When omitted, API-key requests use their service account’s stored version. Does not change the stored default.                                         | [Optional] [Defaults to `undefined`] |
 | **xAffinityOrganizationId** | `string` | Defaults to the API key organization. A platform may select a practice or pharmacy only with an explicit webhook grant in this mode. This changes the webhook owner, not the caller or event subscriptions. | [Optional] [Defaults to `undefined`] |
 
 ### Return type
@@ -296,7 +296,7 @@ async function example() {
     limit: 56,
     // string (optional)
     startingAfter: whe_01j2y8m6jcc9tt24af5pw9x1bc,
-    // string (optional)
+    // string | Selects the HTTP API contract for this request only. When omitted, API-key requests use their service account’s stored version. Does not change the stored default. (optional)
     affinityVersion: affinityVersion_example,
     // string | Defaults to the API key organization. A platform may select a practice or pharmacy only with an explicit webhook grant in this mode. This changes the webhook owner, not the caller or event subscriptions. (optional)
     xAffinityOrganizationId: xAffinityOrganizationId_example,
@@ -321,7 +321,7 @@ example().catch(console.error);
 | **endingBefore**            | `string` |                                                                                                                                                                                                             | [Optional] [Defaults to `undefined`] |
 | **limit**                   | `number` |                                                                                                                                                                                                             | [Optional] [Defaults to `25`]        |
 | **startingAfter**           | `string` |                                                                                                                                                                                                             | [Optional] [Defaults to `undefined`] |
-| **affinityVersion**         | `string` |                                                                                                                                                                                                             | [Optional] [Defaults to `undefined`] |
+| **affinityVersion**         | `string` | Selects the HTTP API contract for this request only. When omitted, API-key requests use their service account’s stored version. Does not change the stored default.                                         | [Optional] [Defaults to `undefined`] |
 | **xAffinityOrganizationId** | `string` | Defaults to the API key organization. A platform may select a practice or pharmacy only with an explicit webhook grant in this mode. This changes the webhook owner, not the caller or event subscriptions. | [Optional] [Defaults to `undefined`] |
 
 ### Return type
@@ -383,7 +383,7 @@ async function example() {
     status: status_example,
     // string (optional)
     startingAfter: evt_01j2y8m6jcc9tt24af5pw9x1bc,
-    // string (optional)
+    // string | Selects the HTTP API contract for this request only. When omitted, API-key requests use their service account’s stored version. Does not change the stored default. (optional)
     affinityVersion: affinityVersion_example,
     // string | Defaults to the API key organization. A platform may select a practice or pharmacy only with an explicit webhook grant in this mode. This changes the webhook owner, not the caller or event subscriptions. (optional)
     xAffinityOrganizationId: xAffinityOrganizationId_example,
@@ -409,7 +409,7 @@ example().catch(console.error);
 | **limit**                   | `number`                                |                                                                                                                                                                                                             | [Optional] [Defaults to `25`]                                                |
 | **status**                  | `all`, `delivered`, `failed`, `pending` |                                                                                                                                                                                                             | [Optional] [Defaults to `undefined`] [Enum: all, delivered, failed, pending] |
 | **startingAfter**           | `string`                                |                                                                                                                                                                                                             | [Optional] [Defaults to `undefined`]                                         |
-| **affinityVersion**         | `string`                                |                                                                                                                                                                                                             | [Optional] [Defaults to `undefined`]                                         |
+| **affinityVersion**         | `string`                                | Selects the HTTP API contract for this request only. When omitted, API-key requests use their service account’s stored version. Does not change the stored default.                                         | [Optional] [Defaults to `undefined`]                                         |
 | **xAffinityOrganizationId** | `string`                                | Defaults to the API key organization. A platform may select a practice or pharmacy only with an explicit webhook grant in this mode. This changes the webhook owner, not the caller or event subscriptions. | [Optional] [Defaults to `undefined`]                                         |
 
 ### Return type
@@ -471,7 +471,7 @@ async function example() {
     startingAfter: acct_01j2y8m6jcc9tt24af5pw9x1bc,
     // string (optional)
     endingBefore: acct_01j2y8m6jcc9tt24af5pw9x1bc,
-    // string (optional)
+    // string | Selects the HTTP API contract for this request only. When omitted, API-key requests use their service account’s stored version. Does not change the stored default. (optional)
     affinityVersion: affinityVersion_example,
   } satisfies ListWebhookGrantsRequest;
 
@@ -489,12 +489,12 @@ example().catch(console.error);
 
 ### Parameters
 
-| Name                | Type     | Description | Notes                                |
-| ------------------- | -------- | ----------- | ------------------------------------ |
-| **limit**           | `number` |             | [Optional] [Defaults to `25`]        |
-| **startingAfter**   | `string` |             | [Optional] [Defaults to `undefined`] |
-| **endingBefore**    | `string` |             | [Optional] [Defaults to `undefined`] |
-| **affinityVersion** | `string` |             | [Optional] [Defaults to `undefined`] |
+| Name                | Type     | Description                                                                                                                                                         | Notes                                |
+| ------------------- | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------ |
+| **limit**           | `number` |                                                                                                                                                                     | [Optional] [Defaults to `25`]        |
+| **startingAfter**   | `string` |                                                                                                                                                                     | [Optional] [Defaults to `undefined`] |
+| **endingBefore**    | `string` |                                                                                                                                                                     | [Optional] [Defaults to `undefined`] |
+| **affinityVersion** | `string` | Selects the HTTP API contract for this request only. When omitted, API-key requests use their service account’s stored version. Does not change the stored default. | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 
@@ -550,7 +550,7 @@ async function example() {
     eventId: evt_01j2y8m6jcc9tt24af5pw9x1bc,
     // string
     idempotencyKey: idempotencyKey_example,
-    // string (optional)
+    // string | Selects the HTTP API contract for this request only. When omitted, API-key requests use their service account’s stored version. Does not change the stored default. (optional)
     affinityVersion: affinityVersion_example,
     // string | Defaults to the API key organization. A platform may select a practice or pharmacy only with an explicit webhook grant in this mode. This changes the webhook owner, not the caller or event subscriptions. (optional)
     xAffinityOrganizationId: xAffinityOrganizationId_example,
@@ -574,7 +574,7 @@ example().catch(console.error);
 | --------------------------- | -------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------ |
 | **eventId**                 | `string` |                                                                                                                                                                                                             | [Defaults to `undefined`]            |
 | **idempotencyKey**          | `string` |                                                                                                                                                                                                             | [Defaults to `undefined`]            |
-| **affinityVersion**         | `string` |                                                                                                                                                                                                             | [Optional] [Defaults to `undefined`] |
+| **affinityVersion**         | `string` | Selects the HTTP API contract for this request only. When omitted, API-key requests use their service account’s stored version. Does not change the stored default.                                         | [Optional] [Defaults to `undefined`] |
 | **xAffinityOrganizationId** | `string` | Defaults to the API key organization. A platform may select a practice or pharmacy only with an explicit webhook grant in this mode. This changes the webhook owner, not the caller or event subscriptions. | [Optional] [Defaults to `undefined`] |
 
 ### Return type
@@ -634,7 +634,7 @@ async function example() {
     platformId: acct_01j2y8m6jcc9tt24af5pw9x1bc,
     // string
     idempotencyKey: idempotencyKey_example,
-    // string (optional)
+    // string | Selects the HTTP API contract for this request only. When omitted, API-key requests use their service account’s stored version. Does not change the stored default. (optional)
     affinityVersion: affinityVersion_example,
   } satisfies RevokeWebhookGrantRequest;
 
@@ -652,11 +652,11 @@ example().catch(console.error);
 
 ### Parameters
 
-| Name                | Type     | Description | Notes                                |
-| ------------------- | -------- | ----------- | ------------------------------------ |
-| **platformId**      | `string` |             | [Defaults to `undefined`]            |
-| **idempotencyKey**  | `string` |             | [Defaults to `undefined`]            |
-| **affinityVersion** | `string` |             | [Optional] [Defaults to `undefined`] |
+| Name                | Type     | Description                                                                                                                                                         | Notes                                |
+| ------------------- | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------ |
+| **platformId**      | `string` |                                                                                                                                                                     | [Defaults to `undefined`]            |
+| **idempotencyKey**  | `string` |                                                                                                                                                                     | [Defaults to `undefined`]            |
+| **affinityVersion** | `string` | Selects the HTTP API contract for this request only. When omitted, API-key requests use their service account’s stored version. Does not change the stored default. | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 
@@ -712,7 +712,7 @@ async function example() {
     endpointId: whe_01j2y8m6jcc9tt24af5pw9x1bc,
     // string
     idempotencyKey: idempotencyKey_example,
-    // string (optional)
+    // string | Selects the HTTP API contract for this request only. When omitted, API-key requests use their service account’s stored version. Does not change the stored default. (optional)
     affinityVersion: affinityVersion_example,
     // string | Defaults to the API key organization. A platform may select a practice or pharmacy only with an explicit webhook grant in this mode. This changes the webhook owner, not the caller or event subscriptions. (optional)
     xAffinityOrganizationId: xAffinityOrganizationId_example,
@@ -736,7 +736,7 @@ example().catch(console.error);
 | --------------------------- | -------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------ |
 | **endpointId**              | `string` |                                                                                                                                                                                                             | [Defaults to `undefined`]            |
 | **idempotencyKey**          | `string` |                                                                                                                                                                                                             | [Defaults to `undefined`]            |
-| **affinityVersion**         | `string` |                                                                                                                                                                                                             | [Optional] [Defaults to `undefined`] |
+| **affinityVersion**         | `string` | Selects the HTTP API contract for this request only. When omitted, API-key requests use their service account’s stored version. Does not change the stored default.                                         | [Optional] [Defaults to `undefined`] |
 | **xAffinityOrganizationId** | `string` | Defaults to the API key organization. A platform may select a practice or pharmacy only with an explicit webhook grant in this mode. This changes the webhook owner, not the caller or event subscriptions. | [Optional] [Defaults to `undefined`] |
 
 ### Return type
@@ -801,7 +801,7 @@ async function example() {
     idempotencyKey: idempotencyKey_example,
     // SaveWebhookGrantRequest
     saveWebhookGrantRequest: ...,
-    // string (optional)
+    // string | Selects the HTTP API contract for this request only. When omitted, API-key requests use their service account’s stored version. Does not change the stored default. (optional)
     affinityVersion: affinityVersion_example,
   } satisfies SaveWebhookGrantOperationRequest;
 
@@ -819,12 +819,12 @@ example().catch(console.error);
 
 ### Parameters
 
-| Name                        | Type                                                  | Description | Notes                                |
-| --------------------------- | ----------------------------------------------------- | ----------- | ------------------------------------ |
-| **platformId**              | `string`                                              |             | [Defaults to `undefined`]            |
-| **idempotencyKey**          | `string`                                              |             | [Defaults to `undefined`]            |
-| **saveWebhookGrantRequest** | [SaveWebhookGrantRequest](SaveWebhookGrantRequest.md) |             |                                      |
-| **affinityVersion**         | `string`                                              |             | [Optional] [Defaults to `undefined`] |
+| Name                        | Type                                                  | Description                                                                                                                                                         | Notes                                |
+| --------------------------- | ----------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------ |
+| **platformId**              | `string`                                              |                                                                                                                                                                     | [Defaults to `undefined`]            |
+| **idempotencyKey**          | `string`                                              |                                                                                                                                                                     | [Defaults to `undefined`]            |
+| **saveWebhookGrantRequest** | [SaveWebhookGrantRequest](SaveWebhookGrantRequest.md) |                                                                                                                                                                     |                                      |
+| **affinityVersion**         | `string`                                              | Selects the HTTP API contract for this request only. When omitted, API-key requests use their service account’s stored version. Does not change the stored default. | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 
@@ -880,7 +880,7 @@ async function example() {
     endpointId: whe_01j2y8m6jcc9tt24af5pw9x1bc,
     // string
     idempotencyKey: idempotencyKey_example,
-    // string (optional)
+    // string | Selects the HTTP API contract for this request only. When omitted, API-key requests use their service account’s stored version. Does not change the stored default. (optional)
     affinityVersion: affinityVersion_example,
     // string | Defaults to the API key organization. A platform may select a practice or pharmacy only with an explicit webhook grant in this mode. This changes the webhook owner, not the caller or event subscriptions. (optional)
     xAffinityOrganizationId: xAffinityOrganizationId_example,
@@ -904,7 +904,7 @@ example().catch(console.error);
 | --------------------------- | -------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------ |
 | **endpointId**              | `string` |                                                                                                                                                                                                             | [Defaults to `undefined`]            |
 | **idempotencyKey**          | `string` |                                                                                                                                                                                                             | [Defaults to `undefined`]            |
-| **affinityVersion**         | `string` |                                                                                                                                                                                                             | [Optional] [Defaults to `undefined`] |
+| **affinityVersion**         | `string` | Selects the HTTP API contract for this request only. When omitted, API-key requests use their service account’s stored version. Does not change the stored default.                                         | [Optional] [Defaults to `undefined`] |
 | **xAffinityOrganizationId** | `string` | Defaults to the API key organization. A platform may select a practice or pharmacy only with an explicit webhook grant in this mode. This changes the webhook owner, not the caller or event subscriptions. | [Optional] [Defaults to `undefined`] |
 
 ### Return type
@@ -969,7 +969,7 @@ async function example() {
     idempotencyKey: idempotencyKey_example,
     // UpdateWebhookEndpointRequest
     updateWebhookEndpointRequest: ...,
-    // string (optional)
+    // string | Selects the HTTP API contract for this request only. When omitted, API-key requests use their service account’s stored version. Does not change the stored default. (optional)
     affinityVersion: affinityVersion_example,
     // string | Defaults to the API key organization. A platform may select a practice or pharmacy only with an explicit webhook grant in this mode. This changes the webhook owner, not the caller or event subscriptions. (optional)
     xAffinityOrganizationId: xAffinityOrganizationId_example,
@@ -994,7 +994,7 @@ example().catch(console.error);
 | **endpointId**                   | `string`                                                        |                                                                                                                                                                                                             | [Defaults to `undefined`]            |
 | **idempotencyKey**               | `string`                                                        |                                                                                                                                                                                                             | [Defaults to `undefined`]            |
 | **updateWebhookEndpointRequest** | [UpdateWebhookEndpointRequest](UpdateWebhookEndpointRequest.md) |                                                                                                                                                                                                             |                                      |
-| **affinityVersion**              | `string`                                                        |                                                                                                                                                                                                             | [Optional] [Defaults to `undefined`] |
+| **affinityVersion**              | `string`                                                        | Selects the HTTP API contract for this request only. When omitted, API-key requests use their service account’s stored version. Does not change the stored default.                                         | [Optional] [Defaults to `undefined`] |
 | **xAffinityOrganizationId**      | `string`                                                        | Defaults to the API key organization. A platform may select a practice or pharmacy only with an explicit webhook grant in this mode. This changes the webhook owner, not the caller or event subscriptions. | [Optional] [Defaults to `undefined`] |
 
 ### Return type

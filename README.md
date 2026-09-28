@@ -122,6 +122,11 @@ const affinity = new Affinity(process.env.AFFINITY_API_KEY!, {
 });
 ```
 
+The SDK's version header overrides the service account's stored default for each request. It does
+not change that default. Clients sharing a key can send different supported versions concurrently.
+Direct HTTP requests without a version header use the service account's stored version.
+Webhook payload versions are separate from HTTP request versions.
+
 By default the client sends bearer authentication, `Affinity-Version: 2026-09-28`, and a system
 actor to `https://api.joinaffinityai.com`. Affinity attributes the default actor to the
 authenticated service account. Supply `baseUrl` for a compatible endpoint and `fetch` when the

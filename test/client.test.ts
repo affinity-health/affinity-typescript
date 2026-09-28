@@ -44,6 +44,23 @@ describe("Affinity client", () => {
     expect(request?.headers.get("affinity-version")).toBe("2026-09-28");
   });
 
+  test("isolates concurrent version overrides on the same client and key", async () => {
+    const versions: Array<string | null> = [];
+    const affinity = new Affinity("sk_test_example", {
+      fetch: async (input, init) => {
+        versions.push(new Request(input, init).headers.get("affinity-version"));
+        return Response.json(apiAccess);
+      },
+    });
+    await Promise.all([
+      affinity.auth.access.retrieve({ apiVersion: "2026-08-11" }),
+      affinity.auth.access.retrieve({ apiVersion: "2026-09-28" }),
+      affinity.auth.access.retrieve(),
+    ]);
+    await affinity.auth.access.retrieve();
+    expect(versions).toEqual(["2026-08-11", "2026-09-28", "2026-09-28", "2026-09-28"]);
+  });
+
   test("preserves generated list filters and parses typed responses", async () => {
     let request: Request | undefined;
     const affinity = new Affinity("sk_test_example", {

@@ -73,7 +73,7 @@ async function example() {
     routes: ...,
     // string (optional)
     startingAfter: cat_01j2y8m6jcc9tt24af5pw9x1bc,
-    // string (optional)
+    // string | Selects the HTTP API contract for this request only. When omitted, API-key requests use their service account’s stored version. Does not change the stored default. (optional)
     affinityVersion: affinityVersion_example,
   } satisfies ListCatalogItemsRequest;
 
@@ -91,27 +91,27 @@ example().catch(console.error);
 
 ### Parameters
 
-| Name                         | Type                                    | Description | Notes                                                                          |
-| ---------------------------- | --------------------------------------- | ----------- | ------------------------------------------------------------------------------ |
-| **view**                     | `offers`, `medications`                 |             | [Optional] [Defaults to `undefined`] [Enum: offers, medications]               |
-| **relatedToCatalogItemId**   | `string`                                |             | [Optional] [Defaults to `undefined`]                                           |
-| **catalogKind**              | `prescription`, `otc`                   |             | [Optional] [Defaults to `undefined`] [Enum: prescription, otc]                 |
-| **sort**                     | `relevance`, `name_asc`, `name_desc`    |             | [Optional] [Defaults to `undefined`] [Enum: relevance, name_asc, name_desc]    |
-| **catalogItemId**            | `string`                                |             | [Optional] [Defaults to `undefined`]                                           |
-| **availability**             | `all`, `orderable`, `unavailable`       |             | [Optional] [Defaults to `undefined`] [Enum: all, orderable, unavailable]       |
-| **pharmacyIds**              | [](.md)                                 |             | [Optional] [Defaults to `undefined`]                                           |
-| **dosageForms**              | [](.md)                                 |             | [Optional] [Defaults to `undefined`]                                           |
-| **endingBefore**             | `string`                                |             | [Optional] [Defaults to `undefined`]                                           |
-| **hideControlledSubstances** | `boolean`                               |             | [Optional] [Defaults to `undefined`]                                           |
-| **hideUnpriced**             | `boolean`                               |             | [Optional] [Defaults to `undefined`]                                           |
-| **limit**                    | `number`                                |             | [Optional] [Defaults to `25`]                                                  |
-| **orgId**                    | `string`                                |             | [Optional] [Defaults to `undefined`]                                           |
-| **practiceId**               | `string`                                |             | [Optional] [Defaults to `undefined`]                                           |
-| **query**                    | `string`                                |             | [Optional] [Defaults to `undefined`]                                           |
-| **requirement**              | `all`, `office_use`, `patient_specific` |             | [Optional] [Defaults to `undefined`] [Enum: all, office_use, patient_specific] |
-| **routes**                   | [](.md)                                 |             | [Optional] [Defaults to `undefined`]                                           |
-| **startingAfter**            | `string`                                |             | [Optional] [Defaults to `undefined`]                                           |
-| **affinityVersion**          | `string`                                |             | [Optional] [Defaults to `undefined`]                                           |
+| Name                         | Type                                    | Description                                                                                                                                                         | Notes                                                                          |
+| ---------------------------- | --------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------ |
+| **view**                     | `offers`, `medications`                 |                                                                                                                                                                     | [Optional] [Defaults to `undefined`] [Enum: offers, medications]               |
+| **relatedToCatalogItemId**   | `string`                                |                                                                                                                                                                     | [Optional] [Defaults to `undefined`]                                           |
+| **catalogKind**              | `prescription`, `otc`                   |                                                                                                                                                                     | [Optional] [Defaults to `undefined`] [Enum: prescription, otc]                 |
+| **sort**                     | `relevance`, `name_asc`, `name_desc`    |                                                                                                                                                                     | [Optional] [Defaults to `undefined`] [Enum: relevance, name_asc, name_desc]    |
+| **catalogItemId**            | `string`                                |                                                                                                                                                                     | [Optional] [Defaults to `undefined`]                                           |
+| **availability**             | `all`, `orderable`, `unavailable`       |                                                                                                                                                                     | [Optional] [Defaults to `undefined`] [Enum: all, orderable, unavailable]       |
+| **pharmacyIds**              | [](.md)                                 |                                                                                                                                                                     | [Optional] [Defaults to `undefined`]                                           |
+| **dosageForms**              | [](.md)                                 |                                                                                                                                                                     | [Optional] [Defaults to `undefined`]                                           |
+| **endingBefore**             | `string`                                |                                                                                                                                                                     | [Optional] [Defaults to `undefined`]                                           |
+| **hideControlledSubstances** | `boolean`                               |                                                                                                                                                                     | [Optional] [Defaults to `undefined`]                                           |
+| **hideUnpriced**             | `boolean`                               |                                                                                                                                                                     | [Optional] [Defaults to `undefined`]                                           |
+| **limit**                    | `number`                                |                                                                                                                                                                     | [Optional] [Defaults to `25`]                                                  |
+| **orgId**                    | `string`                                |                                                                                                                                                                     | [Optional] [Defaults to `undefined`]                                           |
+| **practiceId**               | `string`                                |                                                                                                                                                                     | [Optional] [Defaults to `undefined`]                                           |
+| **query**                    | `string`                                |                                                                                                                                                                     | [Optional] [Defaults to `undefined`]                                           |
+| **requirement**              | `all`, `office_use`, `patient_specific` |                                                                                                                                                                     | [Optional] [Defaults to `undefined`] [Enum: all, office_use, patient_specific] |
+| **routes**                   | [](.md)                                 |                                                                                                                                                                     | [Optional] [Defaults to `undefined`]                                           |
+| **startingAfter**            | `string`                                |                                                                                                                                                                     | [Optional] [Defaults to `undefined`]                                           |
+| **affinityVersion**          | `string`                                | Selects the HTTP API contract for this request only. When omitted, API-key requests use their service account’s stored version. Does not change the stored default. | [Optional] [Defaults to `undefined`]                                           |
 
 ### Return type
 
@@ -180,7 +180,7 @@ async function example() {
     shipsToState: shipsToState_example,
     // string (optional)
     startingAfter: pharm_01j2y8m6jcc9tt24af5pw9x1bc,
-    // string (optional)
+    // string | Selects the HTTP API contract for this request only. When omitted, API-key requests use their service account’s stored version. Does not change the stored default. (optional)
     affinityVersion: affinityVersion_example,
   } satisfies ListPharmaciesRequest;
 
@@ -198,16 +198,16 @@ example().catch(console.error);
 
 ### Parameters
 
-| Name                | Type     | Description | Notes                                |
-| ------------------- | -------- | ----------- | ------------------------------------ |
-| **endingBefore**    | `string` |             | [Optional] [Defaults to `undefined`] |
-| **limit**           | `number` |             | [Optional] [Defaults to `25`]        |
-| **orgId**           | `string` |             | [Optional] [Defaults to `undefined`] |
-| **pharmacyId**      | `string` |             | [Optional] [Defaults to `undefined`] |
-| **query**           | `string` |             | [Optional] [Defaults to `undefined`] |
-| **shipsToState**    | `string` |             | [Optional] [Defaults to `undefined`] |
-| **startingAfter**   | `string` |             | [Optional] [Defaults to `undefined`] |
-| **affinityVersion** | `string` |             | [Optional] [Defaults to `undefined`] |
+| Name                | Type     | Description                                                                                                                                                         | Notes                                |
+| ------------------- | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------ |
+| **endingBefore**    | `string` |                                                                                                                                                                     | [Optional] [Defaults to `undefined`] |
+| **limit**           | `number` |                                                                                                                                                                     | [Optional] [Defaults to `25`]        |
+| **orgId**           | `string` |                                                                                                                                                                     | [Optional] [Defaults to `undefined`] |
+| **pharmacyId**      | `string` |                                                                                                                                                                     | [Optional] [Defaults to `undefined`] |
+| **query**           | `string` |                                                                                                                                                                     | [Optional] [Defaults to `undefined`] |
+| **shipsToState**    | `string` |                                                                                                                                                                     | [Optional] [Defaults to `undefined`] |
+| **startingAfter**   | `string` |                                                                                                                                                                     | [Optional] [Defaults to `undefined`] |
+| **affinityVersion** | `string` | Selects the HTTP API contract for this request only. When omitted, API-key requests use their service account’s stored version. Does not change the stored default. | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 
@@ -268,7 +268,7 @@ async function example() {
     destinationState: destinationState_example,
     // 'patient' | 'practice' (optional)
     destinationType: destinationType_example,
-    // string (optional)
+    // string | Selects the HTTP API contract for this request only. When omitted, API-key requests use their service account’s stored version. Does not change the stored default. (optional)
     affinityVersion: affinityVersion_example,
   } satisfies ListShippingOptionsRequest;
 
@@ -286,12 +286,12 @@ example().catch(console.error);
 
 ### Parameters
 
-| Name                 | Type                  | Description | Notes                                                          |
-| -------------------- | --------------------- | ----------- | -------------------------------------------------------------- |
-| **catalogItemId**    | `string`              |             | [Defaults to `undefined`]                                      |
-| **destinationState** | `string`              |             | [Defaults to `undefined`]                                      |
-| **destinationType**  | `patient`, `practice` |             | [Optional] [Defaults to `undefined`] [Enum: patient, practice] |
-| **affinityVersion**  | `string`              |             | [Optional] [Defaults to `undefined`]                           |
+| Name                 | Type                  | Description                                                                                                                                                         | Notes                                                          |
+| -------------------- | --------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------- |
+| **catalogItemId**    | `string`              |                                                                                                                                                                     | [Defaults to `undefined`]                                      |
+| **destinationState** | `string`              |                                                                                                                                                                     | [Defaults to `undefined`]                                      |
+| **destinationType**  | `patient`, `practice` |                                                                                                                                                                     | [Optional] [Defaults to `undefined`] [Enum: patient, practice] |
+| **affinityVersion**  | `string`              | Selects the HTTP API contract for this request only. When omitted, API-key requests use their service account’s stored version. Does not change the stored default. | [Optional] [Defaults to `undefined`]                           |
 
 ### Return type
 
@@ -350,7 +350,7 @@ async function example() {
     catalogItemId: cat_01j2y8m6jcc9tt24af5pw9x1bc,
     // string
     practiceId: prac_01j2y8m6jcc9tt24af5pw9x1bc,
-    // string (optional)
+    // string | Selects the HTTP API contract for this request only. When omitted, API-key requests use their service account’s stored version. Does not change the stored default. (optional)
     affinityVersion: affinityVersion_example,
   } satisfies RetrievePrescribingOptionsRequest;
 
@@ -368,11 +368,11 @@ example().catch(console.error);
 
 ### Parameters
 
-| Name                | Type     | Description | Notes                                |
-| ------------------- | -------- | ----------- | ------------------------------------ |
-| **catalogItemId**   | `string` |             | [Defaults to `undefined`]            |
-| **practiceId**      | `string` |             | [Defaults to `undefined`]            |
-| **affinityVersion** | `string` |             | [Optional] [Defaults to `undefined`] |
+| Name                | Type     | Description                                                                                                                                                         | Notes                                |
+| ------------------- | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------ |
+| **catalogItemId**   | `string` |                                                                                                                                                                     | [Defaults to `undefined`]            |
+| **practiceId**      | `string` |                                                                                                                                                                     | [Defaults to `undefined`]            |
+| **affinityVersion** | `string` | Selects the HTTP API contract for this request only. When omitted, API-key requests use their service account’s stored version. Does not change the stored default. | [Optional] [Defaults to `undefined`] |
 
 ### Return type
 
