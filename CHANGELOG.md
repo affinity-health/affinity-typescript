@@ -7,6 +7,11 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 
 ## [Unreleased]
 
+### Changed
+
+- Default HTTP requests to API version `2026-09-28`; retain webhook payload version `2026-08-11`.
+
+
 ## [1.13.0] - 2026-09-28
 
 ### Added

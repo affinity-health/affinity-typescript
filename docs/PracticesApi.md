@@ -177,7 +177,7 @@ example().catch(console.error);
 
 List practices
 
-Returns the practices that belong to the platform. The default Affinity-Version is 2026-08-11.
+Returns the practices that belong to the platform. The default Affinity-Version is 2026-09-28.
 
 ### Example
 

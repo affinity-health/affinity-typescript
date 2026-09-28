@@ -869,7 +869,7 @@ const webhookContract = spec["x-affinity-webhooks"] as {
   signatureHeader?: string;
 };
 if (
-  webhookContract.apiVersion !== apiVersion ||
+  !webhookContract.apiVersion ||
   !webhookContract.eventTypes?.length ||
   !webhookContract.orderStatuses?.length ||
   !webhookContract.signatureHeader
@@ -879,7 +879,7 @@ const webhookTemplate = await readFile(resolve(root, "templates/webhook-events.t
 await output(
   "src/webhook-events.ts",
   webhookTemplate
-    .replace("__AFFINITY_WEBHOOK_API_VERSION__", JSON.stringify(apiVersion))
+    .replace("__AFFINITY_WEBHOOK_API_VERSION__", JSON.stringify(webhookContract.apiVersion))
     .replace("__AFFINITY_WEBHOOK_EVENT_TYPES__", JSON.stringify(webhookContract.eventTypes))
     .replace("__AFFINITY_ORDER_STATUSES__", JSON.stringify(webhookContract.orderStatuses))
     .replace(

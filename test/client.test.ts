@@ -41,7 +41,7 @@ describe("Affinity client", () => {
     expect(access.livemode).toBe(false);
     expect(request?.url).toBe("https://api.joinaffinityai.com/v1/auth/access");
     expect(request?.headers.get("authorization")).toBe("Bearer sk_test_example");
-    expect(request?.headers.get("affinity-version")).toBe("2026-08-11");
+    expect(request?.headers.get("affinity-version")).toBe("2026-09-28");
   });
 
   test("preserves generated list filters and parses typed responses", async () => {

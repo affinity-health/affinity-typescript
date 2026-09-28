@@ -112,7 +112,7 @@ Client-wide options establish defaults for every resource call:
 
 ```ts
 const affinity = new Affinity(process.env.AFFINITY_API_KEY!, {
-  apiVersion: "2026-08-11",
+  apiVersion: "2026-09-28",
   organizationId: "acct_...",
   baseUrl: "https://api.joinaffinityai.com",
   timeout: 80_000,
@@ -122,7 +122,7 @@ const affinity = new Affinity(process.env.AFFINITY_API_KEY!, {
 });
 ```
 
-By default the client sends bearer authentication, `Affinity-Version: 2026-08-11`, and a system
+By default the client sends bearer authentication, `Affinity-Version: 2026-09-28`, and a system
 actor to `https://api.joinaffinityai.com`. Affinity attributes the default actor to the
 authenticated service account. Supply `baseUrl` for a compatible endpoint and `fetch` when the
 runtime needs a custom transport implementation.

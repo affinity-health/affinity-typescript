@@ -41,7 +41,7 @@ const orderInput = {
 
 const sdk = new Affinity("sk_test_packed_consumer", {
   actor,
-  apiVersion: "2026-08-11",
+  apiVersion: "2026-09-28",
   organizationId: "acct_01j2y8m6jcc9tt24af5pw9x1bc",
 });
 void sdk.rawRequest("GET", "/v1/preview");

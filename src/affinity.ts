@@ -302,7 +302,7 @@ export class Affinity {
     const version =
       options.apiVersion !== undefined
         ? validateNonEmptyOption(options.apiVersion, "apiVersion")
-        : "2026-08-11";
+        : "2026-09-28";
     const organizationId =
       options.organizationId !== undefined
         ? validateNonEmptyOption(options.organizationId, "organizationId")
