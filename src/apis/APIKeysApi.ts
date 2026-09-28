@@ -14,11 +14,28 @@
 
 import * as runtime from "../runtime";
 import {
+  type CreatePlatformPracticeApiKeyRequest,
+  CreatePlatformPracticeApiKeyRequestFromJSON,
+  CreatePlatformPracticeApiKeyRequestToJSON,
+} from "../models/CreatePlatformPracticeApiKeyRequest";
+import {
+  type CreatePlatformPracticeApiKeyResponse,
+  CreatePlatformPracticeApiKeyResponseFromJSON,
+  CreatePlatformPracticeApiKeyResponseToJSON,
+} from "../models/CreatePlatformPracticeApiKeyResponse";
+import {
   type GetApiAccessResponse,
   GetApiAccessResponseFromJSON,
   GetApiAccessResponseToJSON,
 } from "../models/GetApiAccessResponse";
 import { type Problem, ProblemFromJSON, ProblemToJSON } from "../models/Problem";
+
+export interface CreatePlatformPracticeApiKeyOperationRequest {
+  practiceId: string;
+  idempotencyKey: string;
+  createPlatformPracticeApiKeyRequest: CreatePlatformPracticeApiKeyRequest;
+  affinityVersion?: string;
+}
 
 export interface GetApiAccessRequest {
   affinityVersion?: string;
@@ -28,6 +45,105 @@ export interface GetApiAccessRequest {
  *
  */
 export class APIKeysApi extends runtime.BaseAPI {
+  /**
+   * Creates request options for createPlatformPracticeApiKey without sending the request
+   */
+  async createPlatformPracticeApiKeyRequestOpts(
+    requestParameters: CreatePlatformPracticeApiKeyOperationRequest,
+  ): Promise<runtime.RequestOpts> {
+    if (requestParameters["practiceId"] == null) {
+      throw new runtime.RequiredError(
+        "practiceId",
+        'Required parameter "practiceId" was null or undefined when calling createPlatformPracticeApiKey().',
+      );
+    }
+
+    if (requestParameters["idempotencyKey"] == null) {
+      throw new runtime.RequiredError(
+        "idempotencyKey",
+        'Required parameter "idempotencyKey" was null or undefined when calling createPlatformPracticeApiKey().',
+      );
+    }
+
+    if (requestParameters["createPlatformPracticeApiKeyRequest"] == null) {
+      throw new runtime.RequiredError(
+        "createPlatformPracticeApiKeyRequest",
+        'Required parameter "createPlatformPracticeApiKeyRequest" was null or undefined when calling createPlatformPracticeApiKey().',
+      );
+    }
+
+    const queryParameters: any = {};
+
+    const headerParameters: runtime.HTTPHeaders = {};
+
+    headerParameters["Content-Type"] = "application/json";
+
+    if (requestParameters["affinityVersion"] != null) {
+      headerParameters["Affinity-Version"] = String(requestParameters["affinityVersion"]);
+    }
+
+    if (requestParameters["idempotencyKey"] != null) {
+      headerParameters["Idempotency-Key"] = String(requestParameters["idempotencyKey"]);
+    }
+
+    if (this.configuration && this.configuration.accessToken) {
+      const token = this.configuration.accessToken;
+      const tokenString = await token("bearerAuth", []);
+
+      if (tokenString) {
+        headerParameters["Authorization"] = `Bearer ${tokenString}`;
+      }
+    }
+    if (this.configuration && this.configuration.apiKey) {
+      headerParameters["x-affinity-api-key"] =
+        await this.configuration.apiKey("x-affinity-api-key"); // affinityApiKey authentication
+    }
+
+    let urlPath = `/v1/practices/{practiceId}/api-keys`;
+    urlPath = urlPath.replace(
+      "{practiceId}",
+      encodeURIComponent(String(requestParameters["practiceId"])),
+    );
+
+    return {
+      path: urlPath,
+      method: "POST",
+      headers: headerParameters,
+      query: queryParameters,
+      body: CreatePlatformPracticeApiKeyRequestToJSON(
+        requestParameters["createPlatformPracticeApiKeyRequest"],
+      ),
+    };
+  }
+
+  /**
+   * Creates a practice API key for a connected practice. Requires a platform key with service_keys:write and every requested scope. The practice key uses the platform key\'s Test or Live mode and cannot outlive it. Requires Idempotency-Key for safe retries; the secret is returned in the encrypted replay response for 24 hours.
+   * Create connected practice API key
+   */
+  async createPlatformPracticeApiKeyRaw(
+    requestParameters: CreatePlatformPracticeApiKeyOperationRequest,
+    initOverrides?: RequestInit | runtime.InitOverrideFunction,
+  ): Promise<runtime.ApiResponse<CreatePlatformPracticeApiKeyResponse>> {
+    const requestOptions = await this.createPlatformPracticeApiKeyRequestOpts(requestParameters);
+    const response = await this.request(requestOptions, initOverrides);
+
+    return new runtime.JSONApiResponse(response, (jsonValue) =>
+      CreatePlatformPracticeApiKeyResponseFromJSON(jsonValue),
+    );
+  }
+
+  /**
+   * Creates a practice API key for a connected practice. Requires a platform key with service_keys:write and every requested scope. The practice key uses the platform key\'s Test or Live mode and cannot outlive it. Requires Idempotency-Key for safe retries; the secret is returned in the encrypted replay response for 24 hours.
+   * Create connected practice API key
+   */
+  async createPlatformPracticeApiKey(
+    requestParameters: CreatePlatformPracticeApiKeyOperationRequest,
+    initOverrides?: RequestInit | runtime.InitOverrideFunction,
+  ): Promise<CreatePlatformPracticeApiKeyResponse> {
+    const response = await this.createPlatformPracticeApiKeyRaw(requestParameters, initOverrides);
+    return await response.value();
+  }
+
   /**
    * Creates request options for getApiAccess without sending the request
    */

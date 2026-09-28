@@ -51,6 +51,10 @@ docs/CreatePatientAddressRequest.md
 docs/CreatePatientAddressResponse.md
 docs/CreatePatientRequest.md
 docs/CreatePatientResponse.md
+docs/CreatePlatformPracticeApiKeyRequest.md
+docs/CreatePlatformPracticeApiKeyResponse.md
+docs/CreatePlatformPracticeApiKeyResponseApiKey.md
+docs/CreatePlatformPracticeApiKeyResponseServiceAccount.md
 docs/CreatePracticeLocationRequest.md
 docs/CreatePracticeLocationResponse.md
 docs/CreatePracticeRequest.md
@@ -365,6 +369,10 @@ src/models/CreatePatientAddressRequest.ts
 src/models/CreatePatientAddressResponse.ts
 src/models/CreatePatientRequest.ts
 src/models/CreatePatientResponse.ts
+src/models/CreatePlatformPracticeApiKeyRequest.ts
+src/models/CreatePlatformPracticeApiKeyResponse.ts
+src/models/CreatePlatformPracticeApiKeyResponseApiKey.ts
+src/models/CreatePlatformPracticeApiKeyResponseServiceAccount.ts
 src/models/CreatePracticeLocationRequest.ts
 src/models/CreatePracticeLocationResponse.ts
 src/models/CreatePracticeRequest.ts

@@ -34,3 +34,27 @@ test("nested resources preserve ID order, encoding, bodies, and mutation headers
   expect("list" in sdk.catalog).toBe(false);
   expect("sessions" in sdk).toBe(false);
 });
+
+test("platforms can create a connected practice API key", async () => {
+  const requests: Request[] = [];
+  const sdk = new Affinity("sk_test_hierarchy", {
+    fetch: async (input, init) => {
+      requests.push(new Request(input, init));
+      return Response.json({});
+    },
+  });
+
+  await sdk.practices.apiKeys
+    .create("prac/test", { name: "Practice integration", scopes: ["orders:read"] }, {
+      idempotencyKey: "practice-key-create",
+    })
+    .catch(() => {});
+
+  expect(new URL(requests[0]!.url).pathname).toBe("/v1/practices/prac%2Ftest/api-keys");
+  expect(requests[0]!.method).toBe("POST");
+  expect(requests[0]!.headers.get("Idempotency-Key")).toBe("practice-key-create");
+  expect(await requests[0]!.json()).toEqual({
+    name: "Practice integration",
+    scopes: ["orders:read"],
+  });
+});

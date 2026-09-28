@@ -6,6 +6,11 @@
 export const facadeOperationMap = {
   getAccount: { resource: "account", method: "retrieve", publicPath: "account.retrieve" },
   getApiAccess: { resource: "apiKeys", method: "retrieve", publicPath: "auth.access.retrieve" },
+  createPlatformPracticeApiKey: {
+    resource: "apiKeys",
+    method: "createPlatformPracticeKey",
+    publicPath: "practices.apiKeys.create",
+  },
   listCatalogItems: { resource: "catalog", method: "list", publicPath: "catalog.items.list" },
   retrievePrescribingOptions: {
     resource: "catalog",

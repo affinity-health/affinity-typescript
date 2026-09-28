@@ -24,10 +24,10 @@ describe("facade contract coverage", () => {
       expect(item).toEqual(input.paths[path]);
     }
   });
-  test("accounts for all 72 included SDK operations", () => {
+  test("accounts for all 73 included SDK operations", () => {
     const coverage = validateFacadeOperationCoverage(spec);
-    expect(coverage.contractOperations).toHaveLength(72);
-    expect(coverage.mappedOperations).toHaveLength(72);
+    expect(coverage.contractOperations).toHaveLength(73);
+    expect(coverage.mappedOperations).toHaveLength(73);
     expect(coverage.rawOnlyOperations).toEqual([
       "getOrderTestSimulation",
       "updateOrderTestSimulation",

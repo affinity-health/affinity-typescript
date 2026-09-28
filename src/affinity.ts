@@ -50,6 +50,7 @@ function createPublicResources(
       readonly update: LocationsResource["update"];
       readonly archive: LocationsResource["archive"];
     };
+    readonly apiKeys: { readonly create: APIKeysResource["createPlatformPracticeKey"] };
     readonly users: { readonly create: TeamResource["createUser"] };
     readonly patients: {
       readonly addresses: {
@@ -172,6 +173,7 @@ function createPublicResources(
         update: locations.update.bind(locations),
         archive: locations.archive.bind(locations),
       },
+      apiKeys: { create: apiKeys.createPlatformPracticeKey.bind(apiKeys) },
       users: { create: team.createUser.bind(team) },
       patients: {
         addresses: {

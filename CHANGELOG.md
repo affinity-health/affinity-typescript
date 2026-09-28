@@ -7,6 +7,12 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 
 ## [Unreleased]
 
+## [1.13.0] - 2026-09-28
+
+### Added
+
+- Create a connected practice API key with `practices.apiKeys.create`, including scopes, expiry, IP restrictions, and an idempotency key.
+
 ## [1.12.4] - 2026-09-26
 
 ### Added
