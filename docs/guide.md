@@ -14,7 +14,7 @@ Set `AFFINITY_API_KEY` to a Test API key on your server. The key selects Test or
 ```typescript
 import { Affinity, AffinityError } from "@affinity-health/sdk";
 
-const api = new Affinity({ apiKey: process.env.AFFINITY_API_KEY! });
+const api = new Affinity(process.env.AFFINITY_API_KEY!);
 ```
 
 ## With a practice key
@@ -29,30 +29,15 @@ const patient = await api.patients.get(patientId);
 const items = await api.catalog.items.list({ limit: 20 });
 ```
 
-For a recoverable update, pass your persisted key without a practice ID. `job` is your application's saved workflow record.
-
-```typescript
-await api.patients.update(
-  patientId,
-  { email: "alex@example.com" },
-  { idempotencyKey: job.updatePatientKey },
-);
-```
-
 ## With a platform key
 
 Pass the target practice with each practice-scoped request. Keep record data separate from request context and idempotency options.
-The update key below comes from your persisted workflow job.
 
 ```typescript
 const patients = await api.patients.list({ limit: 20 }, { practiceId });
 const patient = await api.patients.get(patientId, { practiceId });
 
-await api.patients.update(
-  patientId,
-  { email: "alex@example.com" },
-  { practiceId, idempotencyKey: job.updatePatientKey },
-);
+await api.patients.update(patientId, { email: "alex@example.com" }, { practiceId });
 ```
 
 ## Scope a workflow once
@@ -62,6 +47,7 @@ A conflicting practice ID produces an error. Scoping never grants access to anot
 
 ```typescript
 const practice = api.forPractice(practiceId);
+
 const patients = await practice.patients.list({ limit: 20 });
 const items = await practice.catalog.items.list({ limit: 20 });
 ```
@@ -78,30 +64,30 @@ const patient = await practice.patients.create({
   name: { first: "Alex", last: "Example" },
   dateOfBirth: "1990-01-01",
 });
+
 const saved = await practice.patients.get(patient.id);
 await practice.patients.update(patient.id, { email: "alex@example.com" });
 await practice.patients.update(patient.id, { status: "archived" });
 ```
 
-Archive patients whose records you need to retain. Permanent deletion is available only for patients without order history and requires an explicit key.
+Archive patients whose records you need to retain. Permanent deletion is available only for patients without order history. No explicit idempotency key is needed.
 
 ```typescript
-await practice.patients.delete(patientId, {
-  idempotencyKey: job.deletePatientKey,
-});
+await practice.patients.delete(patientId);
 ```
 
 ## Create an order draft
 
 `draft` is your application's prepared prescription data, using catalog and prescribing options from this practice.
 An order contains 1–20 complete prescriptions for one patient. This example creates an unsigned draft.
+It shows a platform call without a scoped client: practice context and the persisted key belong together in request options.
 
 `job` is your persisted workflow record. Generate and save a unique key for each action before making its first request.
 
 ```typescript
-const order = await practice.orders.create(
+const order = await api.orders.create(
   { patientId, prescriptions: draft.prescriptions },
-  { idempotencyKey: job.createOrderKey },
+  { practiceId, idempotencyKey: job.createOrderKey },
 );
 ```
 
