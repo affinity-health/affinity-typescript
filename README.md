@@ -1,5 +1,7 @@
 # Affinity TypeScript SDK
 
+[Proposed SDK guide](docs/guide.md) · Review the next interface for practice keys, platforms, patient records, and order signing. These examples are not implemented yet.
+
 The official TypeScript SDK for the Affinity API. It provides a small, typed resource interface
 over the generated OpenAPI transport layer.
 
