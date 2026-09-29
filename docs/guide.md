@@ -5,7 +5,7 @@
   current release. Package versions and migration steps will follow approval.
 
 
-Node.js, Bun, and supported server-side Fetch runtimes. [Source repository](https://github.com/affinity-health/affinity-typescript) · [All SDKs](https://docs.joinaffinityai.com/guides/reference/sdks/) · [Shared conventions](https://docs.joinaffinityai.com/guides/reference/sdks/methods/)
+Node.js, Bun, and supported server-side Fetch runtimes. [Source repository](https://github.com/affinity-health/affinity-typescript) · [All SDKs](https://docs.joinaffinityai.com/guides/reference/sdks/)
 
 ## Connect
 
@@ -33,11 +33,16 @@ const items = await api.catalog.items.list({ limit: 20 });
 
 Pass the target practice with each practice-scoped request. Keep record data separate from request context and idempotency options.
 
+<!-- prettier-ignore -->
 ```typescript
 const patients = await api.patients.list({ limit: 20 }, { practiceId });
 const patient = await api.patients.get(patientId, { practiceId });
 
-await api.patients.update(patientId, { email: "alex@example.com" }, { practiceId });
+await api.patients.update(
+  patientId,
+  { email: "alex@example.com" },
+  { practiceId },
+);
 ```
 
 ## Scope a workflow once
@@ -177,4 +182,4 @@ const endpoints = await api.webhooks.endpoints.list({ limit: 20 });
 ## More resources
 
 Use the same conventions for addresses, allergies, locations, team members, and nested order resources.
-[Resource directory](https://docs.joinaffinityai.com/guides/reference/sdks/methods/) · [API reference](https://docs.joinaffinityai.com/api/) · [Webhooks](https://docs.joinaffinityai.com/guides/webhooks/)
+[API reference](https://docs.joinaffinityai.com/api/) · [Webhooks](https://docs.joinaffinityai.com/guides/webhooks/)
