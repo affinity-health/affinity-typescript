@@ -8,7 +8,10 @@ const access = await affinity.apiKeys.getAccess();
 if (access.livemode) throw new Error("This quickstart only runs with a test-mode key");
 
 const practiceId = process.env.AFFINITY_PRACTICE_ID;
-const catalog = await affinity.catalog.items.list({ limit: 10, query: "semaglutide" }, { practiceId });
+const catalog = await affinity.catalog.items.list(
+  { limit: 10, query: "semaglutide" },
+  { practiceId },
+);
 const pharmacies = await affinity.pharmacies.list({ limit: 10 });
 console.log(`Found ${catalog.data.length} matching test catalog items`);
 console.log(`Found ${pharmacies.data.length} pharmacies available to this test account`);
@@ -48,10 +51,14 @@ if (process.env.RUN_AFFINITY_MUTATION_EXAMPLE === "1") {
     name: { first: "Demo", last: "Patient" },
     phone: "+13135550100",
   });
-  await scoped.patients.allergies.replace(patient.id, {
-    allergies: [],
-    reviewStatus: "no_known",
-  }, { idempotencyKey: `allergies:${runId}` });
+  await scoped.patients.allergies.replace(
+    patient.id,
+    {
+      allergies: [],
+      reviewStatus: "no_known",
+    },
+    { idempotencyKey: `allergies:${runId}` },
+  );
   const allergies = await scoped.patients.allergies.get(patient.id);
 
   const practiceCatalog = await scoped.catalog.items.list({

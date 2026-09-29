@@ -1,9 +1,4 @@
-import {
-  Affinity,
-  AffinityError,
-  ResponseError,
-  affinityErrorFromResponse,
-} from "@affinity-health/sdk";
+import { Affinity, AffinityError } from "@affinity-health/sdk";
 import type { OrderCreateParams, OrderPreviewParams } from "@affinity-health/sdk";
 type CreateOrderParams = OrderCreateParams & { practiceId: string };
 type PreviewOrderParams = OrderPreviewParams;
@@ -40,8 +35,7 @@ export async function safely<T>(action: () => Promise<T>) {
   try {
     return { ok: true as const, value: await action() };
   } catch (error) {
-    const cause =
-      error instanceof ResponseError ? await affinityErrorFromResponse(error.response) : error;
+    const cause = error;
     // Do not serialize SDK request/response objects or headers into browser errors.
     return {
       ok: false as const,
@@ -193,11 +187,13 @@ export async function recordAllergies(token: string) {
   const { affinity } = await client();
   const patient = receipt<PatientReceipt>(token, "patient");
   const { practiceId } = patient;
-  return affinity.forPractice(practiceId).patients.allergies.replace(
-    patient.patientId,
-    { allergies: [], reviewStatus: "no_known" },
-    { idempotencyKey: `sdk-example:allergies:${patient.runId}` },
-  );
+  return affinity
+    .forPractice(practiceId)
+    .patients.allergies.replace(
+      patient.patientId,
+      { allergies: [], reviewStatus: "no_known" },
+      { idempotencyKey: `sdk-example:allergies:${patient.runId}` },
+    );
 }
 
 export async function sign(token: string, npi: string) {

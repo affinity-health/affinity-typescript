@@ -1,6 +1,6 @@
 // Code generated from spec/affinity.openapi.json by scripts/generate-facade.ts. DO NOT EDIT.
 
-import { createTransport } from "./resources/transport";
+import { createTransport } from "./transport";
 import { affinityErrorFromResponse } from "./errors";
 
 export interface SDKOptions {

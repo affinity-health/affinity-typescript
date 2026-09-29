@@ -1,6 +1,16 @@
 // Code generated from spec/affinity.openapi.json by scripts/generate-facade.ts. DO NOT EDIT.
 
-import type { Problem } from "./models/Problem";
+export interface Problem {
+  code: string;
+  data?: Record<string, unknown>;
+  detail: string;
+  instance: string;
+  requestId: string;
+  status: number;
+  title: string;
+  traceId?: string;
+  type: string;
+}
 
 export type AffinityErrorCategory =
   | "authentication"

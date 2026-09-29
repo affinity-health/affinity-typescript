@@ -1,9 +1,9 @@
 // Code generated from spec/affinity.openapi.json by scripts/generate-facade.ts. DO NOT EDIT.
 
-export type { GetPracticeResponse as Practice } from "./models/GetPracticeResponse";
-export type { GetPatientResponse as Patient } from "./models/GetPatientResponse";
-export type { CreateOrderResponse as CreatedOrder } from "./models/CreateOrderResponse";
-export type { GetOrderResponse as Order } from "./models/GetOrderResponse";
-export type { ListCatalogItemsResponseDataInner as CatalogItem } from "./models/ListCatalogItemsResponseDataInner";
-export type { GetPracticeLocationResponse as PracticeLocation } from "./models/GetPracticeLocationResponse";
-export type { ApiListPromise } from "./resources/pagination";
+import type { Affinity } from "./sdk";
+export type Practice = Awaited<ReturnType<Affinity["practices"]["get"]>>;
+export type Patient = Awaited<ReturnType<Affinity["patients"]["get"]>>;
+export type Order = Awaited<ReturnType<Affinity["orders"]["get"]>>;
+export type CreatedOrder = Awaited<ReturnType<Affinity["orders"]["create"]>>;
+export type CatalogItem = Awaited<ReturnType<Affinity["catalog"]["items"]["list"]>>["data"][number];
+export type PracticeLocation = Awaited<ReturnType<Affinity["locations"]["get"]>>;

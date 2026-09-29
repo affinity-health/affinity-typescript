@@ -17,7 +17,11 @@ test("EMR example records explicit allergy review before draft creation", async 
     const method = init?.method ?? "GET";
     const body = init?.body ? JSON.parse(String(init.body)) : undefined;
     if (body) bodies.push(body);
-    if (path === "/v1/auth/access") return Response.json({ livemode: false });
+    if (path === "/v1/auth/access")
+      return Response.json({
+        livemode: false,
+        serviceAccount: { subjectType: "platform", subjectId: "acct_test" },
+      });
     if (path === "/v1/practices/prac_test/patients") {
       events.push("patient");
       return Response.json({
@@ -68,6 +72,7 @@ test("EMR example records explicit allergy review before draft creation", async 
       expect(new Headers(init?.headers).get("Idempotency-Key")).toBe("order-key");
       return Response.json({
         id: "ord_test",
+        practiceId: "prac_test",
         otcItems: [],
         prescriptions: [],
         fulfillments: [],
@@ -77,6 +82,7 @@ test("EMR example records explicit allergy review before draft creation", async 
     if (path === "/v1/orders/ord_test" && method === "GET")
       return Response.json({
         id: "ord_test",
+        practiceId: "prac_test",
         otcItems: [],
         prescriptions: [],
         fulfillments: [],

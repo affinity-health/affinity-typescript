@@ -1,4 +1,14 @@
-import type { Problem } from "./models/Problem";
+export interface Problem {
+  code: string;
+  data?: Record<string, unknown>;
+  detail: string;
+  instance: string;
+  requestId: string;
+  status: number;
+  title: string;
+  traceId?: string;
+  type: string;
+}
 
 export type AffinityErrorCategory =
   | "authentication"
@@ -40,11 +50,15 @@ export class AffinityError extends Error {
   readonly retryable: boolean;
   readonly statusCode?: number;
   readonly traceId?: string;
-  get status(): number | undefined { return this.statusCode; }
+  get status(): number | undefined {
+    return this.statusCode;
+  }
   get retryAfter(): number | undefined {
     const value = this.response?.headers.get("Retry-After");
     if (!value) return undefined;
-    const delay = /^\d+(\.\d+)?$/.test(value) ? Number(value) : (Date.parse(value) - Date.now()) / 1000;
+    const delay = /^\d+(\.\d+)?$/.test(value)
+      ? Number(value)
+      : (Date.parse(value) - Date.now()) / 1000;
     return Number.isFinite(delay) ? Math.max(0, delay) : undefined;
   }
 

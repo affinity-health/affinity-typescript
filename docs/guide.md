@@ -1,10 +1,14 @@
 # TypeScript SDK guide
 
-> **Unreleased SDK update.**
-> These examples match the new SDK implementation in the repository. They are not available in the
-> current published release yet. Release versions and installation updates will follow.
-
 Node.js, Bun, and supported server-side Fetch runtimes. [Source repository](https://github.com/affinity-health/affinity-typescript) · [All SDKs](https://docs.joinaffinityai.com/guides/reference/sdks/)
+
+## Install
+
+```sh
+npm install @affinity-health/sdk@1.15.0
+```
+
+These examples use `1.15.0`.
 
 ## Connect
 
@@ -32,16 +36,13 @@ const items = await api.catalog.items.list({ limit: 20 });
 
 Pass the target practice with each practice-scoped request. Keep record data separate from request context and idempotency options.
 
-<!-- prettier-ignore -->
+{/_ prettier-ignore _/}
+
 ```typescript
 const patients = await api.patients.list({ limit: 20 }, { practiceId });
 const patient = await api.patients.get(patientId, { practiceId });
 
-await api.patients.update(
-  patientId,
-  { email: "alex@example.com" },
-  { practiceId },
-);
+await api.patients.update(patientId, { email: "alex@example.com" }, { practiceId });
 ```
 
 ## Scope a workflow once

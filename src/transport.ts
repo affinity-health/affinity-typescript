@@ -1,3 +1,5 @@
+// Code generated from spec/affinity.openapi.json by scripts/generate-facade.ts. DO NOT EDIT.
+
 type FetchAPI = typeof fetch;
 
 export interface TransportOptions {

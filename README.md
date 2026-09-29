@@ -2,7 +2,13 @@
 
 Typed server-side client for Node.js 20+, Bun, AWS Lambda, and supported Fetch runtimes.
 
-This source update implements the new SDK interface. The published `1.14.0` package still uses the previous interface; a new release will follow.
+Version `1.15.0` uses the new interface below.
+
+## Install
+
+```sh
+npm install @affinity-health/sdk@1.15.0
+```
 
 ## Use
 
@@ -26,8 +32,7 @@ Defaults are API `2026-09-28`, a 60-second timeout, and no automatic retries.
 ## Migrate
 
 The primary `Affinity` client uses the new short resource methods and separate request options.
-The previous resource interface remains available as `LegacyAffinity`. Its [reference](docs/legacy-interface.md) and existing contract tests are retained.
-`AffinityApiClient` remains the lower-level Forge/Fern client.
+Version `1.15.0` replaces the previous resource interface. See the [changelog](CHANGELOG.md) for the method and parameter changes.
 
 ## Build and verify
 
@@ -38,5 +43,5 @@ bun run check
 bun run pack:dry-run
 ```
 
-The quickstart and TanStack Start example use the new client. Older workflow examples explicitly import `LegacyAffinity`.
+The quickstart and TanStack Start example use the new client. All workflow examples use the same client.
 Forge/Fern inputs are pinned in [generation.json](generation.json). Affinity's generator owns the public facade and the generated code.

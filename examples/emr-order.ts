@@ -1,14 +1,8 @@
-import {
-  LegacyAffinity as Affinity,
-  AffinityError,
-  ResponseError,
-  affinityErrorFromResponse,
-  verifyAffinityWebhook,
-} from "@affinity-health/sdk";
-import type { Order, PreviewOrderParams } from "@affinity-health/sdk";
+import { Affinity, AffinityError, verifyAffinityWebhook } from "@affinity-health/sdk";
+import type { Order, OrderPreviewParams } from "@affinity-health/sdk";
 
 type ReviewedAllergies = Omit<
-  Parameters<Affinity["practices"]["patients"]["allergies"]["update"]>[2],
+  Parameters<Affinity["patients"]["allergies"]["replace"]>[1],
   "reviewStatus"
 > & { reviewStatus: "no_known" | "recorded" };
 
@@ -17,7 +11,7 @@ type ReviewedAllergies = Omit<
 // Persist mutation keys, reviewed versions, and outcomes in your EMR database.
 export async function createTestWorkflow(apiKey: string) {
   const affinity = new Affinity(apiKey, { maxNetworkRetries: 2 });
-  if ((await affinity.auth.access.retrieve()).livemode)
+  if ((await affinity.apiKeys.getAccess()).livemode)
     throw new Error("This example only accepts a Test key");
 
   async function preparePatient(input: {
@@ -27,8 +21,7 @@ export async function createTestWorkflow(apiKey: string) {
   }) {
     // Creation resolves an existing externalId without replacing its demographics.
     // Use only synthetic identities in this Test example.
-    const patient = await affinity.practices.patients.create(
-      input.practiceId,
+    const patient = await affinity.forPractice(input.practiceId).patients.create(
       {
         externalId: input.patientExternalId,
         name: { first: "Synthetic", last: "Patient" },
@@ -45,10 +38,9 @@ export async function createTestWorkflow(apiKey: string) {
       },
       { idempotencyKey: input.persistedCreationKey },
     );
-    const allergies = await affinity.practices.patients.allergies.retrieve(
-      input.practiceId,
-      patient.id,
-    );
+    const allergies = await affinity
+      .forPractice(input.practiceId)
+      .patients.allergies.get(patient.id);
     // Display the existing history in the EMR and collect the clinician's review.
     // An empty, not_reviewed history does not mean no known allergies.
     return { patient, allergies };
@@ -61,10 +53,9 @@ export async function createTestWorkflow(apiKey: string) {
     medicationId: string;
     supplyId: string;
     // Pass the full array back after edits. Explicit overrides replace defaults.
-    prescriptions?: PreviewOrderParams["prescriptions"];
+    prescriptions?: OrderPreviewParams["prescriptions"];
   }) {
-    return affinity.orderPreviews.create({
-      practiceId: input.practiceId,
+    return affinity.forPractice(input.practiceId).orders.preview({
       ...(input.clinicianNpi ? { prescriber: { npi: input.clinicianNpi } } : {}),
       patientId: input.patientId,
       prescriptions: input.prescriptions ?? [
@@ -97,20 +88,19 @@ export async function createTestWorkflow(apiKey: string) {
       (reviewed.reviewStatus === "recorded" && reviewed.allergies.length === 0)
     )
       throw new Error("Provide an explicit allergy review with the complete reviewed history");
-    await affinity.practices.patients.allergies.update(
-      acceptedPreview.orderInput.practiceId,
-      patientId,
-      reviewed,
-      { idempotencyKey: allergyReview.persistedReviewKey },
-    );
-    const draft = await affinity.orders.create(acceptedPreview.orderInput, {
+    const { practiceId, ...params } = acceptedPreview.orderInput;
+    const practice = affinity.forPractice(practiceId);
+    await practice.patients.allergies.replace(patientId, reviewed, {
+      idempotencyKey: allergyReview.persistedReviewKey,
+    });
+    const draft = await practice.orders.create(params, {
       idempotencyKey: persistedCreationKey,
     });
     // Show this complete order to the clinician, including supplies and shipping.
     // The draft snapshots the allergy history just recorded. If history changes
     // afterward, cancel the unsigned draft and create and review a replacement.
     // Retry unchanged input with the same keys; a new review needs new keys.
-    const order = await affinity.orders.retrieve(draft.id);
+    const order = await practice.orders.get(draft.id);
     return { status: "draft" as const, order };
   }
 
@@ -137,10 +127,9 @@ export async function createTestWorkflow(apiKey: string) {
   }) {
     // Call only after your EMR authenticates the clinician and records their approval.
     try {
-      return await affinity.orders.signAndSubmit(
+      return await affinity.forPractice(approval.reviewedOrder.practiceId).orders.signAndSubmit(
         approval.reviewedOrder.id,
         {
-          practiceId: approval.reviewedOrder.practiceId,
           // Omit if the reviewed draft already has the intended prescriber.
           ...(approval.clinicianNpi ? { prescriber: { npi: approval.clinicianNpi } } : {}),
           signatureAttestation: approval.attested,
@@ -151,8 +140,7 @@ export async function createTestWorkflow(apiKey: string) {
         },
       );
     } catch (cause) {
-      const error =
-        cause instanceof ResponseError ? await affinityErrorFromResponse(cause.response) : cause;
+      const error = cause;
       if (
         error instanceof AffinityError &&
         error.statusCode === 409 &&
@@ -162,7 +150,9 @@ export async function createTestWorkflow(apiKey: string) {
         // approval with a new key. Never attest automatically to refreshed versions.
         return {
           status: "review_required" as const,
-          order: await affinity.orders.retrieve(approval.reviewedOrder.id),
+          order: await affinity
+            .forPractice(approval.reviewedOrder.practiceId)
+            .orders.get(approval.reviewedOrder.id),
         };
       }
       // After a timeout, retry with the SAME input and persisted key.
@@ -178,15 +168,10 @@ export async function createTestWorkflow(apiKey: string) {
     // Use only after resolving a reported per-prescription submission failure.
     // The order is already signed. Use a NEW submission key, not a new signature.
     // Already queued prescriptions are not duplicated. Edits require renewed review.
-    return affinity.orders.submit(
-      input.orderId,
-      {
-        practiceId: input.practiceId,
-      },
-      {
-        idempotencyKey: input.persistedRetryKey,
-      },
-    );
+    return affinity.orders.submit(input.orderId, {
+      practiceId: input.practiceId,
+      idempotencyKey: input.persistedRetryKey,
+    });
   }
 
   return { preparePatient, preview, shippingSummary, saveDraft, signAndSend, retrySubmission };

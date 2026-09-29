@@ -1,4 +1,4 @@
-import { LegacyAffinity as Affinity } from "@affinity-health/sdk";
+import { Affinity } from "@affinity-health/sdk";
 
 interface ExternalProvider {
   email: string;
@@ -20,8 +20,7 @@ export async function provisionProvider({
   practiceId,
   practiceTermsVersion,
 }: ProvisionProviderOptions) {
-  const user = await affinity.practices.users.create(
-    practiceId,
+  const user = await affinity.forPractice(practiceId).team.register(
     {
       email: externalProvider.email,
       externalId: externalProvider.id,
@@ -34,6 +33,6 @@ export async function provisionProvider({
     { idempotencyKey: `user:${externalProvider.id}` },
   );
 
-  const team = await affinity.practices.team.retrieve(practiceId);
+  const team = await affinity.forPractice(practiceId).team.get();
   return { team, user, practiceTermsVersion };
 }

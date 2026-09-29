@@ -1,18 +1,17 @@
 // Compile-only example with synthetic identifiers. Never execute against an API.
-import { LegacyAffinity as Affinity, ResponseError, affinityErrorFromResponse } from "@affinity-health/sdk";
+import { Affinity, AffinityError } from "@affinity-health/sdk";
 
 const affinity = new Affinity("sk_test_example");
 const practiceId = "prac_synthetic";
 const medicationId = "cat_synthetic";
-const options = await affinity.catalog.items.prescribingOptions.retrieve(medicationId, {
+const options = await affinity.catalog.prescribingOptions.get(medicationId, {
   practiceId,
 });
 const requirements = options.catalog.prescriptionRequirements;
 // Render requirements before collecting clinician-reviewed information.
 void requirements;
 
-const preview = await affinity.orderPreviews.create({
-  practiceId,
+const preview = await affinity.forPractice(practiceId).orders.preview({
   patientId: "pat_synthetic",
   prescriptions: [
     {
@@ -42,8 +41,8 @@ if (preview.status === "complete") {
 
 // Use this in the signing error handler. Never log clinical issue bodies.
 async function handleSigningError(error: unknown) {
-  if (error instanceof ResponseError) {
-    const parsed = await affinityErrorFromResponse(error.response);
+  if (error instanceof AffinityError) {
+    const parsed = error;
     if (parsed.code !== "clinical_requirements_unmet") throw parsed;
     const issues = parsed.problem?.data?.issues;
     if (Array.isArray(issues)) return issues;
