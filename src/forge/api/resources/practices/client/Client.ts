@@ -44,19 +44,19 @@ export class PracticesClient {
    * @throws {@link AffinityApi.TooManyRequestsError}
    *
    * @example
-   *     await client.practices.listPractices({
+   *     await client.practices.list({
    *         endingBefore: "prac_01j2y8m6jcc9tt24af5pw9x1bc",
    *         startingAfter: "prac_01j2y8m6jcc9tt24af5pw9x1bc"
    *     })
    */
-  public listPractices(
+  public list(
     request: AffinityApi.ListPracticesRequest = {},
     requestOptions?: PracticesClient.RequestOptions,
   ): core.HttpResponsePromise<AffinityApi.ListPracticesResponse> {
-    return core.HttpResponsePromise.fromPromise(this.__listPractices(request, requestOptions));
+    return core.HttpResponsePromise.fromPromise(this.__list(request, requestOptions));
   }
 
-  private async __listPractices(
+  private async __list(
     request: AffinityApi.ListPracticesRequest = {},
     requestOptions?: PracticesClient.RequestOptions,
   ): Promise<core.WithRawResponse<AffinityApi.ListPracticesResponse>> {
@@ -167,7 +167,7 @@ export class PracticesClient {
    * @throws {@link AffinityApi.TooManyRequestsError}
    *
    * @example
-   *     await client.practices.createPractice({
+   *     await client.practices.create({
    *         address: {
    *             city: "Los Angeles",
    *             country: "US",
@@ -200,14 +200,14 @@ export class PracticesClient {
    *         supportEmail: "support@example-practice.com"
    *     })
    */
-  public createPractice(
+  public create(
     request: AffinityApi.CreatePracticeRequest,
     requestOptions?: PracticesClient.RequestOptions,
   ): core.HttpResponsePromise<AffinityApi.CreatePracticeResponse> {
-    return core.HttpResponsePromise.fromPromise(this.__createPractice(request, requestOptions));
+    return core.HttpResponsePromise.fromPromise(this.__create(request, requestOptions));
   }
 
-  private async __createPractice(
+  private async __create(
     request: AffinityApi.CreatePracticeRequest,
     requestOptions?: PracticesClient.RequestOptions,
   ): Promise<core.WithRawResponse<AffinityApi.CreatePracticeResponse>> {
@@ -305,7 +305,7 @@ export class PracticesClient {
   /**
    * Returns one practice that belongs to the platform.
    *
-   * @param {AffinityApi.GetPracticeRequest} request
+   * @param {AffinityApi.GetPracticesRequest} request
    * @param {PracticesClient.RequestOptions} requestOptions - Request-specific configuration.
    *
    * @throws {@link AffinityApi.BadRequestError}
@@ -317,19 +317,19 @@ export class PracticesClient {
    * @throws {@link AffinityApi.TooManyRequestsError}
    *
    * @example
-   *     await client.practices.getPractice({
+   *     await client.practices.get({
    *         practiceId: "prac_01j2y8m6jcc9tt24af5pw9x1bc"
    *     })
    */
-  public getPractice(
-    request: AffinityApi.GetPracticeRequest,
+  public get(
+    request: AffinityApi.GetPracticesRequest,
     requestOptions?: PracticesClient.RequestOptions,
   ): core.HttpResponsePromise<AffinityApi.GetPracticeResponse> {
-    return core.HttpResponsePromise.fromPromise(this.__getPractice(request, requestOptions));
+    return core.HttpResponsePromise.fromPromise(this.__get(request, requestOptions));
   }
 
-  private async __getPractice(
-    request: AffinityApi.GetPracticeRequest,
+  private async __get(
+    request: AffinityApi.GetPracticesRequest,
     requestOptions?: PracticesClient.RequestOptions,
   ): Promise<core.WithRawResponse<AffinityApi.GetPracticeResponse>> {
     const { practiceId } = request;
@@ -434,22 +434,27 @@ export class PracticesClient {
    * @throws {@link AffinityApi.TooManyRequestsError}
    *
    * @example
-   *     await client.practices.updatePractice({
+   *     await client.practices.update({
    *         practiceId: "prac_01j2y8m6jcc9tt24af5pw9x1bc"
    *     })
    */
-  public updatePractice(
+  public update(
     request: AffinityApi.UpdatePracticeRequest,
     requestOptions?: PracticesClient.RequestOptions,
   ): core.HttpResponsePromise<AffinityApi.UpdatePracticeResponse> {
-    return core.HttpResponsePromise.fromPromise(this.__updatePractice(request, requestOptions));
+    return core.HttpResponsePromise.fromPromise(this.__update(request, requestOptions));
   }
 
-  private async __updatePractice(
+  private async __update(
     request: AffinityApi.UpdatePracticeRequest,
     requestOptions?: PracticesClient.RequestOptions,
   ): Promise<core.WithRawResponse<AffinityApi.UpdatePracticeResponse>> {
-    const { practiceId, "Idempotency-Key": idempotencyKey, ..._body } = request;
+    const {
+      practiceId,
+      "Idempotency-Key": idempotencyKey = globalThis.crypto?.randomUUID?.() ??
+        (await import("node:crypto")).randomUUID() /* affinity-sdk-auto-key */,
+      ..._body
+    } = request;
     const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
     const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
       _authRequest.headers,

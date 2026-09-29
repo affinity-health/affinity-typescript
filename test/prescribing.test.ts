@@ -1,5 +1,5 @@
 import { expect, test } from "bun:test";
-import { Affinity, CompoundingReason, ResponseError, affinityErrorFromResponse } from "../src";
+import { LegacyAffinity as Affinity, CompoundingReason, ResponseError, affinityErrorFromResponse } from "../src";
 
 const practiceId = "prac_01k123456789abcdefghjkmnpq";
 const patientId = "pat_01k123456789abcdefghjkmnpq";

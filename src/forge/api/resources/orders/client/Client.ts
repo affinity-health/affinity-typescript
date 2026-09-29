@@ -12,6 +12,11 @@ import * as environments from "../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../errors/index.js";
 import * as AffinityApi from "../../../index.js";
+import { BatchesClient } from "../resources/batches/client/Client.js";
+import { EventsClient } from "../resources/events/client/Client.js";
+import { ExceptionsClient } from "../resources/exceptions/client/Client.js";
+import { PrescriptionsClient } from "../resources/prescriptions/client/Client.js";
+import { TestSimulationClient } from "../resources/testSimulation/client/Client.js";
 
 export declare namespace OrdersClient {
   export type Options = BaseClientOptions;
@@ -24,9 +29,34 @@ export declare namespace OrdersClient {
  */
 export class OrdersClient {
   protected readonly _options: NormalizedClientOptionsWithAuth<OrdersClient.Options>;
+  protected _exceptions: ExceptionsClient | undefined;
+  protected _events: EventsClient | undefined;
+  protected _testSimulation: TestSimulationClient | undefined;
+  protected _prescriptions: PrescriptionsClient | undefined;
+  protected _batches: BatchesClient | undefined;
 
   constructor(options: OrdersClient.Options) {
     this._options = normalizeClientOptionsWithAuth(options);
+  }
+
+  public get exceptions(): ExceptionsClient {
+    return (this._exceptions ??= new ExceptionsClient(this._options));
+  }
+
+  public get events(): EventsClient {
+    return (this._events ??= new EventsClient(this._options));
+  }
+
+  public get testSimulation(): TestSimulationClient {
+    return (this._testSimulation ??= new TestSimulationClient(this._options));
+  }
+
+  public get prescriptions(): PrescriptionsClient {
+    return (this._prescriptions ??= new PrescriptionsClient(this._options));
+  }
+
+  public get batches(): BatchesClient {
+    return (this._batches ??= new BatchesClient(this._options));
   }
 
   /**
@@ -42,7 +72,7 @@ export class OrdersClient {
    * @throws {@link AffinityApi.TooManyRequestsError}
    *
    * @example
-   *     await client.orders.listOrders({
+   *     await client.orders.list({
    *         endingBefore: "ord_01j2y8m6jcc9tt24af5pw9x1bc",
    *         orderId: "ord_01j2y8m6jcc9tt24af5pw9x1bc",
    *         patientId: "pat_01j2y8m6jcc9tt24af5pw9x1bc",
@@ -50,14 +80,14 @@ export class OrdersClient {
    *         startingAfter: "ord_01j2y8m6jcc9tt24af5pw9x1bc"
    *     })
    */
-  public listOrders(
+  public list(
     request: AffinityApi.ListOrdersRequest = {},
     requestOptions?: OrdersClient.RequestOptions,
   ): core.HttpResponsePromise<AffinityApi.ListOrdersResponse> {
-    return core.HttpResponsePromise.fromPromise(this.__listOrders(request, requestOptions));
+    return core.HttpResponsePromise.fromPromise(this.__list(request, requestOptions));
   }
 
-  private async __listOrders(
+  private async __list(
     request: AffinityApi.ListOrdersRequest = {},
     requestOptions?: OrdersClient.RequestOptions,
   ): Promise<core.WithRawResponse<AffinityApi.ListOrdersResponse>> {
@@ -196,7 +226,7 @@ export class OrdersClient {
    * @throws {@link AffinityApi.ServiceUnavailableError}
    *
    * @example
-   *     await client.orders.createOrder({
+   *     await client.orders.create({
    *         "Idempotency-Key": "Idempotency-Key",
    *         practiceId: "prac_01j2y8m6jcc9tt24af5pw9x1bc",
    *         prescriptions: [{
@@ -210,14 +240,14 @@ export class OrdersClient {
    *             }]
    *     })
    */
-  public createOrder(
+  public create(
     request: AffinityApi.CreateOrderRequest,
     requestOptions?: OrdersClient.RequestOptions,
   ): core.HttpResponsePromise<AffinityApi.CreateOrderResponse> {
-    return core.HttpResponsePromise.fromPromise(this.__createOrder(request, requestOptions));
+    return core.HttpResponsePromise.fromPromise(this.__create(request, requestOptions));
   }
 
-  private async __createOrder(
+  private async __create(
     request: AffinityApi.CreateOrderRequest,
     requestOptions?: OrdersClient.RequestOptions,
   ): Promise<core.WithRawResponse<AffinityApi.CreateOrderResponse>> {
@@ -320,7 +350,7 @@ export class OrdersClient {
   }
 
   /**
-   * @param {AffinityApi.GetOrderRequest} request
+   * @param {AffinityApi.GetOrdersRequest} request
    * @param {OrdersClient.RequestOptions} requestOptions - Request-specific configuration.
    *
    * @throws {@link AffinityApi.BadRequestError}
@@ -332,19 +362,19 @@ export class OrdersClient {
    * @throws {@link AffinityApi.TooManyRequestsError}
    *
    * @example
-   *     await client.orders.getOrder({
+   *     await client.orders.get({
    *         orderId: "ord_01j2y8m6jcc9tt24af5pw9x1bc"
    *     })
    */
-  public getOrder(
-    request: AffinityApi.GetOrderRequest,
+  public get(
+    request: AffinityApi.GetOrdersRequest,
     requestOptions?: OrdersClient.RequestOptions,
   ): core.HttpResponsePromise<AffinityApi.GetOrderResponse> {
-    return core.HttpResponsePromise.fromPromise(this.__getOrder(request, requestOptions));
+    return core.HttpResponsePromise.fromPromise(this.__get(request, requestOptions));
   }
 
-  private async __getOrder(
-    request: AffinityApi.GetOrderRequest,
+  private async __get(
+    request: AffinityApi.GetOrdersRequest,
     requestOptions?: OrdersClient.RequestOptions,
   ): Promise<core.WithRawResponse<AffinityApi.GetOrderResponse>> {
     const {
@@ -455,20 +485,20 @@ export class OrdersClient {
    * @throws {@link AffinityApi.TooManyRequestsError}
    *
    * @example
-   *     await client.orders.cancelOrder({
+   *     await client.orders.cancel({
    *         "Idempotency-Key": "Idempotency-Key",
    *         orderId: "ord_01j2y8m6jcc9tt24af5pw9x1bc",
    *         reason: "reason"
    *     })
    */
-  public cancelOrder(
+  public cancel(
     request: AffinityApi.CancelOrderRequest,
     requestOptions?: OrdersClient.RequestOptions,
   ): core.HttpResponsePromise<AffinityApi.CancelOrderResponse> {
-    return core.HttpResponsePromise.fromPromise(this.__cancelOrder(request, requestOptions));
+    return core.HttpResponsePromise.fromPromise(this.__cancel(request, requestOptions));
   }
 
-  private async __cancelOrder(
+  private async __cancel(
     request: AffinityApi.CancelOrderRequest,
     requestOptions?: OrdersClient.RequestOptions,
   ): Promise<core.WithRawResponse<AffinityApi.CancelOrderResponse>> {
@@ -572,521 +602,6 @@ export class OrdersClient {
   }
 
   /**
-   * Acknowledge, retry, contact, or resolve an order exception in the credential's Test/Live mode. assign_to_me requires a signed-in dashboard user; API keys receive 400 and may use acknowledge instead. Actor headers do not create a dashboard assignee.
-   *
-   * @param {AffinityApi.ActOnOrderExceptionRequest} request
-   * @param {OrdersClient.RequestOptions} requestOptions - Request-specific configuration.
-   *
-   * @throws {@link AffinityApi.BadRequestError}
-   * @throws {@link AffinityApi.UnauthorizedError}
-   * @throws {@link AffinityApi.ForbiddenError}
-   * @throws {@link AffinityApi.NotFoundError}
-   * @throws {@link AffinityApi.ConflictError}
-   * @throws {@link AffinityApi.UnprocessableEntityError}
-   * @throws {@link AffinityApi.TooManyRequestsError}
-   *
-   * @example
-   *     await client.orders.actOnOrderException({
-   *         "Idempotency-Key": "Idempotency-Key",
-   *         orderId: "ord_01j2y8m6jcc9tt24af5pw9x1bc",
-   *         exceptionId: "fex_01j2y8m6jcc9tt24af5pw9x1bc",
-   *         action: "acknowledge"
-   *     })
-   */
-  public actOnOrderException(
-    request: AffinityApi.ActOnOrderExceptionRequest,
-    requestOptions?: OrdersClient.RequestOptions,
-  ): core.HttpResponsePromise<AffinityApi.ActOnOrderExceptionResponse> {
-    return core.HttpResponsePromise.fromPromise(
-      this.__actOnOrderException(request, requestOptions),
-    );
-  }
-
-  private async __actOnOrderException(
-    request: AffinityApi.ActOnOrderExceptionRequest,
-    requestOptions?: OrdersClient.RequestOptions,
-  ): Promise<core.WithRawResponse<AffinityApi.ActOnOrderExceptionResponse>> {
-    const {
-      orderId,
-      exceptionId,
-      "Idempotency-Key": idempotencyKey,
-      "Affinity-Actor-Id": affinityActorId,
-      "Affinity-Actor-Type": affinityActorType,
-      ..._body
-    } = request;
-    const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
-    const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
-      _authRequest.headers,
-      this._options?.headers,
-      mergeOnlyDefinedHeaders({
-        "Idempotency-Key": idempotencyKey,
-        "Affinity-Actor-Id": affinityActorId,
-        "Affinity-Actor-Type": affinityActorType,
-        "Affinity-Version": requestOptions?.affinityVersion ?? this._options?.affinityVersion,
-      }),
-      requestOptions?.headers,
-    );
-    const _response = await core.fetcher({
-      url: core.url.join(
-        (await core.Supplier.get(this._options.baseUrl)) ??
-          (await core.Supplier.get(this._options.environment)) ??
-          environments.AffinityApiEnvironment.Production,
-        `v1/orders/${core.url.encodePathParam(orderId)}/exceptions/${core.url.encodePathParam(exceptionId)}/actions`,
-      ),
-      method: "POST",
-      headers: _headers,
-      contentType: "application/json",
-      queryString: core.url.queryBuilder().mergeAdditional(requestOptions?.queryParams).build(),
-      requestType: "json",
-      body: mergeAdditionalBodyParameters(_body, requestOptions?.additionalBodyParameters),
-      timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
-      maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
-      abortSignal: requestOptions?.abortSignal,
-      fetchFn: this._options?.fetch,
-      logging: this._options.logging,
-    });
-    if (_response.ok) {
-      return {
-        data: _response.body as AffinityApi.ActOnOrderExceptionResponse,
-        rawResponse: _response.rawResponse,
-      };
-    }
-
-    if (_response.error.reason === "status-code") {
-      switch (_response.error.statusCode) {
-        case 400:
-          throw new AffinityApi.BadRequestError(
-            _response.error.body as AffinityApi.Problem,
-            _response.rawResponse,
-          );
-        case 401:
-          throw new AffinityApi.UnauthorizedError(
-            _response.error.body as AffinityApi.Problem,
-            _response.rawResponse,
-          );
-        case 403:
-          throw new AffinityApi.ForbiddenError(
-            _response.error.body as AffinityApi.Problem,
-            _response.rawResponse,
-          );
-        case 404:
-          throw new AffinityApi.NotFoundError(
-            _response.error.body as AffinityApi.Problem,
-            _response.rawResponse,
-          );
-        case 409:
-          throw new AffinityApi.ConflictError(
-            _response.error.body as AffinityApi.Problem,
-            _response.rawResponse,
-          );
-        case 422:
-          throw new AffinityApi.UnprocessableEntityError(
-            _response.error.body as AffinityApi.Problem,
-            _response.rawResponse,
-          );
-        case 429:
-          throw new AffinityApi.TooManyRequestsError(
-            _response.error.body as AffinityApi.Problem,
-            _response.rawResponse,
-          );
-        default:
-          throw new errors.AffinityApiError({
-            statusCode: _response.error.statusCode,
-            body: _response.error.body,
-            rawResponse: _response.rawResponse,
-          });
-      }
-    }
-
-    return handleNonStatusCodeError(
-      _response.error,
-      _response.rawResponse,
-      "POST",
-      "/v1/orders/{orderId}/exceptions/{exceptionId}/actions",
-    );
-  }
-
-  /**
-   * @param {AffinityApi.ListOrderEventsRequest} request
-   * @param {OrdersClient.RequestOptions} requestOptions - Request-specific configuration.
-   *
-   * @throws {@link AffinityApi.BadRequestError}
-   * @throws {@link AffinityApi.UnauthorizedError}
-   * @throws {@link AffinityApi.ForbiddenError}
-   * @throws {@link AffinityApi.NotFoundError}
-   * @throws {@link AffinityApi.ConflictError}
-   * @throws {@link AffinityApi.UnprocessableEntityError}
-   * @throws {@link AffinityApi.TooManyRequestsError}
-   *
-   * @example
-   *     await client.orders.listOrderEvents({
-   *         orderId: "ord_01j2y8m6jcc9tt24af5pw9x1bc",
-   *         endingBefore: "evt_01j2y8m6jcc9tt24af5pw9x1bc",
-   *         startingAfter: "evt_01j2y8m6jcc9tt24af5pw9x1bc"
-   *     })
-   */
-  public listOrderEvents(
-    request: AffinityApi.ListOrderEventsRequest,
-    requestOptions?: OrdersClient.RequestOptions,
-  ): core.HttpResponsePromise<AffinityApi.ListOrderEventsResponse> {
-    return core.HttpResponsePromise.fromPromise(this.__listOrderEvents(request, requestOptions));
-  }
-
-  private async __listOrderEvents(
-    request: AffinityApi.ListOrderEventsRequest,
-    requestOptions?: OrdersClient.RequestOptions,
-  ): Promise<core.WithRawResponse<AffinityApi.ListOrderEventsResponse>> {
-    const {
-      orderId,
-      endingBefore,
-      limit,
-      startingAfter,
-      "Affinity-Actor-Id": affinityActorId,
-      "Affinity-Actor-Type": affinityActorType,
-    } = request;
-    const _queryParams: Record<string, unknown> = {
-      endingBefore,
-      limit,
-      startingAfter,
-    };
-    const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
-    const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
-      _authRequest.headers,
-      this._options?.headers,
-      mergeOnlyDefinedHeaders({
-        "Affinity-Actor-Id": affinityActorId,
-        "Affinity-Actor-Type": affinityActorType,
-        "Affinity-Version": requestOptions?.affinityVersion ?? this._options?.affinityVersion,
-      }),
-      requestOptions?.headers,
-    );
-    const _response = await core.fetcher({
-      url: core.url.join(
-        (await core.Supplier.get(this._options.baseUrl)) ??
-          (await core.Supplier.get(this._options.environment)) ??
-          environments.AffinityApiEnvironment.Production,
-        `v1/orders/${core.url.encodePathParam(orderId)}/events`,
-      ),
-      method: "GET",
-      headers: _headers,
-      queryString: core.url
-        .queryBuilder()
-        .addMany(_queryParams)
-        .mergeAdditional(requestOptions?.queryParams)
-        .build(),
-      timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
-      maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
-      abortSignal: requestOptions?.abortSignal,
-      fetchFn: this._options?.fetch,
-      logging: this._options.logging,
-    });
-    if (_response.ok) {
-      return {
-        data: _response.body as AffinityApi.ListOrderEventsResponse,
-        rawResponse: _response.rawResponse,
-      };
-    }
-
-    if (_response.error.reason === "status-code") {
-      switch (_response.error.statusCode) {
-        case 400:
-          throw new AffinityApi.BadRequestError(
-            _response.error.body as AffinityApi.Problem,
-            _response.rawResponse,
-          );
-        case 401:
-          throw new AffinityApi.UnauthorizedError(
-            _response.error.body as AffinityApi.Problem,
-            _response.rawResponse,
-          );
-        case 403:
-          throw new AffinityApi.ForbiddenError(
-            _response.error.body as AffinityApi.Problem,
-            _response.rawResponse,
-          );
-        case 404:
-          throw new AffinityApi.NotFoundError(
-            _response.error.body as AffinityApi.Problem,
-            _response.rawResponse,
-          );
-        case 409:
-          throw new AffinityApi.ConflictError(
-            _response.error.body as AffinityApi.Problem,
-            _response.rawResponse,
-          );
-        case 422:
-          throw new AffinityApi.UnprocessableEntityError(
-            _response.error.body as AffinityApi.Problem,
-            _response.rawResponse,
-          );
-        case 429:
-          throw new AffinityApi.TooManyRequestsError(
-            _response.error.body as AffinityApi.Problem,
-            _response.rawResponse,
-          );
-        default:
-          throw new errors.AffinityApiError({
-            statusCode: _response.error.statusCode,
-            body: _response.error.body,
-            rawResponse: _response.rawResponse,
-          });
-      }
-    }
-
-    return handleNonStatusCodeError(
-      _response.error,
-      _response.rawResponse,
-      "GET",
-      "/v1/orders/{orderId}/events",
-    );
-  }
-
-  /**
-   * Requires orders:write. Available only in Test mode.
-   *
-   * @param {AffinityApi.GetOrderTestSimulationRequest} request
-   * @param {OrdersClient.RequestOptions} requestOptions - Request-specific configuration.
-   *
-   * @throws {@link AffinityApi.BadRequestError}
-   * @throws {@link AffinityApi.UnauthorizedError}
-   * @throws {@link AffinityApi.ForbiddenError}
-   * @throws {@link AffinityApi.NotFoundError}
-   * @throws {@link AffinityApi.ConflictError}
-   * @throws {@link AffinityApi.UnprocessableEntityError}
-   * @throws {@link AffinityApi.TooManyRequestsError}
-   *
-   * @example
-   *     await client.orders.getOrderTestSimulation({
-   *         orderId: "ord_01j2y8m6jcc9tt24af5pw9x1bc"
-   *     })
-   */
-  public getOrderTestSimulation(
-    request: AffinityApi.GetOrderTestSimulationRequest,
-    requestOptions?: OrdersClient.RequestOptions,
-  ): core.HttpResponsePromise<AffinityApi.GetOrderTestSimulationResponse> {
-    return core.HttpResponsePromise.fromPromise(
-      this.__getOrderTestSimulation(request, requestOptions),
-    );
-  }
-
-  private async __getOrderTestSimulation(
-    request: AffinityApi.GetOrderTestSimulationRequest,
-    requestOptions?: OrdersClient.RequestOptions,
-  ): Promise<core.WithRawResponse<AffinityApi.GetOrderTestSimulationResponse>> {
-    const { orderId } = request;
-    const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
-    const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
-      _authRequest.headers,
-      this._options?.headers,
-      mergeOnlyDefinedHeaders({
-        "Affinity-Version": requestOptions?.affinityVersion ?? this._options?.affinityVersion,
-      }),
-      requestOptions?.headers,
-    );
-    const _response = await core.fetcher({
-      url: core.url.join(
-        (await core.Supplier.get(this._options.baseUrl)) ??
-          (await core.Supplier.get(this._options.environment)) ??
-          environments.AffinityApiEnvironment.Production,
-        `v1/orders/${core.url.encodePathParam(orderId)}/test-simulation`,
-      ),
-      method: "GET",
-      headers: _headers,
-      queryString: core.url.queryBuilder().mergeAdditional(requestOptions?.queryParams).build(),
-      timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
-      maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
-      abortSignal: requestOptions?.abortSignal,
-      fetchFn: this._options?.fetch,
-      logging: this._options.logging,
-    });
-    if (_response.ok) {
-      return {
-        data: _response.body as AffinityApi.GetOrderTestSimulationResponse,
-        rawResponse: _response.rawResponse,
-      };
-    }
-
-    if (_response.error.reason === "status-code") {
-      switch (_response.error.statusCode) {
-        case 400:
-          throw new AffinityApi.BadRequestError(
-            _response.error.body as AffinityApi.Problem,
-            _response.rawResponse,
-          );
-        case 401:
-          throw new AffinityApi.UnauthorizedError(
-            _response.error.body as AffinityApi.Problem,
-            _response.rawResponse,
-          );
-        case 403:
-          throw new AffinityApi.ForbiddenError(
-            _response.error.body as AffinityApi.Problem,
-            _response.rawResponse,
-          );
-        case 404:
-          throw new AffinityApi.NotFoundError(
-            _response.error.body as AffinityApi.Problem,
-            _response.rawResponse,
-          );
-        case 409:
-          throw new AffinityApi.ConflictError(
-            _response.error.body as AffinityApi.Problem,
-            _response.rawResponse,
-          );
-        case 422:
-          throw new AffinityApi.UnprocessableEntityError(
-            _response.error.body as AffinityApi.Problem,
-            _response.rawResponse,
-          );
-        case 429:
-          throw new AffinityApi.TooManyRequestsError(
-            _response.error.body as AffinityApi.Problem,
-            _response.rawResponse,
-          );
-        default:
-          throw new errors.AffinityApiError({
-            statusCode: _response.error.statusCode,
-            body: _response.error.body,
-            rawResponse: _response.rawResponse,
-          });
-      }
-    }
-
-    return handleNonStatusCodeError(
-      _response.error,
-      _response.rawResponse,
-      "GET",
-      "/v1/orders/{orderId}/test-simulation",
-    );
-  }
-
-  /**
-   * Requires orders:write and Idempotency-Key. Configure before submission or queue a valid pharmacy event in manual mode. Events use normal order history and Test webhooks. Live requests are rejected.
-   *
-   * @param {AffinityApi.UpdateOrderTestSimulationRequest} request
-   * @param {OrdersClient.RequestOptions} requestOptions - Request-specific configuration.
-   *
-   * @throws {@link AffinityApi.BadRequestError}
-   * @throws {@link AffinityApi.UnauthorizedError}
-   * @throws {@link AffinityApi.ForbiddenError}
-   * @throws {@link AffinityApi.NotFoundError}
-   * @throws {@link AffinityApi.ConflictError}
-   * @throws {@link AffinityApi.UnprocessableEntityError}
-   * @throws {@link AffinityApi.TooManyRequestsError}
-   *
-   * @example
-   *     await client.orders.updateOrderTestSimulation({
-   *         "Idempotency-Key": "Idempotency-Key",
-   *         orderId: "ord_01j2y8m6jcc9tt24af5pw9x1bc",
-   *         mode: "automatic",
-   *         scenario: "successful"
-   *     })
-   */
-  public updateOrderTestSimulation(
-    request: AffinityApi.UpdateOrderTestSimulationRequest,
-    requestOptions?: OrdersClient.RequestOptions,
-  ): core.HttpResponsePromise<AffinityApi.UpdateOrderTestSimulationResponse> {
-    return core.HttpResponsePromise.fromPromise(
-      this.__updateOrderTestSimulation(request, requestOptions),
-    );
-  }
-
-  private async __updateOrderTestSimulation(
-    request: AffinityApi.UpdateOrderTestSimulationRequest,
-    requestOptions?: OrdersClient.RequestOptions,
-  ): Promise<core.WithRawResponse<AffinityApi.UpdateOrderTestSimulationResponse>> {
-    const { orderId, "Idempotency-Key": idempotencyKey, ..._body } = request;
-    const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
-    const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
-      _authRequest.headers,
-      this._options?.headers,
-      mergeOnlyDefinedHeaders({
-        "Idempotency-Key": idempotencyKey,
-        "Affinity-Version": requestOptions?.affinityVersion ?? this._options?.affinityVersion,
-      }),
-      requestOptions?.headers,
-    );
-    const _response = await core.fetcher({
-      url: core.url.join(
-        (await core.Supplier.get(this._options.baseUrl)) ??
-          (await core.Supplier.get(this._options.environment)) ??
-          environments.AffinityApiEnvironment.Production,
-        `v1/orders/${core.url.encodePathParam(orderId)}/test-simulation`,
-      ),
-      method: "PUT",
-      headers: _headers,
-      contentType: "application/json",
-      queryString: core.url.queryBuilder().mergeAdditional(requestOptions?.queryParams).build(),
-      requestType: "json",
-      body: mergeAdditionalBodyParameters(_body, requestOptions?.additionalBodyParameters),
-      timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
-      maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
-      abortSignal: requestOptions?.abortSignal,
-      fetchFn: this._options?.fetch,
-      logging: this._options.logging,
-    });
-    if (_response.ok) {
-      return {
-        data: _response.body as AffinityApi.UpdateOrderTestSimulationResponse,
-        rawResponse: _response.rawResponse,
-      };
-    }
-
-    if (_response.error.reason === "status-code") {
-      switch (_response.error.statusCode) {
-        case 400:
-          throw new AffinityApi.BadRequestError(
-            _response.error.body as AffinityApi.Problem,
-            _response.rawResponse,
-          );
-        case 401:
-          throw new AffinityApi.UnauthorizedError(
-            _response.error.body as AffinityApi.Problem,
-            _response.rawResponse,
-          );
-        case 403:
-          throw new AffinityApi.ForbiddenError(
-            _response.error.body as AffinityApi.Problem,
-            _response.rawResponse,
-          );
-        case 404:
-          throw new AffinityApi.NotFoundError(
-            _response.error.body as AffinityApi.Problem,
-            _response.rawResponse,
-          );
-        case 409:
-          throw new AffinityApi.ConflictError(
-            _response.error.body as AffinityApi.Problem,
-            _response.rawResponse,
-          );
-        case 422:
-          throw new AffinityApi.UnprocessableEntityError(
-            _response.error.body as AffinityApi.Problem,
-            _response.rawResponse,
-          );
-        case 429:
-          throw new AffinityApi.TooManyRequestsError(
-            _response.error.body as AffinityApi.Problem,
-            _response.rawResponse,
-          );
-        default:
-          throw new errors.AffinityApiError({
-            statusCode: _response.error.statusCode,
-            body: _response.error.body,
-            rawResponse: _response.rawResponse,
-          });
-      }
-    }
-
-    return handleNonStatusCodeError(
-      _response.error,
-      _response.rawResponse,
-      "PUT",
-      "/v1/orders/{orderId}/test-simulation",
-    );
-  }
-
-  /**
    * Requires orders:write and catalog:read. Supply exactly one of patientId, patientExternalId, or inline patient details. External-ID lookup additionally requires patients:read; inline details require patients:write. Resolves defaults and explicit edits for 1–20 prescriptions. Reuses stored patient details when identifiers match; otherwise previews inline details without creating a patient. Complete previews contain an orders.create input. Does not create records, reserve prices, sign, charge or transmit. No idempotency key is required. Creation and signing recheck current requirements.
    *
    * @param {AffinityApi.PreviewOrderRequest} request
@@ -1100,21 +615,21 @@ export class OrdersClient {
    * @throws {@link AffinityApi.TooManyRequestsError}
    *
    * @example
-   *     await client.orders.previewOrder({
+   *     await client.orders.preview({
    *         practiceId: "prac_01j2y8m6jcc9tt24af5pw9x1bc",
    *         prescriptions: [{
    *                 medicationId: "cat_01j2y8m6jcc9tt24af5pw9x1bc"
    *             }]
    *     })
    */
-  public previewOrder(
+  public preview(
     request: AffinityApi.PreviewOrderRequest,
     requestOptions?: OrdersClient.RequestOptions,
   ): core.HttpResponsePromise<AffinityApi.PreviewOrderResponse> {
-    return core.HttpResponsePromise.fromPromise(this.__previewOrder(request, requestOptions));
+    return core.HttpResponsePromise.fromPromise(this.__preview(request, requestOptions));
   }
 
-  private async __previewOrder(
+  private async __preview(
     request: AffinityApi.PreviewOrderRequest,
     requestOptions?: OrdersClient.RequestOptions,
   ): Promise<core.WithRawResponse<AffinityApi.PreviewOrderResponse>> {
@@ -1218,21 +733,21 @@ export class OrdersClient {
    * @throws {@link AffinityApi.ServiceUnavailableError}
    *
    * @example
-   *     await client.orders.signOrder({
+   *     await client.orders.sign({
    *         "Idempotency-Key": "Idempotency-Key",
    *         orderId: "ord_01j2y8m6jcc9tt24af5pw9x1bc",
    *         practiceId: "prac_01j2y8m6jcc9tt24af5pw9x1bc",
    *         signatureAttestation: true
    *     })
    */
-  public signOrder(
+  public sign(
     request: AffinityApi.SignOrderRequest,
     requestOptions?: OrdersClient.RequestOptions,
   ): core.HttpResponsePromise<AffinityApi.SignOrderResponse> {
-    return core.HttpResponsePromise.fromPromise(this.__signOrder(request, requestOptions));
+    return core.HttpResponsePromise.fromPromise(this.__sign(request, requestOptions));
   }
 
-  private async __signOrder(
+  private async __sign(
     request: AffinityApi.SignOrderRequest,
     requestOptions?: OrdersClient.RequestOptions,
   ): Promise<core.WithRawResponse<AffinityApi.SignOrderResponse>> {
@@ -1348,21 +863,21 @@ export class OrdersClient {
    * @throws {@link AffinityApi.ServiceUnavailableError}
    *
    * @example
-   *     await client.orders.signAndSubmitOrder({
+   *     await client.orders.signAndSubmit({
    *         "Idempotency-Key": "Idempotency-Key",
    *         orderId: "ord_01j2y8m6jcc9tt24af5pw9x1bc",
    *         practiceId: "prac_01j2y8m6jcc9tt24af5pw9x1bc",
    *         signatureAttestation: true
    *     })
    */
-  public signAndSubmitOrder(
+  public signAndSubmit(
     request: AffinityApi.SignAndSubmitOrderRequest,
     requestOptions?: OrdersClient.RequestOptions,
   ): core.HttpResponsePromise<AffinityApi.SignAndSubmitOrderResponse> {
-    return core.HttpResponsePromise.fromPromise(this.__signAndSubmitOrder(request, requestOptions));
+    return core.HttpResponsePromise.fromPromise(this.__signAndSubmit(request, requestOptions));
   }
 
-  private async __signAndSubmitOrder(
+  private async __signAndSubmit(
     request: AffinityApi.SignAndSubmitOrderRequest,
     requestOptions?: OrdersClient.RequestOptions,
   ): Promise<core.WithRawResponse<AffinityApi.SignAndSubmitOrderResponse>> {
@@ -1478,20 +993,20 @@ export class OrdersClient {
    * @throws {@link AffinityApi.ServiceUnavailableError}
    *
    * @example
-   *     await client.orders.submitOrder({
+   *     await client.orders.submit({
    *         "Idempotency-Key": "Idempotency-Key",
    *         orderId: "ord_01j2y8m6jcc9tt24af5pw9x1bc",
    *         practiceId: "prac_01j2y8m6jcc9tt24af5pw9x1bc"
    *     })
    */
-  public submitOrder(
+  public submit(
     request: AffinityApi.SubmitOrderRequest,
     requestOptions?: OrdersClient.RequestOptions,
   ): core.HttpResponsePromise<AffinityApi.SubmitOrderResponse> {
-    return core.HttpResponsePromise.fromPromise(this.__submitOrder(request, requestOptions));
+    return core.HttpResponsePromise.fromPromise(this.__submit(request, requestOptions));
   }
 
-  private async __submitOrder(
+  private async __submit(
     request: AffinityApi.SubmitOrderRequest,
     requestOptions?: OrdersClient.RequestOptions,
   ): Promise<core.WithRawResponse<AffinityApi.SubmitOrderResponse>> {
@@ -1607,21 +1122,21 @@ export class OrdersClient {
    * @throws {@link AffinityApi.ServiceUnavailableError}
    *
    * @example
-   *     await client.orders.rejectOrder({
+   *     await client.orders.reject({
    *         "Idempotency-Key": "Idempotency-Key",
    *         orderId: "ord_01j2y8m6jcc9tt24af5pw9x1bc",
    *         practiceId: "prac_01j2y8m6jcc9tt24af5pw9x1bc",
    *         reason: "reason"
    *     })
    */
-  public rejectOrder(
+  public reject(
     request: AffinityApi.RejectOrderRequest,
     requestOptions?: OrdersClient.RequestOptions,
   ): core.HttpResponsePromise<AffinityApi.RejectOrderResponse> {
-    return core.HttpResponsePromise.fromPromise(this.__rejectOrder(request, requestOptions));
+    return core.HttpResponsePromise.fromPromise(this.__reject(request, requestOptions));
   }
 
-  private async __rejectOrder(
+  private async __reject(
     request: AffinityApi.RejectOrderRequest,
     requestOptions?: OrdersClient.RequestOptions,
   ): Promise<core.WithRawResponse<AffinityApi.RejectOrderResponse>> {
@@ -1718,450 +1233,6 @@ export class OrdersClient {
       _response.rawResponse,
       "POST",
       "/v1/orders/{orderId}/rejection",
-    );
-  }
-
-  /**
-   * Requires orders:write, Idempotency-Key and expectedRevision from the order being edited. Existing integrations may send expectedVersions instead; supply exactly one. Adds a complete prescription to an unsigned Order and returns all new versions. Omitted actor context defaults to the authenticated service account as a system actor. Patient and prescriber attribution stay fixed. Signed orders cannot be amended through this endpoint. Signing and submission require orders:sign through their separate endpoints.
-   *
-   * @param {AffinityApi.AddOrderPrescriptionRequest} request
-   * @param {OrdersClient.RequestOptions} requestOptions - Request-specific configuration.
-   *
-   * @throws {@link AffinityApi.BadRequestError}
-   * @throws {@link AffinityApi.UnauthorizedError}
-   * @throws {@link AffinityApi.ForbiddenError}
-   * @throws {@link AffinityApi.NotFoundError}
-   * @throws {@link AffinityApi.ConflictError}
-   * @throws {@link AffinityApi.UnprocessableEntityError}
-   * @throws {@link AffinityApi.TooManyRequestsError}
-   * @throws {@link AffinityApi.ServiceUnavailableError}
-   *
-   * @example
-   *     await client.orders.addOrderPrescription({
-   *         "Idempotency-Key": "Idempotency-Key",
-   *         orderId: "ord_01j2y8m6jcc9tt24af5pw9x1bc",
-   *         practiceId: "prac_01j2y8m6jcc9tt24af5pw9x1bc",
-   *         prescription: {
-   *             daysSupply: 1,
-   *             dispensing: {},
-   *             directions: "directions",
-   *             medicationId: "cat_01j2y8m6jcc9tt24af5pw9x1bc",
-   *             quantity: "Infinity",
-   *             quantityUnit: "quantityUnit",
-   *             refills: 1
-   *         }
-   *     })
-   */
-  public addOrderPrescription(
-    request: AffinityApi.AddOrderPrescriptionRequest,
-    requestOptions?: OrdersClient.RequestOptions,
-  ): core.HttpResponsePromise<AffinityApi.AddOrderPrescriptionResponse> {
-    return core.HttpResponsePromise.fromPromise(
-      this.__addOrderPrescription(request, requestOptions),
-    );
-  }
-
-  private async __addOrderPrescription(
-    request: AffinityApi.AddOrderPrescriptionRequest,
-    requestOptions?: OrdersClient.RequestOptions,
-  ): Promise<core.WithRawResponse<AffinityApi.AddOrderPrescriptionResponse>> {
-    const {
-      orderId,
-      "Idempotency-Key": idempotencyKey,
-      "Affinity-Actor-Id": affinityActorId,
-      "Affinity-Actor-Type": affinityActorType,
-      ..._body
-    } = request;
-    const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
-    const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
-      _authRequest.headers,
-      this._options?.headers,
-      mergeOnlyDefinedHeaders({
-        "Idempotency-Key": idempotencyKey,
-        "Affinity-Actor-Id": affinityActorId,
-        "Affinity-Actor-Type": affinityActorType,
-        "Affinity-Version": requestOptions?.affinityVersion ?? this._options?.affinityVersion,
-      }),
-      requestOptions?.headers,
-    );
-    const _response = await core.fetcher({
-      url: core.url.join(
-        (await core.Supplier.get(this._options.baseUrl)) ??
-          (await core.Supplier.get(this._options.environment)) ??
-          environments.AffinityApiEnvironment.Production,
-        `v1/orders/${core.url.encodePathParam(orderId)}/prescriptions`,
-      ),
-      method: "POST",
-      headers: _headers,
-      contentType: "application/json",
-      queryString: core.url.queryBuilder().mergeAdditional(requestOptions?.queryParams).build(),
-      requestType: "json",
-      body: mergeAdditionalBodyParameters(_body, requestOptions?.additionalBodyParameters),
-      timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
-      maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
-      abortSignal: requestOptions?.abortSignal,
-      fetchFn: this._options?.fetch,
-      logging: this._options.logging,
-    });
-    if (_response.ok) {
-      return {
-        data: _response.body as AffinityApi.AddOrderPrescriptionResponse,
-        rawResponse: _response.rawResponse,
-      };
-    }
-
-    if (_response.error.reason === "status-code") {
-      switch (_response.error.statusCode) {
-        case 400:
-          throw new AffinityApi.BadRequestError(
-            _response.error.body as AffinityApi.Problem,
-            _response.rawResponse,
-          );
-        case 401:
-          throw new AffinityApi.UnauthorizedError(
-            _response.error.body as AffinityApi.Problem,
-            _response.rawResponse,
-          );
-        case 403:
-          throw new AffinityApi.ForbiddenError(
-            _response.error.body as AffinityApi.Problem,
-            _response.rawResponse,
-          );
-        case 404:
-          throw new AffinityApi.NotFoundError(
-            _response.error.body as AffinityApi.Problem,
-            _response.rawResponse,
-          );
-        case 409:
-          throw new AffinityApi.ConflictError(
-            _response.error.body as AffinityApi.Problem,
-            _response.rawResponse,
-          );
-        case 422:
-          throw new AffinityApi.UnprocessableEntityError(
-            _response.error.body as AffinityApi.Problem,
-            _response.rawResponse,
-          );
-        case 429:
-          throw new AffinityApi.TooManyRequestsError(
-            _response.error.body as AffinityApi.Problem,
-            _response.rawResponse,
-          );
-        case 503:
-          throw new AffinityApi.ServiceUnavailableError(
-            _response.error.body as AffinityApi.Problem,
-            _response.rawResponse,
-          );
-        default:
-          throw new errors.AffinityApiError({
-            statusCode: _response.error.statusCode,
-            body: _response.error.body,
-            rawResponse: _response.rawResponse,
-          });
-      }
-    }
-
-    return handleNonStatusCodeError(
-      _response.error,
-      _response.rawResponse,
-      "POST",
-      "/v1/orders/{orderId}/prescriptions",
-    );
-  }
-
-  /**
-   * Requires orders:write, Idempotency-Key and expectedRevision from the order being edited. Existing integrations may send expectedVersions instead; supply exactly one. Replaces one prescription with complete medication instructions and returns all new versions. Omitted actor context defaults to the authenticated service account as a system actor. Patient and prescriber attribution stay fixed. Signed orders cannot be amended through this endpoint. Signing and submission require orders:sign through their separate endpoints.
-   *
-   * @param {AffinityApi.UpdateOrderPrescriptionRequest} request
-   * @param {OrdersClient.RequestOptions} requestOptions - Request-specific configuration.
-   *
-   * @throws {@link AffinityApi.BadRequestError}
-   * @throws {@link AffinityApi.UnauthorizedError}
-   * @throws {@link AffinityApi.ForbiddenError}
-   * @throws {@link AffinityApi.NotFoundError}
-   * @throws {@link AffinityApi.ConflictError}
-   * @throws {@link AffinityApi.UnprocessableEntityError}
-   * @throws {@link AffinityApi.TooManyRequestsError}
-   * @throws {@link AffinityApi.ServiceUnavailableError}
-   *
-   * @example
-   *     await client.orders.updateOrderPrescription({
-   *         "Idempotency-Key": "Idempotency-Key",
-   *         orderId: "ord_01j2y8m6jcc9tt24af5pw9x1bc",
-   *         prescriptionId: "rx_01j2y8m6jcc9tt24af5pw9x1bc",
-   *         practiceId: "prac_01j2y8m6jcc9tt24af5pw9x1bc",
-   *         prescription: {
-   *             daysSupply: 1,
-   *             dispensing: {},
-   *             directions: "directions",
-   *             medicationId: "cat_01j2y8m6jcc9tt24af5pw9x1bc",
-   *             quantity: "Infinity",
-   *             quantityUnit: "quantityUnit",
-   *             refills: 1
-   *         }
-   *     })
-   */
-  public updateOrderPrescription(
-    request: AffinityApi.UpdateOrderPrescriptionRequest,
-    requestOptions?: OrdersClient.RequestOptions,
-  ): core.HttpResponsePromise<AffinityApi.UpdateOrderPrescriptionResponse> {
-    return core.HttpResponsePromise.fromPromise(
-      this.__updateOrderPrescription(request, requestOptions),
-    );
-  }
-
-  private async __updateOrderPrescription(
-    request: AffinityApi.UpdateOrderPrescriptionRequest,
-    requestOptions?: OrdersClient.RequestOptions,
-  ): Promise<core.WithRawResponse<AffinityApi.UpdateOrderPrescriptionResponse>> {
-    const {
-      orderId,
-      prescriptionId,
-      "Idempotency-Key": idempotencyKey,
-      "Affinity-Actor-Id": affinityActorId,
-      "Affinity-Actor-Type": affinityActorType,
-      ..._body
-    } = request;
-    const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
-    const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
-      _authRequest.headers,
-      this._options?.headers,
-      mergeOnlyDefinedHeaders({
-        "Idempotency-Key": idempotencyKey,
-        "Affinity-Actor-Id": affinityActorId,
-        "Affinity-Actor-Type": affinityActorType,
-        "Affinity-Version": requestOptions?.affinityVersion ?? this._options?.affinityVersion,
-      }),
-      requestOptions?.headers,
-    );
-    const _response = await core.fetcher({
-      url: core.url.join(
-        (await core.Supplier.get(this._options.baseUrl)) ??
-          (await core.Supplier.get(this._options.environment)) ??
-          environments.AffinityApiEnvironment.Production,
-        `v1/orders/${core.url.encodePathParam(orderId)}/prescriptions/${core.url.encodePathParam(prescriptionId)}`,
-      ),
-      method: "PATCH",
-      headers: _headers,
-      contentType: "application/json",
-      queryString: core.url.queryBuilder().mergeAdditional(requestOptions?.queryParams).build(),
-      requestType: "json",
-      body: mergeAdditionalBodyParameters(_body, requestOptions?.additionalBodyParameters),
-      timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
-      maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
-      abortSignal: requestOptions?.abortSignal,
-      fetchFn: this._options?.fetch,
-      logging: this._options.logging,
-    });
-    if (_response.ok) {
-      return {
-        data: _response.body as AffinityApi.UpdateOrderPrescriptionResponse,
-        rawResponse: _response.rawResponse,
-      };
-    }
-
-    if (_response.error.reason === "status-code") {
-      switch (_response.error.statusCode) {
-        case 400:
-          throw new AffinityApi.BadRequestError(
-            _response.error.body as AffinityApi.Problem,
-            _response.rawResponse,
-          );
-        case 401:
-          throw new AffinityApi.UnauthorizedError(
-            _response.error.body as AffinityApi.Problem,
-            _response.rawResponse,
-          );
-        case 403:
-          throw new AffinityApi.ForbiddenError(
-            _response.error.body as AffinityApi.Problem,
-            _response.rawResponse,
-          );
-        case 404:
-          throw new AffinityApi.NotFoundError(
-            _response.error.body as AffinityApi.Problem,
-            _response.rawResponse,
-          );
-        case 409:
-          throw new AffinityApi.ConflictError(
-            _response.error.body as AffinityApi.Problem,
-            _response.rawResponse,
-          );
-        case 422:
-          throw new AffinityApi.UnprocessableEntityError(
-            _response.error.body as AffinityApi.Problem,
-            _response.rawResponse,
-          );
-        case 429:
-          throw new AffinityApi.TooManyRequestsError(
-            _response.error.body as AffinityApi.Problem,
-            _response.rawResponse,
-          );
-        case 503:
-          throw new AffinityApi.ServiceUnavailableError(
-            _response.error.body as AffinityApi.Problem,
-            _response.rawResponse,
-          );
-        default:
-          throw new errors.AffinityApiError({
-            statusCode: _response.error.statusCode,
-            body: _response.error.body,
-            rawResponse: _response.rawResponse,
-          });
-      }
-    }
-
-    return handleNonStatusCodeError(
-      _response.error,
-      _response.rawResponse,
-      "PATCH",
-      "/v1/orders/{orderId}/prescriptions/{prescriptionId}",
-    );
-  }
-
-  /**
-   * Creates 1–20 orders for distinct patients in one practice, each with 1–20 prescriptions. Each accepts patientId or inline patient details. Orders and newly created patients commit atomically; any failure saves none. Requires orders:write and Idempotency-Key; inline patients also require patients:write. Omitted actor context defaults to the authenticated service account as a system actor. Sign and submit each resulting order separately using orders:sign.
-   *
-   * @param {AffinityApi.CreateOrderBatchRequest} request
-   * @param {OrdersClient.RequestOptions} requestOptions - Request-specific configuration.
-   *
-   * @throws {@link AffinityApi.BadRequestError}
-   * @throws {@link AffinityApi.UnauthorizedError}
-   * @throws {@link AffinityApi.ForbiddenError}
-   * @throws {@link AffinityApi.NotFoundError}
-   * @throws {@link AffinityApi.ConflictError}
-   * @throws {@link AffinityApi.UnprocessableEntityError}
-   * @throws {@link AffinityApi.TooManyRequestsError}
-   * @throws {@link AffinityApi.ServiceUnavailableError}
-   *
-   * @example
-   *     await client.orders.createOrderBatch({
-   *         "Idempotency-Key": "Idempotency-Key",
-   *         practiceId: "prac_01j2y8m6jcc9tt24af5pw9x1bc",
-   *         orders: [{
-   *                 prescriptions: [{
-   *                         daysSupply: 1,
-   *                         dispensing: {},
-   *                         directions: "directions",
-   *                         medicationId: "cat_01j2y8m6jcc9tt24af5pw9x1bc",
-   *                         quantity: "Infinity",
-   *                         quantityUnit: "quantityUnit",
-   *                         refills: 1
-   *                     }]
-   *             }]
-   *     })
-   */
-  public createOrderBatch(
-    request: AffinityApi.CreateOrderBatchRequest,
-    requestOptions?: OrdersClient.RequestOptions,
-  ): core.HttpResponsePromise<AffinityApi.CreateOrderBatchResponse> {
-    return core.HttpResponsePromise.fromPromise(this.__createOrderBatch(request, requestOptions));
-  }
-
-  private async __createOrderBatch(
-    request: AffinityApi.CreateOrderBatchRequest,
-    requestOptions?: OrdersClient.RequestOptions,
-  ): Promise<core.WithRawResponse<AffinityApi.CreateOrderBatchResponse>> {
-    const {
-      "Idempotency-Key": idempotencyKey,
-      "Affinity-Actor-Id": affinityActorId,
-      "Affinity-Actor-Type": affinityActorType,
-      ..._body
-    } = request;
-    const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
-    const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
-      _authRequest.headers,
-      this._options?.headers,
-      mergeOnlyDefinedHeaders({
-        "Idempotency-Key": idempotencyKey,
-        "Affinity-Actor-Id": affinityActorId,
-        "Affinity-Actor-Type": affinityActorType,
-        "Affinity-Version": requestOptions?.affinityVersion ?? this._options?.affinityVersion,
-      }),
-      requestOptions?.headers,
-    );
-    const _response = await core.fetcher({
-      url: core.url.join(
-        (await core.Supplier.get(this._options.baseUrl)) ??
-          (await core.Supplier.get(this._options.environment)) ??
-          environments.AffinityApiEnvironment.Production,
-        "v1/order-batches",
-      ),
-      method: "POST",
-      headers: _headers,
-      contentType: "application/json",
-      queryString: core.url.queryBuilder().mergeAdditional(requestOptions?.queryParams).build(),
-      requestType: "json",
-      body: mergeAdditionalBodyParameters(_body, requestOptions?.additionalBodyParameters),
-      timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
-      maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
-      abortSignal: requestOptions?.abortSignal,
-      fetchFn: this._options?.fetch,
-      logging: this._options.logging,
-    });
-    if (_response.ok) {
-      return {
-        data: _response.body as AffinityApi.CreateOrderBatchResponse,
-        rawResponse: _response.rawResponse,
-      };
-    }
-
-    if (_response.error.reason === "status-code") {
-      switch (_response.error.statusCode) {
-        case 400:
-          throw new AffinityApi.BadRequestError(
-            _response.error.body as AffinityApi.Problem,
-            _response.rawResponse,
-          );
-        case 401:
-          throw new AffinityApi.UnauthorizedError(
-            _response.error.body as AffinityApi.Problem,
-            _response.rawResponse,
-          );
-        case 403:
-          throw new AffinityApi.ForbiddenError(
-            _response.error.body as AffinityApi.Problem,
-            _response.rawResponse,
-          );
-        case 404:
-          throw new AffinityApi.NotFoundError(
-            _response.error.body as AffinityApi.Problem,
-            _response.rawResponse,
-          );
-        case 409:
-          throw new AffinityApi.ConflictError(
-            _response.error.body as AffinityApi.Problem,
-            _response.rawResponse,
-          );
-        case 422:
-          throw new AffinityApi.UnprocessableEntityError(
-            _response.error.body as AffinityApi.Problem,
-            _response.rawResponse,
-          );
-        case 429:
-          throw new AffinityApi.TooManyRequestsError(
-            _response.error.body as AffinityApi.Problem,
-            _response.rawResponse,
-          );
-        case 503:
-          throw new AffinityApi.ServiceUnavailableError(
-            _response.error.body as AffinityApi.Problem,
-            _response.rawResponse,
-          );
-        default:
-          throw new errors.AffinityApiError({
-            statusCode: _response.error.statusCode,
-            body: _response.error.body,
-            rawResponse: _response.rawResponse,
-          });
-      }
-    }
-
-    return handleNonStatusCodeError(
-      _response.error,
-      _response.rawResponse,
-      "POST",
-      "/v1/order-batches",
     );
   }
 }

@@ -1,5 +1,5 @@
 import { expect, test } from "bun:test";
-import { Affinity } from "../src";
+import { LegacyAffinity as Affinity } from "../src";
 import { createTransport } from "../src/resources/transport";
 import { paginate } from "../src/resources/pagination";
 import { generatorContract } from "../scripts/generator-contract";

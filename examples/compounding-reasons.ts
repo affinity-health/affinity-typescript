@@ -1,5 +1,5 @@
 // Compile-only example. Never execute this file against an API.
-import { Affinity, type CompoundingReason, type CreateOrderParams } from "@affinity-health/sdk";
+import { LegacyAffinity as Affinity, type CompoundingReason, type CreateOrderParams } from "@affinity-health/sdk";
 
 const affinity = new Affinity(process.env.AFFINITY_API_KEY!);
 

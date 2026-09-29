@@ -1,5 +1,5 @@
 import { expect, test } from "bun:test";
-import { Affinity } from "../src";
+import { LegacyAffinity as Affinity } from "../src";
 
 test("prescriber selectors serialize without userId or actor options, including inheritance", async () => {
   const requests: Request[] = [];

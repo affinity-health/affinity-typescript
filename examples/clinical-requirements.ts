@@ -1,5 +1,5 @@
 // Compile-only example with synthetic identifiers. Never execute against an API.
-import { Affinity, ResponseError, affinityErrorFromResponse } from "@affinity-health/sdk";
+import { LegacyAffinity as Affinity, ResponseError, affinityErrorFromResponse } from "@affinity-health/sdk";
 
 const affinity = new Affinity("sk_test_example");
 const practiceId = "prac_synthetic";

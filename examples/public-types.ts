@@ -1,5 +1,5 @@
 import type {
-  Affinity,
+  LegacyAffinity as Affinity,
   Practice,
   Patient,
   Order,

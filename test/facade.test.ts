@@ -1,5 +1,5 @@
 import { describe, expect, test } from "bun:test";
-import { Affinity } from "../src";
+import { LegacyAffinity as Affinity } from "../src";
 
 const baseUrl = "https://api.affinity.test";
 const practiceId = "prac_01k123456789abcdefghjkmnpq";

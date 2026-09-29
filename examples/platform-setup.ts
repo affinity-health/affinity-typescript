@@ -1,4 +1,4 @@
-import { Affinity } from "@affinity-health/sdk";
+import { LegacyAffinity as Affinity } from "@affinity-health/sdk";
 
 interface ExternalProvider {
   email: string;

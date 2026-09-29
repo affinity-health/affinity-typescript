@@ -1,5 +1,5 @@
 import { expect, test } from "bun:test";
-import { Affinity } from "../src";
+import { LegacyAffinity as Affinity } from "../src";
 
 test("nested resources preserve ID order, encoding, bodies, and mutation headers", async () => {
   const requests: Request[] = [];

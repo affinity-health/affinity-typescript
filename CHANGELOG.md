@@ -7,6 +7,17 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 
 ## [Unreleased]
 
+### Changed
+
+- Use direct API-key constructors, short nested resource methods, and separate request options across all 73 API operations.
+- Resolve practice keys automatically and support immutable scoped clients or per-request practice context.
+- Generate keys for routine writes, including patient deletion; require persisted keys for consequential order actions.
+- Add lazy pagination iterators and consistent API error metadata.
+- Accept patient status `archived` as an alias for the API's `inactive` status.
+- Default to API `2026-09-28`, a 60-second timeout, and no automatic retries.
+- Verify the language guide examples against the implemented client.
+- Retain the previous resource client as `LegacyAffinity`; migrate the quickstart and TanStack Start example to the new primary client.
+
 ## [1.14.0] - 2026-09-28
 
 ### Added

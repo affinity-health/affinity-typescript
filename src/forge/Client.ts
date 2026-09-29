@@ -6,7 +6,7 @@ import { CatalogClient } from "./api/resources/catalog/client/Client.js";
 import { LocationsClient } from "./api/resources/locations/client/Client.js";
 import { OrdersClient } from "./api/resources/orders/client/Client.js";
 import { PatientsClient } from "./api/resources/patients/client/Client.js";
-import { PlatformPricingClient } from "./api/resources/platformPricing/client/Client.js";
+import { PharmaciesClient } from "./api/resources/pharmacies/client/Client.js";
 import { PracticesClient } from "./api/resources/practices/client/Client.js";
 import { TeamClient } from "./api/resources/team/client/Client.js";
 import { WebhooksClient } from "./api/resources/webhooks/client/Client.js";
@@ -28,13 +28,13 @@ export class AffinityApiClient {
   protected _locations: LocationsClient | undefined;
   protected _apiKeys: ApiKeysClient | undefined;
   protected _account: AccountClient | undefined;
-  protected _catalog: CatalogClient | undefined;
+  protected _pharmacies: PharmaciesClient | undefined;
   protected _orders: OrdersClient | undefined;
-  protected _webhooks: WebhooksClient | undefined;
   protected _team: TeamClient | undefined;
-  protected _patients: PatientsClient | undefined;
   protected _practices: PracticesClient | undefined;
-  protected _platformPricing: PlatformPricingClient | undefined;
+  protected _patients: PatientsClient | undefined;
+  protected _catalog: CatalogClient | undefined;
+  protected _webhooks: WebhooksClient | undefined;
 
   constructor(options: AffinityApiClient.Options) {
     this._options = normalizeClientOptionsWithAuth(options);
@@ -52,32 +52,32 @@ export class AffinityApiClient {
     return (this._account ??= new AccountClient(this._options));
   }
 
-  public get catalog(): CatalogClient {
-    return (this._catalog ??= new CatalogClient(this._options));
+  public get pharmacies(): PharmaciesClient {
+    return (this._pharmacies ??= new PharmaciesClient(this._options));
   }
 
   public get orders(): OrdersClient {
     return (this._orders ??= new OrdersClient(this._options));
   }
 
-  public get webhooks(): WebhooksClient {
-    return (this._webhooks ??= new WebhooksClient(this._options));
-  }
-
   public get team(): TeamClient {
     return (this._team ??= new TeamClient(this._options));
-  }
-
-  public get patients(): PatientsClient {
-    return (this._patients ??= new PatientsClient(this._options));
   }
 
   public get practices(): PracticesClient {
     return (this._practices ??= new PracticesClient(this._options));
   }
 
-  public get platformPricing(): PlatformPricingClient {
-    return (this._platformPricing ??= new PlatformPricingClient(this._options));
+  public get patients(): PatientsClient {
+    return (this._patients ??= new PatientsClient(this._options));
+  }
+
+  public get catalog(): CatalogClient {
+    return (this._catalog ??= new CatalogClient(this._options));
+  }
+
+  public get webhooks(): WebhooksClient {
+    return (this._webhooks ??= new WebhooksClient(this._options));
   }
 
   /**

@@ -1,6 +1,6 @@
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
-import type { PreviewOrderParams } from "@affinity-health/sdk";
+import type { OrderPreviewParams as PreviewOrderParams } from "@affinity-health/sdk";
 
 const token = z.string().min(1).max(200_000);
 const practiceId = z.string().regex(/^prac_[a-zA-Z0-9]+$/);

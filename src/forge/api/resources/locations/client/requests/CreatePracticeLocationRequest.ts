@@ -3,14 +3,14 @@
 /**
  * @example
  *     {
- *         "Idempotency-Key": "Idempotency-Key",
  *         practiceId: "prac_01j2y8m6jcc9tt24af5pw9x1bc",
  *         name: "name"
  *     }
  */
 export interface CreatePracticeLocationRequest {
   practiceId: string;
-  "Idempotency-Key": string;
+  /** Optional in the SDK. A fresh key is generated once per call when omitted. Supply a stable key to retry across calls. */
+  "Idempotency-Key"?: string;
   city?: string | null;
   country?: string | null;
   line1?: string | null;

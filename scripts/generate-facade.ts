@@ -852,7 +852,9 @@ ${publicRoots.map((name) => `    this.${name} = resources.${name};`).join("\n")}
 
 await output(
   "src/index.ts",
-  `export * from "./affinity";
+  `export { Affinity as LegacyAffinity } from "./affinity";
+export type { AffinityOptions, RawRequestParams, RawRequestOptions } from "./affinity";
+export * from "./sdk";
 export * from "./errors";
 export { ResponseError, FetchError, RequiredError } from "./runtime";
 export type * from "./resources";
@@ -932,3 +934,5 @@ export function NullToJSONTyped(value: Null, _ignoreDiscriminator: boolean = fal
 );
 
 await output("src/forge-client.ts", await readFile(resolve(root, "templates/forge-client.ts"), "utf8"));
+
+await output("src/sdk.ts", await readFile(resolve(root, "templates/sdk.ts"), "utf8"));

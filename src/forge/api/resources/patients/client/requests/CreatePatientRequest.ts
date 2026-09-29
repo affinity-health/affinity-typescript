@@ -3,7 +3,6 @@
 /**
  * @example
  *     {
- *         "Idempotency-Key": "Idempotency-Key",
  *         practiceId: "prac_01j2y8m6jcc9tt24af5pw9x1bc",
  *         dateOfBirth: "dateOfBirth",
  *         name: {
@@ -14,7 +13,8 @@
  */
 export interface CreatePatientRequest {
   practiceId: string;
-  "Idempotency-Key": string;
+  /** Optional in the SDK. A fresh key is generated once per call when omitted. Supply a stable key to retry across calls. */
+  "Idempotency-Key"?: string;
   /** Required for user actors and optional for system actors. Omit both actor headers to use the authenticated service account as a system actor. */
   "Affinity-Actor-Id"?: string;
   /** Use user when a person initiated the action and system for autonomous work. Omit both actor headers to default to system. */

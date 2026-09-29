@@ -1,1 +1,1 @@
-export * from "./ListPracticeLocationsRequestStatus.js";
+export * from "./ListLocationsRequestStatus.js";

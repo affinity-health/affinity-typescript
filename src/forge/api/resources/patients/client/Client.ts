@@ -12,6 +12,8 @@ import * as environments from "../../../../environments.js";
 import { handleNonStatusCodeError } from "../../../../errors/handleNonStatusCodeError.js";
 import * as errors from "../../../../errors/index.js";
 import * as AffinityApi from "../../../index.js";
+import { AddressesClient } from "../resources/addresses/client/Client.js";
+import { AllergiesClient } from "../resources/allergies/client/Client.js";
 
 export declare namespace PatientsClient {
   export type Options = BaseClientOptions;
@@ -24,658 +26,19 @@ export declare namespace PatientsClient {
  */
 export class PatientsClient {
   protected readonly _options: NormalizedClientOptionsWithAuth<PatientsClient.Options>;
+  protected _addresses: AddressesClient | undefined;
+  protected _allergies: AllergiesClient | undefined;
 
   constructor(options: PatientsClient.Options) {
     this._options = normalizeClientOptionsWithAuth(options);
   }
 
-  /**
-   * @param {AffinityApi.ListPatientAddressesRequest} request
-   * @param {PatientsClient.RequestOptions} requestOptions - Request-specific configuration.
-   *
-   * @throws {@link AffinityApi.BadRequestError}
-   * @throws {@link AffinityApi.UnauthorizedError}
-   * @throws {@link AffinityApi.ForbiddenError}
-   * @throws {@link AffinityApi.NotFoundError}
-   * @throws {@link AffinityApi.ConflictError}
-   * @throws {@link AffinityApi.TooManyRequestsError}
-   *
-   * @example
-   *     await client.patients.listPatientAddresses({
-   *         practiceId: "prac_01j2y8m6jcc9tt24af5pw9x1bc",
-   *         patientId: "pat_01j2y8m6jcc9tt24af5pw9x1bc",
-   *         startingAfter: "addr_01j2y8m6jcc9tt24af5pw9x1bc",
-   *         endingBefore: "addr_01j2y8m6jcc9tt24af5pw9x1bc"
-   *     })
-   */
-  public listPatientAddresses(
-    request: AffinityApi.ListPatientAddressesRequest,
-    requestOptions?: PatientsClient.RequestOptions,
-  ): core.HttpResponsePromise<AffinityApi.ListPatientAddressesResponse> {
-    return core.HttpResponsePromise.fromPromise(
-      this.__listPatientAddresses(request, requestOptions),
-    );
+  public get addresses(): AddressesClient {
+    return (this._addresses ??= new AddressesClient(this._options));
   }
 
-  private async __listPatientAddresses(
-    request: AffinityApi.ListPatientAddressesRequest,
-    requestOptions?: PatientsClient.RequestOptions,
-  ): Promise<core.WithRawResponse<AffinityApi.ListPatientAddressesResponse>> {
-    const {
-      practiceId,
-      patientId,
-      status,
-      startingAfter,
-      endingBefore,
-      limit,
-      "Affinity-Actor-Id": affinityActorId,
-      "Affinity-Actor-Type": affinityActorType,
-    } = request;
-    const _queryParams: Record<string, unknown> = {
-      status: status !== undefined ? status : undefined,
-      startingAfter,
-      endingBefore,
-      limit,
-    };
-    const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
-    const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
-      _authRequest.headers,
-      this._options?.headers,
-      mergeOnlyDefinedHeaders({
-        "Affinity-Actor-Id": affinityActorId,
-        "Affinity-Actor-Type": affinityActorType,
-        "Affinity-Version": requestOptions?.affinityVersion ?? this._options?.affinityVersion,
-      }),
-      requestOptions?.headers,
-    );
-    const _response = await core.fetcher({
-      url: core.url.join(
-        (await core.Supplier.get(this._options.baseUrl)) ??
-          (await core.Supplier.get(this._options.environment)) ??
-          environments.AffinityApiEnvironment.Production,
-        `v1/practices/${core.url.encodePathParam(practiceId)}/patients/${core.url.encodePathParam(patientId)}/addresses`,
-      ),
-      method: "GET",
-      headers: _headers,
-      queryString: core.url
-        .queryBuilder()
-        .addMany(_queryParams)
-        .mergeAdditional(requestOptions?.queryParams)
-        .build(),
-      timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
-      maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
-      abortSignal: requestOptions?.abortSignal,
-      fetchFn: this._options?.fetch,
-      logging: this._options.logging,
-    });
-    if (_response.ok) {
-      return {
-        data: _response.body as AffinityApi.ListPatientAddressesResponse,
-        rawResponse: _response.rawResponse,
-      };
-    }
-
-    if (_response.error.reason === "status-code") {
-      switch (_response.error.statusCode) {
-        case 400:
-          throw new AffinityApi.BadRequestError(
-            _response.error.body as AffinityApi.Problem,
-            _response.rawResponse,
-          );
-        case 401:
-          throw new AffinityApi.UnauthorizedError(
-            _response.error.body as AffinityApi.Problem,
-            _response.rawResponse,
-          );
-        case 403:
-          throw new AffinityApi.ForbiddenError(
-            _response.error.body as AffinityApi.Problem,
-            _response.rawResponse,
-          );
-        case 404:
-          throw new AffinityApi.NotFoundError(
-            _response.error.body as AffinityApi.Problem,
-            _response.rawResponse,
-          );
-        case 409:
-          throw new AffinityApi.ConflictError(
-            _response.error.body as AffinityApi.Problem,
-            _response.rawResponse,
-          );
-        case 429:
-          throw new AffinityApi.TooManyRequestsError(
-            _response.error.body as AffinityApi.Problem,
-            _response.rawResponse,
-          );
-        default:
-          throw new errors.AffinityApiError({
-            statusCode: _response.error.statusCode,
-            body: _response.error.body,
-            rawResponse: _response.rawResponse,
-          });
-      }
-    }
-
-    return handleNonStatusCodeError(
-      _response.error,
-      _response.rawResponse,
-      "GET",
-      "/v1/practices/{practiceId}/patients/{patientId}/addresses",
-    );
-  }
-
-  /**
-   * Returns the existing active address for a normalized duplicate. The first address becomes the default. API keys require Idempotency-Key.
-   *
-   * @param {AffinityApi.CreatePatientAddressRequest} request
-   * @param {PatientsClient.RequestOptions} requestOptions - Request-specific configuration.
-   *
-   * @throws {@link AffinityApi.BadRequestError}
-   * @throws {@link AffinityApi.UnauthorizedError}
-   * @throws {@link AffinityApi.ForbiddenError}
-   * @throws {@link AffinityApi.NotFoundError}
-   * @throws {@link AffinityApi.ConflictError}
-   * @throws {@link AffinityApi.TooManyRequestsError}
-   *
-   * @example
-   *     await client.patients.createPatientAddress({
-   *         "Idempotency-Key": "Idempotency-Key",
-   *         practiceId: "prac_01j2y8m6jcc9tt24af5pw9x1bc",
-   *         patientId: "pat_01j2y8m6jcc9tt24af5pw9x1bc",
-   *         address: {
-   *             city: "city",
-   *             line1: "line1",
-   *             postalCode: "postalCode",
-   *             state: "state"
-   *         }
-   *     })
-   */
-  public createPatientAddress(
-    request: AffinityApi.CreatePatientAddressRequest,
-    requestOptions?: PatientsClient.RequestOptions,
-  ): core.HttpResponsePromise<AffinityApi.CreatePatientAddressResponse> {
-    return core.HttpResponsePromise.fromPromise(
-      this.__createPatientAddress(request, requestOptions),
-    );
-  }
-
-  private async __createPatientAddress(
-    request: AffinityApi.CreatePatientAddressRequest,
-    requestOptions?: PatientsClient.RequestOptions,
-  ): Promise<core.WithRawResponse<AffinityApi.CreatePatientAddressResponse>> {
-    const {
-      practiceId,
-      patientId,
-      "Idempotency-Key": idempotencyKey,
-      "Affinity-Actor-Id": affinityActorId,
-      "Affinity-Actor-Type": affinityActorType,
-      ..._body
-    } = request;
-    const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
-    const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
-      _authRequest.headers,
-      this._options?.headers,
-      mergeOnlyDefinedHeaders({
-        "Idempotency-Key": idempotencyKey,
-        "Affinity-Actor-Id": affinityActorId,
-        "Affinity-Actor-Type": affinityActorType,
-        "Affinity-Version": requestOptions?.affinityVersion ?? this._options?.affinityVersion,
-      }),
-      requestOptions?.headers,
-    );
-    const _response = await core.fetcher({
-      url: core.url.join(
-        (await core.Supplier.get(this._options.baseUrl)) ??
-          (await core.Supplier.get(this._options.environment)) ??
-          environments.AffinityApiEnvironment.Production,
-        `v1/practices/${core.url.encodePathParam(practiceId)}/patients/${core.url.encodePathParam(patientId)}/addresses`,
-      ),
-      method: "POST",
-      headers: _headers,
-      contentType: "application/json",
-      queryString: core.url.queryBuilder().mergeAdditional(requestOptions?.queryParams).build(),
-      requestType: "json",
-      body: mergeAdditionalBodyParameters(_body, requestOptions?.additionalBodyParameters),
-      timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
-      maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
-      abortSignal: requestOptions?.abortSignal,
-      fetchFn: this._options?.fetch,
-      logging: this._options.logging,
-    });
-    if (_response.ok) {
-      return {
-        data: _response.body as AffinityApi.CreatePatientAddressResponse,
-        rawResponse: _response.rawResponse,
-      };
-    }
-
-    if (_response.error.reason === "status-code") {
-      switch (_response.error.statusCode) {
-        case 400:
-          throw new AffinityApi.BadRequestError(
-            _response.error.body as AffinityApi.Problem,
-            _response.rawResponse,
-          );
-        case 401:
-          throw new AffinityApi.UnauthorizedError(
-            _response.error.body as AffinityApi.Problem,
-            _response.rawResponse,
-          );
-        case 403:
-          throw new AffinityApi.ForbiddenError(
-            _response.error.body as AffinityApi.Problem,
-            _response.rawResponse,
-          );
-        case 404:
-          throw new AffinityApi.NotFoundError(
-            _response.error.body as AffinityApi.Problem,
-            _response.rawResponse,
-          );
-        case 409:
-          throw new AffinityApi.ConflictError(
-            _response.error.body as AffinityApi.Problem,
-            _response.rawResponse,
-          );
-        case 429:
-          throw new AffinityApi.TooManyRequestsError(
-            _response.error.body as AffinityApi.Problem,
-            _response.rawResponse,
-          );
-        default:
-          throw new errors.AffinityApiError({
-            statusCode: _response.error.statusCode,
-            body: _response.error.body,
-            rawResponse: _response.rawResponse,
-          });
-      }
-    }
-
-    return handleNonStatusCodeError(
-      _response.error,
-      _response.rawResponse,
-      "POST",
-      "/v1/practices/{practiceId}/patients/{patientId}/addresses",
-    );
-  }
-
-  /**
-   * Preserves the address ID and history. Archiving the default selects the oldest remaining active address. Existing orders remain unchanged.
-   *
-   * @param {AffinityApi.ArchivePatientAddressRequest} request
-   * @param {PatientsClient.RequestOptions} requestOptions - Request-specific configuration.
-   *
-   * @throws {@link AffinityApi.BadRequestError}
-   * @throws {@link AffinityApi.UnauthorizedError}
-   * @throws {@link AffinityApi.ForbiddenError}
-   * @throws {@link AffinityApi.NotFoundError}
-   * @throws {@link AffinityApi.ConflictError}
-   * @throws {@link AffinityApi.TooManyRequestsError}
-   *
-   * @example
-   *     await client.patients.archivePatientAddress({
-   *         "Idempotency-Key": "Idempotency-Key",
-   *         practiceId: "prac_01j2y8m6jcc9tt24af5pw9x1bc",
-   *         patientId: "pat_01j2y8m6jcc9tt24af5pw9x1bc",
-   *         addressId: "addr_01j2y8m6jcc9tt24af5pw9x1bc"
-   *     })
-   */
-  public archivePatientAddress(
-    request: AffinityApi.ArchivePatientAddressRequest,
-    requestOptions?: PatientsClient.RequestOptions,
-  ): core.HttpResponsePromise<AffinityApi.ArchivePatientAddressResponse> {
-    return core.HttpResponsePromise.fromPromise(
-      this.__archivePatientAddress(request, requestOptions),
-    );
-  }
-
-  private async __archivePatientAddress(
-    request: AffinityApi.ArchivePatientAddressRequest,
-    requestOptions?: PatientsClient.RequestOptions,
-  ): Promise<core.WithRawResponse<AffinityApi.ArchivePatientAddressResponse>> {
-    const {
-      practiceId,
-      patientId,
-      addressId,
-      "Idempotency-Key": idempotencyKey,
-      "Affinity-Actor-Id": affinityActorId,
-      "Affinity-Actor-Type": affinityActorType,
-    } = request;
-    const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
-    const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
-      _authRequest.headers,
-      this._options?.headers,
-      mergeOnlyDefinedHeaders({
-        "Idempotency-Key": idempotencyKey,
-        "Affinity-Actor-Id": affinityActorId,
-        "Affinity-Actor-Type": affinityActorType,
-        "Affinity-Version": requestOptions?.affinityVersion ?? this._options?.affinityVersion,
-      }),
-      requestOptions?.headers,
-    );
-    const _response = await core.fetcher({
-      url: core.url.join(
-        (await core.Supplier.get(this._options.baseUrl)) ??
-          (await core.Supplier.get(this._options.environment)) ??
-          environments.AffinityApiEnvironment.Production,
-        `v1/practices/${core.url.encodePathParam(practiceId)}/patients/${core.url.encodePathParam(patientId)}/addresses/${core.url.encodePathParam(addressId)}`,
-      ),
-      method: "DELETE",
-      headers: _headers,
-      queryString: core.url.queryBuilder().mergeAdditional(requestOptions?.queryParams).build(),
-      timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
-      maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
-      abortSignal: requestOptions?.abortSignal,
-      fetchFn: this._options?.fetch,
-      logging: this._options.logging,
-    });
-    if (_response.ok) {
-      return {
-        data: _response.body as AffinityApi.ArchivePatientAddressResponse,
-        rawResponse: _response.rawResponse,
-      };
-    }
-
-    if (_response.error.reason === "status-code") {
-      switch (_response.error.statusCode) {
-        case 400:
-          throw new AffinityApi.BadRequestError(
-            _response.error.body as AffinityApi.Problem,
-            _response.rawResponse,
-          );
-        case 401:
-          throw new AffinityApi.UnauthorizedError(
-            _response.error.body as AffinityApi.Problem,
-            _response.rawResponse,
-          );
-        case 403:
-          throw new AffinityApi.ForbiddenError(
-            _response.error.body as AffinityApi.Problem,
-            _response.rawResponse,
-          );
-        case 404:
-          throw new AffinityApi.NotFoundError(
-            _response.error.body as AffinityApi.Problem,
-            _response.rawResponse,
-          );
-        case 409:
-          throw new AffinityApi.ConflictError(
-            _response.error.body as AffinityApi.Problem,
-            _response.rawResponse,
-          );
-        case 429:
-          throw new AffinityApi.TooManyRequestsError(
-            _response.error.body as AffinityApi.Problem,
-            _response.rawResponse,
-          );
-        default:
-          throw new errors.AffinityApiError({
-            statusCode: _response.error.statusCode,
-            body: _response.error.body,
-            rawResponse: _response.rawResponse,
-          });
-      }
-    }
-
-    return handleNonStatusCodeError(
-      _response.error,
-      _response.rawResponse,
-      "DELETE",
-      "/v1/practices/{practiceId}/patients/{patientId}/addresses/{addressId}",
-    );
-  }
-
-  /**
-   * @param {AffinityApi.UpdatePatientAddressRequest} request
-   * @param {PatientsClient.RequestOptions} requestOptions - Request-specific configuration.
-   *
-   * @throws {@link AffinityApi.BadRequestError}
-   * @throws {@link AffinityApi.UnauthorizedError}
-   * @throws {@link AffinityApi.ForbiddenError}
-   * @throws {@link AffinityApi.NotFoundError}
-   * @throws {@link AffinityApi.ConflictError}
-   * @throws {@link AffinityApi.TooManyRequestsError}
-   *
-   * @example
-   *     await client.patients.updatePatientAddress({
-   *         "Idempotency-Key": "Idempotency-Key",
-   *         practiceId: "prac_01j2y8m6jcc9tt24af5pw9x1bc",
-   *         patientId: "pat_01j2y8m6jcc9tt24af5pw9x1bc",
-   *         addressId: "addr_01j2y8m6jcc9tt24af5pw9x1bc"
-   *     })
-   */
-  public updatePatientAddress(
-    request: AffinityApi.UpdatePatientAddressRequest,
-    requestOptions?: PatientsClient.RequestOptions,
-  ): core.HttpResponsePromise<AffinityApi.UpdatePatientAddressResponse> {
-    return core.HttpResponsePromise.fromPromise(
-      this.__updatePatientAddress(request, requestOptions),
-    );
-  }
-
-  private async __updatePatientAddress(
-    request: AffinityApi.UpdatePatientAddressRequest,
-    requestOptions?: PatientsClient.RequestOptions,
-  ): Promise<core.WithRawResponse<AffinityApi.UpdatePatientAddressResponse>> {
-    const {
-      practiceId,
-      patientId,
-      addressId,
-      "Idempotency-Key": idempotencyKey,
-      "Affinity-Actor-Id": affinityActorId,
-      "Affinity-Actor-Type": affinityActorType,
-      ..._body
-    } = request;
-    const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
-    const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
-      _authRequest.headers,
-      this._options?.headers,
-      mergeOnlyDefinedHeaders({
-        "Idempotency-Key": idempotencyKey,
-        "Affinity-Actor-Id": affinityActorId,
-        "Affinity-Actor-Type": affinityActorType,
-        "Affinity-Version": requestOptions?.affinityVersion ?? this._options?.affinityVersion,
-      }),
-      requestOptions?.headers,
-    );
-    const _response = await core.fetcher({
-      url: core.url.join(
-        (await core.Supplier.get(this._options.baseUrl)) ??
-          (await core.Supplier.get(this._options.environment)) ??
-          environments.AffinityApiEnvironment.Production,
-        `v1/practices/${core.url.encodePathParam(practiceId)}/patients/${core.url.encodePathParam(patientId)}/addresses/${core.url.encodePathParam(addressId)}`,
-      ),
-      method: "PATCH",
-      headers: _headers,
-      contentType: "application/json",
-      queryString: core.url.queryBuilder().mergeAdditional(requestOptions?.queryParams).build(),
-      requestType: "json",
-      body: mergeAdditionalBodyParameters(_body, requestOptions?.additionalBodyParameters),
-      timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
-      maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
-      abortSignal: requestOptions?.abortSignal,
-      fetchFn: this._options?.fetch,
-      logging: this._options.logging,
-    });
-    if (_response.ok) {
-      return {
-        data: _response.body as AffinityApi.UpdatePatientAddressResponse,
-        rawResponse: _response.rawResponse,
-      };
-    }
-
-    if (_response.error.reason === "status-code") {
-      switch (_response.error.statusCode) {
-        case 400:
-          throw new AffinityApi.BadRequestError(
-            _response.error.body as AffinityApi.Problem,
-            _response.rawResponse,
-          );
-        case 401:
-          throw new AffinityApi.UnauthorizedError(
-            _response.error.body as AffinityApi.Problem,
-            _response.rawResponse,
-          );
-        case 403:
-          throw new AffinityApi.ForbiddenError(
-            _response.error.body as AffinityApi.Problem,
-            _response.rawResponse,
-          );
-        case 404:
-          throw new AffinityApi.NotFoundError(
-            _response.error.body as AffinityApi.Problem,
-            _response.rawResponse,
-          );
-        case 409:
-          throw new AffinityApi.ConflictError(
-            _response.error.body as AffinityApi.Problem,
-            _response.rawResponse,
-          );
-        case 429:
-          throw new AffinityApi.TooManyRequestsError(
-            _response.error.body as AffinityApi.Problem,
-            _response.rawResponse,
-          );
-        default:
-          throw new errors.AffinityApiError({
-            statusCode: _response.error.statusCode,
-            body: _response.error.body,
-            rawResponse: _response.rawResponse,
-          });
-      }
-    }
-
-    return handleNonStatusCodeError(
-      _response.error,
-      _response.rawResponse,
-      "PATCH",
-      "/v1/practices/{practiceId}/patients/{patientId}/addresses/{addressId}",
-    );
-  }
-
-  /**
-   * Changes delivery selection for future drafts, without changing patient clinical location or existing signed orders.
-   *
-   * @param {AffinityApi.SetDefaultPatientAddressRequest} request
-   * @param {PatientsClient.RequestOptions} requestOptions - Request-specific configuration.
-   *
-   * @throws {@link AffinityApi.BadRequestError}
-   * @throws {@link AffinityApi.UnauthorizedError}
-   * @throws {@link AffinityApi.ForbiddenError}
-   * @throws {@link AffinityApi.NotFoundError}
-   * @throws {@link AffinityApi.ConflictError}
-   * @throws {@link AffinityApi.TooManyRequestsError}
-   *
-   * @example
-   *     await client.patients.setDefaultPatientAddress({
-   *         "Idempotency-Key": "Idempotency-Key",
-   *         practiceId: "prac_01j2y8m6jcc9tt24af5pw9x1bc",
-   *         patientId: "pat_01j2y8m6jcc9tt24af5pw9x1bc",
-   *         addressId: "addr_01j2y8m6jcc9tt24af5pw9x1bc"
-   *     })
-   */
-  public setDefaultPatientAddress(
-    request: AffinityApi.SetDefaultPatientAddressRequest,
-    requestOptions?: PatientsClient.RequestOptions,
-  ): core.HttpResponsePromise<AffinityApi.SetDefaultPatientAddressResponse> {
-    return core.HttpResponsePromise.fromPromise(
-      this.__setDefaultPatientAddress(request, requestOptions),
-    );
-  }
-
-  private async __setDefaultPatientAddress(
-    request: AffinityApi.SetDefaultPatientAddressRequest,
-    requestOptions?: PatientsClient.RequestOptions,
-  ): Promise<core.WithRawResponse<AffinityApi.SetDefaultPatientAddressResponse>> {
-    const {
-      practiceId,
-      patientId,
-      addressId,
-      "Idempotency-Key": idempotencyKey,
-      "Affinity-Actor-Id": affinityActorId,
-      "Affinity-Actor-Type": affinityActorType,
-    } = request;
-    const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
-    const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
-      _authRequest.headers,
-      this._options?.headers,
-      mergeOnlyDefinedHeaders({
-        "Idempotency-Key": idempotencyKey,
-        "Affinity-Actor-Id": affinityActorId,
-        "Affinity-Actor-Type": affinityActorType,
-        "Affinity-Version": requestOptions?.affinityVersion ?? this._options?.affinityVersion,
-      }),
-      requestOptions?.headers,
-    );
-    const _response = await core.fetcher({
-      url: core.url.join(
-        (await core.Supplier.get(this._options.baseUrl)) ??
-          (await core.Supplier.get(this._options.environment)) ??
-          environments.AffinityApiEnvironment.Production,
-        `v1/practices/${core.url.encodePathParam(practiceId)}/patients/${core.url.encodePathParam(patientId)}/addresses/${core.url.encodePathParam(addressId)}/default`,
-      ),
-      method: "PUT",
-      headers: _headers,
-      queryString: core.url.queryBuilder().mergeAdditional(requestOptions?.queryParams).build(),
-      timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
-      maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
-      abortSignal: requestOptions?.abortSignal,
-      fetchFn: this._options?.fetch,
-      logging: this._options.logging,
-    });
-    if (_response.ok) {
-      return {
-        data: _response.body as AffinityApi.SetDefaultPatientAddressResponse,
-        rawResponse: _response.rawResponse,
-      };
-    }
-
-    if (_response.error.reason === "status-code") {
-      switch (_response.error.statusCode) {
-        case 400:
-          throw new AffinityApi.BadRequestError(
-            _response.error.body as AffinityApi.Problem,
-            _response.rawResponse,
-          );
-        case 401:
-          throw new AffinityApi.UnauthorizedError(
-            _response.error.body as AffinityApi.Problem,
-            _response.rawResponse,
-          );
-        case 403:
-          throw new AffinityApi.ForbiddenError(
-            _response.error.body as AffinityApi.Problem,
-            _response.rawResponse,
-          );
-        case 404:
-          throw new AffinityApi.NotFoundError(
-            _response.error.body as AffinityApi.Problem,
-            _response.rawResponse,
-          );
-        case 409:
-          throw new AffinityApi.ConflictError(
-            _response.error.body as AffinityApi.Problem,
-            _response.rawResponse,
-          );
-        case 429:
-          throw new AffinityApi.TooManyRequestsError(
-            _response.error.body as AffinityApi.Problem,
-            _response.rawResponse,
-          );
-        default:
-          throw new errors.AffinityApiError({
-            statusCode: _response.error.statusCode,
-            body: _response.error.body,
-            rawResponse: _response.rawResponse,
-          });
-      }
-    }
-
-    return handleNonStatusCodeError(
-      _response.error,
-      _response.rawResponse,
-      "PUT",
-      "/v1/practices/{practiceId}/patients/{patientId}/addresses/{addressId}/default",
-    );
+  public get allergies(): AllergiesClient {
+    return (this._allergies ??= new AllergiesClient(this._options));
   }
 
   /**
@@ -693,20 +56,20 @@ export class PatientsClient {
    * @throws {@link AffinityApi.TooManyRequestsError}
    *
    * @example
-   *     await client.patients.listPatients({
+   *     await client.patients.list({
    *         practiceId: "prac_01j2y8m6jcc9tt24af5pw9x1bc",
    *         endingBefore: "pat_01j2y8m6jcc9tt24af5pw9x1bc",
    *         startingAfter: "pat_01j2y8m6jcc9tt24af5pw9x1bc"
    *     })
    */
-  public listPatients(
+  public list(
     request: AffinityApi.ListPatientsRequest,
     requestOptions?: PatientsClient.RequestOptions,
   ): core.HttpResponsePromise<AffinityApi.ListPatientsResponse> {
-    return core.HttpResponsePromise.fromPromise(this.__listPatients(request, requestOptions));
+    return core.HttpResponsePromise.fromPromise(this.__list(request, requestOptions));
   }
 
-  private async __listPatients(
+  private async __list(
     request: AffinityApi.ListPatientsRequest,
     requestOptions?: PatientsClient.RequestOptions,
   ): Promise<core.WithRawResponse<AffinityApi.ListPatientsResponse>> {
@@ -852,8 +215,7 @@ export class PatientsClient {
    * @throws {@link AffinityApi.TooManyRequestsError}
    *
    * @example
-   *     await client.patients.createPatient({
-   *         "Idempotency-Key": "Idempotency-Key",
+   *     await client.patients.create({
    *         practiceId: "prac_01j2y8m6jcc9tt24af5pw9x1bc",
    *         dateOfBirth: "dateOfBirth",
    *         name: {
@@ -862,20 +224,21 @@ export class PatientsClient {
    *         }
    *     })
    */
-  public createPatient(
+  public create(
     request: AffinityApi.CreatePatientRequest,
     requestOptions?: PatientsClient.RequestOptions,
   ): core.HttpResponsePromise<AffinityApi.CreatePatientResponse> {
-    return core.HttpResponsePromise.fromPromise(this.__createPatient(request, requestOptions));
+    return core.HttpResponsePromise.fromPromise(this.__create(request, requestOptions));
   }
 
-  private async __createPatient(
+  private async __create(
     request: AffinityApi.CreatePatientRequest,
     requestOptions?: PatientsClient.RequestOptions,
   ): Promise<core.WithRawResponse<AffinityApi.CreatePatientResponse>> {
     const {
       practiceId,
-      "Idempotency-Key": idempotencyKey,
+      "Idempotency-Key": idempotencyKey = globalThis.crypto?.randomUUID?.() ??
+        (await import("node:crypto")).randomUUID() /* affinity-sdk-auto-key */,
       "Affinity-Actor-Id": affinityActorId,
       "Affinity-Actor-Type": affinityActorType,
       ..._body
@@ -975,7 +338,7 @@ export class PatientsClient {
   /**
    * Returns one patient in the authorized practice and mode.
    *
-   * @param {AffinityApi.GetPatientRequest} request
+   * @param {AffinityApi.GetPatientsRequest} request
    * @param {PatientsClient.RequestOptions} requestOptions - Request-specific configuration.
    *
    * @throws {@link AffinityApi.BadRequestError}
@@ -987,20 +350,20 @@ export class PatientsClient {
    * @throws {@link AffinityApi.TooManyRequestsError}
    *
    * @example
-   *     await client.patients.getPatient({
+   *     await client.patients.get({
    *         practiceId: "prac_01j2y8m6jcc9tt24af5pw9x1bc",
    *         patientId: "pat_01j2y8m6jcc9tt24af5pw9x1bc"
    *     })
    */
-  public getPatient(
-    request: AffinityApi.GetPatientRequest,
+  public get(
+    request: AffinityApi.GetPatientsRequest,
     requestOptions?: PatientsClient.RequestOptions,
   ): core.HttpResponsePromise<AffinityApi.GetPatientResponse> {
-    return core.HttpResponsePromise.fromPromise(this.__getPatient(request, requestOptions));
+    return core.HttpResponsePromise.fromPromise(this.__get(request, requestOptions));
   }
 
-  private async __getPatient(
-    request: AffinityApi.GetPatientRequest,
+  private async __get(
+    request: AffinityApi.GetPatientsRequest,
     requestOptions?: PatientsClient.RequestOptions,
   ): Promise<core.WithRawResponse<AffinityApi.GetPatientResponse>> {
     const {
@@ -1100,7 +463,7 @@ export class PatientsClient {
   /**
    * Requires patients:write and Idempotency-Key for API keys. Permanently deletes a patient with no order history. Any order history returns 409; use Update patient with status archived instead. Available to practice keys and authorized platform keys. Reusing the same idempotency key returns the original deletion result.
    *
-   * @param {AffinityApi.DeletePatientRequest} request
+   * @param {AffinityApi.DeletePatientsRequest} request
    * @param {PatientsClient.RequestOptions} requestOptions - Request-specific configuration.
    *
    * @throws {@link AffinityApi.BadRequestError}
@@ -1112,27 +475,27 @@ export class PatientsClient {
    * @throws {@link AffinityApi.TooManyRequestsError}
    *
    * @example
-   *     await client.patients.deletePatient({
-   *         "Idempotency-Key": "Idempotency-Key",
+   *     await client.patients.delete({
    *         practiceId: "prac_01j2y8m6jcc9tt24af5pw9x1bc",
    *         patientId: "pat_01j2y8m6jcc9tt24af5pw9x1bc"
    *     })
    */
-  public deletePatient(
-    request: AffinityApi.DeletePatientRequest,
+  public delete(
+    request: AffinityApi.DeletePatientsRequest,
     requestOptions?: PatientsClient.RequestOptions,
   ): core.HttpResponsePromise<AffinityApi.DeletePatientResponse> {
-    return core.HttpResponsePromise.fromPromise(this.__deletePatient(request, requestOptions));
+    return core.HttpResponsePromise.fromPromise(this.__delete(request, requestOptions));
   }
 
-  private async __deletePatient(
-    request: AffinityApi.DeletePatientRequest,
+  private async __delete(
+    request: AffinityApi.DeletePatientsRequest,
     requestOptions?: PatientsClient.RequestOptions,
   ): Promise<core.WithRawResponse<AffinityApi.DeletePatientResponse>> {
     const {
       practiceId,
       patientId,
-      "Idempotency-Key": idempotencyKey,
+      "Idempotency-Key": idempotencyKey = globalThis.crypto?.randomUUID?.() ??
+        (await import("node:crypto")).randomUUID() /* affinity-sdk-auto-key */,
       "Affinity-Actor-Id": affinityActorId,
       "Affinity-Actor-Type": affinityActorType,
     } = request;
@@ -1240,27 +603,27 @@ export class PatientsClient {
    * @throws {@link AffinityApi.TooManyRequestsError}
    *
    * @example
-   *     await client.patients.updatePatient({
-   *         "Idempotency-Key": "Idempotency-Key",
+   *     await client.patients.update({
    *         practiceId: "prac_01j2y8m6jcc9tt24af5pw9x1bc",
    *         patientId: "pat_01j2y8m6jcc9tt24af5pw9x1bc"
    *     })
    */
-  public updatePatient(
+  public update(
     request: AffinityApi.UpdatePatientRequest,
     requestOptions?: PatientsClient.RequestOptions,
   ): core.HttpResponsePromise<AffinityApi.UpdatePatientResponse> {
-    return core.HttpResponsePromise.fromPromise(this.__updatePatient(request, requestOptions));
+    return core.HttpResponsePromise.fromPromise(this.__update(request, requestOptions));
   }
 
-  private async __updatePatient(
+  private async __update(
     request: AffinityApi.UpdatePatientRequest,
     requestOptions?: PatientsClient.RequestOptions,
   ): Promise<core.WithRawResponse<AffinityApi.UpdatePatientResponse>> {
     const {
       practiceId,
       patientId,
-      "Idempotency-Key": idempotencyKey,
+      "Idempotency-Key": idempotencyKey = globalThis.crypto?.randomUUID?.() ??
+        (await import("node:crypto")).randomUUID() /* affinity-sdk-auto-key */,
       "Affinity-Actor-Id": affinityActorId,
       "Affinity-Actor-Type": affinityActorType,
       ..._body
@@ -1354,277 +717,6 @@ export class PatientsClient {
       _response.rawResponse,
       "PATCH",
       "/v1/practices/{practiceId}/patients/{patientId}",
-    );
-  }
-
-  /**
-   * Returns the patient's structured allergy entries and review status. A not_reviewed status is not a no-known-allergies assertion and blocks clinical review and signing.
-   *
-   * @param {AffinityApi.GetPatientAllergiesRequest} request
-   * @param {PatientsClient.RequestOptions} requestOptions - Request-specific configuration.
-   *
-   * @throws {@link AffinityApi.BadRequestError}
-   * @throws {@link AffinityApi.UnauthorizedError}
-   * @throws {@link AffinityApi.ForbiddenError}
-   * @throws {@link AffinityApi.NotFoundError}
-   * @throws {@link AffinityApi.ConflictError}
-   * @throws {@link AffinityApi.UnprocessableEntityError}
-   * @throws {@link AffinityApi.TooManyRequestsError}
-   *
-   * @example
-   *     await client.patients.getPatientAllergies({
-   *         practiceId: "prac_01j2y8m6jcc9tt24af5pw9x1bc",
-   *         patientId: "pat_01j2y8m6jcc9tt24af5pw9x1bc"
-   *     })
-   */
-  public getPatientAllergies(
-    request: AffinityApi.GetPatientAllergiesRequest,
-    requestOptions?: PatientsClient.RequestOptions,
-  ): core.HttpResponsePromise<AffinityApi.GetPatientAllergiesResponse> {
-    return core.HttpResponsePromise.fromPromise(
-      this.__getPatientAllergies(request, requestOptions),
-    );
-  }
-
-  private async __getPatientAllergies(
-    request: AffinityApi.GetPatientAllergiesRequest,
-    requestOptions?: PatientsClient.RequestOptions,
-  ): Promise<core.WithRawResponse<AffinityApi.GetPatientAllergiesResponse>> {
-    const {
-      practiceId,
-      patientId,
-      "Affinity-Actor-Id": affinityActorId,
-      "Affinity-Actor-Type": affinityActorType,
-    } = request;
-    const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
-    const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
-      _authRequest.headers,
-      this._options?.headers,
-      mergeOnlyDefinedHeaders({
-        "Affinity-Actor-Id": affinityActorId,
-        "Affinity-Actor-Type": affinityActorType,
-        "Affinity-Version": requestOptions?.affinityVersion ?? this._options?.affinityVersion,
-      }),
-      requestOptions?.headers,
-    );
-    const _response = await core.fetcher({
-      url: core.url.join(
-        (await core.Supplier.get(this._options.baseUrl)) ??
-          (await core.Supplier.get(this._options.environment)) ??
-          environments.AffinityApiEnvironment.Production,
-        `v1/practices/${core.url.encodePathParam(practiceId)}/patients/${core.url.encodePathParam(patientId)}/allergies`,
-      ),
-      method: "GET",
-      headers: _headers,
-      queryString: core.url.queryBuilder().mergeAdditional(requestOptions?.queryParams).build(),
-      timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
-      maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
-      abortSignal: requestOptions?.abortSignal,
-      fetchFn: this._options?.fetch,
-      logging: this._options.logging,
-    });
-    if (_response.ok) {
-      return {
-        data: _response.body as AffinityApi.GetPatientAllergiesResponse,
-        rawResponse: _response.rawResponse,
-      };
-    }
-
-    if (_response.error.reason === "status-code") {
-      switch (_response.error.statusCode) {
-        case 400:
-          throw new AffinityApi.BadRequestError(
-            _response.error.body as AffinityApi.Problem,
-            _response.rawResponse,
-          );
-        case 401:
-          throw new AffinityApi.UnauthorizedError(
-            _response.error.body as AffinityApi.Problem,
-            _response.rawResponse,
-          );
-        case 403:
-          throw new AffinityApi.ForbiddenError(
-            _response.error.body as AffinityApi.Problem,
-            _response.rawResponse,
-          );
-        case 404:
-          throw new AffinityApi.NotFoundError(
-            _response.error.body as AffinityApi.Problem,
-            _response.rawResponse,
-          );
-        case 409:
-          throw new AffinityApi.ConflictError(
-            _response.error.body as AffinityApi.Problem,
-            _response.rawResponse,
-          );
-        case 422:
-          throw new AffinityApi.UnprocessableEntityError(
-            _response.error.body as AffinityApi.Problem,
-            _response.rawResponse,
-          );
-        case 429:
-          throw new AffinityApi.TooManyRequestsError(
-            _response.error.body as AffinityApi.Problem,
-            _response.rawResponse,
-          );
-        default:
-          throw new errors.AffinityApiError({
-            statusCode: _response.error.statusCode,
-            body: _response.error.body,
-            rawResponse: _response.rawResponse,
-          });
-      }
-    }
-
-    return handleNonStatusCodeError(
-      _response.error,
-      _response.rawResponse,
-      "GET",
-      "/v1/practices/{practiceId}/patients/{patientId}/allergies",
-    );
-  }
-
-  /**
-   * Replaces the patient's structured allergy record. Sending no_known is the explicit no-known-allergies acknowledgement; recorded requires at least one entry. Idempotency-Key is required.
-   *
-   * @param {AffinityApi.ReplacePatientAllergiesRequest} request
-   * @param {PatientsClient.RequestOptions} requestOptions - Request-specific configuration.
-   *
-   * @throws {@link AffinityApi.BadRequestError}
-   * @throws {@link AffinityApi.UnauthorizedError}
-   * @throws {@link AffinityApi.ForbiddenError}
-   * @throws {@link AffinityApi.NotFoundError}
-   * @throws {@link AffinityApi.ConflictError}
-   * @throws {@link AffinityApi.UnprocessableEntityError}
-   * @throws {@link AffinityApi.TooManyRequestsError}
-   *
-   * @example
-   *     await client.patients.replacePatientAllergies({
-   *         "Idempotency-Key": "Idempotency-Key",
-   *         practiceId: "prac_01j2y8m6jcc9tt24af5pw9x1bc",
-   *         patientId: "pat_01j2y8m6jcc9tt24af5pw9x1bc",
-   *         allergies: [{
-   *                 category: "drug",
-   *                 reactions: [{
-   *                         display: "display"
-   *                     }],
-   *                 source: "Doctor",
-   *                 substance: "substance",
-   *                 verificationStatus: "unconfirmed"
-   *             }],
-   *         reviewStatus: "not_reviewed"
-   *     })
-   */
-  public replacePatientAllergies(
-    request: AffinityApi.ReplacePatientAllergiesRequest,
-    requestOptions?: PatientsClient.RequestOptions,
-  ): core.HttpResponsePromise<AffinityApi.ReplacePatientAllergiesResponse> {
-    return core.HttpResponsePromise.fromPromise(
-      this.__replacePatientAllergies(request, requestOptions),
-    );
-  }
-
-  private async __replacePatientAllergies(
-    request: AffinityApi.ReplacePatientAllergiesRequest,
-    requestOptions?: PatientsClient.RequestOptions,
-  ): Promise<core.WithRawResponse<AffinityApi.ReplacePatientAllergiesResponse>> {
-    const {
-      practiceId,
-      patientId,
-      "Idempotency-Key": idempotencyKey,
-      "Affinity-Actor-Id": affinityActorId,
-      "Affinity-Actor-Type": affinityActorType,
-      ..._body
-    } = request;
-    const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
-    const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
-      _authRequest.headers,
-      this._options?.headers,
-      mergeOnlyDefinedHeaders({
-        "Idempotency-Key": idempotencyKey,
-        "Affinity-Actor-Id": affinityActorId,
-        "Affinity-Actor-Type": affinityActorType,
-        "Affinity-Version": requestOptions?.affinityVersion ?? this._options?.affinityVersion,
-      }),
-      requestOptions?.headers,
-    );
-    const _response = await core.fetcher({
-      url: core.url.join(
-        (await core.Supplier.get(this._options.baseUrl)) ??
-          (await core.Supplier.get(this._options.environment)) ??
-          environments.AffinityApiEnvironment.Production,
-        `v1/practices/${core.url.encodePathParam(practiceId)}/patients/${core.url.encodePathParam(patientId)}/allergies`,
-      ),
-      method: "PUT",
-      headers: _headers,
-      contentType: "application/json",
-      queryString: core.url.queryBuilder().mergeAdditional(requestOptions?.queryParams).build(),
-      requestType: "json",
-      body: mergeAdditionalBodyParameters(_body, requestOptions?.additionalBodyParameters),
-      timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
-      maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
-      abortSignal: requestOptions?.abortSignal,
-      fetchFn: this._options?.fetch,
-      logging: this._options.logging,
-    });
-    if (_response.ok) {
-      return {
-        data: _response.body as AffinityApi.ReplacePatientAllergiesResponse,
-        rawResponse: _response.rawResponse,
-      };
-    }
-
-    if (_response.error.reason === "status-code") {
-      switch (_response.error.statusCode) {
-        case 400:
-          throw new AffinityApi.BadRequestError(
-            _response.error.body as AffinityApi.Problem,
-            _response.rawResponse,
-          );
-        case 401:
-          throw new AffinityApi.UnauthorizedError(
-            _response.error.body as AffinityApi.Problem,
-            _response.rawResponse,
-          );
-        case 403:
-          throw new AffinityApi.ForbiddenError(
-            _response.error.body as AffinityApi.Problem,
-            _response.rawResponse,
-          );
-        case 404:
-          throw new AffinityApi.NotFoundError(
-            _response.error.body as AffinityApi.Problem,
-            _response.rawResponse,
-          );
-        case 409:
-          throw new AffinityApi.ConflictError(
-            _response.error.body as AffinityApi.Problem,
-            _response.rawResponse,
-          );
-        case 422:
-          throw new AffinityApi.UnprocessableEntityError(
-            _response.error.body as AffinityApi.Problem,
-            _response.rawResponse,
-          );
-        case 429:
-          throw new AffinityApi.TooManyRequestsError(
-            _response.error.body as AffinityApi.Problem,
-            _response.rawResponse,
-          );
-        default:
-          throw new errors.AffinityApiError({
-            statusCode: _response.error.statusCode,
-            body: _response.error.body,
-            rawResponse: _response.rawResponse,
-          });
-      }
-    }
-
-    return handleNonStatusCodeError(
-      _response.error,
-      _response.rawResponse,
-      "PUT",
-      "/v1/practices/{practiceId}/patients/{patientId}/allergies",
     );
   }
 }

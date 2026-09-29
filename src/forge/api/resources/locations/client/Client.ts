@@ -32,7 +32,7 @@ export class LocationsClient {
   /**
    * Requires locations:read on a practice key or an authorized platform key. Lists active and archived locations by name, with cursor pagination. Use status to filter. Location records are shared between Test and Live for the same practice.
    *
-   * @param {AffinityApi.ListPracticeLocationsRequest} request
+   * @param {AffinityApi.ListLocationsRequest} request
    * @param {LocationsClient.RequestOptions} requestOptions - Request-specific configuration.
    *
    * @throws {@link AffinityApi.BadRequestError}
@@ -43,23 +43,21 @@ export class LocationsClient {
    * @throws {@link AffinityApi.TooManyRequestsError}
    *
    * @example
-   *     await client.locations.listPracticeLocations({
+   *     await client.locations.list({
    *         practiceId: "prac_01j2y8m6jcc9tt24af5pw9x1bc",
    *         startingAfter: "loc_01j2y8m6jcc9tt24af5pw9x1bc",
    *         endingBefore: "loc_01j2y8m6jcc9tt24af5pw9x1bc"
    *     })
    */
-  public listPracticeLocations(
-    request: AffinityApi.ListPracticeLocationsRequest,
+  public list(
+    request: AffinityApi.ListLocationsRequest,
     requestOptions?: LocationsClient.RequestOptions,
   ): core.HttpResponsePromise<AffinityApi.ListPracticeLocationsResponse> {
-    return core.HttpResponsePromise.fromPromise(
-      this.__listPracticeLocations(request, requestOptions),
-    );
+    return core.HttpResponsePromise.fromPromise(this.__list(request, requestOptions));
   }
 
-  private async __listPracticeLocations(
-    request: AffinityApi.ListPracticeLocationsRequest,
+  private async __list(
+    request: AffinityApi.ListLocationsRequest,
     requestOptions?: LocationsClient.RequestOptions,
   ): Promise<core.WithRawResponse<AffinityApi.ListPracticeLocationsResponse>> {
     const { practiceId, limit, startingAfter, endingBefore, status } = request;
@@ -168,26 +166,28 @@ export class LocationsClient {
    * @throws {@link AffinityApi.TooManyRequestsError}
    *
    * @example
-   *     await client.locations.createPracticeLocation({
-   *         "Idempotency-Key": "Idempotency-Key",
+   *     await client.locations.create({
    *         practiceId: "prac_01j2y8m6jcc9tt24af5pw9x1bc",
    *         name: "name"
    *     })
    */
-  public createPracticeLocation(
+  public create(
     request: AffinityApi.CreatePracticeLocationRequest,
     requestOptions?: LocationsClient.RequestOptions,
   ): core.HttpResponsePromise<AffinityApi.CreatePracticeLocationResponse> {
-    return core.HttpResponsePromise.fromPromise(
-      this.__createPracticeLocation(request, requestOptions),
-    );
+    return core.HttpResponsePromise.fromPromise(this.__create(request, requestOptions));
   }
 
-  private async __createPracticeLocation(
+  private async __create(
     request: AffinityApi.CreatePracticeLocationRequest,
     requestOptions?: LocationsClient.RequestOptions,
   ): Promise<core.WithRawResponse<AffinityApi.CreatePracticeLocationResponse>> {
-    const { practiceId, "Idempotency-Key": idempotencyKey, ..._body } = request;
+    const {
+      practiceId,
+      "Idempotency-Key": idempotencyKey = globalThis.crypto?.randomUUID?.() ??
+        (await import("node:crypto")).randomUUID() /* affinity-sdk-auto-key */,
+      ..._body
+    } = request;
     const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
     const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
       _authRequest.headers,
@@ -276,7 +276,7 @@ export class LocationsClient {
   /**
    * Requires locations:read. Returns one active or archived location in the authorized practice.
    *
-   * @param {AffinityApi.GetPracticeLocationRequest} request
+   * @param {AffinityApi.GetLocationsRequest} request
    * @param {LocationsClient.RequestOptions} requestOptions - Request-specific configuration.
    *
    * @throws {@link AffinityApi.BadRequestError}
@@ -287,22 +287,20 @@ export class LocationsClient {
    * @throws {@link AffinityApi.TooManyRequestsError}
    *
    * @example
-   *     await client.locations.getPracticeLocation({
+   *     await client.locations.get({
    *         practiceId: "prac_01j2y8m6jcc9tt24af5pw9x1bc",
    *         locationId: "loc_01j2y8m6jcc9tt24af5pw9x1bc"
    *     })
    */
-  public getPracticeLocation(
-    request: AffinityApi.GetPracticeLocationRequest,
+  public get(
+    request: AffinityApi.GetLocationsRequest,
     requestOptions?: LocationsClient.RequestOptions,
   ): core.HttpResponsePromise<AffinityApi.GetPracticeLocationResponse> {
-    return core.HttpResponsePromise.fromPromise(
-      this.__getPracticeLocation(request, requestOptions),
-    );
+    return core.HttpResponsePromise.fromPromise(this.__get(request, requestOptions));
   }
 
-  private async __getPracticeLocation(
-    request: AffinityApi.GetPracticeLocationRequest,
+  private async __get(
+    request: AffinityApi.GetLocationsRequest,
     requestOptions?: LocationsClient.RequestOptions,
   ): Promise<core.WithRawResponse<AffinityApi.GetPracticeLocationResponse>> {
     const { practiceId, locationId } = request;
@@ -401,26 +399,29 @@ export class LocationsClient {
    * @throws {@link AffinityApi.TooManyRequestsError}
    *
    * @example
-   *     await client.locations.updatePracticeLocation({
-   *         "Idempotency-Key": "Idempotency-Key",
+   *     await client.locations.update({
    *         practiceId: "prac_01j2y8m6jcc9tt24af5pw9x1bc",
    *         locationId: "loc_01j2y8m6jcc9tt24af5pw9x1bc"
    *     })
    */
-  public updatePracticeLocation(
+  public update(
     request: AffinityApi.UpdatePracticeLocationRequest,
     requestOptions?: LocationsClient.RequestOptions,
   ): core.HttpResponsePromise<AffinityApi.UpdatePracticeLocationResponse> {
-    return core.HttpResponsePromise.fromPromise(
-      this.__updatePracticeLocation(request, requestOptions),
-    );
+    return core.HttpResponsePromise.fromPromise(this.__update(request, requestOptions));
   }
 
-  private async __updatePracticeLocation(
+  private async __update(
     request: AffinityApi.UpdatePracticeLocationRequest,
     requestOptions?: LocationsClient.RequestOptions,
   ): Promise<core.WithRawResponse<AffinityApi.UpdatePracticeLocationResponse>> {
-    const { practiceId, locationId, "Idempotency-Key": idempotencyKey, ..._body } = request;
+    const {
+      practiceId,
+      locationId,
+      "Idempotency-Key": idempotencyKey = globalThis.crypto?.randomUUID?.() ??
+        (await import("node:crypto")).randomUUID() /* affinity-sdk-auto-key */,
+      ..._body
+    } = request;
     const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
     const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
       _authRequest.headers,
@@ -509,7 +510,7 @@ export class LocationsClient {
   /**
    * Requires locations:write and Idempotency-Key for API keys. Retains the location and historical associations. Archived locations cannot receive new Team assignments. Repeating archive returns the archived location. Changes apply to both Test and Live.
    *
-   * @param {AffinityApi.ArchivePracticeLocationRequest} request
+   * @param {AffinityApi.ArchiveLocationsRequest} request
    * @param {LocationsClient.RequestOptions} requestOptions - Request-specific configuration.
    *
    * @throws {@link AffinityApi.BadRequestError}
@@ -520,26 +521,28 @@ export class LocationsClient {
    * @throws {@link AffinityApi.TooManyRequestsError}
    *
    * @example
-   *     await client.locations.archivePracticeLocation({
-   *         "Idempotency-Key": "Idempotency-Key",
+   *     await client.locations.archive({
    *         practiceId: "prac_01j2y8m6jcc9tt24af5pw9x1bc",
    *         locationId: "loc_01j2y8m6jcc9tt24af5pw9x1bc"
    *     })
    */
-  public archivePracticeLocation(
-    request: AffinityApi.ArchivePracticeLocationRequest,
+  public archive(
+    request: AffinityApi.ArchiveLocationsRequest,
     requestOptions?: LocationsClient.RequestOptions,
   ): core.HttpResponsePromise<AffinityApi.ArchivePracticeLocationResponse> {
-    return core.HttpResponsePromise.fromPromise(
-      this.__archivePracticeLocation(request, requestOptions),
-    );
+    return core.HttpResponsePromise.fromPromise(this.__archive(request, requestOptions));
   }
 
-  private async __archivePracticeLocation(
-    request: AffinityApi.ArchivePracticeLocationRequest,
+  private async __archive(
+    request: AffinityApi.ArchiveLocationsRequest,
     requestOptions?: LocationsClient.RequestOptions,
   ): Promise<core.WithRawResponse<AffinityApi.ArchivePracticeLocationResponse>> {
-    const { practiceId, locationId, "Idempotency-Key": idempotencyKey } = request;
+    const {
+      practiceId,
+      locationId,
+      "Idempotency-Key": idempotencyKey = globalThis.crypto?.randomUUID?.() ??
+        (await import("node:crypto")).randomUUID() /* affinity-sdk-auto-key */,
+    } = request;
     const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
     const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
       _authRequest.headers,

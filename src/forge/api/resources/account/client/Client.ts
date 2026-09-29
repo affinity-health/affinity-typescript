@@ -43,18 +43,18 @@ export class AccountClient {
    * @throws {@link AffinityApi.TooManyRequestsError}
    *
    * @example
-   *     await client.account.getAccount({
+   *     await client.account.get({
    *         orgId: "acct_01j2y8m6jcc9tt24af5pw9x1bc"
    *     })
    */
-  public getAccount(
+  public get(
     request: AffinityApi.GetAccountRequest = {},
     requestOptions?: AccountClient.RequestOptions,
   ): core.HttpResponsePromise<AffinityApi.GetAccountResponse> {
-    return core.HttpResponsePromise.fromPromise(this.__getAccount(request, requestOptions));
+    return core.HttpResponsePromise.fromPromise(this.__get(request, requestOptions));
   }
 
-  private async __getAccount(
+  private async __get(
     request: AffinityApi.GetAccountRequest = {},
     requestOptions?: AccountClient.RequestOptions,
   ): Promise<core.WithRawResponse<AffinityApi.GetAccountResponse>> {

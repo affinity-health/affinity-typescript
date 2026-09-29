@@ -1,6 +1,6 @@
 import { describe, expect, test } from "bun:test";
 import * as sdk from "../src";
-import { Affinity } from "../src";
+import { LegacyAffinity as Affinity } from "../src";
 
 const apiAccess = {
   apiKey: { id: "key_123", keyPrefix: "sk_test", object: "api_key" },

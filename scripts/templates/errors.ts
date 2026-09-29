@@ -40,6 +40,13 @@ export class AffinityError extends Error {
   readonly retryable: boolean;
   readonly statusCode?: number;
   readonly traceId?: string;
+  get status(): number | undefined { return this.statusCode; }
+  get retryAfter(): number | undefined {
+    const value = this.response?.headers.get("Retry-After");
+    if (!value) return undefined;
+    const delay = /^\d+(\.\d+)?$/.test(value) ? Number(value) : (Date.parse(value) - Date.now()) / 1000;
+    return Number.isFinite(delay) ? Math.max(0, delay) : undefined;
+  }
 
   constructor(message: string, options: AffinityErrorOptions) {
     super(message, options.cause === undefined ? undefined : { cause: options.cause });

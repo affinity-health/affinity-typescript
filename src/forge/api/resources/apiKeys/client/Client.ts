@@ -43,22 +43,20 @@ export class ApiKeysClient {
    * @throws {@link AffinityApi.TooManyRequestsError}
    *
    * @example
-   *     await client.apiKeys.createPlatformPracticeApiKey({
+   *     await client.apiKeys.create({
    *         "Idempotency-Key": "Idempotency-Key",
    *         practiceId: "practiceId",
    *         name: "name"
    *     })
    */
-  public createPlatformPracticeApiKey(
+  public create(
     request: AffinityApi.CreatePlatformPracticeApiKeyRequest,
     requestOptions?: ApiKeysClient.RequestOptions,
   ): core.HttpResponsePromise<AffinityApi.CreatePlatformPracticeApiKeyResponse> {
-    return core.HttpResponsePromise.fromPromise(
-      this.__createPlatformPracticeApiKey(request, requestOptions),
-    );
+    return core.HttpResponsePromise.fromPromise(this.__create(request, requestOptions));
   }
 
-  private async __createPlatformPracticeApiKey(
+  private async __create(
     request: AffinityApi.CreatePlatformPracticeApiKeyRequest,
     requestOptions?: ApiKeysClient.RequestOptions,
   ): Promise<core.WithRawResponse<AffinityApi.CreatePlatformPracticeApiKeyResponse>> {
@@ -159,15 +157,15 @@ export class ApiKeysClient {
    * @throws {@link AffinityApi.TooManyRequestsError}
    *
    * @example
-   *     await client.apiKeys.getApiAccess()
+   *     await client.apiKeys.getAccess()
    */
-  public getApiAccess(
+  public getAccess(
     requestOptions?: ApiKeysClient.RequestOptions,
   ): core.HttpResponsePromise<AffinityApi.GetApiAccessResponse> {
-    return core.HttpResponsePromise.fromPromise(this.__getApiAccess(requestOptions));
+    return core.HttpResponsePromise.fromPromise(this.__getAccess(requestOptions));
   }
 
-  private async __getApiAccess(
+  private async __getAccess(
     requestOptions?: ApiKeysClient.RequestOptions,
   ): Promise<core.WithRawResponse<AffinityApi.GetApiAccessResponse>> {
     const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();

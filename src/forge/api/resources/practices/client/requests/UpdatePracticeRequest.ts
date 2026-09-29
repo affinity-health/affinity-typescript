@@ -8,6 +8,7 @@
  */
 export interface UpdatePracticeRequest {
   practiceId: string;
+  /** Optional in the SDK. A fresh key is generated once per call when omitted. Supply a stable key to retry across calls. */
   "Idempotency-Key"?: string;
   /** Enable or disable Live access for an owned practice. Requires an approved platform and a Live request. Affinity Admin decisions take precedence. */
   liveEnabled?: boolean;

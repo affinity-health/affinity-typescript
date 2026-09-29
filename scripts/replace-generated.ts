@@ -11,6 +11,10 @@ const forgeDirectory = resolve(destinationRoot, "src/forge");
 if (await Bun.file(resolve(forgeDirectory, "generation.json")).exists()) {
   await cp(forgeDirectory, resolve(sourceRoot, "src/forge"), { recursive: true });
 }
+for (const name of ["guide.md", "legacy-interface.md"]) {
+  const guide = resolve(destinationRoot, "docs", name);
+  if (await Bun.file(guide).exists()) await cp(guide, resolve(sourceRoot, "docs", name));
+}
 for (const directory of ["src", "docs", ".openapi-generator"]) {
   const destination = resolve(destinationRoot, directory);
   await rm(destination, { force: true, recursive: true });

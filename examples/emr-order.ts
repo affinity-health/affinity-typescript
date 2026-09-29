@@ -1,5 +1,5 @@
 import {
-  Affinity,
+  LegacyAffinity as Affinity,
   AffinityError,
   ResponseError,
   affinityErrorFromResponse,

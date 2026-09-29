@@ -7,13 +7,21 @@ const consumer = await mkdtemp(join(tmpdir(), "affinity-sdk-consumer-"));
 
 const consumerSource = String.raw`
 import {
-  Affinity,
+  LegacyAffinity as Affinity,
+  Affinity as ApprovedAffinity,
   CompoundingReason,
   type AffinityActor,
   type CreateOrderParams,
   type ListCatalogItemsParams,
   type MutationOptions,
 } from "@affinity-health/sdk";
+
+const approved = new ApprovedAffinity("sk_test_packed_consumer");
+const scoped = approved.forPractice("prac_example");
+void scoped.patients.list({ limit: 20 });
+void scoped.patients.update("pat_example", { status: "archived" });
+void approved.patients.get("pat_example", { practiceId: "prac_example" });
+void scoped.orders.submit("ord_example", { idempotencyKey: "persisted-job" });
 
 const actor: AffinityActor = { id: "packed-check", type: "system" };
 const orderInput = {
@@ -198,7 +206,21 @@ try {
     }
   }
 
-  const nodeImport = String.raw`import { Affinity, CompoundingReason, ResponseError, FetchError, RequiredError } from "@affinity-health/sdk";
+  const approvedRuntime = String.raw`import { Affinity } from "@affinity-health/sdk";
+const paths = [];
+const api = new Affinity("test", { fetch: async (input) => {
+  const path = new URL(String(input)).pathname;
+  paths.push(path);
+  return Response.json(path.endsWith("/access")
+    ? { serviceAccount: { subjectType: "platform", subjectId: "acct_example" } }
+    : { id: "pat_example" });
+}});
+const patient = await api.forPractice("prac_example").patients.get("pat_example");
+if (patient.id !== "pat_example" || paths[1] !== "/v1/practices/prac_example/patients/pat_example") throw new Error("Packed scoped client failed");`;
+  await Bun.$`node --input-type=module -e ${approvedRuntime}`.cwd(consumer).quiet();
+  await Bun.$`bun -e ${approvedRuntime}`.cwd(consumer).quiet();
+
+  const nodeImport = String.raw`import { LegacyAffinity as Affinity, CompoundingReason, ResponseError, FetchError, RequiredError } from "@affinity-health/sdk";
 const sdk = new Affinity("sk_test_packed_consumer");
 if (!sdk.orders || "raw" in sdk || typeof sdk.rawRequest !== "function" || typeof ResponseError !== "function" || typeof FetchError !== "function" || typeof RequiredError !== "function") throw new Error("Node package exports are unavailable");
 for (const path of ["@affinity-health/sdk/dist/apis/OrdersApi.js", "@affinity-health/sdk/dist/models/CreateOrderRequest.js"]) {
@@ -214,7 +236,7 @@ for (const path of ["@affinity-health/sdk/dist/apis/OrdersApi.js", "@affinity-he
 }`;
   await Bun.$`node --input-type=module -e ${nodeImport}`.cwd(consumer).quiet();
 
-  const bunImport = String.raw`import { Affinity, ResponseError, FetchError, RequiredError } from "@affinity-health/sdk";
+  const bunImport = String.raw`import { LegacyAffinity as Affinity, ResponseError, FetchError, RequiredError } from "@affinity-health/sdk";
 const sdk = new Affinity("sk_test_packed_consumer");
 if (!sdk.orders || "raw" in sdk || typeof sdk.rawRequest !== "function" || typeof ResponseError !== "function" || typeof FetchError !== "function" || typeof RequiredError !== "function") throw new Error("Bun package exports are unavailable");
 for (const path of ["@affinity-health/sdk/dist/apis/OrdersApi.js", "@affinity-health/sdk/dist/models/CreateOrderRequest.js"]) {
