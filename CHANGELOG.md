@@ -7,6 +7,18 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 
 ## [Unreleased]
 
+## [1.16.0] - 2026-10-07
+
+### Added
+
+- Read Affinity-managed medication purchase prices with `catalog.presentationPrices.get()`, including nullable defaults and billing bases.
+
+### Changed
+
+- Use `https://api.affinityrx.com` by default.
+- Match the deployed API contract, including Test order simulation actions `ship` and `deliver`.
+- Remove `catalog.sellingPrices.update()`. Purchase-price changes are restricted to Affinity administrators; practice-scoped catalog reads include manual practice overrides before platform prices and defaults.
+
 ## [1.15.0] - 2026-09-29
 
 ### Changed

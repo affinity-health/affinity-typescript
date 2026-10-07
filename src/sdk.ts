@@ -39,7 +39,7 @@ class SDKTransport {
     private readonly options: SDKOptions,
   ) {
     if (!apiKey.trim()) throw new Error("An API key is required");
-    this.baseUrl = (options.baseUrl ?? "https://api.joinaffinityai.com").replace(/\/$/, "");
+    this.baseUrl = (options.baseUrl ?? "https://api.affinityrx.com").replace(/\/$/, "");
     this.fetcher = createTransport(options.fetch ?? globalThis.fetch, {
       timeout: options.timeout ?? 60_000,
       maxNetworkRetries: options.maxNetworkRetries ?? 0,
@@ -1579,24 +1579,24 @@ const operations = {
     rootOnly: false,
     idempotency: "none",
   },
-  "platform.public-api.selling-prices.updateSellingPrice": {
-    id: "platform.public-api.selling-prices.updateSellingPrice",
-    group: "catalog.sellingPrices",
-    method: "update",
-    verb: "PUT",
-    path: "/v1/catalog/items/{catalogItemId}/selling-price",
+  "platform.public-api.selling-prices.readPresentationPrice": {
+    id: "platform.public-api.selling-prices.readPresentationPrice",
+    group: "catalog.presentationPrices",
+    method: "get",
+    verb: "GET",
+    path: "/v1/catalog/items/{catalogItemId}/presentation-price",
     ids: ["catalogItemId"],
-    paramsName: "SellingPriceUpdateParams",
-    hasParams: true,
-    paramsRequired: true,
-    response: "PlatformPublicApiSellingPricesUpdateSellingPriceResponse",
+    paramsName: "undefinedGetParams",
+    hasParams: false,
+    paramsRequired: false,
+    response: "PlatformPublicApiSellingPricesReadPresentationPriceResponse",
     paginated: false,
-    query: [],
+    query: ["practiceId"],
     headers: {},
-    body: true,
-    practice: "body",
+    body: false,
+    practice: "query",
     rootOnly: false,
-    idempotency: "required",
+    idempotency: "none",
   },
   listWebhookGrants: {
     id: "listWebhookGrants",
@@ -1857,6 +1857,27 @@ type GetAccountResponse = {
 type ListCatalogItemsResponse = {
   data: Array<{
     catalogDetails: {
+      packageComponents?: Array<{
+        container: string;
+        containerCount: number;
+        contentsPerContainer: {
+          value: string;
+          unit:
+            | "mg"
+            | "g"
+            | "ug"
+            | "mL"
+            | "L"
+            | "[IU]"
+            | "tablet"
+            | "capsule"
+            | "troche"
+            | "actuation"
+            | "patch"
+            | "package"
+            | "container";
+        };
+      }> | null;
       attributes: Record<string, string | Array<string>>;
       directions: Array<{ kind: "suggested" | "template"; text: string }>;
     };
@@ -1901,8 +1922,8 @@ type ListCatalogItemsResponse = {
     imageUrl: string | null;
     imageUrls: Array<string>;
     medicationGroup?: {
-      offerCount: number | "Infinity" | "-Infinity" | "NaN";
-      pharmacyCount: number | "Infinity" | "-Infinity" | "NaN";
+      offerCount: number | "NaN" | "Infinity" | "-Infinity";
+      pharmacyCount: number | "NaN" | "Infinity" | "-Infinity";
       strengths: Array<string>;
     } | null;
     isOrderable: boolean;
@@ -1928,7 +1949,7 @@ type ListCatalogItemsResponse = {
         daysSupply?: number | null;
         label: string;
         unit: string;
-        value: number | "Infinity" | "-Infinity" | "NaN";
+        value: number | "NaN" | "Infinity" | "-Infinity";
       }> | null;
       allowedReasonCategories?: Array<
         | "alcohol_free"
@@ -1952,12 +1973,12 @@ type ListCatalogItemsResponse = {
       compoundingReasonContext?: "not_supported" | "optional" | "required" | null;
       controlledSchedule?: "II" | "III" | "IV" | "V" | null;
       defaultDaysSupply?: number | null;
-      defaultQuantity?: { unit: string; value: number | "Infinity" | "-Infinity" | "NaN" } | null;
+      defaultQuantity?: { unit: string; value: number | "NaN" | "Infinity" | "-Infinity" } | null;
       quantityIncrement?: {
-        max?: number | "Infinity" | "-Infinity" | "NaN" | null;
-        min?: number | "Infinity" | "-Infinity" | "NaN" | null;
+        max?: number | "NaN" | "Infinity" | "-Infinity" | null;
+        min?: number | "NaN" | "Infinity" | "-Infinity" | null;
         unit: string;
-        value: number | "Infinity" | "-Infinity" | "NaN";
+        value: number | "NaN" | "Infinity" | "-Infinity";
       } | null;
       defaultSigs?: Array<string> | null;
       diagnosis: "not_required" | "optional" | "required";
@@ -1972,7 +1993,12 @@ type ListCatalogItemsResponse = {
     pricing: {
       amountCents: number;
       basis:
-        | { kind: "item"; quantity: "1"; unit: string }
+        | {
+            kind: "item";
+            quantity: "1";
+            unit: string;
+            quantityPrices?: Array<{ quantity: string; amountCents: number }> | null;
+          }
         | { kind: "package"; quantity: string; unit: string }
         | { kind: "unit"; quantity: "1"; unit: string };
       currency: "USD";
@@ -2021,7 +2047,7 @@ type ListPharmaciesResponse = {
       description: string;
       effectiveAt: string;
       monthlyPrescriptionVolume: number | null;
-      rating: number | "Infinity" | "-Infinity" | "NaN" | null;
+      rating: number | "NaN" | "Infinity" | "-Infinity" | null;
       ratingBasis: string | null;
       ratingReviewCount: number | null;
       recommendedRank: number | null;
@@ -2186,7 +2212,7 @@ type ListOrdersResponse = {
     } | null;
     prescriptions: Array<{
       version: number;
-      daysSupply: number | "Infinity" | "-Infinity" | "NaN" | null;
+      daysSupply: number | "NaN" | "Infinity" | "-Infinity" | null;
       patientSnapshot: {
         address?: Record<string, SDKJsonValue> | null;
         allergyReviewStatus?: "no_known" | "not_reviewed" | "recorded" | null;
@@ -2244,7 +2270,7 @@ type ListOrdersResponse = {
         observations?: Array<{
           code?: string | null;
           display: string;
-          value: number | "Infinity" | "-Infinity" | "NaN";
+          value: number | "NaN" | "Infinity" | "-Infinity";
           unit: string;
         }> | null;
       } | null;
@@ -2276,7 +2302,7 @@ type ListOrdersResponse = {
       dosageForm: string | null;
       id: string;
       medicationName: string;
-      quantity: number | "Infinity" | "-Infinity" | "NaN";
+      quantity: number | "NaN" | "Infinity" | "-Infinity";
       quantityUnit: string;
       refills: number;
       status: string;
@@ -2327,7 +2353,7 @@ type CreateOrderResponse = {
     medicationId: string | null;
     medicationName: string;
     object: "prescription";
-    quantity: number | "Infinity" | "-Infinity" | "NaN";
+    quantity: number | "NaN" | "Infinity" | "-Infinity";
     quantityUnit: string;
     refills: number;
     status: "requires_provider_signature";
@@ -2464,7 +2490,7 @@ type GetOrderResponse = {
   } | null;
   prescriptions: Array<{
     version: number;
-    daysSupply: number | "Infinity" | "-Infinity" | "NaN" | null;
+    daysSupply: number | "NaN" | "Infinity" | "-Infinity" | null;
     patientSnapshot: {
       address?: Record<string, SDKJsonValue> | null;
       allergyReviewStatus?: "no_known" | "not_reviewed" | "recorded" | null;
@@ -2522,7 +2548,7 @@ type GetOrderResponse = {
       observations?: Array<{
         code?: string | null;
         display: string;
-        value: number | "Infinity" | "-Infinity" | "NaN";
+        value: number | "NaN" | "Infinity" | "-Infinity";
         unit: string;
       }> | null;
     } | null;
@@ -2554,7 +2580,7 @@ type GetOrderResponse = {
     dosageForm: string | null;
     id: string;
     medicationName: string;
-    quantity: number | "Infinity" | "-Infinity" | "NaN";
+    quantity: number | "NaN" | "Infinity" | "-Infinity";
     quantityUnit: string;
     refills: number;
     status: string;
@@ -2703,7 +2729,7 @@ type CancelOrderResponse = {
   } | null;
   prescriptions: Array<{
     version: number;
-    daysSupply: number | "Infinity" | "-Infinity" | "NaN" | null;
+    daysSupply: number | "NaN" | "Infinity" | "-Infinity" | null;
     patientSnapshot: {
       address?: Record<string, SDKJsonValue> | null;
       allergyReviewStatus?: "no_known" | "not_reviewed" | "recorded" | null;
@@ -2761,7 +2787,7 @@ type CancelOrderResponse = {
       observations?: Array<{
         code?: string | null;
         display: string;
-        value: number | "Infinity" | "-Infinity" | "NaN";
+        value: number | "NaN" | "Infinity" | "-Infinity";
         unit: string;
       }> | null;
     } | null;
@@ -2793,7 +2819,7 @@ type CancelOrderResponse = {
     dosageForm: string | null;
     id: string;
     medicationName: string;
-    quantity: number | "Infinity" | "-Infinity" | "NaN";
+    quantity: number | "NaN" | "Infinity" | "-Infinity";
     quantityUnit: string;
     refills: number;
     status: string;
@@ -2958,16 +2984,16 @@ type GetWebhookEventResponse = {
     endpointId: string;
     attemptNumber: number;
     completedAt: string | null;
-    durationMs: number | "Infinity" | "-Infinity" | "NaN" | null;
+    durationMs: number | "NaN" | "Infinity" | "-Infinity" | null;
     errorCode: string | null;
     errorMessage: string | null;
     id: string;
     requestedAt: string;
-    responseStatus: number | "Infinity" | "-Infinity" | "NaN" | null;
+    responseStatus: number | "NaN" | "Infinity" | "-Infinity" | null;
     trigger: "automatic" | "manual" | "test";
   }>;
   deliveries: Array<{
-    automaticAttemptCount: number | "Infinity" | "-Infinity" | "NaN";
+    automaticAttemptCount: number | "NaN" | "Infinity" | "-Infinity";
     endpointId: string;
     id: string;
     lastErrorCode: string | null;
@@ -2992,16 +3018,16 @@ type ReplayWebhookEventResponse = {
     endpointId: string;
     attemptNumber: number;
     completedAt: string | null;
-    durationMs: number | "Infinity" | "-Infinity" | "NaN" | null;
+    durationMs: number | "NaN" | "Infinity" | "-Infinity" | null;
     errorCode: string | null;
     errorMessage: string | null;
     id: string;
     requestedAt: string;
-    responseStatus: number | "Infinity" | "-Infinity" | "NaN" | null;
+    responseStatus: number | "NaN" | "Infinity" | "-Infinity" | null;
     trigger: "automatic" | "manual" | "test";
   }>;
   deliveries: Array<{
-    automaticAttemptCount: number | "Infinity" | "-Infinity" | "NaN";
+    automaticAttemptCount: number | "NaN" | "Infinity" | "-Infinity";
     endpointId: string;
     id: string;
     lastErrorCode: string | null;
@@ -3016,15 +3042,7 @@ type GetOrderTestSimulationResponse = {
   scenario: "successful" | "pharmacy_rejection" | "cancellation_declined";
   pendingAction: string | null;
   lastError: string | null;
-  availableActions: Array<
-    | "accept"
-    | "process"
-    | "ship"
-    | "deliver"
-    | "reject"
-    | "confirm_cancellation"
-    | "decline_cancellation"
-  >;
+  availableActions: Array<"ship" | "deliver">;
   scenarioEditable: boolean;
 };
 type UpdateOrderTestSimulationResponse = {
@@ -3032,15 +3050,7 @@ type UpdateOrderTestSimulationResponse = {
   scenario: "successful" | "pharmacy_rejection" | "cancellation_declined";
   pendingAction: string | null;
   lastError: string | null;
-  availableActions: Array<
-    | "accept"
-    | "process"
-    | "ship"
-    | "deliver"
-    | "reject"
-    | "confirm_cancellation"
-    | "decline_cancellation"
-  >;
+  availableActions: Array<"ship" | "deliver">;
   scenarioEditable: boolean;
 };
 type RetrievePrescribingOptionsResponse = {
@@ -3180,6 +3190,27 @@ type RetrievePrescribingOptionsResponse = {
   revision: string;
   catalog: {
     catalogDetails: {
+      packageComponents?: Array<{
+        container: string;
+        containerCount: number;
+        contentsPerContainer: {
+          value: string;
+          unit:
+            | "mg"
+            | "g"
+            | "ug"
+            | "mL"
+            | "L"
+            | "[IU]"
+            | "tablet"
+            | "capsule"
+            | "troche"
+            | "actuation"
+            | "patch"
+            | "package"
+            | "container";
+        };
+      }> | null;
       attributes: Record<string, string | Array<string>>;
       directions: Array<{ kind: "suggested" | "template"; text: string }>;
     };
@@ -3224,8 +3255,8 @@ type RetrievePrescribingOptionsResponse = {
     imageUrl: string | null;
     imageUrls: Array<string>;
     medicationGroup?: {
-      offerCount: number | "Infinity" | "-Infinity" | "NaN";
-      pharmacyCount: number | "Infinity" | "-Infinity" | "NaN";
+      offerCount: number | "NaN" | "Infinity" | "-Infinity";
+      pharmacyCount: number | "NaN" | "Infinity" | "-Infinity";
       strengths: Array<string>;
     } | null;
     isOrderable: boolean;
@@ -3251,7 +3282,7 @@ type RetrievePrescribingOptionsResponse = {
         daysSupply?: number | null;
         label: string;
         unit: string;
-        value: number | "Infinity" | "-Infinity" | "NaN";
+        value: number | "NaN" | "Infinity" | "-Infinity";
       }> | null;
       allowedReasonCategories?: Array<
         | "alcohol_free"
@@ -3275,12 +3306,12 @@ type RetrievePrescribingOptionsResponse = {
       compoundingReasonContext?: "not_supported" | "optional" | "required" | null;
       controlledSchedule?: "II" | "III" | "IV" | "V" | null;
       defaultDaysSupply?: number | null;
-      defaultQuantity?: { unit: string; value: number | "Infinity" | "-Infinity" | "NaN" } | null;
+      defaultQuantity?: { unit: string; value: number | "NaN" | "Infinity" | "-Infinity" } | null;
       quantityIncrement?: {
-        max?: number | "Infinity" | "-Infinity" | "NaN" | null;
-        min?: number | "Infinity" | "-Infinity" | "NaN" | null;
+        max?: number | "NaN" | "Infinity" | "-Infinity" | null;
+        min?: number | "NaN" | "Infinity" | "-Infinity" | null;
         unit: string;
-        value: number | "Infinity" | "-Infinity" | "NaN";
+        value: number | "NaN" | "Infinity" | "-Infinity";
       } | null;
       defaultSigs?: Array<string> | null;
       diagnosis: "not_required" | "optional" | "required";
@@ -3295,7 +3326,12 @@ type RetrievePrescribingOptionsResponse = {
     pricing: {
       amountCents: number;
       basis:
-        | { kind: "item"; quantity: "1"; unit: string }
+        | {
+            kind: "item";
+            quantity: "1";
+            unit: string;
+            quantityPrices?: Array<{ quantity: string; amountCents: number }> | null;
+          }
         | { kind: "package"; quantity: string; unit: string }
         | { kind: "unit"; quantity: "1"; unit: string };
       currency: "USD";
@@ -3455,7 +3491,7 @@ type PreviewOrderResponse = {
         observations?: Array<{
           display: string;
           unit: string;
-          value: number | "Infinity" | "-Infinity" | "NaN";
+          value: number | "NaN" | "Infinity" | "-Infinity";
         }> | null;
       } | null;
       pharmacyId?: string | null;
@@ -3498,9 +3534,9 @@ type PreviewOrderResponse = {
       } | null | null;
       clinicalProfile?: {
         currentMedications: Array<string>;
-        heightInches?: number | "Infinity" | "-Infinity" | "NaN" | null | null;
+        heightInches?: number | "NaN" | "Infinity" | "-Infinity" | null | null;
         reviewedAt?: string | null | null;
-        weightPounds?: number | "Infinity" | "-Infinity" | "NaN" | null | null;
+        weightPounds?: number | "NaN" | "Infinity" | "-Infinity" | null | null;
       } | null;
       dateOfBirth: string;
       email?: string | null | null;
@@ -3531,10 +3567,10 @@ type PreviewOrderResponse = {
       metadata?: Record<string, SDKJsonValue> | null;
       medicalRecordNumber?: string | null | null;
       measurements?: Array<{
-        heightCentimeters: number | "Infinity" | "-Infinity" | "NaN" | null;
+        heightCentimeters: number | "NaN" | "Infinity" | "-Infinity" | null;
         recordedAt: string;
         source: string;
-        weightKilograms: number | "Infinity" | "-Infinity" | "NaN" | null;
+        weightKilograms: number | "NaN" | "Infinity" | "-Infinity" | null;
       }> | null;
       name: {
         first: string;
@@ -3570,7 +3606,7 @@ type SignAndSubmitOrderResponse = {
     error: {
       code: string;
       detail: string;
-      status: number | "Infinity" | "-Infinity" | "NaN";
+      status: number | "NaN" | "Infinity" | "-Infinity";
     } | null;
   }>;
 };
@@ -3794,17 +3830,17 @@ type GetPracticeTeamResponse = {
   object: "team";
   practiceId: string;
   members: {
-    total: number | "Infinity" | "-Infinity" | "NaN";
-    active: number | "Infinity" | "-Infinity" | "NaN";
-    disabled: number | "Infinity" | "-Infinity" | "NaN";
+    total: number | "NaN" | "Infinity" | "-Infinity";
+    active: number | "NaN" | "Infinity" | "-Infinity";
+    disabled: number | "NaN" | "Infinity" | "-Infinity";
   };
   invitations: {
-    pending: number | "Infinity" | "-Infinity" | "NaN";
-    expired: number | "Infinity" | "-Infinity" | "NaN";
+    pending: number | "NaN" | "Infinity" | "-Infinity";
+    expired: number | "NaN" | "Infinity" | "-Infinity";
   };
   prescribers: {
-    total: number | "Infinity" | "-Infinity" | "NaN";
-    active: number | "Infinity" | "-Infinity" | "NaN";
+    total: number | "NaN" | "Infinity" | "-Infinity";
+    active: number | "NaN" | "Infinity" | "-Infinity";
   };
 };
 type ListPracticeTeamMembersResponse = {
@@ -4371,9 +4407,9 @@ type ListPatientsResponse = {
     createdAt: string;
     clinicalProfile: {
       currentMedications: Array<string>;
-      heightInches: number | "Infinity" | "-Infinity" | "NaN" | null;
+      heightInches: number | "NaN" | "Infinity" | "-Infinity" | null;
       reviewedAt: string | null;
-      weightPounds: number | "Infinity" | "-Infinity" | "NaN" | null;
+      weightPounds: number | "NaN" | "Infinity" | "-Infinity" | null;
     };
     dateOfBirth: string;
     email: string | null;
@@ -4408,10 +4444,10 @@ type ListPatientsResponse = {
     metadata: Record<string, SDKJsonValue>;
     medicalRecordNumber: string | null;
     measurements: Array<{
-      heightCentimeters: number | "Infinity" | "-Infinity" | "NaN" | null;
+      heightCentimeters: number | "NaN" | "Infinity" | "-Infinity" | null;
       recordedAt: string;
       source: string;
-      weightKilograms: number | "Infinity" | "-Infinity" | "NaN" | null;
+      weightKilograms: number | "NaN" | "Infinity" | "-Infinity" | null;
     }>;
     name: { first: string; last: string; middle: string | null; preferred: string | null };
     object: "patient";
@@ -4453,9 +4489,9 @@ type CreatePatientResponse = {
   createdAt: string;
   clinicalProfile: {
     currentMedications: Array<string>;
-    heightInches: number | "Infinity" | "-Infinity" | "NaN" | null;
+    heightInches: number | "NaN" | "Infinity" | "-Infinity" | null;
     reviewedAt: string | null;
-    weightPounds: number | "Infinity" | "-Infinity" | "NaN" | null;
+    weightPounds: number | "NaN" | "Infinity" | "-Infinity" | null;
   };
   dateOfBirth: string;
   email: string | null;
@@ -4490,10 +4526,10 @@ type CreatePatientResponse = {
   metadata: Record<string, SDKJsonValue>;
   medicalRecordNumber: string | null;
   measurements: Array<{
-    heightCentimeters: number | "Infinity" | "-Infinity" | "NaN" | null;
+    heightCentimeters: number | "NaN" | "Infinity" | "-Infinity" | null;
     recordedAt: string;
     source: string;
-    weightKilograms: number | "Infinity" | "-Infinity" | "NaN" | null;
+    weightKilograms: number | "NaN" | "Infinity" | "-Infinity" | null;
   }>;
   name: { first: string; last: string; middle: string | null; preferred: string | null };
   object: "patient";
@@ -4531,9 +4567,9 @@ type GetPatientResponse = {
   createdAt: string;
   clinicalProfile: {
     currentMedications: Array<string>;
-    heightInches: number | "Infinity" | "-Infinity" | "NaN" | null;
+    heightInches: number | "NaN" | "Infinity" | "-Infinity" | null;
     reviewedAt: string | null;
-    weightPounds: number | "Infinity" | "-Infinity" | "NaN" | null;
+    weightPounds: number | "NaN" | "Infinity" | "-Infinity" | null;
   };
   dateOfBirth: string;
   email: string | null;
@@ -4568,10 +4604,10 @@ type GetPatientResponse = {
   metadata: Record<string, SDKJsonValue>;
   medicalRecordNumber: string | null;
   measurements: Array<{
-    heightCentimeters: number | "Infinity" | "-Infinity" | "NaN" | null;
+    heightCentimeters: number | "NaN" | "Infinity" | "-Infinity" | null;
     recordedAt: string;
     source: string;
-    weightKilograms: number | "Infinity" | "-Infinity" | "NaN" | null;
+    weightKilograms: number | "NaN" | "Infinity" | "-Infinity" | null;
   }>;
   name: { first: string; last: string; middle: string | null; preferred: string | null };
   object: "patient";
@@ -4610,9 +4646,9 @@ type UpdatePatientResponse = {
   createdAt: string;
   clinicalProfile: {
     currentMedications: Array<string>;
-    heightInches: number | "Infinity" | "-Infinity" | "NaN" | null;
+    heightInches: number | "NaN" | "Infinity" | "-Infinity" | null;
     reviewedAt: string | null;
-    weightPounds: number | "Infinity" | "-Infinity" | "NaN" | null;
+    weightPounds: number | "NaN" | "Infinity" | "-Infinity" | null;
   };
   dateOfBirth: string;
   email: string | null;
@@ -4647,10 +4683,10 @@ type UpdatePatientResponse = {
   metadata: Record<string, SDKJsonValue>;
   medicalRecordNumber: string | null;
   measurements: Array<{
-    heightCentimeters: number | "Infinity" | "-Infinity" | "NaN" | null;
+    heightCentimeters: number | "NaN" | "Infinity" | "-Infinity" | null;
     recordedAt: string;
     source: string;
-    weightKilograms: number | "Infinity" | "-Infinity" | "NaN" | null;
+    weightKilograms: number | "NaN" | "Infinity" | "-Infinity" | null;
   }>;
   name: { first: string; last: string; middle: string | null; preferred: string | null };
   object: "patient";
@@ -4765,7 +4801,7 @@ type CreateOrderBatchResponse = {
       medicationId: string | null;
       medicationName: string;
       object: "prescription";
-      quantity: number | "Infinity" | "-Infinity" | "NaN";
+      quantity: number | "NaN" | "Infinity" | "-Infinity";
       quantityUnit: string;
       refills: number;
       status: "requires_provider_signature";
@@ -4778,23 +4814,54 @@ type PlatformPublicApiSellingPricesReadSellingPriceResponse = {
   amountCents: number | null;
   version: number;
   currency: "USD";
+  affinityPriceCents: number | null;
+  affinityBasis:
+    | {
+        kind: "item";
+        quantity: "1";
+        unit: string;
+        quantityPrices?: Array<{ quantity: string; amountCents: number }> | null;
+      }
+    | { kind: "package"; quantity: string; unit: string }
+    | { kind: "unit"; quantity: "1"; unit: string }
+    | null;
   basis:
-    | { kind: "item"; quantity: "1"; unit: string }
+    | {
+        kind: "item";
+        quantity: "1";
+        unit: string;
+        quantityPrices?: Array<{ quantity: string; amountCents: number }> | null;
+      }
     | { kind: "package"; quantity: string; unit: string }
     | { kind: "unit"; quantity: "1"; unit: string };
   purchaseAmountCents: number;
   requiresReview: boolean;
 };
-type PlatformPublicApiSellingPricesUpdateSellingPriceResponse = {
+type PlatformPublicApiSellingPricesReadPresentationPriceResponse = {
   amountCents: number | null;
   version: number;
   currency: "USD";
-  basis:
-    | { kind: "item"; quantity: "1"; unit: string }
+  affinityPriceCents: number | null;
+  affinityBasis:
+    | {
+        kind: "item";
+        quantity: "1";
+        unit: string;
+        quantityPrices?: Array<{ quantity: string; amountCents: number }> | null;
+      }
     | { kind: "package"; quantity: string; unit: string }
-    | { kind: "unit"; quantity: "1"; unit: string };
-  purchaseAmountCents: number;
-  requiresReview: boolean;
+    | { kind: "unit"; quantity: "1"; unit: string }
+    | null;
+  basis:
+    | {
+        kind: "item";
+        quantity: "1";
+        unit: string;
+        quantityPrices?: Array<{ quantity: string; amountCents: number }> | null;
+      }
+    | { kind: "package"; quantity: string; unit: string }
+    | { kind: "unit"; quantity: "1"; unit: string }
+    | null;
 };
 type ListWebhookGrantsResponse = {
   object: "list";
@@ -4995,9 +5062,9 @@ export type OrderCreateParams = {
     } | null | null;
     clinicalProfile?: {
       currentMedications: Array<string>;
-      heightInches?: number | "Infinity" | "-Infinity" | "NaN" | null | null;
+      heightInches?: number | "NaN" | "Infinity" | "-Infinity" | null | null;
       reviewedAt?: string | null | null;
-      weightPounds?: number | "Infinity" | "-Infinity" | "NaN" | null | null;
+      weightPounds?: number | "NaN" | "Infinity" | "-Infinity" | null | null;
     } | null;
     dateOfBirth: string;
     email?: string | null | null;
@@ -5028,10 +5095,10 @@ export type OrderCreateParams = {
     metadata?: Record<string, SDKJsonValue> | null;
     medicalRecordNumber?: string | null | null;
     measurements?: Array<{
-      heightCentimeters: number | "Infinity" | "-Infinity" | "NaN" | null;
+      heightCentimeters: number | "NaN" | "Infinity" | "-Infinity" | null;
       recordedAt: string;
       source: string;
-      weightKilograms: number | "Infinity" | "-Infinity" | "NaN" | null;
+      weightKilograms: number | "NaN" | "Infinity" | "-Infinity" | null;
     }> | null;
     name: {
       first: string;
@@ -5078,7 +5145,7 @@ export type OrderCreateParams = {
       observations?: Array<{
         display: string;
         unit: string;
-        value: number | "Infinity" | "-Infinity" | "NaN";
+        value: number | "NaN" | "Infinity" | "-Infinity";
       }> | null;
     } | null;
     pharmacyId?: string | null;
@@ -5094,7 +5161,7 @@ export type OrderCreateParams = {
     };
     directions: string;
     medicationId: string;
-    quantity: number | "Infinity" | "-Infinity" | "NaN";
+    quantity: number | "NaN" | "Infinity" | "-Infinity";
     quantityUnit: string;
     refills: number;
     structuredSig?: {
@@ -5198,10 +5265,10 @@ export type OrderTestSimulationUpdateParams = {
   mode: "automatic" | "manual";
   scenario: "successful" | "pharmacy_rejection" | "cancellation_declined";
   action?:
-    | "accept"
-    | "process"
     | "ship"
     | "deliver"
+    | "accept"
+    | "process"
     | "reject"
     | "confirm_cancellation"
     | "decline_cancellation"
@@ -5222,9 +5289,9 @@ export type OrderPreviewParams = {
     } | null | null;
     clinicalProfile?: {
       currentMedications: Array<string>;
-      heightInches?: number | "Infinity" | "-Infinity" | "NaN" | null | null;
+      heightInches?: number | "NaN" | "Infinity" | "-Infinity" | null | null;
       reviewedAt?: string | null | null;
-      weightPounds?: number | "Infinity" | "-Infinity" | "NaN" | null | null;
+      weightPounds?: number | "NaN" | "Infinity" | "-Infinity" | null | null;
     } | null;
     dateOfBirth: string;
     email?: string | null | null;
@@ -5255,10 +5322,10 @@ export type OrderPreviewParams = {
     metadata?: Record<string, SDKJsonValue> | null;
     medicalRecordNumber?: string | null | null;
     measurements?: Array<{
-      heightCentimeters: number | "Infinity" | "-Infinity" | "NaN" | null;
+      heightCentimeters: number | "NaN" | "Infinity" | "-Infinity" | null;
       recordedAt: string;
       source: string;
-      weightKilograms: number | "Infinity" | "-Infinity" | "NaN" | null;
+      weightKilograms: number | "NaN" | "Infinity" | "-Infinity" | null;
     }> | null;
     name: {
       first: string;
@@ -5343,7 +5410,7 @@ export type OrderPreviewParams = {
         observations?: Array<{
           display: string;
           unit: string;
-          value: number | "Infinity" | "-Infinity" | "NaN";
+          value: number | "NaN" | "Infinity" | "-Infinity";
         }> | null;
       } | null | null;
       dispensing?: {
@@ -5730,9 +5797,9 @@ export type PatientCreateParams = {
   } | null | null;
   clinicalProfile?: {
     currentMedications: Array<string>;
-    heightInches?: number | "Infinity" | "-Infinity" | "NaN" | null | null;
+    heightInches?: number | "NaN" | "Infinity" | "-Infinity" | null | null;
     reviewedAt?: string | null | null;
-    weightPounds?: number | "Infinity" | "-Infinity" | "NaN" | null | null;
+    weightPounds?: number | "NaN" | "Infinity" | "-Infinity" | null | null;
   } | null;
   dateOfBirth: string;
   email?: string | null | null;
@@ -5763,10 +5830,10 @@ export type PatientCreateParams = {
   metadata?: Record<string, SDKJsonValue> | null;
   medicalRecordNumber?: string | null | null;
   measurements?: Array<{
-    heightCentimeters: number | "Infinity" | "-Infinity" | "NaN" | null;
+    heightCentimeters: number | "NaN" | "Infinity" | "-Infinity" | null;
     recordedAt: string;
     source: string;
-    weightKilograms: number | "Infinity" | "-Infinity" | "NaN" | null;
+    weightKilograms: number | "NaN" | "Infinity" | "-Infinity" | null;
   }> | null;
   name: {
     first: string;
@@ -5793,9 +5860,9 @@ export type PatientUpdateParams = {
   } | null | null;
   clinicalProfile?: {
     currentMedications?: Array<string> | null;
-    heightInches?: number | "Infinity" | "-Infinity" | "NaN" | null | null;
+    heightInches?: number | "NaN" | "Infinity" | "-Infinity" | null | null;
     reviewedAt?: string | null | null;
-    weightPounds?: number | "Infinity" | "-Infinity" | "NaN" | null | null;
+    weightPounds?: number | "NaN" | "Infinity" | "-Infinity" | null | null;
   } | null;
   dateOfBirth?: string | null;
   email?: string | null | null;
@@ -5826,10 +5893,10 @@ export type PatientUpdateParams = {
   metadata?: Record<string, SDKJsonValue> | null;
   medicalRecordNumber?: string | null | null;
   measurements?: Array<{
-    heightCentimeters: number | "Infinity" | "-Infinity" | "NaN" | null;
+    heightCentimeters: number | "NaN" | "Infinity" | "-Infinity" | null;
     recordedAt: string;
     source: string;
-    weightKilograms: number | "Infinity" | "-Infinity" | "NaN" | null;
+    weightKilograms: number | "NaN" | "Infinity" | "-Infinity" | null;
   }> | null;
   name?: {
     first?: string | null;
@@ -5908,7 +5975,7 @@ export type OrderPrescriptionAddParams = {
       observations?: Array<{
         display: string;
         unit: string;
-        value: number | "Infinity" | "-Infinity" | "NaN";
+        value: number | "NaN" | "Infinity" | "-Infinity";
       }> | null;
     } | null;
     pharmacyId?: string | null;
@@ -5924,7 +5991,7 @@ export type OrderPrescriptionAddParams = {
     };
     directions: string;
     medicationId: string;
-    quantity: number | "Infinity" | "-Infinity" | "NaN";
+    quantity: number | "NaN" | "Infinity" | "-Infinity";
     quantityUnit: string;
     refills: number;
     structuredSig?: {
@@ -5973,7 +6040,7 @@ export type OrderPrescriptionUpdateParams = {
       observations?: Array<{
         display: string;
         unit: string;
-        value: number | "Infinity" | "-Infinity" | "NaN";
+        value: number | "NaN" | "Infinity" | "-Infinity";
       }> | null;
     } | null;
     pharmacyId?: string | null;
@@ -5989,7 +6056,7 @@ export type OrderPrescriptionUpdateParams = {
     };
     directions: string;
     medicationId: string;
-    quantity: number | "Infinity" | "-Infinity" | "NaN";
+    quantity: number | "NaN" | "Infinity" | "-Infinity";
     quantityUnit: string;
     refills: number;
     structuredSig?: {
@@ -6029,9 +6096,9 @@ export type OrderBatchCreateParams = {
       } | null | null;
       clinicalProfile?: {
         currentMedications: Array<string>;
-        heightInches?: number | "Infinity" | "-Infinity" | "NaN" | null | null;
+        heightInches?: number | "NaN" | "Infinity" | "-Infinity" | null | null;
         reviewedAt?: string | null | null;
-        weightPounds?: number | "Infinity" | "-Infinity" | "NaN" | null | null;
+        weightPounds?: number | "NaN" | "Infinity" | "-Infinity" | null | null;
       } | null;
       dateOfBirth: string;
       email?: string | null | null;
@@ -6062,10 +6129,10 @@ export type OrderBatchCreateParams = {
       metadata?: Record<string, SDKJsonValue> | null;
       medicalRecordNumber?: string | null | null;
       measurements?: Array<{
-        heightCentimeters: number | "Infinity" | "-Infinity" | "NaN" | null;
+        heightCentimeters: number | "NaN" | "Infinity" | "-Infinity" | null;
         recordedAt: string;
         source: string;
-        weightKilograms: number | "Infinity" | "-Infinity" | "NaN" | null;
+        weightKilograms: number | "NaN" | "Infinity" | "-Infinity" | null;
       }> | null;
       name: {
         first: string;
@@ -6112,7 +6179,7 @@ export type OrderBatchCreateParams = {
         observations?: Array<{
           display: string;
           unit: string;
-          value: number | "Infinity" | "-Infinity" | "NaN";
+          value: number | "NaN" | "Infinity" | "-Infinity";
         }> | null;
       } | null;
       pharmacyId?: string | null;
@@ -6128,7 +6195,7 @@ export type OrderBatchCreateParams = {
       };
       directions: string;
       medicationId: string;
-      quantity: number | "Infinity" | "-Infinity" | "NaN";
+      quantity: number | "NaN" | "Infinity" | "-Infinity";
       quantityUnit: string;
       refills: number;
       structuredSig?: {
@@ -6145,7 +6212,6 @@ export type OrderBatchCreateParams = {
     }>;
   }>;
 };
-export type SellingPriceUpdateParams = { amountCents: number | null; baseVersion: number };
 export type WebhookGrantListParams = {
   limit?: number;
   startingAfter?: string | null;
@@ -6177,6 +6243,9 @@ export class CatalogSDKResource {
   }
   get prescribingOptions() {
     return new CatalogPrescribingOptionsSDKResource(this.context);
+  }
+  get presentationPrices() {
+    return new CatalogPresentationPricesSDKResource(this.context);
   }
   get sellingPrices() {
     return new CatalogSellingPricesSDKResource(this.context);
@@ -6214,6 +6283,20 @@ export class CatalogPrescribingOptionsSDKResource {
     );
   }
 }
+export class CatalogPresentationPricesSDKResource {
+  constructor(private readonly context: SDKContext) {}
+  get(
+    catalogItemId: string,
+    options: SDKRequestOptions = {},
+  ): Promise<PlatformPublicApiSellingPricesReadPresentationPriceResponse> {
+    return this.context.call(
+      operations["platform.public-api.selling-prices.readPresentationPrice"],
+      [catalogItemId],
+      {},
+      options,
+    );
+  }
+}
 export class CatalogSellingPricesSDKResource {
   constructor(private readonly context: SDKContext) {}
   get(
@@ -6224,18 +6307,6 @@ export class CatalogSellingPricesSDKResource {
       operations["platform.public-api.selling-prices.readSellingPrice"],
       [catalogItemId],
       {},
-      options,
-    );
-  }
-  update(
-    catalogItemId: string,
-    params: SellingPriceUpdateParams,
-    options: RequiredKeyOptions,
-  ): Promise<PlatformPublicApiSellingPricesUpdateSellingPriceResponse> {
-    return this.context.call(
-      operations["platform.public-api.selling-prices.updateSellingPrice"],
-      [catalogItemId],
-      params,
       options,
     );
   }

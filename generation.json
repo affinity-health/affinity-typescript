@@ -1,6 +1,6 @@
 {
   "contractVersion": "2026-09-28",
-  "contractSha256": "93470ae3161cbff9821a29121bee4b9ff2dd2caee6dc0e33574db0dc4fe23c41",
+  "contractSha256": "73330d02b6cf49742ff7fcd38de1a43455242e5af71dc4a5140e547f15f627f3",
   "forgeRevision": "cfe397c296a5e6d9fce01eb335ed805821e5547c",
   "fernVersion": "5.112.0",
   "language": "typescript",
@@ -82,7 +82,7 @@
     "updateOrderPrescription": "PATCH /v1/orders/{orderId}/prescriptions/{prescriptionId}",
     "createOrderBatch": "POST /v1/order-batches",
     "platform.public-api.selling-prices.readSellingPrice": "GET /v1/catalog/items/{catalogItemId}/selling-price",
-    "platform.public-api.selling-prices.updateSellingPrice": "PUT /v1/catalog/items/{catalogItemId}/selling-price",
+    "platform.public-api.selling-prices.readPresentationPrice": "GET /v1/catalog/items/{catalogItemId}/presentation-price",
     "listWebhookGrants": "GET /v1/webhook-grants",
     "saveWebhookGrant": "PUT /v1/webhook-grants/{platformId}",
     "revokeWebhookGrant": "DELETE /v1/webhook-grants/{platformId}"
@@ -157,7 +157,7 @@
     "updateOrderPrescription": "orders.prescriptions.update",
     "createOrderBatch": "orders.batches.create",
     "platform.public-api.selling-prices.readSellingPrice": "catalog.sellingPrices.get",
-    "platform.public-api.selling-prices.updateSellingPrice": "catalog.sellingPrices.update",
+    "platform.public-api.selling-prices.readPresentationPrice": "catalog.presentationPrices.get",
     "listWebhookGrants": "webhooks.grants.list",
     "saveWebhookGrant": "webhooks.grants.save",
     "revokeWebhookGrant": "webhooks.grants.revoke"

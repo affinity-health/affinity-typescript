@@ -2,12 +2,12 @@
 
 Typed server-side client for Node.js 20+, Bun, AWS Lambda, and supported Fetch runtimes.
 
-Version `1.15.0` uses the new interface below.
+Version `1.16.0` targets `https://api.affinityrx.com`.
 
 ## Install
 
 ```sh
-npm install @affinity-health/sdk@1.15.0
+npm install @affinity-health/sdk@1.16.0
 ```
 
 ## Use
@@ -33,6 +33,11 @@ Defaults are API `2026-09-28`, a 60-second timeout, and no automatic retries.
 
 The primary `Affinity` client uses the new short resource methods and separate request options.
 Version `1.15.0` replaces the previous resource interface. See the [changelog](CHANGELOG.md) for the method and parameter changes.
+
+Purchase prices are managed by Affinity. Use `api.catalog.presentationPrices.get(catalogItemId)`
+to read the platform override and nullable Affinity default. The practice-scoped catalog returns
+the effective practice price: manual practice override, then platform override, then default.
+`catalog.sellingPrices.update()` is no longer available.
 
 ## Build and verify
 

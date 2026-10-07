@@ -25,7 +25,7 @@ test("requires explicit server configuration and refuses Live or ambiguous mode 
       if (livemode === false) expect((await client()).affinity).toBeDefined();
       else await expect(client()).rejects.toThrow("refuses Live-mode");
       expect(calls).toHaveLength(1);
-      expect(calls[0]).toContain("https://api.joinaffinityai.com/");
+      expect(calls[0]).toContain("https://api.affinityrx.com/");
     }
   } finally {
     globalThis.fetch = originalFetch;
