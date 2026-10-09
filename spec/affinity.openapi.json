@@ -2074,8 +2074,14 @@
             "name": "createdAfter",
             "required": false,
             "schema": {
-              "format": "date-time",
-              "type": "string"
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ]
             },
             "description": "Inclusive lower bound on creation time, as an ISO 8601 date-time."
           },
@@ -2084,8 +2090,14 @@
             "name": "createdBefore",
             "required": false,
             "schema": {
-              "format": "date-time",
-              "type": "string"
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ]
             },
             "description": "Inclusive upper bound on creation time, as an ISO 8601 date-time."
           },
@@ -2289,13 +2301,9 @@
             "name": "Affinity-Actor-Type",
             "required": false,
             "schema": {
-              "enum": [
-                "user",
-                "system"
-              ],
               "type": "string"
             },
-            "description": "Use user when a person initiated the action and system for autonomous work. Omit both actor headers to default to system. user requires Affinity-Actor-Id, and Affinity-Actor-Id requires a type; otherwise the request fails with 400 invalid_request."
+            "description": "user or system. Use user when a person initiated the action and system for autonomous work. Omit both actor headers to default to system. user requires Affinity-Actor-Id, and Affinity-Actor-Id requires a type; otherwise the request fails with 400 invalid_request."
           }
         ],
         "security": [
@@ -2432,13 +2440,9 @@
             "name": "Affinity-Actor-Type",
             "required": false,
             "schema": {
-              "enum": [
-                "user",
-                "system"
-              ],
               "type": "string"
             },
-            "description": "Use user when a person initiated the action and system for autonomous work. Omit both actor headers to default to system. user requires Affinity-Actor-Id, and Affinity-Actor-Id requires a type; otherwise the request fails with 400 invalid_request."
+            "description": "user or system. Use user when a person initiated the action and system for autonomous work. Omit both actor headers to default to system. user requires Affinity-Actor-Id, and Affinity-Actor-Id requires a type; otherwise the request fails with 400 invalid_request."
           }
         ],
         "security": [
@@ -2598,13 +2602,9 @@
             "name": "Affinity-Actor-Type",
             "required": false,
             "schema": {
-              "enum": [
-                "user",
-                "system"
-              ],
               "type": "string"
             },
-            "description": "Use user when a person initiated the action and system for autonomous work. Omit both actor headers to default to system. user requires Affinity-Actor-Id, and Affinity-Actor-Id requires a type; otherwise the request fails with 400 invalid_request."
+            "description": "user or system. Use user when a person initiated the action and system for autonomous work. Omit both actor headers to default to system. user requires Affinity-Actor-Id, and Affinity-Actor-Id requires a type; otherwise the request fails with 400 invalid_request."
           }
         ],
         "security": [
@@ -2751,13 +2751,9 @@
             "name": "Affinity-Actor-Type",
             "required": false,
             "schema": {
-              "enum": [
-                "user",
-                "system"
-              ],
               "type": "string"
             },
-            "description": "Use user when a person initiated the action and system for autonomous work. Omit both actor headers to default to system. user requires Affinity-Actor-Id, and Affinity-Actor-Id requires a type; otherwise the request fails with 400 invalid_request."
+            "description": "user or system. Use user when a person initiated the action and system for autonomous work. Omit both actor headers to default to system. user requires Affinity-Actor-Id, and Affinity-Actor-Id requires a type; otherwise the request fails with 400 invalid_request."
           }
         ],
         "security": [
@@ -2927,13 +2923,9 @@
             "name": "Affinity-Actor-Type",
             "required": false,
             "schema": {
-              "enum": [
-                "user",
-                "system"
-              ],
               "type": "string"
             },
-            "description": "Use user when a person initiated the action and system for autonomous work. Omit both actor headers to default to system. user requires Affinity-Actor-Id, and Affinity-Actor-Id requires a type; otherwise the request fails with 400 invalid_request."
+            "description": "user or system. Use user when a person initiated the action and system for autonomous work. Omit both actor headers to default to system. user requires Affinity-Actor-Id, and Affinity-Actor-Id requires a type; otherwise the request fails with 400 invalid_request."
           }
         ],
         "security": [
@@ -3135,13 +3127,9 @@
             "name": "Affinity-Actor-Type",
             "required": false,
             "schema": {
-              "enum": [
-                "user",
-                "system"
-              ],
               "type": "string"
             },
-            "description": "Use user when a person initiated the action and system for autonomous work. Omit both actor headers to default to system. user requires Affinity-Actor-Id, and Affinity-Actor-Id requires a type; otherwise the request fails with 400 invalid_request."
+            "description": "user or system. Use user when a person initiated the action and system for autonomous work. Omit both actor headers to default to system. user requires Affinity-Actor-Id, and Affinity-Actor-Id requires a type; otherwise the request fails with 400 invalid_request."
           }
         ],
         "security": [
@@ -5972,13 +5960,9 @@
             "name": "Affinity-Actor-Type",
             "required": false,
             "schema": {
-              "enum": [
-                "user",
-                "system"
-              ],
               "type": "string"
             },
-            "description": "Use user when a person initiated the action and system for autonomous work. Omit both actor headers to default to system. user requires Affinity-Actor-Id, and Affinity-Actor-Id requires a type; otherwise the request fails with 400 invalid_request."
+            "description": "user or system. Use user when a person initiated the action and system for autonomous work. Omit both actor headers to default to system. user requires Affinity-Actor-Id, and Affinity-Actor-Id requires a type; otherwise the request fails with 400 invalid_request."
           }
         ],
         "security": [
@@ -6129,13 +6113,9 @@
             "name": "Affinity-Actor-Type",
             "required": false,
             "schema": {
-              "enum": [
-                "user",
-                "system"
-              ],
               "type": "string"
             },
-            "description": "Use user when a person initiated the action and system for autonomous work. Omit both actor headers to default to system. user requires Affinity-Actor-Id, and Affinity-Actor-Id requires a type; otherwise the request fails with 400 invalid_request."
+            "description": "user or system. Use user when a person initiated the action and system for autonomous work. Omit both actor headers to default to system. user requires Affinity-Actor-Id, and Affinity-Actor-Id requires a type; otherwise the request fails with 400 invalid_request."
           }
         ],
         "security": [
@@ -6307,13 +6287,9 @@
             "name": "Affinity-Actor-Type",
             "required": false,
             "schema": {
-              "enum": [
-                "user",
-                "system"
-              ],
               "type": "string"
             },
-            "description": "Use user when a person initiated the action and system for autonomous work. Omit both actor headers to default to system. user requires Affinity-Actor-Id, and Affinity-Actor-Id requires a type; otherwise the request fails with 400 invalid_request."
+            "description": "user or system. Use user when a person initiated the action and system for autonomous work. Omit both actor headers to default to system. user requires Affinity-Actor-Id, and Affinity-Actor-Id requires a type; otherwise the request fails with 400 invalid_request."
           }
         ],
         "security": [
@@ -6482,13 +6458,9 @@
             "name": "Affinity-Actor-Type",
             "required": false,
             "schema": {
-              "enum": [
-                "user",
-                "system"
-              ],
               "type": "string"
             },
-            "description": "Use user when a person initiated the action and system for autonomous work. Omit both actor headers to default to system. user requires Affinity-Actor-Id, and Affinity-Actor-Id requires a type; otherwise the request fails with 400 invalid_request."
+            "description": "user or system. Use user when a person initiated the action and system for autonomous work. Omit both actor headers to default to system. user requires Affinity-Actor-Id, and Affinity-Actor-Id requires a type; otherwise the request fails with 400 invalid_request."
           }
         ],
         "security": [
@@ -6650,13 +6622,9 @@
             "name": "Affinity-Actor-Type",
             "required": false,
             "schema": {
-              "enum": [
-                "user",
-                "system"
-              ],
               "type": "string"
             },
-            "description": "Use user when a person initiated the action and system for autonomous work. Omit both actor headers to default to system. user requires Affinity-Actor-Id, and Affinity-Actor-Id requires a type; otherwise the request fails with 400 invalid_request."
+            "description": "user or system. Use user when a person initiated the action and system for autonomous work. Omit both actor headers to default to system. user requires Affinity-Actor-Id, and Affinity-Actor-Id requires a type; otherwise the request fails with 400 invalid_request."
           }
         ],
         "security": [
@@ -8230,6 +8198,308 @@
         "x-visibility": "public"
       }
     },
+    "/v1/practices/{practiceId}/team/prescribers/{prescriberId}/licenses": {
+      "post": {
+        "tags": [
+          "Team"
+        ],
+        "operationId": "createPracticeTeamLicense",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "practiceId",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^prac_[0-7][0-9a-hjkmnp-tv-z]{25}$",
+              "examples": [
+                "prac_01j2y8m6jcc9tt24af5pw9x1bc"
+              ]
+            }
+          },
+          {
+            "in": "path",
+            "name": "prescriberId",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^prov_[0-7][0-9a-hjkmnp-tv-z]{25}$",
+              "examples": [
+                "prov_01j2y8m6jcc9tt24af5pw9x1bc"
+              ]
+            }
+          },
+          {
+            "in": "header",
+            "name": "Affinity-Version",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Selects the HTTP API contract for this request only. When omitted, API-key requests use their service account’s stored version. Does not change the stored default."
+          },
+          {
+            "in": "header",
+            "name": "Idempotency-Key",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          },
+          {
+            "affinityApiKey": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "HTTP 200",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreatePracticeTeamLicenseResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "HTTP 400",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "HTTP 401",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "HTTP 403",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "HTTP 404",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "HTTP 409",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "HTTP 429",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreatePracticeTeamLicenseRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "deprecated": true,
+        "description": "Deprecated. Always returns 403: license records are shared clinician identity and change only through an Affinity support correction.",
+        "summary": "Add license (deprecated)",
+        "x-visibility": "public"
+      }
+    },
+    "/v1/practices/{practiceId}/team/prescribers/{prescriberId}/licenses/{licenseId}": {
+      "patch": {
+        "tags": [
+          "Team"
+        ],
+        "operationId": "updatePracticeTeamLicense",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "practiceId",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^prac_[0-7][0-9a-hjkmnp-tv-z]{25}$",
+              "examples": [
+                "prac_01j2y8m6jcc9tt24af5pw9x1bc"
+              ]
+            }
+          },
+          {
+            "in": "path",
+            "name": "prescriberId",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^prov_[0-7][0-9a-hjkmnp-tv-z]{25}$",
+              "examples": [
+                "prov_01j2y8m6jcc9tt24af5pw9x1bc"
+              ]
+            }
+          },
+          {
+            "in": "path",
+            "name": "licenseId",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^lic_[0-7][0-9a-hjkmnp-tv-z]{25}$",
+              "examples": [
+                "lic_01j2y8m6jcc9tt24af5pw9x1bc"
+              ]
+            }
+          },
+          {
+            "in": "header",
+            "name": "Affinity-Version",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Selects the HTTP API contract for this request only. When omitted, API-key requests use their service account’s stored version. Does not change the stored default."
+          },
+          {
+            "in": "header",
+            "name": "Idempotency-Key",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          },
+          {
+            "affinityApiKey": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "HTTP 200",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UpdatePracticeTeamLicenseResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "HTTP 400",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "HTTP 401",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "HTTP 403",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "HTTP 404",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "HTTP 409",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "HTTP 429",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdatePracticeTeamLicenseRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "deprecated": true,
+        "description": "Deprecated. Always returns 403: license records are shared clinician identity and change only through an Affinity support correction.",
+        "summary": "Update license (deprecated)",
+        "x-visibility": "public"
+      }
+    },
     "/v1/practices/{practiceId}/team/invitations/{invitationId}": {
       "get": {
         "tags": [
@@ -9397,8 +9667,14 @@
             "name": "lastOrderAfter",
             "required": false,
             "schema": {
-              "format": "date-time",
-              "type": "string"
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ]
             },
             "description": "Patients whose latest order is at or after this ISO 8601 date-time."
           },
@@ -9407,8 +9683,14 @@
             "name": "lastOrderBefore",
             "required": false,
             "schema": {
-              "format": "date-time",
-              "type": "string"
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ]
             },
             "description": "Patients whose latest order is at or before this ISO 8601 date-time."
           },
@@ -9570,13 +9852,9 @@
             "name": "Affinity-Actor-Type",
             "required": false,
             "schema": {
-              "enum": [
-                "user",
-                "system"
-              ],
               "type": "string"
             },
-            "description": "Use user when a person initiated the action and system for autonomous work. Omit both actor headers to default to system. user requires Affinity-Actor-Id, and Affinity-Actor-Id requires a type; otherwise the request fails with 400 invalid_request."
+            "description": "user or system. Use user when a person initiated the action and system for autonomous work. Omit both actor headers to default to system. user requires Affinity-Actor-Id, and Affinity-Actor-Id requires a type; otherwise the request fails with 400 invalid_request."
           }
         ],
         "security": [
@@ -9726,13 +10004,9 @@
             "name": "Affinity-Actor-Type",
             "required": false,
             "schema": {
-              "enum": [
-                "user",
-                "system"
-              ],
               "type": "string"
             },
-            "description": "Use user when a person initiated the action and system for autonomous work. Omit both actor headers to default to system. user requires Affinity-Actor-Id, and Affinity-Actor-Id requires a type; otherwise the request fails with 400 invalid_request."
+            "description": "user or system. Use user when a person initiated the action and system for autonomous work. Omit both actor headers to default to system. user requires Affinity-Actor-Id, and Affinity-Actor-Id requires a type; otherwise the request fails with 400 invalid_request."
           }
         ],
         "security": [
@@ -9894,13 +10168,9 @@
             "name": "Affinity-Actor-Type",
             "required": false,
             "schema": {
-              "enum": [
-                "user",
-                "system"
-              ],
               "type": "string"
             },
-            "description": "Use user when a person initiated the action and system for autonomous work. Omit both actor headers to default to system. user requires Affinity-Actor-Id, and Affinity-Actor-Id requires a type; otherwise the request fails with 400 invalid_request."
+            "description": "user or system. Use user when a person initiated the action and system for autonomous work. Omit both actor headers to default to system. user requires Affinity-Actor-Id, and Affinity-Actor-Id requires a type; otherwise the request fails with 400 invalid_request."
           }
         ],
         "security": [
@@ -10058,13 +10328,9 @@
             "name": "Affinity-Actor-Type",
             "required": false,
             "schema": {
-              "enum": [
-                "user",
-                "system"
-              ],
               "type": "string"
             },
-            "description": "Use user when a person initiated the action and system for autonomous work. Omit both actor headers to default to system. user requires Affinity-Actor-Id, and Affinity-Actor-Id requires a type; otherwise the request fails with 400 invalid_request."
+            "description": "user or system. Use user when a person initiated the action and system for autonomous work. Omit both actor headers to default to system. user requires Affinity-Actor-Id, and Affinity-Actor-Id requires a type; otherwise the request fails with 400 invalid_request."
           }
         ],
         "security": [
@@ -10222,13 +10488,9 @@
             "name": "Affinity-Actor-Type",
             "required": false,
             "schema": {
-              "enum": [
-                "user",
-                "system"
-              ],
               "type": "string"
             },
-            "description": "Use user when a person initiated the action and system for autonomous work. Omit both actor headers to default to system. user requires Affinity-Actor-Id, and Affinity-Actor-Id requires a type; otherwise the request fails with 400 invalid_request."
+            "description": "user or system. Use user when a person initiated the action and system for autonomous work. Omit both actor headers to default to system. user requires Affinity-Actor-Id, and Affinity-Actor-Id requires a type; otherwise the request fails with 400 invalid_request."
           }
         ],
         "security": [
@@ -10390,13 +10652,9 @@
             "name": "Affinity-Actor-Type",
             "required": false,
             "schema": {
-              "enum": [
-                "user",
-                "system"
-              ],
               "type": "string"
             },
-            "description": "Use user when a person initiated the action and system for autonomous work. Omit both actor headers to default to system. user requires Affinity-Actor-Id, and Affinity-Actor-Id requires a type; otherwise the request fails with 400 invalid_request."
+            "description": "user or system. Use user when a person initiated the action and system for autonomous work. Omit both actor headers to default to system. user requires Affinity-Actor-Id, and Affinity-Actor-Id requires a type; otherwise the request fails with 400 invalid_request."
           }
         ],
         "security": [
@@ -10554,13 +10812,9 @@
             "name": "Affinity-Actor-Type",
             "required": false,
             "schema": {
-              "enum": [
-                "user",
-                "system"
-              ],
               "type": "string"
             },
-            "description": "Use user when a person initiated the action and system for autonomous work. Omit both actor headers to default to system. user requires Affinity-Actor-Id, and Affinity-Actor-Id requires a type; otherwise the request fails with 400 invalid_request."
+            "description": "user or system. Use user when a person initiated the action and system for autonomous work. Omit both actor headers to default to system. user requires Affinity-Actor-Id, and Affinity-Actor-Id requires a type; otherwise the request fails with 400 invalid_request."
           }
         ],
         "security": [
@@ -10718,13 +10972,9 @@
             "name": "Affinity-Actor-Type",
             "required": false,
             "schema": {
-              "enum": [
-                "user",
-                "system"
-              ],
               "type": "string"
             },
-            "description": "Use user when a person initiated the action and system for autonomous work. Omit both actor headers to default to system. user requires Affinity-Actor-Id, and Affinity-Actor-Id requires a type; otherwise the request fails with 400 invalid_request."
+            "description": "user or system. Use user when a person initiated the action and system for autonomous work. Omit both actor headers to default to system. user requires Affinity-Actor-Id, and Affinity-Actor-Id requires a type; otherwise the request fails with 400 invalid_request."
           }
         ],
         "security": [
@@ -10904,13 +11154,9 @@
             "name": "Affinity-Actor-Type",
             "required": false,
             "schema": {
-              "enum": [
-                "user",
-                "system"
-              ],
               "type": "string"
             },
-            "description": "Use user when a person initiated the action and system for autonomous work. Omit both actor headers to default to system. user requires Affinity-Actor-Id, and Affinity-Actor-Id requires a type; otherwise the request fails with 400 invalid_request."
+            "description": "user or system. Use user when a person initiated the action and system for autonomous work. Omit both actor headers to default to system. user requires Affinity-Actor-Id, and Affinity-Actor-Id requires a type; otherwise the request fails with 400 invalid_request."
           }
         ],
         "security": [
@@ -11066,13 +11312,9 @@
             "name": "Affinity-Actor-Type",
             "required": false,
             "schema": {
-              "enum": [
-                "user",
-                "system"
-              ],
               "type": "string"
             },
-            "description": "Use user when a person initiated the action and system for autonomous work. Omit both actor headers to default to system. user requires Affinity-Actor-Id, and Affinity-Actor-Id requires a type; otherwise the request fails with 400 invalid_request."
+            "description": "user or system. Use user when a person initiated the action and system for autonomous work. Omit both actor headers to default to system. user requires Affinity-Actor-Id, and Affinity-Actor-Id requires a type; otherwise the request fails with 400 invalid_request."
           }
         ],
         "security": [
@@ -35768,7 +36010,14 @@
           "credentials": {
             "anyOf": [
               {
-                "type": "string"
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
               },
               {
                 "type": "null"
@@ -35779,7 +36028,14 @@
           "phone": {
             "anyOf": [
               {
-                "type": "string"
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
               },
               {
                 "type": "null"
@@ -35790,54 +36046,55 @@
           "address": {
             "anyOf": [
               {
-                "type": "object",
-                "properties": {
-                  "city": {
-                    "type": "string"
-                  },
-                  "country": {
-                    "anyOf": [
-                      {
+                "anyOf": [
+                  {
+                    "type": "object",
+                    "properties": {
+                      "city": {
                         "type": "string"
                       },
-                      {
-                        "type": "null"
-                      }
-                    ]
-                  },
-                  "line1": {
-                    "type": "string"
-                  },
-                  "line2": {
-                    "anyOf": [
-                      {
+                      "country": {
                         "type": "string"
                       },
-                      {
-                        "type": "null"
+                      "line1": {
+                        "type": "string"
+                      },
+                      "line2": {
+                        "anyOf": [
+                          {
+                            "type": "string"
+                          },
+                          {
+                            "type": "null"
+                          }
+                        ]
+                      },
+                      "postalCode": {
+                        "type": "string"
+                      },
+                      "state": {
+                        "type": "string"
                       }
-                    ]
+                    },
+                    "required": [
+                      "city",
+                      "country",
+                      "line1",
+                      "postalCode",
+                      "state"
+                    ],
+                    "additionalProperties": false
                   },
-                  "postalCode": {
-                    "type": "string"
-                  },
-                  "state": {
-                    "type": "string"
+                  {
+                    "type": "null"
                   }
-                },
-                "required": [
-                  "city",
-                  "line1",
-                  "postalCode",
-                  "state"
-                ],
-                "additionalProperties": false
+                ]
               },
               {
                 "type": "null"
               }
             ],
-            "description": "Prescriber clinical address for this practice. Signing requires a phone and address. Does not change other practices."
+            "description": "Prescriber clinical US address for this practice: line1, city, state, and postalCode. Signing requires a phone and address. Does not change other practices."
           },
           "practiceStatus": {
             "type": "string",
@@ -35987,6 +36244,156 @@
           "npi",
           "practiceStatus",
           "licenses"
+        ],
+        "additionalProperties": false
+      },
+      "CreatePracticeTeamLicenseRequest": {
+        "type": "object",
+        "properties": {
+          "state": {
+            "type": "string"
+          },
+          "licenseNumber": {
+            "type": "string"
+          },
+          "expiresAt": {
+            "anyOf": [
+              {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "required": [
+          "state",
+          "licenseNumber"
+        ],
+        "additionalProperties": false,
+        "title": "CreatePracticeTeamLicenseRequest"
+      },
+      "CreatePracticeTeamLicenseResponse": {
+        "title": "CreatePracticeTeamLicenseResponse",
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^lic_[0-7][0-9a-hjkmnp-tv-z]{25}$",
+            "examples": [
+              "lic_01j2y8m6jcc9tt24af5pw9x1bc"
+            ]
+          },
+          "state": {
+            "type": "string"
+          },
+          "licenseNumber": {
+            "type": "string"
+          },
+          "expiresAt": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "required": [
+          "id",
+          "state",
+          "licenseNumber",
+          "expiresAt"
+        ],
+        "additionalProperties": false
+      },
+      "UpdatePracticeTeamLicenseRequest": {
+        "type": "object",
+        "properties": {
+          "state": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "licenseNumber": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "expiresAt": {
+            "anyOf": [
+              {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "additionalProperties": false,
+        "title": "UpdatePracticeTeamLicenseRequest"
+      },
+      "UpdatePracticeTeamLicenseResponse": {
+        "title": "UpdatePracticeTeamLicenseResponse",
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^lic_[0-7][0-9a-hjkmnp-tv-z]{25}$",
+            "examples": [
+              "lic_01j2y8m6jcc9tt24af5pw9x1bc"
+            ]
+          },
+          "state": {
+            "type": "string"
+          },
+          "licenseNumber": {
+            "type": "string"
+          },
+          "expiresAt": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "required": [
+          "id",
+          "state",
+          "licenseNumber",
+          "expiresAt"
         ],
         "additionalProperties": false
       },
