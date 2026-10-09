@@ -1,13 +1,13 @@
 {
   "name": "@affinity-health/sdk",
-  "version": "1.16.0",
+  "version": "1.17.0",
   "description": "Official TypeScript SDK for the Affinity API",
   "homepage": "https://docs.affinityrx.com/api",
   "bugs": {
     "url": "https://github.com/affinity-health/affinity-typescript/issues"
   },
   "license": "MIT",
-  "author": "Affinity API Support <support@joinaffinityai.com>",
+  "author": "Affinity API Support <support@affinityrx.com>",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/affinity-health/affinity-typescript.git"

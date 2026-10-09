@@ -7,6 +7,35 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 
 ## [Unreleased]
 
+## [1.17.0] - 2026-10-09
+
+### Added
+
+- `feedback.create()` reports a problem or feedback to AffinityRx.
+- `AffinityNotFoundError` for `404` and `410` responses. It extends `AffinityInvalidRequestError`, so
+  existing handlers keep working.
+- `Problem.issues` exposes field and clinical issues at the top level of the problem response.
+- Requests send `User-Agent: affinity-typescript/<version>`.
+
+### Changed
+
+- Platform keys can list the catalog without `practiceId`.
+- Price reads no longer take `practiceId`; the purchase price belongs to the platform.
+- Array query parameters such as `pharmacyIds` repeat their key instead of joining values with commas.
+- Network failures and timeouts throw `AffinityConnectionError` instead of a raw `TypeError` or
+  `DOMException`. A caller's own abort still throws its `AbortError`.
+- API error messages include the status and code, and `requestId` falls back to the `X-Request-Id`
+  header when a response has no problem body.
+- `verifyAffinityWebhook()` accepts newer API versions, event types, and order statuses, and upper-case
+  hex signatures, so receivers keep working after AffinityRx adds them. A malformed `v1` value reports
+  "Webhook signature is malformed".
+
+### Removed
+
+- `team.prescribers.licenses.create()` and `.update()`. The API always rejected them; license
+  corrections go through AffinityRx support. Set prescriber phone, address, and missing credentials
+  with `team.prescribers.update()`.
+
 ## [1.16.0] - 2026-10-07
 
 ### Added
@@ -37,6 +66,10 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 
 ## [1.14.0] - 2026-09-28
 
+Versions 1.14.0 and earlier default to `https://api.joinaffinityai.com`, which now redirects. Fetch
+drops `Authorization` on that cross-origin redirect, so every request fails with `401`. Upgrade to
+1.16.0 or later, or pass `baseUrl: "https://api.affinityrx.com"`.
+
 ### Added
 
 - Export `AffinityApiClient`, the Forge/Fern-generated client, with typed API operations and injectable Fetch transport.
@@ -46,13 +79,6 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 
 - Target the first release contract, `2026-09-28`, for HTTP requests and new webhook events.
 - Retain verification of immutable pre-release webhook snapshots.
-
-## [1.13.1] - 2026-09-28
-
-### Changed
-
-- Default HTTP requests to API version `2026-09-28`; retain webhook payload version `2026-08-11`.
-- Document service-account defaults and request-local version overrides.
 
 ## [1.13.0] - 2026-09-28
 

@@ -86,7 +86,7 @@ export interface AffinityWebhookEndpointObject {
 }
 
 interface AffinityWebhookEventBase<TType extends AffinityWebhookEventType> {
-  api_version: typeof affinityWebhookApiVersion | "2026-08-11";
+  api_version: string;
   created: number;
   id: AffinityPublicId<"evt">;
   livemode: boolean;
@@ -255,8 +255,9 @@ export function parseAffinityWebhookEvent(value: unknown): AffinityWebhookEvent 
       "request_id",
       "type",
     ]);
-    if (event.api_version !== affinityWebhookApiVersion && event.api_version !== "2026-08-11") {
-      throw new Error("api_version is unsupported");
+    // Newer API versions and event types stay verifiable; branch on the ones you handle.
+    if (typeof event.api_version !== "string" || !event.api_version) {
+      throw new Error("api_version is invalid");
     }
     if (
       typeof event.created !== "number" ||
@@ -269,15 +270,14 @@ export function parseAffinityWebhookEvent(value: unknown): AffinityWebhookEvent 
     if (typeof event.livemode !== "boolean") throw new Error("livemode is invalid");
     if (event.object !== "event") throw new Error("object is invalid");
     requireOrganizationId(event.organization_id);
-    if (event.request_id !== null) requirePublicId(event.request_id, "req");
-    if (
-      typeof event.type !== "string" ||
-      !affinityWebhookEventTypes.includes(event.type as AffinityWebhookEventType)
-    ) {
-      throw new Error("type is invalid");
+    if (event.request_id !== null && typeof event.request_id !== "string") {
+      throw new Error("request_id is invalid");
     }
+    if (typeof event.type !== "string" || !event.type) throw new Error("type is invalid");
     const data = requireRecord(event.data, "data");
-    if (event.type === "webhook_endpoint.test") {
+    if (!affinityWebhookEventTypes.includes(event.type as AffinityWebhookEventType)) {
+      requireRecord(data.object, "data.object");
+    } else if (event.type === "webhook_endpoint.test") {
       requireFields(data, ["object"]);
       parseWebhookEndpointObject(data.object);
     } else {
@@ -309,12 +309,18 @@ export function parseAffinityWebhookSignature(value: string | null) {
   if (!Number.isSafeInteger(timestamp) || timestamp < 0) {
     throw new AffinityWebhookVerificationError("invalid_timestamp", "Webhook timestamp is invalid");
   }
-  const signatures = parts
-    .filter((part) => part.startsWith("v1="))
-    .map((part) => part.slice(3))
+  const candidates = parts.filter((part) => part.startsWith("v1=")).map((part) => part.slice(3));
+  if (candidates.length === 0) {
+    throw new AffinityWebhookVerificationError("invalid_signature", "Webhook signature is missing");
+  }
+  const signatures = candidates
+    .map((part) => part.toLowerCase())
     .filter((part) => /^[a-f0-9]{64}$/u.test(part));
   if (signatures.length === 0) {
-    throw new AffinityWebhookVerificationError("invalid_signature", "Webhook signature is missing");
+    throw new AffinityWebhookVerificationError(
+      "invalid_signature",
+      "Webhook signature is malformed",
+    );
   }
   return { signatures, timestamp };
 }
@@ -386,12 +392,8 @@ function parseOrderObject(value: unknown, previousAttributes: boolean) {
     requirePublicId(object.practice_id, "prac");
   }
   requireOptionalDateTime(object, "shipped_at", true);
-  if (
-    object.status !== undefined &&
-    (typeof object.status !== "string" ||
-      (object.status !== "accepted" &&
-        !affinityOrderStatuses.includes(object.status as AffinityOrderStatus)))
-  ) {
+  // New order statuses can appear before an SDK upgrade; accept any status string.
+  if (object.status !== undefined && typeof object.status !== "string") {
     throw new Error("order status is invalid");
   }
   requireOptionalNullableString(object, "tracking_number");

@@ -1,7 +1,9 @@
 // Code generated from spec/affinity.openapi.json by scripts/generate-facade.ts. DO NOT EDIT.
 
 import { createTransport } from "./transport";
-import { affinityErrorFromResponse } from "./errors";
+import { affinityConnectionError, affinityErrorFromResponse } from "./errors";
+
+const sdkVersion = "1.17.0";
 
 export interface SDKOptions {
   baseUrl?: string;
@@ -52,21 +54,32 @@ class SDKTransport {
     headers: Record<string, string>,
     signal?: AbortSignal,
   ): Promise<any> {
-    const response = await this.fetcher(this.baseUrl + path, {
-      method,
-      redirect: "error",
-      headers: {
-        Authorization: `Bearer ${this.apiKey}`,
-        "Affinity-Version": this.options.apiVersion ?? "2026-09-28",
-        ...headers,
-        ...(body === undefined ? {} : { "Content-Type": "application/json" }),
-      },
-      ...(body === undefined ? {} : { body: JSON.stringify(body) }),
-      signal,
-    });
+    let response: Response;
+    try {
+      response = await this.fetcher(this.baseUrl + path, {
+        method,
+        redirect: "error",
+        headers: {
+          Authorization: `Bearer ${this.apiKey}`,
+          "Affinity-Version": this.options.apiVersion ?? "2026-09-28",
+          "User-Agent": `affinity-typescript/${sdkVersion}`,
+          ...headers,
+          ...(body === undefined ? {} : { "Content-Type": "application/json" }),
+        },
+        ...(body === undefined ? {} : { body: JSON.stringify(body) }),
+        signal,
+      });
+    } catch (error) {
+      // A caller's own cancellation stays an AbortError; network failures and timeouts are typed.
+      if (signal?.aborted) throw error;
+      throw affinityConnectionError(error, {
+        timedOut: error instanceof Error && error.name === "TimeoutError",
+      });
+    }
     if (!response.ok) {
+      // Problem detail can describe submitted data, so it stays on error.problem, not in the message.
       const error = await affinityErrorFromResponse(response);
-      error.message = `Affinity API request failed (${response.status})`;
+      error.message = `Affinity API request failed (${response.status} ${error.code})`;
       throw error;
     }
     return response.status === 204 ? undefined : response.json();
@@ -126,7 +139,8 @@ class SDKContext {
           throw new Error("Practice context conflicts with the API key");
         practiceId = subject.subjectId;
       }
-      if (!practiceId) throw new Error("A platform key requires practiceId for this operation");
+      if (!practiceId && op.practice !== "query-optional")
+        throw new Error("A platform key requires practiceId for this operation");
     } else if (options.practiceId)
       throw new Error("This endpoint does not accept practice context");
     let path = op.path;
@@ -145,7 +159,11 @@ class SDKContext {
       data.status = "inactive";
     if (op.practice === "path")
       path = path.replace("{practiceId}", encodeURIComponent(practiceId!));
-    if (op.practice === "body" || op.practice === "query") data.practiceId = practiceId;
+    if (
+      (op.practice === "body" || op.practice === "query" || op.practice === "query-optional") &&
+      practiceId
+    )
+      data.practiceId = practiceId;
     if (op.practice === "order") {
       const orderId = ids[op.ids.indexOf("orderId")]!;
       const order = await this.transport.request(
@@ -160,9 +178,11 @@ class SDKContext {
       if (op.verb === "GET" && op.path === "/v1/orders/{orderId}") return order;
     }
     const query = new URLSearchParams();
+    // Array parameters repeat their key, as the API's form-exploded query contract requires.
     for (const name of op.query)
       if (data[name] !== undefined && data[name] !== null) {
-        query.set(name, String(data[name]));
+        const value = data[name];
+        for (const item of Array.isArray(value) ? value : [value]) query.append(name, String(item));
         delete data[name];
       }
     const headers: Record<string, string> = {};
@@ -212,6 +232,25 @@ export type SDKJsonValue =
   | { [key: string]: SDKJsonValue };
 
 const operations = {
+  createFeedback: {
+    id: "createFeedback",
+    group: "feedback",
+    method: "create",
+    verb: "POST",
+    path: "/v1/feedback",
+    ids: [],
+    paramsName: "FeedbackCreateParams",
+    hasParams: true,
+    paramsRequired: true,
+    response: "CreateFeedbackResponse",
+    paginated: false,
+    query: [],
+    headers: {},
+    body: true,
+    practice: "none",
+    rootOnly: false,
+    idempotency: "none",
+  },
   listPracticeLocations: {
     id: "listPracticeLocations",
     group: "locations",
@@ -316,7 +355,7 @@ const operations = {
     ids: [],
     paramsName: "ApiKeyCreateParams",
     hasParams: true,
-    paramsRequired: true,
+    paramsRequired: false,
     response: "CreatePlatformPracticeApiKeyResponse",
     paginated: false,
     query: [],
@@ -379,7 +418,7 @@ const operations = {
     ],
     headers: {},
     body: false,
-    practice: "query",
+    practice: "query-optional",
     rootOnly: false,
     idempotency: "none",
   },
@@ -458,7 +497,7 @@ const operations = {
     ],
     headers: { actorId: "Affinity-Actor-Id", actorType: "Affinity-Actor-Type" },
     body: false,
-    practice: "query",
+    practice: "query-optional",
     rootOnly: false,
     idempotency: "none",
   },
@@ -1165,44 +1204,6 @@ const operations = {
     rootOnly: false,
     idempotency: "auto",
   },
-  createPracticeTeamLicense: {
-    id: "createPracticeTeamLicense",
-    group: "team.prescribers.licenses",
-    method: "create",
-    verb: "POST",
-    path: "/v1/practices/{practiceId}/team/prescribers/{prescriberId}/licenses",
-    ids: ["prescriberId"],
-    paramsName: "TeamPrescriberLicenseCreateParams",
-    hasParams: true,
-    paramsRequired: true,
-    response: "CreatePracticeTeamLicenseResponse",
-    paginated: false,
-    query: [],
-    headers: {},
-    body: true,
-    practice: "path",
-    rootOnly: false,
-    idempotency: "auto",
-  },
-  updatePracticeTeamLicense: {
-    id: "updatePracticeTeamLicense",
-    group: "team.prescribers.licenses",
-    method: "update",
-    verb: "PATCH",
-    path: "/v1/practices/{practiceId}/team/prescribers/{prescriberId}/licenses/{licenseId}",
-    ids: ["prescriberId", "licenseId"],
-    paramsName: "TeamPrescriberLicenseUpdateParams",
-    hasParams: true,
-    paramsRequired: false,
-    response: "UpdatePracticeTeamLicenseResponse",
-    paginated: false,
-    query: [],
-    headers: {},
-    body: true,
-    practice: "path",
-    rootOnly: false,
-    idempotency: "auto",
-  },
   getPracticeTeamInvitation: {
     id: "getPracticeTeamInvitation",
     group: "team.invitations",
@@ -1560,8 +1561,8 @@ const operations = {
     rootOnly: false,
     idempotency: "required",
   },
-  "platform.public-api.selling-prices.readSellingPrice": {
-    id: "platform.public-api.selling-prices.readSellingPrice",
+  getCatalogItemSellingPrice: {
+    id: "getCatalogItemSellingPrice",
     group: "catalog.sellingPrices",
     method: "get",
     verb: "GET",
@@ -1570,31 +1571,31 @@ const operations = {
     paramsName: "SellingPriceGetParams",
     hasParams: false,
     paramsRequired: false,
-    response: "PlatformPublicApiSellingPricesReadSellingPriceResponse",
+    response: "GetCatalogItemSellingPriceResponse",
     paginated: false,
-    query: ["practiceId"],
+    query: [],
     headers: {},
     body: false,
-    practice: "query",
+    practice: "none",
     rootOnly: false,
     idempotency: "none",
   },
-  "platform.public-api.selling-prices.readPresentationPrice": {
-    id: "platform.public-api.selling-prices.readPresentationPrice",
+  getCatalogItemPresentationPrice: {
+    id: "getCatalogItemPresentationPrice",
     group: "catalog.presentationPrices",
     method: "get",
     verb: "GET",
     path: "/v1/catalog/items/{catalogItemId}/presentation-price",
     ids: ["catalogItemId"],
-    paramsName: "undefinedGetParams",
+    paramsName: "PresentationPriceGetParams",
     hasParams: false,
     paramsRequired: false,
-    response: "PlatformPublicApiSellingPricesReadPresentationPriceResponse",
+    response: "GetCatalogItemPresentationPriceResponse",
     paginated: false,
-    query: ["practiceId"],
+    query: [],
     headers: {},
     body: false,
-    practice: "query",
+    practice: "none",
     rootOnly: false,
     idempotency: "none",
   },
@@ -1656,6 +1657,7 @@ const operations = {
     idempotency: "required",
   },
 } as const;
+type CreateFeedbackResponse = { submissionId: string };
 type ListPracticeLocationsResponse = {
   data: Array<{
     id: string;
@@ -1758,6 +1760,10 @@ type CreatePlatformPracticeApiKeyResponse = {
     name: string;
     revokedAt: string | null;
     scopes: Array<
+      | "admin:read"
+      | "admin:write"
+      | "admin_access:read"
+      | "admin_access:write"
       | "catalog:read"
       | "selling_prices:read"
       | "selling_prices:write"
@@ -1789,6 +1795,10 @@ type CreatePlatformPracticeApiKeyResponse = {
     displayName: string;
     id: string;
     maxScopes: Array<
+      | "admin:read"
+      | "admin:write"
+      | "admin_access:read"
+      | "admin_access:write"
       | "catalog:read"
       | "selling_prices:read"
       | "selling_prices:write"
@@ -4030,18 +4040,6 @@ type UpdatePracticeTeamPrescriberResponse = {
   practiceStatus: string;
   licenses: Array<{ id: string; state: string; licenseNumber: string; expiresAt: string | null }>;
 };
-type CreatePracticeTeamLicenseResponse = {
-  id: string;
-  state: string;
-  licenseNumber: string;
-  expiresAt: string | null;
-};
-type UpdatePracticeTeamLicenseResponse = {
-  id: string;
-  state: string;
-  licenseNumber: string;
-  expiresAt: string | null;
-};
 type GetPracticeTeamInvitationResponse = {
   id: string;
   object: "team_invitation";
@@ -4810,7 +4808,7 @@ type CreateOrderBatchResponse = {
     status: "requires_provider_signature";
   }>;
 };
-type PlatformPublicApiSellingPricesReadSellingPriceResponse = {
+type GetCatalogItemSellingPriceResponse = {
   amountCents: number | null;
   version: number;
   currency: "USD";
@@ -4837,7 +4835,7 @@ type PlatformPublicApiSellingPricesReadSellingPriceResponse = {
   purchaseAmountCents: number;
   requiresReview: boolean;
 };
-type PlatformPublicApiSellingPricesReadPresentationPriceResponse = {
+type GetCatalogItemPresentationPriceResponse = {
   amountCents: number | null;
   version: number;
   currency: "USD";
@@ -4894,6 +4892,33 @@ type RevokeWebhookGrantResponse = {
   platformId: string;
   revoked: true;
 };
+export type FeedbackCreateParams = {
+  submissionId?: string | null;
+  app:
+    | "admin"
+    | "docs"
+    | "landing"
+    | "connect"
+    | "api"
+    | "partner"
+    | "pharmacy"
+    | "platform"
+    | "provider";
+  attachments?: Array<{ attachmentId: string; fileName: string; key: string }> | null;
+  kind?: "issue" | "feature" | "comment" | null;
+  message: string;
+  mode?: "live" | "test" | null;
+  organizationId?: string | null;
+  pageTitle?: string | null;
+  pageUrl?: string | null;
+  userAgent?: string | null;
+  viewport?: string | null;
+  reporterType?: "human" | "agent" | null;
+  agentName?: string | null;
+  requestId?: string | null;
+  referenceIds?: Array<string> | null;
+  website?: string | null;
+};
 export type LocationListParams = {
   limit?: number;
   startingAfter?: string | null;
@@ -4925,8 +4950,12 @@ export type LocationUpdateParams = {
 export type ApiKeyCreateParams = {
   allowedIps?: Array<string> | null;
   expiresAt?: string | null | null;
-  name: string;
+  name?: string | null;
   scopes?: Array<
+    | "admin:read"
+    | "admin:write"
+    | "admin_access:read"
+    | "admin_access:write"
     | "catalog:read"
     | "selling_prices:read"
     | "selling_prices:write"
@@ -5016,8 +5045,8 @@ export type ShippingOptionListParams = {
 export type OrderListParams = {
   query?: string | null;
   externalOrderId?: string | null;
-  createdAfter?: string | null;
-  createdBefore?: string | null;
+  createdAfter?: string;
+  createdBefore?: string;
   endingBefore?: string | null;
   limit?: number;
   orderId?: string | null;
@@ -5678,27 +5707,17 @@ export type TeamMemberUpdateParams = {
 export type TeamPrescriberUpdateParams = {
   displayName?: string | null;
   legalName?: string | null;
-  credentials?: string | null | null;
-  phone?: string | null | null;
+  credentials?: string | null;
+  phone?: string | null;
   address?: {
     city: string;
-    country: string;
+    country?: string | null;
     line1: string;
     line2?: string | null;
     postalCode: string;
     state: string;
-  } | null | null;
+  } | null;
   practiceStatus?: "active" | "inactive";
-};
-export type TeamPrescriberLicenseCreateParams = {
-  state: string;
-  licenseNumber: string;
-  expiresAt?: string | null | null;
-};
-export type TeamPrescriberLicenseUpdateParams = {
-  state?: string | null;
-  licenseNumber?: string | null;
-  expiresAt?: string | null | null;
 };
 export type PracticeListParams = {
   search?: string | null;
@@ -5776,8 +5795,8 @@ export type PatientListParams = {
   externalIdentitySource?: string | null;
   externalIdentityValue?: string | null;
   gender?: "f" | "m" | "o" | "u" | null;
-  lastOrderAfter?: string | null;
-  lastOrderBefore?: string | null;
+  lastOrderAfter?: string;
+  lastOrderBefore?: string;
   limit?: number;
   program?: string | null;
   query?: string | null;
@@ -6288,9 +6307,9 @@ export class CatalogPresentationPricesSDKResource {
   get(
     catalogItemId: string,
     options: SDKRequestOptions = {},
-  ): Promise<PlatformPublicApiSellingPricesReadPresentationPriceResponse> {
+  ): Promise<GetCatalogItemPresentationPriceResponse> {
     return this.context.call(
-      operations["platform.public-api.selling-prices.readPresentationPrice"],
+      operations["getCatalogItemPresentationPrice"],
       [catalogItemId],
       {},
       options,
@@ -6302,9 +6321,9 @@ export class CatalogSellingPricesSDKResource {
   get(
     catalogItemId: string,
     options: SDKRequestOptions = {},
-  ): Promise<PlatformPublicApiSellingPricesReadSellingPriceResponse> {
+  ): Promise<GetCatalogItemSellingPriceResponse> {
     return this.context.call(
-      operations["platform.public-api.selling-prices.readSellingPrice"],
+      operations["getCatalogItemSellingPrice"],
       [catalogItemId],
       {},
       options,
@@ -6319,6 +6338,15 @@ export class CatalogShippingOptionsSDKResource {
     options: SDKRequestOptions = {},
   ): Promise<ListShippingOptionsResponse> {
     return this.context.call(operations["listShippingOptions"], [catalogItemId], params, options);
+  }
+}
+export class FeedbackSDKResource {
+  constructor(private readonly context: SDKContext) {}
+  create(
+    params: FeedbackCreateParams,
+    options: SDKRequestOptions = {},
+  ): Promise<CreateFeedbackResponse> {
+    return this.context.call(operations["createFeedback"], [], params, options);
   }
 }
 export class LocationsSDKResource {
@@ -6760,9 +6788,6 @@ export class TeamMembersSDKResource {
 }
 export class TeamPrescribersSDKResource {
   constructor(private readonly context: SDKContext) {}
-  get licenses() {
-    return new TeamPrescribersLicensesSDKResource(this.context);
-  }
   list(
     params: TeamPrescriberListParams = {},
     options: SDKRequestOptions = {},
@@ -6789,34 +6814,6 @@ export class TeamPrescribersSDKResource {
     return this.context.call(
       operations["updatePracticeTeamPrescriber"],
       [prescriberId],
-      params,
-      options,
-    );
-  }
-}
-export class TeamPrescribersLicensesSDKResource {
-  constructor(private readonly context: SDKContext) {}
-  create(
-    prescriberId: string,
-    params: TeamPrescriberLicenseCreateParams,
-    options: SDKRequestOptions = {},
-  ): Promise<CreatePracticeTeamLicenseResponse> {
-    return this.context.call(
-      operations["createPracticeTeamLicense"],
-      [prescriberId],
-      params,
-      options,
-    );
-  }
-  update(
-    prescriberId: string,
-    licenseId: string,
-    params: TeamPrescriberLicenseUpdateParams = {},
-    options: SDKRequestOptions = {},
-  ): Promise<UpdatePracticeTeamLicenseResponse> {
-    return this.context.call(
-      operations["updatePracticeTeamLicense"],
-      [prescriberId, licenseId],
       params,
       options,
     );
@@ -6939,6 +6936,9 @@ export class Affinity {
   }
   get catalog() {
     return new CatalogSDKResource(this.context);
+  }
+  get feedback() {
+    return new FeedbackSDKResource(this.context);
   }
   get locations() {
     return new LocationsSDKResource(this.context);
