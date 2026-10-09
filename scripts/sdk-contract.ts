@@ -1,4 +1,4 @@
-/** Select the operations emitted by the facade generator without changing the pinned contract. */
+/** Select non-deprecated operations emitted by the facade generator. */
 export function sdkContract<T extends { paths?: Record<string, unknown> }>(spec: T): T {
   return {
     ...spec,

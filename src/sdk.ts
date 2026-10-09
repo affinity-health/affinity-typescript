@@ -5045,8 +5045,8 @@ export type ShippingOptionListParams = {
 export type OrderListParams = {
   query?: string | null;
   externalOrderId?: string | null;
-  createdAfter?: string;
-  createdBefore?: string;
+  createdAfter?: string | null;
+  createdBefore?: string | null;
   endingBefore?: string | null;
   limit?: number;
   orderId?: string | null;
@@ -5707,16 +5707,16 @@ export type TeamMemberUpdateParams = {
 export type TeamPrescriberUpdateParams = {
   displayName?: string | null;
   legalName?: string | null;
-  credentials?: string | null;
-  phone?: string | null;
+  credentials?: string | null | null;
+  phone?: string | null | null;
   address?: {
     city: string;
-    country?: string | null;
+    country: string;
     line1: string;
     line2?: string | null;
     postalCode: string;
     state: string;
-  } | null;
+  } | null | null;
   practiceStatus?: "active" | "inactive";
 };
 export type PracticeListParams = {
@@ -5795,8 +5795,8 @@ export type PatientListParams = {
   externalIdentitySource?: string | null;
   externalIdentityValue?: string | null;
   gender?: "f" | "m" | "o" | "u" | null;
-  lastOrderAfter?: string;
-  lastOrderBefore?: string;
+  lastOrderAfter?: string | null;
+  lastOrderBefore?: string | null;
   limit?: number;
   program?: string | null;
   query?: string | null;
