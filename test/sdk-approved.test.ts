@@ -1,5 +1,10 @@
 import { expect, test } from "bun:test";
-import { Affinity, AffinityError } from "../src";
+import {
+  Affinity,
+  AffinityError,
+  AffinityInvalidRequestError,
+  AffinityNotFoundError,
+} from "../src";
 function fixture(subjectType = "platform", maxNetworkRetries = 0) {
   const requests: { url: URL; method: string; headers: Headers; body: any }[] = [];
   let fail = false;
@@ -140,4 +145,38 @@ test("archive alias uses the API inactive status", async () => {
   const { api, requests } = fixture("practice");
   await api.patients.update("pat_a", { status: "archived" });
   expect(requests.at(-1)!.body).toEqual({ status: "inactive" });
+});
+
+test("platform keys list the catalog without a practice and repeat array parameters", async () => {
+  const { api, requests } = fixture("platform");
+  await api.catalog.items.list({ pharmacyIds: ["pharm_a", "pharm_b"], availability: "orderable" });
+  const list = requests.find((r) => r.url.pathname === "/v1/catalog/items")!;
+  expect(list.url.searchParams.getAll("pharmacyIds")).toEqual(["pharm_a", "pharm_b"]);
+  expect(list.url.searchParams.has("practiceId")).toBe(false);
+  expect(list.headers.get("User-Agent")).toMatch(/^affinity-typescript\/\d+\.\d+\.\d+$/);
+  await api.forPractice("prac_a").catalog.items.list({});
+  expect(requests.at(-1)!.url.searchParams.get("practiceId")).toBe("prac_a");
+});
+
+test("network failures and 404s are typed errors", async () => {
+  const offline = new Affinity("test-key", {
+    baseUrl: "https://api.example.test",
+    fetch: async () => {
+      throw new TypeError("fetch failed");
+    },
+  });
+  await expect(offline.account.get()).rejects.toMatchObject({
+    name: "AffinityConnectionError",
+    code: "connection_error",
+    retryable: true,
+  });
+  const missing = new Affinity("test-key", {
+    baseUrl: "https://api.example.test",
+    fetch: async () =>
+      new Response("gateway", { status: 404, headers: { "x-request-id": "req_gateway" } }),
+  });
+  const error = await missing.account.get().catch((caught) => caught);
+  expect(error).toBeInstanceOf(AffinityNotFoundError);
+  expect(error).toBeInstanceOf(AffinityInvalidRequestError);
+  expect(error.requestId).toBe("req_gateway");
 });

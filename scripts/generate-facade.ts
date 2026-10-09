@@ -23,7 +23,14 @@ if (
 )
   throw new Error("Regenerate the SDK facade from the current contract");
 await rm(resolve(root, "src"), { recursive: true, force: true });
-await output("src/sdk.ts", await readFile(resolve(root, "templates/sdk.ts"), "utf8"));
+const { version } = JSON.parse(await readFile(resolve(root, "package.json"), "utf8"));
+await output(
+  "src/sdk.ts",
+  (await readFile(resolve(root, "templates/sdk.ts"), "utf8")).replace(
+    "__AFFINITY_SDK_VERSION__",
+    version,
+  ),
+);
 await output("src/transport.ts", await readFile(resolve(root, "templates/transport.ts"), "utf8"));
 await output("src/errors.ts", await readFile(resolve(root, "scripts/templates/errors.ts"), "utf8"));
 await output(
