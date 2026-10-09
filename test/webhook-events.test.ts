@@ -70,10 +70,34 @@ describe("Affinity webhook events", () => {
   });
 
   test("still rejects malformed known fields with a valid signature", async () => {
-    for (const fields of [{ id: "bad" }, { status: "unexpected" }, { metadata: [] }, { estimated_delivery_at: "bad" }]) {
+    for (const fields of [{ id: "bad" }, { status: 42 }, { metadata: [] }, { estimated_delivery_at: "bad" }]) {
       const body = JSON.stringify({ ...event, data: { object: { ...event.data.object, ...fields } } });
       await expect(verifyAffinityWebhook({ body, now, secret, signature: await sign(body, secret, timestamp) })).rejects.toMatchObject({ code: "invalid_event" });
     }
+  });
+
+  test("accepts newer API versions, event types and order statuses", async () => {
+    for (const changed of [
+      { ...event, api_version: "2099-01-01" },
+      { ...event, type: "order.future_event", data: { object: { id: "anything", object: "order" } } },
+      { ...event, data: { object: { ...event.data.object, status: "future_status" } } },
+    ]) {
+      const body = JSON.stringify(changed);
+      await expect(
+        verifyAffinityWebhook({ body, now, secret, signature: await sign(body, secret, timestamp) }),
+      ).resolves.toEqual(changed);
+    }
+  });
+
+  test("accepts upper-case hex and names a malformed signature", async () => {
+    const body = JSON.stringify(event);
+    const signature = await sign(body, secret, timestamp);
+    await expect(
+      verifyAffinityWebhook({ body, now, secret, signature: signature.toUpperCase().replace("T=", "t=").replace("V1=", "v1=") }),
+    ).resolves.toEqual(event);
+    await expect(
+      verifyAffinityWebhook({ body, now, secret, signature: `t=${timestamp},v1=not-hex` }),
+    ).rejects.toMatchObject({ code: "invalid_signature", message: "Webhook signature is malformed" });
   });
 
   test("verifies the exact raw body and returns a narrowed event union", async () => {
