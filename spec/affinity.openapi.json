@@ -2016,7 +2016,7 @@
             }
           }
         },
-        "description": "Returns an array of at most 50 reviewed shipping services eligible for a catalog item, destination, and API mode. destinationState must be a USPS state or territory code. Each option has one temperature; pharmacy catalog summaries list all supported temperatures.",
+        "description": "Returns at most 50 reviewed shipping services eligible for a catalog item, destination, and API mode. destinationState must be a USPS state or territory code. Each option has one temperature; pharmacy catalog summaries list all supported temperatures.",
         "summary": "List shipping options",
         "x-visibility": "public"
       }
@@ -5108,6 +5108,24 @@
             "schema": {
               "type": "string"
             }
+          },
+          {
+            "in": "header",
+            "name": "Affinity-Actor-Id",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Required for user actors and optional for system actors. Omit both actor headers to use the authenticated service account as a system actor."
+          },
+          {
+            "in": "header",
+            "name": "Affinity-Actor-Type",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "user or system. Use user when a person initiated the action and system for autonomous work. Omit both actor headers to default to system. user requires Affinity-Actor-Id, and Affinity-Actor-Id requires a type; otherwise the request fails with 400 invalid_request."
           }
         ],
         "security": [
@@ -5260,6 +5278,24 @@
             "schema": {
               "type": "string"
             }
+          },
+          {
+            "in": "header",
+            "name": "Affinity-Actor-Id",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Required for user actors and optional for system actors. Omit both actor headers to use the authenticated service account as a system actor."
+          },
+          {
+            "in": "header",
+            "name": "Affinity-Actor-Type",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "user or system. Use user when a person initiated the action and system for autonomous work. Omit both actor headers to default to system. user requires Affinity-Actor-Id, and Affinity-Actor-Id requires a type; otherwise the request fails with 400 invalid_request."
           }
         ],
         "security": [
@@ -5412,6 +5448,24 @@
             "schema": {
               "type": "string"
             }
+          },
+          {
+            "in": "header",
+            "name": "Affinity-Actor-Id",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Required for user actors and optional for system actors. Omit both actor headers to use the authenticated service account as a system actor."
+          },
+          {
+            "in": "header",
+            "name": "Affinity-Actor-Type",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "user or system. Use user when a person initiated the action and system for autonomous work. Omit both actor headers to default to system. user requires Affinity-Actor-Id, and Affinity-Actor-Id requires a type; otherwise the request fails with 400 invalid_request."
           }
         ],
         "security": [
@@ -9161,7 +9215,7 @@
             }
           }
         },
-        "description": "Returns the practices that belong to the platform. The default Affinity-Version is 2026-09-28.",
+        "description": "Returns the practices that belong to the platform. The default Affinity-Version is 2026-10-09.",
         "summary": "List practices",
         "x-pier-pagination": {
           "cursorField": "id",
@@ -13607,13 +13661,10 @@
             "type": "object",
             "properties": {
               "apiVersion": {
-                "anyOf": [
-                  {
-                    "type": "string",
-                    "enum": [
-                      "2026-09-28"
-                    ]
-                  }
+                "type": "string",
+                "x-extensible-enum": [
+                  "2026-09-28",
+                  "2026-10-09"
                 ]
               },
               "displayName": {
@@ -13810,8 +13861,10 @@
                   "operations",
                   "owner",
                   "viewer",
+                  "custom",
                   "service_key"
-                ]
+                ],
+                "description": "The member's standard role, custom for an organization-defined role, or service_key."
               },
               "roleName": {
                 "type": "string"
@@ -17965,6 +18018,227 @@
                         "type": "null"
                       }
                     ]
+                  },
+                  "allergyReview": {
+                    "anyOf": [
+                      {
+                        "type": "object",
+                        "properties": {
+                          "allergies": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "category": {
+                                  "type": "string",
+                                  "enum": [
+                                    "drug",
+                                    "food",
+                                    "insect",
+                                    "latex",
+                                    "mold",
+                                    "pet",
+                                    "pollen",
+                                    "environmental",
+                                    "biologic",
+                                    "other"
+                                  ]
+                                },
+                                "code": {
+                                  "anyOf": [
+                                    {
+                                      "anyOf": [
+                                        {
+                                          "type": "string"
+                                        },
+                                        {
+                                          "type": "null"
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "type": "null"
+                                    }
+                                  ]
+                                },
+                                "codeSystem": {
+                                  "anyOf": [
+                                    {
+                                      "anyOf": [
+                                        {
+                                          "anyOf": [
+                                            {
+                                              "type": "string",
+                                              "enum": [
+                                                "rxnorm",
+                                                "snomed-ct"
+                                              ]
+                                            },
+                                            {
+                                              "type": "null"
+                                            }
+                                          ]
+                                        },
+                                        {
+                                          "type": "null"
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "type": "null"
+                                    }
+                                  ]
+                                },
+                                "reactions": {
+                                  "type": "array",
+                                  "items": {
+                                    "type": "object",
+                                    "properties": {
+                                      "code": {
+                                        "anyOf": [
+                                          {
+                                            "anyOf": [
+                                              {
+                                                "type": "string"
+                                              },
+                                              {
+                                                "type": "null"
+                                              }
+                                            ]
+                                          },
+                                          {
+                                            "type": "null"
+                                          }
+                                        ]
+                                      },
+                                      "codeSystem": {
+                                        "anyOf": [
+                                          {
+                                            "anyOf": [
+                                              {
+                                                "type": "string",
+                                                "enum": [
+                                                  "snomed-ct"
+                                                ]
+                                              },
+                                              {
+                                                "type": "null"
+                                              }
+                                            ]
+                                          },
+                                          {
+                                            "type": "null"
+                                          }
+                                        ]
+                                      },
+                                      "display": {
+                                        "type": "string"
+                                      }
+                                    },
+                                    "required": [
+                                      "display"
+                                    ],
+                                    "additionalProperties": false
+                                  },
+                                  "maxItems": 20
+                                },
+                                "severity": {
+                                  "anyOf": [
+                                    {
+                                      "anyOf": [
+                                        {
+                                          "anyOf": [
+                                            {
+                                              "type": "string",
+                                              "enum": [
+                                                "mild",
+                                                "moderate",
+                                                "severe",
+                                                "unknown"
+                                              ]
+                                            },
+                                            {
+                                              "type": "null"
+                                            }
+                                          ]
+                                        },
+                                        {
+                                          "type": "null"
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "type": "null"
+                                    }
+                                  ]
+                                },
+                                "source": {
+                                  "type": "string",
+                                  "enum": [
+                                    "Doctor",
+                                    "Patient",
+                                    "Patient Agent/Guardian",
+                                    "Pharmacist"
+                                  ]
+                                },
+                                "substance": {
+                                  "type": "string"
+                                },
+                                "type": {
+                                  "anyOf": [
+                                    {
+                                      "type": "string",
+                                      "enum": [
+                                        "allergy",
+                                        "intolerance"
+                                      ]
+                                    },
+                                    {
+                                      "type": "null"
+                                    }
+                                  ]
+                                },
+                                "verificationStatus": {
+                                  "type": "string",
+                                  "enum": [
+                                    "unconfirmed",
+                                    "presumed",
+                                    "confirmed"
+                                  ]
+                                }
+                              },
+                              "required": [
+                                "category",
+                                "reactions",
+                                "source",
+                                "substance",
+                                "type",
+                                "verificationStatus"
+                              ],
+                              "additionalProperties": false
+                            },
+                            "maxItems": 50
+                          },
+                          "reviewStatus": {
+                            "type": "string",
+                            "enum": [
+                              "not_reviewed",
+                              "no_known",
+                              "recorded"
+                            ]
+                          }
+                        },
+                        "required": [
+                          "allergies",
+                          "reviewStatus"
+                        ],
+                        "additionalProperties": false
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "description": "The clinician-reviewed allergy history to save with a new patient. Ignored when the request resolves an existing patient; use PUT /v1/practices/{practiceId}/patients/{patientId}/allergies to change it."
                   },
                   "clinicalProfile": {
                     "anyOf": [
@@ -27324,6 +27598,227 @@
                       }
                     ]
                   },
+                  "allergyReview": {
+                    "anyOf": [
+                      {
+                        "type": "object",
+                        "properties": {
+                          "allergies": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "category": {
+                                  "type": "string",
+                                  "enum": [
+                                    "drug",
+                                    "food",
+                                    "insect",
+                                    "latex",
+                                    "mold",
+                                    "pet",
+                                    "pollen",
+                                    "environmental",
+                                    "biologic",
+                                    "other"
+                                  ]
+                                },
+                                "code": {
+                                  "anyOf": [
+                                    {
+                                      "anyOf": [
+                                        {
+                                          "type": "string"
+                                        },
+                                        {
+                                          "type": "null"
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "type": "null"
+                                    }
+                                  ]
+                                },
+                                "codeSystem": {
+                                  "anyOf": [
+                                    {
+                                      "anyOf": [
+                                        {
+                                          "anyOf": [
+                                            {
+                                              "type": "string",
+                                              "enum": [
+                                                "rxnorm",
+                                                "snomed-ct"
+                                              ]
+                                            },
+                                            {
+                                              "type": "null"
+                                            }
+                                          ]
+                                        },
+                                        {
+                                          "type": "null"
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "type": "null"
+                                    }
+                                  ]
+                                },
+                                "reactions": {
+                                  "type": "array",
+                                  "items": {
+                                    "type": "object",
+                                    "properties": {
+                                      "code": {
+                                        "anyOf": [
+                                          {
+                                            "anyOf": [
+                                              {
+                                                "type": "string"
+                                              },
+                                              {
+                                                "type": "null"
+                                              }
+                                            ]
+                                          },
+                                          {
+                                            "type": "null"
+                                          }
+                                        ]
+                                      },
+                                      "codeSystem": {
+                                        "anyOf": [
+                                          {
+                                            "anyOf": [
+                                              {
+                                                "type": "string",
+                                                "enum": [
+                                                  "snomed-ct"
+                                                ]
+                                              },
+                                              {
+                                                "type": "null"
+                                              }
+                                            ]
+                                          },
+                                          {
+                                            "type": "null"
+                                          }
+                                        ]
+                                      },
+                                      "display": {
+                                        "type": "string"
+                                      }
+                                    },
+                                    "required": [
+                                      "display"
+                                    ],
+                                    "additionalProperties": false
+                                  },
+                                  "maxItems": 20
+                                },
+                                "severity": {
+                                  "anyOf": [
+                                    {
+                                      "anyOf": [
+                                        {
+                                          "anyOf": [
+                                            {
+                                              "type": "string",
+                                              "enum": [
+                                                "mild",
+                                                "moderate",
+                                                "severe",
+                                                "unknown"
+                                              ]
+                                            },
+                                            {
+                                              "type": "null"
+                                            }
+                                          ]
+                                        },
+                                        {
+                                          "type": "null"
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "type": "null"
+                                    }
+                                  ]
+                                },
+                                "source": {
+                                  "type": "string",
+                                  "enum": [
+                                    "Doctor",
+                                    "Patient",
+                                    "Patient Agent/Guardian",
+                                    "Pharmacist"
+                                  ]
+                                },
+                                "substance": {
+                                  "type": "string"
+                                },
+                                "type": {
+                                  "anyOf": [
+                                    {
+                                      "type": "string",
+                                      "enum": [
+                                        "allergy",
+                                        "intolerance"
+                                      ]
+                                    },
+                                    {
+                                      "type": "null"
+                                    }
+                                  ]
+                                },
+                                "verificationStatus": {
+                                  "type": "string",
+                                  "enum": [
+                                    "unconfirmed",
+                                    "presumed",
+                                    "confirmed"
+                                  ]
+                                }
+                              },
+                              "required": [
+                                "category",
+                                "reactions",
+                                "source",
+                                "substance",
+                                "type",
+                                "verificationStatus"
+                              ],
+                              "additionalProperties": false
+                            },
+                            "maxItems": 50
+                          },
+                          "reviewStatus": {
+                            "type": "string",
+                            "enum": [
+                              "not_reviewed",
+                              "no_known",
+                              "recorded"
+                            ]
+                          }
+                        },
+                        "required": [
+                          "allergies",
+                          "reviewStatus"
+                        ],
+                        "additionalProperties": false
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "description": "The clinician-reviewed allergy history to save with a new patient. Ignored when the request resolves an existing patient; use PUT /v1/practices/{practiceId}/patients/{patientId}/allergies to change it."
+                  },
                   "clinicalProfile": {
                     "anyOf": [
                       {
@@ -29904,6 +30399,227 @@
                                 "type": "null"
                               }
                             ]
+                          },
+                          "allergyReview": {
+                            "anyOf": [
+                              {
+                                "type": "object",
+                                "properties": {
+                                  "allergies": {
+                                    "type": "array",
+                                    "items": {
+                                      "type": "object",
+                                      "properties": {
+                                        "category": {
+                                          "type": "string",
+                                          "enum": [
+                                            "drug",
+                                            "food",
+                                            "insect",
+                                            "latex",
+                                            "mold",
+                                            "pet",
+                                            "pollen",
+                                            "environmental",
+                                            "biologic",
+                                            "other"
+                                          ]
+                                        },
+                                        "code": {
+                                          "anyOf": [
+                                            {
+                                              "anyOf": [
+                                                {
+                                                  "type": "string"
+                                                },
+                                                {
+                                                  "type": "null"
+                                                }
+                                              ]
+                                            },
+                                            {
+                                              "type": "null"
+                                            }
+                                          ]
+                                        },
+                                        "codeSystem": {
+                                          "anyOf": [
+                                            {
+                                              "anyOf": [
+                                                {
+                                                  "anyOf": [
+                                                    {
+                                                      "type": "string",
+                                                      "enum": [
+                                                        "rxnorm",
+                                                        "snomed-ct"
+                                                      ]
+                                                    },
+                                                    {
+                                                      "type": "null"
+                                                    }
+                                                  ]
+                                                },
+                                                {
+                                                  "type": "null"
+                                                }
+                                              ]
+                                            },
+                                            {
+                                              "type": "null"
+                                            }
+                                          ]
+                                        },
+                                        "reactions": {
+                                          "type": "array",
+                                          "items": {
+                                            "type": "object",
+                                            "properties": {
+                                              "code": {
+                                                "anyOf": [
+                                                  {
+                                                    "anyOf": [
+                                                      {
+                                                        "type": "string"
+                                                      },
+                                                      {
+                                                        "type": "null"
+                                                      }
+                                                    ]
+                                                  },
+                                                  {
+                                                    "type": "null"
+                                                  }
+                                                ]
+                                              },
+                                              "codeSystem": {
+                                                "anyOf": [
+                                                  {
+                                                    "anyOf": [
+                                                      {
+                                                        "type": "string",
+                                                        "enum": [
+                                                          "snomed-ct"
+                                                        ]
+                                                      },
+                                                      {
+                                                        "type": "null"
+                                                      }
+                                                    ]
+                                                  },
+                                                  {
+                                                    "type": "null"
+                                                  }
+                                                ]
+                                              },
+                                              "display": {
+                                                "type": "string"
+                                              }
+                                            },
+                                            "required": [
+                                              "display"
+                                            ],
+                                            "additionalProperties": false
+                                          },
+                                          "maxItems": 20
+                                        },
+                                        "severity": {
+                                          "anyOf": [
+                                            {
+                                              "anyOf": [
+                                                {
+                                                  "anyOf": [
+                                                    {
+                                                      "type": "string",
+                                                      "enum": [
+                                                        "mild",
+                                                        "moderate",
+                                                        "severe",
+                                                        "unknown"
+                                                      ]
+                                                    },
+                                                    {
+                                                      "type": "null"
+                                                    }
+                                                  ]
+                                                },
+                                                {
+                                                  "type": "null"
+                                                }
+                                              ]
+                                            },
+                                            {
+                                              "type": "null"
+                                            }
+                                          ]
+                                        },
+                                        "source": {
+                                          "type": "string",
+                                          "enum": [
+                                            "Doctor",
+                                            "Patient",
+                                            "Patient Agent/Guardian",
+                                            "Pharmacist"
+                                          ]
+                                        },
+                                        "substance": {
+                                          "type": "string"
+                                        },
+                                        "type": {
+                                          "anyOf": [
+                                            {
+                                              "type": "string",
+                                              "enum": [
+                                                "allergy",
+                                                "intolerance"
+                                              ]
+                                            },
+                                            {
+                                              "type": "null"
+                                            }
+                                          ]
+                                        },
+                                        "verificationStatus": {
+                                          "type": "string",
+                                          "enum": [
+                                            "unconfirmed",
+                                            "presumed",
+                                            "confirmed"
+                                          ]
+                                        }
+                                      },
+                                      "required": [
+                                        "category",
+                                        "reactions",
+                                        "source",
+                                        "substance",
+                                        "type",
+                                        "verificationStatus"
+                                      ],
+                                      "additionalProperties": false
+                                    },
+                                    "maxItems": 50
+                                  },
+                                  "reviewStatus": {
+                                    "type": "string",
+                                    "enum": [
+                                      "not_reviewed",
+                                      "no_known",
+                                      "recorded"
+                                    ]
+                                  }
+                                },
+                                "required": [
+                                  "allergies",
+                                  "reviewStatus"
+                                ],
+                                "additionalProperties": false
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ],
+                            "description": "The clinician-reviewed allergy history to save with a new patient. Ignored when the request resolves an existing patient; use PUT /v1/practices/{practiceId}/patients/{patientId}/allergies to change it."
                           },
                           "clinicalProfile": {
                             "anyOf": [
@@ -38101,13 +38817,10 @@
             "type": "object",
             "properties": {
               "apiVersion": {
-                "anyOf": [
-                  {
-                    "type": "string",
-                    "enum": [
-                      "2026-09-28"
-                    ]
-                  }
+                "type": "string",
+                "x-extensible-enum": [
+                  "2026-09-28",
+                  "2026-10-09"
                 ]
               },
               "id": {
@@ -41250,6 +41963,227 @@
                 "type": "null"
               }
             ]
+          },
+          "allergyReview": {
+            "anyOf": [
+              {
+                "type": "object",
+                "properties": {
+                  "allergies": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "category": {
+                          "type": "string",
+                          "enum": [
+                            "drug",
+                            "food",
+                            "insect",
+                            "latex",
+                            "mold",
+                            "pet",
+                            "pollen",
+                            "environmental",
+                            "biologic",
+                            "other"
+                          ]
+                        },
+                        "code": {
+                          "anyOf": [
+                            {
+                              "anyOf": [
+                                {
+                                  "type": "string"
+                                },
+                                {
+                                  "type": "null"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "null"
+                            }
+                          ]
+                        },
+                        "codeSystem": {
+                          "anyOf": [
+                            {
+                              "anyOf": [
+                                {
+                                  "anyOf": [
+                                    {
+                                      "type": "string",
+                                      "enum": [
+                                        "rxnorm",
+                                        "snomed-ct"
+                                      ]
+                                    },
+                                    {
+                                      "type": "null"
+                                    }
+                                  ]
+                                },
+                                {
+                                  "type": "null"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "null"
+                            }
+                          ]
+                        },
+                        "reactions": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "code": {
+                                "anyOf": [
+                                  {
+                                    "anyOf": [
+                                      {
+                                        "type": "string"
+                                      },
+                                      {
+                                        "type": "null"
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "type": "null"
+                                  }
+                                ]
+                              },
+                              "codeSystem": {
+                                "anyOf": [
+                                  {
+                                    "anyOf": [
+                                      {
+                                        "type": "string",
+                                        "enum": [
+                                          "snomed-ct"
+                                        ]
+                                      },
+                                      {
+                                        "type": "null"
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "type": "null"
+                                  }
+                                ]
+                              },
+                              "display": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "display"
+                            ],
+                            "additionalProperties": false
+                          },
+                          "maxItems": 20
+                        },
+                        "severity": {
+                          "anyOf": [
+                            {
+                              "anyOf": [
+                                {
+                                  "anyOf": [
+                                    {
+                                      "type": "string",
+                                      "enum": [
+                                        "mild",
+                                        "moderate",
+                                        "severe",
+                                        "unknown"
+                                      ]
+                                    },
+                                    {
+                                      "type": "null"
+                                    }
+                                  ]
+                                },
+                                {
+                                  "type": "null"
+                                }
+                              ]
+                            },
+                            {
+                              "type": "null"
+                            }
+                          ]
+                        },
+                        "source": {
+                          "type": "string",
+                          "enum": [
+                            "Doctor",
+                            "Patient",
+                            "Patient Agent/Guardian",
+                            "Pharmacist"
+                          ]
+                        },
+                        "substance": {
+                          "type": "string"
+                        },
+                        "type": {
+                          "anyOf": [
+                            {
+                              "type": "string",
+                              "enum": [
+                                "allergy",
+                                "intolerance"
+                              ]
+                            },
+                            {
+                              "type": "null"
+                            }
+                          ]
+                        },
+                        "verificationStatus": {
+                          "type": "string",
+                          "enum": [
+                            "unconfirmed",
+                            "presumed",
+                            "confirmed"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "category",
+                        "reactions",
+                        "source",
+                        "substance",
+                        "type",
+                        "verificationStatus"
+                      ],
+                      "additionalProperties": false
+                    },
+                    "maxItems": 50
+                  },
+                  "reviewStatus": {
+                    "type": "string",
+                    "enum": [
+                      "not_reviewed",
+                      "no_known",
+                      "recorded"
+                    ]
+                  }
+                },
+                "required": [
+                  "allergies",
+                  "reviewStatus"
+                ],
+                "additionalProperties": false
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "The clinician-reviewed allergy history to save with a new patient. Ignored when the request resolves an existing patient; use PUT /v1/practices/{practiceId}/patients/{patientId}/allergies to change it."
           },
           "clinicalProfile": {
             "anyOf": [
@@ -47390,6 +48324,227 @@
                               "type": "null"
                             }
                           ]
+                        },
+                        "allergyReview": {
+                          "anyOf": [
+                            {
+                              "type": "object",
+                              "properties": {
+                                "allergies": {
+                                  "type": "array",
+                                  "items": {
+                                    "type": "object",
+                                    "properties": {
+                                      "category": {
+                                        "type": "string",
+                                        "enum": [
+                                          "drug",
+                                          "food",
+                                          "insect",
+                                          "latex",
+                                          "mold",
+                                          "pet",
+                                          "pollen",
+                                          "environmental",
+                                          "biologic",
+                                          "other"
+                                        ]
+                                      },
+                                      "code": {
+                                        "anyOf": [
+                                          {
+                                            "anyOf": [
+                                              {
+                                                "type": "string"
+                                              },
+                                              {
+                                                "type": "null"
+                                              }
+                                            ]
+                                          },
+                                          {
+                                            "type": "null"
+                                          }
+                                        ]
+                                      },
+                                      "codeSystem": {
+                                        "anyOf": [
+                                          {
+                                            "anyOf": [
+                                              {
+                                                "anyOf": [
+                                                  {
+                                                    "type": "string",
+                                                    "enum": [
+                                                      "rxnorm",
+                                                      "snomed-ct"
+                                                    ]
+                                                  },
+                                                  {
+                                                    "type": "null"
+                                                  }
+                                                ]
+                                              },
+                                              {
+                                                "type": "null"
+                                              }
+                                            ]
+                                          },
+                                          {
+                                            "type": "null"
+                                          }
+                                        ]
+                                      },
+                                      "reactions": {
+                                        "type": "array",
+                                        "items": {
+                                          "type": "object",
+                                          "properties": {
+                                            "code": {
+                                              "anyOf": [
+                                                {
+                                                  "anyOf": [
+                                                    {
+                                                      "type": "string"
+                                                    },
+                                                    {
+                                                      "type": "null"
+                                                    }
+                                                  ]
+                                                },
+                                                {
+                                                  "type": "null"
+                                                }
+                                              ]
+                                            },
+                                            "codeSystem": {
+                                              "anyOf": [
+                                                {
+                                                  "anyOf": [
+                                                    {
+                                                      "type": "string",
+                                                      "enum": [
+                                                        "snomed-ct"
+                                                      ]
+                                                    },
+                                                    {
+                                                      "type": "null"
+                                                    }
+                                                  ]
+                                                },
+                                                {
+                                                  "type": "null"
+                                                }
+                                              ]
+                                            },
+                                            "display": {
+                                              "type": "string"
+                                            }
+                                          },
+                                          "required": [
+                                            "display"
+                                          ],
+                                          "additionalProperties": false
+                                        },
+                                        "maxItems": 20
+                                      },
+                                      "severity": {
+                                        "anyOf": [
+                                          {
+                                            "anyOf": [
+                                              {
+                                                "anyOf": [
+                                                  {
+                                                    "type": "string",
+                                                    "enum": [
+                                                      "mild",
+                                                      "moderate",
+                                                      "severe",
+                                                      "unknown"
+                                                    ]
+                                                  },
+                                                  {
+                                                    "type": "null"
+                                                  }
+                                                ]
+                                              },
+                                              {
+                                                "type": "null"
+                                              }
+                                            ]
+                                          },
+                                          {
+                                            "type": "null"
+                                          }
+                                        ]
+                                      },
+                                      "source": {
+                                        "type": "string",
+                                        "enum": [
+                                          "Doctor",
+                                          "Patient",
+                                          "Patient Agent/Guardian",
+                                          "Pharmacist"
+                                        ]
+                                      },
+                                      "substance": {
+                                        "type": "string"
+                                      },
+                                      "type": {
+                                        "anyOf": [
+                                          {
+                                            "type": "string",
+                                            "enum": [
+                                              "allergy",
+                                              "intolerance"
+                                            ]
+                                          },
+                                          {
+                                            "type": "null"
+                                          }
+                                        ]
+                                      },
+                                      "verificationStatus": {
+                                        "type": "string",
+                                        "enum": [
+                                          "unconfirmed",
+                                          "presumed",
+                                          "confirmed"
+                                        ]
+                                      }
+                                    },
+                                    "required": [
+                                      "category",
+                                      "reactions",
+                                      "source",
+                                      "substance",
+                                      "type",
+                                      "verificationStatus"
+                                    ],
+                                    "additionalProperties": false
+                                  },
+                                  "maxItems": 50
+                                },
+                                "reviewStatus": {
+                                  "type": "string",
+                                  "enum": [
+                                    "not_reviewed",
+                                    "no_known",
+                                    "recorded"
+                                  ]
+                                }
+                              },
+                              "required": [
+                                "allergies",
+                                "reviewStatus"
+                              ],
+                              "additionalProperties": false
+                            },
+                            {
+                              "type": "null"
+                            }
+                          ],
+                          "description": "The clinician-reviewed allergy history to save with a new patient. Ignored when the request resolves an existing patient; use PUT /v1/practices/{practiceId}/patients/{patientId}/allergies to change it."
                         },
                         "clinicalProfile": {
                           "anyOf": [

@@ -16,6 +16,10 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
   existing handlers keep working.
 - `Problem.issues` exposes field and clinical issues at the top level of the problem response.
 - Requests send `User-Agent: affinity-typescript/<version>`.
+- `orders.sign()`, `orders.signAndSubmit()`, and `orders.submit()` send the `actorId` and `actorType`
+  request options as `Affinity-Actor-Id` and `Affinity-Actor-Type`. Earlier versions dropped them.
+- Patient inputs on `patients.create()`, `orders.create()`, `orders.batches.create()`, and
+  `orders.preview()` accept an optional structured `allergyReview`.
 
 ### Changed
 
