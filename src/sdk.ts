@@ -856,7 +856,7 @@ const operations = {
     response: "SignOrderResponse",
     paginated: false,
     query: [],
-    headers: {},
+    headers: { actorId: "Affinity-Actor-Id", actorType: "Affinity-Actor-Type" },
     body: true,
     practice: "body",
     rootOnly: false,
@@ -875,7 +875,7 @@ const operations = {
     response: "SignAndSubmitOrderResponse",
     paginated: false,
     query: [],
-    headers: {},
+    headers: { actorId: "Affinity-Actor-Id", actorType: "Affinity-Actor-Type" },
     body: true,
     practice: "body",
     rootOnly: false,
@@ -894,7 +894,7 @@ const operations = {
     response: "SubmitOrderResponse",
     paginated: false,
     query: [],
-    headers: {},
+    headers: { actorId: "Affinity-Actor-Id", actorType: "Affinity-Actor-Type" },
     body: true,
     practice: "body",
     rootOnly: false,
@@ -1791,7 +1791,7 @@ type CreatePlatformPracticeApiKeyResponse = {
   };
   secret: string;
   serviceAccount: {
-    apiVersion: "2026-09-28";
+    apiVersion: string;
     displayName: string;
     id: string;
     maxScopes: Array<
@@ -1850,6 +1850,7 @@ type GetAccountResponse = {
       | "operations"
       | "owner"
       | "viewer"
+      | "custom"
       | "service_key";
     roleName: string;
     status: "active" | "disabled" | "invited";
@@ -3542,6 +3543,34 @@ type PreviewOrderResponse = {
         state: string;
         country?: "US" | null;
       } | null | null;
+      allergyReview?: {
+        allergies: Array<{
+          category:
+            | "drug"
+            | "food"
+            | "insect"
+            | "latex"
+            | "mold"
+            | "pet"
+            | "pollen"
+            | "environmental"
+            | "biologic"
+            | "other";
+          code?: string | null | null;
+          codeSystem?: "rxnorm" | "snomed-ct" | null | null | null;
+          reactions: Array<{
+            code?: string | null | null;
+            codeSystem?: "snomed-ct" | null | null;
+            display: string;
+          }>;
+          severity?: "mild" | "moderate" | "severe" | "unknown" | null | null | null;
+          source: "Doctor" | "Patient" | "Patient Agent/Guardian" | "Pharmacist";
+          substance: string;
+          type: "allergy" | "intolerance" | null;
+          verificationStatus: "unconfirmed" | "presumed" | "confirmed";
+        }>;
+        reviewStatus: "not_reviewed" | "no_known" | "recorded";
+      } | null;
       clinicalProfile?: {
         currentMedications: Array<string>;
         heightInches?: number | "NaN" | "Infinity" | "-Infinity" | null | null;
@@ -4241,7 +4270,7 @@ type GetApiAccessResponse = {
   object: "api_access";
   scopes: Array<string>;
   serviceAccount: {
-    apiVersion: "2026-09-28";
+    apiVersion: string;
     id: string;
     object: "service_account";
     subjectId: string;
@@ -5089,6 +5118,34 @@ export type OrderCreateParams = {
       state: string;
       country?: "US" | null;
     } | null | null;
+    allergyReview?: {
+      allergies: Array<{
+        category:
+          | "drug"
+          | "food"
+          | "insect"
+          | "latex"
+          | "mold"
+          | "pet"
+          | "pollen"
+          | "environmental"
+          | "biologic"
+          | "other";
+        code?: string | null | null;
+        codeSystem?: "rxnorm" | "snomed-ct" | null | null | null;
+        reactions: Array<{
+          code?: string | null | null;
+          codeSystem?: "snomed-ct" | null | null;
+          display: string;
+        }>;
+        severity?: "mild" | "moderate" | "severe" | "unknown" | null | null | null;
+        source: "Doctor" | "Patient" | "Patient Agent/Guardian" | "Pharmacist";
+        substance: string;
+        type: "allergy" | "intolerance" | null;
+        verificationStatus: "unconfirmed" | "presumed" | "confirmed";
+      }>;
+      reviewStatus: "not_reviewed" | "no_known" | "recorded";
+    } | null;
     clinicalProfile?: {
       currentMedications: Array<string>;
       heightInches?: number | "NaN" | "Infinity" | "-Infinity" | null | null;
@@ -5316,6 +5373,34 @@ export type OrderPreviewParams = {
       state: string;
       country?: "US" | null;
     } | null | null;
+    allergyReview?: {
+      allergies: Array<{
+        category:
+          | "drug"
+          | "food"
+          | "insect"
+          | "latex"
+          | "mold"
+          | "pet"
+          | "pollen"
+          | "environmental"
+          | "biologic"
+          | "other";
+        code?: string | null | null;
+        codeSystem?: "rxnorm" | "snomed-ct" | null | null | null;
+        reactions: Array<{
+          code?: string | null | null;
+          codeSystem?: "snomed-ct" | null | null;
+          display: string;
+        }>;
+        severity?: "mild" | "moderate" | "severe" | "unknown" | null | null | null;
+        source: "Doctor" | "Patient" | "Patient Agent/Guardian" | "Pharmacist";
+        substance: string;
+        type: "allergy" | "intolerance" | null;
+        verificationStatus: "unconfirmed" | "presumed" | "confirmed";
+      }>;
+      reviewStatus: "not_reviewed" | "no_known" | "recorded";
+    } | null;
     clinicalProfile?: {
       currentMedications: Array<string>;
       heightInches?: number | "NaN" | "Infinity" | "-Infinity" | null | null;
@@ -5814,6 +5899,34 @@ export type PatientCreateParams = {
     state: string;
     country?: "US" | null;
   } | null | null;
+  allergyReview?: {
+    allergies: Array<{
+      category:
+        | "drug"
+        | "food"
+        | "insect"
+        | "latex"
+        | "mold"
+        | "pet"
+        | "pollen"
+        | "environmental"
+        | "biologic"
+        | "other";
+      code?: string | null | null;
+      codeSystem?: "rxnorm" | "snomed-ct" | null | null | null;
+      reactions: Array<{
+        code?: string | null | null;
+        codeSystem?: "snomed-ct" | null | null;
+        display: string;
+      }>;
+      severity?: "mild" | "moderate" | "severe" | "unknown" | null | null | null;
+      source: "Doctor" | "Patient" | "Patient Agent/Guardian" | "Pharmacist";
+      substance: string;
+      type: "allergy" | "intolerance" | null;
+      verificationStatus: "unconfirmed" | "presumed" | "confirmed";
+    }>;
+    reviewStatus: "not_reviewed" | "no_known" | "recorded";
+  } | null;
   clinicalProfile?: {
     currentMedications: Array<string>;
     heightInches?: number | "NaN" | "Infinity" | "-Infinity" | null | null;
@@ -6113,6 +6226,34 @@ export type OrderBatchCreateParams = {
         state: string;
         country?: "US" | null;
       } | null | null;
+      allergyReview?: {
+        allergies: Array<{
+          category:
+            | "drug"
+            | "food"
+            | "insect"
+            | "latex"
+            | "mold"
+            | "pet"
+            | "pollen"
+            | "environmental"
+            | "biologic"
+            | "other";
+          code?: string | null | null;
+          codeSystem?: "rxnorm" | "snomed-ct" | null | null | null;
+          reactions: Array<{
+            code?: string | null | null;
+            codeSystem?: "snomed-ct" | null | null;
+            display: string;
+          }>;
+          severity?: "mild" | "moderate" | "severe" | "unknown" | null | null | null;
+          source: "Doctor" | "Patient" | "Patient Agent/Guardian" | "Pharmacist";
+          substance: string;
+          type: "allergy" | "intolerance" | null;
+          verificationStatus: "unconfirmed" | "presumed" | "confirmed";
+        }>;
+        reviewStatus: "not_reviewed" | "no_known" | "recorded";
+      } | null;
       clinicalProfile?: {
         currentMedications: Array<string>;
         heightInches?: number | "NaN" | "Infinity" | "-Infinity" | null | null;
