@@ -1,5 +1,5 @@
 import { createTransport } from "./transport";
-import { affinityErrorFromResponse } from "./errors";
+import { affinityConnectionError, affinityErrorFromResponse } from "./errors";
 
 export interface SDKOptions {
   baseUrl?: string;
@@ -28,8 +28,15 @@ class SDKTransport {
     this.fetcher = createTransport(options.fetch ?? globalThis.fetch, { timeout: options.timeout ?? 60_000, maxNetworkRetries: options.maxNetworkRetries ?? 0 });
   }
   async request(path: string, method: string, body: unknown, headers: Record<string,string>, signal?: AbortSignal): Promise<any> {
-    const response = await this.fetcher(this.baseUrl + path, { method, redirect: "error", headers: { Authorization: `Bearer ${this.apiKey}`, "Affinity-Version": this.options.apiVersion ?? "2026-09-28", ...headers, ...(body === undefined ? {} : { "Content-Type": "application/json" }) }, ...(body === undefined ? {} : { body: JSON.stringify(body) }), signal });
-    if (!response.ok) { const error = await affinityErrorFromResponse(response); error.message = `Affinity API request failed (${response.status})`; throw error; }
+    const init: RequestInit = { method, redirect: "error", headers: { Authorization: `Bearer ${this.apiKey}`, "Affinity-Version": this.options.apiVersion ?? "2026-09-28", ...headers, ...(body === undefined ? {} : { "Content-Type": "application/json" }) }, ...(body === undefined ? {} : { body: JSON.stringify(body) }), signal };
+    let response: Response;
+    try {
+      response = await this.fetcher(this.baseUrl + path, init);
+    } catch (cause) {
+      if (signal?.aborted) throw cause;
+      throw affinityConnectionError(cause, { timedOut: cause instanceof Error && cause.name === "TimeoutError" });
+    }
+    if (!response.ok) { const error = await affinityErrorFromResponse(response); error.message = `Affinity API request failed (${response.status}, ${error.code})`; throw error; }
     return response.status === 204 ? undefined : response.json();
   }
   access() {

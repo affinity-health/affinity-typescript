@@ -1,7 +1,7 @@
 // Code generated from spec/affinity.openapi.json by scripts/generate-facade.ts. DO NOT EDIT.
 
 import { createTransport } from "./transport";
-import { affinityErrorFromResponse } from "./errors";
+import { affinityConnectionError, affinityErrorFromResponse } from "./errors";
 
 export interface SDKOptions {
   baseUrl?: string;
@@ -52,7 +52,7 @@ class SDKTransport {
     headers: Record<string, string>,
     signal?: AbortSignal,
   ): Promise<any> {
-    const response = await this.fetcher(this.baseUrl + path, {
+    const init: RequestInit = {
       method,
       redirect: "error",
       headers: {
@@ -63,10 +63,19 @@ class SDKTransport {
       },
       ...(body === undefined ? {} : { body: JSON.stringify(body) }),
       signal,
-    });
+    };
+    let response: Response;
+    try {
+      response = await this.fetcher(this.baseUrl + path, init);
+    } catch (cause) {
+      if (signal?.aborted) throw cause;
+      throw affinityConnectionError(cause, {
+        timedOut: cause instanceof Error && cause.name === "TimeoutError",
+      });
+    }
     if (!response.ok) {
       const error = await affinityErrorFromResponse(response);
-      error.message = `Affinity API request failed (${response.status})`;
+      error.message = `Affinity API request failed (${response.status}, ${error.code})`;
       throw error;
     }
     return response.status === 204 ? undefined : response.json();

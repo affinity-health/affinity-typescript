@@ -116,13 +116,14 @@ export async function affinityErrorFromResponse(response: Response): Promise<Aff
   const problem = await readProblem(response);
   const statusCode = response.status;
   const code = problem?.code ?? `http_${statusCode}`;
+  const requestId = problem?.requestId || response.headers.get("x-request-id") || undefined;
   const message =
     problem?.detail || response.statusText || `Affinity API request failed (${statusCode})`;
   const options = {
     category: categoryFor(statusCode, code),
     code,
     ...(problem ? { problem } : {}),
-    ...(problem?.requestId ? { requestId: problem.requestId } : {}),
+    ...(requestId ? { requestId } : {}),
     response,
     retryable: [408, 429, 500, 502, 503, 504].includes(statusCode),
     statusCode,
