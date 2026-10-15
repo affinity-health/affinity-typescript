@@ -63,4 +63,27 @@ describe("webhook signature validation", () => {
       code: "invalid_timestamp",
     });
   });
+
+  test.each(["Uint8Array", "ArrayBuffer", "subarray"] as const)(
+    "snapshots %s input before asynchronous signature verification",
+    async (kind) => {
+      const original = new TextEncoder().encode(input.body);
+      const tampered = new TextEncoder().encode(
+        input.body.replace('"livemode":false', '"livemode":true '),
+      );
+      expect(tampered).not.toEqual(original);
+      expect(tampered.byteLength).toBe(original.byteLength);
+      const storage = new Uint8Array(original.byteLength + (kind === "subarray" ? 2 : 0));
+      const bytes = kind === "subarray" ? storage.subarray(1, -1) : storage;
+      bytes.set(original);
+      const verification = verifyAffinityWebhook({
+        ...input,
+        body: kind === "ArrayBuffer" ? bytes.buffer : bytes,
+      });
+      bytes.set(tampered);
+      const verified = await verification;
+      expect(verified.livemode).toBe(false);
+      expect(verified).toEqual(JSON.parse(input.body));
+    },
+  );
 });
