@@ -195,6 +195,12 @@ export async function verifyAffinityWebhook(input: {
     );
   }
   const now = Math.floor((input.now ?? new Date()).getTime() / 1_000);
+  if (!Number.isSafeInteger(now)) {
+    throw new AffinityWebhookVerificationError(
+      "invalid_timestamp",
+      "Webhook verification time is invalid",
+    );
+  }
   if (Math.abs(now - signature.timestamp) > toleranceSeconds) {
     throw new AffinityWebhookVerificationError(
       "timestamp_outside_tolerance",
@@ -309,12 +315,18 @@ export function parseAffinityWebhookSignature(value: string | null) {
   if (!Number.isSafeInteger(timestamp) || timestamp < 0) {
     throw new AffinityWebhookVerificationError("invalid_timestamp", "Webhook timestamp is invalid");
   }
-  const signatures = parts
-    .filter((part) => part.startsWith("v1="))
-    .map((part) => part.slice(3))
+  const candidates = parts.filter((part) => part.startsWith("v1=")).map((part) => part.slice(3));
+  if (candidates.length === 0) {
+    throw new AffinityWebhookVerificationError("invalid_signature", "Webhook signature is missing");
+  }
+  const signatures = candidates
+    .map((part) => part.toLowerCase())
     .filter((part) => /^[a-f0-9]{64}$/u.test(part));
   if (signatures.length === 0) {
-    throw new AffinityWebhookVerificationError("invalid_signature", "Webhook signature is missing");
+    throw new AffinityWebhookVerificationError(
+      "invalid_signature",
+      "Webhook signature is malformed",
+    );
   }
   return { signatures, timestamp };
 }
@@ -451,9 +463,9 @@ function requireOptionalDateTime(value: Record<string, unknown>, key: string, nu
 function webhookBodyBytes(value: ArrayBuffer | string | Uint8Array) {
   if (typeof value === "string") return encoder.encode(value);
   if (value instanceof Uint8Array) {
-    return new Uint8Array(value.buffer, value.byteOffset, value.byteLength);
+    return new Uint8Array(value);
   }
-  if (value instanceof ArrayBuffer) return new Uint8Array(value);
+  if (value instanceof ArrayBuffer) return new Uint8Array(value.slice(0));
   throw new AffinityWebhookVerificationError(
     "invalid_body",
     "Webhook body must be the exact raw request bytes",
