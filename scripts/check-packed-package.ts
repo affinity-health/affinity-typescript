@@ -7,6 +7,11 @@ const consumer = await mkdtemp(join(tmpdir(), "affinity-sdk-consumer-"));
 
 const consumerSource = String.raw`
 import { Affinity, AffinityError, CompoundingReason, type Patient, type OrderCreateParams } from "@affinity-health/sdk";
+import type {
+ AffinityWebhookEvent, AffinityOrderWebhookStatus, AffinityPublicId,
+ TeamPrescribersLicensesSDKResource, TeamPrescriberLicenseCreateParams,
+ TeamPrescriberLicenseUpdateParams,
+} from "@affinity-health/sdk";
 const api = new Affinity("test");
 const practice = api.forPractice("prac_example");
 async function workflow() {
@@ -14,8 +19,50 @@ async function workflow() {
  await practice.patients.update(patient.id, {status:"archived"});
  await practice.orders.submit("ord_example", {idempotencyKey:"persisted-job"});
  for await (const row of practice.patients.iterate({limit:20})) { const id:string=row.id; void id; }
+ const licenses: TeamPrescribersLicensesSDKResource = practice.team.prescribers.licenses;
+ const license: TeamPrescriberLicenseCreateParams = { state: "CA", licenseNumber: "sdk-1-17-synthetic" };
+ const licenseUpdate: TeamPrescriberLicenseUpdateParams = { expiresAt: null };
+ await licenses.create("prov_sdk-1-17", license);
+ await licenses.update("prov_sdk-1-17", "lic_sdk-1-17", licenseUpdate);
 }
 void workflow;
+function handleExistingWebhook(event: AffinityWebhookEvent) {
+ const version: "2026-08-11" | "2026-09-28" = event.api_version;
+ if (event.type === "webhook_endpoint.test") {
+  const endpointId: AffinityPublicId<"whe"> = event.data.object.id;
+  void endpointId;
+ } else {
+  const status: AffinityOrderWebhookStatus | undefined = event.data.object.status;
+  void status;
+ }
+ void version;
+}
+void handleExistingWebhook;
+const prescription = {
+ medicationId: "med_sdk-1-17", daysSupply: 30, dispensing: {},
+ directions: "Synthetic test fixture", quantity: 1, quantityUnit: "mL", refills: 0,
+};
+// Every consequential order mutation already required a caller key in 1.16.
+// @ts-expect-error persisted key required
+void practice.orders.create({ prescriptions: [] });
+// @ts-expect-error persisted key required
+void practice.orders.cancel("ord_sdk-1-17", { reason: "synthetic" });
+// @ts-expect-error persisted key required
+void practice.orders.sign("ord_sdk-1-17", { signatureAttestation: true });
+// @ts-expect-error persisted key required
+void practice.orders.signAndSubmit("ord_sdk-1-17", { signatureAttestation: true });
+// @ts-expect-error persisted key required
+void practice.orders.reject("ord_sdk-1-17", { reason: "synthetic" });
+// @ts-expect-error persisted key required
+void practice.orders.batches.create({ orders: [] });
+// @ts-expect-error persisted key required
+void practice.orders.exceptions.act("ord_sdk-1-17", "exc_sdk-1-17", { action: "retry" });
+// @ts-expect-error persisted key required
+void practice.orders.prescriptions.add("ord_sdk-1-17", { prescription });
+// @ts-expect-error persisted key required
+void practice.orders.prescriptions.update("ord_sdk-1-17", "rx_sdk-1-17", { prescription });
+// @ts-expect-error persisted key required
+void practice.orders.testSimulation.update("ord_sdk-1-17", { mode: "manual", scenario: "successful" });
 const reason: CompoundingReason = CompoundingReason.ConcentrationAdjustment;
 // @ts-expect-error persisted key required
 void practice.orders.submit("ord_example");
