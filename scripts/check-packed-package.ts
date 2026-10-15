@@ -26,6 +26,22 @@ void api.withActor({id:"user",type:"user"});
 void reason; void AffinityError;
 `;
 
+const envelopeSource = String.raw`
+import { verifyAffinityWebhookEnvelope, type AffinityWebhookEnvelope } from "@affinity-health/sdk";
+async function receive(input: Parameters<typeof verifyAffinityWebhookEnvelope>[0]) {
+ const event: AffinityWebhookEnvelope = await verifyAffinityWebhookEnvelope(input);
+ const version: string = event.api_version;
+ if (event.type === "order.created") {
+  const status: unknown = event.data.object.status;
+  // @ts-expect-error known type strings do not validate future payload values
+  const unsafeStatus: string = event.data.object.status;
+  void status; void unsafeStatus;
+ }
+ void version;
+}
+void receive;
+`;
+
 const forbiddenSource = String.raw`
 import { LegacyAffinity, AffinityApiClient, Configuration, OrdersApi, CreateOrderRequestToJSON } from "@affinity-health/sdk";
 import { OrdersApi as SubpathOrdersApi } from "@affinity-health/sdk/dist/apis/OrdersApi.js";
@@ -47,6 +63,7 @@ try {
     JSON.stringify({ name: "affinity-sdk-consumer", private: true, type: "module" }),
   );
   await writeFile(join(consumer, "consumer.ts"), consumerSource);
+  await writeFile(join(consumer, "webhook-envelope.ts"), envelopeSource);
   for (const [name, module, moduleResolution] of [
     ["nodenext", "NodeNext", "NodeNext"],
     ["bundler", "ESNext", "Bundler"],
@@ -62,7 +79,7 @@ try {
           strict: true,
           target: "ES2023",
         },
-        include: ["consumer.ts"],
+        include: ["consumer.ts", "webhook-envelope.ts"],
       }),
     );
   }

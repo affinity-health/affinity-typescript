@@ -150,6 +150,78 @@ export async function verifyAffinityWebhook(input: {
   signature: string | null;
   toleranceSeconds?: number;
 }): Promise<AffinityWebhookEvent> {
+  return parseAffinityWebhookEvent(await verifyWebhookBody(input));
+}
+
+/** An authenticated event envelope. Validate payload fields before using them. */
+export interface AffinityWebhookEnvelope {
+  api_version: string;
+  created: number;
+  id: AffinityPublicId<"evt">;
+  livemode: boolean;
+  object: "event";
+  organization_id: AffinityOrganizationId;
+  request_id: AffinityPublicId<"req"> | null;
+  type: string;
+  data: { object: Record<string, unknown>; [key: string]: unknown };
+  [key: string]: unknown;
+}
+
+/**
+ * Opt into receiving future API versions and event types without changing the strict
+ * verifyAffinityWebhook contract. Authenticates exact raw bytes and replay tolerance,
+ * then validates only the stable envelope. Event-specific payload values remain unknown,
+ * even for known type strings; validate them before processing an event.
+ */
+export async function verifyAffinityWebhookEnvelope(
+  input: Parameters<typeof verifyAffinityWebhook>[0],
+): Promise<AffinityWebhookEnvelope> {
+  const value = await verifyWebhookBody(input);
+  try {
+    const event = requireRecord(value, "event");
+    requireFields(event, [
+      "api_version",
+      "created",
+      "data",
+      "id",
+      "livemode",
+      "object",
+      "organization_id",
+      "request_id",
+      "type",
+    ]);
+    if (typeof event.api_version !== "string" || !event.api_version.trim()) {
+      throw new Error("api_version is invalid");
+    }
+    if (typeof event.type !== "string" || !event.type.trim()) throw new Error("type is invalid");
+    if (
+      typeof event.created !== "number" ||
+      !Number.isSafeInteger(event.created) ||
+      event.created < 0
+    ) {
+      throw new Error("created is invalid");
+    }
+    requirePublicId(event.id, "evt");
+    if (typeof event.livemode !== "boolean") throw new Error("livemode is invalid");
+    if (event.object !== "event") throw new Error("object is invalid");
+    requireOrganizationId(event.organization_id);
+    if (event.request_id !== null) requirePublicId(event.request_id, "req");
+    const data = requireRecord(event.data, "data");
+    requireRecord(data.object, "data.object");
+    return value as AffinityWebhookEnvelope;
+  } catch (error) {
+    throw new AffinityWebhookVerificationError(
+      "invalid_event",
+      error instanceof Error
+        ? `Webhook event is invalid: ${error.message}`
+        : "Webhook event is invalid",
+    );
+  }
+}
+
+async function verifyWebhookBody(
+  input: Parameters<typeof verifyAffinityWebhook>[0],
+): Promise<unknown> {
   const body = webhookBodyBytes(input.body);
   const signature = parseAffinityWebhookSignature(input.signature);
   const toleranceSeconds = input.toleranceSeconds ?? 300;
@@ -206,7 +278,7 @@ export async function verifyAffinityWebhook(input: {
   } catch {
     throw new AffinityWebhookVerificationError("invalid_body", "Webhook body is not valid JSON");
   }
-  return parseAffinityWebhookEvent(value);
+  return value;
 }
 
 export function parseAffinityWebhookEvent(value: unknown): AffinityWebhookEvent {
