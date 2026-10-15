@@ -80,7 +80,7 @@ class SDKTransport {
     }
     return response.status === 204 ? undefined : response.json();
   }
-  access() {
+  access(signal?: AbortSignal) {
     if (!this.identity)
       this.identity = this.request("/v1/auth/access", "GET", undefined, {})
         .then((result) => {
@@ -97,7 +97,25 @@ class SDKTransport {
           this.identity = undefined;
           throw error;
         });
-    return this.identity;
+    if (!signal) return this.identity;
+    return new Promise<{ subjectType: string; subjectId: string }>((resolve, reject) => {
+      const abort = () => {
+        signal.removeEventListener("abort", abort);
+        reject(signal.reason);
+      };
+      signal.addEventListener("abort", abort, { once: true });
+      this.identity!.then(
+        (subject) => {
+          signal.removeEventListener("abort", abort);
+          resolve(subject);
+        },
+        (error) => {
+          signal.removeEventListener("abort", abort);
+          reject(error);
+        },
+      );
+      if (signal.aborted) abort();
+    });
   }
 }
 class SDKContext {
@@ -129,7 +147,7 @@ class SDKContext {
         : (await import("node:crypto")).randomUUID();
     let practiceId = options.practiceId ?? this.practiceId;
     if (op.practice !== "none") {
-      const subject = await this.transport.access();
+      const subject = await this.transport.access(options.signal);
       if (subject.subjectType === "practice") {
         if (practiceId && practiceId !== subject.subjectId)
           throw new Error("Practice context conflicts with the API key");

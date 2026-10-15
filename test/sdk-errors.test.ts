@@ -160,4 +160,49 @@ describe("public SDK error contract", () => {
     await expect(api.account.get({}, { signal: controller.signal })).rejects.toBe(reason);
     expect(attempts).toBe(1);
   });
+
+  test("cancels one discovery waiter while concurrent callers retain the shared lookup", async () => {
+    let releaseAccess!: (response: Response) => void;
+    const access = new Promise<Response>((resolve) => { releaseAccess = resolve; });
+    let discoveries = 0;
+    const reads: string[] = [];
+    const api = client(async (input) => {
+      const path = new URL(String(input)).pathname;
+      if (path === "/v1/auth/access") { discoveries++; return access; }
+      reads.push(path);
+      return Response.json({ id: "pat_sdk-1-17" });
+    });
+    const controller = new AbortController();
+    const reason = new Error("sdk-1-17 canceled during discovery");
+    const canceled = api.forPractice("prac_sdk-1-17").patients.get("pat_sdk-1-17-canceled", { signal: controller.signal });
+    const active = api.forPractice("prac_sdk-1-17").patients.get("pat_sdk-1-17-active");
+    controller.abort(reason);
+    try {
+      const result = await Promise.race([
+        canceled.catch((error: unknown) => error),
+        Bun.sleep(25).then(() => "sdk-1-17-still-waiting"),
+      ]);
+      expect(result).toBe(reason);
+      expect(discoveries).toBe(1);
+      expect(reads).toHaveLength(0);
+    } finally {
+      releaseAccess(Response.json({ serviceAccount: { subjectType: "platform", subjectId: "acct_sdk-1-17" } }));
+      await Promise.allSettled([canceled, active]);
+    }
+    expect(reads).toEqual(["/v1/practices/prac_sdk-1-17/patients/pat_sdk-1-17-active"]);
+    await api.forPractice("prac_sdk-1-17").patients.get("pat_sdk-1-17-cached");
+    expect(discoveries).toBe(1);
+  });
+
+  test("keeps local serialization errors outside the connection-error boundary", async () => {
+    let writes = 0;
+    const api = client(async () => {
+      writes++;
+      return Response.json({ serviceAccount: { subjectType: "platform", subjectId: "acct_sdk-1-17" } });
+    });
+    const cause = new Error("sdk-1-17 local serializer failed");
+    const params = { prescriptions: [], toJSON() { throw cause; } };
+    await expect(api.forPractice("prac_sdk-1-17").orders.create(params, { idempotencyKey: "sdk-1-17-serialization" })).rejects.toBe(cause);
+    expect(writes).toBe(1);
+  });
 });

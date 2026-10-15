@@ -39,13 +39,28 @@ class SDKTransport {
     if (!response.ok) { const error = await affinityErrorFromResponse(response); error.message = `Affinity API request failed (${response.status}, ${error.code})`; throw error; }
     return response.status === 204 ? undefined : response.json();
   }
-  access() {
+  access(signal?: AbortSignal) {
     if (!this.identity) this.identity = this.request("/v1/auth/access", "GET", undefined, {}).then(result => {
       const subject = result.serviceAccount;
       if (!subject || typeof subject.subjectType !== "string" || typeof subject.subjectId !== "string") throw new Error("Invalid API key access response");
       return subject;
     }).catch(error => { this.identity = undefined; throw error; });
-    return this.identity;
+    if (!signal) return this.identity;
+    return new Promise<{ subjectType: string; subjectId: string }>((resolve, reject) => {
+      const abort = () => {
+        signal.removeEventListener("abort", abort);
+        reject(signal.reason);
+      };
+      signal.addEventListener("abort", abort, { once: true });
+      this.identity!.then(subject => {
+        signal.removeEventListener("abort", abort);
+        resolve(subject);
+      }, error => {
+        signal.removeEventListener("abort", abort);
+        reject(error);
+      });
+      if (signal.aborted) abort();
+    });
   }
 }
 class SDKContext {
@@ -62,7 +77,7 @@ class SDKContext {
     if (op.idempotency === "auto" && !key) key = globalThis.crypto?.randomUUID ? globalThis.crypto.randomUUID() : (await import("node:crypto")).randomUUID();
     let practiceId = options.practiceId ?? this.practiceId;
     if (op.practice !== "none") {
-      const subject = await this.transport.access();
+      const subject = await this.transport.access(options.signal);
       if (subject.subjectType === "practice") {
         if (practiceId && practiceId !== subject.subjectId) throw new Error("Practice context conflicts with the API key");
         practiceId = subject.subjectId;
