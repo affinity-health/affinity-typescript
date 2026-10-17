@@ -1,9 +1,16 @@
 // Code generated from spec/affinity.openapi.json by scripts/generate-facade.ts. DO NOT EDIT.
 
-import type { Affinity } from "./sdk";
-export type Practice = Awaited<ReturnType<Affinity["practices"]["get"]>>;
-export type Patient = Awaited<ReturnType<Affinity["patients"]["get"]>>;
-export type Order = Awaited<ReturnType<Affinity["orders"]["get"]>>;
-export type CreatedOrder = Awaited<ReturnType<Affinity["orders"]["create"]>>;
-export type CatalogItem = Awaited<ReturnType<Affinity["catalog"]["items"]["list"]>>["data"][number];
-export type PracticeLocation = Awaited<ReturnType<Affinity["locations"]["get"]>>;
+import type {
+  AccountGetResponse,
+  MedicationGetResponse,
+  OrderGetResponse,
+  OrderCreateResponse,
+  PracticeGetResponse,
+} from "./sdk";
+export type Account = AccountGetResponse;
+export type Medication = MedicationGetResponse;
+export type Order = OrderGetResponse;
+export type CreatedOrder = OrderCreateResponse;
+export type Practice = PracticeGetResponse;
+export type Patient = Order["patient"];
+export type Prescription = Order["prescriptions"][number];

@@ -9,12 +9,5 @@
     "target": "ES2023",
     "types": ["bun"]
   },
-  "include": [
-    "quickstart.ts",
-    "platform-setup.ts",
-    "public-types.ts",
-    "compounding-reasons.ts",
-    "clinical-requirements.ts",
-    "emr-order.ts"
-  ]
+  "include": ["*.ts"]
 }

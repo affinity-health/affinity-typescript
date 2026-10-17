@@ -1,10 +1,9 @@
-/** Select non-deprecated operations emitted by the facade generator. */
+/** Deprecated operations remain pinned for history, but are not callable in this SDK. */
 export function sdkContract<T extends { paths?: Record<string, unknown> }>(spec: T): T {
   return {
     ...spec,
     paths: Object.fromEntries(
       Object.entries(spec.paths ?? {}).flatMap(([path, operations]) => {
-        if (path === "/v1/hosted-sessions" || path === "/v1/component-sessions") return [];
         const current = Object.fromEntries(
           Object.entries(operations as Record<string, { deprecated?: boolean }>).filter(
             ([, operation]) => !operation?.deprecated,
