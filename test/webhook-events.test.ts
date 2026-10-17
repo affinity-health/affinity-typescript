@@ -37,54 +37,117 @@ const event = {
 describe("Affinity webhook events", () => {
   test("verifies snapshot and thin fixtures produced by the API event serializer", async () => {
     for (const fixture of apiFixtures) {
-      const verified = await verifyAffinityWebhook({ ...fixture, now: new Date(fixture.timestamp * 1000) });
+      const verified = await verifyAffinityWebhook({
+        ...fixture,
+        now: new Date(fixture.timestamp * 1000),
+      });
       expect(verified).toEqual(JSON.parse(fixture.body));
     }
   });
 
   test("accepts signed order snapshots and additive fields for every order event", async () => {
-    for (const type of affinityWebhookEventTypes.filter((type) => type !== "webhook_endpoint.test")) {
+    for (const type of affinityWebhookEventTypes.filter(
+      (type) => type !== "webhook_endpoint.test",
+    )) {
       const snapshot = {
-        ...event, type,
-        data: { object: {
-          ...event.data.object,
-          metadata: { source: "synthetic", sequence: 1, reviewed: true, optional: null },
-          estimated_delivery_at: "2026-07-30T12:30:00.000Z",
-          prescriptions: [{ id: "rx_01k123456789abcdefghjkmnpq", external_prescription_id: "synthetic-rx" }],
-          fulfillments: [], review: null, review_status: null,
-          tracking_status: "in_transit", tracking_url: "https://example.test/tracking",
-          future_operational_field: { value: true },
-        }, previous_attributes: { metadata: {}, estimated_delivery_at: null } },
+        ...event,
+        type,
+        data: {
+          object: {
+            ...event.data.object,
+            metadata: { source: "synthetic", sequence: 1, reviewed: true, optional: null },
+            estimated_delivery_at: "2026-07-30T12:30:00.000Z",
+            prescriptions: [
+              { id: "rx_01k123456789abcdefghjkmnpq", external_prescription_id: "synthetic-rx" },
+            ],
+            fulfillments: [],
+            review: null,
+            review_status: null,
+            tracking_status: "in_transit",
+            tracking_url: "https://example.test/tracking",
+            future_operational_field: { value: true },
+          },
+          previous_attributes: { metadata: {}, estimated_delivery_at: null },
+        },
         future_envelope_field: "synthetic",
       };
       const body = JSON.stringify(snapshot);
-      expect(await verifyAffinityWebhook({ body, now, secret, signature: await sign(body, secret, timestamp) })).toEqual(snapshot);
-      await expect(verifyAffinityWebhook({ body: body + " ", now, secret, signature: await sign(body, secret, timestamp) })).rejects.toMatchObject({ code: "invalid_signature" });
+      expect(
+        await verifyAffinityWebhook({
+          body,
+          now,
+          secret,
+          signature: await sign(body, secret, timestamp),
+        }),
+      ).toEqual(snapshot);
+      await expect(
+        verifyAffinityWebhook({
+          body: body + " ",
+          now,
+          secret,
+          signature: await sign(body, secret, timestamp),
+        }),
+      ).rejects.toMatchObject({ code: "invalid_signature" });
     }
   });
 
   test("verifies an immutable historical accepted snapshot without rewriting its status", async () => {
-    const historical = { ...event, type: "order.accepted", data: { object: { ...event.data.object, status: "accepted" } } };
+    const historical = {
+      ...event,
+      type: "order.accepted",
+      data: { object: { ...event.data.object, status: "accepted" } },
+    };
     const body = JSON.stringify(historical);
-    expect(await verifyAffinityWebhook({ body, now, secret, signature: await sign(body, secret, timestamp) })).toEqual(historical);
+    expect(
+      await verifyAffinityWebhook({
+        body,
+        now,
+        secret,
+        signature: await sign(body, secret, timestamp),
+      }),
+    ).toEqual(historical);
   });
 
   test("still rejects malformed known fields with a valid signature", async () => {
-    for (const fields of [{ id: "bad" }, { status: 42 }, { metadata: [] }, { estimated_delivery_at: "bad" }]) {
-      const body = JSON.stringify({ ...event, data: { object: { ...event.data.object, ...fields } } });
-      await expect(verifyAffinityWebhook({ body, now, secret, signature: await sign(body, secret, timestamp) })).rejects.toMatchObject({ code: "invalid_event" });
+    for (const fields of [
+      { id: "bad" },
+      { status: 42 },
+      { metadata: [] },
+      { estimated_delivery_at: "bad" },
+    ]) {
+      const body = JSON.stringify({
+        ...event,
+        data: { object: { ...event.data.object, ...fields } },
+      });
+      await expect(
+        verifyAffinityWebhook({
+          body,
+          now,
+          secret,
+          signature: await sign(body, secret, timestamp),
+        }),
+      ).rejects.toMatchObject({ code: "invalid_event" });
     }
   });
 
   test("accepts newer API versions, event types and order statuses", async () => {
     for (const changed of [
       { ...event, api_version: "2099-01-01" },
-      { ...event, type: "order.future_event", data: { object: { id: "anything", object: "order" } } },
+      {
+        ...event,
+        type: "order.future_event",
+        data: { object: { id: "anything", object: "order" } },
+      },
       { ...event, data: { object: { ...event.data.object, status: "future_status" } } },
     ]) {
       const body = JSON.stringify(changed);
       await expect(
-        verifyAffinityWebhook({ body, now, secret, signature: await sign(body, secret, timestamp) }),
+        verifyAffinityWebhook({
+          body,
+          now,
+          secret,
+          signature: await sign(body, secret, timestamp),
+        }),
       ).resolves.toEqual(changed);
     }
   });
@@ -93,11 +156,19 @@ describe("Affinity webhook events", () => {
     const body = JSON.stringify(event);
     const signature = await sign(body, secret, timestamp);
     await expect(
-      verifyAffinityWebhook({ body, now, secret, signature: signature.toUpperCase().replace("T=", "t=").replace("V1=", "v1=") }),
+      verifyAffinityWebhook({
+        body,
+        now,
+        secret,
+        signature: signature.toUpperCase().replace("T=", "t=").replace("V1=", "v1="),
+      }),
     ).resolves.toEqual(event);
     await expect(
       verifyAffinityWebhook({ body, now, secret, signature: `t=${timestamp},v1=not-hex` }),
-    ).rejects.toMatchObject({ code: "invalid_signature", message: "Webhook signature is malformed" });
+    ).rejects.toMatchObject({
+      code: "invalid_signature",
+      message: "Webhook signature is malformed",
+    });
   });
 
   test("verifies the exact raw body and returns a narrowed event union", async () => {
@@ -123,6 +194,44 @@ describe("Affinity webhook events", () => {
         secret: ["whsec_test_previous_signing_secret", secret],
         signature,
       }),
+    ).resolves.toEqual(event);
+  });
+
+  test("rejects an invalid verification clock before replay checking", async () => {
+    const body = JSON.stringify(event);
+    const signature = await sign(body, secret, timestamp);
+    for (const milliseconds of [NaN, Infinity, -Infinity]) {
+      await expect(
+        verifyAffinityWebhook({ body, now: new Date(milliseconds), secret, signature }),
+      ).rejects.toMatchObject({ code: "invalid_timestamp" });
+    }
+  });
+
+  test("accepts the replay boundary and rejects timestamps outside it", async () => {
+    const body = JSON.stringify(event);
+    const signature = await sign(body, secret, timestamp);
+    for (const offset of [-300, 0, 300]) {
+      await expect(
+        verifyAffinityWebhook({
+          body,
+          now: new Date((timestamp + offset) * 1000),
+          secret,
+          signature,
+        }),
+      ).resolves.toEqual(event);
+    }
+    for (const offset of [-301, 301]) {
+      await expect(
+        verifyAffinityWebhook({
+          body,
+          now: new Date((timestamp + offset) * 1000),
+          secret,
+          signature,
+        }),
+      ).rejects.toMatchObject({ code: "timestamp_outside_tolerance" });
+    }
+    await expect(
+      verifyAffinityWebhook({ body, now, secret, signature, toleranceSeconds: 0 }),
     ).resolves.toEqual(event);
   });
 

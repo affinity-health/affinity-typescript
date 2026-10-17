@@ -194,7 +194,14 @@ export async function verifyAffinityWebhook(input: {
       "Webhook tolerance must be a non-negative integer",
     );
   }
-  const now = Math.floor((input.now ?? new Date()).getTime() / 1_000);
+  const clock = (input.now ?? new Date()).getTime();
+  if (!Number.isFinite(clock)) {
+    throw new AffinityWebhookVerificationError(
+      "invalid_timestamp",
+      "Webhook verification clock is invalid",
+    );
+  }
+  const now = Math.floor(clock / 1_000);
   if (Math.abs(now - signature.timestamp) > toleranceSeconds) {
     throw new AffinityWebhookVerificationError(
       "timestamp_outside_tolerance",
