@@ -159,7 +159,14 @@ export async function verifyAffinityWebhook(input: {
       "Webhook tolerance must be a non-negative integer",
     );
   }
-  const now = Math.floor((input.now ?? new Date()).getTime() / 1_000);
+  const clock = (input.now ?? new Date()).getTime();
+  if (!Number.isFinite(clock)) {
+    throw new AffinityWebhookVerificationError(
+      "invalid_timestamp",
+      "Webhook verification clock is invalid",
+    );
+  }
+  const now = Math.floor(clock / 1_000);
   if (Math.abs(now - signature.timestamp) > toleranceSeconds) {
     throw new AffinityWebhookVerificationError(
       "timestamp_outside_tolerance",
@@ -282,7 +289,10 @@ export function parseAffinityWebhookSignature(value: string | null) {
     .map((part) => part.toLowerCase())
     .filter((part) => /^[a-f0-9]{64}$/u.test(part));
   if (signatures.length === 0) {
-    throw new AffinityWebhookVerificationError("invalid_signature", "Webhook signature is malformed");
+    throw new AffinityWebhookVerificationError(
+      "invalid_signature",
+      "Webhook signature is malformed",
+    );
   }
   return { signatures, timestamp };
 }
@@ -326,8 +336,13 @@ function parseOrderObject(value: unknown, previousAttributes: boolean) {
   if (object.metadata !== undefined) {
     const metadata = requireRecord(object.metadata, "metadata");
     for (const value of Object.values(metadata)) {
-      if (value !== null && typeof value !== "string" && typeof value !== "boolean" &&
-          !(typeof value === "number" && Number.isFinite(value))) throw new Error("metadata is invalid");
+      if (
+        value !== null &&
+        typeof value !== "string" &&
+        typeof value !== "boolean" &&
+        !(typeof value === "number" && Number.isFinite(value))
+      )
+        throw new Error("metadata is invalid");
     }
   }
   if (object.prescriptions !== undefined) {
@@ -342,7 +357,8 @@ function parseOrderObject(value: unknown, previousAttributes: boolean) {
   if (object.fulfillments !== undefined && !Array.isArray(object.fulfillments))
     throw new Error("fulfillments is invalid");
   if (object.review !== undefined && object.review !== null) requireRecord(object.review, "review");
-  for (const key of ["review_status", "tracking_status", "tracking_url"]) requireOptionalNullableString(object, key);
+  for (const key of ["review_status", "tracking_status", "tracking_url"])
+    requireOptionalNullableString(object, key);
   requireOptionalNullableString(object, "external_order_id");
   if (object.practice_id !== undefined && object.practice_id !== null) {
     requirePublicId(object.practice_id, "prac");
