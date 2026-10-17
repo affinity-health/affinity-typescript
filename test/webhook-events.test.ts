@@ -235,6 +235,25 @@ describe("Affinity webhook events", () => {
     ).resolves.toEqual(event);
   });
 
+  for (const kind of ["Uint8Array", "ArrayBuffer", "subarray", "Buffer"] as const) {
+    test(`parses the verified snapshot when caller mutates ${kind} during crypto`, async () => {
+      const original = JSON.stringify(event);
+      const signed = await sign(original, secret, timestamp);
+      const encoded = new TextEncoder().encode(original);
+      const storage = kind === "Buffer" ? Buffer.from(encoded) : new Uint8Array(encoded.length + 8);
+      const bytes = kind === "Buffer" ? storage : storage.subarray(4, 4 + encoded.length);
+      bytes.set(encoded);
+      const body =
+        kind === "ArrayBuffer" ? encoded.buffer : kind === "Uint8Array" ? encoded : bytes;
+      const mutable = body instanceof ArrayBuffer ? new Uint8Array(body) : body;
+      const pending = verifyAffinityWebhook({ body, now, secret, signature: signed });
+      mutable.set(
+        new TextEncoder().encode(original.replace('"livemode":false', '"livemode":true ')),
+      );
+      expect(await pending).toEqual(event);
+    });
+  }
+
   test("rejects a tampered body and an old timestamp", async () => {
     const body = JSON.stringify(event);
     const signature = await sign(body, secret, timestamp);
