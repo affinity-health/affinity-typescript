@@ -2,8 +2,6 @@ import apiFixtures from "./fixtures/api-order-events.json";
 import { describe, expect, test } from "bun:test";
 import {
   AffinityWebhookVerificationError,
-  affinityWebhookEventTypes,
-  type AffinityWebhookEvent,
   parseAffinityWebhookEvent,
   verifyAffinityWebhook,
 } from "../src";
@@ -11,67 +9,12 @@ import {
 const timestamp = 1_785_323_400;
 const now = new Date(timestamp * 1_000);
 const secret = "whsec_test_example_signing_secret";
-const event = {
-  api_version: "2026-08-11",
-  created: timestamp,
-  data: {
-    object: {
-      id: "ord_01k123456789abcdefghjkmnpq",
-      object: "order",
-      practice_id: "prac_01k123456789abcdefghjkmnpq",
-      status: "submitted",
-      updated_at: "2026-07-29T12:30:00.000Z",
-    },
-    previous_attributes: {
-      status: "draft",
-    },
-  },
-  id: "evt_01k123456789abcdefghjkmnpq",
-  livemode: false,
-  object: "event",
-  organization_id: "acct_01k123456789abcdefghjkmnpq",
-  request_id: "req_01k123456789abcdefghjkmnpq",
-  type: "order.submitted",
-} as const satisfies AffinityWebhookEvent;
+const event = apiFixtures[0]!;
 
 describe("Affinity webhook events", () => {
-  test("verifies snapshot and thin fixtures produced by the API event serializer", async () => {
-    for (const fixture of apiFixtures) {
-      const verified = await verifyAffinityWebhook({
-        ...fixture,
-        now: new Date(fixture.timestamp * 1000),
-      });
-      expect(verified).toEqual(JSON.parse(fixture.body));
-    }
-  });
-
-  test("accepts signed order snapshots and additive fields for every order event", async () => {
-    for (const type of affinityWebhookEventTypes.filter(
-      (type) => type !== "webhook_endpoint.test",
-    )) {
-      const snapshot = {
-        ...event,
-        type,
-        data: {
-          object: {
-            ...event.data.object,
-            metadata: { source: "synthetic", sequence: 1, reviewed: true, optional: null },
-            estimated_delivery_at: "2026-07-30T12:30:00.000Z",
-            prescriptions: [
-              { id: "rx_01k123456789abcdefghjkmnpq", external_prescription_id: "synthetic-rx" },
-            ],
-            fulfillments: [],
-            review: null,
-            review_status: null,
-            tracking_status: "in_transit",
-            tracking_url: "https://example.test/tracking",
-            future_operational_field: { value: true },
-          },
-          previous_attributes: { metadata: {}, estimated_delivery_at: null },
-        },
-        future_envelope_field: "synthetic",
-      };
-      const body = JSON.stringify(snapshot);
+  test("verifies MVP order and test-event payloads matching the API serializer", async () => {
+    for (const event of apiFixtures) {
+      const body = JSON.stringify(event);
       expect(
         await verifyAffinityWebhook({
           body,
@@ -79,45 +22,36 @@ describe("Affinity webhook events", () => {
           secret,
           signature: await sign(body, secret, timestamp),
         }),
-      ).toEqual(snapshot);
-      await expect(
-        verifyAffinityWebhook({
-          body: body + " ",
+      ).toEqual(event);
+    }
+  });
+  test("accepts additive fields, future event types and statuses", async () => {
+    for (const changed of [
+      { ...event, type: "order.future", data: { future: true } },
+      { ...event, future: 1 },
+      { ...event, data: { order: { ...event.data.order, status: "future_status" } } },
+    ]) {
+      const body = JSON.stringify(changed);
+      expect(
+        await verifyAffinityWebhook({
+          body,
           now,
           secret,
           signature: await sign(body, secret, timestamp),
         }),
-      ).rejects.toMatchObject({ code: "invalid_signature" });
+      ).toEqual(changed);
     }
   });
-
-  test("verifies an immutable historical accepted snapshot without rewriting its status", async () => {
-    const historical = {
-      ...event,
-      type: "order.accepted",
-      data: { object: { ...event.data.object, status: "accepted" } },
-    };
-    const body = JSON.stringify(historical);
-    expect(
-      await verifyAffinityWebhook({
-        body,
-        now,
-        secret,
-        signature: await sign(body, secret, timestamp),
-      }),
-    ).toEqual(historical);
-  });
-
-  test("still rejects malformed known fields with a valid signature", async () => {
+  test("rejects malformed known order fields even with a valid signature", async () => {
     for (const fields of [
       { id: "bad" },
       { status: 42 },
-      { metadata: [] },
-      { estimated_delivery_at: "bad" },
+      { shipments: null },
+      { updatedAt: "bad" },
     ]) {
       const body = JSON.stringify({
         ...event,
-        data: { object: { ...event.data.object, ...fields } },
+        data: { order: { ...event.data.order, ...fields } },
       });
       await expect(
         verifyAffinityWebhook({
@@ -127,28 +61,6 @@ describe("Affinity webhook events", () => {
           signature: await sign(body, secret, timestamp),
         }),
       ).rejects.toMatchObject({ code: "invalid_event" });
-    }
-  });
-
-  test("accepts newer API versions, event types and order statuses", async () => {
-    for (const changed of [
-      { ...event, api_version: "2099-01-01" },
-      {
-        ...event,
-        type: "order.future_event",
-        data: { object: { id: "anything", object: "order" } },
-      },
-      { ...event, data: { object: { ...event.data.object, status: "future_status" } } },
-    ]) {
-      const body = JSON.stringify(changed);
-      await expect(
-        verifyAffinityWebhook({
-          body,
-          now,
-          secret,
-          signature: await sign(body, secret, timestamp),
-        }),
-      ).resolves.toEqual(changed);
     }
   });
 
@@ -176,11 +88,8 @@ describe("Affinity webhook events", () => {
     const signature = await sign(body, secret, timestamp);
     const verified = await verifyAffinityWebhook({ body, now, secret, signature });
 
-    expect(verified.type).toBe("order.submitted");
-    if (verified.type === "order.submitted") {
-      expect(verified.data.object.status).toBe("submitted");
-      expect(verified.data.previous_attributes?.status).toBe("draft");
-    }
+    expect(verified.type).toBe("order.shipped");
+    expect(verified.data.order?.status).toBe("shipped");
   });
 
   test("accepts any currently active signing secret during rotation", async () => {
@@ -248,7 +157,7 @@ describe("Affinity webhook events", () => {
       const mutable = body instanceof ArrayBuffer ? new Uint8Array(body) : body;
       const pending = verifyAffinityWebhook({ body, now, secret, signature: signed });
       mutable.set(
-        new TextEncoder().encode(original.replace('"livemode":false', '"livemode":true ')),
+        new TextEncoder().encode(original.replace('"status":"shipped"', '"status":"failed" ')),
       );
       expect(await pending).toEqual(event);
     });
@@ -275,16 +184,13 @@ describe("Affinity webhook events", () => {
     });
   });
 
-  test("rejects event types whose object does not match", () => {
+  test("rejects the retired webhook envelope", () => {
     expect(() =>
       parseAffinityWebhookEvent({
-        ...event,
-        data: {
-          object: {
-            id: "whe_01k123456789abcdefghjkmnpq",
-            object: "webhook_endpoint",
-          },
-        },
+        id: event.id,
+        type: "order.shipped",
+        created: timestamp,
+        data: { object: event.data.order },
       }),
     ).toThrow(AffinityWebhookVerificationError);
   });

@@ -3,6 +3,7 @@ export interface ProblemIssue {
   message: string;
   /** Field path for validation issues; dotted order path for clinical issues. */
   path: string | Array<string | number>;
+  field?: string;
   location?: "body" | "header" | "path" | "query";
   prescriptionId?: string;
   pharmacy?: string;

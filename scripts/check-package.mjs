@@ -27,5 +27,8 @@ for (const path of Object.values(
   if (typeof path.split(".").reduce((node, key) => node?.[key], approved) !== "function")
     throw new Error(`Missing approved method: ${path}`);
 }
-if (typeof approved.forPractice !== "function" || typeof approved.patients.iterate !== "function")
-  throw new Error("Missing scoped client or iterator");
+if (
+  typeof approved.medications.iterate !== "function" ||
+  typeof approved.orders.create !== "function"
+)
+  throw new Error("Missing MVP medication iterator or order creation");

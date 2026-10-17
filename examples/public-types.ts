@@ -1,33 +1,23 @@
 import type {
   Affinity,
   Practice,
-  Patient,
+  Medication,
   Order,
   CreatedOrder,
-  CatalogItem,
-  PracticeLocation,
+  Patient,
+  Prescription,
 } from "@affinity-health/sdk";
 
-// Compile-only examples, never executed against an API.
-export async function verifyPublicTypes(affinity: Affinity, practiceId: string) {
-  const practice: Practice = await affinity.practices.get(practiceId);
-  const id: string = practice.id;
+export async function verifyPublicTypes(api: Affinity, practiceId: string) {
+  const practice: Practice = await api.practices.get(practiceId);
+  const medication: Medication = await api.medications.get("med_synthetic");
   const enabled: boolean = practice.liveEnabled;
-  const name: string | null = practice.legalName;
-  // @ts-expect-error Required response IDs cannot be null.
+  // @ts-expect-error Required IDs cannot be null.
   const invalid: Practice["id"] = null;
-  // @ts-expect-error Live enablement is a boolean, not a nullable value.
-  affinity.practices.update(id, { liveEnabled: null });
-  const page = affinity.practices.iterate();
-  for await (const item of page) {
-    const typed: Practice = item;
+  for await (const order of api.orders.iterate({ practiceId, limit: 10 })) {
+    const typed: Order = order;
     void typed;
   }
-  const patients: Patient[] = [];
-  for await (const patient of affinity.forPractice(id).patients.iterate({ limit: 10 })) {
-    patients.push(patient);
-    if (patients.length === 10) break;
-  }
-  return { id, enabled, name, invalid, patients };
+  return { practice, medication, enabled, invalid };
 }
-export type PublicTypes = [Order, CreatedOrder, CatalogItem, PracticeLocation];
+export type PublicTypes = [Order, CreatedOrder, Patient, Prescription];
