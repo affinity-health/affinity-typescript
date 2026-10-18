@@ -64,7 +64,7 @@ const order = await api.orders.create(
 );
 ```
 
-Returning patients go inside the next order too. Keep `patient.externalId` stable, or send the same identity and contact details, so the API reuses the patient. Read `order.patientId` to confirm reuse. There are no public patient read or list routes.
+Returning patients go inside the next order too. Send the same `patient.externalId`, or the returned `order.patientId` as `patient.id`, so the API reuses and updates that patient. An order without either always creates a new patient, even with the same name and contact details. Read `order.patientId` to confirm reuse. There are no public patient read or list routes.
 
 Use actual IDs returned by the API. The example identifiers are placeholders. All prescriptions are for one patient and pharmacy. `allergies: []` means no known allergies and requires the clinician's confirmation. Supply the prescriber's NPI and name for API-key submission even though the shared contract also supports dashboard sessions.
 

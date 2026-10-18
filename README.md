@@ -54,7 +54,7 @@ const endpoint = await api.webhooks.endpoints.create({
 const order = await api.orders.create(input, { idempotencyKey: "saved-sdk-order-1" });
 const current = await api.orders.get(order.id);
 
-// A second order with the same patient externalId and identity reuses the patient.
+// A second order with the same patient externalId reuses the patient.
 const returning = await api.orders.create(
   { ...input, externalOrderId: "sdk-test-order-2" },
   { idempotencyKey: "saved-sdk-order-2" },
