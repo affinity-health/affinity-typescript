@@ -29,6 +29,7 @@ const spec = sdkContract(JSON.parse(pinned)) as {
   info: { version: string };
   paths: Record<string, Record<string, Endpoint>>;
   components?: { schemas?: Record<string, Schema> };
+  webhooks: { orderEvent: { post: Endpoint } };
 };
 const generated =
   "// Code generated from spec/affinity.openapi.json by scripts/generate-facade.ts. DO NOT EDIT.\n";
@@ -200,23 +201,35 @@ await output(
 );
 await output("src/transport.ts", await readFile(resolve(root, "templates/transport.ts"), "utf8"));
 await output("src/errors.ts", await readFile(resolve(root, "scripts/templates/errors.ts"), "utf8"));
-const orderSchema =
-  spec.paths["/v1/orders/{orderId}"]!.get!.responses["200"]!.content!["application/json"]!.schema;
-const statuses = orderSchema.properties!.status!.enum as string[];
-if (!statuses?.length) throw new Error("Order statuses must be defined in the pinned API contract");
+// The API publishes webhook schemas separately from order responses. Do not infer
+// events from order states: the two contracts can evolve independently.
+const webhookSchema =
+  spec.webhooks.orderEvent.post.requestBody!.content["application/json"]!.schema;
+const eventSchemas = webhookSchema.anyOf;
+const orderEventSchema = eventSchemas?.find((schema) => schema.properties?.data?.properties?.order);
+const webhookOrder = orderEventSchema?.properties?.data?.properties?.order;
+const statuses = webhookOrder?.properties?.status?.enum;
+const eventTypes = eventSchemas?.flatMap((schema) => schema.properties?.type?.enum ?? []);
+if (!statuses?.length || !eventTypes?.length || !webhookOrder)
+  throw new Error(
+    "Webhook event types, order statuses and snapshots must be defined in the pinned contract",
+  );
 await output(
   "src/webhook-events.ts",
   (await readFile(resolve(root, "templates/webhook-events.ts"), "utf8"))
     .replace("__AFFINITY_WEBHOOK_API_VERSION__", JSON.stringify(spec.info.version))
     .replace("__AFFINITY_ORDER_STATUSES__", JSON.stringify(statuses))
     .replace(
-      "__AFFINITY_WEBHOOK_EVENT_TYPES__",
-      JSON.stringify([
-        ...statuses.filter((s) => s !== "draft").map((s) => `order.${s}`),
-        "order.updated",
-        "webhook_endpoint.test",
-      ]),
-    ),
+      "__AFFINITY_WEBHOOK_ORDER__",
+      ts({
+        ...webhookOrder,
+        properties: {
+          ...webhookOrder.properties,
+          status: { anyOf: [webhookOrder.properties!.status!, { type: "string" }] },
+        },
+      }),
+    )
+    .replace("__AFFINITY_WEBHOOK_EVENT_TYPES__", JSON.stringify(eventTypes)),
 );
 
 await output(

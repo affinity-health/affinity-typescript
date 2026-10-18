@@ -7,10 +7,12 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 
 ## [Unreleased]
 
+## [2.0.0-beta.0] - 2026-10-18
+
 ### Changed
 
-- Prepare the MVP API `2026-10-20` contract. Replace retired catalog and workflow APIs with medications and one-call order submission, explicit request practice IDs, and opaque cursor pagination. See `docs/guide.md` for breaking changes. This preparation does not publish or change the package version.
-- Accept the MVP webhook envelope and `data.order` snapshots. Remove the old patient/draft/signing TanStack example; server examples now use the supported contract.
+- Prepare the MVP API `2026-10-20` contract. Replace retired catalog and workflow APIs with medications and one-call order submission, explicit request practice IDs, and opaque cursor pagination. See `docs/guide.md` for breaking changes. This is a breaking beta release.
+- Generate event types and order snapshots from the published webhook schema. Accept the MVP webhook envelope and `data.order` snapshots. Remove the old patient/draft/signing TanStack example; server examples now use the supported contract.
 
 ### Fixed
 

@@ -1,7 +1,5 @@
 // Code generated from spec/affinity.openapi.json by scripts/generate-facade.ts. DO NOT EDIT.
 
-import type { Order } from "./domain";
-
 export const affinityWebhookApiVersion = "2026-10-20" as const;
 export const affinityOrderStatuses = [
   "draft",
@@ -13,12 +11,12 @@ export const affinityOrderStatuses = [
   "failed",
 ] as const;
 export const affinityWebhookEventTypes = [
-  "order.submitted",
+  "order.cancelled",
+  "order.delivered",
+  "order.failed",
   "order.processing",
   "order.shipped",
-  "order.delivered",
-  "order.cancelled",
-  "order.failed",
+  "order.submitted",
   "order.updated",
   "webhook_endpoint.test",
 ] as const;
@@ -28,16 +26,29 @@ export type AffinityOrderWebhookEventType = Exclude<
   AffinityWebhookEventType,
   "webhook_endpoint.test"
 >;
-export type AffinityOrderStatus = Order["status"];
+export type AffinityOrderStatus = (typeof affinityOrderStatuses)[number];
 export type AffinityPublicId<Prefix extends string> = `${Prefix}_${string}`;
 export type AffinityOrganizationId =
   | AffinityPublicId<"plat">
   | AffinityPublicId<"prac">
   | AffinityPublicId<"pharm">;
-export type AffinityOrderWebhookObject = Pick<
-  Order,
-  "id" | "externalOrderId" | "failureReason" | "cancelRequestedAt" | "shipments" | "updatedAt"
-> & { status: AffinityOrderStatus | (string & {}) };
+export type AffinityOrderWebhookObject = {
+  cancelRequestedAt: string | null;
+  externalOrderId: string | null;
+  failureReason: string | null;
+  id: string;
+  shipments: Array<{
+    carrier: string | null;
+    trackingNumber: string;
+    trackingUrl: string | null;
+    [key: string]: unknown;
+  }>;
+  status:
+    | ("draft" | "submitted" | "processing" | "shipped" | "delivered" | "cancelled" | "failed")
+    | string;
+  updatedAt: string;
+  [key: string]: unknown;
+};
 /** Unknown event types and additive fields are retained for forward compatibility. */
 export interface AffinityWebhookEvent {
   id: AffinityPublicId<"evt">;

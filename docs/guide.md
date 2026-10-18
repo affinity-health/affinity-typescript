@@ -1,6 +1,6 @@
 # TypeScript SDK guide
 
-This checkout prepares API `2026-10-20`. It is not a published release. Use the SDK only from trusted servers running Node.js 20+, Bun, Lambda, or supported Fetch runtimes.
+Version `2.0.0-beta.0` targets API `2026-10-20`. Use the SDK only from trusted servers running Node.js 20+, Bun, Lambda, or supported Fetch runtimes.
 
 ## Connect
 
@@ -63,6 +63,8 @@ const order = await api.orders.create(
   { idempotencyKey: "persisted-synthetic-job-1" },
 );
 ```
+
+Returning patients go inside the next order too. Keep `patient.externalId` stable, or send the same identity and contact details, so the API reuses the patient. Read `order.patientId` to confirm reuse. There are no public patient read or list routes.
 
 Use actual IDs returned by the API. The example identifiers are placeholders. All prescriptions are for one patient and pharmacy. `allergies: []` means no known allergies and requires the clinician's confirmation. Supply the prescriber's NPI and name for API-key submission even though the shared contract also supports dashboard sessions.
 
@@ -145,6 +147,6 @@ Pass the raw body before parsing. The verifier snapshots binary input before awa
 - `catalog.items` becomes `medications`. Removed catalog pricing, prescribing-options, shipping-option routes, pharmacies, and their types have no facade methods. Medication responses include prices and shipping options.
 - Public patient, location, team, API-key administration, draft, preview, sign, submit, batch, review, and simulation APIs are removed. Their methods and parameter types are removed. The obsolete TanStack demo is removed.
 - `forPractice()` and request options for practice, organization, and actor context are removed. `orders.create` takes `practiceId` in its body, and `orders.list` takes it in query parameters. Other paths use their own resource IDs.
-- Order creation takes inline patient data, NPI/name, attestation, shipping option, and complete prescriptions. It submits immediately. Previous patient IDs, revision fields, metadata, OTC items, actor headers, and structured compounding reasons are removed. `orders.cancel(id)` takes no reason body.
+- Order creation takes inline patient data, NPI/name, attestation, shipping option, and complete prescriptions. It submits immediately; there is no separate `submit` flag. Revision fields, metadata, OTC items, actor headers, and structured compounding reasons are removed. `orders.cancel(id)` takes no reason body.
 - `practices.create` now requires a persisted idempotency key. Nullable and optional fields follow the pinned contract. Addresses are nested. Platform IDs use `plat_`.
 - Lists use opaque `nextCursor` values. Webhook consumers must migrate from `data.object` and snake-case envelope fields to the MVP envelope and `data.order`. Historical event aliases and `CompoundingReason` enum are removed.

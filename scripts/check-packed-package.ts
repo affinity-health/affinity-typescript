@@ -70,7 +70,7 @@ console.log("Packed MVP consumer passed");
 `;
 try {
   // Exercise the npm tarball boundary without publishing or contacting the API.
-  await Bun.$`npm pack --ignore-scripts --pack-destination ${consumer}`.cwd(root).quiet();
+  await Bun.$`bun pm pack --ignore-scripts --destination ${consumer}`.cwd(root).quiet();
   const archive = (await readdir(consumer)).find((file) => file.endsWith(".tgz"));
   if (!archive) throw new Error("SDK archive was not created");
   await writeFile(

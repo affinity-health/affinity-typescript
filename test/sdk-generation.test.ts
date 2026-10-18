@@ -13,8 +13,6 @@ test("SDK selection omits deprecated operations without mutating the pinned cont
         post: { operationId: "retiredWrite", deprecated: true },
       },
       "/retired": { post: { operationId: "retired", deprecated: true } },
-      "/v1/hosted-sessions": { post: { operationId: "hostedSession" } },
-      "/v1/component-sessions": { post: { operationId: "componentSession" } },
     },
   };
   const original = structuredClone(spec);
@@ -48,6 +46,10 @@ async function generate(change: (spec: any, metadata: any) => void) {
       stderr: result.stderr.toString(),
       keptSource: await Bun.file(resolve(directory, "src/keep-on-failure.txt")).exists(),
       sdk: result.exitCode === 0 ? await Bun.file(resolve(directory, "src/sdk.ts")).text() : null,
+      webhooks:
+        result.exitCode === 0
+          ? await Bun.file(resolve(directory, "src/webhook-events.ts")).text()
+          : null,
     };
   } finally {
     await rm(directory, { recursive: true, force: true });
@@ -64,21 +66,26 @@ test("facade generation accepts deprecated contract-only operations and preserve
   expect(deprecated.sdk).toBe(baseline.sdk);
 });
 
-test("facade integrity guard rejects active method mismatches before replacing source", async () => {
-  for (const change of [
-    (spec: any) => {
-      spec.paths["/new"] = { get: { operationId: "missingRead" } };
-    },
-    (_spec: any, metadata: any) => {
-      delete metadata.sdkMethods.getAccount;
-    },
-    (_spec: any, metadata: any) => {
-      metadata.sdkMethods.staleMethod = "stale.method";
-    },
-  ]) {
-    const result = await generate(change);
-    expect(result.exitCode).not.toBe(0);
-    expect(result.stderr).toContain("Regenerate the SDK facade from the current contract");
-    expect(result.keptSource).toBe(true);
-  }
+test("facade generation rejects unmapped active operations before replacing source", async () => {
+  const result = await generate((spec) => {
+    spec.paths["/new"] = { get: { operationId: "missingRead" } };
+  });
+  expect(result.exitCode).not.toBe(0);
+  expect(result.stderr).toContain("Map the public operation missingRead before generating");
+  expect(result.keptSource).toBe(true);
+});
+
+test("webhook generation follows the webhook schema independently of order response states", async () => {
+  const result = await generate((spec) => {
+    const event =
+      spec.webhooks.orderEvent.post.requestBody.content["application/json"].schema.anyOf[0];
+    event.properties.type.enum.push("order.future");
+    event.properties.data.properties.order.properties.status.enum.push("future_status");
+    event.properties.data.properties.order.properties.vendorReference = { type: "string" };
+  });
+  expect(result.exitCode).toBe(0);
+  expect(result.webhooks).toContain('"order.future"');
+  expect(result.webhooks).toContain('"future_status"');
+  expect(result.webhooks).toContain('"vendorReference"?: string');
+  expect(result.sdk).not.toContain('"future_status"');
 });

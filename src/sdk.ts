@@ -3,7 +3,7 @@
 import { createTransport } from "./transport";
 import { affinityConnectionError, affinityErrorFromResponse } from "./errors";
 
-const sdkVersion = "1.17.0";
+const sdkVersion = "2.0.0-beta.0";
 export const affinityApiVersion = "2026-10-20" as const;
 
 export interface SDKOptions {
@@ -142,6 +142,14 @@ const operations = {
     body: true,
     idempotency: false,
   },
+  "medications.get": {
+    path: "/v1/medications/{medicationId}",
+    verb: "GET",
+    ids: ["medicationId"],
+    query: [],
+    body: false,
+    idempotency: false,
+  },
   "medications.list": {
     path: "/v1/medications",
     verb: "GET",
@@ -150,10 +158,10 @@ const operations = {
     body: false,
     idempotency: false,
   },
-  "medications.get": {
-    path: "/v1/medications/{medicationId}",
-    verb: "GET",
-    ids: ["medicationId"],
+  "orders.cancel": {
+    path: "/v1/orders/{orderId}/cancel",
+    verb: "POST",
+    ids: ["orderId"],
     query: [],
     body: false,
     idempotency: false,
@@ -191,14 +199,6 @@ const operations = {
     body: false,
     idempotency: false,
   },
-  "orders.cancel": {
-    path: "/v1/orders/{orderId}/cancel",
-    verb: "POST",
-    ids: ["orderId"],
-    query: [],
-    body: false,
-    idempotency: false,
-  },
   "practices.create": {
     path: "/v1/practices",
     verb: "POST",
@@ -231,14 +231,6 @@ const operations = {
     body: true,
     idempotency: false,
   },
-  "webhooks.list": {
-    path: "/v1/webhook-endpoints",
-    verb: "GET",
-    ids: [],
-    query: ["endingBefore", "limit", "startingAfter"],
-    body: false,
-    idempotency: false,
-  },
   "webhooks.create": {
     path: "/v1/webhook-endpoints",
     verb: "POST",
@@ -247,12 +239,12 @@ const operations = {
     body: true,
     idempotency: false,
   },
-  "webhooks.update": {
-    path: "/v1/webhook-endpoints/{webhookEndpointId}",
-    verb: "PATCH",
-    ids: ["webhookEndpointId"],
-    query: [],
-    body: true,
+  "webhooks.list": {
+    path: "/v1/webhook-endpoints",
+    verb: "GET",
+    ids: [],
+    query: ["endingBefore", "limit", "startingAfter"],
+    body: false,
     idempotency: false,
   },
   "webhooks.remove": {
@@ -261,6 +253,14 @@ const operations = {
     ids: ["webhookEndpointId"],
     query: [],
     body: false,
+    idempotency: false,
+  },
+  "webhooks.update": {
+    path: "/v1/webhook-endpoints/{webhookEndpointId}",
+    verb: "PATCH",
+    ids: ["webhookEndpointId"],
+    query: [],
+    body: true,
     idempotency: false,
   },
 } as const;
@@ -283,10 +283,22 @@ export type AccountGetResponse = {
   type: "platform" | "practice" | "pharmacy";
 };
 export type FeedbackCreateResponse = { id: string };
-export type FeedbackCreateParams = {
-  message: string;
-  pageUrl?: string | null;
-  requestId?: string | null;
+export type FeedbackCreateParams = { message: string; pageUrl?: string; requestId?: string };
+export type MedicationGetResponse = {
+  coldChain: { price: number } | null;
+  compoundingReasons: Array<string>;
+  defaultDirections: string | null;
+  form: string | null;
+  id: string;
+  name: string;
+  pharmacy: { id: string; name: string };
+  price: number;
+  quantities: Array<number>;
+  quantityUnit: string | null;
+  requirements: Array<string>;
+  restrictedStates: Array<string>;
+  shippingOptions: Array<{ id: string; name: string; price: number }>;
+  strength: string | null;
 };
 export type MedicationListResponse = {
   data: Array<{
@@ -313,25 +325,62 @@ export type MedicationListResponse = {
 export type MedicationListParams = {
   limit?: number | null;
   startingAfter?: string | null;
-  name?: string | null;
-  pharmacyId?: string | null;
-  query?: string | null;
+  name?: string;
+  pharmacyId?: string;
+  query?: string;
 };
-export type MedicationGetResponse = {
-  coldChain: { price: number } | null;
-  compoundingReasons: Array<string>;
-  defaultDirections: string | null;
-  form: string | null;
+export type OrderCancelResponse = {
+  cancelRequestedAt: string | null;
+  createdAt: string;
+  externalOrderId: string | null;
+  failureReason: string | null;
   id: string;
-  name: string;
+  mode: "test" | "live";
+  patient: {
+    address: {
+      line1: string;
+      line2: string | null;
+      city: string;
+      state: string;
+      postalCode: string;
+    };
+    allergies: Array<{
+      category: "drug" | "food" | "insect" | "latex" | "mold" | "pet" | "pollen";
+      display: string;
+    }>;
+    dateOfBirth: string;
+    email: string;
+    firstName: string;
+    gender: "female" | "male" | "unknown";
+    lastName: string;
+    middleName: string | null;
+    phone: string;
+  };
+  patientId: string;
   pharmacy: { id: string; name: string };
-  price: number;
-  quantities: Array<number>;
-  quantityUnit: string | null;
-  requirements: Array<string>;
-  restrictedStates: Array<string>;
-  shippingOptions: Array<{ id: string; name: string; price: number }>;
-  strength: string | null;
+  practiceId: string;
+  prescriber: { firstName: string; lastName: string; npi: string } | null;
+  prescriptions: Array<{
+    compoundingReason: string | null;
+    directions: string;
+    id: string;
+    medication: { form: string | null; id: string; name: string; strength: string | null };
+    notes: string | null;
+    price: number;
+    quantity: number;
+    refills: number;
+    substitutionPermitted: boolean;
+  }>;
+  coldChain: { price: number } | null;
+  shippingOption: { id: string; name: string; price: number } | null;
+  shipments: Array<{ carrier: string | null; trackingNumber: string; trackingUrl: string | null }>;
+  status: "draft" | "submitted" | "processing" | "shipped" | "delivered" | "cancelled" | "failed";
+  statusHistory: Array<{
+    createdAt: string;
+    status: "draft" | "submitted" | "processing" | "shipped" | "delivered" | "cancelled" | "failed";
+  }>;
+  total: number;
+  updatedAt: string;
 };
 export type OrderCreateResponse = {
   cancelRequestedAt: string | null;
@@ -387,11 +436,11 @@ export type OrderCreateResponse = {
   updatedAt: string;
 };
 export type OrderCreateParams = {
-  externalOrderId?: (string | null) | null;
+  externalOrderId?: string | null;
   patient: {
     address: {
       line1: string;
-      line2?: (string | null) | null;
+      line2?: string | null;
       city: string;
       state: string;
       postalCode: string;
@@ -405,21 +454,21 @@ export type OrderCreateParams = {
     firstName: string;
     gender: "female" | "male" | "unknown";
     lastName: string;
-    middleName?: (string | null) | null;
+    middleName?: string | null;
     phone: string;
-    externalId?: (string | null) | null;
-    id?: string | null;
+    externalId?: string | null;
+    id?: string;
   };
   practiceId: string;
-  prescriber?: { firstName: string; lastName: string; npi: string } | null;
+  prescriber?: { firstName: string; lastName: string; npi: string };
   prescriptions: Array<{
-    compoundingReason?: (string | null) | null;
+    compoundingReason?: string | null;
     directions: string;
     medicationId: string;
-    notes?: (string | null) | null;
+    notes?: string | null;
     quantity: number;
     refills: number;
-    substitutionPermitted?: boolean | null;
+    substitutionPermitted?: boolean;
   }>;
   shippingOptionId: string;
   signatureAttestation: true;
@@ -495,71 +544,16 @@ export type OrderListResponse = {
   url: string;
 };
 export type OrderListParams = {
-  endingBefore?: string | null;
+  endingBefore?: string;
   limit?: number | null;
-  startingAfter?: string | null;
-  patientId?: string | null;
-  practiceId?: string | null;
-  query?: string | null;
-  status?:
-    | ("draft" | "submitted" | "processing" | "shipped" | "delivered" | "cancelled" | "failed")
-    | null;
-  sort?: ("patient" | "-patient" | "created" | "-created") | null;
+  startingAfter?: string;
+  patientId?: string;
+  practiceId?: string;
+  query?: string;
+  status?: "draft" | "submitted" | "processing" | "shipped" | "delivered" | "cancelled" | "failed";
+  sort?: "patient" | "-patient" | "created" | "-created";
 };
 export type OrderGetResponse = {
-  cancelRequestedAt: string | null;
-  createdAt: string;
-  externalOrderId: string | null;
-  failureReason: string | null;
-  id: string;
-  mode: "test" | "live";
-  patient: {
-    address: {
-      line1: string;
-      line2: string | null;
-      city: string;
-      state: string;
-      postalCode: string;
-    };
-    allergies: Array<{
-      category: "drug" | "food" | "insect" | "latex" | "mold" | "pet" | "pollen";
-      display: string;
-    }>;
-    dateOfBirth: string;
-    email: string;
-    firstName: string;
-    gender: "female" | "male" | "unknown";
-    lastName: string;
-    middleName: string | null;
-    phone: string;
-  };
-  patientId: string;
-  pharmacy: { id: string; name: string };
-  practiceId: string;
-  prescriber: { firstName: string; lastName: string; npi: string } | null;
-  prescriptions: Array<{
-    compoundingReason: string | null;
-    directions: string;
-    id: string;
-    medication: { form: string | null; id: string; name: string; strength: string | null };
-    notes: string | null;
-    price: number;
-    quantity: number;
-    refills: number;
-    substitutionPermitted: boolean;
-  }>;
-  coldChain: { price: number } | null;
-  shippingOption: { id: string; name: string; price: number } | null;
-  shipments: Array<{ carrier: string | null; trackingNumber: string; trackingUrl: string | null }>;
-  status: "draft" | "submitted" | "processing" | "shipped" | "delivered" | "cancelled" | "failed";
-  statusHistory: Array<{
-    createdAt: string;
-    status: "draft" | "submitted" | "processing" | "shipped" | "delivered" | "cancelled" | "failed";
-  }>;
-  total: number;
-  updatedAt: string;
-};
-export type OrderCancelResponse = {
   cancelRequestedAt: string | null;
   createdAt: string;
   externalOrderId: string | null;
@@ -628,18 +622,16 @@ export type PracticeCreateResponse = {
   createdAt: string;
 };
 export type PracticeCreateParams = {
-  address?:
-    | ({
-        line1: string;
-        line2: string | null;
-        city: string;
-        state: string;
-        postalCode: string;
-      } | null)
-    | null;
-  liveEnabled?: boolean | null;
+  address?: {
+    line1: string;
+    line2: string | null;
+    city: string;
+    state: string;
+    postalCode: string;
+  } | null;
+  liveEnabled?: boolean;
   name: string;
-  phone?: (string | null) | null;
+  phone?: string | null;
 };
 export type PracticeListResponse = {
   data: Array<{
@@ -663,13 +655,11 @@ export type PracticeListResponse = {
   url: string;
 };
 export type PracticeListParams = {
-  endingBefore?: string | null;
+  endingBefore?: string;
   limit?: number | null;
-  startingAfter?: string | null;
-  query?: string | null;
-  sort?:
-    | ("name" | "-name" | "location" | "-location" | "mode" | "-mode" | "created" | "-created")
-    | null;
+  startingAfter?: string;
+  query?: string;
+  sort?: "name" | "-name" | "location" | "-location" | "mode" | "-mode" | "created" | "-created";
 };
 export type PracticeGetResponse = {
   id: string;
@@ -702,30 +692,16 @@ export type PracticeUpdateResponse = {
   createdAt: string;
 };
 export type PracticeUpdateParams = {
-  address?:
-    | ({
-        line1?: string;
-        line2?: string | null;
-        city?: string;
-        state?: string;
-        postalCode?: string;
-      } | null)
-    | null;
-  liveEnabled?: boolean | null;
-  name?: string | null;
-  phone?: (string | null) | null;
-};
-export type WebhookEndpointListResponse = {
-  data: Array<{ createdAt: string; id: string; url: string }>;
-  hasMore: boolean;
-  nextCursor: string | null;
-  object: "list";
-  url: string;
-};
-export type WebhookEndpointListParams = {
-  endingBefore?: string | null;
-  limit?: number | null;
-  startingAfter?: string | null;
+  address?: {
+    line1?: string;
+    line2?: string | null;
+    city?: string;
+    state?: string;
+    postalCode?: string;
+  } | null;
+  liveEnabled?: boolean;
+  name?: string;
+  phone?: string | null;
 };
 export type WebhookEndpointCreateResponse = {
   createdAt: string;
@@ -734,9 +710,21 @@ export type WebhookEndpointCreateResponse = {
   secret: string;
 };
 export type WebhookEndpointCreateParams = { url: string };
+export type WebhookEndpointListResponse = {
+  data: Array<{ createdAt: string; id: string; url: string }>;
+  hasMore: boolean;
+  nextCursor: string | null;
+  object: "list";
+  url: string;
+};
+export type WebhookEndpointListParams = {
+  endingBefore?: string;
+  limit?: number | null;
+  startingAfter?: string;
+};
+export type WebhookEndpointDeleteResponse = { deleted: true; id: string };
 export type WebhookEndpointUpdateResponse = { createdAt: string; id: string; url: string };
 export type WebhookEndpointUpdateParams = { url: string };
-export type WebhookEndpointDeleteResponse = { deleted: true; id: string };
 
 class AccountResource {
   constructor(private readonly context: SDKContext) {}
@@ -755,6 +743,9 @@ class FeedbackResource {
 }
 class MedicationResource {
   constructor(private readonly context: SDKContext) {}
+  get(medicationId: string, options: SDKRequestOptions = {}): Promise<MedicationGetResponse> {
+    return this.context.call(operations["medications.get"], [medicationId], {}, options);
+  }
   list(
     params: MedicationListParams = {},
     options: SDKRequestOptions = {},
@@ -767,12 +758,12 @@ class MedicationResource {
   ): AsyncIterable<MedicationListResponse["data"][number]> {
     return this.context.iterate(operations["medications.list"], params, options);
   }
-  get(medicationId: string, options: SDKRequestOptions = {}): Promise<MedicationGetResponse> {
-    return this.context.call(operations["medications.get"], [medicationId], {}, options);
-  }
 }
 class OrderResource {
   constructor(private readonly context: SDKContext) {}
+  cancel(orderId: string, options: SDKRequestOptions = {}): Promise<OrderCancelResponse> {
+    return this.context.call(operations["orders.cancel"], [orderId], {}, options);
+  }
   create(params: OrderCreateParams, options: RequiredKeyOptions): Promise<OrderCreateResponse> {
     return this.context.call(operations["orders.create"], [], params, options);
   }
@@ -787,9 +778,6 @@ class OrderResource {
   }
   get(orderId: string, options: SDKRequestOptions = {}): Promise<OrderGetResponse> {
     return this.context.call(operations["orders.get"], [orderId], {}, options);
-  }
-  cancel(orderId: string, options: SDKRequestOptions = {}): Promise<OrderCancelResponse> {
-    return this.context.call(operations["orders.cancel"], [orderId], {}, options);
   }
 }
 class PracticeResource {
@@ -825,6 +813,12 @@ class PracticeResource {
 }
 class WebhookEndpointResource {
   constructor(private readonly context: SDKContext) {}
+  create(
+    params: WebhookEndpointCreateParams,
+    options: SDKRequestOptions = {},
+  ): Promise<WebhookEndpointCreateResponse> {
+    return this.context.call(operations["webhooks.create"], [], params, options);
+  }
   list(
     params: WebhookEndpointListParams = {},
     options: SDKRequestOptions = {},
@@ -837,11 +831,11 @@ class WebhookEndpointResource {
   ): AsyncIterable<WebhookEndpointListResponse["data"][number]> {
     return this.context.iterate(operations["webhooks.list"], params, options);
   }
-  create(
-    params: WebhookEndpointCreateParams,
+  delete(
+    webhookEndpointId: string,
     options: SDKRequestOptions = {},
-  ): Promise<WebhookEndpointCreateResponse> {
-    return this.context.call(operations["webhooks.create"], [], params, options);
+  ): Promise<WebhookEndpointDeleteResponse> {
+    return this.context.call(operations["webhooks.remove"], [webhookEndpointId], {}, options);
   }
   update(
     webhookEndpointId: string,
@@ -849,12 +843,6 @@ class WebhookEndpointResource {
     options: SDKRequestOptions = {},
   ): Promise<WebhookEndpointUpdateResponse> {
     return this.context.call(operations["webhooks.update"], [webhookEndpointId], params, options);
-  }
-  delete(
-    webhookEndpointId: string,
-    options: SDKRequestOptions = {},
-  ): Promise<WebhookEndpointDeleteResponse> {
-    return this.context.call(operations["webhooks.remove"], [webhookEndpointId], {}, options);
   }
 }
 export class Affinity {

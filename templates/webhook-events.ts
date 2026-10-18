@@ -1,5 +1,3 @@
-import type { Order } from "./domain";
-
 export const affinityWebhookApiVersion = __AFFINITY_WEBHOOK_API_VERSION__ as const;
 export const affinityOrderStatuses = __AFFINITY_ORDER_STATUSES__ as const;
 export const affinityWebhookEventTypes = __AFFINITY_WEBHOOK_EVENT_TYPES__ as const;
@@ -9,16 +7,13 @@ export type AffinityOrderWebhookEventType = Exclude<
   AffinityWebhookEventType,
   "webhook_endpoint.test"
 >;
-export type AffinityOrderStatus = Order["status"];
+export type AffinityOrderStatus = (typeof affinityOrderStatuses)[number];
 export type AffinityPublicId<Prefix extends string> = `${Prefix}_${string}`;
 export type AffinityOrganizationId =
   | AffinityPublicId<"plat">
   | AffinityPublicId<"prac">
   | AffinityPublicId<"pharm">;
-export type AffinityOrderWebhookObject = Pick<
-  Order,
-  "id" | "externalOrderId" | "failureReason" | "cancelRequestedAt" | "shipments" | "updatedAt"
-> & { status: AffinityOrderStatus | (string & {}) };
+export type AffinityOrderWebhookObject = __AFFINITY_WEBHOOK_ORDER__;
 /** Unknown event types and additive fields are retained for forward compatibility. */
 export interface AffinityWebhookEvent {
   id: AffinityPublicId<"evt">;
