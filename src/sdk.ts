@@ -54,7 +54,7 @@ class SDKContext {
     };
     if (op.idempotency) {
       const key = "idempotencyKey" in options ? options.idempotencyKey : undefined;
-      if (typeof key !== "string" || !/^[\x20-\x7e]{1,255}$/u.test(key))
+      if (typeof key !== "string" || !/^[\x21-\x7e]{1,255}$/u.test(key))
         throw new Error(
           "A persisted idempotencyKey of 1–255 printable ASCII characters is required",
         );

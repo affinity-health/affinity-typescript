@@ -92,7 +92,7 @@ test("order creation sends the complete reviewed body and persisted key in one r
 });
 test("consequential creates require persisted printable keys before any request", async () => {
   const { api, requests } = fixture();
-  for (const key of [undefined, "", "bad\nkey", "x".repeat(256)]) {
+  for (const key of [undefined, "", "bad\nkey", "has space", "x".repeat(256)]) {
     await expect(api.orders.create(reviewed, { idempotencyKey: key as string })).rejects.toThrow(
       "persisted",
     );
