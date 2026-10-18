@@ -85,7 +85,7 @@ async function receive(request: Request) {
 
 `orders.create` creates, signs, and submits in one call. There is no `submit` flag or public patient resource. Read patient data on the order. Retry an unchanged request with its saved idempotency key.
 
-The defaults are `https://api.affinityrx.com`, a 60-second timeout, and no automatic retries. For staging, pass `{ baseUrl: "https://api-staging.affinityrx.com" }` to the client. The [guide](docs/guide.md) covers errors, iterators, webhook handling, and migration from the previous SDK. [Examples](examples/) use synthetic Test data.
+The defaults are `https://api.affinityrx.com`, a 60-second timeout, and no automatic retries. For staging, pass `{ baseUrl: "https://api-staging.affinityrx.com" }` to the client. The [guide](docs/guide.md) covers errors, iterators, webhook handling, and migration from the previous SDK. [Examples](https://github.com/affinity-health/affinity-typescript/tree/main/examples) use synthetic Test data.
 
 ## Build and verify
 
