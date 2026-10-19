@@ -1,43 +1,38 @@
 # Affinity TypeScript SDK
 
 Typed server-side client for Node.js 20+, Bun, AWS Lambda, and supported Fetch runtimes.
-
-Version `1.16.0` targets `https://api.affinityrx.com`.
+This checkout targets API version `2026-10-20` and sends it in `Affinity-Version` on every request.
 
 ## Install
 
 ```sh
-npm install @affinity-health/sdk@1.16.0
+bun add @affinity-health/sdk
 ```
 
+The MVP client in this checkout is being prepared for release. Check the installed package's version before using these examples.
+
 ## Use
+
+Keep API keys on the server. Never put them in browser bundles, mobile applications, or public environment variables.
 
 ```typescript
 import { Affinity } from "@affinity-health/sdk";
 
 const api = new Affinity(process.env.AFFINITY_API_KEY!);
-const practice = api.forPractice("prac_...");
+const account = await api.account.get();
+if (account.mode !== "test") throw new Error("Use a Test key for this example");
 
-const patients = await practice.patients.list({ limit: 20 });
-const patient = await practice.patients.get("pat_...");
+const medications = await api.medications.list({ limit: "20", query: "semaglutide" });
+console.log(`Found ${medications.data.length} medications`);
 ```
 
-Practice API keys identify their practice automatically and can call `api.patients.list()` directly.
-Platforms can use `forPractice()` or pass `{ practiceId }` as request options. Keep keys on the server.
+The key determines the organization and Test or Live mode. Supply `practiceId` in order creation or order-list filters where required. Patient details are supplied through the order; the current public contract has no patient resource.
 
-Read the [SDK guide](docs/guide.md) for creation, updates, order signing and submission, pagination, and errors.
-Routine patient writes generate an idempotency key. Order creation, signing, and submission require persisted keys.
-Defaults are API `2026-09-28`, a 60-second timeout, and no automatic retries.
+Read the [SDK guide](docs/guide.md) for practices, reviewed order creation, pagination, errors, and webhooks. Order creation signs and submits in one request. Order creation, practice creation, and failed-webhook resends require a persisted `idempotencyKey` in request options. Cancellation does not require one.
 
-## Migrate
+## Migrate to the MVP contract
 
-The primary `Affinity` client uses the new short resource methods and separate request options.
-Version `1.15.0` replaces the previous resource interface. See the [changelog](CHANGELOG.md) for the method and parameter changes.
-
-Purchase prices are managed by Affinity. Use `api.catalog.presentationPrices.get(catalogItemId)`
-to read the platform override and nullable Affinity default. The practice-scoped catalog returns
-the effective practice price: manual practice override, then platform override, then default.
-`catalog.sellingPrices.update()` is no longer available.
+Use `new Affinity(key, options)` and the resources `account`, `medications`, `practices`, `orders`, `webhooks`, and `feedback`. The retired catalog, patient, team, order-preview, draft, separate signing, and separate submission APIs are absent. There is no `forPractice` client or `CompoundingReason` helper. Use generated aliases such as `OrderCreateParams` and `MedicationListParams`; `Patient` means `OrderCreateParams['patient']` and `Medication` means `MedicationGetResponse`.
 
 ## Build and verify
 
@@ -48,5 +43,4 @@ bun run check
 bun run pack:dry-run
 ```
 
-The quickstart and TanStack Start example use the new client. All workflow examples use the same client.
-Forge/Fern inputs are pinned in [generation.json](generation.json). Affinity's generator owns the public facade and the generated code.
+[Quickstart](examples/quickstart.ts) performs Test reads. [EMR workflow](examples/emr-order.ts) demonstrates sending a clinician-reviewed order and receiving signed webhooks. The [TanStack Start example](examples/tanstack-start/README.md) keeps credentials on the server and provides a private Test directory and medication browser.

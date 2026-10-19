@@ -1,81 +1,76 @@
-import { expect, test } from "bun:test";
-import { client, practices } from "./workflow.server";
+import { expect, spyOn, test } from "bun:test";
+import { client, medications, practices } from "./workflow.server";
 
-test("requires explicit server configuration and refuses Live or ambiguous mode before writes", async () => {
-  const previousKey = process.env.AFFINITY_EXAMPLE_API_KEY;
-  const previousPractice = process.env.AFFINITY_EXAMPLE_PRACTICE_ID;
-  const originalFetch = globalThis.fetch;
+test("directory rejects missing configuration and Live, ambiguous, or non-platform accounts", async () => {
+  const key = process.env.AFFINITY_EXAMPLE_API_KEY;
+  const url = process.env.AFFINITY_EXAMPLE_API_URL;
   try {
     delete process.env.AFFINITY_EXAMPLE_API_KEY;
-    delete process.env.AFFINITY_EXAMPLE_PRACTICE_ID;
     await expect(client()).rejects.toThrow("Set AFFINITY_EXAMPLE_API_KEY");
-    process.env.AFFINITY_EXAMPLE_API_KEY = "synthetic-test-not-a-real-key";
-    process.env.AFFINITY_EXAMPLE_PRACTICE_ID = "prac_fixture";
-    for (const livemode of [true, undefined, false]) {
-      const calls: string[] = [];
-      globalThis.fetch = (async (input: RequestInfo | URL) => {
-        calls.push(String(input));
-        return Response.json({
-          livemode,
-          apiKey: {},
-          serviceAccount: { subjectType: "platform" },
-          scopes: [],
-        });
-      }) as typeof fetch;
-      if (livemode === false) expect((await client()).affinity).toBeDefined();
-      else await expect(client()).rejects.toThrow("refuses Live-mode");
-      expect(calls).toHaveLength(1);
-      expect(calls[0]).toContain("https://api.affinityrx.com/");
-    }
-  } finally {
-    globalThis.fetch = originalFetch;
-    if (previousKey === undefined) delete process.env.AFFINITY_EXAMPLE_API_KEY;
-    else process.env.AFFINITY_EXAMPLE_API_KEY = previousKey;
-    if (previousPractice === undefined) delete process.env.AFFINITY_EXAMPLE_PRACTICE_ID;
-    else process.env.AFFINITY_EXAMPLE_PRACTICE_ID = previousPractice;
-  }
-});
-
-test("Live directory requires the same platform and only practices:read", async () => {
-  const previousKey = process.env.AFFINITY_EXAMPLE_API_KEY;
-  const previousDirectory = process.env.AFFINITY_EXAMPLE_DIRECTORY_KEY;
-  const originalFetch = globalThis.fetch;
-  try {
-    process.env.AFFINITY_EXAMPLE_API_KEY = "test-fixture-key";
-    process.env.AFFINITY_EXAMPLE_DIRECTORY_KEY = "directory-fixture-key";
-    for (const variant of ["other-platform", "write-scope", "valid"] as const) {
+    process.env.AFFINITY_EXAMPLE_API_KEY = "synthetic-key";
+    process.env.AFFINITY_EXAMPLE_API_URL = "https://api.example.test";
+    for (const account of [
+      { mode: "live", type: "platform" },
+      { type: "platform" },
+      { mode: "test", type: "practice" },
+    ]) {
       const paths: string[] = [];
-      globalThis.fetch = (async (input: RequestInfo | URL, init?: RequestInit) => {
-        const path = String(input);
-        paths.push(path);
-        const live =
-          new Headers(init?.headers).get("authorization") === "Bearer directory-fixture-key";
-        if (path.endsWith("/v1/auth/access"))
-          return Response.json({
-            livemode: live,
-            apiKey: {},
-            scopes:
-              live && variant === "write-scope"
-                ? ["practices:read", "orders:write"]
-                : ["practices:read"],
-            serviceAccount: {
-              subjectType: "platform",
-              subjectId: live && variant === "other-platform" ? "other" : "same",
-            },
-          });
-        return Response.json({ object: "list", hasMore: false, data: [] });
-      }) as typeof fetch;
-      if (variant === "valid") expect((await practices(undefined, "live")).data).toEqual([]);
-      else {
-        await expect(practices(undefined, "live")).rejects.toThrow("Directory key must");
-        expect(paths.some((path) => path.includes("/v1/practices"))).toBe(false);
+      const fetchSpy = spyOn(globalThis, "fetch").mockImplementation((async (
+        input: RequestInfo | URL,
+      ) => {
+        paths.push(new URL(String(input)).pathname);
+        return Response.json(account);
+      }) as typeof fetch);
+      try {
+        await expect(practices()).rejects.toThrow();
+        expect(paths).toEqual(["/v1/account"]);
+      } finally {
+        fetchSpy.mockRestore();
       }
     }
   } finally {
-    globalThis.fetch = originalFetch;
-    if (previousKey === undefined) delete process.env.AFFINITY_EXAMPLE_API_KEY;
-    else process.env.AFFINITY_EXAMPLE_API_KEY = previousKey;
-    if (previousDirectory === undefined) delete process.env.AFFINITY_EXAMPLE_DIRECTORY_KEY;
-    else process.env.AFFINITY_EXAMPLE_DIRECTORY_KEY = previousDirectory;
+    if (key === undefined) delete process.env.AFFINITY_EXAMPLE_API_KEY;
+    else process.env.AFFINITY_EXAMPLE_API_KEY = key;
+    if (url === undefined) delete process.env.AFFINITY_EXAMPLE_API_URL;
+    else process.env.AFFINITY_EXAMPLE_API_URL = url;
+  }
+});
+
+test("directory and medication reads preserve opaque cursors and filters", async () => {
+  const key = process.env.AFFINITY_EXAMPLE_API_KEY;
+  process.env.AFFINITY_EXAMPLE_API_KEY = "synthetic-key";
+  const urls: URL[] = [];
+  const fetchSpy = spyOn(globalThis, "fetch").mockImplementation((async (
+    input: RequestInfo | URL,
+    init?: RequestInit,
+  ) => {
+    const url = new URL(String(input));
+    expect(init?.method ?? "GET").toBe("GET");
+    urls.push(url);
+    if (url.pathname === "/v1/account") return Response.json({ mode: "test", type: "platform" });
+    return Response.json({
+      object: "list",
+      url: url.pathname,
+      data: [],
+      hasMore: false,
+      nextCursor: null,
+    });
+  }) as typeof fetch);
+  try {
+    await practices("opaque/+cursor=");
+    await medications("Synthetic search", "another/cursor");
+    expect(urls.map((url) => url.pathname)).toEqual([
+      "/v1/account",
+      "/v1/practices",
+      "/v1/account",
+      "/v1/medications",
+    ]);
+    expect(urls[1]!.searchParams.get("startingAfter")).toBe("opaque/+cursor=");
+    expect(urls[3]!.searchParams.get("query")).toBe("Synthetic search");
+    expect(urls[3]!.searchParams.get("startingAfter")).toBe("another/cursor");
+  } finally {
+    fetchSpy.mockRestore();
+    if (key === undefined) delete process.env.AFFINITY_EXAMPLE_API_KEY;
+    else process.env.AFFINITY_EXAMPLE_API_KEY = key;
   }
 });

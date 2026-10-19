@@ -1,42 +1,26 @@
 // Code generated from spec/affinity.openapi.json by scripts/generate-facade.ts. DO NOT EDIT.
 
-export const affinityWebhookApiVersion = "2026-09-28" as const;
+export const affinityWebhookApiVersion = "2026-10-20" as const;
 export const affinityWebhookEventTypes = [
-  "webhook_endpoint.test",
-  "cancellation.requested",
-  "cancellation.sent",
-  "cancellation.confirmed",
-  "cancellation.rejected",
-  "cancellation.failed",
-  "cancellation.too_late",
-  "order.created",
-  "order.updated",
-  "order.review_requested",
-  "order.changes_requested",
-  "order.signed",
-  "order.rejected",
-  "order.submitted",
-  "order.accepted",
+  "order.cancelled",
+  "order.delivered",
+  "order.failed",
   "order.processing",
   "order.shipped",
-  "order.delivered",
-  "order.blocked",
-  "order.cancelled",
+  "order.submitted",
+  "order.updated",
+  "webhook_endpoint.test",
 ] as const;
 export const affinityOrderStatuses = [
-  "blocked",
-  "cancelled",
-  "delivered",
   "draft",
-  "partially_submitted",
-  "requires_provider_signature",
-  "processing",
-  "ready",
-  "rejected",
-  "shipped",
   "submitted",
+  "processing",
+  "shipped",
+  "delivered",
+  "cancelled",
+  "failed",
 ] as const;
-export const affinityWebhookSignatureHeader = "affinity-signature" as const;
+export const affinityWebhookSignatureHeader = "Affinity-Signature" as const;
 
 export type AffinityWebhookEventType = (typeof affinityWebhookEventTypes)[number];
 export type AffinityOrderWebhookEventType = Exclude<
@@ -85,7 +69,7 @@ export interface AffinityWebhookEndpointObject {
   object: "webhook_endpoint";
 }
 
-interface AffinityWebhookEventBase<TType extends AffinityWebhookEventType> {
+interface AffinityWebhookEventBase<TType extends string> {
   api_version: string;
   created: number;
   id: AffinityPublicId<"evt">;
@@ -103,7 +87,7 @@ export interface AffinityWebhookEndpointTestEvent extends AffinityWebhookEventBa
 }
 
 export interface AffinityOrderWebhookEvent<
-  TType extends AffinityOrderWebhookEventType = AffinityOrderWebhookEventType,
+  TType extends string = AffinityOrderWebhookEventType,
 > extends AffinityWebhookEventBase<TType> {
   data: {
     object: AffinityOrderWebhookObject;
@@ -138,7 +122,40 @@ export type AffinityOrderDeliveredWebhookEvent = AffinityOrderWebhookEvent<"orde
 export type AffinityOrderBlockedWebhookEvent = AffinityOrderWebhookEvent<"order.blocked">;
 export type AffinityOrderCancelledWebhookEvent = AffinityOrderWebhookEvent<"order.cancelled">;
 
+/** Current MVP webhook payload. The API delivers an operational order projection. */
+export interface AffinityMvpOrderWebhookObject {
+  cancelRequestedAt: string | null;
+  externalOrderId: string | null;
+  failureReason: string | null;
+  id: AffinityPublicId<"ord">;
+  shipments: Array<{
+    carrier: string | null;
+    trackingNumber: string;
+    trackingUrl: string | null;
+  }>;
+  status: AffinityOrderWebhookStatus | (string & {});
+  updatedAt: string;
+}
+
+export interface AffinityMvpOrderWebhookEvent<
+  TType extends string = AffinityOrderWebhookEventType,
+> {
+  id: AffinityPublicId<"evt">;
+  type: TType;
+  createdAt: string;
+  data: { order: AffinityMvpOrderWebhookObject };
+}
+
+export interface AffinityMvpWebhookEndpointTestEvent {
+  id: AffinityPublicId<"evt">;
+  type: "webhook_endpoint.test";
+  createdAt: string;
+  data: Record<string, unknown>;
+}
+
 export type AffinityWebhookEvent =
+  | AffinityMvpOrderWebhookEvent
+  | AffinityMvpWebhookEndpointTestEvent
   | AffinityWebhookEndpointTestEvent
   | AffinityOrderCreatedWebhookEvent
   | AffinityOrderUpdatedWebhookEvent
@@ -244,6 +261,10 @@ export async function verifyAffinityWebhook(input: {
 export function parseAffinityWebhookEvent(value: unknown): AffinityWebhookEvent {
   try {
     const event = requireRecord(value, "event");
+    if ("createdAt" in event) {
+      parseMvpWebhookEvent(event);
+      return value as AffinityWebhookEvent;
+    }
     requireFields(event, [
       "api_version",
       "created",
@@ -323,6 +344,42 @@ export function parseAffinityWebhookSignature(value: string | null) {
     );
   }
   return { signatures, timestamp };
+}
+
+function parseMvpWebhookEvent(event: Record<string, unknown>) {
+  requireFields(event, ["id", "type", "createdAt", "data"]);
+  requirePublicId(event.id, "evt");
+  requireOptionalDateTime(event, "createdAt", false);
+  if (typeof event.type !== "string" || !event.type) throw new Error("type is invalid");
+  const data = requireRecord(event.data, "data");
+  if (event.type === "webhook_endpoint.test") return;
+  // Unknown event types may introduce a different data shape.
+  if (!affinityWebhookEventTypes.includes(event.type as AffinityWebhookEventType)) return;
+  requireFields(data, ["order"]);
+  const order = requireRecord(data.order, "data.order");
+  requireFields(order, [
+    "cancelRequestedAt",
+    "externalOrderId",
+    "failureReason",
+    "id",
+    "shipments",
+    "status",
+    "updatedAt",
+  ]);
+  requirePublicId(order.id, "ord");
+  requireOptionalDateTime(order, "cancelRequestedAt", true);
+  requireOptionalNullableString(order, "externalOrderId");
+  requireOptionalNullableString(order, "failureReason");
+  if (typeof order.status !== "string") throw new Error("order status is invalid");
+  requireOptionalDateTime(order, "updatedAt", false);
+  if (!Array.isArray(order.shipments)) throw new Error("shipments is invalid");
+  for (const value of order.shipments) {
+    const shipment = requireRecord(value, "shipment");
+    requireFields(shipment, ["carrier", "trackingNumber", "trackingUrl"]);
+    requireOptionalNullableString(shipment, "carrier");
+    requireOptionalNullableString(shipment, "trackingUrl");
+    if (typeof shipment.trackingNumber !== "string") throw new Error("trackingNumber is invalid");
+  }
 }
 
 function parseWebhookEndpointObject(value: unknown) {

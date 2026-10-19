@@ -50,7 +50,7 @@ export interface AffinityWebhookEndpointObject {
   object: "webhook_endpoint";
 }
 
-interface AffinityWebhookEventBase<TType extends AffinityWebhookEventType> {
+interface AffinityWebhookEventBase<TType extends string> {
   api_version: string;
   created: number;
   id: AffinityPublicId<"evt">;
@@ -68,7 +68,7 @@ export interface AffinityWebhookEndpointTestEvent extends AffinityWebhookEventBa
 }
 
 export interface AffinityOrderWebhookEvent<
-  TType extends AffinityOrderWebhookEventType = AffinityOrderWebhookEventType,
+  TType extends string = AffinityOrderWebhookEventType,
 > extends AffinityWebhookEventBase<TType> {
   data: {
     object: AffinityOrderWebhookObject;
@@ -103,7 +103,40 @@ export type AffinityOrderDeliveredWebhookEvent = AffinityOrderWebhookEvent<"orde
 export type AffinityOrderBlockedWebhookEvent = AffinityOrderWebhookEvent<"order.blocked">;
 export type AffinityOrderCancelledWebhookEvent = AffinityOrderWebhookEvent<"order.cancelled">;
 
+/** Current MVP webhook payload. The API delivers an operational order projection. */
+export interface AffinityMvpOrderWebhookObject {
+  cancelRequestedAt: string | null;
+  externalOrderId: string | null;
+  failureReason: string | null;
+  id: AffinityPublicId<"ord">;
+  shipments: Array<{
+    carrier: string | null;
+    trackingNumber: string;
+    trackingUrl: string | null;
+  }>;
+  status: AffinityOrderWebhookStatus | (string & {});
+  updatedAt: string;
+}
+
+export interface AffinityMvpOrderWebhookEvent<
+  TType extends string = AffinityOrderWebhookEventType,
+> {
+  id: AffinityPublicId<"evt">;
+  type: TType;
+  createdAt: string;
+  data: { order: AffinityMvpOrderWebhookObject };
+}
+
+export interface AffinityMvpWebhookEndpointTestEvent {
+  id: AffinityPublicId<"evt">;
+  type: "webhook_endpoint.test";
+  createdAt: string;
+  data: Record<string, unknown>;
+}
+
 export type AffinityWebhookEvent =
+  | AffinityMvpOrderWebhookEvent
+  | AffinityMvpWebhookEndpointTestEvent
   | AffinityWebhookEndpointTestEvent
   | AffinityOrderCreatedWebhookEvent
   | AffinityOrderUpdatedWebhookEvent
@@ -209,6 +242,10 @@ export async function verifyAffinityWebhook(input: {
 export function parseAffinityWebhookEvent(value: unknown): AffinityWebhookEvent {
   try {
     const event = requireRecord(value, "event");
+    if ("createdAt" in event) {
+      parseMvpWebhookEvent(event);
+      return value as AffinityWebhookEvent;
+    }
     requireFields(event, [
       "api_version",
       "created",
@@ -282,9 +319,48 @@ export function parseAffinityWebhookSignature(value: string | null) {
     .map((part) => part.toLowerCase())
     .filter((part) => /^[a-f0-9]{64}$/u.test(part));
   if (signatures.length === 0) {
-    throw new AffinityWebhookVerificationError("invalid_signature", "Webhook signature is malformed");
+    throw new AffinityWebhookVerificationError(
+      "invalid_signature",
+      "Webhook signature is malformed",
+    );
   }
   return { signatures, timestamp };
+}
+
+function parseMvpWebhookEvent(event: Record<string, unknown>) {
+  requireFields(event, ["id", "type", "createdAt", "data"]);
+  requirePublicId(event.id, "evt");
+  requireOptionalDateTime(event, "createdAt", false);
+  if (typeof event.type !== "string" || !event.type) throw new Error("type is invalid");
+  const data = requireRecord(event.data, "data");
+  if (event.type === "webhook_endpoint.test") return;
+  // Unknown event types may introduce a different data shape.
+  if (!affinityWebhookEventTypes.includes(event.type as AffinityWebhookEventType)) return;
+  requireFields(data, ["order"]);
+  const order = requireRecord(data.order, "data.order");
+  requireFields(order, [
+    "cancelRequestedAt",
+    "externalOrderId",
+    "failureReason",
+    "id",
+    "shipments",
+    "status",
+    "updatedAt",
+  ]);
+  requirePublicId(order.id, "ord");
+  requireOptionalDateTime(order, "cancelRequestedAt", true);
+  requireOptionalNullableString(order, "externalOrderId");
+  requireOptionalNullableString(order, "failureReason");
+  if (typeof order.status !== "string") throw new Error("order status is invalid");
+  requireOptionalDateTime(order, "updatedAt", false);
+  if (!Array.isArray(order.shipments)) throw new Error("shipments is invalid");
+  for (const value of order.shipments) {
+    const shipment = requireRecord(value, "shipment");
+    requireFields(shipment, ["carrier", "trackingNumber", "trackingUrl"]);
+    requireOptionalNullableString(shipment, "carrier");
+    requireOptionalNullableString(shipment, "trackingUrl");
+    if (typeof shipment.trackingNumber !== "string") throw new Error("trackingNumber is invalid");
+  }
 }
 
 function parseWebhookEndpointObject(value: unknown) {
@@ -326,8 +402,13 @@ function parseOrderObject(value: unknown, previousAttributes: boolean) {
   if (object.metadata !== undefined) {
     const metadata = requireRecord(object.metadata, "metadata");
     for (const value of Object.values(metadata)) {
-      if (value !== null && typeof value !== "string" && typeof value !== "boolean" &&
-          !(typeof value === "number" && Number.isFinite(value))) throw new Error("metadata is invalid");
+      if (
+        value !== null &&
+        typeof value !== "string" &&
+        typeof value !== "boolean" &&
+        !(typeof value === "number" && Number.isFinite(value))
+      )
+        throw new Error("metadata is invalid");
     }
   }
   if (object.prescriptions !== undefined) {
@@ -342,7 +423,8 @@ function parseOrderObject(value: unknown, previousAttributes: boolean) {
   if (object.fulfillments !== undefined && !Array.isArray(object.fulfillments))
     throw new Error("fulfillments is invalid");
   if (object.review !== undefined && object.review !== null) requireRecord(object.review, "review");
-  for (const key of ["review_status", "tracking_status", "tracking_url"]) requireOptionalNullableString(object, key);
+  for (const key of ["review_status", "tracking_status", "tracking_url"])
+    requireOptionalNullableString(object, key);
   requireOptionalNullableString(object, "external_order_id");
   if (object.practice_id !== undefined && object.practice_id !== null) {
     requirePublicId(object.practice_id, "prac");

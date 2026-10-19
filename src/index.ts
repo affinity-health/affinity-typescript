@@ -4,4 +4,3 @@ export * from "./sdk";
 export * from "./errors";
 export type * from "./domain";
 export * from "./webhook-events";
-export * from "./compounding-reason";

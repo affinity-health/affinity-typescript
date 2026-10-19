@@ -1,138 +1,157 @@
 import { expect, spyOn, test } from "bun:test";
 import { createTestWorkflow } from "../examples/emr-order";
+import type { OrderCreateParams } from "../src";
 
-test("EMR example records explicit allergy review before draft creation", async () => {
-  const events: string[] = [];
-  const bodies: Record<string, unknown>[] = [];
-  const history = { reviewStatus: "not_reviewed", allergies: [] };
-  const prescription = { medicationId: "cat_test", quantity: 1 };
-  const orderInput = {
-    practiceId: "prac_test",
-    patientId: "pat_test",
-    prescriptions: [prescription],
-  };
-  let failReview = false;
+const reviewedInput: OrderCreateParams = {
+  practiceId: "prac_01j2y8m6jcc9tt24af5pw9x1bc",
+  patient: {
+    firstName: "Synthetic",
+    lastName: "Patient",
+    dateOfBirth: "1990-01-01",
+    gender: "unknown",
+    email: "patient@example.test",
+    phone: "+12025550199",
+    address: { line1: "100 Test St", city: "Austin", state: "TX", postalCode: "78701" },
+    allergies: [{ category: "drug", display: "Synthetic reviewed allergy" }],
+  },
+  prescriber: { firstName: "Synthetic", lastName: "Prescriber", npi: "1234567893" },
+  prescriptions: [
+    {
+      medicationId: "med_01j2y8m6jcc9tt24af5pw9x1bc",
+      directions: "Synthetic Test directions",
+      quantity: 1,
+      refills: 0,
+    },
+  ],
+  shippingOptionId: "shp_01j2y8m6jcc9tt24af5pw9x1bc",
+  signatureAttestation: true,
+};
+
+test("EMR sends exact reviewed patient and order in one idempotent request", async () => {
+  const writes: { path: string; method: string; key: string | null; body: unknown }[] = [];
   const fetchSpy = spyOn(globalThis, "fetch").mockImplementation(async (input, init) => {
     const path = new URL(String(input)).pathname;
-    const method = init?.method ?? "GET";
-    const body = init?.body ? JSON.parse(String(init.body)) : undefined;
-    if (body) bodies.push(body);
-    if (path === "/v1/auth/access")
-      return Response.json({
-        livemode: false,
-        serviceAccount: { subjectType: "platform", subjectId: "acct_test" },
-      });
-    if (path === "/v1/practices/prac_test/patients") {
-      events.push("patient");
-      return Response.json({
-        id: "pat_test",
-        allergySummary: [],
-        externalIdentities: [],
-        addresses: [],
-        encounters: [],
-        measurements: [],
-        programs: [],
-      });
-    }
-    if (path.endsWith("/allergies") && method === "GET") {
-      events.push("history");
-      return Response.json(history);
-    }
-    if (path === "/v1/order-previews") {
-      events.push("preview");
-      return Response.json({
-        object: "order_preview",
-        livemode: false,
-        status: "complete",
-        orderInput,
-        prescriptions: [],
-        otcItems: [],
-        shippingGroups: [],
-        totals: {
-          currency: "USD",
-          medicationSubtotalCents: 1000,
-          supplySubtotalCents: 0,
-          shippingTotalCents: 0,
-          estimatedTotalCents: 1000,
-        },
-        issues: [],
-        clinicalRequirementsSatisfied: true,
-        clinicalRequirements: [],
-        clinicalIssues: [],
-      });
-    }
-    if (path.endsWith("/allergies") && method === "PUT") {
-      if (failReview) return Response.json({ message: "Review failed" }, { status: 422 });
-      events.push("review");
-      expect(new Headers(init?.headers).get("Idempotency-Key")).toBe("review-key");
-      return Response.json(body);
-    }
-    if (path === "/v1/orders" && method === "POST") {
-      events.push("draft");
-      expect(new Headers(init?.headers).get("Idempotency-Key")).toBe("order-key");
-      return Response.json({
-        id: "ord_test",
-        practiceId: "prac_test",
-        otcItems: [],
-        prescriptions: [],
-        fulfillments: [],
-        lifecycleEvents: [],
-      });
-    }
-    if (path === "/v1/orders/ord_test" && method === "GET")
-      return Response.json({
-        id: "ord_test",
-        practiceId: "prac_test",
-        otcItems: [],
-        prescriptions: [],
-        fulfillments: [],
-        lifecycleEvents: [],
-      });
-    throw new Error(`Unexpected request: ${method} ${path}`);
+    if (path === "/v1/account") return Response.json({ mode: "test" });
+    writes.push({
+      path,
+      method: init?.method ?? "GET",
+      key: new Headers(init?.headers).get("Idempotency-Key"),
+      body: init?.body ? JSON.parse(String(init.body)) : undefined,
+    });
+    return Response.json({ id: "ord_fixture", status: "submitted", mode: "test" });
   });
   try {
-    const workflow = await createTestWorkflow("sk_test_example");
-    const prepared = await workflow.preparePatient({
-      practiceId: "prac_test",
-      patientExternalId: "synthetic-test",
-      persistedCreationKey: "patient-key",
+    const workflow = await createTestWorkflow("synthetic-test-key");
+    const approval = {
+      reviewedInput,
+      persistedCreationKey: "durable-order-key",
+      attested: true as const,
+    };
+    await workflow.sendReviewedOrder(approval);
+    await workflow.sendReviewedOrder(approval);
+    expect(writes).toEqual(
+      [0, 1].map(() => ({
+        path: "/v1/orders",
+        method: "POST",
+        key: "durable-order-key",
+        body: reviewedInput,
+      })),
+    );
+    await workflow.cancelOrder("ord_fixture");
+    expect(writes.at(-1)).toMatchObject({
+      path: "/v1/orders/ord_fixture/cancel",
+      method: "POST",
+      key: null,
     });
-    expect(prepared.allergies).toEqual(history);
-    expect(events).toEqual(["patient", "history"]);
-    const preview = await workflow.preview({
-      practiceId: "prac_test",
-      patientId: prepared.patient.id,
-      medicationId: "cat_test",
-      supplyId: "cat_supply",
-    });
-    expect(bodies.at(-1)).toMatchObject({
-      patientId: "pat_test",
-      prescriptions: [{ medicationId: "cat_test", preset: "default" }],
-      shipping: { selection: "lowest_cost" },
-    });
-    await expect(
-      workflow.saveDraft(preview, "order-key", {
-        reviewedAllergies: { reviewStatus: "recorded", allergies: [] },
-        persistedReviewKey: "invalid-key",
-      }),
-    ).rejects.toThrow("explicit allergy review");
-    expect(events).toEqual(["patient", "history", "preview"]);
-    await workflow.saveDraft(preview, "order-key", {
-      reviewedAllergies: { reviewStatus: "no_known", allergies: [] },
-      persistedReviewKey: "review-key",
-    });
-    expect(events).toEqual(["patient", "history", "preview", "review", "draft"]);
-    expect(bodies.at(-2)).toEqual({ reviewStatus: "no_known", allergies: [] });
-    expect(bodies.at(-1)).toMatchObject(orderInput);
-    failReview = true;
-    await expect(
-      workflow.saveDraft(preview, "other-order-key", {
-        reviewedAllergies: { reviewStatus: "no_known", allergies: [] },
-        persistedReviewKey: "other-review-key",
-      }),
-    ).rejects.toThrow();
-    expect(events.filter((event) => event === "draft")).toHaveLength(1);
   } finally {
     fetchSpy.mockRestore();
   }
+});
+
+test("EMR refuses Live or missing account mode before any mutation", async () => {
+  for (const mode of ["live", undefined]) {
+    const paths: string[] = [];
+    const fetchSpy = spyOn(globalThis, "fetch").mockImplementation(async (input) => {
+      paths.push(new URL(String(input)).pathname);
+      return Response.json({ mode });
+    });
+    try {
+      await expect(createTestWorkflow("synthetic-key")).rejects.toThrow("only accepts a Test key");
+      expect(paths).toEqual(["/v1/account"]);
+    } finally {
+      fetchSpy.mockRestore();
+    }
+  }
+});
+
+test("EMR rejects missing runtime attestation without sending an order", async () => {
+  const paths: string[] = [];
+  const fetchSpy = spyOn(globalThis, "fetch").mockImplementation(async (input) => {
+    paths.push(new URL(String(input)).pathname);
+    return Response.json({ mode: "test" });
+  });
+  try {
+    const workflow = await createTestWorkflow("synthetic-key");
+    await expect(
+      workflow.sendReviewedOrder({
+        reviewedInput: { ...reviewedInput, signatureAttestation: false as unknown as true },
+        persistedCreationKey: "durable-key",
+        attested: true,
+      }),
+    ).rejects.toThrow("explicit clinician attestation");
+    expect(paths).toEqual(["/v1/account"]);
+  } finally {
+    fetchSpy.mockRestore();
+  }
+});
+
+test("MVP webhook receiver verifies the raw body and acknowledges only after enqueue", async () => {
+  const { createHmac } = await import("node:crypto");
+  const { receiveWebhook } = await import("../examples/emr-order");
+  const secret = "whsec_test_synthetic_endpoint_secret";
+  const timestamp = Math.floor(Date.now() / 1000);
+  const body = JSON.stringify({
+    id: "evt_01j2y8m6jcc9tt24af5pw9x1bc",
+    type: "order.submitted",
+    createdAt: new Date().toISOString(),
+    data: {
+      order: {
+        id: "ord_01j2y8m6jcc9tt24af5pw9x1bc",
+        status: "submitted",
+        cancelRequestedAt: null,
+        externalOrderId: null,
+        failureReason: null,
+        shipments: [],
+        updatedAt: new Date().toISOString(),
+      },
+    },
+  });
+  const signature = `t=${timestamp},v1=${createHmac("sha256", secret).update(`${timestamp}.${body}`).digest("hex")}`;
+  const request = (payload = body) =>
+    new Request("https://example.test/webhook", {
+      method: "POST",
+      headers: { "affinity-signature": signature },
+      body: payload,
+    });
+  const events: [string, string][] = [];
+  await expect(
+    receiveWebhook(request(), "whsec_live_synthetic_endpoint_secret", async () => {
+      throw new Error("must not enqueue");
+    }),
+  ).rejects.toThrow("Test endpoint signing secret");
+  const response = await receiveWebhook(request(), secret, async (eventId, orderId) => {
+    events.push([eventId, orderId]);
+  });
+  expect(response.status).toBe(204);
+  expect(events).toEqual([["evt_01j2y8m6jcc9tt24af5pw9x1bc", "ord_01j2y8m6jcc9tt24af5pw9x1bc"]]);
+  await expect(
+    receiveWebhook(request(body + " "), secret, async () => {
+      throw new Error("must not enqueue");
+    }),
+  ).rejects.toThrow();
+  await expect(
+    receiveWebhook(request(), secret, async () => {
+      throw new Error("durable queue unavailable");
+    }),
+  ).rejects.toThrow("durable queue unavailable");
 });

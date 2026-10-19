@@ -16,7 +16,7 @@ const authenticated = await app.fetch(new Request("http://localhost/", { headers
 assert.equal(authenticated.status, 200);
 assert.equal(authenticated.headers.get("cache-control"), "no-store");
 const html = await authenticated.text();
-assert.ok(html.includes("From your EMR to an order."));
+assert.ok(html.includes("Explore Test practices and medications."));
 assert.ok(!html.includes(password));
 const crossSite = await app.fetch(
   new Request("http://localhost/_serverFn/invalid", {

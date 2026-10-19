@@ -7,38 +7,16 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 
 ## [Unreleased]
 
-## [1.17.0] - 2026-10-09
-
-### Added
-
-- `feedback.create()` reports a problem or feedback to AffinityRx.
-- `AffinityNotFoundError` for `404` and `410` responses. It extends `AffinityInvalidRequestError`, so
-  existing handlers keep working.
-- `Problem.issues` exposes field and clinical issues at the top level of the problem response.
-- Requests send `User-Agent: affinity-typescript/<version>`.
-- `orders.sign()`, `orders.signAndSubmit()`, and `orders.submit()` send the `actorId` and `actorType`
-  request options as `Affinity-Actor-Id` and `Affinity-Actor-Type`. Earlier versions dropped them.
-- Patient inputs on `patients.create()`, `orders.create()`, `orders.batches.create()`, and
-  `orders.preview()` accept an optional structured `allergyReview`.
+## [2.0.0-beta.0] - 2026-10-19
 
 ### Changed
 
-- Platform keys can list the catalog without `practiceId`.
-- Price reads no longer take `practiceId`; the purchase price belongs to the platform.
-- Array query parameters such as `pharmacyIds` repeat their key instead of joining values with commas.
-- Network failures and timeouts throw `AffinityConnectionError` instead of a raw `TypeError` or
-  `DOMException`. A caller's own abort still throws its `AbortError`.
-- API error messages include the status and code, and `requestId` falls back to the `X-Request-Id`
-  header when a response has no problem body.
-- `verifyAffinityWebhook()` accepts newer API versions, event types, and order statuses, and upper-case
-  hex signatures, so receivers keep working after AffinityRx adds them. A malformed `v1` value reports
-  "Webhook signature is malformed".
-
-### Removed
-
-- `team.prescribers.licenses.create()` and `.update()`. The API always rejected them; license
-  corrections go through AffinityRx support. Set prescriber phone, address, and missing credentials
-  with `team.prescribers.update()`.
+- Target MVP API `2026-10-20`. Expose account, feedback, medications, practices, orders and webhook endpoints from the pinned public contract.
+- Create, sign and submit an order with `orders.create()`, embedded patient data, prescriber identity and a caller-persisted idempotency key.
+- Remove retired catalog, patient CRUD, location, team, signing and submission methods, and the `/v1/auth/access` preflight. This prepared release changes the public interface; migrate older integrations before upgrading.
+- Verify current camelCase webhook envelopes and test events, while retaining legacy envelope parsing and tolerance for newer versions, types and statuses.
+- Keep typed connection and timeout errors, uppercase hex signature support, User-Agent and request-ID header fallback.
+- Generate resources and inline request/response types directly from the pinned OpenAPI contract, without network access.
 
 ## [1.16.0] - 2026-10-07
 

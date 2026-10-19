@@ -1,182 +1,139 @@
 import { expect, test } from "bun:test";
 import {
   Affinity,
-  AffinityError,
-  AffinityInvalidRequestError,
+  AffinityConnectionError,
   AffinityNotFoundError,
+  type OrderCreateParams,
 } from "../src";
-function fixture(subjectType = "platform", maxNetworkRetries = 0) {
-  const requests: { url: URL; method: string; headers: Headers; body: any }[] = [];
-  let fail = false;
-  const api = new Affinity("test-key", {
-    baseUrl: "https://api.example.test",
-    maxNetworkRetries,
-    fetch: async (input, init) => {
-      const url = new URL(String(input)),
-        headers = new Headers(init?.headers),
-        body = init?.body ? JSON.parse(String(init.body)) : undefined;
-      requests.push({ url, method: init?.method ?? "GET", headers, body });
-      if (url.pathname === "/v1/auth/access")
-        return Response.json({
-          serviceAccount: {
-            subjectType,
-            subjectId: subjectType === "practice" ? "prac_a" : "acct_a",
-          },
-        });
-      if (fail) {
-        fail = false;
-        return Response.json(
-          {
-            type: "about:blank",
-            title: "Rate limited",
-            status: 429,
-            instance: "/v1",
-            code: "rate_limited",
-            requestId: "req_a",
-            detail: "private",
-          },
-          { status: 429, headers: { "Retry-After": "0" } },
-        );
-      }
-      if (url.pathname === "/v1/orders/ord_a" && init?.method === "GET")
-        return Response.json({ id: "ord_a", practiceId: "prac_a" });
-      if (url.pathname.endsWith("/patients") && init?.method === "GET")
-        return Response.json({
-          data: [{ id: url.searchParams.get("startingAfter") ? "pat_b" : "pat_a" }],
-          hasMore: !url.searchParams.get("startingAfter"),
-        });
-      return Response.json({ id: "pat_a" });
-    },
+
+const order: OrderCreateParams = {
+  practiceId: "prac_test",
+  patient: {
+    firstName: "Test",
+    lastName: "Example",
+    dateOfBirth: "1990-01-01",
+    gender: "female",
+    phone: "+15555550100",
+    email: "test@example.test",
+    address: { line1: "1 Test St", city: "Austin", state: "TX", postalCode: "78701" },
+    allergies: [],
+  },
+  prescriber: { firstName: "Test", lastName: "Prescriber", npi: "1234567893" },
+  prescriptions: [
+    { medicationId: "med_test", quantity: 1, refills: 0, directions: "Use as directed" },
+  ],
+  shippingOptionId: "shp_test",
+  signatureAttestation: true,
+};
+
+test("order creation sends the flat MVP body and caller-owned idempotency key without access preflight", async () => {
+  const calls: RequestInit[] = [];
+  const api = new Affinity("test", {
+    fetch: (async (_url, init) => {
+      calls.push(init!);
+      return Response.json({ id: "ord_test" });
+    }) as typeof fetch,
   });
-  return {
-    api,
-    requests,
-    fail: () => {
-      fail = true;
-    },
-  };
-}
-test("practice credentials resolve context once and keep params separate", async () => {
-  const { api, requests } = fixture("practice");
-  const data = { name: { first: "Alex", last: "Example" }, dateOfBirth: "1990-01-01" };
-  await api.patients.create(data);
-  await api.patients.update("pat_a", { email: null });
-  await api.patients.delete("pat_a");
-  expect(requests.filter((r) => r.url.pathname === "/v1/auth/access")).toHaveLength(1);
-  expect(requests[1]!.url.pathname).toBe("/v1/practices/prac_a/patients");
-  expect(requests[1]!.body).toEqual(data);
-  expect(requests[2]!.body).toEqual({ email: null });
-  expect(requests[3]!.headers.has("Idempotency-Key")).toBe(true);
-  expect(new Set(requests.slice(1).map((r) => r.headers.get("Idempotency-Key"))).size).toBe(3);
+  await api.orders.create(order, { idempotencyKey: "job-1" });
+  expect(calls).toHaveLength(1);
+  expect(JSON.parse(String(calls[0].body))).toEqual(order);
+  expect(new Headers(calls[0].headers).get("Idempotency-Key")).toBe("job-1");
+  expect(new Headers(calls[0].headers).get("User-Agent")).toBe("affinity-typescript/2.0.0-beta.0");
+  await expect(api.orders.create(order, {} as any)).rejects.toThrow("persisted idempotencyKey");
+  expect(calls).toHaveLength(1);
 });
-test("scoped clients are isolated and reject conflicting practice IDs", async () => {
-  const { api, requests } = fixture();
-  const a = api.forPractice("prac_a"),
-    b = api.forPractice("prac_b");
-  await Promise.all([a.patients.get("pat_a"), b.patients.get("pat_b")]);
-  expect(requests.map((r) => r.url.pathname)).toContain("/v1/practices/prac_a/patients/pat_a");
-  expect(requests.map((r) => r.url.pathname)).toContain("/v1/practices/prac_b/patients/pat_b");
-  await expect(a.patients.get("pat_a", { practiceId: "prac_b" })).rejects.toThrow("Conflicting");
-  await expect(api.patients.get("pat_a")).rejects.toThrow("requires practiceId");
-  await expect(a.practices.list()).rejects.toThrow("root client");
-});
-test("important actions require persisted keys before any network request", async () => {
-  const { api, requests } = fixture();
-  await expect(api.orders.submit("ord_a", {} as any)).rejects.toThrow("persisted");
-  expect(requests).toHaveLength(0);
-  await api
-    .forPractice("prac_a")
-    .orders.sign(
-      "ord_a",
-      {
-        prescriber: { id: "prov_a" },
-        expectedRevision: "rev_reviewed",
-        signatureAttestation: true,
-      },
-      { idempotencyKey: "job_sign" },
-    );
-  expect(requests.at(-1)!.body).toEqual({
-    practiceId: "prac_a",
-    prescriber: { id: "prov_a" },
-    expectedRevision: "rev_reviewed",
-    signatureAttestation: true,
+test("safe retries preserve the order body and persisted key", async () => {
+  const calls: RequestInit[] = [];
+  const api = new Affinity("test", {
+    maxNetworkRetries: 1,
+    fetch: (async (_url, init) => {
+      calls.push(init!);
+      if (calls.length === 1) throw new TypeError("offline");
+      return Response.json({ id: "ord_test" });
+    }) as typeof fetch,
   });
-  expect(requests.at(-1)!.headers.get("Idempotency-Key")).toBe("job_sign");
+  await api.orders.create(order, { idempotencyKey: "same-job" });
+  expect(calls).toHaveLength(2);
+  expect(calls[0].body).toBe(calls[1].body);
+  expect(new Headers(calls[1].headers).get("Idempotency-Key")).toBe("same-job");
 });
-test("iterators load lazily and preserve practice and filters", async () => {
-  const { api, requests } = fixture();
-  const iterator = api
-    .forPractice("prac_a")
-    .patients.iterate({ limit: 1, query: "Alex" })
-    [Symbol.asyncIterator]();
-  expect(requests).toHaveLength(0);
-  expect((await iterator.next()).value.id).toBe("pat_a");
-  expect(requests).toHaveLength(2);
-  expect((await iterator.next()).value.id).toBe("pat_b");
-  expect(requests.at(-1)!.url.searchParams.get("query")).toBe("Alex");
-  expect((await iterator.next()).done).toBe(true);
+test("unkeyed cancel is never retried", async () => {
+  let calls = 0;
+  const api = new Affinity("test", {
+    maxNetworkRetries: 1,
+    fetch: (async () => {
+      calls++;
+      throw new TypeError("offline");
+    }) as typeof fetch,
+  });
+  await expect(api.orders.cancel("ord_test")).rejects.toBeInstanceOf(AffinityConnectionError);
+  expect(calls).toBe(1);
 });
-test("retries reuse the same key and errors expose safe metadata", async () => {
-  const { api, requests, fail } = fixture("practice", 1);
-  await api.patients.get("pat_a");
-  fail();
-  await api.patients.update("pat_a", { email: "alex@example.com" });
-  const writes = requests.filter((r) => r.method === "PATCH");
-  expect(writes).toHaveLength(2);
-  expect(writes[0]!.headers.get("Idempotency-Key")).toBe(writes[1]!.headers.get("Idempotency-Key"));
-  const f = fixture("practice");
-  await f.api.patients.get("pat_a");
-  f.fail();
+test("network failures and timeouts are typed, while caller cancellation stays intact", async () => {
+  const failure = new TypeError("offline");
+  const api = new Affinity("test", {
+    fetch: (async () => {
+      throw failure;
+    }) as typeof fetch,
+  });
+  await expect(api.medications.list()).rejects.toBeInstanceOf(AffinityConnectionError);
+  const slow = new Affinity("test", {
+    timeout: 5,
+    fetch: (() => new Promise(() => {})) as typeof fetch,
+  });
+  await expect(slow.medications.list()).rejects.toBeInstanceOf(AffinityConnectionError);
+  const c = new AbortController();
+  const reason = new DOMException("cancelled", "AbortError");
+  c.abort(reason);
+  await expect(api.medications.list({}, { signal: c.signal })).rejects.toBe(reason);
+});
+test("404 and request-id header fallback survive non-JSON errors without exposing detail", async () => {
+  const api = new Affinity("test", {
+    fetch: (async () =>
+      new Response("private data", {
+        status: 404,
+        headers: { "X-Request-Id": "req_test" },
+      })) as typeof fetch,
+  });
   try {
-    await f.api.patients.get("pat_a");
-    throw new Error("expected error");
-  } catch (e) {
-    expect(e).toBeInstanceOf(AffinityError);
-    const error = e as AffinityError;
-    expect(error.status).toBe(429);
-    expect(error.code).toBe("rate_limited");
-    expect(error.requestId).toBe("req_a");
-    expect(error.retryAfter).toBe(0);
-    expect(error.message).not.toContain("private");
+    await api.orders.get("ord_test");
+    throw new Error("expected failure");
+  } catch (error) {
+    expect(error).toBeInstanceOf(AffinityNotFoundError);
+    expect((error as AffinityNotFoundError).requestId).toBe("req_test");
+    expect(String(error)).not.toContain("private data");
   }
 });
-
-test("archive alias uses the API inactive status", async () => {
-  const { api, requests } = fixture("practice");
-  await api.patients.update("pat_a", { status: "archived" });
-  expect(requests.at(-1)!.body).toEqual({ status: "inactive" });
+test("iterators follow server nextCursor and preserve list filters", async () => {
+  const calls: URL[] = [];
+  const api = new Affinity("test", {
+    fetch: (async (url) => {
+      calls.push(new URL(String(url)));
+      return Response.json(
+        calls.length === 1
+          ? { data: [{ id: "med_1" }], hasMore: true, nextCursor: "opaque_cursor" }
+          : { data: [{ id: "med_2" }], hasMore: false, nextCursor: null },
+      );
+    }) as typeof fetch,
+  });
+  const rows = [];
+  for await (const m of api.medications.iterate({ name: "test" })) rows.push(m.id);
+  expect(rows).toEqual(["med_1", "med_2"]);
+  expect(calls[1].searchParams.get("startingAfter")).toBe("opaque_cursor");
+  expect(calls[1].searchParams.get("name")).toBe("test");
 });
-
-test("platform keys list the catalog without a practice and repeat array parameters", async () => {
-  const { api, requests } = fixture("platform");
-  await api.catalog.items.list({ pharmacyIds: ["pharm_a", "pharm_b"], availability: "orderable" });
-  const list = requests.find((r) => r.url.pathname === "/v1/catalog/items")!;
-  expect(list.url.searchParams.getAll("pharmacyIds")).toEqual(["pharm_a", "pharm_b"]);
-  expect(list.url.searchParams.has("practiceId")).toBe(false);
-  expect(list.headers.get("User-Agent")).toMatch(/^affinity-typescript\/\d+\.\d+\.\d+$/);
-  await api.forPractice("prac_a").catalog.items.list({});
-  expect(requests.at(-1)!.url.searchParams.get("practiceId")).toBe("prac_a");
-});
-
-test("network failures and 404s are typed errors", async () => {
-  const offline = new Affinity("test-key", {
-    baseUrl: "https://api.example.test",
-    fetch: async () => {
-      throw new TypeError("fetch failed");
-    },
+test("all generated methods dispatch to contract paths with encoded IDs", async () => {
+  const calls: string[] = [];
+  const api = new Affinity("test", {
+    fetch: (async (url) => {
+      calls.push(String(url));
+      return Response.json({});
+    }) as typeof fetch,
   });
-  await expect(offline.account.get()).rejects.toMatchObject({
-    name: "AffinityConnectionError",
-    code: "connection_error",
-    retryable: true,
-  });
-  const missing = new Affinity("test-key", {
-    baseUrl: "https://api.example.test",
-    fetch: async () =>
-      new Response("gateway", { status: 404, headers: { "x-request-id": "req_gateway" } }),
-  });
-  const error = await missing.account.get().catch((caught) => caught);
-  expect(error).toBeInstanceOf(AffinityNotFoundError);
-  expect(error).toBeInstanceOf(AffinityInvalidRequestError);
-  expect(error.requestId).toBe("req_gateway");
+  await api.practices.get("prac_/one");
+  await api.webhooks.remove("whe_/one");
+  expect(calls).toEqual([
+    "https://api.affinityrx.com/v1/practices/prac_%2Fone",
+    "https://api.affinityrx.com/v1/webhook-endpoints/whe_%2Fone",
+  ]);
 });
