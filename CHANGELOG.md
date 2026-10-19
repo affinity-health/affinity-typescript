@@ -483,7 +483,8 @@ No API contract or runtime behavior changed.
 - Typed RFC 9457 problem responses, including validation, dependency, and internal failures.
 - A compile-checked Test-mode quickstart.
 
-[Unreleased]: https://github.com/affinity-health/affinity-typescript/compare/v1.9.0-beta.1...HEAD
+[Unreleased]: https://github.com/affinity-health/affinity-typescript/compare/v2.0.0-beta.0...HEAD
+[2.0.0-beta.0]: https://github.com/affinity-health/affinity-typescript/compare/v1.16.0...v2.0.0-beta.0
 [1.9.0-beta.1]: https://github.com/affinity-health/affinity-typescript/compare/v1.8.0...v1.9.0-beta.1
 [1.8.0]: https://github.com/affinity-health/affinity-typescript/compare/v1.7.0...v1.8.0
 [1.7.0]: https://github.com/affinity-health/affinity-typescript/compare/v1.6.0...v1.7.0
