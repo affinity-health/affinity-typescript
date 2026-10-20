@@ -7,6 +7,14 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 
 ## [Unreleased]
 
+## [2.0.0-beta.4] - 2026-10-20
+
+### Changed
+
+- Pin the staging contract's per-key rate-limit responses on all 16 key-authenticated operations, including HTTP 429 problem responses.
+- Include nullable `quantityUnit` in medication data returned on order creation, listing, retrieval and cancellation.
+- Verify automatic rate-limit retries against a local HTTP server: honor `Retry-After` seconds, preserve the generated idempotency key, and throw `AffinityRateLimitError` after the configured retries. Existing retries remain opt-in, bounded to ten, with waits capped at 30 seconds.
+
 ## [2.0.0-beta.3] - 2026-10-20
 
 ### Changed

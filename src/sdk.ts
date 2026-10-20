@@ -3,7 +3,7 @@
 import { createTransport } from "./transport";
 import { affinityConnectionError, affinityErrorFromResponse } from "./errors";
 
-const sdkVersion = "2.0.0-beta.3";
+const sdkVersion = "2.0.0-beta.4";
 
 export interface SDKOptions {
   baseUrl?: string;
@@ -395,7 +395,13 @@ export type OrderCreateResponse = {
     compoundingReason: string | null;
     directions: string;
     id: string;
-    medication: { form: string | null; id: string; name: string; strength: string | null };
+    medication: {
+      form: string | null;
+      id: string;
+      name: string;
+      quantityUnit: string | null;
+      strength: string | null;
+    };
     notes: string | null;
     price: number;
     quantity: number;
@@ -487,7 +493,13 @@ export type OrderListResponse = {
       compoundingReason: string | null;
       directions: string;
       id: string;
-      medication: { form: string | null; id: string; name: string; strength: string | null };
+      medication: {
+        form: string | null;
+        id: string;
+        name: string;
+        quantityUnit: string | null;
+        strength: string | null;
+      };
       notes: string | null;
       price: number;
       quantity: number;
@@ -566,7 +578,13 @@ export type OrderGetResponse = {
     compoundingReason: string | null;
     directions: string;
     id: string;
-    medication: { form: string | null; id: string; name: string; strength: string | null };
+    medication: {
+      form: string | null;
+      id: string;
+      name: string;
+      quantityUnit: string | null;
+      strength: string | null;
+    };
     notes: string | null;
     price: number;
     quantity: number;
@@ -619,7 +637,13 @@ export type OrderCancelResponse = {
     compoundingReason: string | null;
     directions: string;
     id: string;
-    medication: { form: string | null; id: string; name: string; strength: string | null };
+    medication: {
+      form: string | null;
+      id: string;
+      name: string;
+      quantityUnit: string | null;
+      strength: string | null;
+    };
     notes: string | null;
     price: number;
     quantity: number;
