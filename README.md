@@ -9,7 +9,7 @@ This checkout targets API version `2026-10-20` and sends it in `Affinity-Version
 bun add @affinity-health/sdk@next
 ```
 
-Pin this release with `bun add @affinity-health/sdk@2.0.0-beta.3`. The beta targets the staging-only MVP API. Production still serves the previous API; use stable `1.16.0` for production until the MVP cutover.
+Pin this release with `bun add @affinity-health/sdk@2.0.0-beta.4`. The beta targets the staging-only MVP API. Production still serves the previous API; use stable `1.16.0` for production until the MVP cutover.
 
 ## Use
 
