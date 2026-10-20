@@ -7,6 +7,17 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 
 ## [Unreleased]
 
+## [2.0.0-beta.1] - 2026-10-20
+
+### Changed
+
+- Target MVP API `2026-10-20`. Expose account, feedback, medications, practices, orders and webhook endpoints from the pinned public contract.
+- Create, sign and submit an order with `orders.create()`, embedded patient data, prescriber identity and a caller-persisted idempotency key.
+- Remove retired catalog, patient CRUD, location, team, signing and submission methods, and the `/v1/auth/access` preflight. This prepared release changes the public interface; migrate older integrations before upgrading.
+- Verify current camelCase webhook envelopes and test events, while retaining legacy envelope parsing and tolerance for newer versions, types and statuses.
+- Keep typed connection and timeout errors, uppercase hex signature support, User-Agent and request-ID header fallback.
+- Generate resources and inline request/response types directly from the pinned OpenAPI contract, without network access.
+
 ### Fixed
 
 - Reject invalid webhook verification clocks instead of bypassing the replay window.
@@ -42,6 +53,10 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 
 ## [1.14.0] - 2026-09-28
 
+Versions 1.14.0 and earlier default to `https://api.joinaffinityai.com`, which now redirects. Fetch
+drops `Authorization` on that cross-origin redirect, so every request fails with `401`. Upgrade to
+1.16.0 or later, or pass `baseUrl: "https://api.affinityrx.com"`.
+
 ### Added
 
 - Export `AffinityApiClient`, the Forge/Fern-generated client, with typed API operations and injectable Fetch transport.
@@ -51,13 +66,6 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 
 - Target the first release contract, `2026-09-28`, for HTTP requests and new webhook events.
 - Retain verification of immutable pre-release webhook snapshots.
-
-## [1.13.1] - 2026-09-28
-
-### Changed
-
-- Default HTTP requests to API version `2026-09-28`; retain webhook payload version `2026-08-11`.
-- Document service-account defaults and request-local version overrides.
 
 ## [1.13.0] - 2026-09-28
 
@@ -480,7 +488,8 @@ No API contract or runtime behavior changed.
 - Typed RFC 9457 problem responses, including validation, dependency, and internal failures.
 - A compile-checked Test-mode quickstart.
 
-[Unreleased]: https://github.com/affinity-health/affinity-typescript/compare/v1.9.0-beta.1...HEAD
+[Unreleased]: https://github.com/affinity-health/affinity-typescript/compare/v2.0.0-beta.0...HEAD
+[2.0.0-beta.0]: https://github.com/affinity-health/affinity-typescript/compare/v1.16.0...v2.0.0-beta.0
 [1.9.0-beta.1]: https://github.com/affinity-health/affinity-typescript/compare/v1.8.0...v1.9.0-beta.1
 [1.8.0]: https://github.com/affinity-health/affinity-typescript/compare/v1.7.0...v1.8.0
 [1.7.0]: https://github.com/affinity-health/affinity-typescript/compare/v1.6.0...v1.7.0

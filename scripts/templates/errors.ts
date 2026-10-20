@@ -1,7 +1,20 @@
+export interface ProblemIssue {
+  code: string;
+  message: string;
+  /** Field path for validation issues; dotted order path for clinical issues. */
+  path: string | Array<string | number>;
+  location?: "body" | "header" | "path" | "query";
+  prescriptionId?: string;
+  pharmacy?: string;
+}
+
 export interface Problem {
   code: string;
+  /** Code-specific details, when the problem has any. */
   data?: Record<string, unknown>;
   detail: string;
+  /** Field or clinical issues that explain the problem. */
+  issues?: ProblemIssue[];
   instance: string;
   requestId: string;
   status: number;
@@ -14,6 +27,7 @@ export type AffinityErrorCategory =
   | "authentication"
   | "permission"
   | "invalid_request"
+  | "not_found"
   | "idempotency"
   | "rate_limit"
   | "api"
@@ -93,7 +107,11 @@ export class AffinityPermissionError extends AffinityError {
   override readonly name = "AffinityPermissionError";
 }
 export class AffinityInvalidRequestError extends AffinityError {
-  override readonly name = "AffinityInvalidRequestError";
+  override readonly name: string = "AffinityInvalidRequestError";
+}
+/** Extends the invalid-request error so 1.16 handlers for 404s keep working. */
+export class AffinityNotFoundError extends AffinityInvalidRequestError {
+  override readonly name = "AffinityNotFoundError";
 }
 export class AffinityIdempotencyError extends AffinityError {
   override readonly name = "AffinityIdempotencyError";
@@ -116,13 +134,15 @@ export async function affinityErrorFromResponse(response: Response): Promise<Aff
   const problem = await readProblem(response);
   const statusCode = response.status;
   const code = problem?.code ?? `http_${statusCode}`;
+  // Gateways can answer without a problem body; the header still correlates the request.
+  const requestId = problem?.requestId ?? response.headers.get("x-request-id") ?? undefined;
   const message =
     problem?.detail || response.statusText || `Affinity API request failed (${statusCode})`;
   const options = {
     category: categoryFor(statusCode, code),
     code,
     ...(problem ? { problem } : {}),
-    ...(problem?.requestId ? { requestId: problem.requestId } : {}),
+    ...(requestId ? { requestId } : {}),
     response,
     retryable: [408, 429, 500, 502, 503, 504].includes(statusCode),
     statusCode,
@@ -134,6 +154,7 @@ export async function affinityErrorFromResponse(response: Response): Promise<Aff
   if (options.category === "permission") return new AffinityPermissionError(message, options);
   if (options.category === "invalid_request")
     return new AffinityInvalidRequestError(message, options);
+  if (options.category === "not_found") return new AffinityNotFoundError(message, options);
   if (options.category === "idempotency") return new AffinityIdempotencyError(message, options);
   if (options.category === "rate_limit") return new AffinityRateLimitError(message, options);
   return new AffinityApiError(message, options);
@@ -159,7 +180,8 @@ function categoryFor(status: number, code: string): AffinityErrorCategory {
   if (status === 403) return "permission";
   if (status === 429) return "rate_limit";
   if (status === 409 && code.includes("idempot")) return "idempotency";
-  if ([400, 404, 409, 410, 413, 422].includes(status)) return "invalid_request";
+  if (status === 404 || status === 410) return "not_found";
+  if ([400, 409, 413, 422].includes(status)) return "invalid_request";
   return "api";
 }
 

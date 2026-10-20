@@ -18,9 +18,6 @@ export default Alchemy.Stack(
       rootDir: ".",
       compatibility: { flags: ["nodejs_compat", "nodejs_compat_populate_process_env"] },
       env: {
-        AFFINITY_EXAMPLE_DIRECTORY_KEY: Config.redacted("AFFINITY_EXAMPLE_DIRECTORY_KEY").pipe(
-          Config.withDefault(Redacted.make("")),
-        ),
         AFFINITY_EXAMPLE_API_KEY: Config.redacted("AFFINITY_EXAMPLE_API_KEY").pipe(
           Config.withDefault(Redacted.make("")),
         ),

@@ -1,83 +1,179 @@
-import { sdkContract } from "./sdk-contract";
+import { createHash } from "node:crypto";
 import { mkdir, readFile, rm, writeFile } from "node:fs/promises";
 import { resolve } from "node:path";
-
+import { sdkContract } from "./sdk-contract";
 const root = resolve(import.meta.dir, "..");
-const spec = sdkContract(
-  JSON.parse(await readFile(resolve(root, "spec/affinity.openapi.json"), "utf8")),
-);
+const raw = await readFile(resolve(root, "spec/affinity.openapi.json"), "utf8");
+const spec = sdkContract(JSON.parse(raw));
+const { version } = JSON.parse(await readFile(resolve(root, "package.json"), "utf8"));
 const generated =
   "// Code generated from spec/affinity.openapi.json by scripts/generate-facade.ts. DO NOT EDIT.\n";
 async function output(path: string, source: string) {
-  const destination = resolve(root, path);
-  await mkdir(resolve(destination, ".."), { recursive: true });
-  await writeFile(destination, `${generated}\n${source.trim()}\n`);
+  const dest = resolve(root, path);
+  await mkdir(resolve(dest, ".."), { recursive: true });
+  await writeFile(dest, generated + "\n" + source.trim() + "\n");
 }
-const metadata = JSON.parse(await readFile(resolve(root, "generation.json"), "utf8"));
-const operations = Object.values(
-  spec.paths as Record<string, Record<string, { operationId?: string }>>,
-).flatMap((path) => Object.values(path).flatMap((op) => (op.operationId ? [op.operationId] : [])));
-if (
-  operations.length !== Object.keys(metadata.sdkMethods).length ||
-  operations.some((id) => !metadata.sdkMethods[id])
-)
-  throw new Error("Regenerate the SDK facade from the current contract");
+// Fail on unsupported schema constructs rather than silently widening public contracts.
+function type(s: any): string {
+  if (s === false) return "never";
+  if (s === true || !s || Object.keys(s).length === 0) return "unknown";
+  if (!s.type && !s.anyOf && !s.oneOf && !s.allOf && !s.enum && s.const === undefined && !s.$ref)
+    return "unknown";
+  if (s.$ref) throw new Error(`Unsupported reference ${s.$ref}`);
+  if (s.enum) return s.enum.map((v: unknown) => JSON.stringify(v)).join(" | ");
+  if (s.const !== undefined) return JSON.stringify(s.const);
+  if (s.anyOf || s.oneOf) return (s.anyOf ?? s.oneOf).map((v: any) => `(${type(v)})`).join(" | ");
+  if (s.allOf) {
+    const { allOf, ...base } = s;
+    return [base, ...allOf].map((v: any) => `(${type(v)})`).join(" & ");
+  }
+  if (Array.isArray(s.type)) return s.type.map((v: string) => type({ ...s, type: v })).join(" | ");
+  switch (s.type) {
+    case "null":
+      return "null";
+    case "string":
+      return "string";
+    case "integer":
+    case "number":
+      return "number";
+    case "boolean":
+      return "boolean";
+    case "array":
+      return `Array<${type(s.items)}>`;
+    case "object": {
+      const fields = Object.entries(s.properties ?? {}).map(
+        ([k, v]) => `${JSON.stringify(k)}${s.required?.includes(k) ? "" : "?"}: ${type(v)};`,
+      );
+      if (s.additionalProperties)
+        fields.push(
+          `[key: string]: ${s.additionalProperties === true ? "unknown" : type(s.additionalProperties)};`,
+        );
+      return `{${fields.join("\n")}}`;
+    }
+    default:
+      throw new Error(`Unsupported schema ${JSON.stringify(s)}`);
+  }
+}
+const singular: Record<string, string> = {
+  medications: "Medication",
+  orders: "Order",
+  practices: "Practice",
+  webhooks: "Webhook",
+  account: "Account",
+  feedback: "Feedback",
+};
+const operations: Record<string, any> = {};
+const methods: Record<string, string> = {};
+const types: string[] = [];
+const groups: Record<string, string[]> = {};
+for (const [path, verbs] of Object.entries(spec.paths))
+  for (const [verb, op] of Object.entries(verbs as Record<string, unknown>) as [string, any][]) {
+    if (!op.operationId) continue;
+    const [group, action] = op.operationId.includes(".")
+      ? op.operationId.split(".")
+      : ["feedback", "create"];
+    const method = group === "account" ? "get" : action;
+    const prefix = singular[group];
+    if (!prefix) throw new Error(`Unknown group ${group}`);
+    const title = prefix + method[0].toUpperCase() + method.slice(1);
+    const paramsName = title + "Params",
+      responseName = title + "Response";
+    const parameters = op.parameters ?? [];
+    const ids = parameters.filter((p: any) => p.in === "path").map((p: any) => p.name);
+    const queries = parameters.filter((p: any) => p.in === "query");
+    const body = op.requestBody?.content?.["application/json"]?.schema;
+    if (body && queries.length) throw new Error("Mixed body and query requires explicit handling");
+    const params =
+      body ??
+      (queries.length
+        ? {
+            type: "object",
+            properties: Object.fromEntries(queries.map((p: any) => [p.name, p.schema])),
+            required: queries.filter((p: any) => p.required).map((p: any) => p.name),
+          }
+        : undefined);
+    const required = !!(body ? op.requestBody.required : queries.some((p: any) => p.required));
+    const responses = Object.entries(op.responses)
+      .filter(([code]) => /^2\d\d$/.test(code))
+      .map(([, r]: any) => type(r.content?.["application/json"]?.schema ?? false));
+    types.push(`export type ${responseName} = ${[...new Set(responses)].join(" | ")};`);
+    if (params) types.push(`export type ${paramsName} = ${type(params)};`);
+    const idempotency = parameters.some(
+      (p: any) => p.in === "header" && p.name.toLowerCase() === "idempotency-key" && p.required,
+    );
+    const record = {
+      path,
+      verb: verb.toUpperCase(),
+      ids,
+      query: queries.map((p: any) => p.name),
+      body: !!body,
+      idempotency,
+    };
+    operations[op.operationId] = record;
+    methods[op.operationId] = `${group}.${method}`;
+    const args = ids.map((id: string) => `${id}: string`);
+    if (params) args.push(`params: ${paramsName}${required ? "" : " = {}"}`);
+    args.push(
+      `options: ${idempotency ? "RequiredKeyOptions" : "SDKRequestOptions"}${idempotency ? "" : " = {}"}`,
+    );
+    const invocation = `operations[${JSON.stringify(op.operationId)}], [${ids.join(",")}], ${params ? "params" : "{}"}, options`;
+    (groups[group] ??= []).push(
+      `${method}(${args.join(",")}): Promise<${responseName}> {return this.context.call(${invocation});}`,
+    );
+    if (op["x-pier-pagination"])
+      groups[group].push(
+        `iterate(${args.join(",")}): AsyncIterable<${responseName}["data"][number]> { return this.context.iterate(${invocation}); }`,
+      );
+  }
 await rm(resolve(root, "src"), { recursive: true, force: true });
-await output("src/sdk.ts", await readFile(resolve(root, "templates/sdk.ts"), "utf8"));
+let sdk = (await readFile(resolve(root, "templates/sdk.ts"), "utf8"))
+  .replace("__AFFINITY_SDK_VERSION__", version)
+  .replace("__AFFINITY_API_VERSION__", spec.info.version);
+sdk += `\nconst operations = ${JSON.stringify(operations)} as const;\n${types.join("\n")}\n`;
+for (const [group, body] of Object.entries(groups))
+  sdk += `export class ${singular[group]}SDKResource {constructor(private readonly context: SDKContext) {}\n${body.join("\n")}\n}\n`;
+sdk += `export class Affinity {private readonly context: SDKContext; constructor(apiKey: string,options:SDKOptions = {}) {this.context=new SDKContext(new SDKTransport(apiKey,options));}\n${Object.keys(
+  groups,
+)
+  .map((g) => `get ${g}() {return new ${singular[g]}SDKResource(this.context);}`)
+  .join("\n")}\n}`;
+await output("src/sdk.ts", sdk);
 await output("src/transport.ts", await readFile(resolve(root, "templates/transport.ts"), "utf8"));
 await output("src/errors.ts", await readFile(resolve(root, "scripts/templates/errors.ts"), "utf8"));
 await output(
   "src/index.ts",
-  `export * from "./sdk";
-export * from "./errors";
-export type * from "./domain";
-export * from "./webhook-events";
-export * from "./compounding-reason";`,
+  'export * from "./sdk";\nexport * from "./errors";\nexport type * from "./domain";\nexport * from "./webhook-events";',
 );
 await output(
   "src/domain.ts",
-  `import type { Affinity } from "./sdk";
-export type Practice = Awaited<ReturnType<Affinity["practices"]["get"]>>;
-export type Patient = Awaited<ReturnType<Affinity["patients"]["get"]>>;
-export type Order = Awaited<ReturnType<Affinity["orders"]["get"]>>;
-export type CreatedOrder = Awaited<ReturnType<Affinity["orders"]["create"]>>;
-export type CatalogItem = Awaited<ReturnType<Affinity["catalog"]["items"]["list"]>>["data"][number];
-export type PracticeLocation = Awaited<ReturnType<Affinity["locations"]["get"]>>;`,
+  'import type { OrderCreateParams, OrderGetResponse, MedicationGetResponse, PracticeGetResponse } from "./sdk";\nexport type Patient = OrderCreateParams["patient"];\nexport type Order = OrderGetResponse;\nexport type CreatedOrder = OrderGetResponse;\nexport type Medication = MedicationGetResponse;\nexport type Practice = PracticeGetResponse;',
 );
-const webhookContract = spec["x-affinity-webhooks"] as {
-  apiVersion?: string;
-  eventTypes?: string[];
-  orderStatuses?: string[];
-  signatureHeader?: string;
-};
-if (
-  !webhookContract.apiVersion ||
-  !webhookContract.eventTypes?.length ||
-  !webhookContract.orderStatuses?.length ||
-  !webhookContract.signatureHeader
-)
-  throw new Error("The OpenAPI contract must define the complete x-affinity-webhooks contract");
-const webhookTemplate = await readFile(resolve(root, "templates/webhook-events.ts"), "utf8");
-await output(
-  "src/webhook-events.ts",
-  webhookTemplate
-    .replace("__AFFINITY_WEBHOOK_API_VERSION__", JSON.stringify(webhookContract.apiVersion))
-    .replace("__AFFINITY_WEBHOOK_EVENT_TYPES__", JSON.stringify(webhookContract.eventTypes))
-    .replace("__AFFINITY_ORDER_STATUSES__", JSON.stringify(webhookContract.orderStatuses))
-    .replace(
-      "__AFFINITY_WEBHOOK_SIGNATURE_HEADER__",
-      JSON.stringify(webhookContract.signatureHeader),
-    ),
-);
-
-const category =
-  spec.components.schemas.CreateOrderRequest.properties.prescriptions.items.properties.clinical
-    .anyOf[0].properties.compoundingReason.anyOf[0].properties.category;
-const values: string[] =
-  category.enum ?? category.anyOf?.find((option: { enum?: string[] }) => option.enum)?.enum;
-if (!values?.length) throw new Error("Missing compounding reason categories");
-await output(
-  "src/compounding-reason.ts",
-  `export const CompoundingReason = ${JSON.stringify(Object.fromEntries(values.map((value) => [value.replace(/(^|_)([a-z])/g, (_: string, _prefix: string, letter: string) => letter.toUpperCase()), value])))} as const;
-export type CompoundingReason = typeof CompoundingReason[keyof typeof CompoundingReason];`,
+const events = spec.webhooks.orderEvent.post.requestBody.content["application/json"].schema.anyOf;
+const orderEvent = events.find((e: any) => e.properties.data.properties?.order);
+const eventTypes = events.flatMap((e: any) => e.properties.type.enum);
+const webhook = (await readFile(resolve(root, "templates/webhook-events.ts"), "utf8"))
+  .replace("__AFFINITY_WEBHOOK_API_VERSION__", JSON.stringify(spec.info.version))
+  .replace("__AFFINITY_WEBHOOK_EVENT_TYPES__", JSON.stringify(eventTypes))
+  .replace(
+    "__AFFINITY_ORDER_STATUSES__",
+    JSON.stringify(orderEvent.properties.data.properties.order.properties.status.enum),
+  )
+  .replace("__AFFINITY_WEBHOOK_SIGNATURE_HEADER__", JSON.stringify("Affinity-Signature"));
+await output("src/webhook-events.ts", webhook);
+await writeFile(
+  resolve(root, "generation.json"),
+  JSON.stringify(
+    {
+      contractVersion: spec.info.version,
+      contractSha256: createHash("sha256").update(raw).digest("hex"),
+      language: "typescript",
+      generator: "scripts/generate-facade.ts",
+      operations: Object.fromEntries(
+        Object.entries(operations).map(([id, o]) => [id, `${o.verb} ${o.path}`]),
+      ),
+      sdkMethods: methods,
+    },
+    null,
+    2,
+  ) + "\n",
 );

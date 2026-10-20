@@ -35,8 +35,8 @@ try {
   ]) {
     await page.setViewportSize({ width, height });
     await page.goto(server.url.href);
-    await page.getByRole("heading", { name: "From your EMR to an order." }).waitFor();
-    await page.getByRole("button", { name: "Refresh practices" }).click();
+    await page.getByRole("heading", { name: "Explore Test practices and medications." }).waitFor();
+    await page.getByRole("button", { name: "Load practices" }).click();
     const alert = page.getByRole("alert");
     await alert.waitFor();
     assert.match(await alert.innerText(), /Set AFFINITY_EXAMPLE_API_KEY/);

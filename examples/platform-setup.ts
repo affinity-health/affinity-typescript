@@ -1,38 +1,14 @@
 import { Affinity } from "@affinity-health/sdk";
 
-interface ExternalProvider {
-  email: string;
-  id: string;
-  name: string;
-  npi: string;
-}
-
-interface ProvisionProviderOptions {
-  affinity: Affinity;
-  externalProvider: ExternalProvider;
-  practiceId: string;
-  practiceTermsVersion: string;
-}
-
-export async function provisionProvider({
-  affinity,
-  externalProvider,
-  practiceId,
-  practiceTermsVersion,
-}: ProvisionProviderOptions) {
-  const user = await affinity.forPractice(practiceId).team.register(
-    {
-      email: externalProvider.email,
-      externalId: externalProvider.id,
-      name: externalProvider.name,
-      role: "prescriber",
-      identityAttestation: true,
-      npi: externalProvider.npi,
-      credentials: "MD",
-    },
-    { idempotencyKey: `user:${externalProvider.id}` },
+// Server-side only. Call with a persisted key for this exact creation operation.
+export async function createSyntheticPractice(apiKey: string, persistedCreationKey: string) {
+  const affinity = new Affinity(apiKey);
+  const account = await affinity.account.get();
+  if (account.mode !== "test" || account.type !== "platform")
+    throw new Error("Use a platform Test key for this example");
+  const practice = await affinity.practices.create(
+    { name: "Synthetic SDK Practice", phone: "+12025550199" },
+    { idempotencyKey: persistedCreationKey },
   );
-
-  const team = await affinity.forPractice(practiceId).team.get();
-  return { team, user, practiceTermsVersion };
+  return affinity.practices.get(practice.id);
 }

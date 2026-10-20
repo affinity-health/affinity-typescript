@@ -64,21 +64,30 @@ test("facade generation accepts deprecated contract-only operations and preserve
   expect(deprecated.sdk).toBe(baseline.sdk);
 });
 
-test("facade integrity guard rejects active method mismatches before replacing source", async () => {
-  for (const change of [
-    (spec: any) => {
-      spec.paths["/new"] = { get: { operationId: "missingRead" } };
-    },
-    (_spec: any, metadata: any) => {
-      delete metadata.sdkMethods.getAccount;
-    },
-    (_spec: any, metadata: any) => {
-      metadata.sdkMethods.staleMethod = "stale.method";
-    },
-  ]) {
-    const result = await generate(change);
-    expect(result.exitCode).not.toBe(0);
-    expect(result.stderr).toContain("Regenerate the SDK facade from the current contract");
-    expect(result.keptSource).toBe(true);
-  }
+test("invalid active operations fail before replacing source", async () => {
+  const result = await generate((spec) => {
+    spec.paths["/new"] = { get: { operationId: "missingRead" } };
+  });
+  expect(result.exitCode).not.toBe(0);
+  expect(result.keptSource).toBe(true);
+});
+
+test("generation rebuilds output metadata rather than trusting retired mappings", async () => {
+  const baseline = await generate(() => {});
+  const stale = await generate((_spec, metadata) => {
+    delete metadata.sdkMethods["account.account"];
+    metadata.sdkMethods.staleMethod = "stale.method";
+  });
+  expect(stale.exitCode).toBe(0);
+  expect(stale.sdk).toBe(baseline.sdk);
+});
+
+test("contract field changes drive generated request types", async () => {
+  const result = await generate((spec) => {
+    spec.paths["/v1/practices"].post.requestBody.content[
+      "application/json"
+    ].schema.properties.name.enum = ["contract-name"];
+  });
+  expect(result.exitCode).toBe(0);
+  expect(result.sdk).toContain('"name": "contract-name"');
 });

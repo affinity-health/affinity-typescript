@@ -1,219 +1,44 @@
 import { Affinity, AffinityError } from "@affinity-health/sdk";
-import type { OrderCreateParams, OrderPreviewParams } from "@affinity-health/sdk";
-type CreateOrderParams = OrderCreateParams & { practiceId: string };
-type PreviewOrderParams = OrderPreviewParams;
-type Order = Awaited<ReturnType<Affinity["orders"]["get"]>>;
-import { accessPassword, seal, unseal } from "./security.server";
-
-export const syntheticPatient = {
-  name: { first: "Synthetic", last: "SDK Patient" },
-  dateOfBirth: "1990-01-01",
-  email: "sdk-patient@example.test",
-  phone: "2025550199",
-  address: {
-    line1: "100 Test St",
-    city: "Austin",
-    state: "TX",
-    postalCode: "78701",
-    country: "US" as const,
-  },
-};
 
 export async function client() {
   const key = process.env.AFFINITY_EXAMPLE_API_KEY;
   if (!key) throw new Error("Set AFFINITY_EXAMPLE_API_KEY on the server.");
-  const affinity = new Affinity(key, { maxNetworkRetries: 2 });
-  // Check the deployed API, not a key-prefix guess. Every operation fails closed.
-  const access = await affinity.apiKeys.getAccess();
-  if (access.livemode !== false) throw new Error("This example refuses Live-mode API keys.");
-  if (access.serviceAccount.subjectType !== "platform")
+  const affinity = new Affinity(key, {
+    maxNetworkRetries: 2,
+    ...(process.env.AFFINITY_EXAMPLE_API_URL
+      ? { baseUrl: process.env.AFFINITY_EXAMPLE_API_URL }
+      : {}),
+  });
+  const account = await affinity.account.get();
+  if (account.mode !== "test") throw new Error("This example refuses Live-mode API keys.");
+  if (account.type !== "platform")
     throw new Error("Use a platform Test key to list its practices.");
-  return { affinity };
+  return { affinity, account };
 }
 
 export async function safely<T>(action: () => Promise<T>) {
   try {
     return { ok: true as const, value: await action() };
   } catch (error) {
-    const cause = error;
-    // Do not serialize SDK request/response objects or headers into browser errors.
+    // Serialize only error metadata. Never send credentials or request bodies to the browser.
     return {
       ok: false as const,
       error:
-        cause instanceof AffinityError
-          ? `${cause.statusCode}: ${cause.message}${cause.requestId ? ` (request ${cause.requestId})` : ""}`
-          : cause instanceof Error
-            ? cause.message
-            : "Request failed. Retry the same action.",
+        error instanceof AffinityError
+          ? `Affinity request failed${error.statusCode ? ` (${error.statusCode})` : ""}${error.requestId ? `; request ${error.requestId}` : ""}`
+          : error instanceof Error
+            ? error.message
+            : "Request failed.",
     };
   }
 }
 
-type PatientReceipt = { practiceId: string; patientId: string; runId: string };
-type PreviewReceipt = { practiceId: string; input: CreateOrderParams; key: string };
-type ReviewReceipt = {
-  practiceId: string;
-  orderId: string;
-  revision: string;
-  key: string;
-};
-
-function receipt<T extends { practiceId: string }>(token: string, kind: string) {
-  const value = unseal<T>(token, kind, accessPassword());
-  return value;
-}
-
-export async function practices(startingAfter?: string, mode: "test" | "live" = "test") {
+export async function practices(startingAfter?: string) {
   const { affinity } = await client();
-  let directory = affinity;
-  if (mode === "live") {
-    const key = process.env.AFFINITY_EXAMPLE_DIRECTORY_KEY;
-    if (!key)
-      throw new Error("Set AFFINITY_EXAMPLE_DIRECTORY_KEY to a Live practices:read-only key.");
-    directory = new Affinity(key);
-    const [live, test] = await Promise.all([
-      directory.apiKeys.getAccess(),
-      affinity.apiKeys.getAccess(),
-    ]);
-    if (
-      live.livemode !== true ||
-      live.serviceAccount.subjectType !== "platform" ||
-      live.serviceAccount.subjectId !== test.serviceAccount.subjectId ||
-      live.scopes.length !== 1 ||
-      live.scopes[0] !== "practices:read"
-    )
-      throw new Error(
-        "Directory key must be Live, practices:read only, and belong to the same platform.",
-      );
-  }
-  const page = await directory.practices.list({ limit: 25, startingAfter });
-  return {
-    hasMore: page.hasMore,
-    data: page.data.map(({ id, name, liveEnabled, livemode }) => ({
-      id,
-      name,
-      liveEnabled,
-      livemode,
-    })),
-  };
+  return affinity.practices.list({ limit: "25", startingAfter });
 }
 
-export async function prepare(runId: string, practiceId: string) {
+export async function medications(query: string, startingAfter?: string) {
   const { affinity } = await client();
-  const practice = await affinity.practices.get(practiceId);
-  const patient = await affinity.patients.create(
-    {
-      ...syntheticPatient,
-      externalId: `sdk-example-${runId}`,
-    },
-    { practiceId, idempotencyKey: `sdk-example:patient:${practiceId}:${runId}` },
-  );
-  return {
-    practice: { id: practice.id, name: practice.name },
-    patient,
-    patientToken: seal<PatientReceipt>(
-      "patient",
-      { practiceId, patientId: patient.id, runId },
-      accessPassword(),
-    ),
-  };
-}
-
-export async function catalog(practiceId: string, query: string, startingAfter?: string) {
-  const { affinity } = await client();
-  return affinity.forPractice(practiceId).catalog.items.list({
-    query,
-    startingAfter,
-    limit: 25,
-    hideControlledSubstances: true,
-    hideUnpriced: true,
-  });
-}
-
-export async function preview(
-  token: string,
-  items: Pick<PreviewOrderParams, "prescriptions" | "otcItems" | "shipping">,
-) {
-  const { affinity } = await client();
-  const patient = receipt<PatientReceipt>(token, "patient");
-  const { practiceId } = patient;
-  const result = await affinity.forPractice(practiceId).orders.preview({
-    ...items,
-    patientId: patient.patientId,
-  });
-  return {
-    result,
-    previewToken:
-      result.status === "complete" && result.orderInput
-        ? seal<PreviewReceipt>(
-            "preview",
-            {
-              practiceId,
-              input: result.orderInput,
-              key: `sdk-example:create:${crypto.randomUUID()}`,
-            },
-            accessPassword(),
-          )
-        : null,
-  };
-}
-
-function review(order: Order) {
-  return {
-    order,
-    reviewToken: seal<ReviewReceipt>(
-      "review",
-      {
-        practiceId: order.practiceId,
-        orderId: order.id,
-        revision: order.revision,
-        key: `sdk-example:sign:${crypto.randomUUID()}`,
-      },
-      accessPassword(),
-    ),
-  };
-}
-
-export async function createDraft(token: string) {
-  const { affinity } = await client();
-  const accepted = receipt<PreviewReceipt>(token, "preview");
-  const { practiceId: _practiceId, ...input } = accepted.input;
-  const practice = affinity.forPractice(accepted.practiceId);
-  const draft = await practice.orders.create(input, { idempotencyKey: accepted.key });
-  return review(await practice.orders.get(draft.id));
-}
-
-export async function recordAllergies(token: string) {
-  const { affinity } = await client();
-  const patient = receipt<PatientReceipt>(token, "patient");
-  const { practiceId } = patient;
-  return affinity
-    .forPractice(practiceId)
-    .patients.allergies.replace(
-      patient.patientId,
-      { allergies: [], reviewStatus: "no_known" },
-      { idempotencyKey: `sdk-example:allergies:${patient.runId}` },
-    );
-}
-
-export async function sign(token: string, npi: string) {
-  const { affinity } = await client();
-  const accepted = receipt<ReviewReceipt>(token, "review");
-  const { practiceId } = accepted;
-  // Never refetch versions and silently sign a changed order.
-  return affinity.forPractice(practiceId).orders.signAndSubmit(
-    accepted.orderId,
-    {
-      prescriber: { npi },
-      signatureAttestation: true,
-      expectedRevision: accepted.revision,
-    },
-    { idempotencyKey: `${accepted.key}:${npi}` },
-  );
-}
-
-export async function refresh(token: string) {
-  const { affinity } = await client();
-  const accepted = receipt<ReviewReceipt>(token, "review");
-  return review(await affinity.forPractice(accepted.practiceId).orders.get(accepted.orderId));
+  return affinity.medications.list({ query, limit: "25", startingAfter });
 }

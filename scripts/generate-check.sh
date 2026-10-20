@@ -6,9 +6,9 @@ snapshot="$(mktemp -d)"
 trap 'rm -rf "$snapshot"' EXIT
 
 cp -R "$root/src" "$snapshot/src"
-cp -R "$root/docs" "$snapshot/docs"
+cp "$root/generation.json" "$snapshot/generation.json"
 
 bash "$root/scripts/generate.sh" >/dev/null
 
 diff -ru "$snapshot/src" "$root/src"
-diff -ru "$snapshot/docs" "$root/docs"
+diff -u "$snapshot/generation.json" "$root/generation.json"
