@@ -137,3 +137,43 @@ test("all generated methods dispatch to contract paths with encoded IDs", async 
     "https://api.affinityrx.com/v1/webhook-endpoints/whe_%2Fone",
   ]);
 });
+
+test("local serialization errors retain their cause and never reach the network", async () => {
+  let calls = 0;
+  const api = new Affinity("test", {
+    maxNetworkRetries: 1,
+    fetch: (async () => {
+      calls++;
+      return Response.json({ id: "ord_test" });
+    }) as typeof fetch,
+  });
+  const reason = new Error("Synthetic serializer failure");
+  const patient = {
+    ...order.patient,
+    toJSON() {
+      throw reason;
+    },
+  };
+  await expect(
+    api.orders.create({ ...order, patient }, { idempotencyKey: "serialization-job" }),
+  ).rejects.toBe(reason);
+  expect(calls).toBe(0);
+});
+
+test("cyclic request data fails locally instead of reporting a retryable connection error", async () => {
+  let calls = 0;
+  const api = new Affinity("test", {
+    fetch: (async () => {
+      calls++;
+      return Response.json({});
+    }) as typeof fetch,
+  });
+  const patient = { ...order.patient };
+  Object.assign(patient, { cycle: patient });
+  const error = await api.orders
+    .create({ ...order, patient }, { idempotencyKey: "cyclic-job" })
+    .catch((error: unknown) => error);
+  expect(error).toBeInstanceOf(TypeError);
+  expect(error).not.toBeInstanceOf(AffinityConnectionError);
+  expect(calls).toBe(0);
+});

@@ -45,21 +45,22 @@ class SDKTransport {
     headers: Record<string, string>,
     signal?: AbortSignal,
   ): Promise<any> {
+    const init: RequestInit = {
+      method,
+      redirect: "error",
+      headers: {
+        Authorization: `Bearer ${this.apiKey}`,
+        "Affinity-Version": this.options.apiVersion ?? "__AFFINITY_API_VERSION__",
+        "User-Agent": `affinity-typescript/${sdkVersion}`,
+        ...headers,
+        ...(body === undefined ? {} : { "Content-Type": "application/json" }),
+      },
+      ...(body === undefined ? {} : { body: JSON.stringify(body) }),
+      signal,
+    };
     let response: Response;
     try {
-      response = await this.fetcher(this.baseUrl + path, {
-        method,
-        redirect: "error",
-        headers: {
-          Authorization: `Bearer ${this.apiKey}`,
-          "Affinity-Version": this.options.apiVersion ?? "__AFFINITY_API_VERSION__",
-          "User-Agent": `affinity-typescript/${sdkVersion}`,
-          ...headers,
-          ...(body === undefined ? {} : { "Content-Type": "application/json" }),
-        },
-        ...(body === undefined ? {} : { body: JSON.stringify(body) }),
-        signal,
-      });
+      response = await this.fetcher(this.baseUrl + path, init);
     } catch (error) {
       // A caller's own cancellation stays an AbortError; network failures and timeouts are typed.
       if (signal?.aborted) throw error;
