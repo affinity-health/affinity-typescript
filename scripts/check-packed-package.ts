@@ -32,11 +32,9 @@ async function workflow() {
  await api.feedback.create({message:"Synthetic feedback"});
  void account; void exact;
 }
-// @ts-expect-error Order creation requires a persisted key.
+// Required headers are generated when request options are omitted.
 void api.orders.create(input);
-// @ts-expect-error Practice creation requires a persisted key.
 void api.practices.create({name:"Synthetic Test Practice"});
-// @ts-expect-error Failed delivery resend requires a persisted key.
 void api.webhooks.resendFailed("whe_example");
 // @ts-expect-error There is no standalone patient resource.
 void api.patients;
@@ -149,10 +147,12 @@ const api = new Affinity("synthetic-test-key", { fetch: async (input, init) => {
   paths.push(path);
   const headers = new Headers(init?.headers);
   if (headers.get("Affinity-Version") !== "2026-10-20") throw new Error("Missing current API version");
+  if (path.endsWith("/cancel") && !headers.get("Idempotency-Key")) throw new Error("Missing generated idempotency key");
   return Response.json({ id: "med_example", name: "Synthetic medication" });
 }});
 const medication = await api.medications.get("med_example");
 if (medication.id !== "med_example" || paths.length !== 1 || paths[0] !== "/v1/medications/med_example") throw new Error("Packed medication lookup failed");
+await api.orders.cancel("ord_example");
 for (const name of ["patients", "catalog", "forPractice"]) if (name in api) throw new Error("Retired resource exported: " + name);`;
 
   await Bun.$`node --input-type=module -e ${approvedRuntime}`.cwd(consumer).quiet();

@@ -590,6 +590,17 @@
         "operationId": "createFeedback",
         "parameters": [
           {
+            "name": "idempotency-key",
+            "in": "header",
+            "schema": {
+              "type": "string",
+              "pattern": "^[\\x21-\\x7e]{1,255}$",
+              "description": "A unique key per operation, 1 to 255 printable ASCII characters. A retry with the same key returns the original response."
+            },
+            "required": true,
+            "description": "A unique key per operation, 1 to 255 printable ASCII characters. A retry with the same key returns the original response."
+          },
+          {
             "description": "The dated API version this request is written against.",
             "in": "header",
             "name": "Affinity-Version",
@@ -726,6 +737,92 @@
               "application/problem+json": {
                 "schema": {
                   "title": "CreateFeedback401Response",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": {
+                      "type": "string"
+                    },
+                    "detail": {
+                      "type": "string"
+                    },
+                    "title": {
+                      "type": "string"
+                    },
+                    "type": {
+                      "type": "string"
+                    },
+                    "issues": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "code": {
+                            "type": "string"
+                          },
+                          "field": {
+                            "type": "string"
+                          },
+                          "message": {
+                            "type": "string"
+                          },
+                          "path": {
+                            "type": "array",
+                            "items": {
+                              "anyOf": [
+                                {
+                                  "type": "string"
+                                },
+                                {
+                                  "type": "integer",
+                                  "minimum": -9007199254740991,
+                                  "maximum": 9007199254740991
+                                }
+                              ]
+                            }
+                          }
+                        },
+                        "required": [
+                          "code",
+                          "field",
+                          "message",
+                          "path"
+                        ],
+                        "additionalProperties": false
+                      }
+                    },
+                    "instance": {
+                      "type": "string"
+                    },
+                    "requestId": {
+                      "type": "string"
+                    },
+                    "status": {
+                      "type": "integer"
+                    },
+                    "traceId": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "detail",
+                    "instance",
+                    "requestId",
+                    "status",
+                    "title",
+                    "type"
+                  ],
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "HTTP 409",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "title": "CreateFeedback409Response",
                   "additionalProperties": false,
                   "properties": {
                     "code": {
@@ -6638,6 +6735,17 @@
             "required": true
           },
           {
+            "name": "idempotency-key",
+            "in": "header",
+            "schema": {
+              "type": "string",
+              "pattern": "^[\\x21-\\x7e]{1,255}$",
+              "description": "A unique key per operation, 1 to 255 printable ASCII characters. A retry with the same key returns the original response."
+            },
+            "required": true,
+            "description": "A unique key per operation, 1 to 255 printable ASCII characters. A retry with the same key returns the original response."
+          },
+          {
             "description": "The dated API version this request is written against.",
             "in": "header",
             "name": "Affinity-Version",
@@ -7699,82 +7807,164 @@
               "application/problem+json": {
                 "schema": {
                   "title": "OrdersCancel400Response",
-                  "additionalProperties": false,
-                  "properties": {
-                    "code": {
-                      "type": "string"
-                    },
-                    "detail": {
-                      "type": "string"
-                    },
-                    "title": {
-                      "type": "string"
-                    },
-                    "type": {
-                      "type": "string"
-                    },
-                    "issues": {
-                      "type": "array",
-                      "items": {
-                        "type": "object",
-                        "properties": {
-                          "code": {
-                            "type": "string"
-                          },
-                          "field": {
-                            "type": "string"
-                          },
-                          "message": {
-                            "type": "string"
-                          },
-                          "path": {
-                            "type": "array",
-                            "items": {
-                              "anyOf": [
-                                {
-                                  "type": "string"
-                                },
-                                {
-                                  "type": "integer",
-                                  "minimum": -9007199254740991,
-                                  "maximum": 9007199254740991
+                  "anyOf": [
+                    {
+                      "additionalProperties": false,
+                      "properties": {
+                        "code": {
+                          "type": "string"
+                        },
+                        "detail": {
+                          "type": "string"
+                        },
+                        "title": {
+                          "type": "string"
+                        },
+                        "type": {
+                          "type": "string"
+                        },
+                        "issues": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "code": {
+                                "type": "string"
+                              },
+                              "field": {
+                                "type": "string"
+                              },
+                              "message": {
+                                "type": "string"
+                              },
+                              "path": {
+                                "type": "array",
+                                "items": {
+                                  "anyOf": [
+                                    {
+                                      "type": "string"
+                                    },
+                                    {
+                                      "type": "integer",
+                                      "minimum": -9007199254740991,
+                                      "maximum": 9007199254740991
+                                    }
+                                  ]
                                 }
-                              ]
-                            }
+                              }
+                            },
+                            "required": [
+                              "code",
+                              "field",
+                              "message",
+                              "path"
+                            ],
+                            "additionalProperties": false
                           }
                         },
-                        "required": [
-                          "code",
-                          "field",
-                          "message",
-                          "path"
-                        ],
-                        "additionalProperties": false
-                      }
+                        "instance": {
+                          "type": "string"
+                        },
+                        "requestId": {
+                          "type": "string"
+                        },
+                        "status": {
+                          "type": "integer"
+                        },
+                        "traceId": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "code",
+                        "detail",
+                        "instance",
+                        "requestId",
+                        "status",
+                        "title",
+                        "type"
+                      ],
+                      "type": "object"
                     },
-                    "instance": {
-                      "type": "string"
-                    },
-                    "requestId": {
-                      "type": "string"
-                    },
-                    "status": {
-                      "type": "integer"
-                    },
-                    "traceId": {
-                      "type": "string"
+                    {
+                      "additionalProperties": false,
+                      "properties": {
+                        "code": {
+                          "type": "string"
+                        },
+                        "detail": {
+                          "type": "string"
+                        },
+                        "title": {
+                          "type": "string"
+                        },
+                        "type": {
+                          "type": "string"
+                        },
+                        "issues": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "code": {
+                                "type": "string"
+                              },
+                              "field": {
+                                "type": "string"
+                              },
+                              "message": {
+                                "type": "string"
+                              },
+                              "path": {
+                                "type": "array",
+                                "items": {
+                                  "anyOf": [
+                                    {
+                                      "type": "string"
+                                    },
+                                    {
+                                      "type": "integer",
+                                      "minimum": -9007199254740991,
+                                      "maximum": 9007199254740991
+                                    }
+                                  ]
+                                }
+                              }
+                            },
+                            "required": [
+                              "code",
+                              "field",
+                              "message",
+                              "path"
+                            ],
+                            "additionalProperties": false
+                          }
+                        },
+                        "instance": {
+                          "type": "string"
+                        },
+                        "requestId": {
+                          "type": "string"
+                        },
+                        "status": {
+                          "type": "integer"
+                        },
+                        "traceId": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "code",
+                        "detail",
+                        "instance",
+                        "requestId",
+                        "status",
+                        "title",
+                        "type"
+                      ],
+                      "type": "object"
                     }
-                  },
-                  "required": [
-                    "code",
-                    "detail",
-                    "instance",
-                    "requestId",
-                    "status",
-                    "title",
-                    "type"
-                  ],
-                  "type": "object"
+                  ]
                 }
               }
             }
@@ -10849,6 +11039,17 @@
             "required": true
           },
           {
+            "name": "idempotency-key",
+            "in": "header",
+            "schema": {
+              "type": "string",
+              "pattern": "^[\\x21-\\x7e]{1,255}$",
+              "description": "A unique key per operation, 1 to 255 printable ASCII characters. A retry with the same key returns the original response."
+            },
+            "required": true,
+            "description": "A unique key per operation, 1 to 255 printable ASCII characters. A retry with the same key returns the original response."
+          },
+          {
             "description": "The dated API version this request is written against.",
             "in": "header",
             "name": "Affinity-Version",
@@ -10970,82 +11171,164 @@
               "application/problem+json": {
                 "schema": {
                   "title": "PracticesUpdate400Response",
-                  "additionalProperties": false,
-                  "properties": {
-                    "code": {
-                      "type": "string"
-                    },
-                    "detail": {
-                      "type": "string"
-                    },
-                    "title": {
-                      "type": "string"
-                    },
-                    "type": {
-                      "type": "string"
-                    },
-                    "issues": {
-                      "type": "array",
-                      "items": {
-                        "type": "object",
-                        "properties": {
-                          "code": {
-                            "type": "string"
-                          },
-                          "field": {
-                            "type": "string"
-                          },
-                          "message": {
-                            "type": "string"
-                          },
-                          "path": {
-                            "type": "array",
-                            "items": {
-                              "anyOf": [
-                                {
-                                  "type": "string"
-                                },
-                                {
-                                  "type": "integer",
-                                  "minimum": -9007199254740991,
-                                  "maximum": 9007199254740991
+                  "anyOf": [
+                    {
+                      "additionalProperties": false,
+                      "properties": {
+                        "code": {
+                          "type": "string"
+                        },
+                        "detail": {
+                          "type": "string"
+                        },
+                        "title": {
+                          "type": "string"
+                        },
+                        "type": {
+                          "type": "string"
+                        },
+                        "issues": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "code": {
+                                "type": "string"
+                              },
+                              "field": {
+                                "type": "string"
+                              },
+                              "message": {
+                                "type": "string"
+                              },
+                              "path": {
+                                "type": "array",
+                                "items": {
+                                  "anyOf": [
+                                    {
+                                      "type": "string"
+                                    },
+                                    {
+                                      "type": "integer",
+                                      "minimum": -9007199254740991,
+                                      "maximum": 9007199254740991
+                                    }
+                                  ]
                                 }
-                              ]
-                            }
+                              }
+                            },
+                            "required": [
+                              "code",
+                              "field",
+                              "message",
+                              "path"
+                            ],
+                            "additionalProperties": false
                           }
                         },
-                        "required": [
-                          "code",
-                          "field",
-                          "message",
-                          "path"
-                        ],
-                        "additionalProperties": false
-                      }
+                        "instance": {
+                          "type": "string"
+                        },
+                        "requestId": {
+                          "type": "string"
+                        },
+                        "status": {
+                          "type": "integer"
+                        },
+                        "traceId": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "code",
+                        "detail",
+                        "instance",
+                        "requestId",
+                        "status",
+                        "title",
+                        "type"
+                      ],
+                      "type": "object"
                     },
-                    "instance": {
-                      "type": "string"
-                    },
-                    "requestId": {
-                      "type": "string"
-                    },
-                    "status": {
-                      "type": "integer"
-                    },
-                    "traceId": {
-                      "type": "string"
+                    {
+                      "additionalProperties": false,
+                      "properties": {
+                        "code": {
+                          "type": "string"
+                        },
+                        "detail": {
+                          "type": "string"
+                        },
+                        "title": {
+                          "type": "string"
+                        },
+                        "type": {
+                          "type": "string"
+                        },
+                        "issues": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "code": {
+                                "type": "string"
+                              },
+                              "field": {
+                                "type": "string"
+                              },
+                              "message": {
+                                "type": "string"
+                              },
+                              "path": {
+                                "type": "array",
+                                "items": {
+                                  "anyOf": [
+                                    {
+                                      "type": "string"
+                                    },
+                                    {
+                                      "type": "integer",
+                                      "minimum": -9007199254740991,
+                                      "maximum": 9007199254740991
+                                    }
+                                  ]
+                                }
+                              }
+                            },
+                            "required": [
+                              "code",
+                              "field",
+                              "message",
+                              "path"
+                            ],
+                            "additionalProperties": false
+                          }
+                        },
+                        "instance": {
+                          "type": "string"
+                        },
+                        "requestId": {
+                          "type": "string"
+                        },
+                        "status": {
+                          "type": "integer"
+                        },
+                        "traceId": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "code",
+                        "detail",
+                        "instance",
+                        "requestId",
+                        "status",
+                        "title",
+                        "type"
+                      ],
+                      "type": "object"
                     }
-                  },
-                  "required": [
-                    "code",
-                    "detail",
-                    "instance",
-                    "requestId",
-                    "status",
-                    "title",
-                    "type"
-                  ],
-                  "type": "object"
+                  ]
                 }
               }
             }
@@ -12709,6 +12992,17 @@
         "operationId": "webhooks.create",
         "parameters": [
           {
+            "name": "idempotency-key",
+            "in": "header",
+            "schema": {
+              "type": "string",
+              "pattern": "^[\\x21-\\x7e]{1,255}$",
+              "description": "A unique key per operation, 1 to 255 printable ASCII characters. A retry with the same key returns the original response."
+            },
+            "required": true,
+            "description": "A unique key per operation, 1 to 255 printable ASCII characters. A retry with the same key returns the original response."
+          },
+          {
             "description": "The dated API version this request is written against.",
             "in": "header",
             "name": "Affinity-Version",
@@ -12770,82 +13064,164 @@
               "application/problem+json": {
                 "schema": {
                   "title": "WebhooksCreate400Response",
-                  "additionalProperties": false,
-                  "properties": {
-                    "code": {
-                      "type": "string"
-                    },
-                    "detail": {
-                      "type": "string"
-                    },
-                    "title": {
-                      "type": "string"
-                    },
-                    "type": {
-                      "type": "string"
-                    },
-                    "issues": {
-                      "type": "array",
-                      "items": {
-                        "type": "object",
-                        "properties": {
-                          "code": {
-                            "type": "string"
-                          },
-                          "field": {
-                            "type": "string"
-                          },
-                          "message": {
-                            "type": "string"
-                          },
-                          "path": {
-                            "type": "array",
-                            "items": {
-                              "anyOf": [
-                                {
-                                  "type": "string"
-                                },
-                                {
-                                  "type": "integer",
-                                  "minimum": -9007199254740991,
-                                  "maximum": 9007199254740991
+                  "anyOf": [
+                    {
+                      "additionalProperties": false,
+                      "properties": {
+                        "code": {
+                          "type": "string"
+                        },
+                        "detail": {
+                          "type": "string"
+                        },
+                        "title": {
+                          "type": "string"
+                        },
+                        "type": {
+                          "type": "string"
+                        },
+                        "issues": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "code": {
+                                "type": "string"
+                              },
+                              "field": {
+                                "type": "string"
+                              },
+                              "message": {
+                                "type": "string"
+                              },
+                              "path": {
+                                "type": "array",
+                                "items": {
+                                  "anyOf": [
+                                    {
+                                      "type": "string"
+                                    },
+                                    {
+                                      "type": "integer",
+                                      "minimum": -9007199254740991,
+                                      "maximum": 9007199254740991
+                                    }
+                                  ]
                                 }
-                              ]
-                            }
+                              }
+                            },
+                            "required": [
+                              "code",
+                              "field",
+                              "message",
+                              "path"
+                            ],
+                            "additionalProperties": false
                           }
                         },
-                        "required": [
-                          "code",
-                          "field",
-                          "message",
-                          "path"
-                        ],
-                        "additionalProperties": false
-                      }
+                        "instance": {
+                          "type": "string"
+                        },
+                        "requestId": {
+                          "type": "string"
+                        },
+                        "status": {
+                          "type": "integer"
+                        },
+                        "traceId": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "code",
+                        "detail",
+                        "instance",
+                        "requestId",
+                        "status",
+                        "title",
+                        "type"
+                      ],
+                      "type": "object"
                     },
-                    "instance": {
-                      "type": "string"
-                    },
-                    "requestId": {
-                      "type": "string"
-                    },
-                    "status": {
-                      "type": "integer"
-                    },
-                    "traceId": {
-                      "type": "string"
+                    {
+                      "additionalProperties": false,
+                      "properties": {
+                        "code": {
+                          "type": "string"
+                        },
+                        "detail": {
+                          "type": "string"
+                        },
+                        "title": {
+                          "type": "string"
+                        },
+                        "type": {
+                          "type": "string"
+                        },
+                        "issues": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "code": {
+                                "type": "string"
+                              },
+                              "field": {
+                                "type": "string"
+                              },
+                              "message": {
+                                "type": "string"
+                              },
+                              "path": {
+                                "type": "array",
+                                "items": {
+                                  "anyOf": [
+                                    {
+                                      "type": "string"
+                                    },
+                                    {
+                                      "type": "integer",
+                                      "minimum": -9007199254740991,
+                                      "maximum": 9007199254740991
+                                    }
+                                  ]
+                                }
+                              }
+                            },
+                            "required": [
+                              "code",
+                              "field",
+                              "message",
+                              "path"
+                            ],
+                            "additionalProperties": false
+                          }
+                        },
+                        "instance": {
+                          "type": "string"
+                        },
+                        "requestId": {
+                          "type": "string"
+                        },
+                        "status": {
+                          "type": "integer"
+                        },
+                        "traceId": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "code",
+                        "detail",
+                        "instance",
+                        "requestId",
+                        "status",
+                        "title",
+                        "type"
+                      ],
+                      "type": "object"
                     }
-                  },
-                  "required": [
-                    "code",
-                    "detail",
-                    "instance",
-                    "requestId",
-                    "status",
-                    "title",
-                    "type"
-                  ],
-                  "type": "object"
+                  ]
                 }
               }
             }
@@ -13354,6 +13730,92 @@
               }
             }
           },
+          "409": {
+            "description": "HTTP 409",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "title": "WebhooksCreate409Response",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": {
+                      "type": "string"
+                    },
+                    "detail": {
+                      "type": "string"
+                    },
+                    "title": {
+                      "type": "string"
+                    },
+                    "type": {
+                      "type": "string"
+                    },
+                    "issues": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "code": {
+                            "type": "string"
+                          },
+                          "field": {
+                            "type": "string"
+                          },
+                          "message": {
+                            "type": "string"
+                          },
+                          "path": {
+                            "type": "array",
+                            "items": {
+                              "anyOf": [
+                                {
+                                  "type": "string"
+                                },
+                                {
+                                  "type": "integer",
+                                  "minimum": -9007199254740991,
+                                  "maximum": 9007199254740991
+                                }
+                              ]
+                            }
+                          }
+                        },
+                        "required": [
+                          "code",
+                          "field",
+                          "message",
+                          "path"
+                        ],
+                        "additionalProperties": false
+                      }
+                    },
+                    "instance": {
+                      "type": "string"
+                    },
+                    "requestId": {
+                      "type": "string"
+                    },
+                    "status": {
+                      "type": "integer"
+                    },
+                    "traceId": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "detail",
+                    "instance",
+                    "requestId",
+                    "status",
+                    "title",
+                    "type"
+                  ],
+                  "type": "object"
+                }
+              }
+            }
+          },
           "422": {
             "description": "HTTP 422",
             "content": {
@@ -13462,7 +13924,7 @@
           },
           "required": true
         },
-        "description": "Platforms and independent practices can register up to 16 public HTTPS endpoints per mode. An API key acts only for its own organization and mode. Every event goes to every endpoint. The signing secret is returned only in this response.",
+        "description": "Platforms and independent practices can register up to 16 public HTTPS endpoints per mode. An API key acts only for its own organization and mode. Every event goes to every endpoint. The signing secret is returned by creation and its idempotent replay.",
         "summary": "Add a webhook endpoint",
         "x-visibility": "public"
       }
@@ -13485,6 +13947,17 @@
               ]
             },
             "required": true
+          },
+          {
+            "name": "idempotency-key",
+            "in": "header",
+            "schema": {
+              "type": "string",
+              "pattern": "^[\\x21-\\x7e]{1,255}$",
+              "description": "A unique key per operation, 1 to 255 printable ASCII characters. A retry with the same key returns the original response."
+            },
+            "required": true,
+            "description": "A unique key per operation, 1 to 255 printable ASCII characters. A retry with the same key returns the original response."
           },
           {
             "description": "The dated API version this request is written against.",
@@ -13544,82 +14017,164 @@
               "application/problem+json": {
                 "schema": {
                   "title": "WebhooksUpdate400Response",
-                  "additionalProperties": false,
-                  "properties": {
-                    "code": {
-                      "type": "string"
-                    },
-                    "detail": {
-                      "type": "string"
-                    },
-                    "title": {
-                      "type": "string"
-                    },
-                    "type": {
-                      "type": "string"
-                    },
-                    "issues": {
-                      "type": "array",
-                      "items": {
-                        "type": "object",
-                        "properties": {
-                          "code": {
-                            "type": "string"
-                          },
-                          "field": {
-                            "type": "string"
-                          },
-                          "message": {
-                            "type": "string"
-                          },
-                          "path": {
-                            "type": "array",
-                            "items": {
-                              "anyOf": [
-                                {
-                                  "type": "string"
-                                },
-                                {
-                                  "type": "integer",
-                                  "minimum": -9007199254740991,
-                                  "maximum": 9007199254740991
+                  "anyOf": [
+                    {
+                      "additionalProperties": false,
+                      "properties": {
+                        "code": {
+                          "type": "string"
+                        },
+                        "detail": {
+                          "type": "string"
+                        },
+                        "title": {
+                          "type": "string"
+                        },
+                        "type": {
+                          "type": "string"
+                        },
+                        "issues": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "code": {
+                                "type": "string"
+                              },
+                              "field": {
+                                "type": "string"
+                              },
+                              "message": {
+                                "type": "string"
+                              },
+                              "path": {
+                                "type": "array",
+                                "items": {
+                                  "anyOf": [
+                                    {
+                                      "type": "string"
+                                    },
+                                    {
+                                      "type": "integer",
+                                      "minimum": -9007199254740991,
+                                      "maximum": 9007199254740991
+                                    }
+                                  ]
                                 }
-                              ]
-                            }
+                              }
+                            },
+                            "required": [
+                              "code",
+                              "field",
+                              "message",
+                              "path"
+                            ],
+                            "additionalProperties": false
                           }
                         },
-                        "required": [
-                          "code",
-                          "field",
-                          "message",
-                          "path"
-                        ],
-                        "additionalProperties": false
-                      }
+                        "instance": {
+                          "type": "string"
+                        },
+                        "requestId": {
+                          "type": "string"
+                        },
+                        "status": {
+                          "type": "integer"
+                        },
+                        "traceId": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "code",
+                        "detail",
+                        "instance",
+                        "requestId",
+                        "status",
+                        "title",
+                        "type"
+                      ],
+                      "type": "object"
                     },
-                    "instance": {
-                      "type": "string"
-                    },
-                    "requestId": {
-                      "type": "string"
-                    },
-                    "status": {
-                      "type": "integer"
-                    },
-                    "traceId": {
-                      "type": "string"
+                    {
+                      "additionalProperties": false,
+                      "properties": {
+                        "code": {
+                          "type": "string"
+                        },
+                        "detail": {
+                          "type": "string"
+                        },
+                        "title": {
+                          "type": "string"
+                        },
+                        "type": {
+                          "type": "string"
+                        },
+                        "issues": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "code": {
+                                "type": "string"
+                              },
+                              "field": {
+                                "type": "string"
+                              },
+                              "message": {
+                                "type": "string"
+                              },
+                              "path": {
+                                "type": "array",
+                                "items": {
+                                  "anyOf": [
+                                    {
+                                      "type": "string"
+                                    },
+                                    {
+                                      "type": "integer",
+                                      "minimum": -9007199254740991,
+                                      "maximum": 9007199254740991
+                                    }
+                                  ]
+                                }
+                              }
+                            },
+                            "required": [
+                              "code",
+                              "field",
+                              "message",
+                              "path"
+                            ],
+                            "additionalProperties": false
+                          }
+                        },
+                        "instance": {
+                          "type": "string"
+                        },
+                        "requestId": {
+                          "type": "string"
+                        },
+                        "status": {
+                          "type": "integer"
+                        },
+                        "traceId": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "code",
+                        "detail",
+                        "instance",
+                        "requestId",
+                        "status",
+                        "title",
+                        "type"
+                      ],
+                      "type": "object"
                     }
-                  },
-                  "required": [
-                    "code",
-                    "detail",
-                    "instance",
-                    "requestId",
-                    "status",
-                    "title",
-                    "type"
-                  ],
-                  "type": "object"
+                  ]
                 }
               }
             }
@@ -14206,6 +14761,92 @@
                       "type": "object"
                     }
                   ]
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "HTTP 409",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "title": "WebhooksUpdate409Response",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": {
+                      "type": "string"
+                    },
+                    "detail": {
+                      "type": "string"
+                    },
+                    "title": {
+                      "type": "string"
+                    },
+                    "type": {
+                      "type": "string"
+                    },
+                    "issues": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "code": {
+                            "type": "string"
+                          },
+                          "field": {
+                            "type": "string"
+                          },
+                          "message": {
+                            "type": "string"
+                          },
+                          "path": {
+                            "type": "array",
+                            "items": {
+                              "anyOf": [
+                                {
+                                  "type": "string"
+                                },
+                                {
+                                  "type": "integer",
+                                  "minimum": -9007199254740991,
+                                  "maximum": 9007199254740991
+                                }
+                              ]
+                            }
+                          }
+                        },
+                        "required": [
+                          "code",
+                          "field",
+                          "message",
+                          "path"
+                        ],
+                        "additionalProperties": false
+                      }
+                    },
+                    "instance": {
+                      "type": "string"
+                    },
+                    "requestId": {
+                      "type": "string"
+                    },
+                    "status": {
+                      "type": "integer"
+                    },
+                    "traceId": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "detail",
+                    "instance",
+                    "requestId",
+                    "status",
+                    "title",
+                    "type"
+                  ],
+                  "type": "object"
                 }
               }
             }

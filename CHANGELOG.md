@@ -7,6 +7,13 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 
 ## [Unreleased]
 
+## [2.0.0-beta.3] - 2026-10-20
+
+### Changed
+
+- Send the newly required `Idempotency-Key` on order cancellation, webhook endpoint creation and updates, practice updates, and feedback, matching the deployed API contract and its documented 400/409 responses.
+- Generate a random idempotency key when omitted for any operation requiring one. Reuse it across automatic retries, generate a new key for each call, and preserve caller-supplied keys for retries across calls.
+
 ## [2.0.0-beta.2] - 2026-10-20
 
 ### Fixed

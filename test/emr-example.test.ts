@@ -61,7 +61,7 @@ test("EMR sends exact reviewed patient and order in one idempotent request", asy
     expect(writes.at(-1)).toMatchObject({
       path: "/v1/orders/ord_fixture/cancel",
       method: "POST",
-      key: null,
+      key: expect.any(String),
     });
   } finally {
     fetchSpy.mockRestore();

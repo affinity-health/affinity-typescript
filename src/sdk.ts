@@ -3,7 +3,7 @@
 import { createTransport } from "./transport";
 import { affinityConnectionError, affinityErrorFromResponse } from "./errors";
 
-const sdkVersion = "2.0.0-beta.2";
+const sdkVersion = "2.0.0-beta.3";
 
 export interface SDKOptions {
   baseUrl?: string;
@@ -13,9 +13,11 @@ export interface SDKOptions {
   apiVersion?: string;
 }
 export interface SDKRequestOptions {
+  /** Override the per-call random key. Persist your own key to retry across separate calls. */
   idempotencyKey?: string;
   signal?: AbortSignal;
 }
+/** Options for callers that persist a key across separate calls. */
 export type RequiredKeyOptions = SDKRequestOptions & { idempotencyKey: string };
 type Operation = {
   path: string;
@@ -89,11 +91,10 @@ class SDKContext {
     options: SDKRequestOptions = {},
   ): Promise<any> {
     options.signal?.throwIfAborted();
-    const key = options.idempotencyKey;
+    const key =
+      options.idempotencyKey ?? (op.idempotency ? globalThis.crypto.randomUUID() : undefined);
     if (key !== undefined && !/^[\x21-\x7e]{1,255}$/.test(key))
       throw new Error("idempotencyKey must contain 1 to 255 printable ASCII characters");
-    if (op.idempotency && !key)
-      throw new Error("A persisted idempotencyKey is required for this operation");
     if (!op.idempotency && key) throw new Error("This endpoint does not support idempotency keys");
     let path = op.path;
     if (ids.length !== op.ids.length) throw new Error("Missing resource ID");
@@ -160,7 +161,7 @@ const operations = {
     ids: [],
     query: [],
     body: true,
-    idempotency: false,
+    idempotency: true,
   },
   "medications.list": {
     path: "/v1/medications",
@@ -217,7 +218,7 @@ const operations = {
     ids: ["orderId"],
     query: [],
     body: false,
-    idempotency: false,
+    idempotency: true,
   },
   "practices.create": {
     path: "/v1/practices",
@@ -249,7 +250,7 @@ const operations = {
     ids: ["practiceId"],
     query: [],
     body: true,
-    idempotency: false,
+    idempotency: true,
   },
   "webhooks.list": {
     path: "/v1/webhook-endpoints",
@@ -265,7 +266,7 @@ const operations = {
     ids: [],
     query: [],
     body: true,
-    idempotency: false,
+    idempotency: true,
   },
   "webhooks.update": {
     path: "/v1/webhook-endpoints/{webhookEndpointId}",
@@ -273,7 +274,7 @@ const operations = {
     ids: ["webhookEndpointId"],
     query: [],
     body: true,
-    idempotency: false,
+    idempotency: true,
   },
   "webhooks.remove": {
     path: "/v1/webhook-endpoints/{webhookEndpointId}",
@@ -778,7 +779,7 @@ export class MedicationSDKResource {
 }
 export class OrderSDKResource {
   constructor(private readonly context: SDKContext) {}
-  create(params: OrderCreateParams, options: RequiredKeyOptions): Promise<OrderCreateResponse> {
+  create(params: OrderCreateParams, options: SDKRequestOptions = {}): Promise<OrderCreateResponse> {
     return this.context.call(operations["orders.create"], [], params, options);
   }
   list(params: OrderListParams = {}, options: SDKRequestOptions = {}): Promise<OrderListResponse> {
@@ -801,7 +802,7 @@ export class PracticeSDKResource {
   constructor(private readonly context: SDKContext) {}
   create(
     params: PracticeCreateParams,
-    options: RequiredKeyOptions,
+    options: SDKRequestOptions = {},
   ): Promise<PracticeCreateResponse> {
     return this.context.call(operations["practices.create"], [], params, options);
   }
@@ -863,7 +864,7 @@ export class WebhookSDKResource {
   }
   resendFailed(
     webhookEndpointId: string,
-    options: RequiredKeyOptions,
+    options: SDKRequestOptions = {},
   ): Promise<WebhookResendFailedResponse> {
     return this.context.call(operations["webhooks.resendFailed"], [webhookEndpointId], {}, options);
   }
