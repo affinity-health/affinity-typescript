@@ -1,6 +1,6 @@
 {
   "name": "@affinity-health/sdk",
-  "version": "2.0.0-beta.1",
+  "version": "2.0.0-beta.2",
   "description": "Official TypeScript SDK for the Affinity API",
   "homepage": "https://docs.affinityrx.com/api",
   "bugs": {

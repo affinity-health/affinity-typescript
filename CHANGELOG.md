@@ -7,6 +7,8 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 
 ## [Unreleased]
 
+## [2.0.0-beta.2] - 2026-10-20
+
 ### Fixed
 
 - Preserve local request serialization errors instead of reporting them as retryable connection failures.
