@@ -1,98 +1,92 @@
-import {Affinity,AffinityError} from "../src";
-async function example0(){const api=new Affinity("test");const practice=api.forPractice("prac_a");const practiceId="prac_a",patientId="pat_a",orderId="ord_a";const draft={prescriptions:[]};const job={createOrderKey:"create",signOrderKey:"sign",submitOrderKey:"submit"};const review={prescriberId:"prov_a",orderRevision:"rev_a",signatureAttestation:true as const};const syncPatient=async (_patient: unknown)=>{};
-const patients = await api.patients.list({ limit: 20 });
-const patient = await api.patients.get(patientId);
-const items = await api.catalog.items.list({ limit: 20 });
+// Compile-only guide snippets. Never execute against an API.
+import { Affinity, AffinityError, type OrderCreateParams } from "../src";
+async function guideExamples() {
+  const api = new Affinity(process.env.AFFINITY_API_KEY!, { maxNetworkRetries: 2 });
+  const account = await api.account.get();
+  if (account.mode !== "test") throw new Error("This example requires a Test key");
 
-}
-async function example1(){const api=new Affinity("test");const practice=api.forPractice("prac_a");const practiceId="prac_a",patientId="pat_a",orderId="ord_a";const draft={prescriptions:[]};const job={createOrderKey:"create",signOrderKey:"sign",submitOrderKey:"submit"};const review={prescriberId:"prov_a",orderRevision:"rev_a",signatureAttestation:true as const};const syncPatient=async (_patient: unknown)=>{};
-const patients = await api.patients.list({ limit: 20 }, { practiceId });
-const patient = await api.patients.get(patientId, { practiceId });
+  const page = await api.medications.list({ limit: "20", query: "semaglutide" });
+  const medication = page.data[0] ? await api.medications.get(page.data[0].id) : undefined;
 
-await api.patients.update(
-  patientId,
-  { email: "alex@example.com" },
-  { practiceId },
-);
+  const practice = await api.practices.create(
+    { name: "Synthetic SDK Practice" },
+    { idempotencyKey: "persisted-test-practice-operation" },
+  );
+  const saved = await api.practices.get(practice.id);
+  await api.practices.update(saved.id, { phone: "+12025550199" });
+  const practices = await api.practices.list({ limit: "20", query: "Synthetic" });
 
-}
-async function example2(){const api=new Affinity("test");const practiceId="prac_a",patientId="pat_a",orderId="ord_a";const patient={id:patientId};const draft={prescriptions:[]};const job={createOrderKey:"create",signOrderKey:"sign",submitOrderKey:"submit"};const review={prescriberId:"prov_a",orderRevision:"rev_a",signatureAttestation:true as const};const syncPatient=async (_patient: unknown)=>{};
-const practice = api.forPractice(practiceId);
-
-const patients = await practice.patients.list({ limit: 20 });
-const items = await practice.catalog.items.list({ limit: 20 });
-
-}
-async function example3(){const api=new Affinity("test");const practice=api.forPractice("prac_a");const practiceId="prac_a",patientId="pat_a",orderId="ord_a";const draft={prescriptions:[]};const job={createOrderKey:"create",signOrderKey:"sign",submitOrderKey:"submit"};const review={prescriberId:"prov_a",orderRevision:"rev_a",signatureAttestation:true as const};const syncPatient=async (_patient: unknown)=>{};
-const patient = await practice.patients.create({
-  name: { first: "Alex", last: "Example" },
-  dateOfBirth: "1990-01-01",
-});
-
-const saved = await practice.patients.get(patient.id);
-await practice.patients.update(patient.id, { email: "alex@example.com" });
-await practice.patients.update(patient.id, { status: "archived" });
-
-}
-async function example4(){const api=new Affinity("test");const practice=api.forPractice("prac_a");const practiceId="prac_a",patientId="pat_a",orderId="ord_a";const patient={id:patientId};const draft={prescriptions:[]};const job={createOrderKey:"create",signOrderKey:"sign",submitOrderKey:"submit"};const review={prescriberId:"prov_a",orderRevision:"rev_a",signatureAttestation:true as const};const syncPatient=async (_patient: unknown)=>{};
-await practice.patients.delete(patientId);
-
-}
-async function example5(){const api=new Affinity("test");const practice=api.forPractice("prac_a");const practiceId="prac_a",patientId="pat_a",orderId="ord_a";const patient={id:patientId};const draft={prescriptions:[]};const job={createOrderKey:"create",signOrderKey:"sign",submitOrderKey:"submit"};const review={prescriberId:"prov_a",orderRevision:"rev_a",signatureAttestation:true as const};const syncPatient=async (_patient: unknown)=>{};
-const order = await api.orders.create(
-  { patientId, prescriptions: draft.prescriptions },
-  { practiceId, idempotencyKey: job.createOrderKey },
-);
-
-}
-async function example6(){const api=new Affinity("test");const practice=api.forPractice("prac_a");const practiceId="prac_a",patientId="pat_a",orderId="ord_a";const patient={id:patientId};const draft={prescriptions:[]};const job={createOrderKey:"create",signOrderKey:"sign",submitOrderKey:"submit"};const review={prescriberId:"prov_a",orderRevision:"rev_a",signatureAttestation:true as const};const syncPatient=async (_patient: unknown)=>{};
-await practice.orders.sign(
-  orderId,
-  {
-    prescriber: { id: review.prescriberId },
-    expectedRevision: review.orderRevision,
-    signatureAttestation: review.signatureAttestation,
-  },
-  { idempotencyKey: job.signOrderKey },
-);
-
-const submission = await practice.orders.submit(orderId, {
-  idempotencyKey: job.submitOrderKey,
-});
-
-}
-async function example7(){const api=new Affinity("test");const practice=api.forPractice("prac_a");const practiceId="prac_a",patientId="pat_a",orderId="ord_a";const patient={id:patientId};const draft={prescriptions:[]};const job={createOrderKey:"create",signOrderKey:"sign",submitOrderKey:"submit"};const review={prescriberId:"prov_a",orderRevision:"rev_a",signatureAttestation:true as const};const syncPatient=async (_patient: unknown)=>{};
-const page = await practice.patients.list({ limit: 20 });
-if (page.hasMore && page.data.length > 0) {
-  const next = await practice.patients.list({
-    limit: 20,
-    startingAfter: page.data.at(-1)!.id,
+  const input: OrderCreateParams = {
+    practiceId: "prac_01j2y8m6jcc9tt24af5pw9x1bc",
+    externalOrderId: "synthetic-emr-order-001",
+    patient: {
+      firstName: "Synthetic",
+      lastName: "Patient",
+      dateOfBirth: "1990-01-01",
+      gender: "unknown",
+      email: "patient@example.test",
+      phone: "+12025550199",
+      address: { line1: "100 Test St", city: "Austin", state: "TX", postalCode: "78701" },
+      // Empty only after an explicit review confirms no known allergies.
+      allergies: [],
+    },
+    prescriber: { firstName: "Synthetic", lastName: "Prescriber", npi: "1234567893" },
+    prescriptions: [
+      {
+        medicationId: "med_01j2y8m6jcc9tt24af5pw9x1bc",
+        directions: "Use as directed in this synthetic Test scenario.",
+        quantity: 1,
+        refills: 0,
+      },
+    ],
+    shippingOptionId: "shp_01j2y8m6jcc9tt24af5pw9x1bc",
+    signatureAttestation: true,
+  };
+  // Load the exact clinician-approved input and key from your durable review record.
+  const order = await api.orders.create(input, {
+    idempotencyKey: "persisted-test-order-operation",
   });
-}
+  const current = await api.orders.get(order.id);
 
-for await (const patient of practice.patients.iterate({ limit: 100 })) {
-  await syncPatient(patient);
-}
-
-}
-async function example8(){const api=new Affinity("test");const practice=api.forPractice("prac_a");const practiceId="prac_a",patientId="pat_a",orderId="ord_a";const patient={id:patientId};const draft={prescriptions:[]};const job={createOrderKey:"create",signOrderKey:"sign",submitOrderKey:"submit"};const review={prescriberId:"prov_a",orderRevision:"rev_a",signatureAttestation:true as const};const syncPatient=async (_patient: unknown)=>{};
-try {
-  await practice.patients.get(patientId);
-} catch (error) {
-  if (!(error instanceof AffinityError)) throw error;
-  console.error({
-    status: error.status,
-    code: error.code,
-    requestId: error.requestId,
-    retryable: error.retryable,
-    retryAfter: error.retryAfter,
+  const orders = await api.orders.list({
+    practiceId: input.practiceId,
+    status: "submitted",
+    limit: "20",
   });
-}
+  const cancellation = await api.orders.cancel(order.id);
 
-}
-async function example9(){const api=new Affinity("test");const practice=api.forPractice("prac_a");const practiceId="prac_a",patientId="pat_a",orderId="ord_a";const patient={id:patientId};const draft={prescriptions:[]};const job={createOrderKey:"create",signOrderKey:"sign",submitOrderKey:"submit"};const review={prescriberId:"prov_a",orderRevision:"rev_a",signatureAttestation:true as const};const syncPatient=async (_patient: unknown)=>{};
-const practices = await api.practices.list({ limit: 20 });
-const selected = await api.practices.get(practiceId);
-const endpoints = await api.webhooks.endpoints.list({ limit: 20 });
+  let nextPage = await api.medications.list({ limit: "20", query: "semaglutide" });
+  while (nextPage.hasMore && nextPage.nextCursor) {
+    nextPage = await api.medications.list({
+      limit: "20",
+      query: "semaglutide",
+      startingAfter: nextPage.nextCursor,
+    });
+  }
 
+  try {
+    await api.orders.get("ord_01j2y8m6jcc9tt24af5pw9x1bc");
+  } catch (error) {
+    if (!(error instanceof AffinityError)) throw error;
+    console.error({
+      status: error.statusCode,
+      code: error.code,
+      requestId: error.requestId,
+      retryable: error.retryable,
+    });
+  }
+
+  const endpoints = await api.webhooks.list({ limit: "20" });
+  const endpoint = await api.webhooks.create({
+    url: "https://integration.example.test/affinity-webhook",
+  });
+  await api.webhooks.update(endpoint.id, {
+    url: "https://integration.example.test/webhooks/affinity",
+  });
+  await api.webhooks.resendFailed(endpoint.id, {
+    idempotencyKey: "persisted-test-resend-operation",
+  });
+  await api.webhooks.remove(endpoint.id);
+  await api.feedback.create({ message: "Synthetic Test integration feedback." });
 }
+void guideExamples;

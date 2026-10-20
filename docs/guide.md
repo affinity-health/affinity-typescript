@@ -1,187 +1,141 @@
-# TypeScript SDK guide
+# SDK guide
 
-Node.js, Bun, and supported server-side Fetch runtimes. [Source repository](https://github.com/affinity-health/affinity-typescript) · [All SDKs](https://docs.joinaffinityai.com/guides/reference/sdks/)
+Use this SDK in trusted server runtimes. Keep keys out of browser and mobile code, logs, and committed files. All identities below are synthetic; run examples with a Test key only.
 
-## Install
-
-```sh
-npm install @affinity-health/sdk@1.15.0
-```
-
-These examples use `1.15.0`.
-
-## Connect
-
-Set `AFFINITY_API_KEY` to a Test API key on your server. The key selects Test or Live mode. Keep it out of browser and mobile code.
+## Create a client
 
 ```typescript
-import { Affinity, AffinityError } from "@affinity-health/sdk";
+import { Affinity, AffinityError, type OrderCreateParams } from "@affinity-health/sdk";
 
-const api = new Affinity(process.env.AFFINITY_API_KEY!);
+const api = new Affinity(process.env.AFFINITY_API_KEY!, { maxNetworkRetries: 2 });
+const account = await api.account.get();
+if (account.mode !== "test") throw new Error("This example requires a Test key");
 ```
 
-## With a practice key
+The SDK sends `Affinity-Version: 2026-10-20`. The key determines organization and mode. NPI identifies a clinician; it does not authenticate them or grant signing authority. Your integration must authenticate the clinician and record approval before sending a signed order.
 
-The key identifies the practice. No practice ID or scoped client is needed.
-The resource IDs below come from records in that practice.
-Each section is a separate usage example, not one script to concatenate.
+## Find medications
 
 ```typescript
-const patients = await api.patients.list({ limit: 20 });
-const patient = await api.patients.get(patientId);
-const items = await api.catalog.items.list({ limit: 20 });
+const page = await api.medications.list({ limit: "20", query: "semaglutide" });
+const medication = page.data[0] ? await api.medications.get(page.data[0].id) : undefined;
 ```
 
-## With a platform key
+Use `query` for text search, `name` for an exact case-insensitive medication name, and `pharmacyId` to filter by pharmacy. Medication responses include `quantities`, `requirements`, `compoundingReasons`, `restrictedStates`, and `shippingOptions`. Review the selected medication's current requirements before creating the order. `compoundingReason` is an optional string on a prescription, with no SDK enum helper. Choose medication and shipping IDs from current responses, rather than inventing them.
 
-Pass the target practice with each practice-scoped request. Keep record data separate from request context and idempotency options.
-
-{/_ prettier-ignore _/}
+## Manage practices
 
 ```typescript
-const patients = await api.patients.list({ limit: 20 }, { practiceId });
-const patient = await api.patients.get(patientId, { practiceId });
-
-await api.patients.update(patientId, { email: "alex@example.com" }, { practiceId });
-```
-
-## Scope a workflow once
-
-A scoped client remembers the practice for subsequent requests. It is immutable; the original client and other scoped clients stay independent.
-A conflicting practice ID produces an error. Scoping never grants access to another practice.
-
-```typescript
-const practice = api.forPractice(practiceId);
-
-const patients = await practice.patients.list({ limit: 20 });
-const items = await practice.catalog.items.list({ limit: 20 });
-```
-
-The following examples use this scoped client. A practice-key client supports the same calls without the scoping step.
-
-## Create, get, and update a patient
-
-Use synthetic Test data. Routine writes generate a fresh idempotency key per call and preserve it during internal retries.
-Supply your own persisted key when retrying across calls or process restarts.
-
-```typescript
-const patient = await practice.patients.create({
-  name: { first: "Alex", last: "Example" },
-  dateOfBirth: "1990-01-01",
-});
-
-const saved = await practice.patients.get(patient.id);
-await practice.patients.update(patient.id, { email: "alex@example.com" });
-await practice.patients.update(patient.id, { status: "archived" });
-```
-
-The SDK maps `archived` to the API’s `inactive` status. Returned records use `inactive`.
-
-Archive patients whose records you need to retain. Permanent deletion is available only for patients without order history. No explicit idempotency key is needed.
-
-```typescript
-await practice.patients.delete(patientId);
-```
-
-## Create an order draft
-
-`draft` is your application's prepared prescription data, using catalog and prescribing options from this practice.
-An order contains 1–20 complete prescriptions for one patient. This example creates an unsigned draft.
-It shows a platform call without a scoped client: practice context and the persisted key belong together in request options.
-
-`job` is your persisted workflow record. Generate and save a unique key for each action before making its first request.
-
-```typescript
-const order = await api.orders.create(
-  { patientId, prescriptions: draft.prescriptions },
-  { practiceId, idempotencyKey: job.createOrderKey },
+const practice = await api.practices.create(
+  { name: "Synthetic SDK Practice" },
+  { idempotencyKey: "persisted-test-practice-operation" },
 );
+const saved = await api.practices.get(practice.id);
+await api.practices.update(saved.id, { phone: "+12025550199" });
+const practices = await api.practices.list({ limit: "20", query: "Synthetic" });
 ```
 
-## Sign and submit
+Creation requires only `name` in the body. Optional fields are `address`, `phone`, and `liveEnabled`. Authorization still limits the practices the key can access. A practice response has `liveEnabled`; the account response carries `mode`.
 
-`review` is your saved clinician review and signing consent for this exact order.
-Store the reviewed revision, authorized prescriber ID, and explicit attestation together.
-Your API key needs `orders:sign`. Never infer consent or automatically replace a stale revision.
+## Send a reviewed order
+
+Patient details go in `patient` on the order. There is no public patient create, get, or update method. The `Patient` type alias describes this order input. An existing patient ID or external ID may be supplied within that input, alongside the required demographics and allergy information.
 
 ```typescript
-await practice.orders.sign(
-  orderId,
-  {
-    prescriber: { id: review.prescriberId },
-    expectedRevision: review.orderRevision,
-    signatureAttestation: review.signatureAttestation,
+const input: OrderCreateParams = {
+  practiceId: "prac_01j2y8m6jcc9tt24af5pw9x1bc",
+  externalOrderId: "synthetic-emr-order-001",
+  patient: {
+    firstName: "Synthetic",
+    lastName: "Patient",
+    dateOfBirth: "1990-01-01",
+    gender: "unknown",
+    email: "patient@example.test",
+    phone: "+12025550199",
+    address: { line1: "100 Test St", city: "Austin", state: "TX", postalCode: "78701" },
+    // Empty only after an explicit review confirms no known allergies.
+    allergies: [],
   },
-  { idempotencyKey: job.signOrderKey },
-);
-
-const submission = await practice.orders.submit(orderId, {
-  idempotencyKey: job.submitOrderKey,
-});
+  prescriber: { firstName: "Synthetic", lastName: "Prescriber", npi: "1234567893" },
+  prescriptions: [
+    {
+      medicationId: "med_01j2y8m6jcc9tt24af5pw9x1bc",
+      directions: "Use as directed in this synthetic Test scenario.",
+      quantity: 1,
+      refills: 0,
+    },
+  ],
+  shippingOptionId: "shp_01j2y8m6jcc9tt24af5pw9x1bc",
+  signatureAttestation: true,
+};
+// Load the exact clinician-approved input and key from your durable review record.
+const order = await api.orders.create(input, { idempotencyKey: "persisted-test-order-operation" });
+const current = await api.orders.get(order.id);
 ```
 
-Use separate keys for creating, signing, and submitting. After an uncertain response, retry the same action with the same key and unchanged data.
-A revision conflict requires renewed clinician review before another signing attempt.
+Replace the illustrative practice, medication, and shipping IDs with authorized Test records. The integration supplies the prescriber's NPI and name when identifying the signer. The schema allows `prescriber` to be omitted; follow the account's documented identity requirements. The request contains 1–20 complete prescriptions for one patient and one practice. Creating an order signs and submits it in one request. There are no public preview, draft, sign, or submit methods.
 
-Submission means queued, not accepted by the pharmacy. Inspect the result and track order events or webhooks.
-After a reported partial submission failure, retry only the unconfirmed send with a new submission key.
+Store the body and idempotency key before the first write. Retry an uncertain result with the same body and key. Do not use a new key to bypass an error or repeat a clinical action. Practice creation and failed-webhook resend also require keys. Keep keys unique per operation, 1–255 printable ASCII characters.
 
-## Read more than one page
-
-The list method returns one page. Pass the last record's ID to request the next page.
-The iterator fetches pages as you consume records; it does not load the full collection into memory.
-`syncPatient` or its language equivalent represents your application's record handler.
+## List and cancel orders
 
 ```typescript
-const page = await practice.patients.list({ limit: 20 });
-if (page.hasMore && page.data.length > 0) {
-  const next = await practice.patients.list({
-    limit: 20,
-    startingAfter: page.data.at(-1)!.id,
+const orders = await api.orders.list({
+  practiceId: input.practiceId,
+  status: "submitted",
+  limit: "20",
+});
+const cancellation = await api.orders.cancel(order.id);
+```
+
+Cancellation has no request body and requires no idempotency key. A cancellation request may be pending; inspect the returned `status` and `cancelRequestedAt`, then retrieve the current order as needed. Submission acknowledgement does not mean a pharmacy has accepted or dispensed the prescription.
+
+## Paginate
+
+```typescript
+let page = await api.medications.list({ limit: "20", query: "semaglutide" });
+while (page.hasMore && page.nextCursor) {
+  page = await api.medications.list({
+    limit: "20",
+    query: "semaglutide",
+    startingAfter: page.nextCursor,
   });
 }
-
-for await (const patient of practice.patients.iterate({ limit: 100 })) {
-  await syncPatient(patient);
-}
 ```
+
+List responses contain `data`, `hasMore`, and nullable `nextCursor`, along with `object` and `url`. Pass `nextCursor` unchanged as `startingAfter`; it is opaque and may differ from the final record ID. Keep filters, sort, organization, and mode unchanged between pages. Restart pagination after changing them. Limits are strings in the generated request types, matching the OpenAPI query schemas. Orders, practices, and webhooks also support `endingBefore`; send only one cursor parameter.
 
 ## Handle errors
 
-API failures expose status, code, request ID, retryability, and an optional retry delay in seconds.
-Log those fields without logging patient data or credentials. Transport failures remain distinguishable from API responses.
-
 ```typescript
 try {
-  await practice.patients.get(patientId);
+  await api.orders.get("ord_01j2y8m6jcc9tt24af5pw9x1bc");
 } catch (error) {
   if (!(error instanceof AffinityError)) throw error;
   console.error({
-    status: error.status,
+    status: error.statusCode,
     code: error.code,
     requestId: error.requestId,
     retryable: error.retryable,
-    retryAfter: error.retryAfter,
   });
 }
 ```
 
-Retryability is a transport hint, not permission to repeat a clinical action with a new key.
-Keep the same key and body for an uncertain write. Validation and authorization errors require a corrected request.
-See [API errors](https://docs.joinaffinityai.com/errors/) for recovery guidance.
+Log error metadata without credentials, patient data, or clinical request bodies. Retryability is a transport hint. Validation and authorization failures require a corrected request or authorization; ambiguous writes need the original key and input.
 
-## Platform directory and webhooks
-
-Use the root platform client to list its practices and webhook endpoints. These calls do not need a target practice or an idempotency key.
-The webhook list belongs to the platform itself. Access to another organization's endpoints still requires an explicit grant.
+## Webhooks and feedback
 
 ```typescript
-const practices = await api.practices.list({ limit: 20 });
-const selected = await api.practices.get(practiceId);
-const endpoints = await api.webhooks.endpoints.list({ limit: 20 });
+const endpoints = await api.webhooks.list({ limit: "20" });
+const endpoint = await api.webhooks.create({
+  url: "https://integration.example.test/affinity-webhook",
+});
+await api.webhooks.update(endpoint.id, {
+  url: "https://integration.example.test/webhooks/affinity",
+});
+await api.webhooks.resendFailed(endpoint.id, { idempotencyKey: "persisted-test-resend-operation" });
+await api.webhooks.remove(endpoint.id);
+await api.feedback.create({ message: "Synthetic Test integration feedback." });
 ```
 
-## More resources
-
-Use the same conventions for addresses, allergies, locations, team members, and nested order resources.
-[API reference](https://docs.joinaffinityai.com/api/) · [Webhooks](https://docs.joinaffinityai.com/guides/webhooks/)
+Use a reachable HTTPS receiver in your own Test integration. Keep the endpoint signing secret on the server. Verify the exact raw body and `affinity-signature` header with `verifyAffinityWebhook` before parsing or processing an event. Configure each receiver with the signing secret for its organization and Test/Live endpoint. Current MVP events have no organization or mode field. Durably deduplicate by event ID and acknowledge only after storing the work. Retrieve the current order when processing queued events so an out-of-order delivery cannot regress your local state. See [the EMR helper](../examples/emr-order.ts).
