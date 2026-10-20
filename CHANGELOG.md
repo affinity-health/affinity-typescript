@@ -7,6 +7,11 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 
 ## [Unreleased]
 
+### Fixed
+
+- Reject invalid webhook verification clocks instead of bypassing the replay window.
+- Parse webhook events from the signed byte snapshot when callers mutate binary inputs during verification.
+
 ## [1.16.0] - 2026-10-07
 
 ### Added

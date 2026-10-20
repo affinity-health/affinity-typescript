@@ -160,6 +160,12 @@ export async function verifyAffinityWebhook(input: {
     );
   }
   const now = Math.floor((input.now ?? new Date()).getTime() / 1_000);
+  if (!Number.isSafeInteger(now)) {
+    throw new AffinityWebhookVerificationError(
+      "invalid_timestamp",
+      "Webhook verification clock is invalid",
+    );
+  }
   if (Math.abs(now - signature.timestamp) > toleranceSeconds) {
     throw new AffinityWebhookVerificationError(
       "timestamp_outside_tolerance",
@@ -323,8 +329,13 @@ function parseOrderObject(value: unknown, previousAttributes: boolean) {
   if (object.metadata !== undefined) {
     const metadata = requireRecord(object.metadata, "metadata");
     for (const value of Object.values(metadata)) {
-      if (value !== null && typeof value !== "string" && typeof value !== "boolean" &&
-          !(typeof value === "number" && Number.isFinite(value))) throw new Error("metadata is invalid");
+      if (
+        value !== null &&
+        typeof value !== "string" &&
+        typeof value !== "boolean" &&
+        !(typeof value === "number" && Number.isFinite(value))
+      )
+        throw new Error("metadata is invalid");
     }
   }
   if (object.prescriptions !== undefined) {
@@ -339,7 +350,8 @@ function parseOrderObject(value: unknown, previousAttributes: boolean) {
   if (object.fulfillments !== undefined && !Array.isArray(object.fulfillments))
     throw new Error("fulfillments is invalid");
   if (object.review !== undefined && object.review !== null) requireRecord(object.review, "review");
-  for (const key of ["review_status", "tracking_status", "tracking_url"]) requireOptionalNullableString(object, key);
+  for (const key of ["review_status", "tracking_status", "tracking_url"])
+    requireOptionalNullableString(object, key);
   requireOptionalNullableString(object, "external_order_id");
   if (object.practice_id !== undefined && object.practice_id !== null) {
     requirePublicId(object.practice_id, "prac");
@@ -348,7 +360,8 @@ function parseOrderObject(value: unknown, previousAttributes: boolean) {
   if (
     object.status !== undefined &&
     (typeof object.status !== "string" ||
-      (object.status !== "accepted" && !affinityOrderStatuses.includes(object.status as AffinityOrderStatus)))
+      (object.status !== "accepted" &&
+        !affinityOrderStatuses.includes(object.status as AffinityOrderStatus)))
   ) {
     throw new Error("order status is invalid");
   }
@@ -409,9 +422,9 @@ function requireOptionalDateTime(value: Record<string, unknown>, key: string, nu
 function webhookBodyBytes(value: ArrayBuffer | string | Uint8Array) {
   if (typeof value === "string") return encoder.encode(value);
   if (value instanceof Uint8Array) {
-    return new Uint8Array(value.buffer, value.byteOffset, value.byteLength);
+    return new Uint8Array(value);
   }
-  if (value instanceof ArrayBuffer) return new Uint8Array(value);
+  if (value instanceof ArrayBuffer) return new Uint8Array(value.slice(0));
   throw new AffinityWebhookVerificationError(
     "invalid_body",
     "Webhook body must be the exact raw request bytes",
