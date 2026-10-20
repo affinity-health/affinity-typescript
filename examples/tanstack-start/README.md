@@ -32,6 +32,6 @@ Development listens on `http://127.0.0.1:5191`. Keep it on loopback or behind an
 
 Load practices or search medications. Both flows verify `/v1/account` has `mode: "test"` and `type: "platform"` before the requested read. Pagination passes the opaque `nextCursor` without deriving it from a record ID. Medication pages keep the search query that produced the cursor.
 
-The former patient, preview, draft, signing, and Live directory workflows have been removed. Patient data is supplied through an order; see [the server-side EMR helper](../emr-order.ts) for a single reviewed `orders.create` call. It creates, signs, and submits together and requires a persisted idempotency key. Examples must use synthetic Test data.
+The former patient, preview, draft, signing, and Live directory workflows have been removed. Patient data is supplied through an order; see [the server-side EMR helper](../emr-order.ts) for a single reviewed `orders.create` call. It creates, signs, and submits together and uses a persisted idempotency key so the application can safely retry across separate calls. Examples must use synthetic Test data.
 
 The optional hosted smoke command requires an explicit `AFFINITY_EXAMPLE_URL` for your private Test deployment. It checks authentication and read-only directory results. It does not deploy anything.

@@ -113,9 +113,7 @@ for (const [path, verbs] of Object.entries(spec.paths))
     methods[op.operationId] = `${group}.${method}`;
     const args = ids.map((id: string) => `${id}: string`);
     if (params) args.push(`params: ${paramsName}${required ? "" : " = {}"}`);
-    args.push(
-      `options: ${idempotency ? "RequiredKeyOptions" : "SDKRequestOptions"}${idempotency ? "" : " = {}"}`,
-    );
+    args.push("options: SDKRequestOptions = {}");
     const invocation = `operations[${JSON.stringify(op.operationId)}], [${ids.join(",")}], ${params ? "params" : "{}"}, options`;
     (groups[group] ??= []).push(
       `${method}(${args.join(",")}): Promise<${responseName}> {return this.context.call(${invocation});}`,

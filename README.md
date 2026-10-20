@@ -9,7 +9,7 @@ This checkout targets API version `2026-10-20` and sends it in `Affinity-Version
 bun add @affinity-health/sdk@next
 ```
 
-Pin this release with `bun add @affinity-health/sdk@2.0.0-beta.1`. The beta targets the staging-only MVP API. Production still serves the previous API; use stable `1.16.0` for production until the MVP cutover.
+Pin this release with `bun add @affinity-health/sdk@2.0.0-beta.3`. The beta targets the staging-only MVP API. Production still serves the previous API; use stable `1.16.0` for production until the MVP cutover.
 
 ## Use
 
@@ -30,7 +30,7 @@ console.log(`Found ${medications.data.length} medications`);
 
 The key determines the organization and Test or Live mode. Supply `practiceId` in order creation or order-list filters where required. Patient details are supplied through the order; the current public contract has no patient resource.
 
-Read the [SDK guide](docs/guide.md) for practices, reviewed order creation, pagination, errors, and webhooks. Order creation signs and submits in one request. Order creation, practice creation, and failed-webhook resends require a persisted `idempotencyKey` in request options. Cancellation does not require one.
+Read the [SDK guide](docs/guide.md) for practices, reviewed order creation, pagination, errors, and webhooks. Order creation signs and submits in one request. The SDK generates a random `Idempotency-Key` for each call that requires one and reuses it for automatic retries. Pass a persisted `idempotencyKey` in request options to retry the same operation across separate calls.
 
 ## Migrate to the MVP contract
 

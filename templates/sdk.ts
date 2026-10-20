@@ -11,9 +11,11 @@ export interface SDKOptions {
   apiVersion?: string;
 }
 export interface SDKRequestOptions {
+  /** Override the per-call random key. Persist your own key to retry across separate calls. */
   idempotencyKey?: string;
   signal?: AbortSignal;
 }
+/** Options for callers that persist a key across separate calls. */
 export type RequiredKeyOptions = SDKRequestOptions & { idempotencyKey: string };
 type Operation = {
   path: string;
@@ -87,11 +89,10 @@ class SDKContext {
     options: SDKRequestOptions = {},
   ): Promise<any> {
     options.signal?.throwIfAborted();
-    const key = options.idempotencyKey;
+    const key =
+      options.idempotencyKey ?? (op.idempotency ? globalThis.crypto.randomUUID() : undefined);
     if (key !== undefined && !/^[\x21-\x7e]{1,255}$/.test(key))
       throw new Error("idempotencyKey must contain 1 to 255 printable ASCII characters");
-    if (op.idempotency && !key)
-      throw new Error("A persisted idempotencyKey is required for this operation");
     if (!op.idempotency && key) throw new Error("This endpoint does not support idempotency keys");
     let path = op.path;
     if (ids.length !== op.ids.length) throw new Error("Missing resource ID");

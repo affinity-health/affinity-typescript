@@ -75,7 +75,7 @@ const current = await api.orders.get(order.id);
 
 Replace the illustrative practice, medication, and shipping IDs with authorized Test records. The integration supplies the prescriber's NPI and name when identifying the signer. The schema allows `prescriber` to be omitted; follow the account's documented identity requirements. The request contains 1–20 complete prescriptions for one patient and one practice. Creating an order signs and submits it in one request. There are no public preview, draft, sign, or submit methods.
 
-Store the body and idempotency key before the first write. Retry an uncertain result with the same body and key. Do not use a new key to bypass an error or repeat a clinical action. Practice creation and failed-webhook resend also require keys. Keep keys unique per operation, 1–255 printable ASCII characters.
+Store the body and idempotency key before the first write. Retry an uncertain result with the same body and key. Do not use a new key to bypass an error or repeat a clinical action. The SDK generates a random key when omitted on any operation that requires `Idempotency-Key`, including order creation and cancellation, practice creation and updates, webhook endpoint creation and updates, failed-webhook resend, and feedback. Automatic retries reuse that key; a separate call generates a new one. Pass your persisted `idempotencyKey` to reuse a key across calls or process restarts. Keep caller keys unique per operation, 1–255 printable ASCII characters.
 
 ## List and cancel orders
 
@@ -88,7 +88,7 @@ const orders = await api.orders.list({
 const cancellation = await api.orders.cancel(order.id);
 ```
 
-Cancellation has no request body and requires no idempotency key. A cancellation request may be pending; inspect the returned `status` and `cancelRequestedAt`, then retrieve the current order as needed. Submission acknowledgement does not mean a pharmacy has accepted or dispensed the prescription.
+Cancellation has no request body. The SDK supplies its required idempotency header automatically. To retry across separate calls, pass a persisted key as `api.orders.cancel(order.id, { idempotencyKey: "persisted-test-cancellation" })`. A cancellation request may be pending; inspect the returned `status` and `cancelRequestedAt`, then retrieve the current order as needed. Submission acknowledgement does not mean a pharmacy has accepted or dispensed the prescription.
 
 ## Paginate
 

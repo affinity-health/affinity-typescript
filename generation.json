@@ -1,6 +1,6 @@
 {
   "contractVersion": "2026-10-20",
-  "contractSha256": "59cf4d78a12807f04743aa6ca10306ffd78277a4801531f320e380f7dfb188e8",
+  "contractSha256": "2a89a1ce65fecbe6d6b8d90fdf4a73ca7f5041610ecbaa26f94a88a16bbb7e8e",
   "language": "typescript",
   "generator": "scripts/generate-facade.ts",
   "operations": {

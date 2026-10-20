@@ -38,9 +38,7 @@ test("order creation sends the flat MVP body and caller-owned idempotency key wi
   expect(calls).toHaveLength(1);
   expect(JSON.parse(String(calls[0].body))).toEqual(order);
   expect(new Headers(calls[0].headers).get("Idempotency-Key")).toBe("job-1");
-  expect(new Headers(calls[0].headers).get("User-Agent")).toBe("affinity-typescript/2.0.0-beta.2");
-  await expect(api.orders.create(order, {} as any)).rejects.toThrow("persisted idempotencyKey");
-  expect(calls).toHaveLength(1);
+  expect(new Headers(calls[0].headers).get("User-Agent")).toBe("affinity-typescript/2.0.0-beta.3");
 });
 test("safe retries preserve the order body and persisted key", async () => {
   const calls: RequestInit[] = [];
@@ -57,17 +55,70 @@ test("safe retries preserve the order body and persisted key", async () => {
   expect(calls[0].body).toBe(calls[1].body);
   expect(new Headers(calls[1].headers).get("Idempotency-Key")).toBe("same-job");
 });
-test("unkeyed cancel is never retried", async () => {
-  let calls = 0;
+for (const [name, path, invoke] of [
+  [
+    "cancel order",
+    "/v1/orders/ord_test/cancel",
+    (api: Affinity, options?: { idempotencyKey: string }) => api.orders.cancel("ord_test", options),
+  ],
+  [
+    "create webhook endpoint",
+    "/v1/webhook-endpoints",
+    (api: Affinity, options?: { idempotencyKey: string }) =>
+      api.webhooks.create({ url: "https://example.test/webhook" }, options),
+  ],
+  [
+    "create order",
+    "/v1/orders",
+    (api: Affinity, options?: { idempotencyKey: string }) => api.orders.create(order, options),
+  ],
+] as const) {
+  test(`${name} generates a per-call key, preserves it on retries, and accepts caller keys`, async () => {
+    const calls: { path: string; key: string | null; body: unknown }[] = [];
+    const api = new Affinity("test", {
+      maxNetworkRetries: 1,
+      fetch: (async (url, init) => {
+        calls.push({
+          path: new URL(String(url)).pathname,
+          key: new Headers(init?.headers).get("Idempotency-Key"),
+          body: init?.body,
+        });
+        // Fail the first attempt of every call, exercising the real retry transport.
+        if (calls.length % 2 === 1) return Response.json({}, { status: 503 });
+        return Response.json({ id: "synthetic" });
+      }) as typeof fetch,
+    });
+    await invoke(api);
+    await invoke(api);
+    await invoke(api, { idempotencyKey: "caller-key/unchanged:123" });
+    expect(calls).toHaveLength(6);
+    expect(calls.map((call) => call.path)).toEqual(Array(6).fill(path));
+    expect(calls[0].key).toMatch(
+      /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/,
+    );
+    expect(calls[1]).toEqual(calls[0]);
+    expect(calls[2].key).toBeTruthy();
+    expect(calls[2].key).not.toBe(calls[0].key);
+    expect(calls[3]).toEqual(calls[2]);
+    expect(calls[4].key).toBe("caller-key/unchanged:123");
+    expect(calls[5]).toEqual(calls[4]);
+  });
+}
+
+test("invalid caller keys fail locally and reads stay unkeyed", async () => {
+  const keys: (string | null)[] = [];
   const api = new Affinity("test", {
-    maxNetworkRetries: 1,
-    fetch: (async () => {
-      calls++;
-      throw new TypeError("offline");
+    fetch: (async (_url, init) => {
+      keys.push(new Headers(init?.headers).get("Idempotency-Key"));
+      return Response.json({});
     }) as typeof fetch,
   });
-  await expect(api.orders.cancel("ord_test")).rejects.toBeInstanceOf(AffinityConnectionError);
-  expect(calls).toBe(1);
+  for (const key of ["", "has space", "x".repeat(256)])
+    await expect(api.orders.cancel("ord_test", { idempotencyKey: key })).rejects.toThrow(
+      "printable ASCII",
+    );
+  await api.orders.get("ord_test");
+  expect(keys).toEqual([null]);
 });
 test("network failures and timeouts are typed, while caller cancellation stays intact", async () => {
   const failure = new TypeError("offline");
