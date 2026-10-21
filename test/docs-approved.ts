@@ -10,7 +10,7 @@ async function guideExamples() {
 
   const page = await api.medications.list({ limit: "20", query: "lidocaine" });
   const medication = page.data[0] ? await api.medications.get(page.data[0].id) : undefined;
-  if (!medication) throw new Error("No Test Lidocaine medication found");
+  if (!medication) throw new Error("No Lidocaine medication found in Test mode");
   const shippingOptionId = medication.shippingOptions[0]?.id;
   if (!shippingOptionId) throw new Error("Medication has no shipping options");
 

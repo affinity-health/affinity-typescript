@@ -10,13 +10,14 @@ import { Affinity, AffinityError, type Patient, type OrderCreateParams, type Med
 const api = new Affinity("synthetic-test-key");
 declare const input: OrderCreateParams;
 const patient: Patient = input.patient;
-const params: MedicationListParams = {limit:"20",query:"synthetic"};
+const params: MedicationListParams = {limit:"20",names:["Test Lidocaine", "Test Cream"]};
+const practiceInput = {name:"Synthetic Test Practice",phone:"+12025550199",address:{line1:"200 Example Ave",city:"Austin",state:"TX",postalCode:"78701"}};
 async function workflow() {
  const account = await api.account.get();
  const page = await api.medications.list(params);
  const medication: Medication = await api.medications.get(page.data[0]!.id);
  const exact: MedicationGetResponse = medication;
- const practice = await api.practices.create({name:"Synthetic Test Practice"},{idempotencyKey:"persisted-practice"});
+ const practice = await api.practices.create(practiceInput,{idempotencyKey:"persisted-practice"});
  await api.practices.list({limit:"20"});
  await api.practices.get(practice.id);
  await api.practices.update(practice.id,{phone:null});
@@ -34,8 +35,13 @@ async function workflow() {
 }
 // Required headers are generated when request options are omitted.
 void api.orders.create(input);
-void api.practices.create({name:"Synthetic Test Practice"});
+void api.practices.create(practiceInput);
 void api.webhooks.resendFailed("whe_example");
+// @ts-expect-error Practice creation requires address and phone.
+void api.practices.create({name:"Synthetic Test Practice"});
+const {practiceId, ...practiceOrder} = input;
+void api.orders.create({...practiceOrder,prescriber:{firstName:"Synthetic",lastName:"Prescriber",npi:"1234567893",phone:"+12025550199",address:practiceInput.address}});
+void api.orders.list({cancelRequested:"true"});
 // @ts-expect-error There is no standalone patient resource.
 void api.patients;
 // @ts-expect-error The catalog resource is retired.

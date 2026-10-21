@@ -3,7 +3,7 @@
 import { createTransport } from "./transport";
 import { affinityConnectionError, affinityErrorFromResponse } from "./errors";
 
-const sdkVersion = "2.0.0-beta.4";
+const sdkVersion = "2.0.0-beta.5";
 
 export interface SDKOptions {
   baseUrl?: string;
@@ -167,7 +167,7 @@ const operations = {
     path: "/v1/medications",
     verb: "GET",
     ids: [],
-    query: ["limit", "startingAfter", "name", "pharmacyId", "query"],
+    query: ["limit", "startingAfter", "name", "names", "pharmacyId", "query"],
     body: false,
     idempotency: false,
   },
@@ -199,6 +199,7 @@ const operations = {
       "practiceId",
       "query",
       "status",
+      "cancelRequested",
       "sort",
     ],
     body: false,
@@ -310,7 +311,11 @@ export type AccountGetResponse = {
   type: "platform" | "practice" | "pharmacy";
 };
 export type FeedbackCreateResponse = { id: string };
-export type FeedbackCreateParams = { message: string; pageUrl?: string; requestId?: string };
+export type FeedbackCreateParams = {
+  message: string;
+  pageUrl?: string;
+  requestId?: string | string;
+};
 export type MedicationListResponse = {
   data: Array<{
     coldChain: { price: number & unknown } | null;
@@ -339,6 +344,7 @@ export type MedicationListParams = {
   limit?: string | null;
   startingAfter?: string | null;
   name?: string;
+  names?: Array<string>;
   pharmacyId?: string;
   query?: string;
 };
@@ -389,8 +395,31 @@ export type OrderCreateResponse = {
   };
   patientId: string;
   pharmacy: { id: string; name: string };
+  practice: {
+    address: {
+      line1: string;
+      line2: string | null;
+      city: string;
+      state: string;
+      postalCode: string;
+    };
+    name: string;
+    phone: string;
+  } | null;
   practiceId: string;
-  prescriber: { firstName: string; lastName: string; npi: string } | null;
+  prescriber: {
+    firstName: string;
+    lastName: string;
+    npi: string;
+    phone?: string | null;
+    address?: {
+      line1: string;
+      line2: string | null;
+      city: string;
+      state: string;
+      postalCode: string;
+    } | null;
+  } | null;
   prescriptions: Array<{
     compoundingReason: string | null;
     directions: string;
@@ -442,9 +471,22 @@ export type OrderCreateParams = {
     phone: string;
     externalId?: string | null;
     id?: string;
+    updatedAt?: string;
   };
-  practiceId: string;
-  prescriber?: { firstName: string; lastName: string; npi: string };
+  practiceId?: string;
+  prescriber?: {
+    phone?: string;
+    address?: {
+      line1: string;
+      line2?: string | null;
+      city: string;
+      state: string;
+      postalCode: string;
+    };
+    firstName: string;
+    lastName: string;
+    npi: string;
+  };
   prescriptions: Array<{
     compoundingReason?: string | null;
     directions: string;
@@ -487,8 +529,31 @@ export type OrderListResponse = {
     };
     patientId: string;
     pharmacy: { id: string; name: string };
+    practice: {
+      address: {
+        line1: string;
+        line2: string | null;
+        city: string;
+        state: string;
+        postalCode: string;
+      };
+      name: string;
+      phone: string;
+    } | null;
     practiceId: string;
-    prescriber: { firstName: string; lastName: string; npi: string } | null;
+    prescriber: {
+      firstName: string;
+      lastName: string;
+      npi: string;
+      phone?: string | null;
+      address?: {
+        line1: string;
+        line2: string | null;
+        city: string;
+        state: string;
+        postalCode: string;
+      } | null;
+    } | null;
     prescriptions: Array<{
       compoundingReason: string | null;
       directions: string;
@@ -541,6 +606,7 @@ export type OrderListParams = {
   practiceId?: string;
   query?: string;
   status?: "draft" | "submitted" | "processing" | "shipped" | "delivered" | "cancelled" | "failed";
+  cancelRequested?: "true" | "false";
   sort?: "patient" | "-patient" | "created" | "-created";
 };
 export type OrderGetResponse = {
@@ -572,8 +638,31 @@ export type OrderGetResponse = {
   };
   patientId: string;
   pharmacy: { id: string; name: string };
+  practice: {
+    address: {
+      line1: string;
+      line2: string | null;
+      city: string;
+      state: string;
+      postalCode: string;
+    };
+    name: string;
+    phone: string;
+  } | null;
   practiceId: string;
-  prescriber: { firstName: string; lastName: string; npi: string } | null;
+  prescriber: {
+    firstName: string;
+    lastName: string;
+    npi: string;
+    phone?: string | null;
+    address?: {
+      line1: string;
+      line2: string | null;
+      city: string;
+      state: string;
+      postalCode: string;
+    } | null;
+  } | null;
   prescriptions: Array<{
     compoundingReason: string | null;
     directions: string;
@@ -631,8 +720,31 @@ export type OrderCancelResponse = {
   };
   patientId: string;
   pharmacy: { id: string; name: string };
+  practice: {
+    address: {
+      line1: string;
+      line2: string | null;
+      city: string;
+      state: string;
+      postalCode: string;
+    };
+    name: string;
+    phone: string;
+  } | null;
   practiceId: string;
-  prescriber: { firstName: string; lastName: string; npi: string } | null;
+  prescriber: {
+    firstName: string;
+    lastName: string;
+    npi: string;
+    phone?: string | null;
+    address?: {
+      line1: string;
+      line2: string | null;
+      city: string;
+      state: string;
+      postalCode: string;
+    } | null;
+  } | null;
   prescriptions: Array<{
     compoundingReason: string | null;
     directions: string;
@@ -676,16 +788,16 @@ export type PracticeCreateResponse = {
   createdAt: string;
 };
 export type PracticeCreateParams = {
-  address?: {
+  address: {
     line1: string;
-    line2: string | null;
+    line2?: string | null;
     city: string;
     state: string;
     postalCode: string;
-  } | null;
+  };
   liveEnabled?: boolean;
   name: string;
-  phone?: string | null;
+  phone: string;
 };
 export type PracticeListResponse = {
   data: Array<{

@@ -71,15 +71,12 @@
                           "type": "object",
                           "properties": {
                             "line1": {
-                              "type": "string",
-                              "minLength": 1,
-                              "maxLength": 200
+                              "type": "string"
                             },
                             "line2": {
                               "anyOf": [
                                 {
-                                  "type": "string",
-                                  "maxLength": 200
+                                  "type": "string"
                                 },
                                 {
                                   "type": "null"
@@ -87,16 +84,13 @@
                               ]
                             },
                             "city": {
-                              "type": "string",
-                              "minLength": 1,
-                              "maxLength": 100
+                              "type": "string"
                             },
                             "state": {
                               "type": "string"
                             },
                             "postalCode": {
-                              "type": "string",
-                              "pattern": "^\\d{5}(-\\d{4})?$"
+                              "type": "string"
                             }
                           },
                           "required": [
@@ -1093,11 +1087,21 @@
                     "maxLength": 2000
                   },
                   "requestId": {
-                    "type": "string",
-                    "pattern": "^req_[0-7][0-9a-hjkmnp-tv-z]{25}$",
-                    "examples": [
-                      "req_01j2y8m6jcc9tt24af5pw9x1bc"
-                    ]
+                    "anyOf": [
+                      {
+                        "type": "string",
+                        "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|[fF]{8}-[fF]{4}-[fF]{4}-[fF]{4}-[fF]{12})$",
+                        "format": "uuid"
+                      },
+                      {
+                        "type": "string",
+                        "pattern": "^req_[0-7][0-9a-hjkmnp-tv-z]{25}$",
+                        "examples": [
+                          "req_01j2y8m6jcc9tt24af5pw9x1bc"
+                        ]
+                      }
+                    ],
+                    "description": "The `requestId` of the response, as the API returned it."
                   }
                 },
                 "required": [
@@ -1108,7 +1112,7 @@
                   {
                     "message": "The error does not explain which field is invalid.",
                     "pageUrl": "https://docs.affinityrx.com/guides/errors",
-                    "requestId": "req_01j2y8m6jcc9tt24af5pw9x1bc"
+                    "requestId": "6e562761-eff3-4626-a8b9-25ce7c670ccd"
                   }
                 ]
               }
@@ -1187,18 +1191,35 @@
             "description": "Match the medication name exactly, ignoring case. Use this to list its strengths, forms and pharmacies."
           },
           {
+            "name": "names",
+            "in": "query",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 200
+              },
+              "description": "Match any of up to 25 exact product names, ignoring case. Repeat the names query parameter. Page through all results for complete strengths and prices.",
+              "minItems": 1,
+              "maxItems": 25
+            },
+            "required": false,
+            "description": "Match any of up to 25 exact product names, ignoring case. Repeat the names query parameter. Page through all results for complete strengths and prices."
+          },
+          {
             "name": "pharmacyId",
             "in": "query",
             "schema": {
               "type": "string",
-              "pattern": "^(plat|prac|pharm)_[0-7][0-9a-hjkmnp-tv-z]{25}$",
-              "description": "Limit results to the pharmacy with this pharm_ ID. Combine with query or name.",
+              "pattern": "^pharm_[0-7][0-9a-hjkmnp-tv-z]{25}$",
+              "description": "Limit results to the pharmacy with this pharm_ ID. Combine with query, name or names.",
               "examples": [
                 "pharm_01j2y8m6jcc9tt24af5pw9x1bc"
               ]
             },
             "required": false,
-            "description": "Limit results to the pharmacy with this pharm_ ID. Combine with query or name."
+            "description": "Limit results to the pharmacy with this pharm_ ID. Combine with query, name or names."
           },
           {
             "name": "query",
@@ -1206,10 +1227,10 @@
             "schema": {
               "type": "string",
               "maxLength": 120,
-              "description": "Search names, brands, forms, routes, strengths or pharmacy product codes, ranked by relevance. With name, match medication or pharmacy text instead. Restart pagination when filters change."
+              "description": "Search names, brands, forms, routes, strengths or pharmacy product codes, ranked by relevance. With name or names, match medication or pharmacy text instead. Restart pagination when filters change."
             },
             "required": false,
-            "description": "Search names, brands, forms, routes, strengths or pharmacy product codes, ranked by relevance. With name, match medication or pharmacy text instead. Restart pagination when filters change."
+            "description": "Search names, brands, forms, routes, strengths or pharmacy product codes, ranked by relevance. With name or names, match medication or pharmacy text instead. Restart pagination when filters change."
           },
           {
             "description": "The dated API version this request is written against.",
@@ -1316,7 +1337,7 @@
                             "properties": {
                               "id": {
                                 "type": "string",
-                                "pattern": "^(plat|prac|pharm)_[0-7][0-9a-hjkmnp-tv-z]{25}$",
+                                "pattern": "^pharm_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                                 "examples": [
                                   "pharm_01j2y8m6jcc9tt24af5pw9x1bc"
                                 ]
@@ -2205,7 +2226,7 @@
                       "properties": {
                         "id": {
                           "type": "string",
-                          "pattern": "^(plat|prac|pharm)_[0-7][0-9a-hjkmnp-tv-z]{25}$",
+                          "pattern": "^pharm_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                           "examples": [
                             "pharm_01j2y8m6jcc9tt24af5pw9x1bc"
                           ]
@@ -3023,15 +3044,12 @@
                           "type": "object",
                           "properties": {
                             "line1": {
-                              "type": "string",
-                              "minLength": 1,
-                              "maxLength": 200
+                              "type": "string"
                             },
                             "line2": {
                               "anyOf": [
                                 {
-                                  "type": "string",
-                                  "maxLength": 200
+                                  "type": "string"
                                 },
                                 {
                                   "type": "null"
@@ -3039,16 +3057,13 @@
                               ]
                             },
                             "city": {
-                              "type": "string",
-                              "minLength": 1,
-                              "maxLength": 100
+                              "type": "string"
                             },
                             "state": {
                               "type": "string"
                             },
                             "postalCode": {
-                              "type": "string",
-                              "pattern": "^\\d{5}(-\\d{4})?$"
+                              "type": "string"
                             }
                           },
                           "required": [
@@ -3078,10 +3093,7 @@
                                 ]
                               },
                               "display": {
-                                "type": "string",
-                                "minLength": 1,
-                                "maxLength": 200,
-                                "pattern": "^\\S[^\\r\\n]*$"
+                                "type": "string"
                               }
                             },
                             "required": [
@@ -3089,16 +3101,13 @@
                               "display"
                             ],
                             "additionalProperties": false
-                          },
-                          "maxItems": 50
+                          }
                         },
                         "dateOfBirth": {
                           "type": "string"
                         },
                         "email": {
-                          "type": "string",
-                          "maxLength": 254,
-                          "pattern": "^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$"
+                          "type": "string"
                         },
                         "firstName": {
                           "type": "string"
@@ -3125,8 +3134,7 @@
                           ]
                         },
                         "phone": {
-                          "type": "string",
-                          "pattern": "^\\+1\\d{10}$"
+                          "type": "string"
                         }
                       },
                       "required": [
@@ -3154,7 +3162,7 @@
                       "properties": {
                         "id": {
                           "type": "string",
-                          "pattern": "^(plat|prac|pharm)_[0-7][0-9a-hjkmnp-tv-z]{25}$",
+                          "pattern": "^pharm_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                           "examples": [
                             "pharm_01j2y8m6jcc9tt24af5pw9x1bc"
                           ]
@@ -3169,9 +3177,68 @@
                       ],
                       "additionalProperties": false
                     },
+                    "practice": {
+                      "anyOf": [
+                        {
+                          "type": "object",
+                          "properties": {
+                            "address": {
+                              "type": "object",
+                              "properties": {
+                                "line1": {
+                                  "type": "string"
+                                },
+                                "line2": {
+                                  "anyOf": [
+                                    {
+                                      "type": "string"
+                                    },
+                                    {
+                                      "type": "null"
+                                    }
+                                  ]
+                                },
+                                "city": {
+                                  "type": "string"
+                                },
+                                "state": {
+                                  "type": "string"
+                                },
+                                "postalCode": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "line1",
+                                "line2",
+                                "city",
+                                "state",
+                                "postalCode"
+                              ],
+                              "additionalProperties": false
+                            },
+                            "name": {
+                              "type": "string"
+                            },
+                            "phone": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "address",
+                            "name",
+                            "phone"
+                          ],
+                          "additionalProperties": false
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ]
+                    },
                     "practiceId": {
                       "type": "string",
-                      "pattern": "^(plat|prac|pharm)_[0-7][0-9a-hjkmnp-tv-z]{25}$",
+                      "pattern": "^prac_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                       "examples": [
                         "prac_01j2y8m6jcc9tt24af5pw9x1bc"
                       ]
@@ -3189,6 +3256,58 @@
                             },
                             "npi": {
                               "type": "string"
+                            },
+                            "phone": {
+                              "anyOf": [
+                                {
+                                  "type": "string"
+                                },
+                                {
+                                  "type": "null"
+                                }
+                              ]
+                            },
+                            "address": {
+                              "anyOf": [
+                                {
+                                  "type": "object",
+                                  "properties": {
+                                    "line1": {
+                                      "type": "string"
+                                    },
+                                    "line2": {
+                                      "anyOf": [
+                                        {
+                                          "type": "string"
+                                        },
+                                        {
+                                          "type": "null"
+                                        }
+                                      ]
+                                    },
+                                    "city": {
+                                      "type": "string"
+                                    },
+                                    "state": {
+                                      "type": "string"
+                                    },
+                                    "postalCode": {
+                                      "type": "string"
+                                    }
+                                  },
+                                  "required": [
+                                    "line1",
+                                    "line2",
+                                    "city",
+                                    "state",
+                                    "postalCode"
+                                  ],
+                                  "additionalProperties": false
+                                },
+                                {
+                                  "type": "null"
+                                }
+                              ]
                             }
                           },
                           "required": [
@@ -3474,6 +3593,7 @@
                     "patient",
                     "patientId",
                     "pharmacy",
+                    "practice",
                     "practiceId",
                     "prescriber",
                     "prescriptions",
@@ -4656,6 +4776,11 @@
                         "examples": [
                           "pat_01j2y8m6jcc9tt24af5pw9x1bc"
                         ]
+                      },
+                      "updatedAt": {
+                        "type": "string",
+                        "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z$",
+                        "description": "With id: the patient's updatedAt from when you read it (milliseconds and Z, as GET /v1/patients returns it). If the patient changed since, the order is refused with 409 patient_changed, so an older copy never replaces newer details."
                       }
                     },
                     "required": [
@@ -4672,7 +4797,7 @@
                   },
                   "practiceId": {
                     "type": "string",
-                    "pattern": "^(plat|prac|pharm)_[0-7][0-9a-hjkmnp-tv-z]{25}$",
+                    "pattern": "^prac_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                     "examples": [
                       "prac_01j2y8m6jcc9tt24af5pw9x1bc"
                     ]
@@ -4680,6 +4805,51 @@
                   "prescriber": {
                     "type": "object",
                     "properties": {
+                      "phone": {
+                        "type": "string",
+                        "pattern": "^\\+1\\d{10}$"
+                      },
+                      "address": {
+                        "type": "object",
+                        "properties": {
+                          "line1": {
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 200
+                          },
+                          "line2": {
+                            "anyOf": [
+                              {
+                                "type": "string",
+                                "maxLength": 200
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          },
+                          "city": {
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 100
+                          },
+                          "state": {
+                            "type": "string",
+                            "pattern": "^(?:AL|AK|AZ|AR|CA|CO|CT|DE|DC|FL|GA|HI|ID|IL|IN|IA|KS|KY|LA|ME|MD|MA|MI|MN|MS|MO|MT|NE|NV|NH|NJ|NM|NY|NC|ND|OH|OK|OR|PA|RI|SC|SD|TN|TX|UT|VT|VA|WA|WV|WI|WY|AS|GU|MP|PR|VI|AA|AE|AP)$"
+                          },
+                          "postalCode": {
+                            "type": "string",
+                            "pattern": "^\\d{5}(-\\d{4})?$"
+                          }
+                        },
+                        "required": [
+                          "line1",
+                          "city",
+                          "state",
+                          "postalCode"
+                        ],
+                        "additionalProperties": false
+                      },
                       "firstName": {
                         "type": "string",
                         "maxLength": 60
@@ -4779,7 +4949,6 @@
                 },
                 "required": [
                   "patient",
-                  "practiceId",
                   "prescriptions",
                   "shippingOptionId",
                   "signatureAttestation"
@@ -4790,7 +4959,7 @@
           },
           "required": true
         },
-        "description": "One request creates the order, signs it and sends it to the pharmacy. With an API key, name the prescriber and send signatureAttestation. In the app, the signed-in member signs with the NPI in their settings. The patient is found by patient.externalId and updated from the order. Live orders require a default card or bank account on the payer (the platform for its practices); otherwise 409 payment_method_required is returned before creating an order.",
+        "description": "One request creates the order, signs it and sends it to the pharmacy. Platforms must send practiceId; practice callers can omit it to use their own practice. With an API key, name the prescriber and send signatureAttestation. Optional prescriber phone and address each default to the practice; no account is looked up by NPI. In the app, the signed-in member signs with the NPI in their settings. The patient is found by patient.externalId and updated from the order. Live orders require a default card or bank account on the payer (the platform for its practices); otherwise 409 payment_method_required is returned before creating an order.",
         "summary": "Create, sign and submit an order",
         "x-visibility": "public"
       },
@@ -4851,7 +5020,7 @@
             "in": "query",
             "schema": {
               "type": "string",
-              "pattern": "^(plat|prac|pharm)_[0-7][0-9a-hjkmnp-tv-z]{25}$",
+              "pattern": "^prac_[0-7][0-9a-hjkmnp-tv-z]{25}$",
               "description": "Limit results to the practice with this prac_ ID, within your authorized practices.",
               "examples": [
                 "prac_01j2y8m6jcc9tt24af5pw9x1bc"
@@ -4889,6 +5058,20 @@
             },
             "required": false,
             "description": "Return only orders with this status. Omit to include all statuses."
+          },
+          {
+            "name": "cancelRequested",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "true",
+                "false"
+              ],
+              "description": "true returns only submitted or processing orders with a cancel the pharmacy has not confirmed yet (cancelRequestedAt set). false leaves those orders out. Omit to include both."
+            },
+            "required": false,
+            "description": "true returns only submitted or processing orders with a cancel the pharmacy has not confirmed yet (cancelRequestedAt set). false leaves those orders out. Omit to include both."
           },
           {
             "name": "sort",
@@ -4993,15 +5176,12 @@
                                 "type": "object",
                                 "properties": {
                                   "line1": {
-                                    "type": "string",
-                                    "minLength": 1,
-                                    "maxLength": 200
+                                    "type": "string"
                                   },
                                   "line2": {
                                     "anyOf": [
                                       {
-                                        "type": "string",
-                                        "maxLength": 200
+                                        "type": "string"
                                       },
                                       {
                                         "type": "null"
@@ -5009,16 +5189,13 @@
                                     ]
                                   },
                                   "city": {
-                                    "type": "string",
-                                    "minLength": 1,
-                                    "maxLength": 100
+                                    "type": "string"
                                   },
                                   "state": {
                                     "type": "string"
                                   },
                                   "postalCode": {
-                                    "type": "string",
-                                    "pattern": "^\\d{5}(-\\d{4})?$"
+                                    "type": "string"
                                   }
                                 },
                                 "required": [
@@ -5048,10 +5225,7 @@
                                       ]
                                     },
                                     "display": {
-                                      "type": "string",
-                                      "minLength": 1,
-                                      "maxLength": 200,
-                                      "pattern": "^\\S[^\\r\\n]*$"
+                                      "type": "string"
                                     }
                                   },
                                   "required": [
@@ -5059,16 +5233,13 @@
                                     "display"
                                   ],
                                   "additionalProperties": false
-                                },
-                                "maxItems": 50
+                                }
                               },
                               "dateOfBirth": {
                                 "type": "string"
                               },
                               "email": {
-                                "type": "string",
-                                "maxLength": 254,
-                                "pattern": "^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$"
+                                "type": "string"
                               },
                               "firstName": {
                                 "type": "string"
@@ -5095,8 +5266,7 @@
                                 ]
                               },
                               "phone": {
-                                "type": "string",
-                                "pattern": "^\\+1\\d{10}$"
+                                "type": "string"
                               }
                             },
                             "required": [
@@ -5124,7 +5294,7 @@
                             "properties": {
                               "id": {
                                 "type": "string",
-                                "pattern": "^(plat|prac|pharm)_[0-7][0-9a-hjkmnp-tv-z]{25}$",
+                                "pattern": "^pharm_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                                 "examples": [
                                   "pharm_01j2y8m6jcc9tt24af5pw9x1bc"
                                 ]
@@ -5139,9 +5309,68 @@
                             ],
                             "additionalProperties": false
                           },
+                          "practice": {
+                            "anyOf": [
+                              {
+                                "type": "object",
+                                "properties": {
+                                  "address": {
+                                    "type": "object",
+                                    "properties": {
+                                      "line1": {
+                                        "type": "string"
+                                      },
+                                      "line2": {
+                                        "anyOf": [
+                                          {
+                                            "type": "string"
+                                          },
+                                          {
+                                            "type": "null"
+                                          }
+                                        ]
+                                      },
+                                      "city": {
+                                        "type": "string"
+                                      },
+                                      "state": {
+                                        "type": "string"
+                                      },
+                                      "postalCode": {
+                                        "type": "string"
+                                      }
+                                    },
+                                    "required": [
+                                      "line1",
+                                      "line2",
+                                      "city",
+                                      "state",
+                                      "postalCode"
+                                    ],
+                                    "additionalProperties": false
+                                  },
+                                  "name": {
+                                    "type": "string"
+                                  },
+                                  "phone": {
+                                    "type": "string"
+                                  }
+                                },
+                                "required": [
+                                  "address",
+                                  "name",
+                                  "phone"
+                                ],
+                                "additionalProperties": false
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          },
                           "practiceId": {
                             "type": "string",
-                            "pattern": "^(plat|prac|pharm)_[0-7][0-9a-hjkmnp-tv-z]{25}$",
+                            "pattern": "^prac_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                             "examples": [
                               "prac_01j2y8m6jcc9tt24af5pw9x1bc"
                             ]
@@ -5159,6 +5388,58 @@
                                   },
                                   "npi": {
                                     "type": "string"
+                                  },
+                                  "phone": {
+                                    "anyOf": [
+                                      {
+                                        "type": "string"
+                                      },
+                                      {
+                                        "type": "null"
+                                      }
+                                    ]
+                                  },
+                                  "address": {
+                                    "anyOf": [
+                                      {
+                                        "type": "object",
+                                        "properties": {
+                                          "line1": {
+                                            "type": "string"
+                                          },
+                                          "line2": {
+                                            "anyOf": [
+                                              {
+                                                "type": "string"
+                                              },
+                                              {
+                                                "type": "null"
+                                              }
+                                            ]
+                                          },
+                                          "city": {
+                                            "type": "string"
+                                          },
+                                          "state": {
+                                            "type": "string"
+                                          },
+                                          "postalCode": {
+                                            "type": "string"
+                                          }
+                                        },
+                                        "required": [
+                                          "line1",
+                                          "line2",
+                                          "city",
+                                          "state",
+                                          "postalCode"
+                                        ],
+                                        "additionalProperties": false
+                                      },
+                                      {
+                                        "type": "null"
+                                      }
+                                    ]
                                   }
                                 },
                                 "required": [
@@ -5444,6 +5725,7 @@
                           "patient",
                           "patientId",
                           "pharmacy",
+                          "practice",
                           "practiceId",
                           "prescriber",
                           "prescriptions",
@@ -6198,15 +6480,12 @@
                           "type": "object",
                           "properties": {
                             "line1": {
-                              "type": "string",
-                              "minLength": 1,
-                              "maxLength": 200
+                              "type": "string"
                             },
                             "line2": {
                               "anyOf": [
                                 {
-                                  "type": "string",
-                                  "maxLength": 200
+                                  "type": "string"
                                 },
                                 {
                                   "type": "null"
@@ -6214,16 +6493,13 @@
                               ]
                             },
                             "city": {
-                              "type": "string",
-                              "minLength": 1,
-                              "maxLength": 100
+                              "type": "string"
                             },
                             "state": {
                               "type": "string"
                             },
                             "postalCode": {
-                              "type": "string",
-                              "pattern": "^\\d{5}(-\\d{4})?$"
+                              "type": "string"
                             }
                           },
                           "required": [
@@ -6253,10 +6529,7 @@
                                 ]
                               },
                               "display": {
-                                "type": "string",
-                                "minLength": 1,
-                                "maxLength": 200,
-                                "pattern": "^\\S[^\\r\\n]*$"
+                                "type": "string"
                               }
                             },
                             "required": [
@@ -6264,16 +6537,13 @@
                               "display"
                             ],
                             "additionalProperties": false
-                          },
-                          "maxItems": 50
+                          }
                         },
                         "dateOfBirth": {
                           "type": "string"
                         },
                         "email": {
-                          "type": "string",
-                          "maxLength": 254,
-                          "pattern": "^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$"
+                          "type": "string"
                         },
                         "firstName": {
                           "type": "string"
@@ -6300,8 +6570,7 @@
                           ]
                         },
                         "phone": {
-                          "type": "string",
-                          "pattern": "^\\+1\\d{10}$"
+                          "type": "string"
                         }
                       },
                       "required": [
@@ -6329,7 +6598,7 @@
                       "properties": {
                         "id": {
                           "type": "string",
-                          "pattern": "^(plat|prac|pharm)_[0-7][0-9a-hjkmnp-tv-z]{25}$",
+                          "pattern": "^pharm_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                           "examples": [
                             "pharm_01j2y8m6jcc9tt24af5pw9x1bc"
                           ]
@@ -6344,9 +6613,68 @@
                       ],
                       "additionalProperties": false
                     },
+                    "practice": {
+                      "anyOf": [
+                        {
+                          "type": "object",
+                          "properties": {
+                            "address": {
+                              "type": "object",
+                              "properties": {
+                                "line1": {
+                                  "type": "string"
+                                },
+                                "line2": {
+                                  "anyOf": [
+                                    {
+                                      "type": "string"
+                                    },
+                                    {
+                                      "type": "null"
+                                    }
+                                  ]
+                                },
+                                "city": {
+                                  "type": "string"
+                                },
+                                "state": {
+                                  "type": "string"
+                                },
+                                "postalCode": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "line1",
+                                "line2",
+                                "city",
+                                "state",
+                                "postalCode"
+                              ],
+                              "additionalProperties": false
+                            },
+                            "name": {
+                              "type": "string"
+                            },
+                            "phone": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "address",
+                            "name",
+                            "phone"
+                          ],
+                          "additionalProperties": false
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ]
+                    },
                     "practiceId": {
                       "type": "string",
-                      "pattern": "^(plat|prac|pharm)_[0-7][0-9a-hjkmnp-tv-z]{25}$",
+                      "pattern": "^prac_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                       "examples": [
                         "prac_01j2y8m6jcc9tt24af5pw9x1bc"
                       ]
@@ -6364,6 +6692,58 @@
                             },
                             "npi": {
                               "type": "string"
+                            },
+                            "phone": {
+                              "anyOf": [
+                                {
+                                  "type": "string"
+                                },
+                                {
+                                  "type": "null"
+                                }
+                              ]
+                            },
+                            "address": {
+                              "anyOf": [
+                                {
+                                  "type": "object",
+                                  "properties": {
+                                    "line1": {
+                                      "type": "string"
+                                    },
+                                    "line2": {
+                                      "anyOf": [
+                                        {
+                                          "type": "string"
+                                        },
+                                        {
+                                          "type": "null"
+                                        }
+                                      ]
+                                    },
+                                    "city": {
+                                      "type": "string"
+                                    },
+                                    "state": {
+                                      "type": "string"
+                                    },
+                                    "postalCode": {
+                                      "type": "string"
+                                    }
+                                  },
+                                  "required": [
+                                    "line1",
+                                    "line2",
+                                    "city",
+                                    "state",
+                                    "postalCode"
+                                  ],
+                                  "additionalProperties": false
+                                },
+                                {
+                                  "type": "null"
+                                }
+                              ]
                             }
                           },
                           "required": [
@@ -6649,6 +7029,7 @@
                     "patient",
                     "patientId",
                     "pharmacy",
+                    "practice",
                     "practiceId",
                     "prescriber",
                     "prescriptions",
@@ -7376,15 +7757,12 @@
                           "type": "object",
                           "properties": {
                             "line1": {
-                              "type": "string",
-                              "minLength": 1,
-                              "maxLength": 200
+                              "type": "string"
                             },
                             "line2": {
                               "anyOf": [
                                 {
-                                  "type": "string",
-                                  "maxLength": 200
+                                  "type": "string"
                                 },
                                 {
                                   "type": "null"
@@ -7392,16 +7770,13 @@
                               ]
                             },
                             "city": {
-                              "type": "string",
-                              "minLength": 1,
-                              "maxLength": 100
+                              "type": "string"
                             },
                             "state": {
                               "type": "string"
                             },
                             "postalCode": {
-                              "type": "string",
-                              "pattern": "^\\d{5}(-\\d{4})?$"
+                              "type": "string"
                             }
                           },
                           "required": [
@@ -7431,10 +7806,7 @@
                                 ]
                               },
                               "display": {
-                                "type": "string",
-                                "minLength": 1,
-                                "maxLength": 200,
-                                "pattern": "^\\S[^\\r\\n]*$"
+                                "type": "string"
                               }
                             },
                             "required": [
@@ -7442,16 +7814,13 @@
                               "display"
                             ],
                             "additionalProperties": false
-                          },
-                          "maxItems": 50
+                          }
                         },
                         "dateOfBirth": {
                           "type": "string"
                         },
                         "email": {
-                          "type": "string",
-                          "maxLength": 254,
-                          "pattern": "^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$"
+                          "type": "string"
                         },
                         "firstName": {
                           "type": "string"
@@ -7478,8 +7847,7 @@
                           ]
                         },
                         "phone": {
-                          "type": "string",
-                          "pattern": "^\\+1\\d{10}$"
+                          "type": "string"
                         }
                       },
                       "required": [
@@ -7507,7 +7875,7 @@
                       "properties": {
                         "id": {
                           "type": "string",
-                          "pattern": "^(plat|prac|pharm)_[0-7][0-9a-hjkmnp-tv-z]{25}$",
+                          "pattern": "^pharm_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                           "examples": [
                             "pharm_01j2y8m6jcc9tt24af5pw9x1bc"
                           ]
@@ -7522,9 +7890,68 @@
                       ],
                       "additionalProperties": false
                     },
+                    "practice": {
+                      "anyOf": [
+                        {
+                          "type": "object",
+                          "properties": {
+                            "address": {
+                              "type": "object",
+                              "properties": {
+                                "line1": {
+                                  "type": "string"
+                                },
+                                "line2": {
+                                  "anyOf": [
+                                    {
+                                      "type": "string"
+                                    },
+                                    {
+                                      "type": "null"
+                                    }
+                                  ]
+                                },
+                                "city": {
+                                  "type": "string"
+                                },
+                                "state": {
+                                  "type": "string"
+                                },
+                                "postalCode": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "line1",
+                                "line2",
+                                "city",
+                                "state",
+                                "postalCode"
+                              ],
+                              "additionalProperties": false
+                            },
+                            "name": {
+                              "type": "string"
+                            },
+                            "phone": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "address",
+                            "name",
+                            "phone"
+                          ],
+                          "additionalProperties": false
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ]
+                    },
                     "practiceId": {
                       "type": "string",
-                      "pattern": "^(plat|prac|pharm)_[0-7][0-9a-hjkmnp-tv-z]{25}$",
+                      "pattern": "^prac_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                       "examples": [
                         "prac_01j2y8m6jcc9tt24af5pw9x1bc"
                       ]
@@ -7542,6 +7969,58 @@
                             },
                             "npi": {
                               "type": "string"
+                            },
+                            "phone": {
+                              "anyOf": [
+                                {
+                                  "type": "string"
+                                },
+                                {
+                                  "type": "null"
+                                }
+                              ]
+                            },
+                            "address": {
+                              "anyOf": [
+                                {
+                                  "type": "object",
+                                  "properties": {
+                                    "line1": {
+                                      "type": "string"
+                                    },
+                                    "line2": {
+                                      "anyOf": [
+                                        {
+                                          "type": "string"
+                                        },
+                                        {
+                                          "type": "null"
+                                        }
+                                      ]
+                                    },
+                                    "city": {
+                                      "type": "string"
+                                    },
+                                    "state": {
+                                      "type": "string"
+                                    },
+                                    "postalCode": {
+                                      "type": "string"
+                                    }
+                                  },
+                                  "required": [
+                                    "line1",
+                                    "line2",
+                                    "city",
+                                    "state",
+                                    "postalCode"
+                                  ],
+                                  "additionalProperties": false
+                                },
+                                {
+                                  "type": "null"
+                                }
+                              ]
                             }
                           },
                           "required": [
@@ -7827,6 +8306,7 @@
                     "patient",
                     "patientId",
                     "pharmacy",
+                    "practice",
                     "practiceId",
                     "prescriber",
                     "prescriptions",
@@ -7905,15 +8385,12 @@
                           "type": "object",
                           "properties": {
                             "line1": {
-                              "type": "string",
-                              "minLength": 1,
-                              "maxLength": 200
+                              "type": "string"
                             },
                             "line2": {
                               "anyOf": [
                                 {
-                                  "type": "string",
-                                  "maxLength": 200
+                                  "type": "string"
                                 },
                                 {
                                   "type": "null"
@@ -7921,16 +8398,13 @@
                               ]
                             },
                             "city": {
-                              "type": "string",
-                              "minLength": 1,
-                              "maxLength": 100
+                              "type": "string"
                             },
                             "state": {
                               "type": "string"
                             },
                             "postalCode": {
-                              "type": "string",
-                              "pattern": "^\\d{5}(-\\d{4})?$"
+                              "type": "string"
                             }
                           },
                           "required": [
@@ -7960,10 +8434,7 @@
                                 ]
                               },
                               "display": {
-                                "type": "string",
-                                "minLength": 1,
-                                "maxLength": 200,
-                                "pattern": "^\\S[^\\r\\n]*$"
+                                "type": "string"
                               }
                             },
                             "required": [
@@ -7971,16 +8442,13 @@
                               "display"
                             ],
                             "additionalProperties": false
-                          },
-                          "maxItems": 50
+                          }
                         },
                         "dateOfBirth": {
                           "type": "string"
                         },
                         "email": {
-                          "type": "string",
-                          "maxLength": 254,
-                          "pattern": "^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$"
+                          "type": "string"
                         },
                         "firstName": {
                           "type": "string"
@@ -8007,8 +8475,7 @@
                           ]
                         },
                         "phone": {
-                          "type": "string",
-                          "pattern": "^\\+1\\d{10}$"
+                          "type": "string"
                         }
                       },
                       "required": [
@@ -8036,7 +8503,7 @@
                       "properties": {
                         "id": {
                           "type": "string",
-                          "pattern": "^(plat|prac|pharm)_[0-7][0-9a-hjkmnp-tv-z]{25}$",
+                          "pattern": "^pharm_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                           "examples": [
                             "pharm_01j2y8m6jcc9tt24af5pw9x1bc"
                           ]
@@ -8051,9 +8518,68 @@
                       ],
                       "additionalProperties": false
                     },
+                    "practice": {
+                      "anyOf": [
+                        {
+                          "type": "object",
+                          "properties": {
+                            "address": {
+                              "type": "object",
+                              "properties": {
+                                "line1": {
+                                  "type": "string"
+                                },
+                                "line2": {
+                                  "anyOf": [
+                                    {
+                                      "type": "string"
+                                    },
+                                    {
+                                      "type": "null"
+                                    }
+                                  ]
+                                },
+                                "city": {
+                                  "type": "string"
+                                },
+                                "state": {
+                                  "type": "string"
+                                },
+                                "postalCode": {
+                                  "type": "string"
+                                }
+                              },
+                              "required": [
+                                "line1",
+                                "line2",
+                                "city",
+                                "state",
+                                "postalCode"
+                              ],
+                              "additionalProperties": false
+                            },
+                            "name": {
+                              "type": "string"
+                            },
+                            "phone": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "address",
+                            "name",
+                            "phone"
+                          ],
+                          "additionalProperties": false
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ]
+                    },
                     "practiceId": {
                       "type": "string",
-                      "pattern": "^(plat|prac|pharm)_[0-7][0-9a-hjkmnp-tv-z]{25}$",
+                      "pattern": "^prac_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                       "examples": [
                         "prac_01j2y8m6jcc9tt24af5pw9x1bc"
                       ]
@@ -8071,6 +8597,58 @@
                             },
                             "npi": {
                               "type": "string"
+                            },
+                            "phone": {
+                              "anyOf": [
+                                {
+                                  "type": "string"
+                                },
+                                {
+                                  "type": "null"
+                                }
+                              ]
+                            },
+                            "address": {
+                              "anyOf": [
+                                {
+                                  "type": "object",
+                                  "properties": {
+                                    "line1": {
+                                      "type": "string"
+                                    },
+                                    "line2": {
+                                      "anyOf": [
+                                        {
+                                          "type": "string"
+                                        },
+                                        {
+                                          "type": "null"
+                                        }
+                                      ]
+                                    },
+                                    "city": {
+                                      "type": "string"
+                                    },
+                                    "state": {
+                                      "type": "string"
+                                    },
+                                    "postalCode": {
+                                      "type": "string"
+                                    }
+                                  },
+                                  "required": [
+                                    "line1",
+                                    "line2",
+                                    "city",
+                                    "state",
+                                    "postalCode"
+                                  ],
+                                  "additionalProperties": false
+                                },
+                                {
+                                  "type": "null"
+                                }
+                              ]
                             }
                           },
                           "required": [
@@ -8356,6 +8934,7 @@
                     "patient",
                     "patientId",
                     "pharmacy",
+                    "practice",
                     "practiceId",
                     "prescriber",
                     "prescriptions",
@@ -9188,7 +9767,7 @@
                   "properties": {
                     "id": {
                       "type": "string",
-                      "pattern": "^(plat|prac|pharm)_[0-7][0-9a-hjkmnp-tv-z]{25}$",
+                      "pattern": "^prac_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                       "examples": [
                         "prac_01j2y8m6jcc9tt24af5pw9x1bc"
                       ]
@@ -9212,15 +9791,12 @@
                           "type": "object",
                           "properties": {
                             "line1": {
-                              "type": "string",
-                              "minLength": 1,
-                              "maxLength": 200
+                              "type": "string"
                             },
                             "line2": {
                               "anyOf": [
                                 {
-                                  "type": "string",
-                                  "maxLength": 200
+                                  "type": "string"
                                 },
                                 {
                                   "type": "null"
@@ -9228,16 +9804,13 @@
                               ]
                             },
                             "city": {
-                              "type": "string",
-                              "minLength": 1,
-                              "maxLength": 100
+                              "type": "string"
                             },
                             "state": {
                               "type": "string"
                             },
                             "postalCode": {
-                              "type": "string",
-                              "pattern": "^\\d{5}(-\\d{4})?$"
+                              "type": "string"
                             }
                           },
                           "required": [
@@ -10212,53 +10785,45 @@
                 "type": "object",
                 "properties": {
                   "address": {
-                    "anyOf": [
-                      {
-                        "type": "object",
-                        "properties": {
-                          "line1": {
+                    "type": "object",
+                    "properties": {
+                      "line1": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 200
+                      },
+                      "line2": {
+                        "anyOf": [
+                          {
                             "type": "string",
-                            "minLength": 1,
                             "maxLength": 200
                           },
-                          "line2": {
-                            "anyOf": [
-                              {
-                                "type": "string",
-                                "maxLength": 200
-                              },
-                              {
-                                "type": "null"
-                              }
-                            ]
-                          },
-                          "city": {
-                            "type": "string",
-                            "minLength": 1,
-                            "maxLength": 100
-                          },
-                          "state": {
-                            "type": "string",
-                            "pattern": "^(?:AL|AK|AZ|AR|CA|CO|CT|DE|DC|FL|GA|HI|ID|IL|IN|IA|KS|KY|LA|ME|MD|MA|MI|MN|MS|MO|MT|NE|NV|NH|NJ|NM|NY|NC|ND|OH|OK|OR|PA|RI|SC|SD|TN|TX|UT|VT|VA|WA|WV|WI|WY|AS|GU|MP|PR|VI|AA|AE|AP)$"
-                          },
-                          "postalCode": {
-                            "type": "string",
-                            "pattern": "^\\d{5}(-\\d{4})?$"
+                          {
+                            "type": "null"
                           }
-                        },
-                        "required": [
-                          "line1",
-                          "line2",
-                          "city",
-                          "state",
-                          "postalCode"
-                        ],
-                        "additionalProperties": false
+                        ]
                       },
-                      {
-                        "type": "null"
+                      "city": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 100
+                      },
+                      "state": {
+                        "type": "string",
+                        "pattern": "^(?:AL|AK|AZ|AR|CA|CO|CT|DE|DC|FL|GA|HI|ID|IL|IN|IA|KS|KY|LA|ME|MD|MA|MI|MN|MS|MO|MT|NE|NV|NH|NJ|NM|NY|NC|ND|OH|OK|OR|PA|RI|SC|SD|TN|TX|UT|VT|VA|WA|WV|WI|WY|AS|GU|MP|PR|VI|AA|AE|AP)$"
+                      },
+                      "postalCode": {
+                        "type": "string",
+                        "pattern": "^\\d{5}(-\\d{4})?$"
                       }
-                    ]
+                    },
+                    "required": [
+                      "line1",
+                      "city",
+                      "state",
+                      "postalCode"
+                    ],
+                    "additionalProperties": false
                   },
                   "liveEnabled": {
                     "type": "boolean"
@@ -10269,19 +10834,14 @@
                     "pattern": "^[^\\p{Cc}\\p{Cf}\\p{Cs}\\p{Zl}\\p{Zp}]*$"
                   },
                   "phone": {
-                    "anyOf": [
-                      {
-                        "type": "string",
-                        "pattern": "^\\+1\\d{10}$"
-                      },
-                      {
-                        "type": "null"
-                      }
-                    ]
+                    "type": "string",
+                    "pattern": "^\\+1\\d{10}$"
                   }
                 },
                 "required": [
-                  "name"
+                  "address",
+                  "name",
+                  "phone"
                 ],
                 "additionalProperties": false
               }
@@ -10289,7 +10849,7 @@
           },
           "required": true
         },
-        "description": "Platforms only. The practice starts in Test; `liveEnabled: true` also allows new Live orders, which needs a platform with Live access, a default card or bank account on the platform payer, and, with an API key, a Live key. A missing method returns 409 payment_method_required. Turning Live off later preserves access to existing records.",
+        "description": "Platforms only. Name, phone and address are required. The practice starts in Test; `liveEnabled: true` also allows new Live orders, which needs a platform with Live access, a default card or bank account on the platform payer, and a Live caller: a Live key, or a session in Live mode. A missing method returns 409 payment_method_required. Turning Live off later preserves access to existing records.",
         "summary": "Create a practice",
         "x-visibility": "public"
       },
@@ -10397,7 +10957,7 @@
                         "properties": {
                           "id": {
                             "type": "string",
-                            "pattern": "^(plat|prac|pharm)_[0-7][0-9a-hjkmnp-tv-z]{25}$",
+                            "pattern": "^prac_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                             "examples": [
                               "prac_01j2y8m6jcc9tt24af5pw9x1bc"
                             ]
@@ -10421,15 +10981,12 @@
                                 "type": "object",
                                 "properties": {
                                   "line1": {
-                                    "type": "string",
-                                    "minLength": 1,
-                                    "maxLength": 200
+                                    "type": "string"
                                   },
                                   "line2": {
                                     "anyOf": [
                                       {
-                                        "type": "string",
-                                        "maxLength": 200
+                                        "type": "string"
                                       },
                                       {
                                         "type": "null"
@@ -10437,16 +10994,13 @@
                                     ]
                                   },
                                   "city": {
-                                    "type": "string",
-                                    "minLength": 1,
-                                    "maxLength": 100
+                                    "type": "string"
                                   },
                                   "state": {
                                     "type": "string"
                                   },
                                   "postalCode": {
-                                    "type": "string",
-                                    "pattern": "^\\d{5}(-\\d{4})?$"
+                                    "type": "string"
                                   }
                                 },
                                 "required": [
@@ -11214,7 +11768,7 @@
             "in": "path",
             "schema": {
               "type": "string",
-              "pattern": "^(plat|prac|pharm)_[0-7][0-9a-hjkmnp-tv-z]{25}$",
+              "pattern": "^prac_[0-7][0-9a-hjkmnp-tv-z]{25}$",
               "examples": [
                 "prac_01j2y8m6jcc9tt24af5pw9x1bc"
               ]
@@ -11251,7 +11805,7 @@
                   "properties": {
                     "id": {
                       "type": "string",
-                      "pattern": "^(plat|prac|pharm)_[0-7][0-9a-hjkmnp-tv-z]{25}$",
+                      "pattern": "^prac_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                       "examples": [
                         "prac_01j2y8m6jcc9tt24af5pw9x1bc"
                       ]
@@ -11275,15 +11829,12 @@
                           "type": "object",
                           "properties": {
                             "line1": {
-                              "type": "string",
-                              "minLength": 1,
-                              "maxLength": 200
+                              "type": "string"
                             },
                             "line2": {
                               "anyOf": [
                                 {
-                                  "type": "string",
-                                  "maxLength": 200
+                                  "type": "string"
                                 },
                                 {
                                   "type": "null"
@@ -11291,16 +11842,13 @@
                               ]
                             },
                             "city": {
-                              "type": "string",
-                              "minLength": 1,
-                              "maxLength": 100
+                              "type": "string"
                             },
                             "state": {
                               "type": "string"
                             },
                             "postalCode": {
-                              "type": "string",
-                              "pattern": "^\\d{5}(-\\d{4})?$"
+                              "type": "string"
                             }
                           },
                           "required": [
@@ -11946,7 +12494,7 @@
             "in": "path",
             "schema": {
               "type": "string",
-              "pattern": "^(plat|prac|pharm)_[0-7][0-9a-hjkmnp-tv-z]{25}$",
+              "pattern": "^prac_[0-7][0-9a-hjkmnp-tv-z]{25}$",
               "examples": [
                 "prac_01j2y8m6jcc9tt24af5pw9x1bc"
               ]
@@ -11994,7 +12542,7 @@
                   "properties": {
                     "id": {
                       "type": "string",
-                      "pattern": "^(plat|prac|pharm)_[0-7][0-9a-hjkmnp-tv-z]{25}$",
+                      "pattern": "^prac_[0-7][0-9a-hjkmnp-tv-z]{25}$",
                       "examples": [
                         "prac_01j2y8m6jcc9tt24af5pw9x1bc"
                       ]
@@ -12018,15 +12566,12 @@
                           "type": "object",
                           "properties": {
                             "line1": {
-                              "type": "string",
-                              "minLength": 1,
-                              "maxLength": 200
+                              "type": "string"
                             },
                             "line2": {
                               "anyOf": [
                                 {
-                                  "type": "string",
-                                  "maxLength": 200
+                                  "type": "string"
                                 },
                                 {
                                   "type": "null"
@@ -12034,16 +12579,13 @@
                               ]
                             },
                             "city": {
-                              "type": "string",
-                              "minLength": 1,
-                              "maxLength": 100
+                              "type": "string"
                             },
                             "state": {
                               "type": "string"
                             },
                             "postalCode": {
-                              "type": "string",
-                              "pattern": "^\\d{5}(-\\d{4})?$"
+                              "type": "string"
                             }
                           },
                           "required": [
@@ -13171,7 +13713,7 @@
           },
           "required": true
         },
-        "description": "`liveEnabled` allows or refuses new Live orders. Existing records, cancellation, webhooks and billing keep working. Only its platform changes it; enabling requires platform Live access and a default card or bank account on the platform payer (409 payment_method_required otherwise), and an API key must be a Live key for either change.",
+        "description": "`liveEnabled` allows or refuses new Live orders. Existing records, cancellation, webhooks and billing keep working. Only its platform changes it; enabling requires platform Live access and a default card or bank account on the platform payer (409 payment_method_required otherwise), and either change needs a Live caller: a Live key (403 live_key_required otherwise) or a session in Live mode (403 live_mode_required otherwise). Live orders send `name`, `phone` and `address` to the pharmacy, so a practice with Live access changes them only with a Live key (403 live_mode_required otherwise).",
         "summary": "Update a practice",
         "x-visibility": "public"
       }
@@ -17115,7 +17657,7 @@
                   "properties": {
                     "queued": {
                       "type": "integer",
-                      "minimum": -9007199254740991,
+                      "minimum": 0,
                       "maximum": 9007199254740991,
                       "description": "The number of failed deliveries queued for retry."
                     }

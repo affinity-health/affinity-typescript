@@ -7,6 +7,15 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 
 ## [Unreleased]
 
+## [2.0.0-beta.5] - 2026-10-21
+
+### Changed
+
+- Require `address` and `phone` alongside `name` when creating a practice.
+- Allow practice keys to create orders without `practiceId`, and accept optional `prescriber.phone` and `prescriber.address` overrides.
+- Filter medications by multiple exact `names`, filter orders by `cancelRequested`, and accept `patient.updatedAt` when creating an order.
+- Return the practice snapshot and prescriber phone and address on order creation, listing, retrieval, and cancellation.
+
 ## [2.0.0-beta.4] - 2026-10-20
 
 ### Changed
