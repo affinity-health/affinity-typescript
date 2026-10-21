@@ -7,35 +7,50 @@ Use this SDK in trusted server runtimes. Keep keys out of browser and mobile cod
 ```typescript
 import { Affinity, AffinityError, type OrderCreateParams } from "@affinity-health/sdk";
 
-const api = new Affinity(process.env.AFFINITY_API_KEY!, { maxNetworkRetries: 2 });
+const api = new Affinity(process.env.AFFINITY_API_KEY!, {
+  baseUrl: "https://api-staging.affinityrx.com",
+  maxNetworkRetries: 2,
+});
 const account = await api.account.get();
 if (account.mode !== "test") throw new Error("This example requires a Test key");
 ```
 
-The SDK sends `Affinity-Version: 2026-10-20`. The key determines organization and mode. NPI identifies a clinician; it does not authenticate them or grant signing authority. Your integration must authenticate the clinician and record approval before sending a signed order.
+This beta targets the staging MVP API, so set `baseUrl` to `https://api-staging.affinityrx.com`. After the MVP cutover, switch to `https://api.affinityrx.com` or omit `baseUrl` to use the production default. The SDK sends `Affinity-Version: 2026-10-20`. The key determines organization and mode. NPI identifies a clinician; it does not authenticate them or grant signing authority. Your integration must authenticate the clinician and record approval before sending a signed order.
 
 ## Find medications
 
 ```typescript
-const page = await api.medications.list({ limit: "20", query: "semaglutide" });
+const page = await api.medications.list({ limit: "20", query: "lidocaine" });
 const medication = page.data[0] ? await api.medications.get(page.data[0].id) : undefined;
+if (!medication) throw new Error("No Test Lidocaine medication found");
+const shippingOptionId = medication.shippingOptions[0]?.id;
+if (!shippingOptionId) throw new Error("Medication has no shipping options");
 ```
 
-Use `query` for text search, `name` for an exact case-insensitive medication name, and `pharmacyId` to filter by pharmacy. Medication responses include `quantities`, `requirements`, `compoundingReasons`, `restrictedStates`, and `shippingOptions`. Review the selected medication's current requirements before creating the order. `compoundingReason` is an optional string on a prescription, with no SDK enum helper. Choose medication and shipping IDs from current responses, rather than inventing them.
+Use `query` for text search, `name` for an exact case-insensitive medication name, and `pharmacyId` to filter by pharmacy. This example searches for Test Lidocaine, which is available in the current Test catalog. Medication responses include `quantities`, `requirements`, `compoundingReasons`, `restrictedStates`, and `shippingOptions`. Review the selected medication's current requirements before creating the order. `compoundingReason` is an optional string on a prescription, with no SDK enum helper. Choose medication and shipping IDs from current responses, rather than inventing them.
 
 ## Manage practices
 
 ```typescript
 const practice = await api.practices.create(
-  { name: "Synthetic SDK Practice" },
+  {
+    name: "Synthetic SDK Practice",
+    phone: "+12025550199",
+    address: {
+      line1: "200 Example Ave",
+      line2: null,
+      city: "Austin",
+      state: "TX",
+      postalCode: "78701",
+    },
+  },
   { idempotencyKey: "persisted-test-practice-operation" },
 );
 const saved = await api.practices.get(practice.id);
-await api.practices.update(saved.id, { phone: "+12025550199" });
 const practices = await api.practices.list({ limit: "20", query: "Synthetic" });
 ```
 
-Creation requires only `name` in the body. Optional fields are `address`, `phone`, and `liveEnabled`. Authorization still limits the practices the key can access. A practice response has `liveEnabled`; the account response carries `mode`.
+Creation requires only `name` in the body. Optional fields are `address`, `phone`, and `liveEnabled`. Include a synthetic address and phone before ordering; the pharmacy needs both, and an order without them returns `422`. Authorization still limits the practices the key can access. A practice response has `liveEnabled`; the account response carries `mode`.
 
 ## Send a reviewed order
 
@@ -43,7 +58,7 @@ Patient details go in `patient` on the order. There is no public patient create,
 
 ```typescript
 const input: OrderCreateParams = {
-  practiceId: "prac_01j2y8m6jcc9tt24af5pw9x1bc",
+  practiceId: practice.id,
   externalOrderId: "synthetic-emr-order-001",
   patient: {
     firstName: "Synthetic",
@@ -59,13 +74,13 @@ const input: OrderCreateParams = {
   prescriber: { firstName: "Synthetic", lastName: "Prescriber", npi: "1234567893" },
   prescriptions: [
     {
-      medicationId: "med_01j2y8m6jcc9tt24af5pw9x1bc",
+      medicationId: medication.id,
       directions: "Use as directed in this synthetic Test scenario.",
       quantity: 1,
       refills: 0,
     },
   ],
-  shippingOptionId: "shp_01j2y8m6jcc9tt24af5pw9x1bc",
+  shippingOptionId,
   signatureAttestation: true,
 };
 // Load the exact clinician-approved input and key from your durable review record.
@@ -73,7 +88,7 @@ const order = await api.orders.create(input, { idempotencyKey: "persisted-test-o
 const current = await api.orders.get(order.id);
 ```
 
-Replace the illustrative practice, medication, and shipping IDs with authorized Test records. The integration supplies the prescriber's NPI and name when identifying the signer. The schema allows `prescriber` to be omitted; follow the account's documented identity requirements. The request contains 1–20 complete prescriptions for one patient and one practice. Creating an order signs and submits it in one request. There are no public preview, draft, sign, or submit methods.
+The order uses the practice, medication, and shipping option from the steps above. The integration supplies the prescriber's NPI and name when identifying the signer. The schema allows `prescriber` to be omitted; follow the account's documented identity requirements. The request contains 1–20 complete prescriptions for one patient and one practice. Creating an order signs and submits it in one request. There are no public preview, draft, sign, or submit methods.
 
 Store the body and idempotency key before the first write. Retry an uncertain result with the same body and key. Do not use a new key to bypass an error or repeat a clinical action. The SDK generates a random key when omitted on any operation that requires `Idempotency-Key`, including order creation and cancellation, practice creation and updates, webhook endpoint creation and updates, failed-webhook resend, and feedback. Automatic retries reuse that key; a separate call generates a new one. Pass your persisted `idempotencyKey` to reuse a key across calls or process restarts. Keep caller keys unique per operation, 1–255 printable ASCII characters.
 
@@ -93,11 +108,11 @@ Cancellation has no request body. The SDK supplies its required idempotency head
 ## Paginate
 
 ```typescript
-let page = await api.medications.list({ limit: "20", query: "semaglutide" });
+let page = await api.medications.list({ limit: "20", query: "lidocaine" });
 while (page.hasMore && page.nextCursor) {
   page = await api.medications.list({
     limit: "20",
-    query: "semaglutide",
+    query: "lidocaine",
     startingAfter: page.nextCursor,
   });
 }
