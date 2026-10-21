@@ -47,7 +47,21 @@ export async function receiveWebhook(
   // MVP events have no organization or mode field. The endpoint's secret binds scope;
   // the queued worker must use the matching Test key when retrieving the order.
   if (!("createdAt" in event)) return new Response("Expected an MVP event", { status: 400 });
-  if (event.type !== "webhook_endpoint.test") await enqueueOnce(event.id, event.data.order.id);
+  // Dispatch only known order event types. Ignore unknown types after signature
+  // verification and answer 2xx. Do not catch-and-hide failures for known events.
+  switch (event.type) {
+    case "order.cancelled":
+    case "order.delivered":
+    case "order.failed":
+    case "order.processing":
+    case "order.shipped":
+    case "order.submitted":
+    case "order.updated":
+      await enqueueOnce(event.id, event.data.order.id);
+      break;
+    default:
+      break;
+  }
   // The queued job retrieves the current order so older events cannot regress EMR state.
   // Acknowledge only after durable enqueue. Never log the clinical payload.
   return new Response(null, { status: 204 });

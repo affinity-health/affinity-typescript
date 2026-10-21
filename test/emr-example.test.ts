@@ -155,3 +155,54 @@ test("MVP webhook receiver verifies the raw body and acknowledges only after enq
     }),
   ).rejects.toThrow("durable queue unavailable");
 });
+
+test("MVP webhook receiver acknowledges unknown event types and still handles known events", async () => {
+  const { createHmac } = await import("node:crypto");
+  const { receiveWebhook } = await import("../examples/emr-order");
+  const secret = "whsec_test_synthetic_endpoint_secret";
+  const timestamp = Math.floor(Date.now() / 1000);
+  const sign = (body: string) =>
+    `t=${timestamp},v1=${createHmac("sha256", secret).update(`${timestamp}.${body}`).digest("hex")}`;
+  const post = (body: string) =>
+    new Request("https://example.test/webhook", {
+      method: "POST",
+      headers: { "affinity-signature": sign(body) },
+      body,
+    });
+
+  const unknownBody = JSON.stringify({
+    id: "evt_01j2y8m6jcc9tt24af5pw9x1bd",
+    type: "order.future",
+    createdAt: new Date().toISOString(),
+    data: {},
+  });
+  const unknownEvents: [string, string][] = [];
+  const unknownResponse = await receiveWebhook(post(unknownBody), secret, async (eventId, orderId) => {
+    unknownEvents.push([eventId, orderId]);
+  });
+  expect(unknownResponse.status).toBe(204);
+  expect(unknownEvents).toEqual([]);
+
+  const knownBody = JSON.stringify({
+    id: "evt_01j2y8m6jcc9tt24af5pw9x1be",
+    type: "order.updated",
+    createdAt: new Date().toISOString(),
+    data: {
+      order: {
+        id: "ord_01j2y8m6jcc9tt24af5pw9x1be",
+        status: "processing",
+        cancelRequestedAt: null,
+        externalOrderId: null,
+        failureReason: null,
+        shipments: [],
+        updatedAt: new Date().toISOString(),
+      },
+    },
+  });
+  const knownEvents: [string, string][] = [];
+  const knownResponse = await receiveWebhook(post(knownBody), secret, async (eventId, orderId) => {
+    knownEvents.push([eventId, orderId]);
+  });
+  expect(knownResponse.status).toBe(204);
+  expect(knownEvents).toEqual([["evt_01j2y8m6jcc9tt24af5pw9x1be", "ord_01j2y8m6jcc9tt24af5pw9x1be"]]);
+});
