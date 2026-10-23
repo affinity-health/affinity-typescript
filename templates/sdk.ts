@@ -89,6 +89,9 @@ class SDKContext {
     params: Record<string, unknown> = {},
     options: SDKRequestOptions = {},
   ): Promise<any> {
+    for (const name of Object.keys(options))
+      if (name !== "signal" && name !== "idempotencyKey")
+        throw new Error(`Unknown request option: ${name}`);
     options.signal?.throwIfAborted();
     if (op.requiresPersistedKey && options.idempotencyKey === undefined)
       throw new Error(
@@ -106,6 +109,9 @@ class SDKContext {
       if (typeof id !== "string" || !id.trim()) throw new Error(`${name} is required`);
       path = path.replace(`{${name}}`, encodeURIComponent(id));
     });
+    if (!op.body)
+      for (const name of Object.keys(params))
+        if (!op.query.includes(name)) throw new Error(`Unknown query parameter: ${name}`);
     const data = { ...params };
     const query = new URLSearchParams();
     // Array parameters repeat their key, as the API's form-exploded query contract requires.

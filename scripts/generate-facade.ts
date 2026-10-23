@@ -99,7 +99,7 @@ for (const [path, verbs] of Object.entries(spec.paths))
     types.push(`export type ${responseName} = ${[...new Set(responses)].join(" | ")};`);
     if (params) types.push(`export type ${paramsName} = ${type(params)};`);
     const idempotency = parameters.some(
-      (p: any) => p.in === "header" && p.name.toLowerCase() === "idempotency-key" && p.required,
+      (p: any) => p.in === "header" && p.name.toLowerCase() === "idempotency-key",
     );
     const record = {
       path,

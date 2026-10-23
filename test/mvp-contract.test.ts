@@ -54,7 +54,6 @@ test("practice contact and optional order fields retain their flat public bodies
       phone: "+12025550199",
       address,
       allergies: [],
-      updatedAt: "2026-10-21T00:00:00.000Z",
     },
     prescriber,
     prescriptions: [
@@ -84,4 +83,53 @@ test("practice contact and optional order fields retain their flat public bodies
   expect(created.practice).toEqual(practice);
   expect(created.prescriber?.phone).toBe(prescriber.phone);
   expect(created.prescriber?.address).toEqual(address);
+});
+
+test("recovery and practice pricing filters reach the API", async () => {
+  const urls: URL[] = [];
+  const api = new Affinity("test", {
+    fetch: (async (url) => {
+      urls.push(new URL(String(url)));
+      return Response.json({ data: [], hasMore: false, nextCursor: null });
+    }) as typeof fetch,
+  });
+  await api.orders.list({
+    externalOrderId: "emr-42",
+    updatedAfter: "2026-10-22T00:00:00Z",
+    practiceId: "prac_test",
+  });
+  await api.medications.list({ practiceId: "prac_test", category: "skin" });
+  await api.medications.get("med_test", { practiceId: "prac_test", expand: ["variants"] });
+  expect(Object.fromEntries(urls[0].searchParams)).toEqual({
+    externalOrderId: "emr-42",
+    updatedAfter: "2026-10-22T00:00:00Z",
+    practiceId: "prac_test",
+  });
+  expect(Object.fromEntries(urls[1].searchParams)).toEqual({
+    practiceId: "prac_test",
+    category: "skin",
+  });
+  expect(Object.fromEntries(urls[2].searchParams)).toEqual({
+    practiceId: "prac_test",
+    expand: "variants",
+  });
+});
+
+test("unknown read parameters fail locally even for JavaScript callers", async () => {
+  let calls = 0;
+  const api = new Affinity("test", {
+    fetch: (async () => {
+      calls++;
+      return Response.json({});
+    }) as typeof fetch,
+  });
+  // @ts-expect-error Misspelled query parameters must also be compile errors.
+  await expect(api.orders.list({ externalOrderID: "emr-42" })).rejects.toThrow(
+    "Unknown query parameter: externalOrderID",
+  );
+  // @ts-expect-error Reads without query parameters must reject unknown options too.
+  await expect(api.orders.get("ord_test", { practiceId: "prac_test" })).rejects.toThrow(
+    "Unknown request option: practiceId",
+  );
+  expect(calls).toBe(0);
 });

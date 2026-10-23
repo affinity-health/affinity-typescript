@@ -154,3 +154,10 @@ await api.feedback.create({ message: "Synthetic Test integration feedback." });
 ```
 
 Use a reachable HTTPS receiver in your own Test integration. Keep the endpoint signing secret on the server. Verify the exact raw body and `affinity-signature` header with `verifyAffinityWebhook` before parsing or processing an event. Configure each receiver with the signing secret for its organization and Test/Live endpoint. Current MVP events have no organization or mode field. Durably deduplicate by event ID and acknowledge only after storing the work. Retrieve the current order when processing queued events so an out-of-order delivery cannot regress your local state. See [the EMR helper](../examples/emr-order.ts).
+
+
+## Recover an order and select practice prices
+
+After an uncertain order response, retry with the saved body and key. To look up an existing order by your own ID, use `api.orders.list({ externalOrderId, practiceId })`. For missed-webhook recovery, keep the same `updatedAfter` timestamp while paging.
+
+Platform callers can request practice prices with `api.medications.list({ practiceId })` and `api.medications.get(medicationId, { practiceId, expand: ["variants"] })`. Unknown query parameters fail locally instead of being silently discarded. Query `limit` remains a string, matching the staging OpenAPI contract.

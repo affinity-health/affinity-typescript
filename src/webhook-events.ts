@@ -12,7 +12,6 @@ export const affinityWebhookEventTypes = [
   "webhook_endpoint.test",
 ] as const;
 export const affinityOrderStatuses = [
-  "draft",
   "submitted",
   "processing",
   "shipped",

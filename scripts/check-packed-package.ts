@@ -22,7 +22,9 @@ async function workflow() {
  await api.practices.get(practice.id);
  await api.practices.update(practice.id,{phone:null});
  const order = await api.orders.create(input,{idempotencyKey:"persisted-order"});
- await api.orders.list({practiceId:practice.id,limit:"20"});
+ await api.orders.list({practiceId:practice.id,limit:"20",externalOrderId:"emr-42",updatedAfter:"2026-10-22T00:00:00Z"});
+ await api.medications.list({practiceId:practice.id,category:"skin"});
+ await api.medications.get(medication.id,{practiceId:practice.id,expand:["variants"]});
  await api.orders.get(order.id);
  await api.orders.cancel(order.id);
  const endpoint = await api.webhooks.create({url:"https://example.test/webhook"});
@@ -39,6 +41,10 @@ void api.orders.create(input);
 // Other writes generate required headers when request options are omitted.
 void api.practices.create(practiceInput);
 void api.webhooks.resendFailed("whe_example");
+// @ts-expect-error Unknown query parameters fail compilation.
+void api.orders.list({externalOrderID:"emr-42"});
+// @ts-expect-error Draft is not a public order status.
+void api.orders.list({status:"draft"});
 // @ts-expect-error Practice creation requires address and phone.
 void api.practices.create({name:"Synthetic Test Practice"});
 const {practiceId, ...practiceOrder} = input;
