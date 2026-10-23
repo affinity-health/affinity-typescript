@@ -11,7 +11,7 @@ bun add @affinity-health/sdk@next
 
 For npm, use `npm install @affinity-health/sdk@next`.
 
-Install the MVP SDK with `@next`. Bare installs select `latest`, which remains `1.16.0` and targets the older API version that staging rejects. Do not move `latest` for a beta release. This checkout prepares `2.0.0-beta.5` for the staging-only MVP API; configure the staging base URL shown below. Production still serves the previous API until the MVP cutover.
+Install the MVP SDK with `@next`. Bare installs select `latest`, which remains `1.16.0` and targets the older API version that staging rejects. Do not move `latest` for a beta release. This checkout prepares `2.0.0-beta.6` for the staging-only MVP API; configure the staging base URL shown below. Production still serves the previous API until the MVP cutover.
 
 ## Use
 

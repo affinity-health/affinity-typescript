@@ -7,6 +7,19 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 
 ## [Unreleased]
 
+## [2.0.0-beta.6] - 2026-10-23
+
+### Changed
+
+- Require a persisted `idempotencyKey` for `orders.create`. Reuse it with the saved order body across calls and process restarts; automatic retries keep the same key.
+- Generate current API response and webhook types from staging API version `2026-10-20`, including medication categories, full names, cold-chain requirements, and webhook endpoint mode and update time.
+- Document `@affinity-health/sdk@next` for MVP installs. Keep npm `latest` on `1.16.0`.
+
+### Fixed
+
+- Send order recovery filters `externalOrderId` and `updatedAfter`, medication pricing `practiceId`, category filters, and medication detail `expand` parameters. Reject unknown query parameters and request options locally instead of discarding them.
+- Verify webhook signatures and timestamps independently of payload shape. Accept opaque IDs, unknown event types and additive fields, and expose current event types with an unknown-event fallback.
+
 ## [2.0.0-beta.5] - 2026-10-21
 
 ### Changed

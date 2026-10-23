@@ -3,7 +3,7 @@
 import { createTransport } from "./transport";
 import { affinityConnectionError, affinityErrorFromResponse } from "./errors";
 
-const sdkVersion = "2.0.0-beta.5";
+const sdkVersion = "2.0.0-beta.6";
 
 export interface SDKOptions {
   baseUrl?: string;
