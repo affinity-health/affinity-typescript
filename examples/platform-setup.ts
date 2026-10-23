@@ -2,7 +2,7 @@ import { Affinity } from "@affinity-health/sdk";
 
 // Server-side only. Call with a persisted key for this exact creation operation.
 export async function createSyntheticPractice(apiKey: string, persistedCreationKey: string) {
-  const affinity = new Affinity(apiKey, { baseUrl: "https://api-staging.affinityrx.com" });
+  const affinity = new Affinity(apiKey);
   const account = await affinity.account.get();
   if (account.mode !== "test" || account.type !== "platform")
     throw new Error("Use a platform Test key for this example");

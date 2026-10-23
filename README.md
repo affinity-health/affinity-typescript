@@ -11,7 +11,7 @@ bun add @affinity-health/sdk@next
 
 For npm, use `npm install @affinity-health/sdk@next`.
 
-Install the MVP SDK with `@next`. Bare installs select `latest`, which remains `1.16.0` and targets the older API version that staging rejects. Do not move `latest` for a beta release. This checkout prepares `2.0.0-beta.6` for the staging-only MVP API; configure the staging base URL shown below. Production still serves the previous API until the MVP cutover.
+Install the SDK with `@next`. Bare installs select `latest`, which remains `1.16.0` and targets a retired API version the API refuses. This beta targets API version `2026-10-20` at `https://api.affinityrx.com`, the default base URL. Use a Test key to build and test; Test orders go to a test pharmacy.
 
 ## Use
 
@@ -20,9 +20,7 @@ Keep API keys on the server. Never put them in browser bundles, mobile applicati
 ```typescript
 import { Affinity } from "@affinity-health/sdk";
 
-const api = new Affinity(process.env.AFFINITY_API_KEY!, {
-  baseUrl: "https://api-staging.affinityrx.com",
-});
+const api = new Affinity(process.env.AFFINITY_API_KEY!);
 const account = await api.account.get();
 if (account.mode !== "test") throw new Error("Use a Test key for this example");
 

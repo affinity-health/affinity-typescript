@@ -2,22 +2,19 @@
 
 Use this SDK in trusted server runtimes. Keep keys out of browser and mobile code, logs, and committed files. All identities below are synthetic; run examples with a Test key only.
 
-Install the MVP beta with `bun add @affinity-health/sdk@next` or `npm install @affinity-health/sdk@next`. The `latest` tag stays on `1.16.0`, whose API version staging rejects.
+Install the MVP beta with `bun add @affinity-health/sdk@next` or `npm install @affinity-health/sdk@next`. The `latest` tag stays on `1.16.0`, whose API version the API refuses.
 
 ## Create a client
 
 ```typescript
 import { Affinity, AffinityError, type OrderCreateParams } from "@affinity-health/sdk";
 
-const api = new Affinity(process.env.AFFINITY_API_KEY!, {
-  baseUrl: "https://api-staging.affinityrx.com",
-  maxNetworkRetries: 2,
-});
+const api = new Affinity(process.env.AFFINITY_API_KEY!, { maxNetworkRetries: 2 });
 const account = await api.account.get();
 if (account.mode !== "test") throw new Error("This example requires a Test key");
 ```
 
-This beta targets the staging MVP API, so set `baseUrl` to `https://api-staging.affinityrx.com`. After the MVP cutover, switch to `https://api.affinityrx.com` or omit `baseUrl` to use the production default. The SDK sends `Affinity-Version: 2026-10-20`. The key determines organization and mode. NPI identifies a clinician; it does not authenticate them or grant signing authority. Your integration must authenticate the clinician and record approval before sending a signed order.
+The SDK calls `https://api.affinityrx.com` by default and sends `Affinity-Version: 2026-10-20`. The key determines organization and mode. NPI identifies a clinician; it does not authenticate them or grant signing authority. Your integration must authenticate the clinician and record approval before sending a signed order.
 
 ## Find medications
 
