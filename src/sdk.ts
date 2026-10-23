@@ -26,6 +26,7 @@ type Operation = {
   query: readonly string[];
   body: boolean;
   idempotency: boolean;
+  requiresPersistedKey: boolean;
 };
 class SDKTransport {
   readonly fetcher: typeof fetch;
@@ -91,6 +92,10 @@ class SDKContext {
     options: SDKRequestOptions = {},
   ): Promise<any> {
     options.signal?.throwIfAborted();
+    if (op.requiresPersistedKey && options.idempotencyKey === undefined)
+      throw new Error(
+        "Order creation requires a persisted idempotencyKey; reuse it when retrying the same order",
+      );
     const key =
       options.idempotencyKey ?? (op.idempotency ? globalThis.crypto.randomUUID() : undefined);
     if (key !== undefined && !/^[\x21-\x7e]{1,255}$/.test(key))
@@ -154,6 +159,7 @@ const operations = {
     query: [],
     body: false,
     idempotency: false,
+    requiresPersistedKey: false,
   },
   createFeedback: {
     path: "/v1/feedback",
@@ -162,6 +168,7 @@ const operations = {
     query: [],
     body: true,
     idempotency: true,
+    requiresPersistedKey: false,
   },
   "medications.list": {
     path: "/v1/medications",
@@ -170,6 +177,7 @@ const operations = {
     query: ["limit", "startingAfter", "name", "names", "pharmacyId", "query"],
     body: false,
     idempotency: false,
+    requiresPersistedKey: false,
   },
   "medications.get": {
     path: "/v1/medications/{medicationId}",
@@ -178,6 +186,7 @@ const operations = {
     query: [],
     body: false,
     idempotency: false,
+    requiresPersistedKey: false,
   },
   "orders.create": {
     path: "/v1/orders",
@@ -186,6 +195,7 @@ const operations = {
     query: [],
     body: true,
     idempotency: true,
+    requiresPersistedKey: true,
   },
   "orders.list": {
     path: "/v1/orders",
@@ -204,6 +214,7 @@ const operations = {
     ],
     body: false,
     idempotency: false,
+    requiresPersistedKey: false,
   },
   "orders.get": {
     path: "/v1/orders/{orderId}",
@@ -212,6 +223,7 @@ const operations = {
     query: [],
     body: false,
     idempotency: false,
+    requiresPersistedKey: false,
   },
   "orders.cancel": {
     path: "/v1/orders/{orderId}/cancel",
@@ -220,6 +232,7 @@ const operations = {
     query: [],
     body: false,
     idempotency: true,
+    requiresPersistedKey: false,
   },
   "practices.create": {
     path: "/v1/practices",
@@ -228,6 +241,7 @@ const operations = {
     query: [],
     body: true,
     idempotency: true,
+    requiresPersistedKey: false,
   },
   "practices.list": {
     path: "/v1/practices",
@@ -236,6 +250,7 @@ const operations = {
     query: ["endingBefore", "limit", "startingAfter", "query", "sort"],
     body: false,
     idempotency: false,
+    requiresPersistedKey: false,
   },
   "practices.get": {
     path: "/v1/practices/{practiceId}",
@@ -244,6 +259,7 @@ const operations = {
     query: [],
     body: false,
     idempotency: false,
+    requiresPersistedKey: false,
   },
   "practices.update": {
     path: "/v1/practices/{practiceId}",
@@ -252,6 +268,7 @@ const operations = {
     query: [],
     body: true,
     idempotency: true,
+    requiresPersistedKey: false,
   },
   "webhooks.list": {
     path: "/v1/webhook-endpoints",
@@ -260,6 +277,7 @@ const operations = {
     query: ["endingBefore", "limit", "startingAfter"],
     body: false,
     idempotency: false,
+    requiresPersistedKey: false,
   },
   "webhooks.create": {
     path: "/v1/webhook-endpoints",
@@ -268,6 +286,7 @@ const operations = {
     query: [],
     body: true,
     idempotency: true,
+    requiresPersistedKey: false,
   },
   "webhooks.update": {
     path: "/v1/webhook-endpoints/{webhookEndpointId}",
@@ -276,6 +295,7 @@ const operations = {
     query: [],
     body: true,
     idempotency: true,
+    requiresPersistedKey: false,
   },
   "webhooks.remove": {
     path: "/v1/webhook-endpoints/{webhookEndpointId}",
@@ -284,6 +304,7 @@ const operations = {
     query: [],
     body: false,
     idempotency: false,
+    requiresPersistedKey: false,
   },
   "webhooks.resendFailed": {
     path: "/v1/webhook-endpoints/{webhookEndpointId}/resend-failed",
@@ -292,6 +313,7 @@ const operations = {
     query: [],
     body: false,
     idempotency: true,
+    requiresPersistedKey: false,
   },
 } as const;
 export type AccountGetResponse = {
@@ -915,7 +937,7 @@ export class MedicationSDKResource {
 }
 export class OrderSDKResource {
   constructor(private readonly context: SDKContext) {}
-  create(params: OrderCreateParams, options: SDKRequestOptions = {}): Promise<OrderCreateResponse> {
+  create(params: OrderCreateParams, options: RequiredKeyOptions): Promise<OrderCreateResponse> {
     return this.context.call(operations["orders.create"], [], params, options);
   }
   list(params: OrderListParams = {}, options: SDKRequestOptions = {}): Promise<OrderListResponse> {

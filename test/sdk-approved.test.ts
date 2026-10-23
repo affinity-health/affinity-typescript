@@ -67,11 +67,6 @@ for (const [name, path, invoke] of [
     (api: Affinity, options?: { idempotencyKey: string }) =>
       api.webhooks.create({ url: "https://example.test/webhook" }, options),
   ],
-  [
-    "create order",
-    "/v1/orders",
-    (api: Affinity, options?: { idempotencyKey: string }) => api.orders.create(order, options),
-  ],
 ] as const) {
   test(`${name} generates a per-call key, preserves it on retries, and accepts caller keys`, async () => {
     const calls: { path: string; key: string | null; body: unknown }[] = [];
@@ -227,4 +222,37 @@ test("cyclic request data fails locally instead of reporting a retryable connect
   expect(error).toBeInstanceOf(TypeError);
   expect(error).not.toBeInstanceOf(AffinityConnectionError);
   expect(calls).toBe(0);
+});
+
+test("order creation requires a persisted key before sending", async () => {
+  let calls = 0;
+  const api = new Affinity("test", {
+    fetch: (async () => {
+      calls++;
+      return Response.json({ id: "ord_duplicate" });
+    }) as typeof fetch,
+  });
+  // @ts-expect-error Orders require a caller-owned key, including from TypeScript.
+  await expect(api.orders.create(order)).rejects.toThrow("persisted idempotencyKey");
+  expect(calls).toBe(0);
+});
+
+test("retrying after a lost order response replays one order with the persisted key", async () => {
+  const orders = new Map<string, { id: string }>();
+  const keys: string[] = [];
+  const api = new Affinity("test", {
+    timeout: 5,
+    fetch: (async (_url, init) => {
+      const key = new Headers(init?.headers).get("Idempotency-Key")!;
+      keys.push(key);
+      if (!orders.has(key)) orders.set(key, { id: `ord_${orders.size + 1}` });
+      if (keys.length === 1) return new Promise(() => {});
+      return Response.json(orders.get(key));
+    }) as typeof fetch,
+  });
+  const options = { idempotencyKey: "persisted-review-42" };
+  await expect(api.orders.create(order, options)).rejects.toBeInstanceOf(AffinityConnectionError);
+  expect(await api.orders.create(order, options)).toEqual({ id: "ord_1" });
+  expect(orders.size).toBe(1);
+  expect(keys).toEqual([options.idempotencyKey, options.idempotencyKey]);
 });

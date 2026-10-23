@@ -75,7 +75,7 @@ test("practice contact and optional order fields retain their flat public bodies
     }) as typeof fetch,
   });
   await api.practices.create(practice);
-  const created = await api.orders.create(input);
+  const created = await api.orders.create(input, { idempotencyKey: "persisted-test-order" });
   expect(calls).toEqual([
     { path: "/v1/practices", body: practice },
     { path: "/v1/orders", body: input },
