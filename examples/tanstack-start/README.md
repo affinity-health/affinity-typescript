@@ -2,6 +2,8 @@
 
 This private example reads practices and medications using the SDK built from this checkout. It keeps the API key on the server and requires a Test-mode platform account. It performs no API writes.
 
+For a separate server application, install the MVP beta with `bun add @affinity-health/sdk@next` or `npm install @affinity-health/sdk@next`. Bare installs select `latest` at `1.16.0`, which staging rejects.
+
 Build the SDK from the repository root first with `bun run build`. The example resolves `@affinity-health/sdk` to that build.
 
 ## Server configuration

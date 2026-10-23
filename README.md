@@ -9,7 +9,9 @@ This checkout targets API version `2026-10-20` and sends it in `Affinity-Version
 bun add @affinity-health/sdk@next
 ```
 
-Pin this release with `bun add @affinity-health/sdk@2.0.0-beta.5`. The beta targets the staging-only MVP API. Production still serves the previous API; use stable `1.16.0` for production until the MVP cutover.
+For npm, use `npm install @affinity-health/sdk@next`.
+
+Install the MVP SDK with `@next`. Bare installs select `latest`, which remains `1.16.0` and targets the older API version that staging rejects. Do not move `latest` for a beta release. This checkout prepares `2.0.0-beta.5` for the staging-only MVP API; configure the staging base URL shown below. Production still serves the previous API until the MVP cutover.
 
 ## Use
 

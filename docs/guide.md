@@ -2,6 +2,8 @@
 
 Use this SDK in trusted server runtimes. Keep keys out of browser and mobile code, logs, and committed files. All identities below are synthetic; run examples with a Test key only.
 
+Install the MVP beta with `bun add @affinity-health/sdk@next` or `npm install @affinity-health/sdk@next`. The `latest` tag stays on `1.16.0`, whose API version staging rejects.
+
 ## Create a client
 
 ```typescript
