@@ -234,6 +234,12 @@ test("order creation requires a persisted key before sending", async () => {
   });
   // @ts-expect-error Orders require a caller-owned key, including from TypeScript.
   await expect(api.orders.create(order)).rejects.toThrow("persisted idempotencyKey");
+  for (const idempotencyKey of [null, 42]) {
+    // @ts-expect-error JavaScript callers must also supply a string key.
+    await expect(api.orders.create(order, { idempotencyKey })).rejects.toThrow(
+      "persisted idempotencyKey",
+    );
+  }
   expect(calls).toBe(0);
 });
 
