@@ -155,6 +155,7 @@ const events = spec.webhooks.orderEvent.post.requestBody.content["application/js
 const orderEvent = events.find((e: any) => e.properties.data.properties?.order);
 const eventTypes = events.flatMap((e: any) => e.properties.type.enum);
 const webhook = (await readFile(resolve(root, "templates/webhook-events.ts"), "utf8"))
+  .replace("__AFFINITY_KNOWN_WEBHOOK_EVENT__", type({ anyOf: events }))
   .replace("__AFFINITY_WEBHOOK_API_VERSION__", JSON.stringify(spec.info.version))
   .replace("__AFFINITY_WEBHOOK_EVENT_TYPES__", JSON.stringify(eventTypes))
   .replace(

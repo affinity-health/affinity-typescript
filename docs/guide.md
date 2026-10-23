@@ -153,7 +153,7 @@ await api.webhooks.remove(endpoint.id);
 await api.feedback.create({ message: "Synthetic Test integration feedback." });
 ```
 
-Use a reachable HTTPS receiver in your own Test integration. Keep the endpoint signing secret on the server. Verify the exact raw body and `affinity-signature` header with `verifyAffinityWebhook` before parsing or processing an event. Configure each receiver with the signing secret for its organization and Test/Live endpoint. Current MVP events have no organization or mode field. Durably deduplicate by event ID and acknowledge only after storing the work. Retrieve the current order when processing queued events so an out-of-order delivery cannot regress your local state. See [the EMR helper](../examples/emr-order.ts).
+Use a reachable HTTPS receiver in your own Test integration. Keep the endpoint signing secret on the server. Verify the exact raw body and `affinity-signature` header with `verifyAffinityWebhook` before processing an event. Verification checks the signature and timestamp, then returns the parsed JSON without schema validation. Ignore unknown event types and fields; validate the fields your handler uses. `AffinityKnownWebhookEvent` describes current contract events, and `AffinityWebhookEvent` includes an unknown-event fallback. Configure each receiver with the signing secret for its organization and Test/Live endpoint. Current MVP events have no organization or mode field. Durably deduplicate by event ID and acknowledge only after storing the work. Retrieve the current order when processing queued events so an out-of-order delivery cannot regress your local state. See [the EMR helper](../examples/emr-order.ts).
 
 
 ## Recover an order and select practice prices

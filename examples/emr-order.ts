@@ -46,7 +46,6 @@ export async function receiveWebhook(
   // Configure this receiver with the signing secret of a Test endpoint only.
   // MVP events have no organization or mode field. The endpoint's secret binds scope;
   // the queued worker must use the matching Test key when retrieving the order.
-  if (!("createdAt" in event)) return new Response("Expected an MVP event", { status: 400 });
   // Dispatch only known order event types. Ignore unknown types after signature
   // verification and answer 2xx. Do not catch-and-hide failures for known events.
   switch (event.type) {
@@ -57,7 +56,17 @@ export async function receiveWebhook(
     case "order.shipped":
     case "order.submitted":
     case "order.updated":
-      await enqueueOnce(event.id, event.data.order.id);
+      // Verification authenticates the bytes. Validate the fields this handler uses.
+      const order = event.data?.order;
+      if (
+        typeof event.id !== "string" ||
+        typeof order !== "object" ||
+        order === null ||
+        !("id" in order) ||
+        typeof order.id !== "string"
+      )
+        throw new Error("Order webhook is missing an event or order ID");
+      await enqueueOnce(event.id, order.id);
       break;
     default:
       break;

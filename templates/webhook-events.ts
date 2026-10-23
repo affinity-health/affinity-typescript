@@ -9,154 +9,27 @@ export type AffinityOrderWebhookEventType = Exclude<
   "webhook_endpoint.test"
 >;
 export type AffinityOrderStatus = (typeof affinityOrderStatuses)[number];
-/** Historical events retain the order status recorded in their immutable snapshot. */
-export type AffinityOrderWebhookStatus = AffinityOrderStatus | "accepted";
-export type AffinityPublicId<Prefix extends string> = `${Prefix}_${string}`;
-export type AffinityOrganizationId =
-  | AffinityPublicId<"acct">
-  | AffinityPublicId<"pharm">
-  | AffinityPublicId<"prac">;
 
-export interface AffinityThinOrderWebhookObject {
-  id: AffinityPublicId<"ord">;
-  object: "order";
-}
-
-export interface AffinityOrderWebhookObject extends AffinityThinOrderWebhookObject {
-  carrier?: string | null;
-  delivered_at?: string | null;
-  estimated_delivery_at?: string | null;
-  metadata?: Record<string, string | number | boolean | null>;
-  prescriptions?: Array<{ id: AffinityPublicId<"rx">; external_prescription_id: string | null }>;
-  fulfillments?: Array<Record<string, unknown>>;
-  review?: Record<string, unknown> | null;
-  review_status?: string | null;
-  tracking_status?: string | null;
-  tracking_url?: string | null;
-  external_order_id?: string | null;
-  practice_id?: AffinityPublicId<"prac"> | null;
-  shipped_at?: string | null;
-  status?: AffinityOrderWebhookStatus;
-  tracking_number?: string | null;
-  updated_at?: string;
-}
-
-export type AffinityOrderWebhookPreviousAttributes = Partial<
-  Omit<AffinityOrderWebhookObject, "id" | "object">
+/** Current event shapes generated from the pinned OpenAPI contract. */
+export type AffinityKnownWebhookEvent = __AFFINITY_KNOWN_WEBHOOK_EVENT__;
+export type AffinityMvpOrderWebhookEvent = Extract<
+  AffinityKnownWebhookEvent,
+  { data: { order: unknown } }
+>;
+export type AffinityMvpOrderWebhookObject = AffinityMvpOrderWebhookEvent["data"]["order"];
+export type AffinityMvpWebhookEndpointTestEvent = Extract<
+  AffinityKnownWebhookEvent,
+  { type: "webhook_endpoint.test" }
 >;
 
-export interface AffinityWebhookEndpointObject {
-  id: AffinityPublicId<"whe">;
-  object: "webhook_endpoint";
-}
-
-interface AffinityWebhookEventBase<TType extends string> {
-  api_version: string;
-  created: number;
-  id: AffinityPublicId<"evt">;
-  livemode: boolean;
-  object: "event";
-  organization_id: AffinityOrganizationId;
-  request_id: AffinityPublicId<"req"> | null;
-  type: TType;
-}
-
-export interface AffinityWebhookEndpointTestEvent extends AffinityWebhookEventBase<"webhook_endpoint.test"> {
-  data: {
-    object: AffinityWebhookEndpointObject;
-  };
-}
-
-export interface AffinityOrderWebhookEvent<
-  TType extends string = AffinityOrderWebhookEventType,
-> extends AffinityWebhookEventBase<TType> {
-  data: {
-    object: AffinityOrderWebhookObject;
-    previous_attributes?: AffinityOrderWebhookPreviousAttributes;
-  };
-}
-
-export type AffinityOrderCreatedWebhookEvent = AffinityOrderWebhookEvent<"order.created">;
-export type AffinityOrderUpdatedWebhookEvent = AffinityOrderWebhookEvent<"order.updated">;
-export type AffinityCancellationRequestedWebhookEvent =
-  AffinityOrderWebhookEvent<"cancellation.requested">;
-export type AffinityCancellationSentWebhookEvent = AffinityOrderWebhookEvent<"cancellation.sent">;
-export type AffinityCancellationConfirmedWebhookEvent =
-  AffinityOrderWebhookEvent<"cancellation.confirmed">;
-export type AffinityCancellationRejectedWebhookEvent =
-  AffinityOrderWebhookEvent<"cancellation.rejected">;
-export type AffinityCancellationFailedWebhookEvent =
-  AffinityOrderWebhookEvent<"cancellation.failed">;
-export type AffinityCancellationTooLateWebhookEvent =
-  AffinityOrderWebhookEvent<"cancellation.too_late">;
-export type AffinityOrderReviewRequestedWebhookEvent =
-  AffinityOrderWebhookEvent<"order.review_requested">;
-export type AffinityOrderChangesRequestedWebhookEvent =
-  AffinityOrderWebhookEvent<"order.changes_requested">;
-export type AffinityOrderSignedWebhookEvent = AffinityOrderWebhookEvent<"order.signed">;
-export type AffinityOrderRejectedWebhookEvent = AffinityOrderWebhookEvent<"order.rejected">;
-export type AffinityOrderSubmittedWebhookEvent = AffinityOrderWebhookEvent<"order.submitted">;
-export type AffinityOrderAcceptedWebhookEvent = AffinityOrderWebhookEvent<"order.accepted">;
-export type AffinityOrderProcessingWebhookEvent = AffinityOrderWebhookEvent<"order.processing">;
-export type AffinityOrderShippedWebhookEvent = AffinityOrderWebhookEvent<"order.shipped">;
-export type AffinityOrderDeliveredWebhookEvent = AffinityOrderWebhookEvent<"order.delivered">;
-export type AffinityOrderBlockedWebhookEvent = AffinityOrderWebhookEvent<"order.blocked">;
-export type AffinityOrderCancelledWebhookEvent = AffinityOrderWebhookEvent<"order.cancelled">;
-
-/** Current MVP webhook payload. The API delivers an operational order projection. */
-export interface AffinityMvpOrderWebhookObject {
-  cancelRequestedAt: string | null;
-  externalOrderId: string | null;
-  failureReason: string | null;
-  id: AffinityPublicId<"ord">;
-  shipments: Array<{
-    carrier: string | null;
-    trackingNumber: string;
-    trackingUrl: string | null;
-  }>;
-  status: AffinityOrderWebhookStatus | (string & {});
-  updatedAt: string;
-}
-
-export interface AffinityMvpOrderWebhookEvent<
-  TType extends string = AffinityOrderWebhookEventType,
-> {
-  id: AffinityPublicId<"evt">;
-  type: TType;
-  createdAt: string;
-  data: { order: AffinityMvpOrderWebhookObject };
-}
-
-export interface AffinityMvpWebhookEndpointTestEvent {
-  id: AffinityPublicId<"evt">;
-  type: "webhook_endpoint.test";
-  createdAt: string;
+/** Future event types and fields need caller validation before use. */
+export interface AffinityUnknownWebhookEvent {
+  id: string;
+  type: string;
   data: Record<string, unknown>;
+  [field: string]: unknown;
 }
-
-export type AffinityWebhookEvent =
-  | AffinityMvpOrderWebhookEvent
-  | AffinityMvpWebhookEndpointTestEvent
-  | AffinityWebhookEndpointTestEvent
-  | AffinityOrderCreatedWebhookEvent
-  | AffinityOrderUpdatedWebhookEvent
-  | AffinityCancellationRequestedWebhookEvent
-  | AffinityCancellationSentWebhookEvent
-  | AffinityCancellationConfirmedWebhookEvent
-  | AffinityCancellationRejectedWebhookEvent
-  | AffinityCancellationFailedWebhookEvent
-  | AffinityCancellationTooLateWebhookEvent
-  | AffinityOrderReviewRequestedWebhookEvent
-  | AffinityOrderChangesRequestedWebhookEvent
-  | AffinityOrderSignedWebhookEvent
-  | AffinityOrderRejectedWebhookEvent
-  | AffinityOrderSubmittedWebhookEvent
-  | AffinityOrderAcceptedWebhookEvent
-  | AffinityOrderProcessingWebhookEvent
-  | AffinityOrderShippedWebhookEvent
-  | AffinityOrderDeliveredWebhookEvent
-  | AffinityOrderBlockedWebhookEvent
-  | AffinityOrderCancelledWebhookEvent;
+export type AffinityWebhookEvent = AffinityKnownWebhookEvent | AffinityUnknownWebhookEvent;
 
 export type AffinityWebhookVerificationErrorCode =
   | "invalid_body"
@@ -242,69 +115,27 @@ export async function verifyAffinityWebhook(input: {
   } catch {
     throw new AffinityWebhookVerificationError("invalid_body", "Webhook body is not valid JSON");
   }
-  return parseAffinityWebhookEvent(value);
+  // Authenticity and freshness do not depend on an event schema.
+  return value as AffinityWebhookEvent;
 }
 
+/** Parse an unsigned envelope only. This does not verify authenticity or validate event data. */
 export function parseAffinityWebhookEvent(value: unknown): AffinityWebhookEvent {
-  try {
-    const event = requireRecord(value, "event");
-    if ("createdAt" in event) {
-      parseMvpWebhookEvent(event);
-      return value as AffinityWebhookEvent;
-    }
-    requireFields(event, [
-      "api_version",
-      "created",
-      "data",
-      "id",
-      "livemode",
-      "object",
-      "organization_id",
-      "request_id",
-      "type",
-    ]);
-    // Newer API versions and event types stay verifiable; branch on the ones you handle.
-    if (typeof event.api_version !== "string" || !event.api_version) {
-      throw new Error("api_version is invalid");
-    }
-    if (
-      typeof event.created !== "number" ||
-      !Number.isSafeInteger(event.created) ||
-      event.created < 0
-    ) {
-      throw new Error("created is invalid");
-    }
-    requirePublicId(event.id, "evt");
-    if (typeof event.livemode !== "boolean") throw new Error("livemode is invalid");
-    if (event.object !== "event") throw new Error("object is invalid");
-    requireOrganizationId(event.organization_id);
-    if (event.request_id !== null && typeof event.request_id !== "string") {
-      throw new Error("request_id is invalid");
-    }
-    if (typeof event.type !== "string" || !event.type) throw new Error("type is invalid");
-    const data = requireRecord(event.data, "data");
-    if (!affinityWebhookEventTypes.includes(event.type as AffinityWebhookEventType)) {
-      requireRecord(data.object, "data.object");
-    } else if (event.type === "webhook_endpoint.test") {
-      requireFields(data, ["object"]);
-      parseWebhookEndpointObject(data.object);
-    } else {
-      requireFields(data, ["object", "previous_attributes"], ["previous_attributes"]);
-      parseOrderObject(data.object, false);
-      if (data.previous_attributes !== undefined) {
-        parseOrderObject(data.previous_attributes, true);
-      }
-    }
-    return value as AffinityWebhookEvent;
-  } catch (error) {
-    if (error instanceof AffinityWebhookVerificationError) throw error;
+  if (typeof value !== "object" || value === null || Array.isArray(value))
+    throw new AffinityWebhookVerificationError("invalid_event", "Webhook event must be an object");
+  const event = value as Record<string, unknown>;
+  if (
+    typeof event.id !== "string" ||
+    typeof event.type !== "string" ||
+    typeof event.data !== "object" ||
+    event.data === null ||
+    Array.isArray(event.data)
+  )
     throw new AffinityWebhookVerificationError(
       "invalid_event",
-      error instanceof Error
-        ? `Webhook event is invalid: ${error.message}`
-        : "Webhook event is invalid",
+      "Webhook event must have id, type and data",
     );
-  }
+  return value as AffinityWebhookEvent;
 }
 
 export function parseAffinityWebhookSignature(value: string | null) {
@@ -331,167 +162,6 @@ export function parseAffinityWebhookSignature(value: string | null) {
     );
   }
   return { signatures, timestamp };
-}
-
-function parseMvpWebhookEvent(event: Record<string, unknown>) {
-  requireFields(event, ["id", "type", "createdAt", "data"]);
-  requirePublicId(event.id, "evt");
-  requireOptionalDateTime(event, "createdAt", false);
-  if (typeof event.type !== "string" || !event.type) throw new Error("type is invalid");
-  const data = requireRecord(event.data, "data");
-  if (event.type === "webhook_endpoint.test") return;
-  // Unknown event types may introduce a different data shape.
-  if (!affinityWebhookEventTypes.includes(event.type as AffinityWebhookEventType)) return;
-  requireFields(data, ["order"]);
-  const order = requireRecord(data.order, "data.order");
-  requireFields(order, [
-    "cancelRequestedAt",
-    "externalOrderId",
-    "failureReason",
-    "id",
-    "shipments",
-    "status",
-    "updatedAt",
-  ]);
-  requirePublicId(order.id, "ord");
-  requireOptionalDateTime(order, "cancelRequestedAt", true);
-  requireOptionalNullableString(order, "externalOrderId");
-  requireOptionalNullableString(order, "failureReason");
-  if (typeof order.status !== "string") throw new Error("order status is invalid");
-  requireOptionalDateTime(order, "updatedAt", false);
-  if (!Array.isArray(order.shipments)) throw new Error("shipments is invalid");
-  for (const value of order.shipments) {
-    const shipment = requireRecord(value, "shipment");
-    requireFields(shipment, ["carrier", "trackingNumber", "trackingUrl"]);
-    requireOptionalNullableString(shipment, "carrier");
-    requireOptionalNullableString(shipment, "trackingUrl");
-    if (typeof shipment.trackingNumber !== "string") throw new Error("trackingNumber is invalid");
-  }
-}
-
-function parseWebhookEndpointObject(value: unknown) {
-  const object = requireRecord(value, "data.object");
-  requireFields(object, ["id", "object"]);
-  requirePublicId(object.id, "whe");
-  if (object.object !== "webhook_endpoint") {
-    throw new Error("data.object.object is invalid");
-  }
-}
-
-function parseOrderObject(value: unknown, previousAttributes: boolean) {
-  const object = requireRecord(
-    value,
-    previousAttributes ? "data.previous_attributes" : "data.object",
-  );
-  const snapshotKeys = [
-    "carrier",
-    "delivered_at",
-    "external_order_id",
-    "practice_id",
-    "shipped_at",
-    "status",
-    "tracking_number",
-    "updated_at",
-  ];
-  requireFields(
-    object,
-    previousAttributes ? snapshotKeys : ["id", "object", ...snapshotKeys],
-    snapshotKeys,
-  );
-  if (!previousAttributes) {
-    requirePublicId(object.id, "ord");
-    if (object.object !== "order") throw new Error("data.object.object is invalid");
-  }
-  requireOptionalNullableString(object, "carrier");
-  requireOptionalDateTime(object, "delivered_at", true);
-  requireOptionalDateTime(object, "estimated_delivery_at", true);
-  if (object.metadata !== undefined) {
-    const metadata = requireRecord(object.metadata, "metadata");
-    for (const value of Object.values(metadata)) {
-      if (
-        value !== null &&
-        typeof value !== "string" &&
-        typeof value !== "boolean" &&
-        !(typeof value === "number" && Number.isFinite(value))
-      )
-        throw new Error("metadata is invalid");
-    }
-  }
-  if (object.prescriptions !== undefined) {
-    if (!Array.isArray(object.prescriptions)) throw new Error("prescriptions is invalid");
-    for (const value of object.prescriptions) {
-      const prescription = requireRecord(value, "prescription");
-      requirePublicId(prescription.id, "rx");
-      requireFields(prescription, ["id", "external_prescription_id"]);
-      requireOptionalNullableString(prescription, "external_prescription_id");
-    }
-  }
-  if (object.fulfillments !== undefined && !Array.isArray(object.fulfillments))
-    throw new Error("fulfillments is invalid");
-  if (object.review !== undefined && object.review !== null) requireRecord(object.review, "review");
-  for (const key of ["review_status", "tracking_status", "tracking_url"])
-    requireOptionalNullableString(object, key);
-  requireOptionalNullableString(object, "external_order_id");
-  if (object.practice_id !== undefined && object.practice_id !== null) {
-    requirePublicId(object.practice_id, "prac");
-  }
-  requireOptionalDateTime(object, "shipped_at", true);
-  // New order statuses can appear before an SDK upgrade; accept any status string.
-  if (object.status !== undefined && typeof object.status !== "string") {
-    throw new Error("order status is invalid");
-  }
-  requireOptionalNullableString(object, "tracking_number");
-  requireOptionalDateTime(object, "updated_at", false);
-}
-
-function requireRecord(value: unknown, name: string): Record<string, unknown> {
-  if (typeof value !== "object" || value === null || Array.isArray(value)) {
-    throw new Error(`${name} must be an object`);
-  }
-  return value as Record<string, unknown>;
-}
-
-function requireFields(
-  value: Record<string, unknown>,
-  allowed: readonly string[],
-  optional: readonly string[] = [],
-) {
-  // Signed payloads may gain fields within the same API version. Validate the known
-  // contract without rejecting additive fields or changing the verified raw body.
-  const optionalSet = new Set(optional);
-  for (const key of allowed) {
-    if (!optionalSet.has(key) && !(key in value)) throw new Error(`missing field ${key}`);
-  }
-}
-
-function requirePublicId(value: unknown, prefix: string) {
-  if (
-    typeof value !== "string" ||
-    !new RegExp(`^${prefix}_[0-9a-hjkmnp-tv-z]{26}$`, "u").test(value)
-  ) {
-    throw new Error(`${prefix}_ ID is invalid`);
-  }
-}
-
-function requireOrganizationId(value: unknown) {
-  if (typeof value !== "string" || !/^(?:acct|pharm|prac)_[0-9a-hjkmnp-tv-z]{26}$/u.test(value)) {
-    throw new Error("organization_id is invalid");
-  }
-}
-
-function requireOptionalNullableString(value: Record<string, unknown>, key: string) {
-  const field = value[key];
-  if (field !== undefined && field !== null && typeof field !== "string") {
-    throw new Error(`${key} is invalid`);
-  }
-}
-
-function requireOptionalDateTime(value: Record<string, unknown>, key: string, nullable: boolean) {
-  const field = value[key];
-  if (field === undefined || (nullable && field === null)) return;
-  if (typeof field !== "string" || Number.isNaN(Date.parse(field))) {
-    throw new Error(`${key} is invalid`);
-  }
 }
 
 function webhookBodyBytes(value: ArrayBuffer | string | Uint8Array) {

@@ -105,7 +105,43 @@ describe("Affinity webhook events", () => {
     }
   });
 
-  test("rejects malformed MVP order projections even with valid signatures", async () => {
+  test("authenticates JSON before decoding and rejects invalid JSON", async () => {
+    const body = "{invalid JSON";
+    await expect(
+      verifyAffinityWebhook({ body, now, secret, signature: await sign(body, secret, timestamp) }),
+    ).rejects.toMatchObject({ code: "invalid_body" });
+    await expect(
+      verifyAffinityWebhook({
+        body: body + " ",
+        now,
+        secret,
+        signature: await sign(body, secret, timestamp),
+      }),
+    ).rejects.toMatchObject({ code: "invalid_signature" });
+  });
+
+  test("accepts opaque IDs, unknown event types and additive fields", async () => {
+    for (const changed of [
+      { id: "evt_new_id_format", type: "order.future_event", extra: true, data: { future: 42 } },
+      {
+        id: "opaque",
+        type: "order.updated",
+        data: { order: { id: "opaque_order", status: "new_status", extra: {} } },
+      },
+    ]) {
+      const body = JSON.stringify(changed);
+      await expect(
+        verifyAffinityWebhook({
+          body,
+          now,
+          secret,
+          signature: await sign(body, secret, timestamp),
+        }),
+      ).resolves.toEqual(changed);
+    }
+  });
+
+  test("verifies authenticity independently of MVP payload shape", async () => {
     const payload = JSON.parse(apiFixtures[0]!.body);
     for (const fields of [
       { id: "bad" },
@@ -126,7 +162,7 @@ describe("Affinity webhook events", () => {
           secret,
           signature: await sign(body, secret, timestamp),
         }),
-      ).rejects.toMatchObject({ code: "invalid_event" });
+      ).resolves.toEqual(JSON.parse(body));
     }
     for (const data of [{}, { order: null }]) {
       const body = JSON.stringify({ ...payload, data });
@@ -137,7 +173,7 @@ describe("Affinity webhook events", () => {
           secret,
           signature: await sign(body, secret, timestamp),
         }),
-      ).rejects.toMatchObject({ code: "invalid_event" });
+      ).resolves.toEqual(JSON.parse(body));
     }
   });
 
@@ -256,7 +292,7 @@ describe("Affinity webhook events", () => {
     ).toEqual(JSON.parse(body));
   });
 
-  test("still rejects malformed known fields with a valid signature", async () => {
+  test("verifies signed payloads independently of legacy shape", async () => {
     for (const fields of [
       { id: "bad" },
       { status: 42 },
@@ -274,7 +310,7 @@ describe("Affinity webhook events", () => {
           secret,
           signature: await sign(body, secret, timestamp),
         }),
-      ).rejects.toMatchObject({ code: "invalid_event" });
+      ).resolves.toEqual(JSON.parse(body));
     }
   });
 
@@ -319,16 +355,13 @@ describe("Affinity webhook events", () => {
     });
   });
 
-  test("verifies the exact raw body and returns a narrowed event union", async () => {
+  test("verifies the exact raw body without rewriting the payload", async () => {
     const body = JSON.stringify(event);
     const signature = await sign(body, secret, timestamp);
     const verified = await verifyAffinityWebhook({ body, now, secret, signature });
 
     expect(verified.type).toBe("order.submitted");
-    if (verified.type === "order.submitted" && "object" in verified.data) {
-      expect(verified.data.object.status).toBe("submitted");
-      expect(verified.data.previous_attributes?.status).toBe("draft");
-    }
+    expect(verified).toEqual(event);
   });
 
   test("accepts any currently active signing secret during rotation", async () => {
@@ -366,18 +399,16 @@ describe("Affinity webhook events", () => {
     });
   });
 
-  test("rejects event types whose object does not match", () => {
-    expect(() =>
-      parseAffinityWebhookEvent({
-        ...event,
-        data: {
-          object: {
-            id: "whe_01k123456789abcdefghjkmnpq",
-            object: "webhook_endpoint",
-          },
-        },
-      }),
-    ).toThrow(AffinityWebhookVerificationError);
+  test("unsigned envelope parsing checks only its envelope", () => {
+    expect(parseAffinityWebhookEvent({ id: "opaque", type: "future", data: {} })).toEqual({
+      id: "opaque",
+      type: "future",
+      data: {},
+    });
+    expect(() => parseAffinityWebhookEvent(null)).toThrow(AffinityWebhookVerificationError);
+    expect(() => parseAffinityWebhookEvent({ id: 42, type: "future", data: {} })).toThrow(
+      AffinityWebhookVerificationError,
+    );
   });
 });
 
