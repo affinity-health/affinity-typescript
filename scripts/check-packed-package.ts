@@ -33,14 +33,16 @@ async function workflow() {
  await api.feedback.create({message:"Synthetic feedback"});
  void account; void exact;
 }
-// Required headers are generated when request options are omitted.
+// Order creation requires a persisted key in packed consumer declarations.
+// @ts-expect-error A caller-owned key is required.
 void api.orders.create(input);
+// Other writes generate required headers when request options are omitted.
 void api.practices.create(practiceInput);
 void api.webhooks.resendFailed("whe_example");
 // @ts-expect-error Practice creation requires address and phone.
 void api.practices.create({name:"Synthetic Test Practice"});
 const {practiceId, ...practiceOrder} = input;
-void api.orders.create({...practiceOrder,prescriber:{firstName:"Synthetic",lastName:"Prescriber",npi:"1234567893",phone:"+12025550199",address:practiceInput.address}});
+void api.orders.create({...practiceOrder,prescriber:{firstName:"Synthetic",lastName:"Prescriber",npi:"1234567893",phone:"+12025550199",address:practiceInput.address}}, {idempotencyKey:"persisted-practice-order"});
 void api.orders.list({cancelRequested:"true"});
 // @ts-expect-error There is no standalone patient resource.
 void api.patients;
