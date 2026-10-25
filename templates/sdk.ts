@@ -28,7 +28,6 @@ type Operation = {
   query: readonly string[];
   body: boolean;
   idempotency: boolean;
-  requiresPersistedKey: boolean;
 };
 class SDKTransport {
   readonly fetcher: typeof fetch;
@@ -97,10 +96,6 @@ class SDKContext {
       if (name !== "signal" && name !== "idempotencyKey")
         throw new Error(`Unknown request option: ${name}`);
     options.signal?.throwIfAborted();
-    if (op.requiresPersistedKey && typeof options.idempotencyKey !== "string")
-      throw new Error(
-        "Order creation requires a persisted idempotencyKey; reuse it when retrying the same order",
-      );
     const key =
       options.idempotencyKey ?? (op.idempotency ? globalThis.crypto.randomUUID() : undefined);
     if (key !== undefined && !/^[\x21-\x7e]{1,255}$/.test(key))

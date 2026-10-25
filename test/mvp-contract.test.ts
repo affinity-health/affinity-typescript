@@ -26,11 +26,16 @@ test("new list filters serialize repeated names and cancellation state", async (
     }) as typeof fetch,
   });
   await api.medications.list({ names: ["Test Lidocaine", "Test Cream"], limit: "20" });
-  await api.orders.list({ practiceId: "prac_test", cancelRequested: "false" });
+  await api.orders.list({
+    practiceId: "prac_test",
+    cancelRequested: "false",
+    recentlyShipped: "true",
+  });
   expect(urls[0].searchParams.getAll("names")).toEqual(["Test Lidocaine", "Test Cream"]);
   expect(urls[0].searchParams.get("limit")).toBe("20");
   expect(urls[1].searchParams.get("cancelRequested")).toBe("false");
   expect(urls[1].searchParams.get("practiceId")).toBe("prac_test");
+  expect(urls[1].searchParams.get("recentlyShipped")).toBe("true");
 });
 
 test("practice contact and optional order fields retain their flat public bodies and snapshots", async () => {

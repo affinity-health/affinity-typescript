@@ -30,7 +30,7 @@ console.log(`Found ${medications.data.length} medications`);
 
 The key determines the organization and Test or Live mode. Platform keys must supply `practiceId` when creating an order; practice keys may omit it. Practice creation requires `name`, `address`, and `phone`. Optional `prescriber.phone` and `prescriber.address` override practice contact details, and order responses include both the practice snapshot and prescriber contact details. Patient details are supplied through the order; the current public contract has no patient resource.
 
-Read the [SDK guide](https://github.com/affinity-health/affinity-typescript/blob/main/docs/guide.md) for practices, reviewed order creation, pagination, errors, and webhooks. Order creation signs and submits in one request. `orders.create(input, { idempotencyKey })` requires a key saved with the reviewed order before the first request. Retry the same body with that saved key after a timeout or process restart. Automatic retries reuse it. Other writes generate a random key when omitted; pass a persisted key to retry them across separate calls.
+Read the [SDK guide](https://github.com/affinity-health/affinity-typescript/blob/main/docs/guide.md) for practices, reviewed order creation, pagination, errors, and webhooks. Order creation signs and submits in one request. The SDK generates a random key per write when omitted, including `orders.create(input)`. Automatic retries reuse that key. Save your own key with the reviewed order before the first request to retry the same body after a timeout or process restart.
 
 ## Migrate to the MVP contract
 

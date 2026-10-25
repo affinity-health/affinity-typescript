@@ -9,6 +9,10 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 
 ### Fixed
 
+- Compile strict webhook handlers with `isKnownAffinityWebhookEvent` before switching on the event type. Keep future event payloads unchanged.
+- Generate a random per-call key for `orders.create` when options are omitted. Automatic retries reuse it. Caller-supplied keys still support retries across calls.
+- Regenerate from the current frozen API contract. Remove the public `cancellation` object and keep `cancelRequestedAt`.
+
 - Derive method request options from the contract: reject `idempotencyKey` at compile time for webhook removal, reads, and their iterators. Continue accepting keys for supported writes.
 
 ## [2.0.0-beta.6] - 2026-10-23

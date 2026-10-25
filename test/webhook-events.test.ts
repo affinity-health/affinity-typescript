@@ -5,6 +5,7 @@ import {
   affinityWebhookEventTypes,
   type AffinityWebhookEvent,
   parseAffinityWebhookEvent,
+  isKnownAffinityWebhookEvent,
   verifyAffinityWebhook,
 } from "../src";
 
@@ -42,6 +43,22 @@ describe("Affinity webhook events", () => {
         now: new Date(fixture.timestamp * 1000),
       });
       expect(verified).toEqual(JSON.parse(fixture.body));
+    }
+  });
+
+  test("known-event guard separates current events from future and legacy envelopes", () => {
+    for (const fixture of apiFixtures) {
+      expect(isKnownAffinityWebhookEvent(JSON.parse(fixture.body))).toBe(true);
+    }
+    for (const value of [
+      null,
+      42,
+      event,
+      { id: "evt_future", type: "order.future_event", createdAt: now.toISOString(), data: {} },
+      { id: 42, type: "order.shipped", createdAt: now.toISOString(), data: {} },
+      { id: "evt_bad", type: "order.shipped", createdAt: 42, data: {} },
+    ]) {
+      expect(isKnownAffinityWebhookEvent(value)).toBe(false);
     }
   });
 

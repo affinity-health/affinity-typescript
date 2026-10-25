@@ -108,17 +108,12 @@ for (const [path, verbs] of Object.entries(spec.paths))
       query: queries.map((p: any) => p.name),
       body: !!body,
       idempotency,
-      requiresPersistedKey: op.operationId === "orders.create",
     };
     operations[op.operationId] = record;
     methods[op.operationId] = `${group}.${method}`;
     const args = ids.map((id: string) => `${id}: string`);
     if (params) args.push(`params: ${paramsName}${required ? "" : " = {}"}`);
-    args.push(
-      op.operationId === "orders.create"
-        ? "options: RequiredKeyOptions"
-        : `options: ${idempotency ? "SDKRequestOptions" : "UnkeyedRequestOptions"} = {}`,
-    );
+    args.push(`options: ${idempotency ? "SDKRequestOptions" : "UnkeyedRequestOptions"} = {}`);
     const invocation = `operations[${JSON.stringify(op.operationId)}], [${ids.join(",")}], ${params ? "params" : "{}"}, options`;
     (groups[group] ??= []).push(
       `${method}(${args.join(",")}): Promise<${responseName}> {return this.context.call(${invocation});}`,

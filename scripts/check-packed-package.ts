@@ -1,4 +1,4 @@
-import { mkdtemp, readdir, rm, writeFile } from "node:fs/promises";
+import { mkdtemp, readFile, readdir, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join, resolve } from "node:path";
 
@@ -45,8 +45,7 @@ void api.account.get({idempotencyKey:"unsupported"});
 // @ts-expect-error Pagination inherits the list operation's options.
 void api.webhooks.iterate({}, {idempotencyKey:"unsupported"});
 void api.webhooks.remove("whe_example", {signal:new AbortController().signal});
-// Order creation requires a persisted key in packed consumer declarations.
-// @ts-expect-error A caller-owned key is required.
+// Key generation also works through the packed declarations.
 void api.orders.create(input);
 // Other writes generate required headers when request options are omitted.
 void api.practices.create(practiceInput);
@@ -96,6 +95,13 @@ try {
     JSON.stringify({ name: "affinity-sdk-consumer", private: true, type: "module" }),
   );
   await writeFile(join(consumer, "consumer.ts"), consumerSource);
+  await writeFile(
+    join(consumer, "docs-examples.ts"),
+    (await readFile(resolve(root, "test/types/docs-examples.ts"), "utf8")).replace(
+      '"../../src"',
+      '"@affinity-health/sdk"',
+    ),
+  );
   for (const [name, module, moduleResolution] of [
     ["nodenext", "NodeNext", "NodeNext"],
     ["bundler", "ESNext", "Bundler"],
@@ -111,7 +117,7 @@ try {
           strict: true,
           target: "ES2023",
         },
-        include: ["consumer.ts"],
+        include: ["consumer.ts", "docs-examples.ts"],
       }),
     );
   }

@@ -30,7 +30,6 @@ type Operation = {
   query: readonly string[];
   body: boolean;
   idempotency: boolean;
-  requiresPersistedKey: boolean;
 };
 class SDKTransport {
   readonly fetcher: typeof fetch;
@@ -99,10 +98,6 @@ class SDKContext {
       if (name !== "signal" && name !== "idempotencyKey")
         throw new Error(`Unknown request option: ${name}`);
     options.signal?.throwIfAborted();
-    if (op.requiresPersistedKey && typeof options.idempotencyKey !== "string")
-      throw new Error(
-        "Order creation requires a persisted idempotencyKey; reuse it when retrying the same order",
-      );
     const key =
       options.idempotencyKey ?? (op.idempotency ? globalThis.crypto.randomUUID() : undefined);
     if (key !== undefined && !/^[\x21-\x7e]{1,255}$/.test(key))
@@ -169,7 +164,6 @@ const operations = {
     query: [],
     body: false,
     idempotency: false,
-    requiresPersistedKey: false,
   },
   createFeedback: {
     path: "/v1/feedback",
@@ -178,7 +172,6 @@ const operations = {
     query: [],
     body: true,
     idempotency: true,
-    requiresPersistedKey: false,
   },
   "medications.list": {
     path: "/v1/medications",
@@ -196,7 +189,6 @@ const operations = {
     ],
     body: false,
     idempotency: false,
-    requiresPersistedKey: false,
   },
   "medications.get": {
     path: "/v1/medications/{medicationId}",
@@ -205,7 +197,6 @@ const operations = {
     query: ["practiceId", "expand"],
     body: false,
     idempotency: false,
-    requiresPersistedKey: false,
   },
   "orders.create": {
     path: "/v1/orders",
@@ -214,7 +205,6 @@ const operations = {
     query: [],
     body: true,
     idempotency: true,
-    requiresPersistedKey: true,
   },
   "orders.list": {
     path: "/v1/orders",
@@ -231,11 +221,11 @@ const operations = {
       "query",
       "status",
       "cancelRequested",
+      "recentlyShipped",
       "sort",
     ],
     body: false,
     idempotency: false,
-    requiresPersistedKey: false,
   },
   "orders.get": {
     path: "/v1/orders/{orderId}",
@@ -244,7 +234,6 @@ const operations = {
     query: [],
     body: false,
     idempotency: false,
-    requiresPersistedKey: false,
   },
   "orders.cancel": {
     path: "/v1/orders/{orderId}/cancel",
@@ -253,7 +242,6 @@ const operations = {
     query: [],
     body: false,
     idempotency: true,
-    requiresPersistedKey: false,
   },
   "practices.create": {
     path: "/v1/practices",
@@ -262,7 +250,6 @@ const operations = {
     query: [],
     body: true,
     idempotency: true,
-    requiresPersistedKey: false,
   },
   "practices.list": {
     path: "/v1/practices",
@@ -271,7 +258,6 @@ const operations = {
     query: ["endingBefore", "limit", "startingAfter", "query", "sort"],
     body: false,
     idempotency: false,
-    requiresPersistedKey: false,
   },
   "practices.get": {
     path: "/v1/practices/{practiceId}",
@@ -280,7 +266,6 @@ const operations = {
     query: [],
     body: false,
     idempotency: false,
-    requiresPersistedKey: false,
   },
   "practices.update": {
     path: "/v1/practices/{practiceId}",
@@ -289,7 +274,6 @@ const operations = {
     query: [],
     body: true,
     idempotency: true,
-    requiresPersistedKey: false,
   },
   "webhooks.list": {
     path: "/v1/webhook-endpoints",
@@ -298,7 +282,6 @@ const operations = {
     query: ["endingBefore", "limit", "startingAfter"],
     body: false,
     idempotency: false,
-    requiresPersistedKey: false,
   },
   "webhooks.create": {
     path: "/v1/webhook-endpoints",
@@ -307,7 +290,6 @@ const operations = {
     query: [],
     body: true,
     idempotency: true,
-    requiresPersistedKey: false,
   },
   "webhooks.update": {
     path: "/v1/webhook-endpoints/{webhookEndpointId}",
@@ -316,7 +298,6 @@ const operations = {
     query: [],
     body: true,
     idempotency: true,
-    requiresPersistedKey: false,
   },
   "webhooks.remove": {
     path: "/v1/webhook-endpoints/{webhookEndpointId}",
@@ -325,7 +306,6 @@ const operations = {
     query: [],
     body: false,
     idempotency: false,
-    requiresPersistedKey: false,
   },
   "webhooks.resendFailed": {
     path: "/v1/webhook-endpoints/{webhookEndpointId}/resend-failed",
@@ -334,7 +314,6 @@ const operations = {
     query: [],
     body: false,
     idempotency: true,
-    requiresPersistedKey: false,
   },
 } as const;
 export type AccountGetResponse = {
@@ -361,21 +340,6 @@ export type FeedbackCreateParams = {
 };
 export type MedicationListResponse = {
   data: Array<{
-    coldChainRequired: boolean;
-    compoundingReasons: Array<string>;
-    defaultDirections: string | null;
-    form: string | null;
-    id: string;
-    name: string;
-    pharmacy: { id: string; name: string };
-    price: number;
-    quantities: Array<number>;
-    quantityUnit: string | null;
-    requirements: Array<string>;
-    restrictedStates: Array<string>;
-    shippingOptions: Array<{ id: string; name: string; price: number }>;
-    shippingSuppliesPrice: number;
-    strength: string | null;
     category:
       | "weight_loss"
       | "hormones"
@@ -387,7 +351,22 @@ export type MedicationListResponse = {
       | "pain"
       | "other"
       | "supplies";
+    coldChainRequired: boolean;
+    compoundingReasons: Array<string>;
+    defaultDirections: string | null;
+    form: string | null;
     fullName: string;
+    id: string;
+    name: string;
+    pharmacy: { id: string; name: string };
+    price: number;
+    quantities: Array<number>;
+    quantityUnit: string | null;
+    requirements: Array<string>;
+    restrictedStates: Array<string>;
+    shippingOptions: Array<{ id: string; name: string; price: number }>;
+    shippingSuppliesPrice: number;
+    strength: string | null;
   }>;
   hasMore: boolean;
   nextCursor: string | null;
@@ -415,21 +394,6 @@ export type MedicationListParams = {
   query?: string;
 };
 export type MedicationGetResponse = {
-  coldChainRequired: boolean;
-  compoundingReasons: Array<string>;
-  defaultDirections: string | null;
-  form: string | null;
-  id: string;
-  name: string;
-  pharmacy: { id: string; name: string };
-  price: number;
-  quantities: Array<number>;
-  quantityUnit: string | null;
-  requirements: Array<string>;
-  restrictedStates: Array<string>;
-  shippingOptions: Array<{ id: string; name: string; price: number }>;
-  shippingSuppliesPrice: number;
-  strength: string | null;
   category:
     | "weight_loss"
     | "hormones"
@@ -441,7 +405,22 @@ export type MedicationGetResponse = {
     | "pain"
     | "other"
     | "supplies";
+  coldChainRequired: boolean;
+  compoundingReasons: Array<string>;
+  defaultDirections: string | null;
+  form: string | null;
   fullName: string;
+  id: string;
+  name: string;
+  pharmacy: { id: string; name: string };
+  price: number;
+  quantities: Array<number>;
+  quantityUnit: string | null;
+  requirements: Array<string>;
+  restrictedStates: Array<string>;
+  shippingOptions: Array<{ id: string; name: string; price: number }>;
+  shippingSuppliesPrice: number;
+  strength: string | null;
   variants?: Array<{
     category:
       | "weight_loss"
@@ -548,57 +527,56 @@ export type OrderCreateResponse = {
   shippingOption: { id: string; name: string; price: number } | null;
   shipments: Array<{ carrier: string | null; trackingNumber: string; trackingUrl: string | null }>;
   status: "submitted" | "processing" | "shipped" | "delivered" | "cancelled" | "failed";
+  trackingUrl: string | null;
   statusHistory: Array<{
     createdAt: string;
     status: "submitted" | "processing" | "shipped" | "delivered" | "cancelled" | "failed";
   }>;
   total: number;
   updatedAt: string;
-  cancellation?: { requestedAt: string; requestedBy: { name: string } } | null;
-  trackingUrl: string | null;
 };
 export type OrderCreateParams = {
-  externalOrderId?: string | null;
+  externalOrderId?: (string & unknown) | null;
   patient: {
     address: {
-      line1: string;
+      line1: string & unknown;
       line2?: string | null;
-      city: string;
+      city: string & unknown;
       state: string;
       postalCode: string;
     };
     allergies: Array<{
       category: "drug" | "food" | "insect" | "latex" | "mold" | "pet" | "pollen";
-      display: string;
+      display: string & unknown;
     }>;
-    dateOfBirth: string;
+    dateOfBirth: string & unknown;
     email: string;
-    firstName: string;
+    firstName: string & unknown;
     gender: "female" | "male" | "unknown";
-    lastName: string;
-    middleName?: string | null;
+    lastName: string & unknown;
+    middleName?: (string & unknown) | null;
     phone: string;
-    externalId?: string | null;
+    externalId?: (string & unknown) | null;
   };
   practiceId?: string;
   prescriber?: {
     phone?: string;
     address?: {
-      line1: string;
+      line1: string & unknown;
       line2?: string | null;
-      city: string;
+      city: string & unknown;
       state: string;
       postalCode: string;
     };
-    firstName: string;
-    lastName: string;
+    firstName: string & unknown;
+    lastName: string & unknown;
     npi: string;
   };
   prescriptions: Array<{
-    compoundingReason?: string | null;
-    directions: string;
+    compoundingReason?: (string & unknown) | null;
+    directions: string & unknown;
     medicationId: string;
-    notes?: string | null;
+    notes?: (string & unknown) | null;
     quantity: number;
     refills: number;
     substitutionPermitted?: boolean;
@@ -686,14 +664,13 @@ export type OrderListResponse = {
       trackingUrl: string | null;
     }>;
     status: "submitted" | "processing" | "shipped" | "delivered" | "cancelled" | "failed";
+    trackingUrl: string | null;
     statusHistory: Array<{
       createdAt: string;
       status: "submitted" | "processing" | "shipped" | "delivered" | "cancelled" | "failed";
     }>;
     total: number;
     updatedAt: string;
-    cancellation?: { requestedAt: string; requestedBy: { name: string } } | null;
-    trackingUrl: string | null;
   }>;
   hasMore: boolean;
   nextCursor: string | null;
@@ -711,6 +688,7 @@ export type OrderListParams = {
   query?: string;
   status?: "submitted" | "processing" | "shipped" | "delivered" | "cancelled" | "failed";
   cancelRequested?: "true" | "false";
+  recentlyShipped?: "true" | "false";
   sort?: "patient" | "-patient" | "created" | "-created";
 };
 export type OrderGetResponse = {
@@ -788,14 +766,13 @@ export type OrderGetResponse = {
   shippingOption: { id: string; name: string; price: number } | null;
   shipments: Array<{ carrier: string | null; trackingNumber: string; trackingUrl: string | null }>;
   status: "submitted" | "processing" | "shipped" | "delivered" | "cancelled" | "failed";
+  trackingUrl: string | null;
   statusHistory: Array<{
     createdAt: string;
     status: "submitted" | "processing" | "shipped" | "delivered" | "cancelled" | "failed";
   }>;
   total: number;
   updatedAt: string;
-  cancellation?: { requestedAt: string; requestedBy: { name: string } } | null;
-  trackingUrl: string | null;
 };
 export type OrderCancelResponse = {
   cancelRequestedAt: string | null;
@@ -872,14 +849,13 @@ export type OrderCancelResponse = {
   shippingOption: { id: string; name: string; price: number } | null;
   shipments: Array<{ carrier: string | null; trackingNumber: string; trackingUrl: string | null }>;
   status: "submitted" | "processing" | "shipped" | "delivered" | "cancelled" | "failed";
+  trackingUrl: string | null;
   statusHistory: Array<{
     createdAt: string;
     status: "submitted" | "processing" | "shipped" | "delivered" | "cancelled" | "failed";
   }>;
   total: number;
   updatedAt: string;
-  cancellation?: { requestedAt: string; requestedBy: { name: string } } | null;
-  trackingUrl: string | null;
 };
 export type PracticeCreateResponse = {
   id: string;
@@ -897,9 +873,9 @@ export type PracticeCreateResponse = {
 };
 export type PracticeCreateParams = {
   address: {
-    line1: string;
+    line1: string & unknown;
     line2?: string | null;
-    city: string;
+    city: string & unknown;
     state: string;
     postalCode: string;
   };
@@ -964,9 +940,9 @@ export type PracticeUpdateResponse = {
 };
 export type PracticeUpdateParams = {
   address?: {
-    line1?: string;
+    line1?: string & unknown;
     line2?: string | null;
-    city?: string;
+    city?: string & unknown;
     state?: string;
     postalCode?: string;
   } | null;
@@ -977,10 +953,10 @@ export type PracticeUpdateParams = {
 export type WebhookListResponse = {
   data: Array<{
     createdAt: string;
-    id: string;
-    url: string;
     updatedAt: string;
     mode: "test" | "live";
+    id: string;
+    url: string;
   }>;
   hasMore: boolean;
   nextCursor: string | null;
@@ -990,19 +966,19 @@ export type WebhookListResponse = {
 export type WebhookListParams = { endingBefore?: string; limit?: string; startingAfter?: string };
 export type WebhookCreateResponse = {
   createdAt: string;
+  updatedAt: string;
+  mode: "test" | "live";
   id: string;
   url: string;
   secret: string;
-  updatedAt: string;
-  mode: "test" | "live";
 };
 export type WebhookCreateParams = { url: string };
 export type WebhookUpdateResponse = {
   createdAt: string;
-  id: string;
-  url: string;
   updatedAt: string;
   mode: "test" | "live";
+  id: string;
+  url: string;
 };
 export type WebhookUpdateParams = { url: string };
 export type WebhookRemoveResponse = { deleted: true; id: string };
@@ -1046,7 +1022,7 @@ export class MedicationSDKResource {
 }
 export class OrderSDKResource {
   constructor(private readonly context: SDKContext) {}
-  create(params: OrderCreateParams, options: RequiredKeyOptions): Promise<OrderCreateResponse> {
+  create(params: OrderCreateParams, options: SDKRequestOptions = {}): Promise<OrderCreateResponse> {
     return this.context.call(operations["orders.create"], [], params, options);
   }
   list(

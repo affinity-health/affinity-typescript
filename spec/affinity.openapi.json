@@ -7,7 +7,7 @@
       "email": "support@affinityrx.com",
       "name": "Affinity API Support"
     },
-    "description": "Affinity API for platforms and practices that order from the pharmacy network. If a response or a page is wrong or unclear, send `POST /v1/feedback` with a short message and the `requestId` from the response. Do not include patient information."
+    "description": "Affinity API for platforms and practices that order from the pharmacy network. If a response or a page is wrong or unclear, send `POST /v1/feedback` with an `Idempotency-Key`, a short message and the `requestId` from the response. Do not include patient information."
   },
   "paths": {
     "/v1/account": {
@@ -165,6 +165,9 @@
                     "type": {
                       "type": "string"
                     },
+                    "data": {
+                      "type": "object"
+                    },
                     "issues": {
                       "type": "array",
                       "items": {
@@ -215,9 +218,6 @@
                     },
                     "traceId": {
                       "type": "string"
-                    },
-                    "data": {
-                      "type": "object"
                     }
                   },
                   "required": [
@@ -254,6 +254,9 @@
                     "type": {
                       "type": "string"
                     },
+                    "data": {
+                      "type": "object"
+                    },
                     "issues": {
                       "type": "array",
                       "items": {
@@ -304,9 +307,6 @@
                     },
                     "traceId": {
                       "type": "string"
-                    },
-                    "data": {
-                      "type": "object"
                     }
                   },
                   "required": [
@@ -343,6 +343,9 @@
                     "type": {
                       "type": "string"
                     },
+                    "data": {
+                      "type": "object"
+                    },
                     "issues": {
                       "type": "array",
                       "items": {
@@ -393,9 +396,6 @@
                     },
                     "traceId": {
                       "type": "string"
-                    },
-                    "data": {
-                      "type": "object"
                     }
                   },
                   "required": [
@@ -521,6 +521,9 @@
                     "type": {
                       "type": "string"
                     },
+                    "data": {
+                      "type": "object"
+                    },
                     "issues": {
                       "type": "array",
                       "items": {
@@ -571,9 +574,6 @@
                     },
                     "traceId": {
                       "type": "string"
-                    },
-                    "data": {
-                      "type": "object"
                     }
                   },
                   "required": [
@@ -604,15 +604,15 @@
         "operationId": "createFeedback",
         "parameters": [
           {
-            "name": "idempotency-key",
+            "name": "Idempotency-Key",
             "in": "header",
             "schema": {
               "type": "string",
               "pattern": "^[\\x21-\\x7e]{1,255}$",
-              "description": "A unique key per operation, 1 to 255 printable ASCII characters without spaces. A retry with the same key returns the original response."
+              "description": "A unique key per operation, 1 to 255 printable ASCII characters without spaces. A retry with the same key returns the resource as it is now with the first response's status."
             },
             "required": true,
-            "description": "A unique key per operation, 1 to 255 printable ASCII characters without spaces. A retry with the same key returns the original response."
+            "description": "A unique key per operation, 1 to 255 printable ASCII characters without spaces. A retry with the same key returns the resource as it is now with the first response's status."
           },
           {
             "description": "The dated API version this request is written against.",
@@ -679,6 +679,9 @@
                     "type": {
                       "type": "string"
                     },
+                    "data": {
+                      "type": "object"
+                    },
                     "issues": {
                       "type": "array",
                       "items": {
@@ -729,9 +732,6 @@
                     },
                     "traceId": {
                       "type": "string"
-                    },
-                    "data": {
-                      "type": "object"
                     }
                   },
                   "required": [
@@ -768,6 +768,9 @@
                     "type": {
                       "type": "string"
                     },
+                    "data": {
+                      "type": "object"
+                    },
                     "issues": {
                       "type": "array",
                       "items": {
@@ -818,9 +821,6 @@
                     },
                     "traceId": {
                       "type": "string"
-                    },
-                    "data": {
-                      "type": "object"
                     }
                   },
                   "required": [
@@ -857,6 +857,9 @@
                     "type": {
                       "type": "string"
                     },
+                    "data": {
+                      "type": "object"
+                    },
                     "issues": {
                       "type": "array",
                       "items": {
@@ -907,9 +910,55 @@
                     },
                     "traceId": {
                       "type": "string"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "detail",
+                    "instance",
+                    "requestId",
+                    "status",
+                    "title",
+                    "type"
+                  ],
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "415": {
+            "description": "Unsupported media type. Send Content-Type: application/json.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "examples": [
+                        "unsupported_media_type"
+                      ]
                     },
-                    "data": {
-                      "type": "object"
+                    "detail": {
+                      "type": "string"
+                    },
+                    "title": {
+                      "type": "string"
+                    },
+                    "type": {
+                      "type": "string"
+                    },
+                    "instance": {
+                      "type": "string"
+                    },
+                    "requestId": {
+                      "type": "string"
+                    },
+                    "status": {
+                      "type": "integer"
+                    },
+                    "traceId": {
+                      "type": "string"
                     }
                   },
                   "required": [
@@ -946,6 +995,9 @@
                     "type": {
                       "type": "string"
                     },
+                    "data": {
+                      "type": "object"
+                    },
                     "issues": {
                       "type": "array",
                       "items": {
@@ -996,9 +1048,6 @@
                     },
                     "traceId": {
                       "type": "string"
-                    },
-                    "data": {
-                      "type": "object"
                     }
                   },
                   "required": [
@@ -1024,9 +1073,9 @@
                 "properties": {
                   "message": {
                     "type": "string",
+                    "pattern": "^(?:[\\n\\r]|[^\\p{Cc}\\p{Cf}\\p{Cs}])*$",
                     "minLength": 1,
-                    "maxLength": 5000,
-                    "pattern": "^(?:[\\t\\n\\r]|[^\\p{Cc}\\p{Cs}])*$"
+                    "maxLength": 5000
                   },
                   "pageUrl": {
                     "type": "string",
@@ -1064,9 +1113,10 @@
               }
             }
           },
-          "required": true
+          "required": true,
+          "description": "Send the JSON body with Content-Type: application/json."
         },
-        "description": "Send feedback without credentials, or with an API key to include its organization and mode. Do not include patient information. Limited to 10 submissions per hour per IP address and API key. A 429 response includes Retry-After in seconds.",
+        "description": "Send feedback without credentials, or with an API key to include its organization and mode. Do not include patient information. API-key callers are limited to 10 submissions per hour per key. Anonymous callers are limited to 10 submissions per hour per IP address. A 429 response includes Retry-After in seconds.",
         "summary": "Send feedback",
         "x-visibility": "public"
       }
@@ -1083,11 +1133,11 @@
             "in": "query",
             "schema": {
               "type": "string",
+              "pattern": "^prac_[0-7][0-9a-hjkmnp-tv-z]{25}$",
               "description": "Quote prices and availability for this practice. A platform may select only its own child practices; a practice may select only itself. Omit to use the caller's organization.",
               "examples": [
                 "prac_01j2y8m6jcc9tt24af5pw9x1bc"
-              ],
-              "pattern": "^prac_[0-7][0-9a-hjkmnp-tv-z]{25}$"
+              ]
             },
             "required": false,
             "description": "Quote prices and availability for this practice. A platform may select only its own child practices; a practice may select only itself. Omit to use the caller's organization."
@@ -1131,7 +1181,6 @@
             "in": "query",
             "schema": {
               "type": "string",
-              "description": "Limit results to this category. Combine with query or pharmacyId.",
               "enum": [
                 "weight_loss",
                 "hormones",
@@ -1143,7 +1192,8 @@
                 "pain",
                 "other",
                 "supplies"
-              ]
+              ],
+              "description": "Limit results to this category. Combine with query or pharmacyId."
             },
             "required": false,
             "description": "Limit results to this category. Combine with query or pharmacyId."
@@ -1153,8 +1203,8 @@
             "in": "query",
             "schema": {
               "type": "string",
-              "description": "Match the medication name exactly, ignoring case. Use this to list its strengths, forms and pharmacies.",
-              "maxLength": 200
+              "maxLength": 200,
+              "description": "Match the medication name exactly, ignoring case. Use this to list its strengths, forms and pharmacies."
             },
             "required": false,
             "description": "Match the medication name exactly, ignoring case. Use this to list its strengths, forms and pharmacies."
@@ -1164,12 +1214,12 @@
             "in": "query",
             "schema": {
               "type": "array",
-              "description": "Match any of up to 25 exact product names, ignoring case. Repeat the names query parameter. Page through all results for complete strengths and prices.",
               "items": {
                 "type": "string",
                 "minLength": 1,
                 "maxLength": 200
               },
+              "description": "Match any of up to 25 exact product names, ignoring case. Repeat the names query parameter. Page through all results for complete strengths and prices.",
               "minItems": 1,
               "maxItems": 25
             },
@@ -1181,8 +1231,8 @@
             "in": "query",
             "schema": {
               "type": "string",
-              "description": "Limit results to the pharmacy with this pharm_ ID. Combine with query, name or names.",
               "pattern": "^pharm_[0-7][0-9a-hjkmnp-tv-z]{25}$",
+              "description": "Limit results to the pharmacy with this pharm_ ID. Combine with query, name or names.",
               "examples": [
                 "pharm_01j2y8m6jcc9tt24af5pw9x1bc"
               ]
@@ -1191,15 +1241,15 @@
             "description": "Limit results to the pharmacy with this pharm_ ID. Combine with query, name or names."
           },
           {
-            "description": "Search names, brands, forms, routes, strengths or pharmacy product codes, ranked by relevance. With name or names, match medication or pharmacy text instead. Restart pagination when filters change.",
-            "in": "query",
             "name": "query",
-            "required": false,
+            "in": "query",
             "schema": {
               "type": "string",
               "maxLength": 120,
               "description": "Search names, brands, forms, routes, strengths or pharmacy product codes, ranked by relevance. With name or names, match medication or pharmacy text instead. Restart pagination when filters change."
-            }
+            },
+            "required": false,
+            "description": "Search names, brands, forms, routes, strengths or pharmacy product codes, ranked by relevance. With name or names, match medication or pharmacy text instead. Restart pagination when filters change."
           },
           {
             "description": "The dated API version this request is written against.",
@@ -1234,6 +1284,22 @@
                       "items": {
                         "type": "object",
                         "properties": {
+                          "category": {
+                            "type": "string",
+                            "enum": [
+                              "weight_loss",
+                              "hormones",
+                              "sexual_health",
+                              "hair",
+                              "skin",
+                              "wellness",
+                              "peptides",
+                              "pain",
+                              "other",
+                              "supplies"
+                            ],
+                            "description": "What the medication is prescribed for. Every strength, form and pharmacy of one medication has the same category."
+                          },
                           "coldChainRequired": {
                             "type": "boolean"
                           },
@@ -1262,6 +1328,10 @@
                                 "type": "null"
                               }
                             ]
+                          },
+                          "fullName": {
+                            "type": "string",
+                            "description": "The name with each ingredient's salt where the catalog records one, such as Enclomiphene Citrate. Equals name otherwise."
                           },
                           "id": {
                             "type": "string",
@@ -1372,26 +1442,6 @@
                                 "type": "null"
                               }
                             ]
-                          },
-                          "category": {
-                            "type": "string",
-                            "enum": [
-                              "weight_loss",
-                              "hormones",
-                              "sexual_health",
-                              "hair",
-                              "skin",
-                              "wellness",
-                              "peptides",
-                              "pain",
-                              "other",
-                              "supplies"
-                            ],
-                            "description": "What the medication is prescribed for. Every strength, form and pharmacy of one medication has the same category."
-                          },
-                          "fullName": {
-                            "type": "string",
-                            "description": "The name with each ingredient's salt where the catalog records one, such as Enclomiphene Citrate. Equals name otherwise."
                           }
                         },
                         "required": [
@@ -1560,6 +1610,9 @@
                     "type": {
                       "type": "string"
                     },
+                    "data": {
+                      "type": "object"
+                    },
                     "issues": {
                       "type": "array",
                       "items": {
@@ -1610,9 +1663,6 @@
                     },
                     "traceId": {
                       "type": "string"
-                    },
-                    "data": {
-                      "type": "object"
                     }
                   },
                   "required": [
@@ -1649,6 +1699,9 @@
                     "type": {
                       "type": "string"
                     },
+                    "data": {
+                      "type": "object"
+                    },
                     "issues": {
                       "type": "array",
                       "items": {
@@ -1699,9 +1752,6 @@
                     },
                     "traceId": {
                       "type": "string"
-                    },
-                    "data": {
-                      "type": "object"
                     }
                   },
                   "required": [
@@ -1827,6 +1877,9 @@
                     "type": {
                       "type": "string"
                     },
+                    "data": {
+                      "type": "object"
+                    },
                     "issues": {
                       "type": "array",
                       "items": {
@@ -1877,9 +1930,6 @@
                     },
                     "traceId": {
                       "type": "string"
-                    },
-                    "data": {
-                      "type": "object"
                     }
                   },
                   "required": [
@@ -2020,20 +2070,18 @@
             "in": "query",
             "schema": {
               "type": "string",
+              "pattern": "^prac_[0-7][0-9a-hjkmnp-tv-z]{25}$",
               "description": "Quote prices and availability for this practice. A platform may select only its own child practices; a practice may select only itself. Omit to use the caller's organization.",
               "examples": [
                 "prac_01j2y8m6jcc9tt24af5pw9x1bc"
-              ],
-              "pattern": "^prac_[0-7][0-9a-hjkmnp-tv-z]{25}$"
+              ]
             },
             "required": false,
             "description": "Quote prices and availability for this practice. A platform may select only its own child practices; a practice may select only itself. Omit to use the caller's organization."
           },
           {
-            "description": "Add related records to the response. `variants` adds the medication's other strengths, forms and pharmacies.",
-            "in": "query",
             "name": "expand",
-            "required": false,
+            "in": "query",
             "schema": {
               "type": "array",
               "items": {
@@ -2047,7 +2095,9 @@
                 ]
               },
               "description": "Add related records to the response. `variants` adds the medication's other strengths, forms and pharmacies."
-            }
+            },
+            "required": false,
+            "description": "Add related records to the response. `variants` adds the medication's other strengths, forms and pharmacies."
           },
           {
             "description": "The dated API version this request is written against.",
@@ -2077,6 +2127,22 @@
                   "title": "MedicationsGetResponse",
                   "type": "object",
                   "properties": {
+                    "category": {
+                      "type": "string",
+                      "enum": [
+                        "weight_loss",
+                        "hormones",
+                        "sexual_health",
+                        "hair",
+                        "skin",
+                        "wellness",
+                        "peptides",
+                        "pain",
+                        "other",
+                        "supplies"
+                      ],
+                      "description": "What the medication is prescribed for. Every strength, form and pharmacy of one medication has the same category."
+                    },
                     "coldChainRequired": {
                       "type": "boolean"
                     },
@@ -2105,6 +2171,10 @@
                           "type": "null"
                         }
                       ]
+                    },
+                    "fullName": {
+                      "type": "string",
+                      "description": "The name with each ingredient's salt where the catalog records one, such as Enclomiphene Citrate. Equals name otherwise."
                     },
                     "id": {
                       "type": "string",
@@ -2215,26 +2285,6 @@
                           "type": "null"
                         }
                       ]
-                    },
-                    "category": {
-                      "type": "string",
-                      "enum": [
-                        "weight_loss",
-                        "hormones",
-                        "sexual_health",
-                        "hair",
-                        "skin",
-                        "wellness",
-                        "peptides",
-                        "pain",
-                        "other",
-                        "supplies"
-                      ],
-                      "description": "What the medication is prescribed for. Every strength, form and pharmacy of one medication has the same category."
-                    },
-                    "fullName": {
-                      "type": "string",
-                      "description": "The name with each ingredient's salt where the catalog records one, such as Enclomiphene Citrate. Equals name otherwise."
                     },
                     "variants": {
                       "type": "array",
@@ -2469,6 +2519,9 @@
                     "type": {
                       "type": "string"
                     },
+                    "data": {
+                      "type": "object"
+                    },
                     "issues": {
                       "type": "array",
                       "items": {
@@ -2519,9 +2572,6 @@
                     },
                     "traceId": {
                       "type": "string"
-                    },
-                    "data": {
-                      "type": "object"
                     }
                   },
                   "required": [
@@ -2558,6 +2608,9 @@
                     "type": {
                       "type": "string"
                     },
+                    "data": {
+                      "type": "object"
+                    },
                     "issues": {
                       "type": "array",
                       "items": {
@@ -2608,9 +2661,6 @@
                     },
                     "traceId": {
                       "type": "string"
-                    },
-                    "data": {
-                      "type": "object"
                     }
                   },
                   "required": [
@@ -2647,6 +2697,9 @@
                     "type": {
                       "type": "string"
                     },
+                    "data": {
+                      "type": "object"
+                    },
                     "issues": {
                       "type": "array",
                       "items": {
@@ -2697,9 +2750,6 @@
                     },
                     "traceId": {
                       "type": "string"
-                    },
-                    "data": {
-                      "type": "object"
                     }
                   },
                   "required": [
@@ -2825,6 +2875,9 @@
                     "type": {
                       "type": "string"
                     },
+                    "data": {
+                      "type": "object"
+                    },
                     "issues": {
                       "type": "array",
                       "items": {
@@ -2875,9 +2928,6 @@
                     },
                     "traceId": {
                       "type": "string"
-                    },
-                    "data": {
-                      "type": "object"
                     }
                   },
                   "required": [
@@ -2895,9 +2945,9 @@
             }
           }
         },
+        "description": "Read one available medication, its pricing, and pharmacy details for the current organization and mode. Pass expand=variants to include its other strengths, forms and pharmacies.",
         "summary": "Read a medication",
-        "x-visibility": "public",
-        "description": "Read one available medication, its pricing, and pharmacy details for the current organization and mode. Pass expand=variants to include its other strengths, forms and pharmacies."
+        "x-visibility": "public"
       }
     },
     "/v1/orders": {
@@ -2908,15 +2958,15 @@
         "operationId": "orders.create",
         "parameters": [
           {
-            "name": "idempotency-key",
+            "name": "Idempotency-Key",
             "in": "header",
             "schema": {
               "type": "string",
               "pattern": "^[\\x21-\\x7e]{1,255}$",
-              "description": "A unique key per operation, 1 to 255 printable ASCII characters without spaces. A retry with the same key returns the original response."
+              "description": "A unique key per operation, 1 to 255 printable ASCII characters without spaces. A retry with the same key returns the resource as it is now with the first response's status."
             },
             "required": false,
-            "description": "A unique key per operation, 1 to 255 printable ASCII characters without spaces. A retry with the same key returns the original response."
+            "description": "A unique key per operation, 1 to 255 printable ASCII characters without spaces. A retry with the same key returns the resource as it is now with the first response's status."
           },
           {
             "description": "The dated API version this request is written against.",
@@ -3490,6 +3540,16 @@
                         "failed"
                       ]
                     },
+                    "trackingUrl": {
+                      "anyOf": [
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ]
+                    },
                     "statusHistory": {
                       "type": "array",
                       "items": {
@@ -3524,48 +3584,6 @@
                     },
                     "updatedAt": {
                       "type": "string"
-                    },
-                    "cancellation": {
-                      "anyOf": [
-                        {
-                          "type": "object",
-                          "properties": {
-                            "requestedAt": {
-                              "type": "string"
-                            },
-                            "requestedBy": {
-                              "type": "object",
-                              "properties": {
-                                "name": {
-                                  "type": "string"
-                                }
-                              },
-                              "required": [
-                                "name"
-                              ],
-                              "additionalProperties": false
-                            }
-                          },
-                          "required": [
-                            "requestedAt",
-                            "requestedBy"
-                          ],
-                          "additionalProperties": false
-                        },
-                        {
-                          "type": "null"
-                        }
-                      ]
-                    },
-                    "trackingUrl": {
-                      "anyOf": [
-                        {
-                          "type": "string"
-                        },
-                        {
-                          "type": "null"
-                        }
-                      ]
                     }
                   },
                   "required": [
@@ -3704,6 +3722,9 @@
                     "type": {
                       "type": "string"
                     },
+                    "data": {
+                      "type": "object"
+                    },
                     "issues": {
                       "type": "array",
                       "items": {
@@ -3754,9 +3775,6 @@
                     },
                     "traceId": {
                       "type": "string"
-                    },
-                    "data": {
-                      "type": "object"
                     }
                   },
                   "required": [
@@ -3971,6 +3989,9 @@
                     "type": {
                       "type": "string"
                     },
+                    "data": {
+                      "type": "object"
+                    },
                     "issues": {
                       "type": "array",
                       "items": {
@@ -4021,9 +4042,55 @@
                     },
                     "traceId": {
                       "type": "string"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "detail",
+                    "instance",
+                    "requestId",
+                    "status",
+                    "title",
+                    "type"
+                  ],
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "415": {
+            "description": "Unsupported media type. Send Content-Type: application/json.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "examples": [
+                        "unsupported_media_type"
+                      ]
                     },
-                    "data": {
-                      "type": "object"
+                    "detail": {
+                      "type": "string"
+                    },
+                    "title": {
+                      "type": "string"
+                    },
+                    "type": {
+                      "type": "string"
+                    },
+                    "instance": {
+                      "type": "string"
+                    },
+                    "requestId": {
+                      "type": "string"
+                    },
+                    "status": {
+                      "type": "integer"
+                    },
+                    "traceId": {
+                      "type": "string"
                     }
                   },
                   "required": [
@@ -4060,6 +4127,9 @@
                     "type": {
                       "type": "string"
                     },
+                    "data": {
+                      "type": "object"
+                    },
                     "issues": {
                       "type": "array",
                       "items": {
@@ -4110,9 +4180,6 @@
                     },
                     "traceId": {
                       "type": "string"
-                    },
-                    "data": {
-                      "type": "object"
                     }
                   },
                   "required": [
@@ -4149,6 +4216,9 @@
                     "type": {
                       "type": "string"
                     },
+                    "data": {
+                      "type": "object"
+                    },
                     "issues": {
                       "type": "array",
                       "items": {
@@ -4199,9 +4269,6 @@
                     },
                     "traceId": {
                       "type": "string"
-                    },
-                    "data": {
-                      "type": "object"
                     }
                   },
                   "required": [
@@ -4238,6 +4305,9 @@
                     "type": {
                       "type": "string"
                     },
+                    "data": {
+                      "type": "object"
+                    },
                     "issues": {
                       "type": "array",
                       "items": {
@@ -4288,9 +4358,6 @@
                     },
                     "traceId": {
                       "type": "string"
-                    },
-                    "data": {
-                      "type": "object"
                     }
                   },
                   "required": [
@@ -4318,8 +4385,14 @@
                     "anyOf": [
                       {
                         "type": "string",
+                        "pattern": "^[^\\p{Cc}\\p{Cf}\\p{Cs}\\p{Zl}\\p{Zp}]*$",
                         "maxLength": 128,
-                        "pattern": "^(?:[\\t\\n\\r]|[^\\p{Cc}\\p{Cs}])*$"
+                        "allOf": [
+                          {
+                            "pattern": "[^\\p{White_Space}\\p{Cc}\\p{Cf}\\p{Cs}\\p{Default_Ignorable_Code_Point}\\p{M}\\u2800]",
+                            "description": "Text with at least one visible character."
+                          }
+                        ]
                       },
                       {
                         "type": "null"
@@ -4334,15 +4407,21 @@
                         "properties": {
                           "line1": {
                             "type": "string",
+                            "pattern": "^[^\\p{Cc}\\p{Cf}\\p{Cs}\\p{Zl}\\p{Zp}]*$",
                             "maxLength": 200,
-                            "pattern": "^(?:[\\t\\n\\r]|[^\\p{Cc}\\p{Cs}])*$"
+                            "allOf": [
+                              {
+                                "pattern": "[^\\p{White_Space}\\p{Cc}\\p{Cf}\\p{Cs}\\p{Default_Ignorable_Code_Point}\\p{M}\\u2800]",
+                                "description": "Text with at least one visible character."
+                              }
+                            ]
                           },
                           "line2": {
                             "anyOf": [
                               {
                                 "type": "string",
-                                "maxLength": 200,
-                                "pattern": "^(?:[\\t\\n\\r]|[^\\p{Cc}\\p{Cs}])*$"
+                                "pattern": "^[^\\p{Cc}\\p{Cf}\\p{Cs}\\p{Zl}\\p{Zp}]*$",
+                                "maxLength": 200
                               },
                               {
                                 "type": "null"
@@ -4351,8 +4430,14 @@
                           },
                           "city": {
                             "type": "string",
+                            "pattern": "^[^\\p{Cc}\\p{Cf}\\p{Cs}\\p{Zl}\\p{Zp}]*$",
                             "maxLength": 100,
-                            "pattern": "^(?:[\\t\\n\\r]|[^\\p{Cc}\\p{Cs}])*$"
+                            "allOf": [
+                              {
+                                "pattern": "[^\\p{White_Space}\\p{Cc}\\p{Cf}\\p{Cs}\\p{Default_Ignorable_Code_Point}\\p{M}\\u2800]",
+                                "description": "Text with at least one visible character."
+                              }
+                            ]
                           },
                           "state": {
                             "type": "string",
@@ -4390,9 +4475,15 @@
                             },
                             "display": {
                               "type": "string",
-                              "minLength": 1,
+                              "pattern": "^[^\\p{Cc}\\p{Cf}\\p{Cs}\\p{Zl}\\p{Zp}]*$",
                               "maxLength": 200,
-                              "pattern": "^(?![\\s\\p{Cc}\\p{Cs}])[^\\p{Cc}\\p{Cs}]+$"
+                              "allOf": [
+                                {
+                                  "pattern": "[^\\p{White_Space}\\p{Cc}\\p{Cf}\\p{Cs}\\p{Default_Ignorable_Code_Point}\\p{M}\\u2800]"
+                                }
+                              ],
+                              "minLength": 1,
+                              "description": "Text with at least one visible character."
                             }
                           },
                           "required": [
@@ -4404,7 +4495,14 @@
                         "maxItems": 50
                       },
                       "dateOfBirth": {
-                        "type": "string"
+                        "type": "string",
+                        "allOf": [
+                          {
+                            "format": "date",
+                            "pattern": "^(19|20)\\d\\d-(0[1-9]|1[0-2])-(0[1-9]|[12]\\d|3[01])$",
+                            "description": "A real calendar date in YYYY-MM-DD format, with a year from 1900 through 2099, today or earlier in UTC."
+                          }
+                        ]
                       },
                       "email": {
                         "type": "string",
@@ -4413,8 +4511,14 @@
                       },
                       "firstName": {
                         "type": "string",
+                        "pattern": "^[^\\p{Cc}\\p{Cf}\\p{Cs}\\p{Zl}\\p{Zp}]*$",
                         "maxLength": 60,
-                        "pattern": "^(?:[\\t\\n\\r]|[^\\p{Cc}\\p{Cs}])*$"
+                        "allOf": [
+                          {
+                            "pattern": "[^\\p{White_Space}\\p{Cc}\\p{Cf}\\p{Cs}\\p{Default_Ignorable_Code_Point}\\p{M}\\u2800]",
+                            "description": "Text with at least one visible character."
+                          }
+                        ]
                       },
                       "gender": {
                         "type": "string",
@@ -4426,15 +4530,27 @@
                       },
                       "lastName": {
                         "type": "string",
+                        "pattern": "^[^\\p{Cc}\\p{Cf}\\p{Cs}\\p{Zl}\\p{Zp}]*$",
                         "maxLength": 60,
-                        "pattern": "^(?:[\\t\\n\\r]|[^\\p{Cc}\\p{Cs}])*$"
+                        "allOf": [
+                          {
+                            "pattern": "[^\\p{White_Space}\\p{Cc}\\p{Cf}\\p{Cs}\\p{Default_Ignorable_Code_Point}\\p{M}\\u2800]",
+                            "description": "Text with at least one visible character."
+                          }
+                        ]
                       },
                       "middleName": {
                         "anyOf": [
                           {
                             "type": "string",
+                            "pattern": "^[^\\p{Cc}\\p{Cf}\\p{Cs}\\p{Zl}\\p{Zp}]*$",
                             "maxLength": 60,
-                            "pattern": "^(?:[\\t\\n\\r]|[^\\p{Cc}\\p{Cs}])*$"
+                            "allOf": [
+                              {
+                                "pattern": "[^\\p{White_Space}\\p{Cc}\\p{Cf}\\p{Cs}\\p{Default_Ignorable_Code_Point}\\p{M}\\u2800]",
+                                "description": "Text with at least one visible character."
+                              }
+                            ]
                           },
                           {
                             "type": "null"
@@ -4449,8 +4565,14 @@
                         "anyOf": [
                           {
                             "type": "string",
+                            "pattern": "^[^\\p{Cc}\\p{Cf}\\p{Cs}\\p{Zl}\\p{Zp}]*$",
                             "maxLength": 128,
-                            "pattern": "^(?:[\\t\\n\\r]|[^\\p{Cc}\\p{Cs}])*$"
+                            "allOf": [
+                              {
+                                "pattern": "[^\\p{White_Space}\\p{Cc}\\p{Cf}\\p{Cs}\\p{Default_Ignorable_Code_Point}\\p{M}\\u2800]",
+                                "description": "Text with at least one visible character."
+                              }
+                            ]
                           },
                           {
                             "type": "null"
@@ -4473,6 +4595,7 @@
                   "practiceId": {
                     "type": "string",
                     "pattern": "^prac_[0-7][0-9a-hjkmnp-tv-z]{25}$",
+                    "description": "Required with a platform API key. Send a child practice ID. Independent practice keys can omit this field to use their own practice.",
                     "examples": [
                       "prac_01j2y8m6jcc9tt24af5pw9x1bc"
                     ]
@@ -4489,15 +4612,21 @@
                         "properties": {
                           "line1": {
                             "type": "string",
+                            "pattern": "^[^\\p{Cc}\\p{Cf}\\p{Cs}\\p{Zl}\\p{Zp}]*$",
                             "maxLength": 200,
-                            "pattern": "^(?:[\\t\\n\\r]|[^\\p{Cc}\\p{Cs}])*$"
+                            "allOf": [
+                              {
+                                "pattern": "[^\\p{White_Space}\\p{Cc}\\p{Cf}\\p{Cs}\\p{Default_Ignorable_Code_Point}\\p{M}\\u2800]",
+                                "description": "Text with at least one visible character."
+                              }
+                            ]
                           },
                           "line2": {
                             "anyOf": [
                               {
                                 "type": "string",
-                                "maxLength": 200,
-                                "pattern": "^(?:[\\t\\n\\r]|[^\\p{Cc}\\p{Cs}])*$"
+                                "pattern": "^[^\\p{Cc}\\p{Cf}\\p{Cs}\\p{Zl}\\p{Zp}]*$",
+                                "maxLength": 200
                               },
                               {
                                 "type": "null"
@@ -4506,8 +4635,14 @@
                           },
                           "city": {
                             "type": "string",
+                            "pattern": "^[^\\p{Cc}\\p{Cf}\\p{Cs}\\p{Zl}\\p{Zp}]*$",
                             "maxLength": 100,
-                            "pattern": "^(?:[\\t\\n\\r]|[^\\p{Cc}\\p{Cs}])*$"
+                            "allOf": [
+                              {
+                                "pattern": "[^\\p{White_Space}\\p{Cc}\\p{Cf}\\p{Cs}\\p{Default_Ignorable_Code_Point}\\p{M}\\u2800]",
+                                "description": "Text with at least one visible character."
+                              }
+                            ]
                           },
                           "state": {
                             "type": "string",
@@ -4528,13 +4663,25 @@
                       },
                       "firstName": {
                         "type": "string",
+                        "pattern": "^[^\\p{Cc}\\p{Cf}\\p{Cs}\\p{Zl}\\p{Zp}]*$",
                         "maxLength": 60,
-                        "pattern": "^(?:[\\t\\n\\r]|[^\\p{Cc}\\p{Cs}])*$"
+                        "allOf": [
+                          {
+                            "pattern": "[^\\p{White_Space}\\p{Cc}\\p{Cf}\\p{Cs}\\p{Default_Ignorable_Code_Point}\\p{M}\\u2800]",
+                            "description": "Text with at least one visible character."
+                          }
+                        ]
                       },
                       "lastName": {
                         "type": "string",
+                        "pattern": "^[^\\p{Cc}\\p{Cf}\\p{Cs}\\p{Zl}\\p{Zp}]*$",
                         "maxLength": 60,
-                        "pattern": "^(?:[\\t\\n\\r]|[^\\p{Cc}\\p{Cs}])*$"
+                        "allOf": [
+                          {
+                            "pattern": "[^\\p{White_Space}\\p{Cc}\\p{Cf}\\p{Cs}\\p{Default_Ignorable_Code_Point}\\p{M}\\u2800]",
+                            "description": "Text with at least one visible character."
+                          }
+                        ]
                       },
                       "npi": {
                         "type": "string",
@@ -4546,7 +4693,8 @@
                       "lastName",
                       "npi"
                     ],
-                    "additionalProperties": false
+                    "additionalProperties": false,
+                    "description": "Required with an API key. Send the prescribing clinician's NPI, firstName and lastName. Session callers can omit this field to sign with their own profile."
                   },
                   "prescriptions": {
                     "type": "array",
@@ -4557,8 +4705,14 @@
                           "anyOf": [
                             {
                               "type": "string",
+                              "pattern": "^[^\\p{Cc}\\p{Cf}\\p{Cs}\\p{Zl}\\p{Zp}]*$",
                               "maxLength": 200,
-                              "pattern": "^(?:[\\t\\n\\r]|[^\\p{Cc}\\p{Cs}])*$"
+                              "allOf": [
+                                {
+                                  "pattern": "[^\\p{White_Space}\\p{Cc}\\p{Cf}\\p{Cs}\\p{Default_Ignorable_Code_Point}\\p{M}\\u2800]",
+                                  "description": "Text with at least one visible character."
+                                }
+                              ]
                             },
                             {
                               "type": "null"
@@ -4567,8 +4721,14 @@
                         },
                         "directions": {
                           "type": "string",
+                          "pattern": "^(?:[\\n\\r]|[^\\p{Cc}\\p{Cf}\\p{Cs}])*$",
                           "maxLength": 2000,
-                          "pattern": "^(?:[\\t\\n\\r]|[^\\p{Cc}\\p{Cs}])*$"
+                          "allOf": [
+                            {
+                              "pattern": "[^\\p{White_Space}\\p{Cc}\\p{Cf}\\p{Cs}\\p{Default_Ignorable_Code_Point}\\p{M}\\u2800]",
+                              "description": "Text with at least one visible character."
+                            }
+                          ]
                         },
                         "medicationId": {
                           "type": "string",
@@ -4581,8 +4741,14 @@
                           "anyOf": [
                             {
                               "type": "string",
+                              "pattern": "^(?:[\\n\\r]|[^\\p{Cc}\\p{Cf}\\p{Cs}])*$",
                               "maxLength": 1000,
-                              "pattern": "^(?:[\\t\\n\\r]|[^\\p{Cc}\\p{Cs}])*$"
+                              "allOf": [
+                                {
+                                  "pattern": "[^\\p{White_Space}\\p{Cc}\\p{Cf}\\p{Cs}\\p{Default_Ignorable_Code_Point}\\p{M}\\u2800]",
+                                  "description": "Text with at least one visible character."
+                                }
+                              ]
                             },
                             {
                               "type": "null"
@@ -4638,9 +4804,10 @@
               }
             }
           },
-          "required": true
+          "required": true,
+          "description": "Send the JSON body with Content-Type: application/json."
         },
-        "description": "One request creates the order, signs it and sends it to the pharmacy. Platforms must send practiceId; practice callers can omit it to use their own practice. With an API key, name the prescriber and send signatureAttestation. Optional prescriber phone and address each default to the practice; no account is looked up by NPI. In the app, the signed-in member signs with the NPI in their settings, or names the prescriber with the same attestation. The patient is found by patient.externalId and updated from the order. Live orders require a default card or bank account on the payer (the platform for its practices); otherwise 409 payment_method_required is returned before creating an order.",
+        "description": "One request creates the order, signs it and sends it to the pharmacy. Platforms must send practiceId; practice callers can omit it to use their own practice. With an API key, name the prescriber and send signatureAttestation. Optional prescriber phone and address each default to the practice; no account is looked up by NPI. In the app, the signed-in member signs with the NPI in their settings, or names the prescriber with the same attestation. The patient is found by patient.externalId and updated from the order. Live orders require Live access on the practice and its platform. No payment method is required.",
         "summary": "Create, sign and submit an order",
         "x-visibility": "public"
       },
@@ -4687,9 +4854,9 @@
             "in": "query",
             "schema": {
               "type": "string",
-              "description": "Match the external order ID exactly, including case. Combine with practiceId when your platform reuses IDs across practices.",
               "minLength": 1,
-              "maxLength": 128
+              "maxLength": 128,
+              "description": "Match the external order ID exactly, including case. Combine with practiceId when your platform reuses IDs across practices."
             },
             "required": false,
             "description": "Match the external order ID exactly, including case. Combine with practiceId when your platform reuses IDs across practices."
@@ -4699,8 +4866,8 @@
             "in": "query",
             "schema": {
               "type": "string",
-              "description": "Return orders whose updatedAt is strictly later than this ISO 8601 timestamp. Sorting stays by creation time and ID unless sort is supplied. Keep this cutoff unchanged while paging.",
-              "format": "date-time"
+              "format": "date-time",
+              "description": "Return orders whose updatedAt is strictly later than this ISO 8601 timestamp. Sorting stays by creation time and ID unless sort is supplied. Keep this cutoff unchanged while paging."
             },
             "required": false,
             "description": "Return orders whose updatedAt is strictly later than this ISO 8601 timestamp. Sorting stays by creation time and ID unless sort is supplied. Keep this cutoff unchanged while paging."
@@ -4710,8 +4877,8 @@
             "in": "query",
             "schema": {
               "type": "string",
-              "description": "Limit results to the patient with this pat_ ID.",
               "pattern": "^pat_[0-7][0-9a-hjkmnp-tv-z]{25}$",
+              "description": "Limit results to the patient with this pat_ ID.",
               "examples": [
                 "pat_01j2y8m6jcc9tt24af5pw9x1bc"
               ]
@@ -4724,8 +4891,8 @@
             "in": "query",
             "schema": {
               "type": "string",
-              "description": "Limit results to the practice with this prac_ ID, within your authorized practices.",
               "pattern": "^prac_[0-7][0-9a-hjkmnp-tv-z]{25}$",
+              "description": "Limit results to the practice with this prac_ ID, within your authorized practices.",
               "examples": [
                 "prac_01j2y8m6jcc9tt24af5pw9x1bc"
               ]
@@ -4738,11 +4905,11 @@
             "in": "query",
             "schema": {
               "type": "string",
-              "description": "Search order numbers or IDs, patient details, external IDs, prescribers, medications and pharmacies. Every search word must match. Restart pagination when filters change.",
-              "maxLength": 120
+              "maxLength": 120,
+              "description": "Search saved order snapshots: patient names, email, phone and external ID; order external ID; prescriber name and NPI; medication names and brands; pharmacy name. Whole ord_ and pat_ IDs and six-character order numbers also match. Text matches ignore case and allow substrings, word prefixes and similar spellings for alphanumeric words of four or more characters. Every one of the first eight words containing letters or numbers must match; punctuation-only words are ignored. An empty or punctuation-only query leaves the list unfiltered. Date of birth, separate strength fields, practice names, prac_ IDs and rx_ IDs are not searched. Restart pagination when filters change."
             },
             "required": false,
-            "description": "Search order numbers or IDs, patient details, external IDs, prescribers, medications and pharmacies. Every search word must match. Restart pagination when filters change."
+            "description": "Search saved order snapshots: patient names, email, phone and external ID; order external ID; prescriber name and NPI; medication names and brands; pharmacy name. Whole ord_ and pat_ IDs and six-character order numbers also match. Text matches ignore case and allow substrings, word prefixes and similar spellings for alphanumeric words of four or more characters. Every one of the first eight words containing letters or numbers must match; punctuation-only words are ignored. An empty or punctuation-only query leaves the list unfiltered. Date of birth, separate strength fields, practice names, prac_ IDs and rx_ IDs are not searched. Restart pagination when filters change."
           },
           {
             "name": "status",
@@ -4763,18 +4930,32 @@
             "description": "Return only orders with this status. Omit to include all statuses."
           },
           {
-            "description": "true returns only submitted or processing orders with a cancel the pharmacy has not confirmed yet (cancelRequestedAt set). false leaves those orders out. Omit to include both.",
-            "in": "query",
             "name": "cancelRequested",
-            "required": false,
+            "in": "query",
             "schema": {
+              "type": "string",
               "enum": [
                 "true",
                 "false"
               ],
-              "type": "string",
               "description": "true returns only submitted or processing orders with a cancel the pharmacy has not confirmed yet (cancelRequestedAt set). false leaves those orders out. Omit to include both."
-            }
+            },
+            "required": false,
+            "description": "true returns only submitted or processing orders with a cancel the pharmacy has not confirmed yet (cancelRequestedAt set). false leaves those orders out. Omit to include both."
+          },
+          {
+            "name": "recentlyShipped",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "true",
+                "false"
+              ],
+              "description": "true returns only orders whose status is shipped and that shipped in the last 60 days; delivered orders are excluded. false leaves those orders out. Omit to include both."
+            },
+            "required": false,
+            "description": "true returns only orders whose status is shipped and that shipped in the last 60 days; delivered orders are excluded. false leaves those orders out. Omit to include both."
           },
           {
             "name": "sort",
@@ -4787,10 +4968,10 @@
                 "created",
                 "-created"
               ],
-              "description": "patient sorts names A to Z; created sorts oldest first. A leading - reverses the order. Defaults to -created. Restart pagination after changing sort."
+              "description": "patient sorts the lowercase text firstName + space + lastName A to Z, then order ID; created sorts oldest first. A leading - reverses the order. Defaults to -created. Restart pagination after changing sort."
             },
             "required": false,
-            "description": "patient sorts names A to Z; created sorts oldest first. A leading - reverses the order. Defaults to -created. Restart pagination after changing sort."
+            "description": "patient sorts the lowercase text firstName + space + lastName A to Z, then order ID; created sorts oldest first. A leading - reverses the order. Defaults to -created. Restart pagination after changing sort."
           },
           {
             "description": "The dated API version this request is written against.",
@@ -5369,6 +5550,16 @@
                               "failed"
                             ]
                           },
+                          "trackingUrl": {
+                            "anyOf": [
+                              {
+                                "type": "string"
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          },
                           "statusHistory": {
                             "type": "array",
                             "items": {
@@ -5403,48 +5594,6 @@
                           },
                           "updatedAt": {
                             "type": "string"
-                          },
-                          "cancellation": {
-                            "anyOf": [
-                              {
-                                "type": "object",
-                                "properties": {
-                                  "requestedAt": {
-                                    "type": "string"
-                                  },
-                                  "requestedBy": {
-                                    "type": "object",
-                                    "properties": {
-                                      "name": {
-                                        "type": "string"
-                                      }
-                                    },
-                                    "required": [
-                                      "name"
-                                    ],
-                                    "additionalProperties": false
-                                  }
-                                },
-                                "required": [
-                                  "requestedAt",
-                                  "requestedBy"
-                                ],
-                                "additionalProperties": false
-                              },
-                              {
-                                "type": "null"
-                              }
-                            ]
-                          },
-                          "trackingUrl": {
-                            "anyOf": [
-                              {
-                                "type": "string"
-                              },
-                              {
-                                "type": "null"
-                              }
-                            ]
                           }
                         },
                         "required": [
@@ -5616,6 +5765,9 @@
                     "type": {
                       "type": "string"
                     },
+                    "data": {
+                      "type": "object"
+                    },
                     "issues": {
                       "type": "array",
                       "items": {
@@ -5666,9 +5818,6 @@
                     },
                     "traceId": {
                       "type": "string"
-                    },
-                    "data": {
-                      "type": "object"
                     }
                   },
                   "required": [
@@ -5705,6 +5854,9 @@
                     "type": {
                       "type": "string"
                     },
+                    "data": {
+                      "type": "object"
+                    },
                     "issues": {
                       "type": "array",
                       "items": {
@@ -5755,9 +5907,6 @@
                     },
                     "traceId": {
                       "type": "string"
-                    },
-                    "data": {
-                      "type": "object"
                     }
                   },
                   "required": [
@@ -5883,6 +6032,9 @@
                     "type": {
                       "type": "string"
                     },
+                    "data": {
+                      "type": "object"
+                    },
                     "issues": {
                       "type": "array",
                       "items": {
@@ -5933,9 +6085,6 @@
                     },
                     "traceId": {
                       "type": "string"
-                    },
-                    "data": {
-                      "type": "object"
                     }
                   },
                   "required": [
@@ -5953,7 +6102,7 @@
             }
           }
         },
-        "description": "List accessible orders in the current mode, newest first. `externalOrderId` matches exactly, including case. `updatedAfter` accepts an ISO 8601 timestamp with a timezone and returns strictly later updates. Keep filters fixed while paging. `sort` takes `patient` (name A to Z) or `created` (oldest first); a leading `-` reverses. Creation time or patient name and the order ID determine cursor order, even when updatedAt changes.",
+        "description": "List accessible orders in the current mode, newest first. `externalOrderId` matches exactly, including case. `updatedAfter` accepts an ISO 8601 timestamp with a timezone and returns strictly later updates. Keep filters fixed while paging. `sort` takes `patient` (lowercase firstName + space + lastName A to Z, then order ID) or `created` (oldest first); a leading `-` reverses. Creation time or patient name and the order ID determine cursor order, even when updatedAt changes.",
         "summary": "List orders",
         "x-pier-pagination": {
           "cursorField": "id",
@@ -6553,6 +6702,16 @@
                         "failed"
                       ]
                     },
+                    "trackingUrl": {
+                      "anyOf": [
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ]
+                    },
                     "statusHistory": {
                       "type": "array",
                       "items": {
@@ -6587,48 +6746,6 @@
                     },
                     "updatedAt": {
                       "type": "string"
-                    },
-                    "cancellation": {
-                      "anyOf": [
-                        {
-                          "type": "object",
-                          "properties": {
-                            "requestedAt": {
-                              "type": "string"
-                            },
-                            "requestedBy": {
-                              "type": "object",
-                              "properties": {
-                                "name": {
-                                  "type": "string"
-                                }
-                              },
-                              "required": [
-                                "name"
-                              ],
-                              "additionalProperties": false
-                            }
-                          },
-                          "required": [
-                            "requestedAt",
-                            "requestedBy"
-                          ],
-                          "additionalProperties": false
-                        },
-                        {
-                          "type": "null"
-                        }
-                      ]
-                    },
-                    "trackingUrl": {
-                      "anyOf": [
-                        {
-                          "type": "string"
-                        },
-                        {
-                          "type": "null"
-                        }
-                      ]
                     }
                   },
                   "required": [
@@ -6678,6 +6795,9 @@
                     "type": {
                       "type": "string"
                     },
+                    "data": {
+                      "type": "object"
+                    },
                     "issues": {
                       "type": "array",
                       "items": {
@@ -6728,9 +6848,6 @@
                     },
                     "traceId": {
                       "type": "string"
-                    },
-                    "data": {
-                      "type": "object"
                     }
                   },
                   "required": [
@@ -6767,6 +6884,9 @@
                     "type": {
                       "type": "string"
                     },
+                    "data": {
+                      "type": "object"
+                    },
                     "issues": {
                       "type": "array",
                       "items": {
@@ -6817,9 +6937,6 @@
                     },
                     "traceId": {
                       "type": "string"
-                    },
-                    "data": {
-                      "type": "object"
                     }
                   },
                   "required": [
@@ -6856,6 +6973,9 @@
                     "type": {
                       "type": "string"
                     },
+                    "data": {
+                      "type": "object"
+                    },
                     "issues": {
                       "type": "array",
                       "items": {
@@ -6906,9 +7026,6 @@
                     },
                     "traceId": {
                       "type": "string"
-                    },
-                    "data": {
-                      "type": "object"
                     }
                   },
                   "required": [
@@ -7034,6 +7151,9 @@
                     "type": {
                       "type": "string"
                     },
+                    "data": {
+                      "type": "object"
+                    },
                     "issues": {
                       "type": "array",
                       "items": {
@@ -7084,9 +7204,6 @@
                     },
                     "traceId": {
                       "type": "string"
-                    },
-                    "data": {
-                      "type": "object"
                     }
                   },
                   "required": [
@@ -7104,9 +7221,9 @@
             }
           }
         },
+        "description": "Read one order and its prescriptions in the API key's organization and mode.",
         "summary": "Read an order",
-        "x-visibility": "public",
-        "description": "Read one order and its prescriptions in the API key's organization and mode."
+        "x-visibility": "public"
       }
     },
     "/v1/orders/{orderId}/cancel": {
@@ -7129,15 +7246,15 @@
             "required": true
           },
           {
-            "name": "idempotency-key",
+            "name": "Idempotency-Key",
             "in": "header",
             "schema": {
               "type": "string",
               "pattern": "^[\\x21-\\x7e]{1,255}$",
-              "description": "A unique key per operation, 1 to 255 printable ASCII characters without spaces. A retry with the same key returns the original response."
+              "description": "A unique key per operation, 1 to 255 printable ASCII characters without spaces. A retry with the same key returns the resource as it is now with the first response's status."
             },
             "required": true,
-            "description": "A unique key per operation, 1 to 255 printable ASCII characters without spaces. A retry with the same key returns the original response."
+            "description": "A unique key per operation, 1 to 255 printable ASCII characters without spaces. A retry with the same key returns the resource as it is now with the first response's status."
           },
           {
             "description": "The dated API version this request is written against.",
@@ -7711,6 +7828,16 @@
                         "failed"
                       ]
                     },
+                    "trackingUrl": {
+                      "anyOf": [
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ]
+                    },
                     "statusHistory": {
                       "type": "array",
                       "items": {
@@ -7745,48 +7872,6 @@
                     },
                     "updatedAt": {
                       "type": "string"
-                    },
-                    "cancellation": {
-                      "anyOf": [
-                        {
-                          "type": "object",
-                          "properties": {
-                            "requestedAt": {
-                              "type": "string"
-                            },
-                            "requestedBy": {
-                              "type": "object",
-                              "properties": {
-                                "name": {
-                                  "type": "string"
-                                }
-                              },
-                              "required": [
-                                "name"
-                              ],
-                              "additionalProperties": false
-                            }
-                          },
-                          "required": [
-                            "requestedAt",
-                            "requestedBy"
-                          ],
-                          "additionalProperties": false
-                        },
-                        {
-                          "type": "null"
-                        }
-                      ]
-                    },
-                    "trackingUrl": {
-                      "anyOf": [
-                        {
-                          "type": "string"
-                        },
-                        {
-                          "type": "null"
-                        }
-                      ]
                     }
                   },
                   "required": [
@@ -8368,6 +8453,16 @@
                         "failed"
                       ]
                     },
+                    "trackingUrl": {
+                      "anyOf": [
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ]
+                    },
                     "statusHistory": {
                       "type": "array",
                       "items": {
@@ -8402,48 +8497,6 @@
                     },
                     "updatedAt": {
                       "type": "string"
-                    },
-                    "cancellation": {
-                      "anyOf": [
-                        {
-                          "type": "object",
-                          "properties": {
-                            "requestedAt": {
-                              "type": "string"
-                            },
-                            "requestedBy": {
-                              "type": "object",
-                              "properties": {
-                                "name": {
-                                  "type": "string"
-                                }
-                              },
-                              "required": [
-                                "name"
-                              ],
-                              "additionalProperties": false
-                            }
-                          },
-                          "required": [
-                            "requestedAt",
-                            "requestedBy"
-                          ],
-                          "additionalProperties": false
-                        },
-                        {
-                          "type": "null"
-                        }
-                      ]
-                    },
-                    "trackingUrl": {
-                      "anyOf": [
-                        {
-                          "type": "string"
-                        },
-                        {
-                          "type": "null"
-                        }
-                      ]
                     }
                   },
                   "required": [
@@ -8582,6 +8635,9 @@
                     "type": {
                       "type": "string"
                     },
+                    "data": {
+                      "type": "object"
+                    },
                     "issues": {
                       "type": "array",
                       "items": {
@@ -8632,9 +8688,6 @@
                     },
                     "traceId": {
                       "type": "string"
-                    },
-                    "data": {
-                      "type": "object"
                     }
                   },
                   "required": [
@@ -8671,6 +8724,9 @@
                     "type": {
                       "type": "string"
                     },
+                    "data": {
+                      "type": "object"
+                    },
                     "issues": {
                       "type": "array",
                       "items": {
@@ -8721,9 +8777,6 @@
                     },
                     "traceId": {
                       "type": "string"
-                    },
-                    "data": {
-                      "type": "object"
                     }
                   },
                   "required": [
@@ -8849,6 +8902,9 @@
                     "type": {
                       "type": "string"
                     },
+                    "data": {
+                      "type": "object"
+                    },
                     "issues": {
                       "type": "array",
                       "items": {
@@ -8899,9 +8955,95 @@
                     },
                     "traceId": {
                       "type": "string"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "detail",
+                    "instance",
+                    "requestId",
+                    "status",
+                    "title",
+                    "type"
+                  ],
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "415": {
+            "description": "HTTP 415",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "title": "OrdersCancel415Response",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": {
+                      "type": "string"
+                    },
+                    "detail": {
+                      "type": "string"
+                    },
+                    "title": {
+                      "type": "string"
+                    },
+                    "type": {
+                      "type": "string"
                     },
                     "data": {
                       "type": "object"
+                    },
+                    "issues": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "code": {
+                            "type": "string"
+                          },
+                          "field": {
+                            "type": "string"
+                          },
+                          "message": {
+                            "type": "string"
+                          },
+                          "path": {
+                            "type": "array",
+                            "items": {
+                              "anyOf": [
+                                {
+                                  "type": "string"
+                                },
+                                {
+                                  "type": "integer",
+                                  "minimum": -9007199254740991,
+                                  "maximum": 9007199254740991
+                                }
+                              ]
+                            }
+                          }
+                        },
+                        "required": [
+                          "code",
+                          "field",
+                          "message",
+                          "path"
+                        ],
+                        "additionalProperties": false
+                      }
+                    },
+                    "instance": {
+                      "type": "string"
+                    },
+                    "requestId": {
+                      "type": "string"
+                    },
+                    "status": {
+                      "type": "integer"
+                    },
+                    "traceId": {
+                      "type": "string"
                     }
                   },
                   "required": [
@@ -8938,6 +9080,9 @@
                     "type": {
                       "type": "string"
                     },
+                    "data": {
+                      "type": "object"
+                    },
                     "issues": {
                       "type": "array",
                       "items": {
@@ -8988,9 +9133,6 @@
                     },
                     "traceId": {
                       "type": "string"
-                    },
-                    "data": {
-                      "type": "object"
                     }
                   },
                   "required": [
@@ -9021,15 +9163,15 @@
         "operationId": "practices.create",
         "parameters": [
           {
-            "name": "idempotency-key",
+            "name": "Idempotency-Key",
             "in": "header",
             "schema": {
               "type": "string",
               "pattern": "^[\\x21-\\x7e]{1,255}$",
-              "description": "A unique key per operation, 1 to 255 printable ASCII characters without spaces. A retry with the same key returns the original response."
+              "description": "A unique key per operation, 1 to 255 printable ASCII characters without spaces. A retry with the same key returns the resource as it is now with the first response's status."
             },
             "required": true,
-            "description": "A unique key per operation, 1 to 255 printable ASCII characters without spaces. A retry with the same key returns the original response."
+            "description": "A unique key per operation, 1 to 255 printable ASCII characters without spaces. A retry with the same key returns the resource as it is now with the first response's status."
           },
           {
             "description": "The dated API version this request is written against.",
@@ -9251,6 +9393,9 @@
                     "type": {
                       "type": "string"
                     },
+                    "data": {
+                      "type": "object"
+                    },
                     "issues": {
                       "type": "array",
                       "items": {
@@ -9301,9 +9446,6 @@
                     },
                     "traceId": {
                       "type": "string"
-                    },
-                    "data": {
-                      "type": "object"
                     }
                   },
                   "required": [
@@ -9518,6 +9660,9 @@
                     "type": {
                       "type": "string"
                     },
+                    "data": {
+                      "type": "object"
+                    },
                     "issues": {
                       "type": "array",
                       "items": {
@@ -9568,9 +9713,144 @@
                     },
                     "traceId": {
                       "type": "string"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "detail",
+                    "instance",
+                    "requestId",
+                    "status",
+                    "title",
+                    "type"
+                  ],
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "415": {
+            "description": "Unsupported media type. Send Content-Type: application/json.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "examples": [
+                        "unsupported_media_type"
+                      ]
+                    },
+                    "detail": {
+                      "type": "string"
+                    },
+                    "title": {
+                      "type": "string"
+                    },
+                    "type": {
+                      "type": "string"
+                    },
+                    "instance": {
+                      "type": "string"
+                    },
+                    "requestId": {
+                      "type": "string"
+                    },
+                    "status": {
+                      "type": "integer"
+                    },
+                    "traceId": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "detail",
+                    "instance",
+                    "requestId",
+                    "status",
+                    "title",
+                    "type"
+                  ],
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "HTTP 422",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "title": "PracticesCreate422Response",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": {
+                      "type": "string"
+                    },
+                    "detail": {
+                      "type": "string"
+                    },
+                    "title": {
+                      "type": "string"
+                    },
+                    "type": {
+                      "type": "string"
                     },
                     "data": {
                       "type": "object"
+                    },
+                    "issues": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "code": {
+                            "type": "string"
+                          },
+                          "field": {
+                            "type": "string"
+                          },
+                          "message": {
+                            "type": "string"
+                          },
+                          "path": {
+                            "type": "array",
+                            "items": {
+                              "anyOf": [
+                                {
+                                  "type": "string"
+                                },
+                                {
+                                  "type": "integer",
+                                  "minimum": -9007199254740991,
+                                  "maximum": 9007199254740991
+                                }
+                              ]
+                            }
+                          }
+                        },
+                        "required": [
+                          "code",
+                          "field",
+                          "message",
+                          "path"
+                        ],
+                        "additionalProperties": false
+                      }
+                    },
+                    "instance": {
+                      "type": "string"
+                    },
+                    "requestId": {
+                      "type": "string"
+                    },
+                    "status": {
+                      "type": "integer"
+                    },
+                    "traceId": {
+                      "type": "string"
                     }
                   },
                   "required": [
@@ -9607,6 +9887,9 @@
                     "type": {
                       "type": "string"
                     },
+                    "data": {
+                      "type": "object"
+                    },
                     "issues": {
                       "type": "array",
                       "items": {
@@ -9657,9 +9940,6 @@
                     },
                     "traceId": {
                       "type": "string"
-                    },
-                    "data": {
-                      "type": "object"
                     }
                   },
                   "required": [
@@ -9696,6 +9976,9 @@
                     "type": {
                       "type": "string"
                     },
+                    "data": {
+                      "type": "object"
+                    },
                     "issues": {
                       "type": "array",
                       "items": {
@@ -9746,9 +10029,6 @@
                     },
                     "traceId": {
                       "type": "string"
-                    },
-                    "data": {
-                      "type": "object"
                     }
                   },
                   "required": [
@@ -9777,15 +10057,21 @@
                     "properties": {
                       "line1": {
                         "type": "string",
+                        "pattern": "^[^\\p{Cc}\\p{Cf}\\p{Cs}\\p{Zl}\\p{Zp}]*$",
                         "maxLength": 200,
-                        "pattern": "^(?:[\\t\\n\\r]|[^\\p{Cc}\\p{Cs}])*$"
+                        "allOf": [
+                          {
+                            "pattern": "[^\\p{White_Space}\\p{Cc}\\p{Cf}\\p{Cs}\\p{Default_Ignorable_Code_Point}\\p{M}\\u2800]",
+                            "description": "Text with at least one visible character."
+                          }
+                        ]
                       },
                       "line2": {
                         "anyOf": [
                           {
                             "type": "string",
-                            "maxLength": 200,
-                            "pattern": "^(?:[\\t\\n\\r]|[^\\p{Cc}\\p{Cs}])*$"
+                            "pattern": "^[^\\p{Cc}\\p{Cf}\\p{Cs}\\p{Zl}\\p{Zp}]*$",
+                            "maxLength": 200
                           },
                           {
                             "type": "null"
@@ -9794,8 +10080,14 @@
                       },
                       "city": {
                         "type": "string",
+                        "pattern": "^[^\\p{Cc}\\p{Cf}\\p{Cs}\\p{Zl}\\p{Zp}]*$",
                         "maxLength": 100,
-                        "pattern": "^(?:[\\t\\n\\r]|[^\\p{Cc}\\p{Cs}])*$"
+                        "allOf": [
+                          {
+                            "pattern": "[^\\p{White_Space}\\p{Cc}\\p{Cf}\\p{Cs}\\p{Default_Ignorable_Code_Point}\\p{M}\\u2800]",
+                            "description": "Text with at least one visible character."
+                          }
+                        ]
                       },
                       "state": {
                         "type": "string",
@@ -9819,11 +10111,12 @@
                   },
                   "name": {
                     "type": "string",
+                    "pattern": "^[^\\p{Cc}\\p{Cf}\\p{Cs}\\p{Zl}\\p{Zp}]*$",
                     "maxLength": 120,
-                    "pattern": "^(?:[\\t\\n\\r]|[^\\p{Cc}\\p{Cs}])*$",
                     "allOf": [
                       {
-                        "pattern": "^[^\\p{Cc}\\p{Cf}\\p{Cs}\\p{Zl}\\p{Zp}]*$"
+                        "pattern": "[^\\p{White_Space}\\p{Cc}\\p{Cf}\\p{Cs}\\p{Default_Ignorable_Code_Point}\\p{M}\\u2800]",
+                        "description": "Text with at least one visible character."
                       }
                     ]
                   },
@@ -9841,9 +10134,10 @@
               }
             }
           },
-          "required": true
+          "required": true,
+          "description": "Send the JSON body with Content-Type: application/json."
         },
-        "description": "Platforms only. Name, phone and address are required. The practice starts in Test; `liveEnabled: true` also allows new Live orders, which needs a platform with Live access, a default card or bank account on the platform payer, and a Live caller: a Live key, or a session in Live mode. A missing method returns 409 payment_method_required. Turning Live off later preserves access to existing records.",
+        "description": "Platforms only. Name, phone and address are required. The practice starts in Test; `liveEnabled: true` also allows new Live orders, which needs a platform with Live access and a Live caller: a Live key, or a session in Live mode. Turning Live off later preserves access to existing records.",
         "summary": "Create a practice",
         "x-visibility": "public"
       },
@@ -10174,6 +10468,9 @@
                     "type": {
                       "type": "string"
                     },
+                    "data": {
+                      "type": "object"
+                    },
                     "issues": {
                       "type": "array",
                       "items": {
@@ -10224,9 +10521,6 @@
                     },
                     "traceId": {
                       "type": "string"
-                    },
-                    "data": {
-                      "type": "object"
                     }
                   },
                   "required": [
@@ -10441,6 +10735,9 @@
                     "type": {
                       "type": "string"
                     },
+                    "data": {
+                      "type": "object"
+                    },
                     "issues": {
                       "type": "array",
                       "items": {
@@ -10491,9 +10788,6 @@
                     },
                     "traceId": {
                       "type": "string"
-                    },
-                    "data": {
-                      "type": "object"
                     }
                   },
                   "required": [
@@ -10670,6 +10964,9 @@
                     "type": {
                       "type": "string"
                     },
+                    "data": {
+                      "type": "object"
+                    },
                     "issues": {
                       "type": "array",
                       "items": {
@@ -10720,9 +11017,6 @@
                     },
                     "traceId": {
                       "type": "string"
-                    },
-                    "data": {
-                      "type": "object"
                     }
                   },
                   "required": [
@@ -10759,6 +11053,9 @@
                     "type": {
                       "type": "string"
                     },
+                    "data": {
+                      "type": "object"
+                    },
                     "issues": {
                       "type": "array",
                       "items": {
@@ -10809,9 +11106,6 @@
                     },
                     "traceId": {
                       "type": "string"
-                    },
-                    "data": {
-                      "type": "object"
                     }
                   },
                   "required": [
@@ -10848,6 +11142,9 @@
                     "type": {
                       "type": "string"
                     },
+                    "data": {
+                      "type": "object"
+                    },
                     "issues": {
                       "type": "array",
                       "items": {
@@ -10898,9 +11195,6 @@
                     },
                     "traceId": {
                       "type": "string"
-                    },
-                    "data": {
-                      "type": "object"
                     }
                   },
                   "required": [
@@ -11026,6 +11320,9 @@
                     "type": {
                       "type": "string"
                     },
+                    "data": {
+                      "type": "object"
+                    },
                     "issues": {
                       "type": "array",
                       "items": {
@@ -11076,9 +11373,6 @@
                     },
                     "traceId": {
                       "type": "string"
-                    },
-                    "data": {
-                      "type": "object"
                     }
                   },
                   "required": [
@@ -11096,9 +11390,9 @@
             }
           }
         },
+        "description": "Read one practice accessible to the API key. A platform can read its own practices.",
         "summary": "Read a practice",
-        "x-visibility": "public",
-        "description": "Read one practice accessible to the API key. A platform can read its own practices."
+        "x-visibility": "public"
       },
       "patch": {
         "tags": [
@@ -11119,15 +11413,15 @@
             "required": true
           },
           {
-            "name": "idempotency-key",
+            "name": "Idempotency-Key",
             "in": "header",
             "schema": {
               "type": "string",
               "pattern": "^[\\x21-\\x7e]{1,255}$",
-              "description": "A unique key per operation, 1 to 255 printable ASCII characters without spaces. A retry with the same key returns the original response."
+              "description": "A unique key per operation, 1 to 255 printable ASCII characters without spaces. A retry with the same key returns the resource as it is now with the first response's status."
             },
             "required": true,
-            "description": "A unique key per operation, 1 to 255 printable ASCII characters without spaces. A retry with the same key returns the original response."
+            "description": "A unique key per operation, 1 to 255 printable ASCII characters without spaces. A retry with the same key returns the resource as it is now with the first response's status."
           },
           {
             "description": "The dated API version this request is written against.",
@@ -11349,6 +11643,9 @@
                     "type": {
                       "type": "string"
                     },
+                    "data": {
+                      "type": "object"
+                    },
                     "issues": {
                       "type": "array",
                       "items": {
@@ -11399,9 +11696,6 @@
                     },
                     "traceId": {
                       "type": "string"
-                    },
-                    "data": {
-                      "type": "object"
                     }
                   },
                   "required": [
@@ -11616,6 +11910,9 @@
                     "type": {
                       "type": "string"
                     },
+                    "data": {
+                      "type": "object"
+                    },
                     "issues": {
                       "type": "array",
                       "items": {
@@ -11666,9 +11963,55 @@
                     },
                     "traceId": {
                       "type": "string"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "detail",
+                    "instance",
+                    "requestId",
+                    "status",
+                    "title",
+                    "type"
+                  ],
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "415": {
+            "description": "Unsupported media type. Send Content-Type: application/json.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "examples": [
+                        "unsupported_media_type"
+                      ]
                     },
-                    "data": {
-                      "type": "object"
+                    "detail": {
+                      "type": "string"
+                    },
+                    "title": {
+                      "type": "string"
+                    },
+                    "type": {
+                      "type": "string"
+                    },
+                    "instance": {
+                      "type": "string"
+                    },
+                    "requestId": {
+                      "type": "string"
+                    },
+                    "status": {
+                      "type": "integer"
+                    },
+                    "traceId": {
+                      "type": "string"
                     }
                   },
                   "required": [
@@ -11705,6 +12048,9 @@
                     "type": {
                       "type": "string"
                     },
+                    "data": {
+                      "type": "object"
+                    },
                     "issues": {
                       "type": "array",
                       "items": {
@@ -11755,9 +12101,6 @@
                     },
                     "traceId": {
                       "type": "string"
-                    },
-                    "data": {
-                      "type": "object"
                     }
                   },
                   "required": [
@@ -11794,6 +12137,9 @@
                     "type": {
                       "type": "string"
                     },
+                    "data": {
+                      "type": "object"
+                    },
                     "issues": {
                       "type": "array",
                       "items": {
@@ -11844,9 +12190,6 @@
                     },
                     "traceId": {
                       "type": "string"
-                    },
-                    "data": {
-                      "type": "object"
                     }
                   },
                   "required": [
@@ -11883,6 +12226,9 @@
                     "type": {
                       "type": "string"
                     },
+                    "data": {
+                      "type": "object"
+                    },
                     "issues": {
                       "type": "array",
                       "items": {
@@ -11933,9 +12279,6 @@
                     },
                     "traceId": {
                       "type": "string"
-                    },
-                    "data": {
-                      "type": "object"
                     }
                   },
                   "required": [
@@ -11966,15 +12309,21 @@
                         "properties": {
                           "line1": {
                             "type": "string",
+                            "pattern": "^[^\\p{Cc}\\p{Cf}\\p{Cs}\\p{Zl}\\p{Zp}]*$",
                             "maxLength": 200,
-                            "pattern": "^(?:[\\t\\n\\r]|[^\\p{Cc}\\p{Cs}])*$"
+                            "allOf": [
+                              {
+                                "pattern": "[^\\p{White_Space}\\p{Cc}\\p{Cf}\\p{Cs}\\p{Default_Ignorable_Code_Point}\\p{M}\\u2800]",
+                                "description": "Text with at least one visible character."
+                              }
+                            ]
                           },
                           "line2": {
                             "anyOf": [
                               {
                                 "type": "string",
-                                "maxLength": 200,
-                                "pattern": "^(?:[\\t\\n\\r]|[^\\p{Cc}\\p{Cs}])*$"
+                                "pattern": "^[^\\p{Cc}\\p{Cf}\\p{Cs}\\p{Zl}\\p{Zp}]*$",
+                                "maxLength": 200
                               },
                               {
                                 "type": "null"
@@ -11983,8 +12332,14 @@
                           },
                           "city": {
                             "type": "string",
+                            "pattern": "^[^\\p{Cc}\\p{Cf}\\p{Cs}\\p{Zl}\\p{Zp}]*$",
                             "maxLength": 100,
-                            "pattern": "^(?:[\\t\\n\\r]|[^\\p{Cc}\\p{Cs}])*$"
+                            "allOf": [
+                              {
+                                "pattern": "[^\\p{White_Space}\\p{Cc}\\p{Cf}\\p{Cs}\\p{Default_Ignorable_Code_Point}\\p{M}\\u2800]",
+                                "description": "Text with at least one visible character."
+                              }
+                            ]
                           },
                           "state": {
                             "type": "string",
@@ -12007,11 +12362,12 @@
                   },
                   "name": {
                     "type": "string",
+                    "pattern": "^[^\\p{Cc}\\p{Cf}\\p{Cs}\\p{Zl}\\p{Zp}]*$",
                     "maxLength": 120,
-                    "pattern": "^(?:[\\t\\n\\r]|[^\\p{Cc}\\p{Cs}])*$",
                     "allOf": [
                       {
-                        "pattern": "^[^\\p{Cc}\\p{Cf}\\p{Cs}\\p{Zl}\\p{Zp}]*$"
+                        "pattern": "[^\\p{White_Space}\\p{Cc}\\p{Cf}\\p{Cs}\\p{Default_Ignorable_Code_Point}\\p{M}\\u2800]",
+                        "description": "Text with at least one visible character."
                       }
                     ]
                   },
@@ -12031,9 +12387,10 @@
               }
             }
           },
-          "required": true
+          "required": true,
+          "description": "Send the JSON body with Content-Type: application/json."
         },
-        "description": "`liveEnabled` allows or refuses new Live orders. Existing records, cancellation, webhooks and billing keep working. Only its platform changes it; enabling requires platform Live access and a default card or bank account on the platform payer (409 payment_method_required otherwise), and either change needs a Live caller: a Live key (403 live_key_required otherwise) or a session in Live mode (403 live_mode_required otherwise). Live orders send `name`, `phone` and `address` to the pharmacy, so a practice with Live access changes them only with a Live key (403 live_mode_required otherwise).",
+        "description": "`liveEnabled` allows or refuses new Live orders. Existing records, cancellation, webhooks and billing keep working. Only its platform changes it; enabling requires platform Live access, and either change needs a Live caller: a Live key (403 live_key_required otherwise) or a session in Live mode (403 live_mode_required otherwise). Live orders send `name`, `phone` and `address` to the pharmacy, so a practice with Live access changes them only with a Live key (403 live_mode_required otherwise).",
         "summary": "Update a practice",
         "x-visibility": "public"
       }
@@ -12113,16 +12470,6 @@
                           "createdAt": {
                             "type": "string"
                           },
-                          "id": {
-                            "type": "string",
-                            "pattern": "^whe_[0-7][0-9a-hjkmnp-tv-z]{25}$",
-                            "examples": [
-                              "whe_01j2y8m6jcc9tt24af5pw9x1bc"
-                            ]
-                          },
-                          "url": {
-                            "type": "string"
-                          },
                           "updatedAt": {
                             "type": "string"
                           },
@@ -12132,6 +12479,16 @@
                               "test",
                               "live"
                             ]
+                          },
+                          "id": {
+                            "type": "string",
+                            "pattern": "^whe_[0-7][0-9a-hjkmnp-tv-z]{25}$",
+                            "examples": [
+                              "whe_01j2y8m6jcc9tt24af5pw9x1bc"
+                            ]
+                          },
+                          "url": {
+                            "type": "string"
                           }
                         },
                         "required": [
@@ -12288,6 +12645,9 @@
                     "type": {
                       "type": "string"
                     },
+                    "data": {
+                      "type": "object"
+                    },
                     "issues": {
                       "type": "array",
                       "items": {
@@ -12338,9 +12698,6 @@
                     },
                     "traceId": {
                       "type": "string"
-                    },
-                    "data": {
-                      "type": "object"
                     }
                   },
                   "required": [
@@ -12555,6 +12912,9 @@
                     "type": {
                       "type": "string"
                     },
+                    "data": {
+                      "type": "object"
+                    },
                     "issues": {
                       "type": "array",
                       "items": {
@@ -12605,9 +12965,6 @@
                     },
                     "traceId": {
                       "type": "string"
-                    },
-                    "data": {
-                      "type": "object"
                     }
                   },
                   "required": [
@@ -12640,15 +12997,15 @@
         "operationId": "webhooks.create",
         "parameters": [
           {
-            "name": "idempotency-key",
+            "name": "Idempotency-Key",
             "in": "header",
             "schema": {
               "type": "string",
               "pattern": "^[\\x21-\\x7e]{1,255}$",
-              "description": "A unique key per operation, 1 to 255 printable ASCII characters without spaces. A retry with the same key returns the original response."
+              "description": "A unique key per operation, 1 to 255 printable ASCII characters without spaces. A retry with the same key returns the resource as it is now with the first response's status."
             },
             "required": true,
-            "description": "A unique key per operation, 1 to 255 printable ASCII characters without spaces. A retry with the same key returns the original response."
+            "description": "A unique key per operation, 1 to 255 printable ASCII characters without spaces. A retry with the same key returns the resource as it is now with the first response's status."
           },
           {
             "description": "The dated API version this request is written against.",
@@ -12681,6 +13038,16 @@
                     "createdAt": {
                       "type": "string"
                     },
+                    "updatedAt": {
+                      "type": "string"
+                    },
+                    "mode": {
+                      "type": "string",
+                      "enum": [
+                        "test",
+                        "live"
+                      ]
+                    },
                     "id": {
                       "type": "string",
                       "pattern": "^whe_[0-7][0-9a-hjkmnp-tv-z]{25}$",
@@ -12693,16 +13060,6 @@
                     },
                     "secret": {
                       "type": "string"
-                    },
-                    "updatedAt": {
-                      "type": "string"
-                    },
-                    "mode": {
-                      "type": "string",
-                      "enum": [
-                        "test",
-                        "live"
-                      ]
                     }
                   },
                   "required": [
@@ -12827,6 +13184,9 @@
                     "type": {
                       "type": "string"
                     },
+                    "data": {
+                      "type": "object"
+                    },
                     "issues": {
                       "type": "array",
                       "items": {
@@ -12877,9 +13237,6 @@
                     },
                     "traceId": {
                       "type": "string"
-                    },
-                    "data": {
-                      "type": "object"
                     }
                   },
                   "required": [
@@ -13094,6 +13451,9 @@
                     "type": {
                       "type": "string"
                     },
+                    "data": {
+                      "type": "object"
+                    },
                     "issues": {
                       "type": "array",
                       "items": {
@@ -13144,9 +13504,55 @@
                     },
                     "traceId": {
                       "type": "string"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "detail",
+                    "instance",
+                    "requestId",
+                    "status",
+                    "title",
+                    "type"
+                  ],
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "415": {
+            "description": "Unsupported media type. Send Content-Type: application/json.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "examples": [
+                        "unsupported_media_type"
+                      ]
                     },
-                    "data": {
-                      "type": "object"
+                    "detail": {
+                      "type": "string"
+                    },
+                    "title": {
+                      "type": "string"
+                    },
+                    "type": {
+                      "type": "string"
+                    },
+                    "instance": {
+                      "type": "string"
+                    },
+                    "requestId": {
+                      "type": "string"
+                    },
+                    "status": {
+                      "type": "integer"
+                    },
+                    "traceId": {
+                      "type": "string"
                     }
                   },
                   "required": [
@@ -13183,6 +13589,9 @@
                     "type": {
                       "type": "string"
                     },
+                    "data": {
+                      "type": "object"
+                    },
                     "issues": {
                       "type": "array",
                       "items": {
@@ -13233,9 +13642,6 @@
                     },
                     "traceId": {
                       "type": "string"
-                    },
-                    "data": {
-                      "type": "object"
                     }
                   },
                   "required": [
@@ -13272,6 +13678,9 @@
                     "type": {
                       "type": "string"
                     },
+                    "data": {
+                      "type": "object"
+                    },
                     "issues": {
                       "type": "array",
                       "items": {
@@ -13322,9 +13731,6 @@
                     },
                     "traceId": {
                       "type": "string"
-                    },
-                    "data": {
-                      "type": "object"
                     }
                   },
                   "required": [
@@ -13361,7 +13767,8 @@
               }
             }
           },
-          "required": true
+          "required": true,
+          "description": "Send the JSON body with Content-Type: application/json."
         },
         "description": "Platforms and independent practices can register up to 16 public HTTPS endpoints per mode. An API key acts only for its own organization and mode. Every event goes to every endpoint. The signing secret is returned by creation and its idempotent replay for 24 hours.",
         "summary": "Add a webhook endpoint",
@@ -13388,15 +13795,15 @@
             "required": true
           },
           {
-            "name": "idempotency-key",
+            "name": "Idempotency-Key",
             "in": "header",
             "schema": {
               "type": "string",
               "pattern": "^[\\x21-\\x7e]{1,255}$",
-              "description": "A unique key per operation, 1 to 255 printable ASCII characters without spaces. A retry with the same key returns the original response."
+              "description": "A unique key per operation, 1 to 255 printable ASCII characters without spaces. A retry with the same key returns the resource as it is now with the first response's status."
             },
             "required": true,
-            "description": "A unique key per operation, 1 to 255 printable ASCII characters without spaces. A retry with the same key returns the original response."
+            "description": "A unique key per operation, 1 to 255 printable ASCII characters without spaces. A retry with the same key returns the resource as it is now with the first response's status."
           },
           {
             "description": "The dated API version this request is written against.",
@@ -13429,16 +13836,6 @@
                     "createdAt": {
                       "type": "string"
                     },
-                    "id": {
-                      "type": "string",
-                      "pattern": "^whe_[0-7][0-9a-hjkmnp-tv-z]{25}$",
-                      "examples": [
-                        "whe_01j2y8m6jcc9tt24af5pw9x1bc"
-                      ]
-                    },
-                    "url": {
-                      "type": "string"
-                    },
                     "updatedAt": {
                       "type": "string"
                     },
@@ -13448,6 +13845,16 @@
                         "test",
                         "live"
                       ]
+                    },
+                    "id": {
+                      "type": "string",
+                      "pattern": "^whe_[0-7][0-9a-hjkmnp-tv-z]{25}$",
+                      "examples": [
+                        "whe_01j2y8m6jcc9tt24af5pw9x1bc"
+                      ]
+                    },
+                    "url": {
+                      "type": "string"
                     }
                   },
                   "required": [
@@ -13571,6 +13978,9 @@
                     "type": {
                       "type": "string"
                     },
+                    "data": {
+                      "type": "object"
+                    },
                     "issues": {
                       "type": "array",
                       "items": {
@@ -13621,9 +14031,6 @@
                     },
                     "traceId": {
                       "type": "string"
-                    },
-                    "data": {
-                      "type": "object"
                     }
                   },
                   "required": [
@@ -13838,6 +14245,9 @@
                     "type": {
                       "type": "string"
                     },
+                    "data": {
+                      "type": "object"
+                    },
                     "issues": {
                       "type": "array",
                       "items": {
@@ -13888,9 +14298,55 @@
                     },
                     "traceId": {
                       "type": "string"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "detail",
+                    "instance",
+                    "requestId",
+                    "status",
+                    "title",
+                    "type"
+                  ],
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "415": {
+            "description": "Unsupported media type. Send Content-Type: application/json.",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "examples": [
+                        "unsupported_media_type"
+                      ]
                     },
-                    "data": {
-                      "type": "object"
+                    "detail": {
+                      "type": "string"
+                    },
+                    "title": {
+                      "type": "string"
+                    },
+                    "type": {
+                      "type": "string"
+                    },
+                    "instance": {
+                      "type": "string"
+                    },
+                    "requestId": {
+                      "type": "string"
+                    },
+                    "status": {
+                      "type": "integer"
+                    },
+                    "traceId": {
+                      "type": "string"
                     }
                   },
                   "required": [
@@ -13927,6 +14383,9 @@
                     "type": {
                       "type": "string"
                     },
+                    "data": {
+                      "type": "object"
+                    },
                     "issues": {
                       "type": "array",
                       "items": {
@@ -13977,9 +14436,6 @@
                     },
                     "traceId": {
                       "type": "string"
-                    },
-                    "data": {
-                      "type": "object"
                     }
                   },
                   "required": [
@@ -14016,6 +14472,9 @@
                     "type": {
                       "type": "string"
                     },
+                    "data": {
+                      "type": "object"
+                    },
                     "issues": {
                       "type": "array",
                       "items": {
@@ -14066,9 +14525,6 @@
                     },
                     "traceId": {
                       "type": "string"
-                    },
-                    "data": {
-                      "type": "object"
                     }
                   },
                   "required": [
@@ -14105,7 +14561,8 @@
               }
             }
           },
-          "required": true
+          "required": true,
+          "description": "Send the JSON body with Content-Type: application/json."
         },
         "description": "The signing secret stays the same.",
         "summary": "Change a webhook endpoint's URL",
@@ -14200,6 +14657,9 @@
                     "type": {
                       "type": "string"
                     },
+                    "data": {
+                      "type": "object"
+                    },
                     "issues": {
                       "type": "array",
                       "items": {
@@ -14250,9 +14710,6 @@
                     },
                     "traceId": {
                       "type": "string"
-                    },
-                    "data": {
-                      "type": "object"
                     }
                   },
                   "required": [
@@ -14289,6 +14746,9 @@
                     "type": {
                       "type": "string"
                     },
+                    "data": {
+                      "type": "object"
+                    },
                     "issues": {
                       "type": "array",
                       "items": {
@@ -14339,9 +14799,6 @@
                     },
                     "traceId": {
                       "type": "string"
-                    },
-                    "data": {
-                      "type": "object"
                     }
                   },
                   "required": [
@@ -14556,6 +15013,9 @@
                     "type": {
                       "type": "string"
                     },
+                    "data": {
+                      "type": "object"
+                    },
                     "issues": {
                       "type": "array",
                       "items": {
@@ -14606,9 +15066,6 @@
                     },
                     "traceId": {
                       "type": "string"
-                    },
-                    "data": {
-                      "type": "object"
                     }
                   },
                   "required": [
@@ -14651,15 +15108,15 @@
             "required": true
           },
           {
-            "name": "idempotency-key",
+            "name": "Idempotency-Key",
             "in": "header",
             "schema": {
               "type": "string",
               "pattern": "^[\\x21-\\x7e]{1,255}$",
-              "description": "A unique key per operation, 1 to 255 printable ASCII characters without spaces. A retry with the same key returns the original response."
+              "description": "A unique key per operation, 1 to 255 printable ASCII characters without spaces. A retry with the same key returns the resource as it is now with the first response's status."
             },
             "required": true,
-            "description": "A unique key per operation, 1 to 255 printable ASCII characters without spaces. A retry with the same key returns the original response."
+            "description": "A unique key per operation, 1 to 255 printable ASCII characters without spaces. A retry with the same key returns the resource as it is now with the first response's status."
           },
           {
             "description": "The dated API version this request is written against.",
@@ -14693,7 +15150,7 @@
                       "type": "integer",
                       "minimum": 0,
                       "maximum": 9007199254740991,
-                      "description": "The number of failed deliveries queued for retry."
+                      "description": "The number of failed deliveries queued for retry plus pending deliveries made due now."
                     }
                   },
                   "required": [
@@ -14813,6 +15270,9 @@
                     "type": {
                       "type": "string"
                     },
+                    "data": {
+                      "type": "object"
+                    },
                     "issues": {
                       "type": "array",
                       "items": {
@@ -14863,9 +15323,6 @@
                     },
                     "traceId": {
                       "type": "string"
-                    },
-                    "data": {
-                      "type": "object"
                     }
                   },
                   "required": [
@@ -15080,6 +15537,9 @@
                     "type": {
                       "type": "string"
                     },
+                    "data": {
+                      "type": "object"
+                    },
                     "issues": {
                       "type": "array",
                       "items": {
@@ -15130,9 +15590,95 @@
                     },
                     "traceId": {
                       "type": "string"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "detail",
+                    "instance",
+                    "requestId",
+                    "status",
+                    "title",
+                    "type"
+                  ],
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "415": {
+            "description": "HTTP 415",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "title": "WebhooksResendFailed415Response",
+                  "additionalProperties": false,
+                  "properties": {
+                    "code": {
+                      "type": "string"
+                    },
+                    "detail": {
+                      "type": "string"
+                    },
+                    "title": {
+                      "type": "string"
+                    },
+                    "type": {
+                      "type": "string"
                     },
                     "data": {
                       "type": "object"
+                    },
+                    "issues": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "code": {
+                            "type": "string"
+                          },
+                          "field": {
+                            "type": "string"
+                          },
+                          "message": {
+                            "type": "string"
+                          },
+                          "path": {
+                            "type": "array",
+                            "items": {
+                              "anyOf": [
+                                {
+                                  "type": "string"
+                                },
+                                {
+                                  "type": "integer",
+                                  "minimum": -9007199254740991,
+                                  "maximum": 9007199254740991
+                                }
+                              ]
+                            }
+                          }
+                        },
+                        "required": [
+                          "code",
+                          "field",
+                          "message",
+                          "path"
+                        ],
+                        "additionalProperties": false
+                      }
+                    },
+                    "instance": {
+                      "type": "string"
+                    },
+                    "requestId": {
+                      "type": "string"
+                    },
+                    "status": {
+                      "type": "integer"
+                    },
+                    "traceId": {
+                      "type": "string"
                     }
                   },
                   "required": [
@@ -15169,6 +15715,9 @@
                     "type": {
                       "type": "string"
                     },
+                    "data": {
+                      "type": "object"
+                    },
                     "issues": {
                       "type": "array",
                       "items": {
@@ -15219,9 +15768,6 @@
                     },
                     "traceId": {
                       "type": "string"
-                    },
-                    "data": {
-                      "type": "object"
                     }
                   },
                   "required": [
@@ -15239,7 +15785,7 @@
             }
           }
         },
-        "description": "Queue failed order event deliveries from the last 30 days for this endpoint. Only the current organization and mode apply. The worker retries each delivery up to 12 times with the same event ID and payload. Delivered, pending, and test events stay unchanged. Send a unique Idempotency-Key for each request. Reuse that key after an uncertain response to return the original count. A new request queues only deliveries that are still failed.",
+        "description": "Queue failed order event deliveries from the last 30 days for this endpoint. Only the current organization and mode apply. Each failed delivery gets up to 12 new attempts. Also make pending deliveries waiting on a later retry due now, without resetting their attempt counts. Keep the same event IDs, payloads, and per-order delivery sequence. The queued count includes both kinds. Pending deliveries already due, delivered events, and one-time test events stay unchanged. Send a unique Idempotency-Key for each request. Reuse that key after an uncertain response to return the original count. A request with a new key returns 0 when no eligible failures or pending deliveries waiting on a later retry remain.",
         "summary": "Resend failed webhook deliveries",
         "x-visibility": "public"
       }
@@ -15250,7 +15796,7 @@
     "securitySchemes": {
       "apiKey": {
         "bearerFormat": "sk_test_… or sk_live_…",
-        "description": "An API key from the Affinity dashboard. Test and Live keys act in their mode.",
+        "description": "Send Authorization: Bearer <key> with an active API key from the Affinity dashboard. Test and Live keys act in their mode.",
         "scheme": "bearer",
         "type": "http"
       }
@@ -15388,9 +15934,6 @@
                                   "failed"
                                 ]
                               },
-                              "updatedAt": {
-                                "type": "string"
-                              },
                               "trackingUrl": {
                                 "anyOf": [
                                   {
@@ -15400,6 +15943,9 @@
                                     "type": "null"
                                   }
                                 ]
+                              },
+                              "updatedAt": {
+                                "type": "string"
                               }
                             },
                             "required": [
@@ -15477,7 +16023,6 @@
   },
   "servers": [
     {
-      "description": "Production",
       "url": "https://api.affinityrx.com"
     }
   ]

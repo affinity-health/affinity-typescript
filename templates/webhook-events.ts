@@ -31,6 +31,17 @@ export interface AffinityUnknownWebhookEvent {
 }
 export type AffinityWebhookEvent = AffinityKnownWebhookEvent | AffinityUnknownWebhookEvent;
 
+/** Select current event types and envelopes. This does not verify a signature or validate data. */
+export function isKnownAffinityWebhookEvent(value: unknown): value is AffinityKnownWebhookEvent {
+  if (typeof value !== "object" || value === null || Array.isArray(value)) return false;
+  const event = value as Record<string, unknown>;
+  return (
+    typeof event.id === "string" &&
+    typeof event.createdAt === "string" &&
+    affinityWebhookEventTypes.some((type) => type === event.type)
+  );
+}
+
 export type AffinityWebhookVerificationErrorCode =
   | "invalid_body"
   | "invalid_event"

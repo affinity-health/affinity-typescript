@@ -224,23 +224,22 @@ test("cyclic request data fails locally instead of reporting a retryable connect
   expect(calls).toBe(0);
 });
 
-test("order creation requires a persisted key before sending", async () => {
-  let calls = 0;
+test("order creation generates a fresh key per call and reuses it for automatic retries", async () => {
+  const keys: string[] = [];
   const api = new Affinity("test", {
-    fetch: (async () => {
-      calls++;
-      return Response.json({ id: "ord_duplicate" });
+    maxNetworkRetries: 1,
+    fetch: (async (_url, init) => {
+      keys.push(new Headers(init?.headers).get("Idempotency-Key")!);
+      if (keys.length === 1) return new Response(null, { status: 503 });
+      return Response.json({ id: "ord_test" });
     }) as typeof fetch,
   });
-  // @ts-expect-error Orders require a caller-owned key, including from TypeScript.
-  await expect(api.orders.create(order)).rejects.toThrow("persisted idempotencyKey");
-  for (const idempotencyKey of [null, 42]) {
-    // @ts-expect-error JavaScript callers must also supply a string key.
-    await expect(api.orders.create(order, { idempotencyKey })).rejects.toThrow(
-      "persisted idempotencyKey",
-    );
-  }
-  expect(calls).toBe(0);
+  await api.orders.create(order);
+  await api.orders.create(order, {});
+  expect(keys).toHaveLength(3);
+  expect(keys[0]).toMatch(/^[0-9a-f]{8}(?:-[0-9a-f]{4}){3}-[0-9a-f]{12}$/);
+  expect(keys[1]).toBe(keys[0]);
+  expect(keys[2]).not.toBe(keys[0]);
 });
 
 test("retrying after a lost order response replays one order with the persisted key", async () => {
