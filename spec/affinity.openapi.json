@@ -99,8 +99,7 @@
                             "city",
                             "state",
                             "postalCode"
-                          ],
-                          "additionalProperties": false
+                          ]
                         },
                         {
                           "type": "null"
@@ -139,8 +138,7 @@
                     "createdAt",
                     "mode",
                     "type"
-                  ],
-                  "additionalProperties": false
+                  ]
                 }
               }
             }
@@ -151,7 +149,6 @@
               "application/problem+json": {
                 "schema": {
                   "title": "AccountAccount400Response",
-                  "additionalProperties": false,
                   "properties": {
                     "code": {
                       "type": "string"
@@ -203,8 +200,7 @@
                           "field",
                           "message",
                           "path"
-                        ],
-                        "additionalProperties": false
+                        ]
                       }
                     },
                     "instance": {
@@ -240,7 +236,6 @@
               "application/problem+json": {
                 "schema": {
                   "title": "AccountAccount401Response",
-                  "additionalProperties": false,
                   "properties": {
                     "code": {
                       "type": "string"
@@ -292,8 +287,7 @@
                           "field",
                           "message",
                           "path"
-                        ],
-                        "additionalProperties": false
+                        ]
                       }
                     },
                     "instance": {
@@ -329,7 +323,6 @@
               "application/problem+json": {
                 "schema": {
                   "title": "AccountAccount403Response",
-                  "additionalProperties": false,
                   "properties": {
                     "code": {
                       "type": "string"
@@ -381,8 +374,7 @@
                           "field",
                           "message",
                           "path"
-                        ],
-                        "additionalProperties": false
+                        ]
                       }
                     },
                     "instance": {
@@ -418,7 +410,6 @@
               "application/problem+json": {
                 "schema": {
                   "title": "AccountAccount404Response",
-                  "additionalProperties": false,
                   "properties": {
                     "code": {
                       "type": "string"
@@ -470,8 +461,7 @@
                           "field",
                           "message",
                           "path"
-                        ],
-                        "additionalProperties": false
+                        ]
                       }
                     },
                     "instance": {
@@ -507,7 +497,6 @@
               "application/problem+json": {
                 "schema": {
                   "title": "AccountAccount429Response",
-                  "additionalProperties": false,
                   "properties": {
                     "code": {
                       "type": "string"
@@ -559,8 +548,7 @@
                           "field",
                           "message",
                           "path"
-                        ],
-                        "additionalProperties": false
+                        ]
                       }
                     },
                     "instance": {
@@ -649,7 +637,6 @@
                   "required": [
                     "id"
                   ],
-                  "additionalProperties": false,
                   "examples": [
                     {
                       "id": "fbk_01j2y8m6jcc9tt24af5pw9x1bc"
@@ -665,7 +652,6 @@
               "application/problem+json": {
                 "schema": {
                   "title": "CreateFeedback400Response",
-                  "additionalProperties": false,
                   "properties": {
                     "code": {
                       "type": "string"
@@ -717,8 +703,7 @@
                           "field",
                           "message",
                           "path"
-                        ],
-                        "additionalProperties": false
+                        ]
                       }
                     },
                     "instance": {
@@ -754,7 +739,6 @@
               "application/problem+json": {
                 "schema": {
                   "title": "CreateFeedback401Response",
-                  "additionalProperties": false,
                   "properties": {
                     "code": {
                       "type": "string"
@@ -806,8 +790,7 @@
                           "field",
                           "message",
                           "path"
-                        ],
-                        "additionalProperties": false
+                        ]
                       }
                     },
                     "instance": {
@@ -843,7 +826,6 @@
               "application/problem+json": {
                 "schema": {
                   "title": "CreateFeedback409Response",
-                  "additionalProperties": false,
                   "properties": {
                     "code": {
                       "type": "string"
@@ -895,8 +877,7 @@
                           "field",
                           "message",
                           "path"
-                        ],
-                        "additionalProperties": false
+                        ]
                       }
                     },
                     "instance": {
@@ -931,7 +912,6 @@
             "content": {
               "application/problem+json": {
                 "schema": {
-                  "additionalProperties": false,
                   "properties": {
                     "code": {
                       "type": "string",
@@ -981,7 +961,6 @@
               "application/problem+json": {
                 "schema": {
                   "title": "CreateFeedback429Response",
-                  "additionalProperties": false,
                   "properties": {
                     "code": {
                       "type": "string"
@@ -1033,8 +1012,7 @@
                           "field",
                           "message",
                           "path"
-                        ],
-                        "additionalProperties": false
+                        ]
                       }
                     },
                     "instance": {
@@ -1360,8 +1338,7 @@
                             "required": [
                               "id",
                               "name"
-                            ],
-                            "additionalProperties": false
+                            ]
                           },
                           "price": {
                             "type": "integer",
@@ -1423,8 +1400,7 @@
                                 "id",
                                 "name",
                                 "price"
-                              ],
-                              "additionalProperties": false
+                              ]
                             }
                           },
                           "shippingSuppliesPrice": {
@@ -1462,8 +1438,7 @@
                           "shippingOptions",
                           "shippingSuppliesPrice",
                           "strength"
-                        ],
-                        "additionalProperties": false
+                        ]
                       }
                     },
                     "hasMore": {
@@ -1495,8 +1470,7 @@
                     "nextCursor",
                     "object",
                     "url"
-                  ],
-                  "additionalProperties": false
+                  ]
                 }
               }
             }
@@ -1507,7 +1481,6 @@
               "application/problem+json": {
                 "schema": {
                   "title": "MedicationsList400Response",
-                  "additionalProperties": false,
                   "properties": {
                     "code": {
                       "type": "string"
@@ -1559,8 +1532,7 @@
                           "field",
                           "message",
                           "path"
-                        ],
-                        "additionalProperties": false
+                        ]
                       }
                     },
                     "instance": {
@@ -1596,7 +1568,6 @@
               "application/problem+json": {
                 "schema": {
                   "title": "MedicationsList401Response",
-                  "additionalProperties": false,
                   "properties": {
                     "code": {
                       "type": "string"
@@ -1648,8 +1619,7 @@
                           "field",
                           "message",
                           "path"
-                        ],
-                        "additionalProperties": false
+                        ]
                       }
                     },
                     "instance": {
@@ -1685,7 +1655,6 @@
               "application/problem+json": {
                 "schema": {
                   "title": "MedicationsList403Response",
-                  "additionalProperties": false,
                   "properties": {
                     "code": {
                       "type": "string"
@@ -1737,8 +1706,7 @@
                           "field",
                           "message",
                           "path"
-                        ],
-                        "additionalProperties": false
+                        ]
                       }
                     },
                     "instance": {
@@ -1774,7 +1742,6 @@
               "application/problem+json": {
                 "schema": {
                   "title": "MedicationsList404Response",
-                  "additionalProperties": false,
                   "properties": {
                     "code": {
                       "type": "string"
@@ -1826,8 +1793,7 @@
                           "field",
                           "message",
                           "path"
-                        ],
-                        "additionalProperties": false
+                        ]
                       }
                     },
                     "instance": {
@@ -1863,7 +1829,6 @@
               "application/problem+json": {
                 "schema": {
                   "title": "MedicationsList429Response",
-                  "additionalProperties": false,
                   "properties": {
                     "code": {
                       "type": "string"
@@ -1915,8 +1880,7 @@
                           "field",
                           "message",
                           "path"
-                        ],
-                        "additionalProperties": false
+                        ]
                       }
                     },
                     "instance": {
@@ -1952,7 +1916,6 @@
               "application/problem+json": {
                 "schema": {
                   "title": "MedicationsList503Response",
-                  "additionalProperties": false,
                   "properties": {
                     "code": {
                       "type": "string"
@@ -2004,8 +1967,7 @@
                           "field",
                           "message",
                           "path"
-                        ],
-                        "additionalProperties": false
+                        ]
                       }
                     },
                     "instance": {
@@ -2203,8 +2165,7 @@
                       "required": [
                         "id",
                         "name"
-                      ],
-                      "additionalProperties": false
+                      ]
                     },
                     "price": {
                       "type": "integer",
@@ -2266,8 +2227,7 @@
                           "id",
                           "name",
                           "price"
-                        ],
-                        "additionalProperties": false
+                        ]
                       }
                     },
                     "shippingSuppliesPrice": {
@@ -2367,8 +2327,7 @@
                             "required": [
                               "id",
                               "name"
-                            ],
-                            "additionalProperties": false
+                            ]
                           },
                           "price": {
                             "type": "integer",
@@ -2430,8 +2389,7 @@
                                 "id",
                                 "name",
                                 "price"
-                              ],
-                              "additionalProperties": false
+                              ]
                             }
                           },
                           "shippingSuppliesPrice": {
@@ -2469,8 +2427,7 @@
                           "shippingOptions",
                           "shippingSuppliesPrice",
                           "strength"
-                        ],
-                        "additionalProperties": false
+                        ]
                       },
                       "description": "With expand=variants: every other available strength, form and pharmacy of the same medication, for the current organization and mode."
                     }
@@ -2493,8 +2450,7 @@
                     "shippingOptions",
                     "shippingSuppliesPrice",
                     "strength"
-                  ],
-                  "additionalProperties": false
+                  ]
                 }
               }
             }
@@ -2505,7 +2461,6 @@
               "application/problem+json": {
                 "schema": {
                   "title": "MedicationsGet400Response",
-                  "additionalProperties": false,
                   "properties": {
                     "code": {
                       "type": "string"
@@ -2557,8 +2512,7 @@
                           "field",
                           "message",
                           "path"
-                        ],
-                        "additionalProperties": false
+                        ]
                       }
                     },
                     "instance": {
@@ -2594,7 +2548,6 @@
               "application/problem+json": {
                 "schema": {
                   "title": "MedicationsGet401Response",
-                  "additionalProperties": false,
                   "properties": {
                     "code": {
                       "type": "string"
@@ -2646,8 +2599,7 @@
                           "field",
                           "message",
                           "path"
-                        ],
-                        "additionalProperties": false
+                        ]
                       }
                     },
                     "instance": {
@@ -2683,7 +2635,6 @@
               "application/problem+json": {
                 "schema": {
                   "title": "MedicationsGet403Response",
-                  "additionalProperties": false,
                   "properties": {
                     "code": {
                       "type": "string"
@@ -2735,8 +2686,7 @@
                           "field",
                           "message",
                           "path"
-                        ],
-                        "additionalProperties": false
+                        ]
                       }
                     },
                     "instance": {
@@ -2772,7 +2722,6 @@
               "application/problem+json": {
                 "schema": {
                   "title": "MedicationsGet404Response",
-                  "additionalProperties": false,
                   "properties": {
                     "code": {
                       "type": "string"
@@ -2824,8 +2773,7 @@
                           "field",
                           "message",
                           "path"
-                        ],
-                        "additionalProperties": false
+                        ]
                       }
                     },
                     "instance": {
@@ -2861,7 +2809,6 @@
               "application/problem+json": {
                 "schema": {
                   "title": "MedicationsGet429Response",
-                  "additionalProperties": false,
                   "properties": {
                     "code": {
                       "type": "string"
@@ -2913,8 +2860,7 @@
                           "field",
                           "message",
                           "path"
-                        ],
-                        "additionalProperties": false
+                        ]
                       }
                     },
                     "instance": {
@@ -3078,8 +3024,7 @@
                             "city",
                             "state",
                             "postalCode"
-                          ],
-                          "additionalProperties": false
+                          ]
                         },
                         "allergies": {
                           "type": "array",
@@ -3105,8 +3050,7 @@
                             "required": [
                               "category",
                               "display"
-                            ],
-                            "additionalProperties": false
+                            ]
                           }
                         },
                         "dateOfBirth": {
@@ -3153,8 +3097,7 @@
                         "lastName",
                         "middleName",
                         "phone"
-                      ],
-                      "additionalProperties": false
+                      ]
                     },
                     "patientId": {
                       "type": "string",
@@ -3180,8 +3123,7 @@
                       "required": [
                         "id",
                         "name"
-                      ],
-                      "additionalProperties": false
+                      ]
                     },
                     "practice": {
                       "anyOf": [
@@ -3220,8 +3162,7 @@
                                 "city",
                                 "state",
                                 "postalCode"
-                              ],
-                              "additionalProperties": false
+                              ]
                             },
                             "name": {
                               "type": "string"
@@ -3244,8 +3185,7 @@
                             "address",
                             "name",
                             "phone"
-                          ],
-                          "additionalProperties": false
+                          ]
                         },
                         {
                           "type": "null"
@@ -3317,8 +3257,7 @@
                                     "city",
                                     "state",
                                     "postalCode"
-                                  ],
-                                  "additionalProperties": false
+                                  ]
                                 },
                                 {
                                   "type": "null"
@@ -3330,8 +3269,7 @@
                             "firstName",
                             "lastName",
                             "npi"
-                          ],
-                          "additionalProperties": false
+                          ]
                         },
                         {
                           "type": "null"
@@ -3413,8 +3351,7 @@
                               "name",
                               "quantityUnit",
                               "strength"
-                            ],
-                            "additionalProperties": false
+                            ]
                           },
                           "notes": {
                             "anyOf": [
@@ -3455,8 +3392,7 @@
                           "quantity",
                           "refills",
                           "substitutionPermitted"
-                        ],
-                        "additionalProperties": false
+                        ]
                       }
                     },
                     "shippingOption": {
@@ -3484,8 +3420,7 @@
                             "id",
                             "name",
                             "price"
-                          ],
-                          "additionalProperties": false
+                          ]
                         },
                         {
                           "type": "null"
@@ -3525,8 +3460,7 @@
                           "carrier",
                           "trackingNumber",
                           "trackingUrl"
-                        ],
-                        "additionalProperties": false
+                        ]
                       }
                     },
                     "status": {
@@ -3573,8 +3507,7 @@
                         "required": [
                           "createdAt",
                           "status"
-                        ],
-                        "additionalProperties": false
+                        ]
                       }
                     },
                     "total": {
@@ -3607,8 +3540,7 @@
                     "statusHistory",
                     "total",
                     "updatedAt"
-                  ],
-                  "additionalProperties": false
+                  ]
                 }
               }
             }
@@ -3619,7 +3551,6 @@
               "application/problem+json": {
                 "schema": {
                   "title": "OrdersCreate400Response",
-                  "additionalProperties": false,
                   "properties": {
                     "code": {
                       "type": "string"
@@ -3671,8 +3602,7 @@
                           "field",
                           "message",
                           "path"
-                        ],
-                        "additionalProperties": false
+                        ]
                       }
                     },
                     "instance": {
@@ -3708,7 +3638,6 @@
               "application/problem+json": {
                 "schema": {
                   "title": "OrdersCreate401Response",
-                  "additionalProperties": false,
                   "properties": {
                     "code": {
                       "type": "string"
@@ -3760,8 +3689,7 @@
                           "field",
                           "message",
                           "path"
-                        ],
-                        "additionalProperties": false
+                        ]
                       }
                     },
                     "instance": {
@@ -3797,7 +3725,6 @@
               "application/problem+json": {
                 "schema": {
                   "title": "OrdersCreate403Response",
-                  "additionalProperties": false,
                   "properties": {
                     "code": {
                       "type": "string"
@@ -3849,8 +3776,7 @@
                           "field",
                           "message",
                           "path"
-                        ],
-                        "additionalProperties": false
+                        ]
                       }
                     },
                     "instance": {
@@ -3886,7 +3812,6 @@
               "application/problem+json": {
                 "schema": {
                   "title": "OrdersCreate404Response",
-                  "additionalProperties": false,
                   "properties": {
                     "code": {
                       "type": "string"
@@ -3938,8 +3863,7 @@
                           "field",
                           "message",
                           "path"
-                        ],
-                        "additionalProperties": false
+                        ]
                       }
                     },
                     "instance": {
@@ -3975,7 +3899,6 @@
               "application/problem+json": {
                 "schema": {
                   "title": "OrdersCreate409Response",
-                  "additionalProperties": false,
                   "properties": {
                     "code": {
                       "type": "string"
@@ -4027,8 +3950,7 @@
                           "field",
                           "message",
                           "path"
-                        ],
-                        "additionalProperties": false
+                        ]
                       }
                     },
                     "instance": {
@@ -4063,7 +3985,6 @@
             "content": {
               "application/problem+json": {
                 "schema": {
-                  "additionalProperties": false,
                   "properties": {
                     "code": {
                       "type": "string",
@@ -4113,7 +4034,6 @@
               "application/problem+json": {
                 "schema": {
                   "title": "OrdersCreate422Response",
-                  "additionalProperties": false,
                   "properties": {
                     "code": {
                       "type": "string"
@@ -4165,8 +4085,7 @@
                           "field",
                           "message",
                           "path"
-                        ],
-                        "additionalProperties": false
+                        ]
                       }
                     },
                     "instance": {
@@ -4202,7 +4121,6 @@
               "application/problem+json": {
                 "schema": {
                   "title": "OrdersCreate429Response",
-                  "additionalProperties": false,
                   "properties": {
                     "code": {
                       "type": "string"
@@ -4254,8 +4172,7 @@
                           "field",
                           "message",
                           "path"
-                        ],
-                        "additionalProperties": false
+                        ]
                       }
                     },
                     "instance": {
@@ -4291,7 +4208,6 @@
               "application/problem+json": {
                 "schema": {
                   "title": "OrdersCreate503Response",
-                  "additionalProperties": false,
                   "properties": {
                     "code": {
                       "type": "string"
@@ -4343,8 +4259,7 @@
                           "field",
                           "message",
                           "path"
-                        ],
-                        "additionalProperties": false
+                        ]
                       }
                     },
                     "instance": {
@@ -5088,8 +5003,7 @@
                                   "city",
                                   "state",
                                   "postalCode"
-                                ],
-                                "additionalProperties": false
+                                ]
                               },
                               "allergies": {
                                 "type": "array",
@@ -5115,8 +5029,7 @@
                                   "required": [
                                     "category",
                                     "display"
-                                  ],
-                                  "additionalProperties": false
+                                  ]
                                 }
                               },
                               "dateOfBirth": {
@@ -5163,8 +5076,7 @@
                               "lastName",
                               "middleName",
                               "phone"
-                            ],
-                            "additionalProperties": false
+                            ]
                           },
                           "patientId": {
                             "type": "string",
@@ -5190,8 +5102,7 @@
                             "required": [
                               "id",
                               "name"
-                            ],
-                            "additionalProperties": false
+                            ]
                           },
                           "practice": {
                             "anyOf": [
@@ -5230,8 +5141,7 @@
                                       "city",
                                       "state",
                                       "postalCode"
-                                    ],
-                                    "additionalProperties": false
+                                    ]
                                   },
                                   "name": {
                                     "type": "string"
@@ -5254,8 +5164,7 @@
                                   "address",
                                   "name",
                                   "phone"
-                                ],
-                                "additionalProperties": false
+                                ]
                               },
                               {
                                 "type": "null"
@@ -5327,8 +5236,7 @@
                                           "city",
                                           "state",
                                           "postalCode"
-                                        ],
-                                        "additionalProperties": false
+                                        ]
                                       },
                                       {
                                         "type": "null"
@@ -5340,8 +5248,7 @@
                                   "firstName",
                                   "lastName",
                                   "npi"
-                                ],
-                                "additionalProperties": false
+                                ]
                               },
                               {
                                 "type": "null"
@@ -5423,8 +5330,7 @@
                                     "name",
                                     "quantityUnit",
                                     "strength"
-                                  ],
-                                  "additionalProperties": false
+                                  ]
                                 },
                                 "notes": {
                                   "anyOf": [
@@ -5465,8 +5371,7 @@
                                 "quantity",
                                 "refills",
                                 "substitutionPermitted"
-                              ],
-                              "additionalProperties": false
+                              ]
                             }
                           },
                           "shippingOption": {
@@ -5494,8 +5399,7 @@
                                   "id",
                                   "name",
                                   "price"
-                                ],
-                                "additionalProperties": false
+                                ]
                               },
                               {
                                 "type": "null"
@@ -5535,8 +5439,7 @@
                                 "carrier",
                                 "trackingNumber",
                                 "trackingUrl"
-                              ],
-                              "additionalProperties": false
+                              ]
                             }
                           },
                           "status": {
@@ -5583,8 +5486,7 @@
                               "required": [
                                 "createdAt",
                                 "status"
-                              ],
-                              "additionalProperties": false
+                              ]
                             }
                           },
                           "total": {
@@ -5617,8 +5519,7 @@
                           "statusHistory",
                           "total",
                           "updatedAt"
-                        ],
-                        "additionalProperties": false
+                        ]
                       }
                     },
                     "hasMore": {
@@ -5650,8 +5551,7 @@
                     "nextCursor",
                     "object",
                     "url"
-                  ],
-                  "additionalProperties": false
+                  ]
                 }
               }
             }
@@ -5662,7 +5562,6 @@
               "application/problem+json": {
                 "schema": {
                   "title": "OrdersList400Response",
-                  "additionalProperties": false,
                   "properties": {
                     "code": {
                       "type": "string"
@@ -5714,8 +5613,7 @@
                           "field",
                           "message",
                           "path"
-                        ],
-                        "additionalProperties": false
+                        ]
                       }
                     },
                     "instance": {
@@ -5751,7 +5649,6 @@
               "application/problem+json": {
                 "schema": {
                   "title": "OrdersList401Response",
-                  "additionalProperties": false,
                   "properties": {
                     "code": {
                       "type": "string"
@@ -5803,8 +5700,7 @@
                           "field",
                           "message",
                           "path"
-                        ],
-                        "additionalProperties": false
+                        ]
                       }
                     },
                     "instance": {
@@ -5840,7 +5736,6 @@
               "application/problem+json": {
                 "schema": {
                   "title": "OrdersList403Response",
-                  "additionalProperties": false,
                   "properties": {
                     "code": {
                       "type": "string"
@@ -5892,8 +5787,7 @@
                           "field",
                           "message",
                           "path"
-                        ],
-                        "additionalProperties": false
+                        ]
                       }
                     },
                     "instance": {
@@ -5929,7 +5823,6 @@
               "application/problem+json": {
                 "schema": {
                   "title": "OrdersList404Response",
-                  "additionalProperties": false,
                   "properties": {
                     "code": {
                       "type": "string"
@@ -5981,8 +5874,7 @@
                           "field",
                           "message",
                           "path"
-                        ],
-                        "additionalProperties": false
+                        ]
                       }
                     },
                     "instance": {
@@ -6018,7 +5910,6 @@
               "application/problem+json": {
                 "schema": {
                   "title": "OrdersList429Response",
-                  "additionalProperties": false,
                   "properties": {
                     "code": {
                       "type": "string"
@@ -6070,8 +5961,7 @@
                           "field",
                           "message",
                           "path"
-                        ],
-                        "additionalProperties": false
+                        ]
                       }
                     },
                     "instance": {
@@ -6240,8 +6130,7 @@
                             "city",
                             "state",
                             "postalCode"
-                          ],
-                          "additionalProperties": false
+                          ]
                         },
                         "allergies": {
                           "type": "array",
@@ -6267,8 +6156,7 @@
                             "required": [
                               "category",
                               "display"
-                            ],
-                            "additionalProperties": false
+                            ]
                           }
                         },
                         "dateOfBirth": {
@@ -6315,8 +6203,7 @@
                         "lastName",
                         "middleName",
                         "phone"
-                      ],
-                      "additionalProperties": false
+                      ]
                     },
                     "patientId": {
                       "type": "string",
@@ -6342,8 +6229,7 @@
                       "required": [
                         "id",
                         "name"
-                      ],
-                      "additionalProperties": false
+                      ]
                     },
                     "practice": {
                       "anyOf": [
@@ -6382,8 +6268,7 @@
                                 "city",
                                 "state",
                                 "postalCode"
-                              ],
-                              "additionalProperties": false
+                              ]
                             },
                             "name": {
                               "type": "string"
@@ -6406,8 +6291,7 @@
                             "address",
                             "name",
                             "phone"
-                          ],
-                          "additionalProperties": false
+                          ]
                         },
                         {
                           "type": "null"
@@ -6479,8 +6363,7 @@
                                     "city",
                                     "state",
                                     "postalCode"
-                                  ],
-                                  "additionalProperties": false
+                                  ]
                                 },
                                 {
                                   "type": "null"
@@ -6492,8 +6375,7 @@
                             "firstName",
                             "lastName",
                             "npi"
-                          ],
-                          "additionalProperties": false
+                          ]
                         },
                         {
                           "type": "null"
@@ -6575,8 +6457,7 @@
                               "name",
                               "quantityUnit",
                               "strength"
-                            ],
-                            "additionalProperties": false
+                            ]
                           },
                           "notes": {
                             "anyOf": [
@@ -6617,8 +6498,7 @@
                           "quantity",
                           "refills",
                           "substitutionPermitted"
-                        ],
-                        "additionalProperties": false
+                        ]
                       }
                     },
                     "shippingOption": {
@@ -6646,8 +6526,7 @@
                             "id",
                             "name",
                             "price"
-                          ],
-                          "additionalProperties": false
+                          ]
                         },
                         {
                           "type": "null"
@@ -6687,8 +6566,7 @@
                           "carrier",
                           "trackingNumber",
                           "trackingUrl"
-                        ],
-                        "additionalProperties": false
+                        ]
                       }
                     },
                     "status": {
@@ -6735,8 +6613,7 @@
                         "required": [
                           "createdAt",
                           "status"
-                        ],
-                        "additionalProperties": false
+                        ]
                       }
                     },
                     "total": {
@@ -6769,8 +6646,7 @@
                     "statusHistory",
                     "total",
                     "updatedAt"
-                  ],
-                  "additionalProperties": false
+                  ]
                 }
               }
             }
@@ -6781,7 +6657,6 @@
               "application/problem+json": {
                 "schema": {
                   "title": "OrdersGet400Response",
-                  "additionalProperties": false,
                   "properties": {
                     "code": {
                       "type": "string"
@@ -6833,8 +6708,7 @@
                           "field",
                           "message",
                           "path"
-                        ],
-                        "additionalProperties": false
+                        ]
                       }
                     },
                     "instance": {
@@ -6870,7 +6744,6 @@
               "application/problem+json": {
                 "schema": {
                   "title": "OrdersGet401Response",
-                  "additionalProperties": false,
                   "properties": {
                     "code": {
                       "type": "string"
@@ -6922,8 +6795,7 @@
                           "field",
                           "message",
                           "path"
-                        ],
-                        "additionalProperties": false
+                        ]
                       }
                     },
                     "instance": {
@@ -6959,7 +6831,6 @@
               "application/problem+json": {
                 "schema": {
                   "title": "OrdersGet403Response",
-                  "additionalProperties": false,
                   "properties": {
                     "code": {
                       "type": "string"
@@ -7011,8 +6882,7 @@
                           "field",
                           "message",
                           "path"
-                        ],
-                        "additionalProperties": false
+                        ]
                       }
                     },
                     "instance": {
@@ -7048,7 +6918,6 @@
               "application/problem+json": {
                 "schema": {
                   "title": "OrdersGet404Response",
-                  "additionalProperties": false,
                   "properties": {
                     "code": {
                       "type": "string"
@@ -7100,8 +6969,7 @@
                           "field",
                           "message",
                           "path"
-                        ],
-                        "additionalProperties": false
+                        ]
                       }
                     },
                     "instance": {
@@ -7137,7 +7005,6 @@
               "application/problem+json": {
                 "schema": {
                   "title": "OrdersGet429Response",
-                  "additionalProperties": false,
                   "properties": {
                     "code": {
                       "type": "string"
@@ -7189,8 +7056,7 @@
                           "field",
                           "message",
                           "path"
-                        ],
-                        "additionalProperties": false
+                        ]
                       }
                     },
                     "instance": {
@@ -7366,8 +7232,7 @@
                             "city",
                             "state",
                             "postalCode"
-                          ],
-                          "additionalProperties": false
+                          ]
                         },
                         "allergies": {
                           "type": "array",
@@ -7393,8 +7258,7 @@
                             "required": [
                               "category",
                               "display"
-                            ],
-                            "additionalProperties": false
+                            ]
                           }
                         },
                         "dateOfBirth": {
@@ -7441,8 +7305,7 @@
                         "lastName",
                         "middleName",
                         "phone"
-                      ],
-                      "additionalProperties": false
+                      ]
                     },
                     "patientId": {
                       "type": "string",
@@ -7468,8 +7331,7 @@
                       "required": [
                         "id",
                         "name"
-                      ],
-                      "additionalProperties": false
+                      ]
                     },
                     "practice": {
                       "anyOf": [
@@ -7508,8 +7370,7 @@
                                 "city",
                                 "state",
                                 "postalCode"
-                              ],
-                              "additionalProperties": false
+                              ]
                             },
                             "name": {
                               "type": "string"
@@ -7532,8 +7393,7 @@
                             "address",
                             "name",
                             "phone"
-                          ],
-                          "additionalProperties": false
+                          ]
                         },
                         {
                           "type": "null"
@@ -7605,8 +7465,7 @@
                                     "city",
                                     "state",
                                     "postalCode"
-                                  ],
-                                  "additionalProperties": false
+                                  ]
                                 },
                                 {
                                   "type": "null"
@@ -7618,8 +7477,7 @@
                             "firstName",
                             "lastName",
                             "npi"
-                          ],
-                          "additionalProperties": false
+                          ]
                         },
                         {
                           "type": "null"
@@ -7701,8 +7559,7 @@
                               "name",
                               "quantityUnit",
                               "strength"
-                            ],
-                            "additionalProperties": false
+                            ]
                           },
                           "notes": {
                             "anyOf": [
@@ -7743,8 +7600,7 @@
                           "quantity",
                           "refills",
                           "substitutionPermitted"
-                        ],
-                        "additionalProperties": false
+                        ]
                       }
                     },
                     "shippingOption": {
@@ -7772,8 +7628,7 @@
                             "id",
                             "name",
                             "price"
-                          ],
-                          "additionalProperties": false
+                          ]
                         },
                         {
                           "type": "null"
@@ -7813,8 +7668,7 @@
                           "carrier",
                           "trackingNumber",
                           "trackingUrl"
-                        ],
-                        "additionalProperties": false
+                        ]
                       }
                     },
                     "status": {
@@ -7861,8 +7715,7 @@
                         "required": [
                           "createdAt",
                           "status"
-                        ],
-                        "additionalProperties": false
+                        ]
                       }
                     },
                     "total": {
@@ -7895,8 +7748,7 @@
                     "statusHistory",
                     "total",
                     "updatedAt"
-                  ],
-                  "additionalProperties": false
+                  ]
                 }
               }
             }
@@ -7991,8 +7843,7 @@
                             "city",
                             "state",
                             "postalCode"
-                          ],
-                          "additionalProperties": false
+                          ]
                         },
                         "allergies": {
                           "type": "array",
@@ -8018,8 +7869,7 @@
                             "required": [
                               "category",
                               "display"
-                            ],
-                            "additionalProperties": false
+                            ]
                           }
                         },
                         "dateOfBirth": {
@@ -8066,8 +7916,7 @@
                         "lastName",
                         "middleName",
                         "phone"
-                      ],
-                      "additionalProperties": false
+                      ]
                     },
                     "patientId": {
                       "type": "string",
@@ -8093,8 +7942,7 @@
                       "required": [
                         "id",
                         "name"
-                      ],
-                      "additionalProperties": false
+                      ]
                     },
                     "practice": {
                       "anyOf": [
@@ -8133,8 +7981,7 @@
                                 "city",
                                 "state",
                                 "postalCode"
-                              ],
-                              "additionalProperties": false
+                              ]
                             },
                             "name": {
                               "type": "string"
@@ -8157,8 +8004,7 @@
                             "address",
                             "name",
                             "phone"
-                          ],
-                          "additionalProperties": false
+                          ]
                         },
                         {
                           "type": "null"
@@ -8230,8 +8076,7 @@
                                     "city",
                                     "state",
                                     "postalCode"
-                                  ],
-                                  "additionalProperties": false
+                                  ]
                                 },
                                 {
                                   "type": "null"
@@ -8243,8 +8088,7 @@
                             "firstName",
                             "lastName",
                             "npi"
-                          ],
-                          "additionalProperties": false
+                          ]
                         },
                         {
                           "type": "null"
@@ -8326,8 +8170,7 @@
                               "name",
                               "quantityUnit",
                               "strength"
-                            ],
-                            "additionalProperties": false
+                            ]
                           },
                           "notes": {
                             "anyOf": [
@@ -8368,8 +8211,7 @@
                           "quantity",
                           "refills",
                           "substitutionPermitted"
-                        ],
-                        "additionalProperties": false
+                        ]
                       }
                     },
                     "shippingOption": {
@@ -8397,8 +8239,7 @@
                             "id",
                             "name",
                             "price"
-                          ],
-                          "additionalProperties": false
+                          ]
                         },
                         {
                           "type": "null"
@@ -8438,8 +8279,7 @@
                           "carrier",
                           "trackingNumber",
                           "trackingUrl"
-                        ],
-                        "additionalProperties": false
+                        ]
                       }
                     },
                     "status": {
@@ -8486,8 +8326,7 @@
                         "required": [
                           "createdAt",
                           "status"
-                        ],
-                        "additionalProperties": false
+                        ]
                       }
                     },
                     "total": {
@@ -8520,8 +8359,7 @@
                     "statusHistory",
                     "total",
                     "updatedAt"
-                  ],
-                  "additionalProperties": false
+                  ]
                 }
               }
             }
@@ -8532,7 +8370,6 @@
               "application/problem+json": {
                 "schema": {
                   "title": "OrdersCancel400Response",
-                  "additionalProperties": false,
                   "properties": {
                     "code": {
                       "type": "string"
@@ -8584,8 +8421,7 @@
                           "field",
                           "message",
                           "path"
-                        ],
-                        "additionalProperties": false
+                        ]
                       }
                     },
                     "instance": {
@@ -8621,7 +8457,6 @@
               "application/problem+json": {
                 "schema": {
                   "title": "OrdersCancel401Response",
-                  "additionalProperties": false,
                   "properties": {
                     "code": {
                       "type": "string"
@@ -8673,8 +8508,7 @@
                           "field",
                           "message",
                           "path"
-                        ],
-                        "additionalProperties": false
+                        ]
                       }
                     },
                     "instance": {
@@ -8710,7 +8544,6 @@
               "application/problem+json": {
                 "schema": {
                   "title": "OrdersCancel403Response",
-                  "additionalProperties": false,
                   "properties": {
                     "code": {
                       "type": "string"
@@ -8762,8 +8595,7 @@
                           "field",
                           "message",
                           "path"
-                        ],
-                        "additionalProperties": false
+                        ]
                       }
                     },
                     "instance": {
@@ -8799,7 +8631,6 @@
               "application/problem+json": {
                 "schema": {
                   "title": "OrdersCancel404Response",
-                  "additionalProperties": false,
                   "properties": {
                     "code": {
                       "type": "string"
@@ -8851,8 +8682,7 @@
                           "field",
                           "message",
                           "path"
-                        ],
-                        "additionalProperties": false
+                        ]
                       }
                     },
                     "instance": {
@@ -8888,7 +8718,6 @@
               "application/problem+json": {
                 "schema": {
                   "title": "OrdersCancel409Response",
-                  "additionalProperties": false,
                   "properties": {
                     "code": {
                       "type": "string"
@@ -8940,8 +8769,7 @@
                           "field",
                           "message",
                           "path"
-                        ],
-                        "additionalProperties": false
+                        ]
                       }
                     },
                     "instance": {
@@ -8977,7 +8805,6 @@
               "application/problem+json": {
                 "schema": {
                   "title": "OrdersCancel415Response",
-                  "additionalProperties": false,
                   "properties": {
                     "code": {
                       "type": "string"
@@ -9029,8 +8856,7 @@
                           "field",
                           "message",
                           "path"
-                        ],
-                        "additionalProperties": false
+                        ]
                       }
                     },
                     "instance": {
@@ -9066,7 +8892,6 @@
               "application/problem+json": {
                 "schema": {
                   "title": "OrdersCancel429Response",
-                  "additionalProperties": false,
                   "properties": {
                     "code": {
                       "type": "string"
@@ -9118,8 +8943,7 @@
                           "field",
                           "message",
                           "path"
-                        ],
-                        "additionalProperties": false
+                        ]
                       }
                     },
                     "instance": {
@@ -9255,8 +9079,7 @@
                             "city",
                             "state",
                             "postalCode"
-                          ],
-                          "additionalProperties": false
+                          ]
                         },
                         {
                           "type": "null"
@@ -9278,8 +9101,7 @@
                     "address",
                     "liveEnabled",
                     "createdAt"
-                  ],
-                  "additionalProperties": false
+                  ]
                 }
               }
             }
@@ -9290,7 +9112,6 @@
               "application/problem+json": {
                 "schema": {
                   "title": "PracticesCreate400Response",
-                  "additionalProperties": false,
                   "properties": {
                     "code": {
                       "type": "string"
@@ -9342,8 +9163,7 @@
                           "field",
                           "message",
                           "path"
-                        ],
-                        "additionalProperties": false
+                        ]
                       }
                     },
                     "instance": {
@@ -9379,7 +9199,6 @@
               "application/problem+json": {
                 "schema": {
                   "title": "PracticesCreate401Response",
-                  "additionalProperties": false,
                   "properties": {
                     "code": {
                       "type": "string"
@@ -9431,8 +9250,7 @@
                           "field",
                           "message",
                           "path"
-                        ],
-                        "additionalProperties": false
+                        ]
                       }
                     },
                     "instance": {
@@ -9468,7 +9286,6 @@
               "application/problem+json": {
                 "schema": {
                   "title": "PracticesCreate403Response",
-                  "additionalProperties": false,
                   "properties": {
                     "code": {
                       "type": "string"
@@ -9520,8 +9337,7 @@
                           "field",
                           "message",
                           "path"
-                        ],
-                        "additionalProperties": false
+                        ]
                       }
                     },
                     "instance": {
@@ -9557,7 +9373,6 @@
               "application/problem+json": {
                 "schema": {
                   "title": "PracticesCreate404Response",
-                  "additionalProperties": false,
                   "properties": {
                     "code": {
                       "type": "string"
@@ -9609,8 +9424,7 @@
                           "field",
                           "message",
                           "path"
-                        ],
-                        "additionalProperties": false
+                        ]
                       }
                     },
                     "instance": {
@@ -9646,7 +9460,6 @@
               "application/problem+json": {
                 "schema": {
                   "title": "PracticesCreate409Response",
-                  "additionalProperties": false,
                   "properties": {
                     "code": {
                       "type": "string"
@@ -9698,8 +9511,7 @@
                           "field",
                           "message",
                           "path"
-                        ],
-                        "additionalProperties": false
+                        ]
                       }
                     },
                     "instance": {
@@ -9734,7 +9546,6 @@
             "content": {
               "application/problem+json": {
                 "schema": {
-                  "additionalProperties": false,
                   "properties": {
                     "code": {
                       "type": "string",
@@ -9784,7 +9595,6 @@
               "application/problem+json": {
                 "schema": {
                   "title": "PracticesCreate422Response",
-                  "additionalProperties": false,
                   "properties": {
                     "code": {
                       "type": "string"
@@ -9836,8 +9646,7 @@
                           "field",
                           "message",
                           "path"
-                        ],
-                        "additionalProperties": false
+                        ]
                       }
                     },
                     "instance": {
@@ -9873,7 +9682,6 @@
               "application/problem+json": {
                 "schema": {
                   "title": "PracticesCreate429Response",
-                  "additionalProperties": false,
                   "properties": {
                     "code": {
                       "type": "string"
@@ -9925,8 +9733,7 @@
                           "field",
                           "message",
                           "path"
-                        ],
-                        "additionalProperties": false
+                        ]
                       }
                     },
                     "instance": {
@@ -9962,7 +9769,6 @@
               "application/problem+json": {
                 "schema": {
                   "title": "PracticesCreate503Response",
-                  "additionalProperties": false,
                   "properties": {
                     "code": {
                       "type": "string"
@@ -10014,8 +9820,7 @@
                           "field",
                           "message",
                           "path"
-                        ],
-                        "additionalProperties": false
+                        ]
                       }
                     },
                     "instance": {
@@ -10297,8 +10102,7 @@
                                   "city",
                                   "state",
                                   "postalCode"
-                                ],
-                                "additionalProperties": false
+                                ]
                               },
                               {
                                 "type": "null"
@@ -10320,8 +10124,7 @@
                           "address",
                           "liveEnabled",
                           "createdAt"
-                        ],
-                        "additionalProperties": false
+                        ]
                       }
                     },
                     "hasMore": {
@@ -10353,8 +10156,7 @@
                     "nextCursor",
                     "object",
                     "url"
-                  ],
-                  "additionalProperties": false
+                  ]
                 }
               }
             }
@@ -10365,7 +10167,6 @@
               "application/problem+json": {
                 "schema": {
                   "title": "PracticesList400Response",
-                  "additionalProperties": false,
                   "properties": {
                     "code": {
                       "type": "string"
@@ -10417,8 +10218,7 @@
                           "field",
                           "message",
                           "path"
-                        ],
-                        "additionalProperties": false
+                        ]
                       }
                     },
                     "instance": {
@@ -10454,7 +10254,6 @@
               "application/problem+json": {
                 "schema": {
                   "title": "PracticesList401Response",
-                  "additionalProperties": false,
                   "properties": {
                     "code": {
                       "type": "string"
@@ -10506,8 +10305,7 @@
                           "field",
                           "message",
                           "path"
-                        ],
-                        "additionalProperties": false
+                        ]
                       }
                     },
                     "instance": {
@@ -10543,7 +10341,6 @@
               "application/problem+json": {
                 "schema": {
                   "title": "PracticesList403Response",
-                  "additionalProperties": false,
                   "properties": {
                     "code": {
                       "type": "string"
@@ -10595,8 +10392,7 @@
                           "field",
                           "message",
                           "path"
-                        ],
-                        "additionalProperties": false
+                        ]
                       }
                     },
                     "instance": {
@@ -10632,7 +10428,6 @@
               "application/problem+json": {
                 "schema": {
                   "title": "PracticesList404Response",
-                  "additionalProperties": false,
                   "properties": {
                     "code": {
                       "type": "string"
@@ -10684,8 +10479,7 @@
                           "field",
                           "message",
                           "path"
-                        ],
-                        "additionalProperties": false
+                        ]
                       }
                     },
                     "instance": {
@@ -10721,7 +10515,6 @@
               "application/problem+json": {
                 "schema": {
                   "title": "PracticesList429Response",
-                  "additionalProperties": false,
                   "properties": {
                     "code": {
                       "type": "string"
@@ -10773,8 +10566,7 @@
                           "field",
                           "message",
                           "path"
-                        ],
-                        "additionalProperties": false
+                        ]
                       }
                     },
                     "instance": {
@@ -10915,8 +10707,7 @@
                             "city",
                             "state",
                             "postalCode"
-                          ],
-                          "additionalProperties": false
+                          ]
                         },
                         {
                           "type": "null"
@@ -10938,8 +10729,7 @@
                     "address",
                     "liveEnabled",
                     "createdAt"
-                  ],
-                  "additionalProperties": false
+                  ]
                 }
               }
             }
@@ -10950,7 +10740,6 @@
               "application/problem+json": {
                 "schema": {
                   "title": "PracticesGet400Response",
-                  "additionalProperties": false,
                   "properties": {
                     "code": {
                       "type": "string"
@@ -11002,8 +10791,7 @@
                           "field",
                           "message",
                           "path"
-                        ],
-                        "additionalProperties": false
+                        ]
                       }
                     },
                     "instance": {
@@ -11039,7 +10827,6 @@
               "application/problem+json": {
                 "schema": {
                   "title": "PracticesGet401Response",
-                  "additionalProperties": false,
                   "properties": {
                     "code": {
                       "type": "string"
@@ -11091,8 +10878,7 @@
                           "field",
                           "message",
                           "path"
-                        ],
-                        "additionalProperties": false
+                        ]
                       }
                     },
                     "instance": {
@@ -11128,7 +10914,6 @@
               "application/problem+json": {
                 "schema": {
                   "title": "PracticesGet403Response",
-                  "additionalProperties": false,
                   "properties": {
                     "code": {
                       "type": "string"
@@ -11180,8 +10965,7 @@
                           "field",
                           "message",
                           "path"
-                        ],
-                        "additionalProperties": false
+                        ]
                       }
                     },
                     "instance": {
@@ -11217,7 +11001,6 @@
               "application/problem+json": {
                 "schema": {
                   "title": "PracticesGet404Response",
-                  "additionalProperties": false,
                   "properties": {
                     "code": {
                       "type": "string"
@@ -11269,8 +11052,7 @@
                           "field",
                           "message",
                           "path"
-                        ],
-                        "additionalProperties": false
+                        ]
                       }
                     },
                     "instance": {
@@ -11306,7 +11088,6 @@
               "application/problem+json": {
                 "schema": {
                   "title": "PracticesGet429Response",
-                  "additionalProperties": false,
                   "properties": {
                     "code": {
                       "type": "string"
@@ -11358,8 +11139,7 @@
                           "field",
                           "message",
                           "path"
-                        ],
-                        "additionalProperties": false
+                        ]
                       }
                     },
                     "instance": {
@@ -11505,8 +11285,7 @@
                             "city",
                             "state",
                             "postalCode"
-                          ],
-                          "additionalProperties": false
+                          ]
                         },
                         {
                           "type": "null"
@@ -11528,8 +11307,7 @@
                     "address",
                     "liveEnabled",
                     "createdAt"
-                  ],
-                  "additionalProperties": false
+                  ]
                 }
               }
             }
@@ -11540,7 +11318,6 @@
               "application/problem+json": {
                 "schema": {
                   "title": "PracticesUpdate400Response",
-                  "additionalProperties": false,
                   "properties": {
                     "code": {
                       "type": "string"
@@ -11592,8 +11369,7 @@
                           "field",
                           "message",
                           "path"
-                        ],
-                        "additionalProperties": false
+                        ]
                       }
                     },
                     "instance": {
@@ -11629,7 +11405,6 @@
               "application/problem+json": {
                 "schema": {
                   "title": "PracticesUpdate401Response",
-                  "additionalProperties": false,
                   "properties": {
                     "code": {
                       "type": "string"
@@ -11681,8 +11456,7 @@
                           "field",
                           "message",
                           "path"
-                        ],
-                        "additionalProperties": false
+                        ]
                       }
                     },
                     "instance": {
@@ -11718,7 +11492,6 @@
               "application/problem+json": {
                 "schema": {
                   "title": "PracticesUpdate403Response",
-                  "additionalProperties": false,
                   "properties": {
                     "code": {
                       "type": "string"
@@ -11770,8 +11543,7 @@
                           "field",
                           "message",
                           "path"
-                        ],
-                        "additionalProperties": false
+                        ]
                       }
                     },
                     "instance": {
@@ -11807,7 +11579,6 @@
               "application/problem+json": {
                 "schema": {
                   "title": "PracticesUpdate404Response",
-                  "additionalProperties": false,
                   "properties": {
                     "code": {
                       "type": "string"
@@ -11859,8 +11630,7 @@
                           "field",
                           "message",
                           "path"
-                        ],
-                        "additionalProperties": false
+                        ]
                       }
                     },
                     "instance": {
@@ -11896,7 +11666,6 @@
               "application/problem+json": {
                 "schema": {
                   "title": "PracticesUpdate409Response",
-                  "additionalProperties": false,
                   "properties": {
                     "code": {
                       "type": "string"
@@ -11948,8 +11717,7 @@
                           "field",
                           "message",
                           "path"
-                        ],
-                        "additionalProperties": false
+                        ]
                       }
                     },
                     "instance": {
@@ -11984,7 +11752,6 @@
             "content": {
               "application/problem+json": {
                 "schema": {
-                  "additionalProperties": false,
                   "properties": {
                     "code": {
                       "type": "string",
@@ -12034,7 +11801,6 @@
               "application/problem+json": {
                 "schema": {
                   "title": "PracticesUpdate422Response",
-                  "additionalProperties": false,
                   "properties": {
                     "code": {
                       "type": "string"
@@ -12086,8 +11852,7 @@
                           "field",
                           "message",
                           "path"
-                        ],
-                        "additionalProperties": false
+                        ]
                       }
                     },
                     "instance": {
@@ -12123,7 +11888,6 @@
               "application/problem+json": {
                 "schema": {
                   "title": "PracticesUpdate429Response",
-                  "additionalProperties": false,
                   "properties": {
                     "code": {
                       "type": "string"
@@ -12175,8 +11939,7 @@
                           "field",
                           "message",
                           "path"
-                        ],
-                        "additionalProperties": false
+                        ]
                       }
                     },
                     "instance": {
@@ -12212,7 +11975,6 @@
               "application/problem+json": {
                 "schema": {
                   "title": "PracticesUpdate503Response",
-                  "additionalProperties": false,
                   "properties": {
                     "code": {
                       "type": "string"
@@ -12264,8 +12026,7 @@
                           "field",
                           "message",
                           "path"
-                        ],
-                        "additionalProperties": false
+                        ]
                       }
                     },
                     "instance": {
@@ -12497,8 +12258,7 @@
                           "mode",
                           "id",
                           "url"
-                        ],
-                        "additionalProperties": false
+                        ]
                       }
                     },
                     "hasMore": {
@@ -12530,8 +12290,7 @@
                     "nextCursor",
                     "object",
                     "url"
-                  ],
-                  "additionalProperties": false
+                  ]
                 }
               }
             }
@@ -12542,7 +12301,6 @@
               "application/problem+json": {
                 "schema": {
                   "title": "WebhooksList400Response",
-                  "additionalProperties": false,
                   "properties": {
                     "code": {
                       "type": "string"
@@ -12594,8 +12352,7 @@
                           "field",
                           "message",
                           "path"
-                        ],
-                        "additionalProperties": false
+                        ]
                       }
                     },
                     "instance": {
@@ -12631,7 +12388,6 @@
               "application/problem+json": {
                 "schema": {
                   "title": "WebhooksList401Response",
-                  "additionalProperties": false,
                   "properties": {
                     "code": {
                       "type": "string"
@@ -12683,8 +12439,7 @@
                           "field",
                           "message",
                           "path"
-                        ],
-                        "additionalProperties": false
+                        ]
                       }
                     },
                     "instance": {
@@ -12720,7 +12475,6 @@
               "application/problem+json": {
                 "schema": {
                   "title": "WebhooksList403Response",
-                  "additionalProperties": false,
                   "properties": {
                     "code": {
                       "type": "string"
@@ -12772,8 +12526,7 @@
                           "field",
                           "message",
                           "path"
-                        ],
-                        "additionalProperties": false
+                        ]
                       }
                     },
                     "instance": {
@@ -12809,7 +12562,6 @@
               "application/problem+json": {
                 "schema": {
                   "title": "WebhooksList404Response",
-                  "additionalProperties": false,
                   "properties": {
                     "code": {
                       "type": "string"
@@ -12861,8 +12613,7 @@
                           "field",
                           "message",
                           "path"
-                        ],
-                        "additionalProperties": false
+                        ]
                       }
                     },
                     "instance": {
@@ -12898,7 +12649,6 @@
               "application/problem+json": {
                 "schema": {
                   "title": "WebhooksList429Response",
-                  "additionalProperties": false,
                   "properties": {
                     "code": {
                       "type": "string"
@@ -12950,8 +12700,7 @@
                           "field",
                           "message",
                           "path"
-                        ],
-                        "additionalProperties": false
+                        ]
                       }
                     },
                     "instance": {
@@ -13069,8 +12818,7 @@
                     "id",
                     "url",
                     "secret"
-                  ],
-                  "additionalProperties": false
+                  ]
                 }
               }
             }
@@ -13081,7 +12829,6 @@
               "application/problem+json": {
                 "schema": {
                   "title": "WebhooksCreate400Response",
-                  "additionalProperties": false,
                   "properties": {
                     "code": {
                       "type": "string"
@@ -13133,8 +12880,7 @@
                           "field",
                           "message",
                           "path"
-                        ],
-                        "additionalProperties": false
+                        ]
                       }
                     },
                     "instance": {
@@ -13170,7 +12916,6 @@
               "application/problem+json": {
                 "schema": {
                   "title": "WebhooksCreate401Response",
-                  "additionalProperties": false,
                   "properties": {
                     "code": {
                       "type": "string"
@@ -13222,8 +12967,7 @@
                           "field",
                           "message",
                           "path"
-                        ],
-                        "additionalProperties": false
+                        ]
                       }
                     },
                     "instance": {
@@ -13259,7 +13003,6 @@
               "application/problem+json": {
                 "schema": {
                   "title": "WebhooksCreate403Response",
-                  "additionalProperties": false,
                   "properties": {
                     "code": {
                       "type": "string"
@@ -13311,8 +13054,7 @@
                           "field",
                           "message",
                           "path"
-                        ],
-                        "additionalProperties": false
+                        ]
                       }
                     },
                     "instance": {
@@ -13348,7 +13090,6 @@
               "application/problem+json": {
                 "schema": {
                   "title": "WebhooksCreate404Response",
-                  "additionalProperties": false,
                   "properties": {
                     "code": {
                       "type": "string"
@@ -13400,8 +13141,7 @@
                           "field",
                           "message",
                           "path"
-                        ],
-                        "additionalProperties": false
+                        ]
                       }
                     },
                     "instance": {
@@ -13437,7 +13177,6 @@
               "application/problem+json": {
                 "schema": {
                   "title": "WebhooksCreate409Response",
-                  "additionalProperties": false,
                   "properties": {
                     "code": {
                       "type": "string"
@@ -13489,8 +13228,7 @@
                           "field",
                           "message",
                           "path"
-                        ],
-                        "additionalProperties": false
+                        ]
                       }
                     },
                     "instance": {
@@ -13525,7 +13263,6 @@
             "content": {
               "application/problem+json": {
                 "schema": {
-                  "additionalProperties": false,
                   "properties": {
                     "code": {
                       "type": "string",
@@ -13575,7 +13312,6 @@
               "application/problem+json": {
                 "schema": {
                   "title": "WebhooksCreate422Response",
-                  "additionalProperties": false,
                   "properties": {
                     "code": {
                       "type": "string"
@@ -13627,8 +13363,7 @@
                           "field",
                           "message",
                           "path"
-                        ],
-                        "additionalProperties": false
+                        ]
                       }
                     },
                     "instance": {
@@ -13664,7 +13399,6 @@
               "application/problem+json": {
                 "schema": {
                   "title": "WebhooksCreate429Response",
-                  "additionalProperties": false,
                   "properties": {
                     "code": {
                       "type": "string"
@@ -13716,8 +13450,7 @@
                           "field",
                           "message",
                           "path"
-                        ],
-                        "additionalProperties": false
+                        ]
                       }
                     },
                     "instance": {
@@ -13756,7 +13489,7 @@
                 "properties": {
                   "url": {
                     "type": "string",
-                    "minLength": 4,
+                    "minLength": 8,
                     "maxLength": 2048
                   }
                 },
@@ -13863,8 +13596,7 @@
                     "mode",
                     "id",
                     "url"
-                  ],
-                  "additionalProperties": false
+                  ]
                 }
               }
             }
@@ -13875,7 +13607,6 @@
               "application/problem+json": {
                 "schema": {
                   "title": "WebhooksUpdate400Response",
-                  "additionalProperties": false,
                   "properties": {
                     "code": {
                       "type": "string"
@@ -13927,8 +13658,7 @@
                           "field",
                           "message",
                           "path"
-                        ],
-                        "additionalProperties": false
+                        ]
                       }
                     },
                     "instance": {
@@ -13964,7 +13694,6 @@
               "application/problem+json": {
                 "schema": {
                   "title": "WebhooksUpdate401Response",
-                  "additionalProperties": false,
                   "properties": {
                     "code": {
                       "type": "string"
@@ -14016,8 +13745,7 @@
                           "field",
                           "message",
                           "path"
-                        ],
-                        "additionalProperties": false
+                        ]
                       }
                     },
                     "instance": {
@@ -14053,7 +13781,6 @@
               "application/problem+json": {
                 "schema": {
                   "title": "WebhooksUpdate403Response",
-                  "additionalProperties": false,
                   "properties": {
                     "code": {
                       "type": "string"
@@ -14105,8 +13832,7 @@
                           "field",
                           "message",
                           "path"
-                        ],
-                        "additionalProperties": false
+                        ]
                       }
                     },
                     "instance": {
@@ -14142,7 +13868,6 @@
               "application/problem+json": {
                 "schema": {
                   "title": "WebhooksUpdate404Response",
-                  "additionalProperties": false,
                   "properties": {
                     "code": {
                       "type": "string"
@@ -14194,8 +13919,7 @@
                           "field",
                           "message",
                           "path"
-                        ],
-                        "additionalProperties": false
+                        ]
                       }
                     },
                     "instance": {
@@ -14231,7 +13955,6 @@
               "application/problem+json": {
                 "schema": {
                   "title": "WebhooksUpdate409Response",
-                  "additionalProperties": false,
                   "properties": {
                     "code": {
                       "type": "string"
@@ -14283,8 +14006,7 @@
                           "field",
                           "message",
                           "path"
-                        ],
-                        "additionalProperties": false
+                        ]
                       }
                     },
                     "instance": {
@@ -14319,7 +14041,6 @@
             "content": {
               "application/problem+json": {
                 "schema": {
-                  "additionalProperties": false,
                   "properties": {
                     "code": {
                       "type": "string",
@@ -14369,7 +14090,6 @@
               "application/problem+json": {
                 "schema": {
                   "title": "WebhooksUpdate422Response",
-                  "additionalProperties": false,
                   "properties": {
                     "code": {
                       "type": "string"
@@ -14421,8 +14141,7 @@
                           "field",
                           "message",
                           "path"
-                        ],
-                        "additionalProperties": false
+                        ]
                       }
                     },
                     "instance": {
@@ -14458,7 +14177,6 @@
               "application/problem+json": {
                 "schema": {
                   "title": "WebhooksUpdate429Response",
-                  "additionalProperties": false,
                   "properties": {
                     "code": {
                       "type": "string"
@@ -14510,8 +14228,7 @@
                           "field",
                           "message",
                           "path"
-                        ],
-                        "additionalProperties": false
+                        ]
                       }
                     },
                     "instance": {
@@ -14550,7 +14267,7 @@
                 "properties": {
                   "url": {
                     "type": "string",
-                    "minLength": 4,
+                    "minLength": 8,
                     "maxLength": 2048
                   }
                 },
@@ -14631,8 +14348,7 @@
                   "required": [
                     "deleted",
                     "id"
-                  ],
-                  "additionalProperties": false
+                  ]
                 }
               }
             }
@@ -14643,7 +14359,6 @@
               "application/problem+json": {
                 "schema": {
                   "title": "WebhooksRemove400Response",
-                  "additionalProperties": false,
                   "properties": {
                     "code": {
                       "type": "string"
@@ -14695,8 +14410,7 @@
                           "field",
                           "message",
                           "path"
-                        ],
-                        "additionalProperties": false
+                        ]
                       }
                     },
                     "instance": {
@@ -14732,7 +14446,6 @@
               "application/problem+json": {
                 "schema": {
                   "title": "WebhooksRemove401Response",
-                  "additionalProperties": false,
                   "properties": {
                     "code": {
                       "type": "string"
@@ -14784,8 +14497,7 @@
                           "field",
                           "message",
                           "path"
-                        ],
-                        "additionalProperties": false
+                        ]
                       }
                     },
                     "instance": {
@@ -14821,7 +14533,6 @@
               "application/problem+json": {
                 "schema": {
                   "title": "WebhooksRemove403Response",
-                  "additionalProperties": false,
                   "properties": {
                     "code": {
                       "type": "string"
@@ -14873,8 +14584,7 @@
                           "field",
                           "message",
                           "path"
-                        ],
-                        "additionalProperties": false
+                        ]
                       }
                     },
                     "instance": {
@@ -14910,7 +14620,6 @@
               "application/problem+json": {
                 "schema": {
                   "title": "WebhooksRemove404Response",
-                  "additionalProperties": false,
                   "properties": {
                     "code": {
                       "type": "string"
@@ -14962,8 +14671,7 @@
                           "field",
                           "message",
                           "path"
-                        ],
-                        "additionalProperties": false
+                        ]
                       }
                     },
                     "instance": {
@@ -14999,7 +14707,6 @@
               "application/problem+json": {
                 "schema": {
                   "title": "WebhooksRemove429Response",
-                  "additionalProperties": false,
                   "properties": {
                     "code": {
                       "type": "string"
@@ -15051,8 +14758,7 @@
                           "field",
                           "message",
                           "path"
-                        ],
-                        "additionalProperties": false
+                        ]
                       }
                     },
                     "instance": {
@@ -15155,8 +14861,7 @@
                   },
                   "required": [
                     "queued"
-                  ],
-                  "additionalProperties": false
+                  ]
                 }
               }
             }
@@ -15167,7 +14872,6 @@
               "application/problem+json": {
                 "schema": {
                   "title": "WebhooksResendFailed400Response",
-                  "additionalProperties": false,
                   "properties": {
                     "code": {
                       "type": "string"
@@ -15219,8 +14923,7 @@
                           "field",
                           "message",
                           "path"
-                        ],
-                        "additionalProperties": false
+                        ]
                       }
                     },
                     "instance": {
@@ -15256,7 +14959,6 @@
               "application/problem+json": {
                 "schema": {
                   "title": "WebhooksResendFailed401Response",
-                  "additionalProperties": false,
                   "properties": {
                     "code": {
                       "type": "string"
@@ -15308,8 +15010,7 @@
                           "field",
                           "message",
                           "path"
-                        ],
-                        "additionalProperties": false
+                        ]
                       }
                     },
                     "instance": {
@@ -15345,7 +15046,6 @@
               "application/problem+json": {
                 "schema": {
                   "title": "WebhooksResendFailed403Response",
-                  "additionalProperties": false,
                   "properties": {
                     "code": {
                       "type": "string"
@@ -15397,8 +15097,7 @@
                           "field",
                           "message",
                           "path"
-                        ],
-                        "additionalProperties": false
+                        ]
                       }
                     },
                     "instance": {
@@ -15434,7 +15133,6 @@
               "application/problem+json": {
                 "schema": {
                   "title": "WebhooksResendFailed404Response",
-                  "additionalProperties": false,
                   "properties": {
                     "code": {
                       "type": "string"
@@ -15486,8 +15184,7 @@
                           "field",
                           "message",
                           "path"
-                        ],
-                        "additionalProperties": false
+                        ]
                       }
                     },
                     "instance": {
@@ -15523,7 +15220,6 @@
               "application/problem+json": {
                 "schema": {
                   "title": "WebhooksResendFailed409Response",
-                  "additionalProperties": false,
                   "properties": {
                     "code": {
                       "type": "string"
@@ -15575,8 +15271,7 @@
                           "field",
                           "message",
                           "path"
-                        ],
-                        "additionalProperties": false
+                        ]
                       }
                     },
                     "instance": {
@@ -15612,7 +15307,6 @@
               "application/problem+json": {
                 "schema": {
                   "title": "WebhooksResendFailed415Response",
-                  "additionalProperties": false,
                   "properties": {
                     "code": {
                       "type": "string"
@@ -15664,8 +15358,7 @@
                           "field",
                           "message",
                           "path"
-                        ],
-                        "additionalProperties": false
+                        ]
                       }
                     },
                     "instance": {
@@ -15701,7 +15394,6 @@
               "application/problem+json": {
                 "schema": {
                   "title": "WebhooksResendFailed429Response",
-                  "additionalProperties": false,
                   "properties": {
                     "code": {
                       "type": "string"
@@ -15753,8 +15445,7 @@
                           "field",
                           "message",
                           "path"
-                        ],
-                        "additionalProperties": false
+                        ]
                       }
                     },
                     "instance": {

@@ -1,4 +1,5 @@
 import { expect, test } from "bun:test";
+import { version } from "../package.json";
 import {
   Affinity,
   AffinityConnectionError,
@@ -38,7 +39,7 @@ test("order creation sends the flat MVP body and caller-owned idempotency key wi
   expect(calls).toHaveLength(1);
   expect(JSON.parse(String(calls[0].body))).toEqual(order);
   expect(new Headers(calls[0].headers).get("Idempotency-Key")).toBe("job-1");
-  expect(new Headers(calls[0].headers).get("User-Agent")).toBe("affinity-typescript/2.0.0-beta.6");
+  expect(new Headers(calls[0].headers).get("User-Agent")).toBe(`affinity-typescript/${version}`);
 });
 test("safe retries preserve the order body and persisted key", async () => {
   const calls: RequestInit[] = [];
