@@ -17,6 +17,10 @@ export interface SDKRequestOptions {
   idempotencyKey?: string;
   signal?: AbortSignal;
 }
+/** Options for operations whose contract excludes Idempotency-Key. */
+export type UnkeyedRequestOptions = Omit<SDKRequestOptions, "idempotencyKey"> & {
+  idempotencyKey?: never;
+};
 /** Options for callers that persist a key across separate calls. */
 export type RequiredKeyOptions = SDKRequestOptions & { idempotencyKey: string };
 type Operation = {
@@ -1005,7 +1009,7 @@ export type WebhookRemoveResponse = { deleted: true; id: string };
 export type WebhookResendFailedResponse = { queued: number };
 export class AccountSDKResource {
   constructor(private readonly context: SDKContext) {}
-  get(options: SDKRequestOptions = {}): Promise<AccountGetResponse> {
+  get(options: UnkeyedRequestOptions = {}): Promise<AccountGetResponse> {
     return this.context.call(operations["account.account"], [], {}, options);
   }
 }
@@ -1022,20 +1026,20 @@ export class MedicationSDKResource {
   constructor(private readonly context: SDKContext) {}
   list(
     params: MedicationListParams = {},
-    options: SDKRequestOptions = {},
+    options: UnkeyedRequestOptions = {},
   ): Promise<MedicationListResponse> {
     return this.context.call(operations["medications.list"], [], params, options);
   }
   iterate(
     params: MedicationListParams = {},
-    options: SDKRequestOptions = {},
+    options: UnkeyedRequestOptions = {},
   ): AsyncIterable<MedicationListResponse["data"][number]> {
     return this.context.iterate(operations["medications.list"], [], params, options);
   }
   get(
     medicationId: string,
     params: MedicationGetParams = {},
-    options: SDKRequestOptions = {},
+    options: UnkeyedRequestOptions = {},
   ): Promise<MedicationGetResponse> {
     return this.context.call(operations["medications.get"], [medicationId], params, options);
   }
@@ -1045,16 +1049,19 @@ export class OrderSDKResource {
   create(params: OrderCreateParams, options: RequiredKeyOptions): Promise<OrderCreateResponse> {
     return this.context.call(operations["orders.create"], [], params, options);
   }
-  list(params: OrderListParams = {}, options: SDKRequestOptions = {}): Promise<OrderListResponse> {
+  list(
+    params: OrderListParams = {},
+    options: UnkeyedRequestOptions = {},
+  ): Promise<OrderListResponse> {
     return this.context.call(operations["orders.list"], [], params, options);
   }
   iterate(
     params: OrderListParams = {},
-    options: SDKRequestOptions = {},
+    options: UnkeyedRequestOptions = {},
   ): AsyncIterable<OrderListResponse["data"][number]> {
     return this.context.iterate(operations["orders.list"], [], params, options);
   }
-  get(orderId: string, options: SDKRequestOptions = {}): Promise<OrderGetResponse> {
+  get(orderId: string, options: UnkeyedRequestOptions = {}): Promise<OrderGetResponse> {
     return this.context.call(operations["orders.get"], [orderId], {}, options);
   }
   cancel(orderId: string, options: SDKRequestOptions = {}): Promise<OrderCancelResponse> {
@@ -1071,17 +1078,17 @@ export class PracticeSDKResource {
   }
   list(
     params: PracticeListParams = {},
-    options: SDKRequestOptions = {},
+    options: UnkeyedRequestOptions = {},
   ): Promise<PracticeListResponse> {
     return this.context.call(operations["practices.list"], [], params, options);
   }
   iterate(
     params: PracticeListParams = {},
-    options: SDKRequestOptions = {},
+    options: UnkeyedRequestOptions = {},
   ): AsyncIterable<PracticeListResponse["data"][number]> {
     return this.context.iterate(operations["practices.list"], [], params, options);
   }
-  get(practiceId: string, options: SDKRequestOptions = {}): Promise<PracticeGetResponse> {
+  get(practiceId: string, options: UnkeyedRequestOptions = {}): Promise<PracticeGetResponse> {
     return this.context.call(operations["practices.get"], [practiceId], {}, options);
   }
   update(
@@ -1096,13 +1103,13 @@ export class WebhookSDKResource {
   constructor(private readonly context: SDKContext) {}
   list(
     params: WebhookListParams = {},
-    options: SDKRequestOptions = {},
+    options: UnkeyedRequestOptions = {},
   ): Promise<WebhookListResponse> {
     return this.context.call(operations["webhooks.list"], [], params, options);
   }
   iterate(
     params: WebhookListParams = {},
-    options: SDKRequestOptions = {},
+    options: UnkeyedRequestOptions = {},
   ): AsyncIterable<WebhookListResponse["data"][number]> {
     return this.context.iterate(operations["webhooks.list"], [], params, options);
   }
@@ -1121,7 +1128,7 @@ export class WebhookSDKResource {
   }
   remove(
     webhookEndpointId: string,
-    options: SDKRequestOptions = {},
+    options: UnkeyedRequestOptions = {},
   ): Promise<WebhookRemoveResponse> {
     return this.context.call(operations["webhooks.remove"], [webhookEndpointId], {}, options);
   }

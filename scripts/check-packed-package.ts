@@ -35,6 +35,16 @@ async function workflow() {
  await api.feedback.create({message:"Synthetic feedback"});
  void account; void exact;
 }
+// @ts-expect-error DELETE does not accept idempotency keys.
+void api.webhooks.remove("whe_example", {idempotencyKey:"unsupported"});
+const keyedOptions = {signal:new AbortController().signal,idempotencyKey:"unsupported"};
+// @ts-expect-error Passing a variable must not bypass the contract.
+void api.webhooks.remove("whe_example", keyedOptions);
+// @ts-expect-error Reads do not accept idempotency keys.
+void api.account.get({idempotencyKey:"unsupported"});
+// @ts-expect-error Pagination inherits the list operation's options.
+void api.webhooks.iterate({}, {idempotencyKey:"unsupported"});
+void api.webhooks.remove("whe_example", {signal:new AbortController().signal});
 // Order creation requires a persisted key in packed consumer declarations.
 // @ts-expect-error A caller-owned key is required.
 void api.orders.create(input);

@@ -7,6 +7,10 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 
 ## [Unreleased]
 
+### Fixed
+
+- Derive method request options from the contract: reject `idempotencyKey` at compile time for webhook removal, reads, and their iterators. Continue accepting keys for supported writes.
+
 ## [2.0.0-beta.6] - 2026-10-23
 
 ### Changed

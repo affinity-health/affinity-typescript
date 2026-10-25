@@ -15,6 +15,10 @@ export interface SDKRequestOptions {
   idempotencyKey?: string;
   signal?: AbortSignal;
 }
+/** Options for operations whose contract excludes Idempotency-Key. */
+export type UnkeyedRequestOptions = Omit<SDKRequestOptions, "idempotencyKey"> & {
+  idempotencyKey?: never;
+};
 /** Options for callers that persist a key across separate calls. */
 export type RequiredKeyOptions = SDKRequestOptions & { idempotencyKey: string };
 type Operation = {

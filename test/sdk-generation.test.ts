@@ -91,3 +91,31 @@ test("contract field changes drive generated request types", async () => {
   expect(result.exitCode).toBe(0);
   expect(result.sdk).toContain('"name": "contract-name"');
 });
+
+test("contract idempotency headers determine facade request options", async () => {
+  const baseline = await generate(() => {});
+  expect(baseline.exitCode).toBe(0);
+  expect(baseline.sdk).toContain(
+    "remove(webhookEndpointId: string,options: UnkeyedRequestOptions = {})",
+  );
+  expect(baseline.sdk).toContain("get(options: UnkeyedRequestOptions = {})");
+  expect(baseline.sdk).toContain(
+    "resendFailed(webhookEndpointId: string,options: SDKRequestOptions = {})",
+  );
+  const changed = await generate((spec) => {
+    const endpoint = spec.paths["/v1/webhook-endpoints/{webhookEndpointId}"];
+    endpoint.delete.parameters.push({
+      in: "header",
+      name: "Idempotency-Key",
+      schema: { type: "string" },
+    });
+    endpoint.patch.parameters = endpoint.patch.parameters.filter(
+      (p: any) => p.name.toLowerCase() !== "idempotency-key",
+    );
+  });
+  expect(changed.exitCode).toBe(0);
+  expect(changed.sdk).toContain(
+    "remove(webhookEndpointId: string,options: SDKRequestOptions = {})",
+  );
+  expect(changed.sdk).toContain("params: WebhookUpdateParams,options: UnkeyedRequestOptions = {})");
+});

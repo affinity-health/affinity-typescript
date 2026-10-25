@@ -117,7 +117,7 @@ for (const [path, verbs] of Object.entries(spec.paths))
     args.push(
       op.operationId === "orders.create"
         ? "options: RequiredKeyOptions"
-        : "options: SDKRequestOptions = {}",
+        : `options: ${idempotency ? "SDKRequestOptions" : "UnkeyedRequestOptions"} = {}`,
     );
     const invocation = `operations[${JSON.stringify(op.operationId)}], [${ids.join(",")}], ${params ? "params" : "{}"}, options`;
     (groups[group] ??= []).push(
