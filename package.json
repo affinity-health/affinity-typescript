@@ -38,7 +38,6 @@
     "build": "bun run clean && tsgo -p tsconfig.json && bun scripts/fix-declaration-imports.ts && bun build src/index.ts --outfile=dist/index.js --target=node --format=esm",
     "check": "bun run build && bun run scripts:check && bun run generate:check && bun run package:check && bun run package:consumer-check && bun run test:types && bun test ./test && bun run example:check",
     "clean": "rm -rf dist",
-    "dev": "dev up --cwd .",
     "example:dev": "bun run --cwd examples/tanstack-start dev",
     "example:check": "bun build examples/quickstart.ts --target=node --outfile=/tmp/affinity-typescript-quickstart.js && tsgo --noEmit -p examples/tsconfig.json && bun install --cwd examples/tanstack-start --frozen-lockfile && bun run --cwd examples/tanstack-start check && bun run --cwd examples/tanstack-start test && bun run --cwd examples/tanstack-start build",
     "format": "oxfmt . '!src/generated'",
