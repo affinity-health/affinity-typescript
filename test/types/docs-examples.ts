@@ -55,6 +55,11 @@ export function mistakes() {
   void client.orders.list({ status: "draft" });
   // @ts-expect-error Unknown query parameters fail compilation.
   void client.orders.list({ externalOrderID: "emr-42" });
+  // @ts-expect-error The SDK pages forward only; endingBefore is not a list parameter.
+  void client.orders.list({ endingBefore: "cursor" });
+  // Descending sorts are typed.
+  void client.orders.list({ sort: "-created" });
+  void client.practices.list({ sort: "-name" });
   // @ts-expect-error A practice needs an address and a phone.
   void client.practices.create({ idempotencyKey: "k", name: "Synthetic Test Practice" });
   void client.webhooks.remove({

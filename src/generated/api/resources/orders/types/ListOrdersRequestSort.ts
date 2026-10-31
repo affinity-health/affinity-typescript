@@ -3,6 +3,8 @@
 /** patient sorts the lowercase text firstName + space + lastName A to Z, then order ID; created sorts oldest first. A leading - reverses the order. Defaults to -created. Restart pagination after changing sort. */
 export const ListOrdersRequestSort = {
     Patient: "patient",
+    PatientDescending: "-patient",
     Created: "created",
+    CreatedDescending: "-created",
 } as const;
 export type ListOrdersRequestSort = (typeof ListOrdersRequestSort)[keyof typeof ListOrdersRequestSort];

@@ -52,9 +52,8 @@ export class WebhooksClient {
             async (
                 request: Affinity.ListWebhooksRequest,
             ): Promise<core.WithRawResponse<Affinity.WebhookEndpointList>> => {
-                const { endingBefore, limit, startingAfter } = request;
+                const { limit, startingAfter } = request;
                 const _queryParams: Record<string, unknown> = {
-                    endingBefore,
                     limit,
                     startingAfter,
                 };

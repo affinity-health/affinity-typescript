@@ -18,13 +18,13 @@ The client calls `https://api.affinityrx.com` and sends `Affinity-Version: 2026-
 
 Client options:
 
-| Option             | Default                      | Use                                                                                                                                                                |
-| ------------------ | ---------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `token`            | —                            | The API key.                                                                                                                                                       |
-| `baseUrl`          | `https://api.affinityrx.com` | Another API, such as a staging environment.                                                                                                                        |
-| `maxRetries`       | `2`                          | Retries for 408, 429 and 5xx responses, after `Retry-After` when the API sends it. A network error or timeout is not retried: retry it yourself with the same key. |
-| `timeoutInSeconds` | `60`                         | The time limit of one attempt.                                                                                                                                     |
-| `fetch`            | `globalThis.fetch`           | A different fetch, for example to record requests in tests.                                                                                                        |
+| Option             | Default                      | Use                                                                                                                                                                                                          |
+| ------------------ | ---------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `token`            | —                            | The API key.                                                                                                                                                                                                 |
+| `baseUrl`          | `https://api.affinityrx.com` | Another API, such as a staging environment.                                                                                                                                                                  |
+| `maxRetries`       | `2`                          | Retries for 408, 429 and 5xx responses with backoff from 1 second. A positive `Retry-After` sets the wait, up to 60 seconds. A network error or timeout is not retried: retry it yourself with the same key. |
+| `timeoutInSeconds` | `60`                         | The time limit of one attempt.                                                                                                                                                                               |
+| `fetch`            | `globalThis.fetch`           | A different fetch, for example to record requests in tests.                                                                                                                                                  |
 
 Each method also takes request options as its last argument: `abortSignal`, `timeoutInSeconds`, `maxRetries` and `headers`.
 
@@ -102,7 +102,7 @@ A platform key must send `practiceId`. A practice key can omit it. NPI identifie
 
 ### Idempotency keys
 
-Every write takes an `idempotencyKey`, and the types require it. The key makes a retry safe: the same key and body return the first result and do not create a second order.
+Every create, update, cancel and resend takes an `idempotencyKey`, and the types require it. Removing a webhook endpoint takes none: a second removal finds nothing to remove. The key makes a retry safe: the same key and body return the first result and do not create a second order.
 
 - Save the key with the reviewed order before the first request.
 - After a timeout, an error or a restart, send the same body with the same key.
@@ -135,15 +135,16 @@ for await (const order of await affinity.orders.list({ practiceId: practice.id }
 
 const page = await affinity.medications.list({ limit: 25 });
 page.data; // this page only
-page.hasNextPage();
-await page.getNextPage();
+while (page.hasNextPage()) {
+  await page.getNextPage(); // replaces page.data with the next page
+}
 ```
 
-Keep the filters the same on every page.
+Keep the filters the same on every page. Call `getNextPage()` only while `hasNextPage()` is true. Pages read forward only; to start over, list again.
 
 ## Handle errors
 
-Each error status has its own class, and every class extends `AffinityError`.
+Each status the API documents has its own class, and every class extends `AffinityError`. Other statuses, such as a 502 or 504 from a proxy, raise `AffinityError` itself; a timeout raises `AffinityTimeoutError`.
 
 ```typescript
 try {
@@ -159,16 +160,17 @@ try {
 }
 ```
 
-| Status   | Class                                                                                                                                                                                                                                                                        |
-| -------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 400      | `Affinity.BadRequestError`: the request does not match the schema.                                                                                                                                                                                                           |
-| 401      | `Affinity.UnauthorizedError`                                                                                                                                                                                                                                                 |
-| 403      | `Affinity.ForbiddenError`                                                                                                                                                                                                                                                    |
-| 404      | `Affinity.NotFoundError`                                                                                                                                                                                                                                                     |
-| 409      | `Affinity.ConflictError`: `request_in_progress` means the first request with this key has not finished; wait, then send the same body with the same key. `idempotency_key_reused` means the key was used with a different body. Never switch to a new key to get past a 409. |
-| 422      | `Affinity.UnprocessableEntityError`: an ordering rule refused the request.                                                                                                                                                                                                   |
-| 429      | `Affinity.TooManyRequestsError`                                                                                                                                                                                                                                              |
-| 500, 503 | `Affinity.InternalServerError`, `Affinity.ServiceUnavailableError`                                                                                                                                                                                                           |
+| Status        | Class                                                                                                                                                                                                                                                                        |
+| ------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 400           | `Affinity.BadRequestError`: the request does not match the schema.                                                                                                                                                                                                           |
+| 401           | `Affinity.UnauthorizedError`                                                                                                                                                                                                                                                 |
+| 403           | `Affinity.ForbiddenError`                                                                                                                                                                                                                                                    |
+| 404           | `Affinity.NotFoundError`                                                                                                                                                                                                                                                     |
+| 409           | `Affinity.ConflictError`: `request_in_progress` means the first request with this key has not finished; wait, then send the same body with the same key. `idempotency_key_reused` means the key was used with a different body. Never switch to a new key to get past a 409. |
+| 422           | `Affinity.UnprocessableEntityError`: an ordering rule refused the request.                                                                                                                                                                                                   |
+| 429           | `Affinity.TooManyRequestsError`                                                                                                                                                                                                                                              |
+| 405, 413, 415 | `Affinity.MethodNotAllowedError`, `Affinity.ContentTooLargeError`, `Affinity.UnsupportedMediaTypeError`                                                                                                                                                                      |
+| 500, 503      | `Affinity.InternalServerError`, `Affinity.ServiceUnavailableError`                                                                                                                                                                                                           |
 
 `error.body` is the problem document with `code`, `detail`, `requestId` and, for refused input, `issues`. Do not log credentials, patient data or request bodies.
 
@@ -191,8 +193,19 @@ const event = await verifyAffinityWebhook({
   signature: request.headers.get("affinity-signature"),
   secret: process.env.AFFINITY_WEBHOOK_SECRET!,
 });
-if (isKnownAffinityWebhookEvent(event) && event.type.startsWith("order."))
-  await saveOnce(event.id, event.data.order.id);
+if (isKnownAffinityWebhookEvent(event)) {
+  switch (event.type) {
+    case "order.submitted":
+    case "order.processing":
+    case "order.shipped":
+    case "order.delivered":
+    case "order.cancelled":
+    case "order.failed":
+    case "order.updated":
+      await saveOnce(event.id, event.data.order.id);
+      break;
+  }
+}
 return new Response(null, { status: 204 });
 ```
 

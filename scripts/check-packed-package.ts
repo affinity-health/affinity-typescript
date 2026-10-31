@@ -68,9 +68,11 @@ try {
     join(consumer, "commonjs.cts"),
     'import sdk = require("@affinity-health/sdk");\nconst client: sdk.AffinityClient = new sdk.AffinityClient({ token: "sk_test_x" });\nexport const order = (input: sdk.Affinity.OrderInput): Promise<sdk.Affinity.Order> => client.orders.create(input);\n',
   );
-  await Bun.$`${tsgo} --noEmit --pretty false --strict --skipLibCheck false --target ES2022 --lib ES2022,DOM --types node --module NodeNext --moduleResolution NodeNext commonjs.cts`.cwd(
-    consumer,
-  );
+  // Node16 is the strictest about requiring ES module declarations (TS1479).
+  for (const mode of ["Node16", "NodeNext"])
+    await Bun.$`${tsgo} --noEmit --pretty false --strict --skipLibCheck false --target ES2022 --lib ES2022,DOM --types node --module ${mode} --moduleResolution ${mode} commonjs.cts`.cwd(
+      consumer,
+    );
 
   await Bun.$`node --input-type=module -e ${runtime}`.cwd(consumer);
   await Bun.$`node --input-type=commonjs -e ${required}`.cwd(consumer);

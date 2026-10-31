@@ -1,6 +1,6 @@
 {
   "name": "@affinity-health/sdk",
-  "version": "2.0.0-beta.8",
+  "version": "2.0.0-beta.9",
   "description": "Official TypeScript SDK for the Affinity API",
   "homepage": "https://docs.affinityrx.com/api",
   "bugs": {
@@ -31,7 +31,7 @@
         "default": "./dist/index.js"
       },
       "require": {
-        "types": "./dist/index.d.cts",
+        "types": "./dist/cjs/index.d.ts",
         "default": "./dist/index.cjs"
       }
     }
@@ -40,7 +40,7 @@
     "access": "public"
   },
   "scripts": {
-    "build": "bun run clean && tsgo -p tsconfig.json && bun scripts/fix-declaration-imports.ts && bun build src/index.ts --outfile=dist/index.js --target=node --format=esm && bun build src/index.ts --outfile=dist/index.cjs --target=node --format=cjs && printf 'export * from \"./index.js\";\\n' > dist/index.d.cts",
+    "build": "bun run clean && tsgo -p tsconfig.json && bun scripts/fix-declaration-imports.ts && bun build src/index.ts --outfile=dist/index.js --target=node --format=esm && bun build src/index.ts --outfile=dist/index.cjs --target=node --format=cjs && bun scripts/cjs-types.ts",
     "check": "bun run build && bun run scripts:check && bun run generate:check && bun run package:check && bun run package:consumer-check && bun run test:types && bun test ./test && bun run example:check",
     "clean": "rm -rf dist",
     "example:dev": "bun run --cwd examples/tanstack-start dev",

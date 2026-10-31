@@ -54,7 +54,6 @@ export class OrdersClient {
         const list = core.HttpResponsePromise.interceptFunction(
             async (request: Affinity.ListOrdersRequest): Promise<core.WithRawResponse<Affinity.OrderList>> => {
                 const {
-                    endingBefore,
                     limit,
                     startingAfter,
                     externalOrderId,
@@ -68,7 +67,6 @@ export class OrdersClient {
                     sort,
                 } = request;
                 const _queryParams: Record<string, unknown> = {
-                    endingBefore,
                     limit,
                     startingAfter,
                     externalOrderId,

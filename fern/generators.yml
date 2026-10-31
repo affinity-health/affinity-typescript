@@ -16,5 +16,7 @@ groups:
         config:
           namespaceExport: Affinity
           parameterNaming: camelCase
+          # No X-Fern-* headers on requests; User-Agent still names the SDK version.
+          omitFernHeaders: true
           packageJson:
             name: "@affinity-health/sdk"

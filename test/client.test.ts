@@ -359,3 +359,87 @@ test("the client has a method for every operation in the contract", async () => 
   expect(missing).toEqual([]);
   expect(Object.keys(generation.operations)).toHaveLength(17);
 });
+
+test("every enum value in the contract is in the generated code", async () => {
+  // Fern drops a value whose name collides with another (`created` and `-created`); generate.ts
+  // names those, and this catches any value lost the same way.
+  const spec = await Bun.file(new URL("../spec/affinity.openapi.json", import.meta.url)).json();
+  const values = new Set<string>();
+  const walk = (node: unknown): void => {
+    if (Array.isArray(node)) return node.forEach(walk);
+    if (typeof node !== "object" || node === null) return;
+    const schema = node as Record<string, unknown>;
+    if (Array.isArray(schema.enum))
+      for (const value of schema.enum) if (typeof value === "string") values.add(value);
+    Object.values(schema).forEach(walk);
+  };
+  walk(spec);
+  let source = "";
+  for await (const file of new Bun.Glob("**/*.ts").scan(
+    new URL("../src/generated", import.meta.url).pathname,
+  ))
+    source += await Bun.file(new URL(`../src/generated/${file}`, import.meta.url)).text();
+  expect([...values].filter((value) => !source.includes(`"${value}"`))).toEqual([]);
+  expect(values.size).toBeGreaterThan(50);
+});
+
+describe("client.fetch (raw requests)", () => {
+  test("uses production, the key and the API version by default", async () => {
+    const seen: Request[] = [];
+    const client = new AffinityClient({
+      token: "sk_test_synthetic",
+      fetch: (async (input: RequestInfo | URL, init?: RequestInit) => {
+        seen.push(new Request(input, init));
+        return new Response("{}", { headers: { "content-type": "application/json" } });
+      }) as typeof fetch,
+    });
+    const response = await client.fetch("/v1/account");
+    expect(response.status).toBe(200);
+    expect(seen[0]!.url).toBe("https://api.affinityrx.com/v1/account");
+    expect(seen[0]!.headers.get("authorization")).toBe("Bearer sk_test_synthetic");
+  });
+
+  test("uses baseUrl when it is set", async () => {
+    const seen: string[] = [];
+    const client = new AffinityClient({
+      token: "sk_test_synthetic",
+      baseUrl: "https://api-staging.example.test",
+      fetch: (async (input: RequestInfo | URL) => {
+        seen.push(String(input instanceof Request ? input.url : input));
+        return new Response("{}");
+      }) as typeof fetch,
+    });
+    await client.fetch("/v1/account");
+    expect(seen[0]).toBe("https://api-staging.example.test/v1/account");
+  });
+
+  test("has the class's own name", () => {
+    expect(new AffinityClient({ token: "x" }).constructor.name).toBe("AffinityClient");
+  });
+});
+
+test("list requests never send endingBefore, so every page reads forward", async () => {
+  const pages = [
+    { object: "list", url: "/v1/orders", data: [{ id: "ord_1" }], hasMore: true, nextCursor: "c1" },
+    {
+      object: "list",
+      url: "/v1/orders",
+      data: [{ id: "ord_2" }],
+      hasMore: false,
+      nextCursor: null,
+    },
+  ];
+  const { client, calls } = recorded(pages.map((page) => json(page)));
+  const ids: string[] = [];
+  for await (const order of await client.orders.list({ limit: 1 })) ids.push(order.id);
+  expect(ids).toEqual(["ord_1", "ord_2"]);
+  expect(
+    calls.map((c) => [
+      c.url.searchParams.get("startingAfter"),
+      c.url.searchParams.has("endingBefore"),
+    ]),
+  ).toEqual([
+    [null, false],
+    ["c1", false],
+  ]);
+});

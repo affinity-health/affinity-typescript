@@ -6,7 +6,7 @@ const affinity = new AffinityClient({ token });
 const account = await affinity.account.get();
 if (account.mode !== "test") throw new Error("This quickstart only runs with a Test key");
 
-// One page of the catalog. Iterate the page to read every medication.
+// One page of the catalog; `for await` over the list reads every page.
 const medications = await affinity.medications.list({ limit: 10 });
 for (const medication of medications.data)
   console.log(`${medication.name} ${medication.strength ?? ""} (${medication.pharmacy.name})`);

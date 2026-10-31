@@ -3,8 +3,12 @@
 /** name and location sort A to Z; mode sorts Test before Live; created sorts oldest first. A leading - reverses the order. Defaults to -created. Missing locations sort last. Restart pagination after changing sort. */
 export const ListPracticesRequestSort = {
     Name: "name",
+    NameDescending: "-name",
     Location: "location",
+    LocationDescending: "-location",
     Mode: "mode",
+    ModeDescending: "-mode",
     Created: "created",
+    CreatedDescending: "-created",
 } as const;
 export type ListPracticesRequestSort = (typeof ListPracticesRequestSort)[keyof typeof ListPracticesRequestSort];

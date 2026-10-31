@@ -50,9 +50,8 @@ export class PracticesClient {
     ): Promise<core.Page<Affinity.Practice, Affinity.PracticeList>> {
         const list = core.HttpResponsePromise.interceptFunction(
             async (request: Affinity.ListPracticesRequest): Promise<core.WithRawResponse<Affinity.PracticeList>> => {
-                const { endingBefore, limit, startingAfter, externalId, query, sort } = request;
+                const { limit, startingAfter, externalId, query, sort } = request;
                 const _queryParams: Record<string, unknown> = {
-                    endingBefore,
                     limit,
                     startingAfter,
                     externalId,
