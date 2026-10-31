@@ -58,7 +58,7 @@ test("directory and medication reads preserve opaque cursors and filters", async
   }) as typeof fetch);
   try {
     await practices("opaque/+cursor=");
-    await medications("Synthetic search", "another/cursor");
+    await medications("another/cursor");
     expect(urls.map((url) => url.pathname)).toEqual([
       "/v1/account",
       "/v1/practices",
@@ -66,7 +66,6 @@ test("directory and medication reads preserve opaque cursors and filters", async
       "/v1/medications",
     ]);
     expect(urls[1]!.searchParams.get("startingAfter")).toBe("opaque/+cursor=");
-    expect(urls[3]!.searchParams.get("query")).toBe("Synthetic search");
     expect(urls[3]!.searchParams.get("startingAfter")).toBe("another/cursor");
   } finally {
     fetchSpy.mockRestore();

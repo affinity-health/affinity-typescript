@@ -1,15 +1,13 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
-import type { MedicationListResponse, PracticeListResponse } from "@affinity-health/sdk";
+import type { Affinity } from "@affinity-health/sdk";
 import { loadMedications, loadPractices } from "../setup";
 
 export const Route = createFileRoute("/")({ component: Example });
 
 function Example() {
-  const [practices, setPractices] = useState<PracticeListResponse>();
-  const [medications, setMedications] = useState<MedicationListResponse>();
-  const [query, setQuery] = useState("");
-  const [loadedQuery, setLoadedQuery] = useState("");
+  const [practices, setPractices] = useState<Affinity.PracticeList>();
+  const [medications, setMedications] = useState<Affinity.MedicationList>();
   const [pending, setPending] = useState(false);
   const [error, setError] = useState<string>();
   async function act<T>(
@@ -85,29 +83,13 @@ function Example() {
       </section>
       <section>
         <h2>Medications</h2>
-        <form
-          onSubmit={(event) => {
-            event.preventDefault();
-            void act(
-              () => loadMedications({ data: { query } }),
-              (page) => {
-                setMedications(page);
-                setLoadedQuery(query);
-              },
-            );
-          }}
+        <button
+          type="button"
+          disabled={pending}
+          onClick={() => void act(() => loadMedications({ data: {} }), setMedications)}
         >
-          <label htmlFor="medication-search">Medication search</label>
-          <input
-            id="medication-search"
-            value={query}
-            maxLength={120}
-            onChange={(event) => setQuery(event.target.value)}
-          />
-          <button disabled={pending} type="submit">
-            Load medications
-          </button>
-        </form>
+          Load medications
+        </button>
         {medications && (
           <>
             <ul className="catalog">
@@ -129,16 +111,13 @@ function Example() {
                 </li>
               ))}
             </ul>
-            {medications.data.length === 0 && <p>No matching medications.</p>}
+            {medications.data.length === 0 && <p>No medications.</p>}
             <button
               type="button"
               disabled={pending || !medications.hasMore || !medications.nextCursor}
               onClick={() =>
                 void act(
-                  () =>
-                    loadMedications({
-                      data: { query: loadedQuery, startingAfter: medications.nextCursor! },
-                    }),
+                  () => loadMedications({ data: { startingAfter: medications.nextCursor! } }),
                   setMedications,
                 )
               }

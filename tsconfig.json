@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "declaration": true,
-    "declarationMap": true,
+    "declarationMap": false,
     "lib": [
       "ES2022",
       "DOM",
@@ -16,7 +16,8 @@
     "target": "ES2022",
     "types": [
       "node"
-    ]
+    ],
+    "emitDeclarationOnly": true
   },
   "include": [
     "src/**/*.ts"

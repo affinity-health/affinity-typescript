@@ -1,0 +1,20 @@
+# Fern generates src/generated from spec/affinity.openapi.json; scripts/generate.ts adds the
+# x-fern names and pagination first. Pinned: change a version only with a regenerated, tested SDK.
+api:
+  specs:
+    - openapi: ./openapi.json
+      settings:
+        respect-nullable-schemas: true
+groups:
+  typescript:
+    generators:
+      - name: fernapi/fern-typescript-sdk
+        version: 3.108.6
+        output:
+          location: local-file-system
+          path: ../.fern-output
+        config:
+          namespaceExport: Affinity
+          parameterNaming: camelCase
+          packageJson:
+            name: "@affinity-health/sdk"

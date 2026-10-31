@@ -1,14 +1,15 @@
 import { expect, spyOn, test } from "bun:test";
 import { createTestWorkflow } from "../examples/emr-order";
-import type { OrderCreateParams } from "../src";
+import type { Affinity } from "../src";
 
-const reviewedInput: OrderCreateParams = {
+const reviewedInput: Omit<Affinity.OrderInput, "idempotencyKey"> = {
   practiceId: "prac_01j2y8m6jcc9tt24af5pw9x1bc",
   patient: {
+    externalId: "emr-patient-1",
     firstName: "Synthetic",
     lastName: "Patient",
     dateOfBirth: "1990-01-01",
-    gender: "unknown",
+    sex: "female",
     email: "patient@example.test",
     phone: "+12025550199",
     address: { line1: "100 Test St", city: "Austin", state: "TX", postalCode: "78701" },
@@ -23,7 +24,7 @@ const reviewedInput: OrderCreateParams = {
       refills: 0,
     },
   ],
-  shippingOptionId: "shp_01j2y8m6jcc9tt24af5pw9x1bc",
+  shipping: { optionId: "shp_01j2y8m6jcc9tt24af5pw9x1bc" },
   signatureAttestation: true,
 };
 
@@ -57,11 +58,12 @@ test("EMR sends exact reviewed patient and order in one idempotent request", asy
         body: reviewedInput,
       })),
     );
-    await workflow.cancelOrder("ord_fixture");
-    expect(writes.at(-1)).toMatchObject({
+    await workflow.cancelOrder("ord_fixture", "durable-cancel-key");
+    expect(writes.at(-1)).toEqual({
       path: "/v1/orders/ord_fixture/cancel",
       method: "POST",
-      key: expect.any(String),
+      key: "durable-cancel-key",
+      body: undefined,
     });
   } finally {
     fetchSpy.mockRestore();
@@ -177,9 +179,13 @@ test("MVP webhook receiver acknowledges unknown event types and still handles kn
     data: {},
   });
   const unknownEvents: [string, string][] = [];
-  const unknownResponse = await receiveWebhook(post(unknownBody), secret, async (eventId, orderId) => {
-    unknownEvents.push([eventId, orderId]);
-  });
+  const unknownResponse = await receiveWebhook(
+    post(unknownBody),
+    secret,
+    async (eventId, orderId) => {
+      unknownEvents.push([eventId, orderId]);
+    },
+  );
   expect(unknownResponse.status).toBe(204);
   expect(unknownEvents).toEqual([]);
 
@@ -204,5 +210,7 @@ test("MVP webhook receiver acknowledges unknown event types and still handles kn
     knownEvents.push([eventId, orderId]);
   });
   expect(knownResponse.status).toBe(204);
-  expect(knownEvents).toEqual([["evt_01j2y8m6jcc9tt24af5pw9x1be", "ord_01j2y8m6jcc9tt24af5pw9x1be"]]);
+  expect(knownEvents).toEqual([
+    ["evt_01j2y8m6jcc9tt24af5pw9x1be", "ord_01j2y8m6jcc9tt24af5pw9x1be"],
+  ]);
 });

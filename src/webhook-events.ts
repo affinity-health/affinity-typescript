@@ -1,6 +1,11 @@
-// Code generated from spec/affinity.openapi.json by scripts/generate-facade.ts. DO NOT EDIT.
+import type * as Affinity from "./generated/api/index.js";
 
-export const affinityWebhookApiVersion = "2026-10-20" as const;
+/** The API version of the events this SDK's types describe. */
+export const affinityWebhookApiVersion = "2026-10-28" as const;
+export const affinityWebhookSignatureHeader = "Affinity-Signature" as const;
+export const affinityWebhookEventIdHeader = "Affinity-Event-Id" as const;
+
+/** Every event type the contract defines. The checks below fail to compile if the two drift. */
 export const affinityWebhookEventTypes = [
   "order.cancelled",
   "order.delivered",
@@ -9,87 +14,28 @@ export const affinityWebhookEventTypes = [
   "order.shipped",
   "order.submitted",
   "order.updated",
+  "prescription.cancelled",
+  "prescription.failed",
   "webhook_endpoint.test",
-] as const;
-export const affinityOrderStatuses = [
-  "submitted",
-  "processing",
-  "shipped",
-  "delivered",
-  "cancelled",
-  "failed",
-] as const;
-export const affinityWebhookSignatureHeader = "Affinity-Signature" as const;
+] as const satisfies readonly Affinity.WebhookEvent["type"][];
+type Missing = Exclude<Affinity.WebhookEvent["type"], (typeof affinityWebhookEventTypes)[number]>;
+const everyTypeListed: [Missing] extends [never] ? true : Missing = true;
+void everyTypeListed;
 
 export type AffinityWebhookEventType = (typeof affinityWebhookEventTypes)[number];
-export type AffinityOrderWebhookEventType = Exclude<
-  AffinityWebhookEventType,
-  "webhook_endpoint.test"
->;
-export type AffinityOrderStatus = (typeof affinityOrderStatuses)[number];
 
-/** Current event shapes generated from the pinned OpenAPI contract. */
-export type AffinityKnownWebhookEvent =
-  | {
-      id: string;
-      type:
-        | "order.cancelled"
-        | "order.delivered"
-        | "order.failed"
-        | "order.processing"
-        | "order.shipped"
-        | "order.submitted"
-        | "order.updated";
-      createdAt: string;
-      data: {
-        order: {
-          cancelRequestedAt: string | null;
-          externalOrderId: string | null;
-          failureReason: string | null;
-          id: string;
-          shipments: Array<{
-            carrier: string | null;
-            trackingNumber: string;
-            trackingUrl: string | null;
-            [key: string]: unknown;
-          }>;
-          status: "submitted" | "processing" | "shipped" | "delivered" | "cancelled" | "failed";
-          trackingUrl: string | null;
-          updatedAt: string;
-          [key: string]: unknown;
-        };
-        [key: string]: unknown;
-      };
-      [key: string]: unknown;
-    }
-  | {
-      id: string;
-      type: "webhook_endpoint.test";
-      createdAt: string;
-      data: unknown;
-      [key: string]: unknown;
-    };
-export type AffinityMvpOrderWebhookEvent = Extract<
-  AffinityKnownWebhookEvent,
-  { data: { order: unknown } }
->;
-export type AffinityMvpOrderWebhookObject = AffinityMvpOrderWebhookEvent["data"]["order"];
-export type AffinityMvpWebhookEndpointTestEvent = Extract<
-  AffinityKnownWebhookEvent,
-  { type: "webhook_endpoint.test" }
->;
-
-/** Future event types and fields need caller validation before use. */
+/** An event type this SDK version does not know yet. Ignore types you do not recognize. */
 export interface AffinityUnknownWebhookEvent {
   id: string;
   type: string;
+  createdAt?: string;
   data: Record<string, unknown>;
   [field: string]: unknown;
 }
-export type AffinityWebhookEvent = AffinityKnownWebhookEvent | AffinityUnknownWebhookEvent;
+export type AffinityWebhookEvent = Affinity.WebhookEvent | AffinityUnknownWebhookEvent;
 
-/** Select current event types and envelopes. This does not verify a signature or validate data. */
-export function isKnownAffinityWebhookEvent(value: unknown): value is AffinityKnownWebhookEvent {
+/** Narrows to an event type this SDK knows. This does not verify a signature or validate data. */
+export function isKnownAffinityWebhookEvent(value: unknown): value is Affinity.WebhookEvent {
   if (typeof value !== "object" || value === null || Array.isArray(value)) return false;
   const event = value as Record<string, unknown>;
   return (

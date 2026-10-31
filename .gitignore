@@ -7,3 +7,5 @@ dist
 .alchemy
 .wrangler
 .tanstack
+.fern-output
+fern/openapi.json

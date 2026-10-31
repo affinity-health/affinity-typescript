@@ -1,3 +1,5 @@
+// Installs the packed tarball into a new project, type-checks the documented examples against its
+// declarations (NodeNext and Bundler, lib checks on), and runs it under Node and Bun.
 import { mkdtemp, readFile, readdir, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join, resolve } from "node:path";
@@ -5,96 +7,38 @@ import { join, resolve } from "node:path";
 const root = resolve(import.meta.dir, "..");
 const consumer = await mkdtemp(join(tmpdir(), "affinity-sdk-consumer-"));
 
-const consumerSource = String.raw`
-import { Affinity, AffinityError, type Patient, type OrderCreateParams, type Medication, type MedicationGetResponse, type MedicationListParams } from "@affinity-health/sdk";
-const api = new Affinity("synthetic-test-key");
-declare const input: OrderCreateParams;
-const patient: Patient = input.patient;
-const params: MedicationListParams = {limit:"20",names:["Test Lidocaine", "Test Cream"]};
-const practiceInput = {name:"Synthetic Test Practice",phone:"+12025550199",address:{line1:"200 Example Ave",city:"Austin",state:"TX",postalCode:"78701"}};
-async function workflow() {
- const account = await api.account.get();
- const page = await api.medications.list(params);
- const medication: Medication = await api.medications.get(page.data[0]!.id);
- const exact: MedicationGetResponse = medication;
- const practice = await api.practices.create(practiceInput,{idempotencyKey:"persisted-practice"});
- await api.practices.list({limit:"20"});
- await api.practices.get(practice.id);
- await api.practices.update(practice.id,{phone:null});
- const order = await api.orders.create(input,{idempotencyKey:"persisted-order"});
- await api.orders.list({practiceId:practice.id,limit:"20",externalOrderId:"emr-42",updatedAfter:"2026-10-22T00:00:00Z"});
- await api.medications.list({practiceId:practice.id,category:"skin"});
- await api.medications.get(medication.id,{practiceId:practice.id,expand:["variants"]});
- await api.orders.get(order.id);
- await api.orders.cancel(order.id);
- const endpoint = await api.webhooks.create({url:"https://example.test/webhook"});
- await api.webhooks.list({limit:"20"});
- await api.webhooks.update(endpoint.id,{url:"https://example.test/new-webhook"});
- await api.webhooks.resendFailed(endpoint.id,{idempotencyKey:"persisted-resend"});
- await api.webhooks.remove(endpoint.id);
- await api.feedback.create({message:"Synthetic feedback"});
- void account; void exact;
-}
-// @ts-expect-error DELETE does not accept idempotency keys.
-void api.webhooks.remove("whe_example", {idempotencyKey:"unsupported"});
-const keyedOptions = {signal:new AbortController().signal,idempotencyKey:"unsupported"};
-// @ts-expect-error Passing a variable must not bypass the contract.
-void api.webhooks.remove("whe_example", keyedOptions);
-// @ts-expect-error Reads do not accept idempotency keys.
-void api.account.get({idempotencyKey:"unsupported"});
-// @ts-expect-error Pagination inherits the list operation's options.
-void api.webhooks.iterate({}, {idempotencyKey:"unsupported"});
-void api.webhooks.remove("whe_example", {signal:new AbortController().signal});
-// Key generation also works through the packed declarations.
-void api.orders.create(input);
-// Other writes generate required headers when request options are omitted.
-void api.practices.create(practiceInput);
-void api.webhooks.resendFailed("whe_example");
-// @ts-expect-error Unknown query parameters fail compilation.
-void api.orders.list({externalOrderID:"emr-42"});
-// @ts-expect-error Draft is not a public order status.
-void api.orders.list({status:"draft"});
-// @ts-expect-error Practice creation requires address and phone.
-void api.practices.create({name:"Synthetic Test Practice"});
-const {practiceId, ...practiceOrder} = input;
-void api.orders.create({...practiceOrder,prescriber:{firstName:"Synthetic",lastName:"Prescriber",npi:"1234567893",phone:"+12025550199",address:practiceInput.address}}, {idempotencyKey:"persisted-practice-order"});
-void api.orders.list({cancelRequested:"true"});
-// @ts-expect-error There is no standalone patient resource.
-void api.patients;
-// @ts-expect-error The catalog resource is retired.
-void api.catalog;
-// @ts-expect-error Practice context belongs in API input, not a scoped client.
-void api.forPractice("prac_example");
-// @ts-expect-error Creation signs and submits in one request.
-void api.orders.sign("ord_example");
-// @ts-expect-error There is no separate submit operation.
-void api.orders.submit("ord_example");
-// @ts-expect-error There is no preview operation.
-void api.orders.preview({});
-void patient; void workflow; void AffinityError;
-`;
-
-const forbiddenSource = String.raw`
-import { CompoundingReason, CatalogItem, LegacyAffinity, AffinityApiClient, Configuration, OrdersApi, CreateOrderRequestToJSON } from "@affinity-health/sdk";
-import { OrdersApi as SubpathOrdersApi } from "@affinity-health/sdk/dist/apis/OrdersApi.js";
-import { CreateOrderRequestToJSON as SubpathSerializer } from "@affinity-health/sdk/dist/models/CreateOrderRequest.js";
-void Configuration;
-void OrdersApi;
-void CreateOrderRequestToJSON;
-void SubpathOrdersApi;
-void SubpathSerializer;
-`;
+// Runs in the consumer under Node and Bun: one request through the packed bundle.
+const runtime = String.raw`import { Affinity, AffinityClient, verifyAffinityWebhook } from "@affinity-health/sdk";
+const seen = [];
+const client = new AffinityClient({ token: "sk_test_synthetic", maxRetries: 0, fetch: async (input, init) => {
+  const request = new Request(input, init);
+  seen.push(request.method + " " + new URL(request.url).pathname + " " + request.headers.get("affinity-version") + " " + request.headers.get("idempotency-key"));
+  if (request.method === "POST") return new Response(JSON.stringify({ type: "about:blank", title: "Invalid", status: 422, code: "invalid_order", detail: "d", instance: "/v1/orders", requestId: "r", issues: [{ code: "required", field: "x", path: ["x"], message: "m" }] }), { status: 422, headers: { "content-type": "application/problem+json" } });
+  return new Response(JSON.stringify({ id: "plat_x", type: "platform", mode: "test" }), { headers: { "content-type": "application/json" } });
+}});
+const account = await client.account.get();
+if (account.mode !== "test") throw new Error("account");
+const error = await client.orders.create({ idempotencyKey: "k1" }).catch((e) => e);
+if (!(error instanceof Affinity.UnprocessableEntityError) || error.body.issues[0].field !== "x") throw new Error("422 " + error);
+if (seen.join("|") !== "GET /v1/account 2026-10-28 null|POST /v1/orders 2026-10-28 k1") throw new Error(seen.join("|"));
+if (typeof verifyAffinityWebhook !== "function") throw new Error("webhooks");`;
 
 try {
   await Bun.$`bun pm pack --destination ${consumer}`.cwd(root).quiet();
   const archive = (await readdir(consumer)).find((file) => file.endsWith(".tgz"));
-  if (!archive) throw new Error("SDK package archive was not created");
+  if (!archive) throw new Error("bun pm pack wrote no archive");
+  const files = (await Bun.$`tar tzf ${join(consumer, archive)}`.text())
+    .split("\n")
+    .filter(Boolean);
+  for (const leaked of files.filter((file) =>
+    /^package\/(src|test|scripts|spec|fern|examples)\//u.test(file),
+  ))
+    throw new Error(`The package includes ${leaked}`);
 
   await writeFile(
     join(consumer, "package.json"),
     JSON.stringify({ name: "affinity-sdk-consumer", private: true, type: "module" }),
   );
-  await writeFile(join(consumer, "consumer.ts"), consumerSource);
   await writeFile(
     join(consumer, "docs-examples.ts"),
     (await readFile(resolve(root, "test/types/docs-examples.ts"), "utf8")).replace(
@@ -102,91 +46,22 @@ try {
       '"@affinity-health/sdk"',
     ),
   );
-  for (const [name, module, moduleResolution] of [
-    ["nodenext", "NodeNext", "NodeNext"],
-    ["bundler", "ESNext", "Bundler"],
-  ] as const) {
-    await writeFile(
-      join(consumer, `tsconfig.${name}.json`),
-      JSON.stringify({
-        compilerOptions: {
-          module,
-          moduleResolution,
-          noEmit: true,
-          skipLibCheck: false,
-          strict: true,
-          target: "ES2023",
-        },
-        include: ["consumer.ts", "docs-examples.ts"],
-      }),
-    );
-  }
-  await writeFile(join(consumer, "forbidden.ts"), forbiddenSource);
-  await Bun.$`bun add ${join(consumer, archive)}`.cwd(consumer).quiet();
+  await Bun.$`bun add ${join(consumer, archive)} @types/node@20`.cwd(consumer).quiet();
 
   const tsgo = resolve(root, "node_modules/.bin/tsgo");
-  for (const name of ["nodenext", "bundler"]) {
-    await Bun.$`${tsgo} --noEmit --pretty false -p ${join(consumer, `tsconfig.${name}.json`)}`
-      .cwd(consumer)
-      .quiet();
-  }
-
-  for (const name of ["nodenext", "bundler"]) {
-    const result = Bun.spawnSync(
-      [
-        tsgo,
-        "--noEmit",
-        "--pretty",
-        "false",
-        "--module",
-        name === "nodenext" ? "NodeNext" : "ESNext",
-        "--moduleResolution",
-        name === "nodenext" ? "NodeNext" : "Bundler",
-        "--strict",
-        "--target",
-        "ES2023",
-        join(consumer, "forbidden.ts"),
-      ],
-      { cwd: consumer, stderr: "pipe", stdout: "pipe" },
+  for (const [module, moduleResolution] of [
+    ["NodeNext", "NodeNext"],
+    ["ESNext", "Bundler"],
+  ])
+    await Bun.$`${tsgo} --noEmit --pretty false --strict --skipLibCheck false --target ES2022 --lib ES2022,DOM --types node --module ${module} --moduleResolution ${moduleResolution} docs-examples.ts`.cwd(
+      consumer,
     );
-    const decode = (value: Uint8Array | string) =>
-      typeof value === "string" ? value : new TextDecoder().decode(value);
-    const diagnostics = `${decode(result.stdout)}\n${decode(result.stderr)}`;
-    if (result.exitCode === 0)
-      throw new Error(`forbidden generated exports compiled under ${name}`);
-    for (const expected of [
-      "CompoundingReason",
-      "CatalogItem",
-      "LegacyAffinity",
-      "AffinityApiClient",
-      "Configuration",
-      "OrdersApi",
-      "CreateOrderRequestToJSON",
-      "dist/apis/OrdersApi",
-      "dist/models/CreateOrderRequest",
-    ]) {
-      if (!diagnostics.includes(expected))
-        throw new Error(`missing ${expected} diagnostic under ${name}: ${diagnostics}`);
-    }
-  }
 
-  const approvedRuntime = String.raw`import { Affinity } from "@affinity-health/sdk";
-const paths = [];
-const api = new Affinity("synthetic-test-key", { fetch: async (input, init) => {
-  const path = new URL(String(input)).pathname;
-  paths.push(path);
-  const headers = new Headers(init?.headers);
-  if (headers.get("Affinity-Version") !== "2026-10-20") throw new Error("Missing current API version");
-  if (path.endsWith("/cancel") && !headers.get("Idempotency-Key")) throw new Error("Missing generated idempotency key");
-  return Response.json({ id: "med_example", name: "Synthetic medication" });
-}});
-const medication = await api.medications.get("med_example");
-if (medication.id !== "med_example" || paths.length !== 1 || paths[0] !== "/v1/medications/med_example") throw new Error("Packed medication lookup failed");
-await api.orders.cancel("ord_example");
-for (const name of ["patients", "catalog", "forPractice"]) if (name in api) throw new Error("Retired resource exported: " + name);`;
-
-  await Bun.$`node --input-type=module -e ${approvedRuntime}`.cwd(consumer).quiet();
-  await Bun.$`bun -e ${approvedRuntime}`.cwd(consumer).quiet();
+  await Bun.$`node --input-type=module -e ${runtime}`.cwd(consumer);
+  await Bun.$`bun -e ${runtime}`.cwd(consumer);
+  console.log(
+    `Packed ${archive}: ${files.length} files; types check under NodeNext and Bundler; runs under Node and Bun.`,
+  );
 } finally {
   await rm(consumer, { force: true, recursive: true });
 }

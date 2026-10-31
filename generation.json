@@ -1,11 +1,12 @@
 {
-  "contractVersion": "2026-10-20",
-  "contractSha256": "61ba8cfd869e4b35ac3513105f2c6ba11e5bf096c5779231c6678a7ac6c5b93d",
-  "language": "typescript",
-  "generator": "scripts/generate-facade.ts",
+  "contractVersion": "2026-10-28",
+  "contractSha256": "e3359c65a903eb2527ce1183dec9218a9f737d3935899259d5cebc3973c5b328",
+  "fernVersion": "5.190.0",
+  "generator": "fernapi/fern-typescript-sdk",
+  "generatorVersion": "3.108.6",
   "operations": {
-    "account.account": "GET /v1/account",
-    "createFeedback": "POST /v1/feedback",
+    "account.get": "GET /v1/account",
+    "feedback.create": "POST /v1/feedback",
     "medications.list": "GET /v1/medications",
     "medications.get": "GET /v1/medications/{medicationId}",
     "orders.create": "POST /v1/orders",
@@ -21,24 +22,5 @@
     "webhooks.update": "PATCH /v1/webhook-endpoints/{webhookEndpointId}",
     "webhooks.remove": "DELETE /v1/webhook-endpoints/{webhookEndpointId}",
     "webhooks.resendFailed": "POST /v1/webhook-endpoints/{webhookEndpointId}/resend-failed"
-  },
-  "sdkMethods": {
-    "account.account": "account.get",
-    "createFeedback": "feedback.create",
-    "medications.list": "medications.list",
-    "medications.get": "medications.get",
-    "orders.create": "orders.create",
-    "orders.list": "orders.list",
-    "orders.get": "orders.get",
-    "orders.cancel": "orders.cancel",
-    "practices.create": "practices.create",
-    "practices.list": "practices.list",
-    "practices.get": "practices.get",
-    "practices.update": "practices.update",
-    "webhooks.list": "webhooks.list",
-    "webhooks.create": "webhooks.create",
-    "webhooks.update": "webhooks.update",
-    "webhooks.remove": "webhooks.remove",
-    "webhooks.resendFailed": "webhooks.resendFailed"
   }
 }

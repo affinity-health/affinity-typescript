@@ -1,12 +1,21 @@
 {
   "compilerOptions": {
-    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "lib": [
+      "ES2022",
+      "DOM",
+      "DOM.Iterable"
+    ],
     "module": "Preserve",
     "moduleResolution": "Bundler",
     "noEmit": true,
     "strict": true,
     "target": "ES2022",
-    "types": ["bun"]
+    "types": [
+      "bun"
+    ],
+    "skipLibCheck": true
   },
-  "include": ["scripts/*.ts"]
+  "include": [
+    "scripts/*.ts"
+  ]
 }

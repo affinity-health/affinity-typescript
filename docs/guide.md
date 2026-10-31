@@ -1,161 +1,201 @@
 # SDK guide
 
-Use this SDK in trusted server runtimes. Keep keys out of browser and mobile code, logs, and committed files. All identities below are synthetic; run examples with a Test key only.
+Use this SDK only in trusted server runtimes. Keep keys out of browser and mobile code, logs and committed files. All identities below are synthetic. Run the examples with a Test key only.
 
-Install the MVP beta with `bun add @affinity-health/sdk@next` or `npm install @affinity-health/sdk@next`. The `latest` tag stays on `1.16.0`, whose API version the API refuses.
+Install the beta with `bun add @affinity-health/sdk@next` or `npm install @affinity-health/sdk@next`. Every method, its parameters and its errors are in the [API reference](reference.md).
 
 ## Create a client
 
 ```typescript
-import { Affinity, AffinityError, type OrderCreateParams } from "@affinity-health/sdk";
+import { Affinity, AffinityClient, AffinityError } from "@affinity-health/sdk";
 
-const api = new Affinity(process.env.AFFINITY_API_KEY!, { maxNetworkRetries: 2 });
-const account = await api.account.get();
+const affinity = new AffinityClient({ token: process.env.AFFINITY_API_KEY! });
+const account = await affinity.account.get();
 if (account.mode !== "test") throw new Error("This example requires a Test key");
 ```
 
-The SDK calls `https://api.affinityrx.com` by default and sends `Affinity-Version: 2026-10-20`. The key determines organization and mode. NPI identifies a clinician; it does not authenticate them or grant signing authority. Your integration must authenticate the clinician and record approval before sending a signed order.
+The client calls `https://api.affinityrx.com` and sends `Affinity-Version: 2026-10-28` on every request. Set `baseUrl` to call another API. The key sets the organization and the Test or Live mode.
+
+Client options:
+
+| Option             | Default                      | Use                                                                                                                                                                |
+| ------------------ | ---------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `token`            | —                            | The API key.                                                                                                                                                       |
+| `baseUrl`          | `https://api.affinityrx.com` | Another API, such as a staging environment.                                                                                                                        |
+| `maxRetries`       | `2`                          | Retries for 408, 429 and 5xx responses, after `Retry-After` when the API sends it. A network error or timeout is not retried: retry it yourself with the same key. |
+| `timeoutInSeconds` | `60`                         | The time limit of one attempt.                                                                                                                                     |
+| `fetch`            | `globalThis.fetch`           | A different fetch, for example to record requests in tests.                                                                                                        |
+
+Each method also takes request options as its last argument: `abortSignal`, `timeoutInSeconds`, `maxRetries` and `headers`.
 
 ## Find medications
 
 ```typescript
-const page = await api.medications.list({ limit: "20", query: "lidocaine" });
-const medication = page.data[0] ? await api.medications.get(page.data[0].id) : undefined;
-if (!medication) throw new Error("No Lidocaine medication found in Test mode");
-const shippingOptionId = medication.shippingOptions[0]?.id;
-if (!shippingOptionId) throw new Error("Medication has no shipping options");
+const page = await affinity.medications.list({ limit: 20 });
+const medication = await affinity.medications.get({ medicationId: page.data[0]!.id });
 ```
 
-Use `query` for text search, `name` for one exact case-insensitive medication name, `names` for several exact names, and `pharmacyId` to filter by pharmacy. This example searches for Lidocaine in the Test catalog. Medication responses include `quantities`, `requirements`, `compoundingReasons`, `restrictedStates`, and `shippingOptions`. Review the selected medication's current requirements before creating the order. `compoundingReason` is an optional string on a prescription, with no SDK enum helper. Choose medication and shipping IDs from current responses, rather than inventing them.
+A medication tells you what an order for it needs:
+
+- `requirements`: optional prescription fields that this pharmacy requires, for example `compoundingReason`. Send each one.
+- `compoundingReasons`: when the list is not empty, send one of these values exactly.
+- `quantities`: when the list is not empty, the quantity must be one of these values.
+- `restrictedStates`: the medication does not ship to these states.
+- `shippingOptions`: choose the order's `shipping.optionId` from this list.
+
+Read these values for each medication. Do not hard-code them: they change when the catalog changes. A platform reads the prices of one of its practices with `practiceId`, and the other strengths and forms with `expand: "variants"`.
 
 ## Manage practices
 
 ```typescript
-const practice = await api.practices.create(
-  {
-    name: "Synthetic SDK Practice",
-    phone: "+12025550199",
-    address: {
-      line1: "200 Example Ave",
-      line2: null,
-      city: "Austin",
-      state: "TX",
-      postalCode: "78701",
-    },
-  },
-  { idempotencyKey: "persisted-test-practice-operation" },
-);
-const saved = await api.practices.get(practice.id);
-const practices = await api.practices.list({ limit: "20", query: "Synthetic" });
+const practice = await affinity.practices.create({
+  idempotencyKey: "saved-practice-creation-key",
+  name: "Synthetic SDK Practice",
+  phone: "+12025550199",
+  address: { line1: "200 Example Ave", city: "Austin", state: "TX", postalCode: "78701" },
+});
+const saved = await affinity.practices.get({ practiceId: practice.id });
+await affinity.practices.update({
+  practiceId: practice.id,
+  idempotencyKey: "saved-update-key",
+  phone: null,
+});
 ```
 
-Creation requires `name`, `address`, and `phone` in the body. `liveEnabled` is optional. Authorization still limits the practices the key can access. A practice response has `liveEnabled`; the account response carries `mode`.
+An update sends only the fields you give. `null` clears an optional field.
 
 ## Send a reviewed order
 
-Patient details go in `patient` on the order. There is no public patient create, get, or update method. The `Patient` type alias describes this order input. An existing patient ID or external ID may be supplied within that input, alongside the required demographics and allergy information.
+The patient's details go in `patient` on the order. There is no separate patient resource. One request creates the order, signs it and sends it to the pharmacy.
 
 ```typescript
-const input: OrderCreateParams = {
+const order = await affinity.orders.create({
+  idempotencyKey: review.orderKey, // saved with the reviewed order before this request
   practiceId: practice.id,
   externalOrderId: "synthetic-emr-order-001",
   patient: {
+    externalId: "synthetic-emr-patient-001",
     firstName: "Synthetic",
     lastName: "Patient",
     dateOfBirth: "1990-01-01",
-    gender: "unknown",
+    sex: "female",
     email: "patient@example.test",
     phone: "+12025550199",
     address: { line1: "100 Test St", city: "Austin", state: "TX", postalCode: "78701" },
-    // Empty only after an explicit review confirms no known allergies.
-    allergies: [],
+    allergies: [], // empty only after a review confirms no known allergies
   },
-  prescriber: { firstName: "Synthetic", lastName: "Prescriber", npi: "1234567893" },
+  prescriber: { npi: "1234567893", firstName: "Synthetic", lastName: "Prescriber" },
   prescriptions: [
     {
       medicationId: medication.id,
-      directions: "Use as directed in this synthetic Test scenario.",
-      quantity: 1,
+      quantity: medication.quantities[0] ?? 1,
       refills: 0,
+      directions: "Use as directed.",
     },
   ],
-  shippingOptionId,
+  shipping: { optionId: medication.shippingOptions[0]!.id },
   signatureAttestation: true,
-};
-// Load the exact clinician-approved input and key from your durable review record.
-const order = await api.orders.create(input, { idempotencyKey: "persisted-test-order-operation" });
-const current = await api.orders.get(order.id);
-```
-
-The order uses the practice, medication, and shipping option from the steps above. Platform keys must supply `practiceId`; practice keys may omit it to use their own practice. Optional `prescriber.phone` and `prescriber.address` override the practice contact details. Order responses include the practice snapshot and the resolved prescriber contact details. The integration supplies the prescriber's NPI and name when identifying the signer. The schema allows `prescriber` to be omitted; follow the account's documented identity requirements. The request contains 1–20 complete prescriptions for one patient and one practice. Creating an order signs and submits it in one request. There are no public preview, draft, sign, or submit methods.
-
-Store the body and idempotency key before the first write. Retry an uncertain result with the same body and key. Do not use a new key to bypass an error or repeat a clinical action. Every keyed write generates a random key when omitted, including order creation, cancellation, practice creation and updates, webhook endpoint creation and updates, failed-webhook resend, and feedback. Automatic retries reuse the key; a separate call to another write generates a new one when omitted. Pass your persisted `idempotencyKey` to reuse a key across calls or process restarts. Keep caller keys unique per operation, 1–255 printable ASCII characters.
-
-## List and cancel orders
-
-```typescript
-const orders = await api.orders.list({
-  practiceId: input.practiceId,
-  status: "submitted",
-  limit: "20",
 });
-const cancellation = await api.orders.cancel(order.id);
 ```
 
-Filter orders with `cancelRequested: "true"` or `"false"` to select pending cancellation requests. Cancellation has no request body. The SDK supplies its required idempotency header automatically. To retry across separate calls, pass a persisted key as `api.orders.cancel(order.id, { idempotencyKey: "persisted-test-cancellation" })`. A cancellation request may be pending; inspect the returned `status` and `cancelRequestedAt`, then retrieve the current order as needed. Submission acknowledgement does not mean a pharmacy has accepted or dispensed the prescription.
+A platform key must send `practiceId`. A practice key can omit it. NPI identifies the clinician; it does not authenticate the clinician or give signing authority. Your integration must authenticate the clinician and record the approval before it sends `signatureAttestation: true`.
 
-## Paginate
+### Idempotency keys
+
+Every write takes an `idempotencyKey`, and the types require it. The key makes a retry safe: the same key and body return the first result and do not create a second order.
+
+- Save the key with the reviewed order before the first request.
+- After a timeout, an error or a restart, send the same body with the same key.
+- The client's own retries use the same key.
+- Use a new key only for a new action. A new key never fixes an error.
+
+A key is 1 to 255 printable ASCII characters without spaces.
+
+## Read, list and cancel orders
 
 ```typescript
-let page = await api.medications.list({ limit: "20", query: "lidocaine" });
-while (page.hasMore && page.nextCursor) {
-  page = await api.medications.list({
-    limit: "20",
-    query: "lidocaine",
-    startingAfter: page.nextCursor,
-  });
-}
+const current = await affinity.orders.get({ orderId: order.id });
+const shipped = await affinity.orders.list({ practiceId: practice.id, status: "shipped" });
+const cancelled = await affinity.orders.cancel({
+  orderId: order.id,
+  idempotencyKey: "saved-cancel-key",
+});
 ```
 
-List responses contain `data`, `hasMore`, and nullable `nextCursor`, along with `object` and `url`. Pass `nextCursor` unchanged as `startingAfter`; it is opaque and may differ from the final record ID. Keep filters, sort, organization, and mode unchanged between pages. Restart pagination after changing them. Limits are strings in the generated request types, matching the OpenAPI query schemas. Orders, practices, and webhooks also support `endingBefore`; send only one cursor parameter.
+A cancel can wait for the pharmacy: `cancelRequestedAt` is set until the pharmacy confirms. To find an order by your own ID, use `orders.list({ externalOrderId, practiceId })`. To find changes you missed, use `orders.list({ updatedAfter })` with the same timestamp on every page.
+
+## Read every page
+
+A list call returns a page. Iterate it to read every record; the client requests each next page with the previous page's cursor.
+
+```typescript
+for await (const order of await affinity.orders.list({ practiceId: practice.id })) {
+  console.log(order.id, order.status);
+}
+
+const page = await affinity.medications.list({ limit: 25 });
+page.data; // this page only
+page.hasNextPage();
+await page.getNextPage();
+```
+
+Keep the filters the same on every page.
 
 ## Handle errors
 
+Each error status has its own class, and every class extends `AffinityError`.
+
 ```typescript
 try {
-  await api.orders.get("ord_01j2y8m6jcc9tt24af5pw9x1bc");
+  await affinity.orders.create(input);
 } catch (error) {
-  if (!(error instanceof AffinityError)) throw error;
-  console.error({
-    status: error.statusCode,
-    code: error.code,
-    requestId: error.requestId,
-    retryable: error.retryable,
-  });
+  if (error instanceof Affinity.UnprocessableEntityError) {
+    // An ordering rule refused the order. `field` names the input to correct.
+    for (const issue of error.body.issues ?? []) console.error(issue.field, issue.message);
+  } else if (error instanceof AffinityError) {
+    console.error(error.statusCode, error.requestId);
+  }
+  throw error;
 }
 ```
 
-Log error metadata without credentials, patient data, or clinical request bodies. Retryability is a transport hint. Validation and authorization failures require a corrected request or authorization; ambiguous writes need the original key and input.
+| Status   | Class                                                                                                                                                                                                                                                                        |
+| -------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 400      | `Affinity.BadRequestError`: the request does not match the schema.                                                                                                                                                                                                           |
+| 401      | `Affinity.UnauthorizedError`                                                                                                                                                                                                                                                 |
+| 403      | `Affinity.ForbiddenError`                                                                                                                                                                                                                                                    |
+| 404      | `Affinity.NotFoundError`                                                                                                                                                                                                                                                     |
+| 409      | `Affinity.ConflictError`: `request_in_progress` means the first request with this key has not finished; wait, then send the same body with the same key. `idempotency_key_reused` means the key was used with a different body. Never switch to a new key to get past a 409. |
+| 422      | `Affinity.UnprocessableEntityError`: an ordering rule refused the request.                                                                                                                                                                                                   |
+| 429      | `Affinity.TooManyRequestsError`                                                                                                                                                                                                                                              |
+| 500, 503 | `Affinity.InternalServerError`, `Affinity.ServiceUnavailableError`                                                                                                                                                                                                           |
 
-## Webhooks and feedback
+`error.body` is the problem document with `code`, `detail`, `requestId` and, for refused input, `issues`. Do not log credentials, patient data or request bodies.
+
+## Webhooks
 
 ```typescript
-const endpoints = await api.webhooks.list({ limit: "20" });
-const endpoint = await api.webhooks.create({
+const endpoint = await affinity.webhooks.create({
+  idempotencyKey: "saved-endpoint-key",
   url: "https://integration.example.test/affinity-webhook",
 });
-await api.webhooks.update(endpoint.id, {
-  url: "https://integration.example.test/webhooks/affinity",
-});
-await api.webhooks.resendFailed(endpoint.id, { idempotencyKey: "persisted-test-resend-operation" });
-await api.webhooks.remove(endpoint.id);
-await api.feedback.create({ message: "Synthetic Test integration feedback." });
 ```
 
-Use a reachable HTTPS receiver in your own Test integration. Keep the endpoint signing secret on the server. Verify the exact raw body and `affinity-signature` header with `verifyAffinityWebhook` before processing an event. Verification checks the signature and timestamp, then returns the parsed JSON without schema validation. Ignore unknown event types and fields; validate the fields your handler uses. `AffinityKnownWebhookEvent` describes current contract events, and `AffinityWebhookEvent` includes an unknown-event fallback. Use `isKnownAffinityWebhookEvent(event)` before a `switch (event.type)` to narrow to the current discriminated union. The guard selects current envelopes; it does not verify a signature or validate every data field. Configure each receiver with the signing secret for its organization and Test/Live endpoint. Current MVP events have no organization or mode field. Durably deduplicate by event ID and acknowledge only after storing the work. Retrieve the current order when processing queued events so an out-of-order delivery cannot regress your local state. See [the EMR helper](../examples/emr-order.ts).
+Keep the endpoint's signing secret on the server. Verify the exact raw body and the `Affinity-Signature` header before you use an event:
 
-## Recover an order and select practice prices
+```typescript
+import { isKnownAffinityWebhookEvent, verifyAffinityWebhook } from "@affinity-health/sdk";
 
-After an uncertain order response, retry with the saved body and key. To look up an existing order by your own ID, use `api.orders.list({ externalOrderId, practiceId })`. For missed-webhook recovery, keep the same `updatedAfter` timestamp while paging.
+const event = await verifyAffinityWebhook({
+  body: await request.text(),
+  signature: request.headers.get("affinity-signature"),
+  secret: process.env.AFFINITY_WEBHOOK_SECRET!,
+});
+if (isKnownAffinityWebhookEvent(event) && event.type.startsWith("order."))
+  await saveOnce(event.id, event.data.order.id);
+return new Response(null, { status: 204 });
+```
 
-Platform callers can request practice prices with `api.medications.list({ practiceId })` and `api.medications.get(medicationId, { practiceId, expand: ["variants"] })`. Unknown query parameters fail locally instead of being silently discarded. Query `limit` remains a string, matching the staging OpenAPI contract.
+Verification checks the signature and the timestamp (300 seconds by default), then returns the parsed event. It throws `AffinityWebhookVerificationError` with a `code` when the request is not authentic. Ignore event types that you do not recognize, and answer 2xx. Save each event once by its `id`, and acknowledge only after you saved it. Read the current order when you process a queued event, so an event that arrives late cannot move your state back.
+
+See [the EMR example](../examples/emr-order.ts) for a complete order and webhook flow.

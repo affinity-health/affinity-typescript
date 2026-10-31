@@ -32,7 +32,7 @@ bun run dev
 
 Development listens on `http://127.0.0.1:5191`. Keep it on loopback or behind an authenticated gateway. Set a server-side base URL if you need staging. No credentials are needed for the local SSR and missing-key browser smoke checks.
 
-Load practices or search medications. Both flows verify `/v1/account` has `mode: "test"` and `type: "platform"` before the requested read. Pagination passes the opaque `nextCursor` without deriving it from a record ID. Medication pages keep the search query that produced the cursor.
+Load practices or medications. Both flows verify `/v1/account` has `mode: "test"` and `type: "platform"` before the requested read. Pagination passes the opaque `nextCursor` without deriving it from a record ID.
 
 The former patient, preview, draft, signing, and Live directory workflows have been removed. Patient data is supplied through an order; see [the server-side EMR helper](../emr-order.ts) for a single reviewed `orders.create` call. It creates, signs, and submits together and uses a persisted idempotency key so the application can safely retry across separate calls. Examples must use synthetic Test data.
 

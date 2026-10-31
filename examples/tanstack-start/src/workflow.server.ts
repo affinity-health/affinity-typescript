@@ -1,10 +1,10 @@
-import { Affinity, AffinityError } from "@affinity-health/sdk";
+import { AffinityClient, AffinityError } from "@affinity-health/sdk";
 
 export async function client() {
   const key = process.env.AFFINITY_EXAMPLE_API_KEY;
   if (!key) throw new Error("Set AFFINITY_EXAMPLE_API_KEY on the server.");
-  const affinity = new Affinity(key, {
-    maxNetworkRetries: 2,
+  const affinity = new AffinityClient({
+    token: key,
     ...(process.env.AFFINITY_EXAMPLE_API_URL
       ? { baseUrl: process.env.AFFINITY_EXAMPLE_API_URL }
       : {}),
@@ -33,12 +33,13 @@ export async function safely<T>(action: () => Promise<T>) {
   }
 }
 
+// Each read returns one page as the API sent it, so it can cross to the browser.
 export async function practices(startingAfter?: string) {
   const { affinity } = await client();
-  return affinity.practices.list({ limit: "25", startingAfter });
+  return (await affinity.practices.list({ limit: 25, startingAfter })).response;
 }
 
-export async function medications(query: string, startingAfter?: string) {
+export async function medications(startingAfter?: string) {
   const { affinity } = await client();
-  return affinity.medications.list({ query, limit: "25", startingAfter });
+  return (await affinity.medications.list({ limit: 25, startingAfter })).response;
 }

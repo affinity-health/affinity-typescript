@@ -6,8 +6,11 @@ This repository contains the official TypeScript SDK for the Affinity public API
 
 - `spec/affinity.openapi.json` is copied from the matching committed
   `openapi/api/<date>.json` artifact in the private Affinity monorepo.
-- Never hand-edit generated API classes, models, runtime files, or resource facade files. Change
-  `scripts/generate-facade.ts` or the private API contract and run `bun run generate`.
+- Fern generates `src/generated` from the spec (`fern/generators.yml` pins the versions;
+  `scripts/generate.ts` adds the method names and pagination). Never hand-edit `src/generated`.
+  Change the API contract upstream, copy the new snapshot, and run `bun run generate` (needs Docker).
+- `src/webhook-events.ts` is written by hand. Its event-type list must match the contract; the
+  build fails when it drifts.
 - Keep public examples synthetic and test-mode only.
 
 ## Package boundary
@@ -32,4 +35,5 @@ Use Bun for all package work:
 bun run generate
 bun run check
 bun run pack:dry-run
+AFFINITY_API_KEY=sk_test_... bun run smoke   # Test keys only; calls a real API
 ```
