@@ -21,21 +21,26 @@
   ],
   "type": "module",
   "sideEffects": false,
-  "main": "./dist/index.js",
+  "main": "./dist/index.cjs",
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "exports": {
     ".": {
-      "types": "./dist/index.d.ts",
-      "import": "./dist/index.js",
-      "default": "./dist/index.js"
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      },
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
+      }
     }
   },
   "publishConfig": {
     "access": "public"
   },
   "scripts": {
-    "build": "bun run clean && tsgo -p tsconfig.json && bun scripts/fix-declaration-imports.ts && bun build src/index.ts --outfile=dist/index.js --target=node --format=esm",
+    "build": "bun run clean && tsgo -p tsconfig.json && bun scripts/fix-declaration-imports.ts && bun build src/index.ts --outfile=dist/index.js --target=node --format=esm && bun build src/index.ts --outfile=dist/index.cjs --target=node --format=cjs && printf 'export * from \"./index.js\";\\n' > dist/index.d.cts",
     "check": "bun run build && bun run scripts:check && bun run generate:check && bun run package:check && bun run package:consumer-check && bun run test:types && bun test ./test && bun run example:check",
     "clean": "rm -rf dist",
     "example:dev": "bun run --cwd examples/tanstack-start dev",

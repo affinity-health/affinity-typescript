@@ -1,6 +1,6 @@
 # Affinity TypeScript SDK
 
-Typed server-side client for the Affinity API, for Node.js 20+, Bun, AWS Lambda and other Fetch runtimes. It targets API version `2026-10-28` and sends it in `Affinity-Version` on every request.
+Typed server-side client for the Affinity API, for Node.js 20+, Bun, AWS Lambda and other Fetch runtimes. It ships an ES module and a CommonJS build, so `import` and `require()` both work. It targets API version `2026-10-28` and sends it in `Affinity-Version` on every request.
 
 ## Install
 

@@ -57,10 +57,26 @@ try {
       consumer,
     );
 
+  // The same checks through require(), for CommonJS callers (dist/index.cjs).
+  const required = `(async () => {\n${runtime.replace(
+    'import { Affinity, AffinityClient, verifyAffinityWebhook } from "@affinity-health/sdk";',
+    'const { Affinity, AffinityClient, verifyAffinityWebhook } = require("@affinity-health/sdk");',
+  )}\n})().catch((error) => { console.error(error); process.exit(1); });`;
+  if (!required.includes("require("))
+    throw new Error("The CommonJS check did not replace the import");
+  await writeFile(
+    join(consumer, "commonjs.cts"),
+    'import sdk = require("@affinity-health/sdk");\nconst client: sdk.AffinityClient = new sdk.AffinityClient({ token: "sk_test_x" });\nexport const order = (input: sdk.Affinity.OrderInput): Promise<sdk.Affinity.Order> => client.orders.create(input);\n',
+  );
+  await Bun.$`${tsgo} --noEmit --pretty false --strict --skipLibCheck false --target ES2022 --lib ES2022,DOM --types node --module NodeNext --moduleResolution NodeNext commonjs.cts`.cwd(
+    consumer,
+  );
+
   await Bun.$`node --input-type=module -e ${runtime}`.cwd(consumer);
+  await Bun.$`node --input-type=commonjs -e ${required}`.cwd(consumer);
   await Bun.$`bun -e ${runtime}`.cwd(consumer);
   console.log(
-    `Packed ${archive}: ${files.length} files; types check under NodeNext and Bundler; runs under Node and Bun.`,
+    `Packed ${archive}: ${files.length} files; types check under NodeNext, Bundler and CommonJS; runs under Node (import and require) and Bun.`,
   );
 } finally {
   await rm(consumer, { force: true, recursive: true });
