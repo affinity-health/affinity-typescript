@@ -443,3 +443,33 @@ test("list requests never send endingBefore, so every page reads forward", async
     ["c1", false],
   ]);
 });
+
+describe("a success response that is not JSON", () => {
+  // A proxy or gateway can answer 200 with an HTML page or nothing. Every Affinity operation
+  // answers JSON, so the SDK must raise instead of resolving with a value that is not the record.
+  const page = () => new Response("<html>maintenance</html>", { headers: { "content-type": "text/html" } });
+  test("an HTML page raises AffinityError", async () => {
+    const { client } = recorded([page()], { maxRetries: 0 });
+    const error = await rejection(client.account.get());
+    expect(error).toBeInstanceOf(AffinityError);
+    expect(String((error as Error).message)).toContain("200 (text/html) with a body that is not JSON");
+  });
+  test("an empty JSON body raises AffinityError", async () => {
+    const { client } = recorded([new Response("", { headers: { "content-type": "application/json" } })], { maxRetries: 0 });
+    expect(await rejection(client.orders.get({ orderId: "ord_synthetic" }))).toBeInstanceOf(AffinityError);
+  });
+  test("a write raises too, and is sent once", async () => {
+    const { client, calls } = recorded([page()]);
+    const error = await rejection(client.orders.cancel({ orderId: "ord_synthetic", idempotencyKey: "k1" }));
+    expect(error).toBeInstanceOf(AffinityError);
+    expect(calls).toHaveLength(1);
+  });
+  test("client.fetch raises too", async () => {
+    const { client } = recorded([page()], { maxRetries: 0 });
+    expect(await rejection(client.fetch("/v1/account"))).toBeInstanceOf(Error);
+  });
+  test("a JSON success response passes through unchanged", async () => {
+    const { client } = recorded([json({ id: "plat_x", type: "platform", mode: "test" })]);
+    expect((await client.account.get()).id).toBe("plat_x");
+  });
+});

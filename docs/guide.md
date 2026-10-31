@@ -144,7 +144,7 @@ Keep the filters the same on every page. Call `getNextPage()` only while `hasNex
 
 ## Handle errors
 
-Each status the API documents has its own class, and every class extends `AffinityError`. Other statuses, such as a 502 or 504 from a proxy, raise `AffinityError` itself; a timeout raises `AffinityTimeoutError`.
+Each status the API documents has its own class, and every class extends `AffinityError`. Other statuses, such as a 502 or 504 from a proxy, raise `AffinityError` itself; a timeout raises `AffinityTimeoutError`. A success status whose body is empty or not JSON, such as a proxy's HTML page, also raises `AffinityError`: every Affinity response is JSON, so the SDK never returns such a body as a record.
 
 ```typescript
 try {

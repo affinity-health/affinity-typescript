@@ -7,6 +7,14 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 
 ## [Unreleased]
 
+## [2.0.0-beta.10] - 2026-11-01
+
+### Fixed
+
+- A success response with an empty body or a body that is not JSON, such as a proxy's HTML page,
+  raises `AffinityError`. Before, the call resolved with a value that was not the record. This
+  includes `client.fetch()`.
+
 ## [2.0.0-beta.9] - 2026-11-01
 
 ### Fixed
