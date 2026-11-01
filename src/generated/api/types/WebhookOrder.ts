@@ -46,6 +46,7 @@ export namespace WebhookOrder {
         export namespace Item {
             /** The current fulfillment status. */
             export const Status = {
+                AwaitingApproval: "awaiting_approval",
                 Submitted: "submitted",
                 Processing: "processing",
                 Shipped: "shipped",
@@ -59,6 +60,7 @@ export namespace WebhookOrder {
 
     /** The current fulfillment status. */
     export const Status = {
+        AwaitingApproval: "awaiting_approval",
         Submitted: "submitted",
         Processing: "processing",
         Shipped: "shipped",

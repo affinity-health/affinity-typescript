@@ -67,7 +67,7 @@ export class FeedbackClient {
             this._options?.headers,
             mergeOnlyDefinedHeaders({
                 "Idempotency-Key": idempotencyKey,
-                "Affinity-Version": requestOptions?.affinityVersion ?? "2026-10-28",
+                "Affinity-Version": requestOptions?.affinityVersion ?? "2026-11-01",
             }),
             requestOptions?.headers,
         );

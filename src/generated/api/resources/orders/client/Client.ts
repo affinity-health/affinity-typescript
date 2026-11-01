@@ -24,7 +24,7 @@ export class OrdersClient {
     }
 
     /**
-     * List accessible orders in the current mode, newest first. `externalOrderId` matches exactly, including case. `updatedAfter` accepts an ISO 8601 timestamp with a timezone and returns strictly later updates. Keep filters fixed while paging. `sort` takes `patient` (lowercase firstName + space + lastName A to Z, then order ID) or `created` (oldest first); a leading `-` reverses. Creation time or patient name and the order ID determine cursor order, even when updatedAt changes.
+     * List accessible orders in the current mode, newest first. `externalOrderId` matches exactly, including case. `updatedAfter` accepts an ISO 8601 timestamp with a timezone and returns strictly later updates. Keep filters fixed while paging. `sort` takes `patient` (lowercase firstName + space + lastName A to Z, then order ID) or `created` (oldest first); a `_desc` suffix reverses. Creation time or patient name and the order ID determine cursor order, even when updatedAt changes.
      *
      * @param {Affinity.ListOrdersRequest} request
      * @param {OrdersClient.RequestOptions} requestOptions - Request-specific configuration.
@@ -83,7 +83,7 @@ export class OrdersClient {
                 const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
                     _authRequest.headers,
                     this._options?.headers,
-                    mergeOnlyDefinedHeaders({ "Affinity-Version": requestOptions?.affinityVersion ?? "2026-10-28" }),
+                    mergeOnlyDefinedHeaders({ "Affinity-Version": requestOptions?.affinityVersion ?? "2026-11-01" }),
                     requestOptions?.headers,
                 );
                 const _response = await core.fetcher({
@@ -253,7 +253,7 @@ export class OrdersClient {
             this._options?.headers,
             mergeOnlyDefinedHeaders({
                 "Idempotency-Key": idempotencyKey,
-                "Affinity-Version": requestOptions?.affinityVersion ?? "2026-10-28",
+                "Affinity-Version": requestOptions?.affinityVersion ?? "2026-11-01",
             }),
             requestOptions?.headers,
         );
@@ -381,7 +381,7 @@ export class OrdersClient {
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
             this._options?.headers,
-            mergeOnlyDefinedHeaders({ "Affinity-Version": requestOptions?.affinityVersion ?? "2026-10-28" }),
+            mergeOnlyDefinedHeaders({ "Affinity-Version": requestOptions?.affinityVersion ?? "2026-11-01" }),
             requestOptions?.headers,
         );
         const _response = await core.fetcher({
@@ -495,7 +495,7 @@ export class OrdersClient {
             this._options?.headers,
             mergeOnlyDefinedHeaders({
                 "Idempotency-Key": idempotencyKey,
-                "Affinity-Version": requestOptions?.affinityVersion ?? "2026-10-28",
+                "Affinity-Version": requestOptions?.affinityVersion ?? "2026-11-01",
             }),
             requestOptions?.headers,
         );

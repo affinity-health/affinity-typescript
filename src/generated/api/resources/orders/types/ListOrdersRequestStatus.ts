@@ -2,6 +2,7 @@
 
 /** Return only orders with this status. Omit to include all statuses. */
 export const ListOrdersRequestStatus = {
+    AwaitingApproval: "awaiting_approval",
     Submitted: "submitted",
     Processing: "processing",
     Shipped: "shipped",

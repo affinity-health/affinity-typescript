@@ -95,6 +95,7 @@ export namespace Order {
 
     /** The current fulfillment status. */
     export const Status = {
+        AwaitingApproval: "awaiting_approval",
         Submitted: "submitted",
         Processing: "processing",
         Shipped: "shipped",

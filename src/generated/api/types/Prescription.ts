@@ -31,6 +31,7 @@ export interface Prescription {
 export namespace Prescription {
     /** The current fulfillment status. */
     export const Status = {
+        AwaitingApproval: "awaiting_approval",
         Submitted: "submitted",
         Processing: "processing",
         Shipped: "shipped",
@@ -44,6 +45,7 @@ export namespace Prescription {
      * The medication details saved when the order was signed.
      */
     export interface Medication {
+        /** What the pharmacy dispenses for one price, or null when the complete fill is unknown. */
         fill: Affinity.Fill | null;
         /** The dosage form, or null when it is unknown. */
         form: string | null;

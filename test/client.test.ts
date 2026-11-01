@@ -91,7 +91,7 @@ describe("requests", () => {
     const [call] = calls;
     expect(call!.url.href).toBe(`${AffinityEnvironment.Default}/v1/account`);
     expect(call!.headers.get("authorization")).toBe("Bearer sk_test_synthetic");
-    expect(call!.headers.get("affinity-version")).toBe("2026-10-28");
+    expect(call!.headers.get("affinity-version")).toBe("2026-11-01");
   });
 
   test("baseUrl replaces the production URL", async () => {
@@ -159,7 +159,7 @@ describe("requests", () => {
       updatedAfter: "2026-10-21T11:59:59.999999999Z",
       status: "shipped",
       cancelRequested: "true",
-      sort: "-created",
+      sort: "created_desc",
     });
     await client.medications.get({
       medicationId: id("med"),
@@ -173,7 +173,7 @@ describe("requests", () => {
       updatedAfter: "2026-10-21T11:59:59.999999999Z",
       status: "shipped",
       cancelRequested: "true",
-      sort: "-created",
+      sort: "created_desc",
     });
     expect(calls[1]!.url.searchParams.get("expand")).toBe("variants");
     expect(calls[1]!.url.searchParams.get("practiceId")).toBe(id("prac"));
@@ -361,8 +361,8 @@ test("the client has a method for every operation in the contract", async () => 
 });
 
 test("every enum value in the contract is in the generated code", async () => {
-  // Fern drops a value whose name collides with another (`created` and `-created`); generate.ts
-  // names those, and this catches any value lost the same way.
+  // Fern drops a value whose generated name collides with another's; this catches any value lost
+  // that way.
   const spec = await Bun.file(new URL("../spec/affinity.openapi.json", import.meta.url)).json();
   const values = new Set<string>();
   const walk = (node: unknown): void => {

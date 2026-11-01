@@ -9,12 +9,12 @@ import type * as Affinity from "../../../../index.js";
 export interface ListPracticesRequest {
     /** Maximum records per page, from 1 to 100. Defaults to 25. */
     limit?: number;
-    /** Page forward using the previous response's nextCursor. Keep the same filters, sort, organization and mode. Use only one cursor parameter. */
+    /** Page forward using the previous response's nextCursor. Keep the same filters, sort, organization and mode. */
     startingAfter?: string;
     /** Match the external practice ID exactly, including case. Keep this filter unchanged while paging. */
     externalId?: string;
     /** Match practice names containing this text, ignoring case. Restart pagination after changing query. */
     query?: string;
-    /** name and location sort A to Z; mode sorts Test before Live; created sorts oldest first. A leading - reverses the order. Defaults to -created. Missing locations sort last. Restart pagination after changing sort. */
+    /** name and location sort A to Z; mode sorts Test before Live; created sorts oldest first. A _desc suffix reverses the order. Defaults to created_desc. Missing locations sort last. Restart pagination after changing sort. */
     sort?: Affinity.ListPracticesRequestSort;
 }

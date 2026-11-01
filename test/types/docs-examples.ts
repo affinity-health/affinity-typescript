@@ -24,8 +24,14 @@ export async function examples() {
   for await (const each of await client.orders.list({
     practiceId: "prac_01j2y8m6jcc9tt24af5pw9x1bc",
   })) {
-    const status: "submitted" | "processing" | "shipped" | "delivered" | "cancelled" | "failed" =
-      each.status;
+    const status:
+      | "awaiting_approval"
+      | "submitted"
+      | "processing"
+      | "shipped"
+      | "delivered"
+      | "cancelled"
+      | "failed" = each.status;
     void status;
   }
   const medication: Affinity.Medication = await client.medications.get({
@@ -58,8 +64,8 @@ export function mistakes() {
   // @ts-expect-error The SDK pages forward only; endingBefore is not a list parameter.
   void client.orders.list({ endingBefore: "cursor" });
   // Descending sorts are typed.
-  void client.orders.list({ sort: "-created" });
-  void client.practices.list({ sort: "-name" });
+  void client.orders.list({ sort: "created_desc" });
+  void client.practices.list({ sort: "name_desc" });
   // @ts-expect-error A practice needs an address and a phone.
   void client.practices.create({ idempotencyKey: "k", name: "Synthetic Test Practice" });
   void client.webhooks.remove({

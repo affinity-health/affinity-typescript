@@ -20,7 +20,7 @@ const account = await client.account.get();
 if (account.mode !== "test") throw new Error("account");
 const error = await client.orders.create({ idempotencyKey: "k1" }).catch((e) => e);
 if (!(error instanceof Affinity.UnprocessableEntityError) || error.body.issues[0].field !== "x") throw new Error("422 " + error);
-if (seen.join("|") !== "GET /v1/account 2026-10-28 null|POST /v1/orders 2026-10-28 k1") throw new Error(seen.join("|"));
+if (seen.join("|") !== "GET /v1/account 2026-11-01 null|POST /v1/orders 2026-11-01 k1") throw new Error(seen.join("|"));
 if (typeof verifyAffinityWebhook !== "function") throw new Error("webhooks");`;
 
 try {

@@ -61,7 +61,7 @@ export class WebhooksClient {
                 const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
                     _authRequest.headers,
                     this._options?.headers,
-                    mergeOnlyDefinedHeaders({ "Affinity-Version": requestOptions?.affinityVersion ?? "2026-10-28" }),
+                    mergeOnlyDefinedHeaders({ "Affinity-Version": requestOptions?.affinityVersion ?? "2026-11-01" }),
                     requestOptions?.headers,
                 );
                 const _response = await core.fetcher({
@@ -204,7 +204,7 @@ export class WebhooksClient {
             this._options?.headers,
             mergeOnlyDefinedHeaders({
                 "Idempotency-Key": idempotencyKey,
-                "Affinity-Version": requestOptions?.affinityVersion ?? "2026-10-28",
+                "Affinity-Version": requestOptions?.affinityVersion ?? "2026-11-01",
             }),
             requestOptions?.headers,
         );
@@ -332,7 +332,7 @@ export class WebhooksClient {
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
             this._options?.headers,
-            mergeOnlyDefinedHeaders({ "Affinity-Version": requestOptions?.affinityVersion ?? "2026-10-28" }),
+            mergeOnlyDefinedHeaders({ "Affinity-Version": requestOptions?.affinityVersion ?? "2026-11-01" }),
             requestOptions?.headers,
         );
         const _response = await core.fetcher({
@@ -453,7 +453,7 @@ export class WebhooksClient {
             this._options?.headers,
             mergeOnlyDefinedHeaders({
                 "Idempotency-Key": idempotencyKey,
-                "Affinity-Version": requestOptions?.affinityVersion ?? "2026-10-28",
+                "Affinity-Version": requestOptions?.affinityVersion ?? "2026-11-01",
             }),
             requestOptions?.headers,
         );
@@ -591,7 +591,7 @@ export class WebhooksClient {
             this._options?.headers,
             mergeOnlyDefinedHeaders({
                 "Idempotency-Key": idempotencyKey,
-                "Affinity-Version": requestOptions?.affinityVersion ?? "2026-10-28",
+                "Affinity-Version": requestOptions?.affinityVersion ?? "2026-11-01",
             }),
             requestOptions?.headers,
         );

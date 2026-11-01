@@ -63,7 +63,7 @@ export class MedicationsClient {
                 const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
                     _authRequest.headers,
                     this._options?.headers,
-                    mergeOnlyDefinedHeaders({ "Affinity-Version": requestOptions?.affinityVersion ?? "2026-10-28" }),
+                    mergeOnlyDefinedHeaders({ "Affinity-Version": requestOptions?.affinityVersion ?? "2026-11-01" }),
                     requestOptions?.headers,
                 );
                 const _response = await core.fetcher({
@@ -205,7 +205,7 @@ export class MedicationsClient {
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
             this._options?.headers,
-            mergeOnlyDefinedHeaders({ "Affinity-Version": requestOptions?.affinityVersion ?? "2026-10-28" }),
+            mergeOnlyDefinedHeaders({ "Affinity-Version": requestOptions?.affinityVersion ?? "2026-11-01" }),
             requestOptions?.headers,
         );
         const _response = await core.fetcher({

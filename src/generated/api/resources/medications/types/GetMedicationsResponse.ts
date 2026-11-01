@@ -11,6 +11,7 @@ export interface GetMedicationsResponse {
     compoundingReasons: string[];
     /** The catalog's default directions, or null when none are supplied. */
     defaultDirections: string | null;
+    /** What the pharmacy dispenses for one price, or null when the complete fill is unknown. */
     fill: Affinity.Fill | null;
     /** The dosage form, or null when it is unknown. */
     form: string | null;

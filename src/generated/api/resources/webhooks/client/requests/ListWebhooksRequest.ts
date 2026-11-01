@@ -7,6 +7,6 @@
 export interface ListWebhooksRequest {
     /** Maximum records per page, from 1 to 100. Defaults to 25. */
     limit?: number;
-    /** Page forward using the previous response's nextCursor. Keep the same filters, sort, organization and mode. Use only one cursor parameter. */
+    /** Page forward using the previous response's nextCursor. Keep the same filters, sort, organization and mode. */
     startingAfter?: string;
 }

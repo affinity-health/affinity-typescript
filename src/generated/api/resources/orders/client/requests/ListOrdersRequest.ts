@@ -12,7 +12,7 @@ import type * as Affinity from "../../../../index.js";
 export interface ListOrdersRequest {
     /** Maximum records per page, from 1 to 100. Defaults to 25. */
     limit?: number;
-    /** Page forward using the previous response's nextCursor. Keep the same filters, sort, organization and mode. Use only one cursor parameter. */
+    /** Page forward using the previous response's nextCursor. Keep the same filters, sort, organization and mode. */
     startingAfter?: string;
     /** Match the external order ID exactly, including case. Combine with practiceId when your platform reuses IDs across practices. */
     externalOrderId?: string;
@@ -30,6 +30,6 @@ export interface ListOrdersRequest {
     cancelRequested?: Affinity.ListOrdersRequestCancelRequested;
     /** true returns only orders whose status is shipped and that shipped in the last 60 days; delivered orders are excluded. false leaves those orders out. Omit to include both. */
     recentlyShipped?: Affinity.ListOrdersRequestRecentlyShipped;
-    /** patient sorts the lowercase text firstName + space + lastName A to Z, then order ID; created sorts oldest first. A leading - reverses the order. Defaults to -created. Restart pagination after changing sort. */
+    /** patient sorts the lowercase text firstName + space + lastName A to Z, then order ID; created sorts oldest first. A _desc suffix reverses the order. Defaults to created_desc. Restart pagination after changing sort. */
     sort?: Affinity.ListOrdersRequestSort;
 }

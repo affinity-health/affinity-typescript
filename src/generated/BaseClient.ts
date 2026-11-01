@@ -16,7 +16,7 @@ export type BaseClientOptions = {
     /** Specify a custom URL to connect the client to. */
     baseUrl?: core.Supplier<string>;
     /** Override the Affinity-Version header */
-    affinityVersion?: "2026-10-28";
+    affinityVersion?: "2026-11-01";
     /** Additional headers to include in requests. */
     headers?: Record<string, string | core.Supplier<string | null | undefined> | null | undefined>;
     /** The default maximum time to wait for a response in seconds. */
@@ -41,7 +41,7 @@ export interface BaseRequestOptions {
     /** A hook to abort the request. */
     abortSignal?: AbortSignal;
     /** Override the Affinity-Version header */
-    affinityVersion?: "2026-10-28";
+    affinityVersion?: "2026-11-01";
     /** Additional query string parameters to include in the request. */
     queryParams?: Record<string, unknown>;
     /** A dictionary containing additional parameters to spread into the request's body. */
@@ -65,7 +65,7 @@ export type NormalizedClientOptionsWithAuth<T extends BaseClientOptions = BaseCl
 export function normalizeClientOptions<T extends BaseClientOptions = BaseClientOptions>(
     options: T,
 ): NormalizedClientOptions<T> {
-    const headers = mergeHeaders({ "Affinity-Version": options?.affinityVersion ?? "2026-10-28" }, options?.headers);
+    const headers = mergeHeaders({ "Affinity-Version": options?.affinityVersion ?? "2026-11-01" }, options?.headers);
 
     return {
         ...options,

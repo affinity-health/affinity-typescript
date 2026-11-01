@@ -2,7 +2,7 @@
   "openapi": "3.1.0",
   "info": {
     "title": "Affinity API",
-    "version": "2026-10-28",
+    "version": "2026-11-01",
     "contact": {
       "email": "support@affinityrx.com",
       "name": "Affinity API Support"
@@ -23,9 +23,9 @@
             "name": "Affinity-Version",
             "required": true,
             "schema": {
-              "default": "2026-10-28",
+              "default": "2026-11-01",
               "enum": [
-                "2026-10-28"
+                "2026-11-01"
               ],
               "type": "string"
             }
@@ -451,9 +451,9 @@
             "name": "Affinity-Version",
             "required": false,
             "schema": {
-              "default": "2026-10-28",
+              "default": "2026-11-01",
               "enum": [
-                "2026-10-28"
+                "2026-11-01"
               ],
               "type": "string"
             }
@@ -954,11 +954,11 @@
                 "properties": {
                   "message": {
                     "type": "string",
-                    "pattern": "^(?:[\\t\\n\\r]|[^\\p{Cc}\\p{Cf}\\p{Cs}])*$",
+                    "pattern": "^[^\\x00-\\x08\\x0b\\x0c\\x0e-\\x1f\\x7f-\\x9f]*$",
                     "maxLength": 5000,
                     "allOf": [
                       {
-                        "pattern": "[^\\p{White_Space}\\p{Cc}\\p{Cf}\\p{Cs}\\p{Default_Ignorable_Code_Point}\\p{M}\\u2800]",
+                        "pattern": "\\S",
                         "description": "Text with at least one visible character."
                       }
                     ]
@@ -1044,18 +1044,12 @@
             "name": "startingAfter",
             "in": "query",
             "schema": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "null"
-                }
-              ],
-              "description": "Page forward using the previous response's nextCursor. Keep the same filters, sort, organization and mode. Use only one cursor parameter."
+              "type": "string",
+              "maxLength": 2048,
+              "description": "Page forward using the previous response's nextCursor. Keep the same filters, sort, organization and mode."
             },
             "required": false,
-            "description": "Page forward using the previous response's nextCursor. Keep the same filters, sort, organization and mode. Use only one cursor parameter."
+            "description": "Page forward using the previous response's nextCursor. Keep the same filters, sort, organization and mode."
           },
           {
             "description": "The dated API version this request is written against.",
@@ -1063,9 +1057,9 @@
             "name": "Affinity-Version",
             "required": true,
             "schema": {
-              "default": "2026-10-28",
+              "default": "2026-11-01",
               "enum": [
-                "2026-10-28"
+                "2026-11-01"
               ],
               "type": "string"
             }
@@ -1531,9 +1525,9 @@
             "name": "Affinity-Version",
             "required": true,
             "schema": {
-              "default": "2026-10-28",
+              "default": "2026-11-01",
               "enum": [
-                "2026-10-28"
+                "2026-11-01"
               ],
               "type": "string"
             }
@@ -1592,7 +1586,15 @@
                       "description": "The catalog's default directions, or null when none are supplied."
                     },
                     "fill": {
-                      "$ref": "#/components/schemas/Fill"
+                      "anyOf": [
+                        {
+                          "$ref": "#/components/schemas/Fill"
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ],
+                      "description": "What the pharmacy dispenses for one price, or null when the complete fill is unknown."
                     },
                     "form": {
                       "anyOf": [
@@ -2123,9 +2125,9 @@
             "name": "Affinity-Version",
             "required": true,
             "schema": {
-              "default": "2026-10-28",
+              "default": "2026-11-01",
               "enum": [
-                "2026-10-28"
+                "2026-11-01"
               ],
               "type": "string"
             }
@@ -2718,17 +2720,6 @@
         "operationId": "orders.list",
         "parameters": [
           {
-            "name": "endingBefore",
-            "in": "query",
-            "schema": {
-              "type": "string",
-              "maxLength": 2048,
-              "description": "Page backward before this opaque cursor. Keep the same filters, sort, organization and mode. Send either startingAfter or endingBefore."
-            },
-            "required": false,
-            "description": "Page backward before this opaque cursor. Keep the same filters, sort, organization and mode. Send either startingAfter or endingBefore."
-          },
-          {
             "name": "limit",
             "in": "query",
             "schema": {
@@ -2746,10 +2737,10 @@
             "schema": {
               "type": "string",
               "maxLength": 2048,
-              "description": "Page forward using the previous response's nextCursor. Keep the same filters, sort, organization and mode. Use only one cursor parameter."
+              "description": "Page forward using the previous response's nextCursor. Keep the same filters, sort, organization and mode."
             },
             "required": false,
-            "description": "Page forward using the previous response's nextCursor. Keep the same filters, sort, organization and mode. Use only one cursor parameter."
+            "description": "Page forward using the previous response's nextCursor. Keep the same filters, sort, organization and mode."
           },
           {
             "name": "externalOrderId",
@@ -2819,6 +2810,7 @@
             "schema": {
               "type": "string",
               "enum": [
+                "awaiting_approval",
                 "submitted",
                 "processing",
                 "shipped",
@@ -2866,14 +2858,14 @@
               "type": "string",
               "enum": [
                 "patient",
-                "-patient",
+                "patient_desc",
                 "created",
-                "-created"
+                "created_desc"
               ],
-              "description": "patient sorts the lowercase text firstName + space + lastName A to Z, then order ID; created sorts oldest first. A leading - reverses the order. Defaults to -created. Restart pagination after changing sort."
+              "description": "patient sorts the lowercase text firstName + space + lastName A to Z, then order ID; created sorts oldest first. A _desc suffix reverses the order. Defaults to created_desc. Restart pagination after changing sort."
             },
             "required": false,
-            "description": "patient sorts the lowercase text firstName + space + lastName A to Z, then order ID; created sorts oldest first. A leading - reverses the order. Defaults to -created. Restart pagination after changing sort."
+            "description": "patient sorts the lowercase text firstName + space + lastName A to Z, then order ID; created sorts oldest first. A _desc suffix reverses the order. Defaults to created_desc. Restart pagination after changing sort."
           },
           {
             "description": "The dated API version this request is written against.",
@@ -2881,9 +2873,9 @@
             "name": "Affinity-Version",
             "required": true,
             "schema": {
-              "default": "2026-10-28",
+              "default": "2026-11-01",
               "enum": [
-                "2026-10-28"
+                "2026-11-01"
               ],
               "type": "string"
             }
@@ -3280,9 +3272,10 @@
             }
           }
         },
-        "description": "List accessible orders in the current mode, newest first. `externalOrderId` matches exactly, including case. `updatedAfter` accepts an ISO 8601 timestamp with a timezone and returns strictly later updates. Keep filters fixed while paging. `sort` takes `patient` (lowercase firstName + space + lastName A to Z, then order ID) or `created` (oldest first); a leading `-` reverses. Creation time or patient name and the order ID determine cursor order, even when updatedAt changes.",
+        "description": "List accessible orders in the current mode, newest first. `externalOrderId` matches exactly, including case. `updatedAfter` accepts an ISO 8601 timestamp with a timezone and returns strictly later updates. Keep filters fixed while paging. `sort` takes `patient` (lowercase firstName + space + lastName A to Z, then order ID) or `created` (oldest first); a `_desc` suffix reverses. Creation time or patient name and the order ID determine cursor order, even when updatedAt changes.",
         "summary": "List orders",
         "x-pier-pagination": {
+          "backward": false,
           "cursorField": "id",
           "kind": "cursor"
         },
@@ -3314,9 +3307,9 @@
             "name": "Affinity-Version",
             "required": true,
             "schema": {
-              "default": "2026-10-28",
+              "default": "2026-11-01",
               "enum": [
-                "2026-10-28"
+                "2026-11-01"
               ],
               "type": "string"
             }
@@ -3754,9 +3747,9 @@
             "name": "Affinity-Version",
             "required": true,
             "schema": {
-              "default": "2026-10-28",
+              "default": "2026-11-01",
               "enum": [
-                "2026-10-28"
+                "2026-11-01"
               ],
               "type": "string"
             }
@@ -4321,9 +4314,9 @@
             "name": "Affinity-Version",
             "required": true,
             "schema": {
-              "default": "2026-10-28",
+              "default": "2026-11-01",
               "enum": [
-                "2026-10-28"
+                "2026-11-01"
               ],
               "type": "string"
             }
@@ -4904,11 +4897,11 @@
                     "anyOf": [
                       {
                         "type": "string",
-                        "pattern": "^(?:\\t|[^\\p{Cc}\\p{Cf}\\p{Cs}\\p{Zl}\\p{Zp}])*$",
+                        "pattern": "^[^\\x00-\\x08\\x0a-\\x1f\\x7f-\\x9f]*$",
                         "maxLength": 128,
                         "allOf": [
                           {
-                            "pattern": "[^\\p{White_Space}\\p{Cc}\\p{Cf}\\p{Cs}\\p{Default_Ignorable_Code_Point}\\p{M}\\u2800]",
+                            "pattern": "\\S",
                             "description": "Text with at least one visible character."
                           }
                         ]
@@ -4927,11 +4920,11 @@
                   },
                   "name": {
                     "type": "string",
-                    "pattern": "^(?:\\t|[^\\p{Cc}\\p{Cf}\\p{Cs}\\p{Zl}\\p{Zp}])*$",
+                    "pattern": "^[^\\x00-\\x08\\x0a-\\x1f\\x7f-\\x9f]*$",
                     "maxLength": 120,
                     "allOf": [
                       {
-                        "pattern": "[^\\p{White_Space}\\p{Cc}\\p{Cf}\\p{Cs}\\p{Default_Ignorable_Code_Point}\\p{M}\\u2800]",
+                        "pattern": "\\S",
                         "description": "Text with at least one visible character."
                       }
                     ]
@@ -4965,17 +4958,6 @@
         "operationId": "practices.list",
         "parameters": [
           {
-            "name": "endingBefore",
-            "in": "query",
-            "schema": {
-              "type": "string",
-              "maxLength": 2048,
-              "description": "Page backward before this opaque cursor. Keep the same filters, sort, organization and mode. Send either startingAfter or endingBefore."
-            },
-            "required": false,
-            "description": "Page backward before this opaque cursor. Keep the same filters, sort, organization and mode. Send either startingAfter or endingBefore."
-          },
-          {
             "name": "limit",
             "in": "query",
             "schema": {
@@ -4993,10 +4975,10 @@
             "schema": {
               "type": "string",
               "maxLength": 2048,
-              "description": "Page forward using the previous response's nextCursor. Keep the same filters, sort, organization and mode. Use only one cursor parameter."
+              "description": "Page forward using the previous response's nextCursor. Keep the same filters, sort, organization and mode."
             },
             "required": false,
-            "description": "Page forward using the previous response's nextCursor. Keep the same filters, sort, organization and mode. Use only one cursor parameter."
+            "description": "Page forward using the previous response's nextCursor. Keep the same filters, sort, organization and mode."
           },
           {
             "name": "externalId",
@@ -5028,18 +5010,18 @@
               "type": "string",
               "enum": [
                 "name",
-                "-name",
+                "name_desc",
                 "location",
-                "-location",
+                "location_desc",
                 "mode",
-                "-mode",
+                "mode_desc",
                 "created",
-                "-created"
+                "created_desc"
               ],
-              "description": "name and location sort A to Z; mode sorts Test before Live; created sorts oldest first. A leading - reverses the order. Defaults to -created. Missing locations sort last. Restart pagination after changing sort."
+              "description": "name and location sort A to Z; mode sorts Test before Live; created sorts oldest first. A _desc suffix reverses the order. Defaults to created_desc. Missing locations sort last. Restart pagination after changing sort."
             },
             "required": false,
-            "description": "name and location sort A to Z; mode sorts Test before Live; created sorts oldest first. A leading - reverses the order. Defaults to -created. Missing locations sort last. Restart pagination after changing sort."
+            "description": "name and location sort A to Z; mode sorts Test before Live; created sorts oldest first. A _desc suffix reverses the order. Defaults to created_desc. Missing locations sort last. Restart pagination after changing sort."
           },
           {
             "description": "The dated API version this request is written against.",
@@ -5047,9 +5029,9 @@
             "name": "Affinity-Version",
             "required": true,
             "schema": {
-              "default": "2026-10-28",
+              "default": "2026-11-01",
               "enum": [
-                "2026-10-28"
+                "2026-11-01"
               ],
               "type": "string"
             }
@@ -5446,9 +5428,10 @@
             }
           }
         },
-        "description": "List the platform's practices, newest first. Available to platforms only. `sort` takes `name` or `location` (A to Z, practices without a location last), `mode` (Test before Live) or `created` (oldest first); a leading `-` reverses.",
+        "description": "List the platform's practices, newest first. Available to platforms only. `sort` takes `name` or `location` (A to Z, practices without a location last), `mode` (Test before Live) or `created` (oldest first); a `_desc` suffix reverses.",
         "summary": "List practices",
         "x-pier-pagination": {
+          "backward": false,
           "cursorField": "id",
           "kind": "cursor"
         },
@@ -5480,9 +5463,9 @@
             "name": "Affinity-Version",
             "required": true,
             "schema": {
-              "default": "2026-10-28",
+              "default": "2026-11-01",
               "enum": [
-                "2026-10-28"
+                "2026-11-01"
               ],
               "type": "string"
             }
@@ -5918,9 +5901,9 @@
             "name": "Affinity-Version",
             "required": true,
             "schema": {
-              "default": "2026-10-28",
+              "default": "2026-11-01",
               "enum": [
-                "2026-10-28"
+                "2026-11-01"
               ],
               "type": "string"
             }
@@ -6501,11 +6484,11 @@
                     "anyOf": [
                       {
                         "type": "string",
-                        "pattern": "^(?:\\t|[^\\p{Cc}\\p{Cf}\\p{Cs}\\p{Zl}\\p{Zp}])*$",
+                        "pattern": "^[^\\x00-\\x08\\x0a-\\x1f\\x7f-\\x9f]*$",
                         "maxLength": 128,
                         "allOf": [
                           {
-                            "pattern": "[^\\p{White_Space}\\p{Cc}\\p{Cf}\\p{Cs}\\p{Default_Ignorable_Code_Point}\\p{M}\\u2800]",
+                            "pattern": "\\S",
                             "description": "Text with at least one visible character."
                           }
                         ]
@@ -6523,11 +6506,11 @@
                         "properties": {
                           "line1": {
                             "type": "string",
-                            "pattern": "^(?:\\t|[^\\p{Cc}\\p{Cf}\\p{Cs}\\p{Zl}\\p{Zp}])*$",
+                            "pattern": "^[^\\x00-\\x08\\x0a-\\x1f\\x7f-\\x9f]*$",
                             "maxLength": 200,
                             "allOf": [
                               {
-                                "pattern": "[^\\p{White_Space}\\p{Cc}\\p{Cf}\\p{Cs}\\p{Default_Ignorable_Code_Point}\\p{M}\\u2800]",
+                                "pattern": "\\S",
                                 "description": "The street address."
                               }
                             ]
@@ -6536,7 +6519,7 @@
                             "anyOf": [
                               {
                                 "type": "string",
-                                "pattern": "^(?:\\t|[^\\p{Cc}\\p{Cf}\\p{Cs}\\p{Zl}\\p{Zp}])*$",
+                                "pattern": "^[^\\x00-\\x08\\x0a-\\x1f\\x7f-\\x9f]*$",
                                 "maxLength": 200
                               },
                               {
@@ -6547,11 +6530,11 @@
                           },
                           "city": {
                             "type": "string",
-                            "pattern": "^(?:\\t|[^\\p{Cc}\\p{Cf}\\p{Cs}\\p{Zl}\\p{Zp}])*$",
+                            "pattern": "^[^\\x00-\\x08\\x0a-\\x1f\\x7f-\\x9f]*$",
                             "maxLength": 100,
                             "allOf": [
                               {
-                                "pattern": "[^\\p{White_Space}\\p{Cc}\\p{Cf}\\p{Cs}\\p{Default_Ignorable_Code_Point}\\p{M}\\u2800]",
+                                "pattern": "\\S",
                                 "description": "The city name."
                               }
                             ]
@@ -6579,11 +6562,11 @@
                   },
                   "name": {
                     "type": "string",
-                    "pattern": "^(?:\\t|[^\\p{Cc}\\p{Cf}\\p{Cs}\\p{Zl}\\p{Zp}])*$",
+                    "pattern": "^[^\\x00-\\x08\\x0a-\\x1f\\x7f-\\x9f]*$",
                     "maxLength": 120,
                     "allOf": [
                       {
-                        "pattern": "[^\\p{White_Space}\\p{Cc}\\p{Cf}\\p{Cs}\\p{Default_Ignorable_Code_Point}\\p{M}\\u2800]",
+                        "pattern": "\\S",
                         "description": "Text with at least one visible character."
                       }
                     ]
@@ -6621,17 +6604,6 @@
         "operationId": "webhooks.list",
         "parameters": [
           {
-            "name": "endingBefore",
-            "in": "query",
-            "schema": {
-              "type": "string",
-              "maxLength": 2048,
-              "description": "Page backward before this opaque cursor. Keep the same filters, sort, organization and mode. Send either startingAfter or endingBefore."
-            },
-            "required": false,
-            "description": "Page backward before this opaque cursor. Keep the same filters, sort, organization and mode. Send either startingAfter or endingBefore."
-          },
-          {
             "name": "limit",
             "in": "query",
             "schema": {
@@ -6649,10 +6621,10 @@
             "schema": {
               "type": "string",
               "maxLength": 2048,
-              "description": "Page forward using the previous response's nextCursor. Keep the same filters, sort, organization and mode. Use only one cursor parameter."
+              "description": "Page forward using the previous response's nextCursor. Keep the same filters, sort, organization and mode."
             },
             "required": false,
-            "description": "Page forward using the previous response's nextCursor. Keep the same filters, sort, organization and mode. Use only one cursor parameter."
+            "description": "Page forward using the previous response's nextCursor. Keep the same filters, sort, organization and mode."
           },
           {
             "description": "The dated API version this request is written against.",
@@ -6660,9 +6632,9 @@
             "name": "Affinity-Version",
             "required": true,
             "schema": {
-              "default": "2026-10-28",
+              "default": "2026-11-01",
               "enum": [
-                "2026-10-28"
+                "2026-11-01"
               ],
               "type": "string"
             }
@@ -7062,6 +7034,7 @@
         "description": "List webhook endpoints owned by the API key's organization in its current mode. Signing secrets are not returned.",
         "summary": "List webhook endpoints of the current mode",
         "x-pier-pagination": {
+          "backward": false,
           "cursorField": "id",
           "kind": "cursor"
         },
@@ -7090,9 +7063,9 @@
             "name": "Affinity-Version",
             "required": true,
             "schema": {
-              "default": "2026-10-28",
+              "default": "2026-11-01",
               "enum": [
-                "2026-10-28"
+                "2026-11-01"
               ],
               "type": "string"
             }
@@ -7773,9 +7746,9 @@
             "name": "Affinity-Version",
             "required": true,
             "schema": {
-              "default": "2026-10-28",
+              "default": "2026-11-01",
               "enum": [
-                "2026-10-28"
+                "2026-11-01"
               ],
               "type": "string"
             }
@@ -8397,9 +8370,9 @@
             "name": "Affinity-Version",
             "required": true,
             "schema": {
-              "default": "2026-10-28",
+              "default": "2026-11-01",
               "enum": [
-                "2026-10-28"
+                "2026-11-01"
               ],
               "type": "string"
             }
@@ -8421,9 +8394,7 @@
                   "properties": {
                     "deleted": {
                       "type": "boolean",
-                      "enum": [
-                        true
-                      ]
+                      "description": "Always true."
                     },
                     "id": {
                       "type": "string",
@@ -8899,9 +8870,9 @@
             "name": "Affinity-Version",
             "required": true,
             "schema": {
-              "default": "2026-10-28",
+              "default": "2026-11-01",
               "enum": [
-                "2026-10-28"
+                "2026-11-01"
               ],
               "type": "string"
             }
@@ -9424,6 +9395,27 @@
   },
   "components": {
     "schemas": {
+      "ShippingDestinationAddressType": {
+        "type": "string",
+        "enum": [
+          "address"
+        ],
+        "description": "Use patient, practice or address to select the shipping destination."
+      },
+      "ShippingDestinationPracticeType": {
+        "type": "string",
+        "enum": [
+          "practice"
+        ],
+        "description": "Use patient, practice or address to select the shipping destination."
+      },
+      "ShippingDestinationPatientType": {
+        "type": "string",
+        "enum": [
+          "patient"
+        ],
+        "description": "Use patient, practice or address to select the shipping destination."
+      },
       "OrderInput": {
         "type": "object",
         "properties": {
@@ -9431,11 +9423,11 @@
             "anyOf": [
               {
                 "type": "string",
-                "pattern": "^(?:\\t|[^\\p{Cc}\\p{Cf}\\p{Cs}\\p{Zl}\\p{Zp}])*$",
+                "pattern": "^[^\\x00-\\x08\\x0a-\\x1f\\x7f-\\x9f]*$",
                 "maxLength": 128,
                 "allOf": [
                   {
-                    "pattern": "[^\\p{White_Space}\\p{Cc}\\p{Cf}\\p{Cs}\\p{Default_Ignorable_Code_Point}\\p{M}\\u2800]",
+                    "pattern": "\\S",
                     "description": "Text with at least one visible character."
                   }
                 ]
@@ -9492,9 +9484,6 @@
           },
           "signatureAttestation": {
             "type": "boolean",
-            "enum": [
-              true
-            ],
             "description": "Must be true to attest that the named prescriber approved and signed these prescriptions."
           }
         },
@@ -9510,72 +9499,50 @@
         "description": "Defaults to the patient's address. State restrictions and pharmacy coverage use the destination's state.",
         "oneOf": [
           {
-            "type": "object",
-            "properties": {
-              "type": {
-                "type": "string",
-                "enum": [
-                  "patient"
-                ],
-                "description": "Use patient, practice or address to select the shipping destination."
-              }
-            },
-            "required": [
-              "type"
-            ],
-            "additionalProperties": false
+            "$ref": "#/components/schemas/ShippingDestinationPatientInput"
           },
           {
-            "type": "object",
-            "properties": {
-              "type": {
-                "type": "string",
-                "enum": [
-                  "practice"
-                ],
-                "description": "Use patient, practice or address to select the shipping destination."
-              }
-            },
-            "required": [
-              "type"
-            ],
-            "additionalProperties": false
+            "$ref": "#/components/schemas/ShippingDestinationPracticeInput"
           },
           {
-            "type": "object",
-            "properties": {
-              "type": {
-                "type": "string",
-                "enum": [
-                  "address"
-                ],
-                "description": "Use patient, practice or address to select the shipping destination."
-              },
-              "address": {
-                "$ref": "#/components/schemas/AddressInput"
-              }
-            },
-            "required": [
-              "type",
-              "address"
-            ],
-            "additionalProperties": false
+            "$ref": "#/components/schemas/ShippingDestinationAddressInput"
           }
         ],
         "discriminator": {
-          "propertyName": "type"
+          "propertyName": "type",
+          "mapping": {
+            "patient": "#/components/schemas/ShippingDestinationPatientInput",
+            "practice": "#/components/schemas/ShippingDestinationPracticeInput",
+            "address": "#/components/schemas/ShippingDestinationAddressInput"
+          }
         }
+      },
+      "ShippingDestinationAddressInput": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "$ref": "#/components/schemas/ShippingDestinationAddressType"
+          },
+          "address": {
+            "$ref": "#/components/schemas/AddressInput"
+          }
+        },
+        "required": [
+          "type",
+          "address"
+        ],
+        "additionalProperties": false
       },
       "AddressInput": {
         "type": "object",
         "properties": {
           "line1": {
             "type": "string",
-            "pattern": "^(?:\\t|[^\\p{Cc}\\p{Cf}\\p{Cs}\\p{Zl}\\p{Zp}])*$",
+            "pattern": "^[^\\x00-\\x08\\x0a-\\x1f\\x7f-\\x9f]*$",
             "maxLength": 200,
             "allOf": [
               {
-                "pattern": "[^\\p{White_Space}\\p{Cc}\\p{Cf}\\p{Cs}\\p{Default_Ignorable_Code_Point}\\p{M}\\u2800]",
+                "pattern": "\\S",
                 "description": "The street address."
               }
             ]
@@ -9584,7 +9551,7 @@
             "anyOf": [
               {
                 "type": "string",
-                "pattern": "^(?:\\t|[^\\p{Cc}\\p{Cf}\\p{Cs}\\p{Zl}\\p{Zp}])*$",
+                "pattern": "^[^\\x00-\\x08\\x0a-\\x1f\\x7f-\\x9f]*$",
                 "maxLength": 200
               },
               {
@@ -9595,11 +9562,11 @@
           },
           "city": {
             "type": "string",
-            "pattern": "^(?:\\t|[^\\p{Cc}\\p{Cf}\\p{Cs}\\p{Zl}\\p{Zp}])*$",
+            "pattern": "^[^\\x00-\\x08\\x0a-\\x1f\\x7f-\\x9f]*$",
             "maxLength": 100,
             "allOf": [
               {
-                "pattern": "[^\\p{White_Space}\\p{Cc}\\p{Cf}\\p{Cs}\\p{Default_Ignorable_Code_Point}\\p{M}\\u2800]",
+                "pattern": "\\S",
                 "description": "The city name."
               }
             ]
@@ -9624,6 +9591,30 @@
         "additionalProperties": false,
         "description": "The US mailing address."
       },
+      "ShippingDestinationPracticeInput": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "$ref": "#/components/schemas/ShippingDestinationPracticeType"
+          }
+        },
+        "required": [
+          "type"
+        ],
+        "additionalProperties": false
+      },
+      "ShippingDestinationPatientInput": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "$ref": "#/components/schemas/ShippingDestinationPatientType"
+          }
+        },
+        "required": [
+          "type"
+        ],
+        "additionalProperties": false
+      },
       "PrescriptionInput": {
         "type": "object",
         "properties": {
@@ -9631,7 +9622,7 @@
             "anyOf": [
               {
                 "type": "string",
-                "pattern": "^(?:\\t|[^\\p{Cc}\\p{Cf}\\p{Cs}\\p{Zl}\\p{Zp}])*$",
+                "pattern": "^[^\\x00-\\x08\\x0a-\\x1f\\x7f-\\x9f]*$",
                 "maxLength": 200
               },
               {
@@ -9642,11 +9633,11 @@
           },
           "directions": {
             "type": "string",
-            "pattern": "^(?:[\\t\\n\\r]|[^\\p{Cc}\\p{Cf}\\p{Cs}])*$",
+            "pattern": "^[^\\x00-\\x08\\x0b\\x0c\\x0e-\\x1f\\x7f-\\x9f]*$",
             "maxLength": 2000,
             "allOf": [
               {
-                "pattern": "[^\\p{White_Space}\\p{Cc}\\p{Cf}\\p{Cs}\\p{Default_Ignorable_Code_Point}\\p{M}\\u2800]",
+                "pattern": "\\S",
                 "description": "The prescriber's directions for use."
               }
             ]
@@ -9663,7 +9654,7 @@
             "anyOf": [
               {
                 "type": "string",
-                "pattern": "^(?:[\\t\\n\\r]|[^\\p{Cc}\\p{Cf}\\p{Cs}])*$",
+                "pattern": "^[^\\x00-\\x08\\x0b\\x0c\\x0e-\\x1f\\x7f-\\x9f]*$",
                 "maxLength": 1000
               },
               {
@@ -9717,22 +9708,22 @@
           },
           "firstName": {
             "type": "string",
-            "pattern": "^(?:\\t|[^\\p{Cc}\\p{Cf}\\p{Cs}\\p{Zl}\\p{Zp}])*$",
+            "pattern": "^[^\\x00-\\x08\\x0a-\\x1f\\x7f-\\x9f]*$",
             "maxLength": 60,
             "allOf": [
               {
-                "pattern": "[^\\p{White_Space}\\p{Cc}\\p{Cf}\\p{Cs}\\p{Default_Ignorable_Code_Point}\\p{M}\\u2800]",
+                "pattern": "\\S",
                 "description": "The first name."
               }
             ]
           },
           "lastName": {
             "type": "string",
-            "pattern": "^(?:\\t|[^\\p{Cc}\\p{Cf}\\p{Cs}\\p{Zl}\\p{Zp}])*$",
+            "pattern": "^[^\\x00-\\x08\\x0a-\\x1f\\x7f-\\x9f]*$",
             "maxLength": 60,
             "allOf": [
               {
-                "pattern": "[^\\p{White_Space}\\p{Cc}\\p{Cf}\\p{Cs}\\p{Default_Ignorable_Code_Point}\\p{M}\\u2800]",
+                "pattern": "\\S",
                 "description": "The last name."
               }
             ]
@@ -9777,14 +9768,14 @@
                 },
                 "display": {
                   "type": "string",
-                  "pattern": "^(?:\\t|[^\\p{Cc}\\p{Cf}\\p{Cs}\\p{Zl}\\p{Zp}])*$",
+                  "pattern": "^[^\\x00-\\x08\\x0a-\\x1f\\x7f-\\x9f]*$",
                   "maxLength": 200,
                   "allOf": [
                     {
-                      "pattern": "[^\\p{White_Space}\\p{Cc}\\p{Cf}\\p{Cs}\\p{Default_Ignorable_Code_Point}\\p{M}\\u2800]"
+                      "pattern": "\\S"
                     },
                     {
-                      "pattern": "^(?![\\s\\p{Cc}\\p{Cs}])[^\\p{Cc}\\p{Cf}\\p{Cs}\\p{Zl}\\p{Zp}]+$",
+                      "pattern": "^[^\\s\\x00-\\x1f\\x7f-\\x9f][^\\x00-\\x1f\\x7f-\\x9f]*$",
                       "description": "The reported allergy name."
                     }
                   ],
@@ -9808,16 +9799,16 @@
           "email": {
             "type": "string",
             "maxLength": 254,
-            "pattern": "^[^\\s@\\p{Cc}\\p{Cs}]+@[^\\s@\\p{Cc}\\p{Cs}]+\\.[^\\s@\\p{Cc}\\p{Cs}]+$",
+            "pattern": "^[^\\s@\\x00-\\x1f\\x7f-\\x9f]+@[^\\s@\\x00-\\x1f\\x7f-\\x9f]+\\.[^\\s@\\x00-\\x1f\\x7f-\\x9f]+$",
             "description": "The patient's email address."
           },
           "firstName": {
             "type": "string",
-            "pattern": "^(?:\\t|[^\\p{Cc}\\p{Cf}\\p{Cs}\\p{Zl}\\p{Zp}])*$",
+            "pattern": "^[^\\x00-\\x08\\x0a-\\x1f\\x7f-\\x9f]*$",
             "maxLength": 60,
             "allOf": [
               {
-                "pattern": "[^\\p{White_Space}\\p{Cc}\\p{Cf}\\p{Cs}\\p{Default_Ignorable_Code_Point}\\p{M}\\u2800]",
+                "pattern": "\\S",
                 "description": "The first name."
               }
             ]
@@ -9833,11 +9824,11 @@
           },
           "lastName": {
             "type": "string",
-            "pattern": "^(?:\\t|[^\\p{Cc}\\p{Cf}\\p{Cs}\\p{Zl}\\p{Zp}])*$",
+            "pattern": "^[^\\x00-\\x08\\x0a-\\x1f\\x7f-\\x9f]*$",
             "maxLength": 60,
             "allOf": [
               {
-                "pattern": "[^\\p{White_Space}\\p{Cc}\\p{Cf}\\p{Cs}\\p{Default_Ignorable_Code_Point}\\p{M}\\u2800]",
+                "pattern": "\\S",
                 "description": "The last name."
               }
             ]
@@ -9846,7 +9837,7 @@
             "anyOf": [
               {
                 "type": "string",
-                "pattern": "^(?:\\t|[^\\p{Cc}\\p{Cf}\\p{Cs}\\p{Zl}\\p{Zp}])*$",
+                "pattern": "^[^\\x00-\\x08\\x0a-\\x1f\\x7f-\\x9f]*$",
                 "maxLength": 60
               },
               {
@@ -9864,11 +9855,11 @@
             "anyOf": [
               {
                 "type": "string",
-                "pattern": "^(?:\\t|[^\\p{Cc}\\p{Cf}\\p{Cs}\\p{Zl}\\p{Zp}])*$",
+                "pattern": "^[^\\x00-\\x08\\x0a-\\x1f\\x7f-\\x9f]*$",
                 "maxLength": 128,
                 "allOf": [
                   {
-                    "pattern": "[^\\p{White_Space}\\p{Cc}\\p{Cf}\\p{Cs}\\p{Default_Ignorable_Code_Point}\\p{M}\\u2800]",
+                    "pattern": "\\S",
                     "description": "Text with at least one visible character."
                   }
                 ]
@@ -9892,6 +9883,34 @@
         ],
         "additionalProperties": false,
         "description": "The patient details that the pharmacy receives."
+      },
+      "OrderEventType": {
+        "type": "string",
+        "enum": [
+          "order.cancelled",
+          "order.delivered",
+          "order.failed",
+          "order.processing",
+          "order.shipped",
+          "order.submitted",
+          "order.updated"
+        ],
+        "description": "The event type; ignore event types that you do not recognize."
+      },
+      "PrescriptionEventType": {
+        "type": "string",
+        "enum": [
+          "prescription.failed",
+          "prescription.cancelled"
+        ],
+        "description": "The event type; ignore event types that you do not recognize."
+      },
+      "WebhookEndpointTestEventType": {
+        "type": "string",
+        "enum": [
+          "webhook_endpoint.test"
+        ],
+        "description": "The event type; ignore event types that you do not recognize."
       },
       "Account": {
         "type": "object",
@@ -10090,7 +10109,15 @@
             "description": "The catalog's default directions, or null when none are supplied."
           },
           "fill": {
-            "$ref": "#/components/schemas/Fill"
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Fill"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "What the pharmacy dispenses for one price, or null when the complete fill is unknown."
           },
           "form": {
             "anyOf": [
@@ -10209,96 +10236,89 @@
         ]
       },
       "Fill": {
-        "anyOf": [
-          {
-            "type": "object",
-            "properties": {
-              "amount": {
-                "type": "integer",
-                "minimum": 1,
-                "maximum": 9007199254740991,
-                "description": "How much one fill holds, in `unit`."
-              },
-              "container": {
-                "anyOf": [
-                  {
-                    "type": "string"
-                  },
-                  {
-                    "type": "null"
-                  }
-                ],
-                "description": "What holds one fill, such as `vial`. Null when the pharmacy does not say."
-              },
-              "ingredients": {
-                "type": "array",
-                "items": {
-                  "type": "object",
-                  "properties": {
-                    "amount": {
-                      "type": "number",
-                      "description": "The amount in the specified unit."
-                    },
-                    "name": {
-                      "type": "string",
-                      "description": "The name."
-                    },
-                    "unit": {
-                      "type": "string",
-                      "description": "The unit used to measure the amount."
-                    }
-                  },
-                  "required": [
-                    "amount",
-                    "name",
-                    "unit"
-                  ]
-                },
-                "description": "Each active ingredient's total in one fill: a 2 mL vial of 30 mg/mL is 60 mg."
-              },
-              "unit": {
-                "type": "string",
-                "description": "The unit of `amount`, the same as `quantityUnit`: `vial` for a vial product."
-              },
-              "volume": {
-                "anyOf": [
-                  {
-                    "type": "object",
-                    "properties": {
-                      "amount": {
-                        "type": "number",
-                        "description": "The amount in the specified unit."
-                      },
-                      "unit": {
-                        "type": "string",
-                        "description": "The unit used to measure the amount."
-                      }
-                    },
-                    "required": [
-                      "amount",
-                      "unit"
-                    ]
-                  },
-                  {
-                    "type": "null"
-                  }
-                ],
-                "description": "What one vial holds, such as 2 mL. Null for a product that is not a vial."
-              }
-            },
-            "required": [
-              "amount",
-              "container",
-              "ingredients",
-              "unit",
-              "volume"
-            ]
+        "type": "object",
+        "properties": {
+          "amount": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 9007199254740991,
+            "description": "How much one fill holds, in `unit`."
           },
-          {
-            "type": "null"
+          "container": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "What holds one fill, such as `vial`. Null when the pharmacy does not say."
+          },
+          "ingredients": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "amount": {
+                  "type": "number",
+                  "description": "The amount in the specified unit."
+                },
+                "name": {
+                  "type": "string",
+                  "description": "The name."
+                },
+                "unit": {
+                  "type": "string",
+                  "description": "The unit used to measure the amount."
+                }
+              },
+              "required": [
+                "amount",
+                "name",
+                "unit"
+              ]
+            },
+            "description": "Each active ingredient's total in one fill: a 2 mL vial of 30 mg/mL is 60 mg."
+          },
+          "unit": {
+            "type": "string",
+            "description": "The unit of `amount`, the same as `quantityUnit`: `vial` for a vial product."
+          },
+          "volume": {
+            "anyOf": [
+              {
+                "type": "object",
+                "properties": {
+                  "amount": {
+                    "type": "number",
+                    "description": "The amount in the specified unit."
+                  },
+                  "unit": {
+                    "type": "string",
+                    "description": "The unit used to measure the amount."
+                  }
+                },
+                "required": [
+                  "amount",
+                  "unit"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "What one vial holds, such as 2 mL. Null for a product that is not a vial."
           }
+        },
+        "required": [
+          "amount",
+          "container",
+          "ingredients",
+          "unit",
+          "volume"
         ],
-        "description": "What the pharmacy dispenses for one price, or null when the complete fill is unknown."
+        "description": "What the pharmacy dispenses for one price. A quantity counts `unit`, not fills, and is a whole number of fills: for a fill of 30 tablets, quantity 60 is two fills and costs twice the price. For a vial product, one fill is one vial and quantity counts vials."
       },
       "PharmacyReference": {
         "type": "object",
@@ -10589,6 +10609,7 @@
           "status": {
             "type": "string",
             "enum": [
+              "awaiting_approval",
               "submitted",
               "processing",
               "shipped",
@@ -10777,6 +10798,7 @@
           "status": {
             "type": "string",
             "enum": [
+              "awaiting_approval",
               "submitted",
               "processing",
               "shipped",
@@ -10801,7 +10823,15 @@
             "type": "object",
             "properties": {
               "fill": {
-                "$ref": "#/components/schemas/Fill"
+                "anyOf": [
+                  {
+                    "$ref": "#/components/schemas/Fill"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ],
+                "description": "What the pharmacy dispenses for one price, or null when the complete fill is unknown."
               },
               "form": {
                 "anyOf": [
@@ -10911,59 +10941,61 @@
       "ShippingDestination": {
         "oneOf": [
           {
-            "type": "object",
-            "properties": {
-              "type": {
-                "type": "string",
-                "enum": [
-                  "patient"
-                ],
-                "description": "Use patient, practice or address to select the shipping destination."
-              }
-            },
-            "required": [
-              "type"
-            ]
+            "$ref": "#/components/schemas/ShippingDestinationPatient"
           },
           {
-            "type": "object",
-            "properties": {
-              "type": {
-                "type": "string",
-                "enum": [
-                  "practice"
-                ],
-                "description": "Use patient, practice or address to select the shipping destination."
-              }
-            },
-            "required": [
-              "type"
-            ]
+            "$ref": "#/components/schemas/ShippingDestinationPractice"
           },
           {
-            "type": "object",
-            "properties": {
-              "type": {
-                "type": "string",
-                "enum": [
-                  "address"
-                ],
-                "description": "Use patient, practice or address to select the shipping destination."
-              },
-              "address": {
-                "$ref": "#/components/schemas/Address"
-              }
-            },
-            "required": [
-              "type",
-              "address"
-            ]
+            "$ref": "#/components/schemas/ShippingDestinationAddress"
           }
         ],
         "description": "The shipping destination; defaults to the patient's address when omitted.",
         "discriminator": {
-          "propertyName": "type"
+          "propertyName": "type",
+          "mapping": {
+            "patient": "#/components/schemas/ShippingDestinationPatient",
+            "practice": "#/components/schemas/ShippingDestinationPractice",
+            "address": "#/components/schemas/ShippingDestinationAddress"
+          }
         }
+      },
+      "ShippingDestinationPatient": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "$ref": "#/components/schemas/ShippingDestinationPatientType"
+          }
+        },
+        "required": [
+          "type"
+        ]
+      },
+      "ShippingDestinationPractice": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "$ref": "#/components/schemas/ShippingDestinationPracticeType"
+          }
+        },
+        "required": [
+          "type"
+        ]
+      },
+      "ShippingDestinationAddress": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "$ref": "#/components/schemas/ShippingDestinationAddressType"
+          },
+          "address": {
+            "$ref": "#/components/schemas/Address"
+          }
+        },
+        "required": [
+          "type",
+          "address"
+        ]
       },
       "Shipment": {
         "type": "object",
@@ -11013,6 +11045,7 @@
           "status": {
             "type": "string",
             "enum": [
+              "awaiting_approval",
               "submitted",
               "processing",
               "shipped",
@@ -11299,17 +11332,7 @@
             ]
           },
           "type": {
-            "type": "string",
-            "enum": [
-              "order.cancelled",
-              "order.delivered",
-              "order.failed",
-              "order.processing",
-              "order.shipped",
-              "order.submitted",
-              "order.updated"
-            ],
-            "description": "The event type; ignore event types that you do not recognize."
+            "$ref": "#/components/schemas/OrderEventType"
           },
           "createdAt": {
             "type": "string",
@@ -11406,6 +11429,7 @@
                 "status": {
                   "type": "string",
                   "enum": [
+                    "awaiting_approval",
                     "submitted",
                     "processing",
                     "shipped",
@@ -11439,6 +11463,7 @@
           "status": {
             "type": "string",
             "enum": [
+              "awaiting_approval",
               "submitted",
               "processing",
               "shipped",
@@ -11492,12 +11517,7 @@
             ]
           },
           "type": {
-            "type": "string",
-            "enum": [
-              "prescription.failed",
-              "prescription.cancelled"
-            ],
-            "description": "The event type; ignore event types that you do not recognize."
+            "$ref": "#/components/schemas/PrescriptionEventType"
           },
           "createdAt": {
             "type": "string",
@@ -11547,11 +11567,7 @@
             ]
           },
           "type": {
-            "type": "string",
-            "enum": [
-              "webhook_endpoint.test"
-            ],
-            "description": "The event type; ignore event types that you do not recognize."
+            "$ref": "#/components/schemas/WebhookEndpointTestEventType"
           },
           "createdAt": {
             "type": "string",

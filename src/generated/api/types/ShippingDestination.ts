@@ -11,16 +11,15 @@ export type ShippingDestination =
     | Affinity.ShippingDestination.Address;
 
 export namespace ShippingDestination {
-    export interface Patient {
+    export interface Patient extends Affinity.ShippingDestinationPatient {
         type: "patient";
     }
 
-    export interface Practice {
+    export interface Practice extends Affinity.ShippingDestinationPractice {
         type: "practice";
     }
 
-    export interface Address {
+    export interface Address extends Affinity.ShippingDestinationAddress {
         type: "address";
-        address: Affinity.Address;
     }
 }

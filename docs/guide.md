@@ -14,7 +14,7 @@ const account = await affinity.account.get();
 if (account.mode !== "test") throw new Error("This example requires a Test key");
 ```
 
-The client calls `https://api.affinityrx.com` and sends `Affinity-Version: 2026-10-28` on every request. Set `baseUrl` to call another API. The key sets the organization and the Test or Live mode.
+The client calls `https://api.affinityrx.com` and sends `Affinity-Version: 2026-11-01` on every request. Set `baseUrl` to call another API. The key sets the organization and the Test or Live mode.
 
 Client options:
 

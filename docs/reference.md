@@ -283,7 +283,7 @@ await client.medications.get({
 <dl>
 <dd>
 
-List accessible orders in the current mode, newest first. `externalOrderId` matches exactly, including case. `updatedAfter` accepts an ISO 8601 timestamp with a timezone and returns strictly later updates. Keep filters fixed while paging. `sort` takes `patient` (lowercase firstName + space + lastName A to Z, then order ID) or `created` (oldest first); a leading `-` reverses. Creation time or patient name and the order ID determine cursor order, even when updatedAt changes.
+List accessible orders in the current mode, newest first. `externalOrderId` matches exactly, including case. `updatedAfter` accepts an ISO 8601 timestamp with a timezone and returns strictly later updates. Keep filters fixed while paging. `sort` takes `patient` (lowercase firstName + space + lastName A to Z, then order ID) or `created` (oldest first); a `_desc` suffix reverses. Creation time or patient name and the order ID determine cursor order, even when updatedAt changes.
 </dd>
 </dl>
 </dd>
@@ -589,7 +589,7 @@ await client.orders.cancel({
 <dl>
 <dd>
 
-List the platform's practices, newest first. Available to platforms only. `sort` takes `name` or `location` (A to Z, practices without a location last), `mode` (Test before Live) or `created` (oldest first); a leading `-` reverses.
+List the platform's practices, newest first. Available to platforms only. `sort` takes `name` or `location` (A to Z, practices without a location last), `mode` (Test before Live) or `created` (oldest first); a `_desc` suffix reverses.
 </dd>
 </dl>
 </dd>

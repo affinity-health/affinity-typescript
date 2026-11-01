@@ -10,6 +10,7 @@ export interface StatusHistoryEntry {
 export namespace StatusHistoryEntry {
     /** The current fulfillment status. */
     export const Status = {
+        AwaitingApproval: "awaiting_approval",
         Submitted: "submitted",
         Processing: "processing",
         Shipped: "shipped",

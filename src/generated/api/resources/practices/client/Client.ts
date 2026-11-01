@@ -24,7 +24,7 @@ export class PracticesClient {
     }
 
     /**
-     * List the platform's practices, newest first. Available to platforms only. `sort` takes `name` or `location` (A to Z, practices without a location last), `mode` (Test before Live) or `created` (oldest first); a leading `-` reverses.
+     * List the platform's practices, newest first. Available to platforms only. `sort` takes `name` or `location` (A to Z, practices without a location last), `mode` (Test before Live) or `created` (oldest first); a `_desc` suffix reverses.
      *
      * @param {Affinity.ListPracticesRequest} request
      * @param {PracticesClient.RequestOptions} requestOptions - Request-specific configuration.
@@ -62,7 +62,7 @@ export class PracticesClient {
                 const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
                     _authRequest.headers,
                     this._options?.headers,
-                    mergeOnlyDefinedHeaders({ "Affinity-Version": requestOptions?.affinityVersion ?? "2026-10-28" }),
+                    mergeOnlyDefinedHeaders({ "Affinity-Version": requestOptions?.affinityVersion ?? "2026-11-01" }),
                     requestOptions?.headers,
                 );
                 const _response = await core.fetcher({
@@ -212,7 +212,7 @@ export class PracticesClient {
             this._options?.headers,
             mergeOnlyDefinedHeaders({
                 "Idempotency-Key": idempotencyKey,
-                "Affinity-Version": requestOptions?.affinityVersion ?? "2026-10-28",
+                "Affinity-Version": requestOptions?.affinityVersion ?? "2026-11-01",
             }),
             requestOptions?.headers,
         );
@@ -340,7 +340,7 @@ export class PracticesClient {
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
             _authRequest.headers,
             this._options?.headers,
-            mergeOnlyDefinedHeaders({ "Affinity-Version": requestOptions?.affinityVersion ?? "2026-10-28" }),
+            mergeOnlyDefinedHeaders({ "Affinity-Version": requestOptions?.affinityVersion ?? "2026-11-01" }),
             requestOptions?.headers,
         );
         const _response = await core.fetcher({
@@ -455,7 +455,7 @@ export class PracticesClient {
             this._options?.headers,
             mergeOnlyDefinedHeaders({
                 "Idempotency-Key": idempotencyKey,
-                "Affinity-Version": requestOptions?.affinityVersion ?? "2026-10-28",
+                "Affinity-Version": requestOptions?.affinityVersion ?? "2026-11-01",
             }),
             requestOptions?.headers,
         );

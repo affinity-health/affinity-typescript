@@ -31,13 +31,11 @@ for (const [path, methods] of Object.entries(spec.paths)) {
     operation["x-fern-sdk-group-name"] = [group];
     operation["x-fern-sdk-method-name"] = name;
     if (name === "list") {
+      // Every list pages forward only (API 2026-11-01), so Fern's forward pager fits it.
       if (!operation.parameters?.some((parameter) => parameter.name === "startingAfter"))
         throw new Error(`${operation.operationId} has no startingAfter cursor`);
-      // Fern's pages only go forward: after a page fetched with endingBefore, the next page would
-      // add startingAfter and keep endingBefore, which the API refuses. The SDK pages forward only.
-      operation.parameters = operation.parameters.filter(
-        (parameter) => parameter.name !== "endingBefore",
-      );
+      if (operation.parameters.some((parameter) => parameter.name === "endingBefore"))
+        throw new Error(`${operation.operationId} pages backward; Fern's pager pages forward only`);
       operation["x-fern-pagination"] = {
         cursor: "$request.startingAfter",
         next_cursor: "$response.nextCursor",
@@ -47,27 +45,6 @@ for (const [path, methods] of Object.entries(spec.paths)) {
     operations[operation.operationId] = `${method.toUpperCase()} ${path}`;
   }
 }
-// A sort value and its reverse (`created`, `-created`) give Fern the same name, and Fern keeps only
-// one, so callers could not send the reverse. Name each `-` value `<Value>Descending`.
-const pascal = (value: string) =>
-  value.replace(/(?:^|[^a-zA-Z0-9]+)([a-zA-Z0-9])/gu, (_, letter: string) => letter.toUpperCase());
-const nameDescending = (node: unknown): void => {
-  if (Array.isArray(node)) return node.forEach(nameDescending);
-  if (typeof node !== "object" || node === null) return;
-  const schema = node as Record<string, unknown>;
-  const values = schema.enum;
-  if (
-    Array.isArray(values) &&
-    values.some((value) => typeof value === "string" && value.startsWith("-"))
-  )
-    schema["x-fern-enum"] = Object.fromEntries(
-      values
-        .filter((value): value is string => typeof value === "string" && value.startsWith("-"))
-        .map((value) => [value, { name: `${pascal(value.slice(1))}Descending` }]),
-    );
-  for (const child of Object.values(schema)) nameDescending(child);
-};
-nameDescending(spec.paths);
 await writeFile(resolve(root, "fern/openapi.json"), `${JSON.stringify(spec, null, 2)}\n`);
 
 await rm(output, { recursive: true, force: true });

@@ -7,6 +7,24 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 
 ## [Unreleased]
 
+## [2.0.0-beta.11] - 2026-11-01
+
+This beta targets API `2026-11-01`, which breaks `2026-10-28`.
+
+### Changed
+
+- Every request sends `Affinity-Version: 2026-11-01`.
+- A descending sort is `<field>_desc`: `orders.list({ sort: "created_desc" })` and
+  `"patient_desc"`, and `practices.list` with `"name_desc"`, `"location_desc"`, `"mode_desc"` and
+  `"created_desc"`. The `-created` form is gone; the API refuses it.
+- Shipping destinations are named types: `Affinity.ShippingDestinationPatient`,
+  `ShippingDestinationPractice` and `ShippingDestinationAddress`, and their `Input` forms.
+
+### Added
+
+- The `awaiting_approval` order status, in `Order.status`, webhook orders and the
+  `orders.list({ status })` filter.
+
 ## [2.0.0-beta.10] - 2026-11-01
 
 ### Fixed
