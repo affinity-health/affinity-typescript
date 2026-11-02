@@ -9,8 +9,6 @@ export interface OrderEvent {
     createdAt: string;
     /** The event payload. */
     data: OrderEvent.Data;
-    /** Accepts any additional properties */
-    [key: string]: any;
 }
 
 export namespace OrderEvent {
@@ -19,7 +17,5 @@ export namespace OrderEvent {
      */
     export interface Data {
         order: Affinity.WebhookOrder;
-        /** Accepts any additional properties */
-        [key: string]: any;
     }
 }

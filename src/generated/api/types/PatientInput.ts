@@ -7,7 +7,7 @@ import type * as Affinity from "../index.js";
  */
 export interface PatientInput {
     address: Affinity.AddressInput;
-    /** The reported allergies; an empty list means no new allergies reported. */
+    /** The reported allergies. Send `[]` when the patient reports no new allergies. */
     allergies: PatientInput.Allergies.Item[];
     /** A real calendar date in YYYY-MM-DD format, with a year from 1900 through 2099, today or earlier in UTC. Surrounding spaces are removed. */
     dateOfBirth: string;

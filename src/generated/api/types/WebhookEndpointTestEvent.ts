@@ -7,6 +7,4 @@ export interface WebhookEndpointTestEvent {
     createdAt: string;
     /** The event payload. */
     data: Record<string, unknown>;
-    /** Accepts any additional properties */
-    [key: string]: any;
 }

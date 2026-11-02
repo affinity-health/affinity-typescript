@@ -1,0 +1,91 @@
+{
+  "id": "ord_01j2y8m6jcc9tt24af5pw9x1bc",
+  "mode": "test",
+  "status": "on_hold",
+  "addedField": { "nested": true },
+  "cancelRequestedAt": null,
+  "createdAt": "2026-11-01T12:00:00.000Z",
+  "updatedAt": "2026-11-01T12:05:00.000Z",
+  "externalOrderId": null,
+  "failureReason": null,
+  "patientId": "pat_01j2y8m6jcc9tt24af5pw9x1bc",
+  "patient": {
+    "firstName": "Test",
+    "middleName": null,
+    "lastName": "Patient",
+    "dateOfBirth": "1990-01-01",
+    "sex": "female",
+    "email": "test.patient@example.test",
+    "phone": "+15125550101",
+    "address": {
+      "line1": "200 Example Ave",
+      "line2": null,
+      "city": "Austin",
+      "state": "TX",
+      "postalCode": "78701",
+      "addedField": "nested"
+    },
+    "allergies": [
+      { "category": "drug", "display": "Penicillin" },
+      { "category": "dust", "display": "House dust", "addedField": 1 }
+    ],
+    "addedField": "patient"
+  },
+  "practiceId": "prac_01j2y8m6jcc9tt24af5pw9x1bc",
+  "practice": {
+    "name": "Example Practice",
+    "phone": "+15125550100",
+    "archivedAt": null,
+    "address": {
+      "line1": "100 Example St",
+      "line2": "Suite 2",
+      "city": "Austin",
+      "state": "TX",
+      "postalCode": "78701"
+    }
+  },
+  "prescriber": {
+    "firstName": "Sam",
+    "lastName": "Lee",
+    "npi": "1234567893",
+    "phone": null,
+    "address": null
+  },
+  "prescriptions": [
+    {
+      "id": "rx_01j2y8m6jcc9tt24af5pw9x1bc",
+      "status": "on_hold",
+      "failureReason": null,
+      "compoundingReason": null,
+      "directions": "Use as directed.",
+      "notes": null,
+      "price": 10000,
+      "quantity": 1,
+      "refills": 0,
+      "substitutionPermitted": false,
+      "pharmacy": { "id": "pharm_01j2y8m6jcc9tt24af5pw9x1bc", "name": "Example Pharmacy" },
+      "medication": {
+        "id": "med_01j2y8m6jcc9tt24af5pw9x1bc",
+        "name": "Example Cream",
+        "form": "cream",
+        "strength": null,
+        "quantityUnit": null,
+        "fill": null,
+        "addedField": "medication"
+      },
+      "addedField": "prescription"
+    }
+  ],
+  "shipping": {
+    "option": { "id": "shp_01j2y8m6jcc9tt24af5pw9x1bc", "name": "Standard", "price": 1500 },
+    "destination": { "type": "patient" },
+    "addedField": "shipping"
+  },
+  "shipments": [],
+  "statusHistory": [
+    { "status": "submitted", "createdAt": "2026-11-01T12:00:00.000Z" },
+    { "status": "on_hold", "createdAt": "2026-11-01T12:05:00.000Z" }
+  ],
+  "total": 11500,
+  "trackingUrl": null
+}

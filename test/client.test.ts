@@ -369,8 +369,10 @@ test("every enum value in the contract is in the generated code", async () => {
     if (Array.isArray(node)) return node.forEach(walk);
     if (typeof node !== "object" || node === null) return;
     const schema = node as Record<string, unknown>;
-    if (Array.isArray(schema.enum))
-      for (const value of schema.enum) if (typeof value === "string") values.add(value);
+    // Response value lists are open in the contract (`x-extensible-enum`); the SDK types them too.
+    for (const list of [schema.enum, schema["x-extensible-enum"]])
+      if (Array.isArray(list))
+        for (const value of list) if (typeof value === "string") values.add(value);
     Object.values(schema).forEach(walk);
   };
   walk(spec);
@@ -447,20 +449,30 @@ test("list requests never send endingBefore, so every page reads forward", async
 describe("a success response that is not JSON", () => {
   // A proxy or gateway can answer 200 with an HTML page or nothing. Every Affinity operation
   // answers JSON, so the SDK must raise instead of resolving with a value that is not the record.
-  const page = () => new Response("<html>maintenance</html>", { headers: { "content-type": "text/html" } });
+  const page = () =>
+    new Response("<html>maintenance</html>", { headers: { "content-type": "text/html" } });
   test("an HTML page raises AffinityError", async () => {
     const { client } = recorded([page()], { maxRetries: 0 });
     const error = await rejection(client.account.get());
     expect(error).toBeInstanceOf(AffinityError);
-    expect(String((error as Error).message)).toContain("200 (text/html) with a body that is not JSON");
+    expect(String((error as Error).message)).toContain(
+      "200 (text/html) with a body that is not JSON",
+    );
   });
   test("an empty JSON body raises AffinityError", async () => {
-    const { client } = recorded([new Response("", { headers: { "content-type": "application/json" } })], { maxRetries: 0 });
-    expect(await rejection(client.orders.get({ orderId: "ord_synthetic" }))).toBeInstanceOf(AffinityError);
+    const { client } = recorded(
+      [new Response("", { headers: { "content-type": "application/json" } })],
+      { maxRetries: 0 },
+    );
+    expect(await rejection(client.orders.get({ orderId: "ord_synthetic" }))).toBeInstanceOf(
+      AffinityError,
+    );
   });
   test("a write raises too, and is sent once", async () => {
     const { client, calls } = recorded([page()]);
-    const error = await rejection(client.orders.cancel({ orderId: "ord_synthetic", idempotencyKey: "k1" }));
+    const error = await rejection(
+      client.orders.cancel({ orderId: "ord_synthetic", idempotencyKey: "k1" }),
+    );
     expect(error).toBeInstanceOf(AffinityError);
     expect(calls).toHaveLength(1);
   });
@@ -471,5 +483,56 @@ describe("a success response that is not JSON", () => {
   test("a JSON success response passes through unchanged", async () => {
     const { client } = recorded([json({ id: "plat_x", type: "platform", mode: "test" })]);
     expect((await client.account.get()).id).toBe("plat_x");
+  });
+});
+
+describe("a response with a value or field this SDK does not know", () => {
+  // The contract keeps response objects and value lists open: a later API version can add a status,
+  // a category or a field. The fixture has an unknown order, prescription and history status, an
+  // unknown allergy category and an added field at the root and in nested objects.
+  const fixture = () =>
+    Bun.file(new URL("./fixtures/order-unknown-values.json", import.meta.url)).json();
+
+  test("orders.get returns it unchanged, without an error", async () => {
+    const body = await fixture();
+    const { client } = recorded([json(body)]);
+    const order = await client.orders.get({ orderId: body.id });
+    expect(order).toEqual(body);
+    expect(order.status as string).toBe("on_hold");
+    expect(order.prescriptions[0]!.status as string).toBe("on_hold");
+    expect(order.statusHistory.map((entry) => entry.status as string)).toEqual([
+      "submitted",
+      "on_hold",
+    ]);
+    expect(order.patient.allergies.map((allergy) => allergy.category as string)).toEqual([
+      "drug",
+      "dust",
+    ]);
+    expect((order as unknown as Record<string, unknown>).addedField).toEqual({ nested: true });
+    expect(
+      (order.prescriptions[0]!.medication as unknown as Record<string, unknown>).addedField,
+    ).toBe("medication");
+  });
+
+  test("a list page and its iterator return it too", async () => {
+    const body = await fixture();
+    const envelope = (cursor: string | null) => ({
+      object: "list",
+      url: "/v1/orders",
+      data: [body],
+      hasMore: cursor !== null,
+      nextCursor: cursor,
+      addedField: "list",
+    });
+    const { client } = recorded([json(envelope("cursor-a")), json(envelope(null))]);
+    const first = await client.orders.list();
+    expect(first.response).toEqual(envelope("cursor-a"));
+    const second = await first.getNextPage();
+    expect(second.response).toEqual(envelope(null));
+
+    const iterated = recorded([json(envelope("cursor-a")), json(envelope(null))]);
+    const seen: unknown[] = [];
+    for await (const order of await iterated.client.orders.list()) seen.push(order);
+    expect(seen).toEqual([body, body]);
   });
 });

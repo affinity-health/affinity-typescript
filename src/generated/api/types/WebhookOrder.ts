@@ -24,8 +24,6 @@ export interface WebhookOrder {
     trackingUrl: string | null;
     /** When the record was last updated. */
     updatedAt: string;
-    /** Accepts any additional properties */
-    [key: string]: any;
 }
 
 export namespace WebhookOrder {
@@ -39,8 +37,6 @@ export namespace WebhookOrder {
             status: Item.Status;
             /** The failure or cancellation refusal reason, or null when there is none. */
             failureReason: string | null;
-            /** Accepts any additional properties */
-            [key: string]: any;
         }
 
         export namespace Item {

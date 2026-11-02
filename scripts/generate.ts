@@ -45,6 +45,35 @@ for (const [path, methods] of Object.entries(spec.paths)) {
     operations[operation.operationId] = `${method.toUpperCase()} ${path}`;
   }
 }
+// The contract publishes response value lists open (`type: string` with `x-extensible-enum`) and
+// response objects open (`additionalProperties: { description }`). Fern would type those as plain
+// strings and `[key: string]: any` objects. The SDK types the known values instead. It still reads
+// unknown values and added fields at runtime: the generated client has no serialization layer, so
+// it returns the parsed JSON without checking it against these types. The other language SDKs keep
+// only the enum rule, in their scripts/prepare-spec.jq.
+const OPEN_OBJECT_KEYS = ["description"];
+function closeForTyping(node: unknown): void {
+  if (Array.isArray(node)) {
+    for (const item of node) closeForTyping(item);
+    return;
+  }
+  if (node === null || typeof node !== "object") return;
+  const schema = node as Record<string, unknown>;
+  if ("x-extensible-enum" in schema && !("enum" in schema)) {
+    schema.enum = schema["x-extensible-enum"];
+    delete schema["x-extensible-enum"];
+  }
+  const extra = schema.additionalProperties;
+  if (
+    extra !== null &&
+    typeof extra === "object" &&
+    !Array.isArray(extra) &&
+    Object.keys(extra).join() === OPEN_OBJECT_KEYS.join()
+  )
+    delete schema.additionalProperties;
+  for (const value of Object.values(schema)) closeForTyping(value);
+}
+closeForTyping(spec);
 await writeFile(resolve(root, "fern/openapi.json"), `${JSON.stringify(spec, null, 2)}\n`);
 
 await rm(output, { recursive: true, force: true });

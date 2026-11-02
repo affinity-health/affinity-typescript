@@ -13,8 +13,10 @@ export interface UpdatePracticesRequest {
     idempotencyKey: string;
     /** Your practice identifier, unique among your platform's active practices. Send null to clear it. */
     externalId?: string | null;
+    /** Affinity merges the address parts you send into the saved address. An omitted part keeps its saved value. To move to an address with no suite, send `"line2": null` with the new `line1`, `city`, `state` and `postalCode`. */
     address?: UpdatePracticesRequest.Address | null;
-    liveEnabled?: boolean;
+    /** Omit it or send null to leave Live unchanged. */
+    liveEnabled?: boolean | null;
     name?: string;
     /** A US phone number: 10 digits, with or without +1 or 1 before them. Spaces, dashes, dots and parentheses are allowed, such as (512) 555-0100. Affinity stores and returns +15125550100. Empty text counts as null. */
     phone?: string | null;
@@ -23,7 +25,7 @@ export interface UpdatePracticesRequest {
 export namespace UpdatePracticesRequest {
     export interface Address {
         line1?: string | undefined;
-        /** The apartment or suite, or null when there is none. Empty text counts as null. */
+        /** The apartment or suite. Send null or empty text to remove it. An omitted `line2` keeps the saved suite, also when `line1` changes. */
         line2?: (string | null) | undefined;
         city?: string | undefined;
         /** The two-letter US state or territory code, such as TX, in any letter case. Affinity stores and returns it in upper case. */

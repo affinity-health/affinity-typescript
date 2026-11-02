@@ -7,6 +7,24 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 
 ## [Unreleased]
 
+## [2.0.0-beta.12] - 2026-11-02
+
+This beta is generated from the API `2026-11-01` contract that production serves. That contract
+marks each response object and response value list as open: a later API version can add a field
+or a value.
+
+### Changed
+
+- The SDK keeps typing response values as their known values, such as `Affinity.Order.Status`
+  and `Affinity.Allergy.Category`. At runtime a response with an unknown value or an added field,
+  at the root or nested, is returned unchanged and does not raise an error. Handle a value you do
+  not know, such as an order status added later, as a default case.
+- The webhook types `OrderEvent`, `PrescriptionEvent`, `WebhookEndpointTestEvent` and
+  `WebhookOrder` no longer have a `[key: string]: any` index signature, like the other response
+  types. Their added fields still arrive at runtime.
+- `practices.update({ liveEnabled: null })` is allowed and leaves Live unchanged, the same as
+  omitting it.
+
 ## [2.0.0-beta.11] - 2026-11-01
 
 This beta targets API `2026-11-01`, which breaks `2026-10-28`.

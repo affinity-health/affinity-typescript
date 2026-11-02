@@ -9,8 +9,6 @@ export interface PrescriptionEvent {
     createdAt: string;
     /** The event payload. */
     data: PrescriptionEvent.Data;
-    /** Accepts any additional properties */
-    [key: string]: any;
 }
 
 export namespace PrescriptionEvent {
@@ -21,7 +19,5 @@ export namespace PrescriptionEvent {
         order: Affinity.WebhookOrder;
         /** The public identifier of the prescription that changed. */
         prescriptionId: string;
-        /** Accepts any additional properties */
-        [key: string]: any;
     }
 }

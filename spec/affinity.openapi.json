@@ -379,20 +379,16 @@
                         "title",
                         "type"
                       ],
-                      "type": "object"
+                      "type": "object",
+                      "additionalProperties": {
+                        "description": "A field that this API version can add. Ignore fields that you do not know."
+                      }
                     }
                   ]
                 }
               }
             },
             "headers": {
-              "retry-after": {
-                "description": "Seconds to wait before retrying.",
-                "schema": {
-                  "minimum": 1,
-                  "type": "integer"
-                }
-              },
               "Retry-After": {
                 "description": "Seconds to wait before retrying.",
                 "schema": {
@@ -489,7 +485,10 @@
                     {
                       "id": "fbk_01j2y8m6jcc9tt24af5pw9x1bc"
                     }
-                  ]
+                  ],
+                  "additionalProperties": {
+                    "description": "A field that this API version can add. Ignore fields that you do not know."
+                  }
                 }
               }
             },
@@ -690,7 +689,10 @@
                         "title",
                         "type"
                       ],
-                      "type": "object"
+                      "type": "object",
+                      "additionalProperties": {
+                        "description": "A field that this API version can add. Ignore fields that you do not know."
+                      }
                     }
                   ]
                 }
@@ -759,7 +761,10 @@
                     "title",
                     "type"
                   ],
-                  "type": "object"
+                  "type": "object",
+                  "additionalProperties": {
+                    "description": "A field that this API version can add. Ignore fields that you do not know."
+                  }
                 }
               }
             },
@@ -903,20 +908,16 @@
                         "title",
                         "type"
                       ],
-                      "type": "object"
+                      "type": "object",
+                      "additionalProperties": {
+                        "description": "A field that this API version can add. Ignore fields that you do not know."
+                      }
                     }
                   ]
                 }
               }
             },
             "headers": {
-              "retry-after": {
-                "description": "Seconds to wait before retrying.",
-                "schema": {
-                  "minimum": 1,
-                  "type": "integer"
-                }
-              },
               "Retry-After": {
                 "description": "Seconds to wait before retrying.",
                 "schema": {
@@ -1413,20 +1414,16 @@
                         "title",
                         "type"
                       ],
-                      "type": "object"
+                      "type": "object",
+                      "additionalProperties": {
+                        "description": "A field that this API version can add. Ignore fields that you do not know."
+                      }
                     }
                   ]
                 }
               }
             },
             "headers": {
-              "retry-after": {
-                "description": "Seconds to wait before retrying.",
-                "schema": {
-                  "minimum": 1,
-                  "type": "integer"
-                }
-              },
               "Retry-After": {
                 "description": "Seconds to wait before retrying.",
                 "schema": {
@@ -1549,7 +1546,8 @@
                   "properties": {
                     "category": {
                       "type": "string",
-                      "enum": [
+                      "description": "What the medication is prescribed for. Every strength, form and pharmacy of one medication has the same category.",
+                      "x-extensible-enum": [
                         "weight_loss",
                         "hormones",
                         "sexual_health",
@@ -1560,8 +1558,7 @@
                         "pain",
                         "other",
                         "supplies"
-                      ],
-                      "description": "What the medication is prescribed for. Every strength, form and pharmacy of one medication has the same category."
+                      ]
                     },
                     "coldChainRequired": {
                       "type": "boolean",
@@ -1717,7 +1714,10 @@
                     "shippingOptions",
                     "shippingSuppliesPrice",
                     "strength"
-                  ]
+                  ],
+                  "additionalProperties": {
+                    "description": "A field that this API version can add. Ignore fields that you do not know."
+                  }
                 }
               }
             },
@@ -2053,20 +2053,16 @@
                         "title",
                         "type"
                       ],
-                      "type": "object"
+                      "type": "object",
+                      "additionalProperties": {
+                        "description": "A field that this API version can add. Ignore fields that you do not know."
+                      }
                     }
                   ]
                 }
               }
             },
             "headers": {
-              "retry-after": {
-                "description": "Seconds to wait before retrying.",
-                "schema": {
-                  "minimum": 1,
-                  "type": "integer"
-                }
-              },
               "Retry-After": {
                 "description": "Seconds to wait before retrying.",
                 "schema": {
@@ -2410,7 +2406,10 @@
                         "title",
                         "type"
                       ],
-                      "type": "object"
+                      "type": "object",
+                      "additionalProperties": {
+                        "description": "A field that this API version can add. Ignore fields that you do not know."
+                      }
                     }
                   ]
                 }
@@ -2479,7 +2478,10 @@
                     "title",
                     "type"
                   ],
-                  "type": "object"
+                  "type": "object",
+                  "additionalProperties": {
+                    "description": "A field that this API version can add. Ignore fields that you do not know."
+                  }
                 }
               }
             },
@@ -2655,20 +2657,16 @@
                         "title",
                         "type"
                       ],
-                      "type": "object"
+                      "type": "object",
+                      "additionalProperties": {
+                        "description": "A field that this API version can add. Ignore fields that you do not know."
+                      }
                     }
                   ]
                 }
               }
             },
             "headers": {
-              "retry-after": {
-                "description": "Seconds to wait before retrying.",
-                "schema": {
-                  "minimum": 1,
-                  "type": "integer"
-                }
-              },
               "Retry-After": {
                 "description": "Seconds to wait before retrying.",
                 "schema": {
@@ -3229,20 +3227,16 @@
                         "title",
                         "type"
                       ],
-                      "type": "object"
+                      "type": "object",
+                      "additionalProperties": {
+                        "description": "A field that this API version can add. Ignore fields that you do not know."
+                      }
                     }
                   ]
                 }
               }
             },
             "headers": {
-              "retry-after": {
-                "description": "Seconds to wait before retrying.",
-                "schema": {
-                  "minimum": 1,
-                  "type": "integer"
-                }
-              },
               "Retry-After": {
                 "description": "Seconds to wait before retrying.",
                 "schema": {
@@ -3663,20 +3657,16 @@
                         "title",
                         "type"
                       ],
-                      "type": "object"
+                      "type": "object",
+                      "additionalProperties": {
+                        "description": "A field that this API version can add. Ignore fields that you do not know."
+                      }
                     }
                   ]
                 }
               }
             },
             "headers": {
-              "retry-after": {
-                "description": "Seconds to wait before retrying.",
-                "schema": {
-                  "minimum": 1,
-                  "type": "integer"
-                }
-              },
               "Retry-After": {
                 "description": "Seconds to wait before retrying.",
                 "schema": {
@@ -4064,7 +4054,10 @@
                         "title",
                         "type"
                       ],
-                      "type": "object"
+                      "type": "object",
+                      "additionalProperties": {
+                        "description": "A field that this API version can add. Ignore fields that you do not know."
+                      }
                     }
                   ]
                 }
@@ -4242,20 +4235,16 @@
                         "title",
                         "type"
                       ],
-                      "type": "object"
+                      "type": "object",
+                      "additionalProperties": {
+                        "description": "A field that this API version can add. Ignore fields that you do not know."
+                      }
                     }
                   ]
                 }
               }
             },
             "headers": {
-              "retry-after": {
-                "description": "Seconds to wait before retrying.",
-                "schema": {
-                  "minimum": 1,
-                  "type": "integer"
-                }
-              },
               "Retry-After": {
                 "description": "Seconds to wait before retrying.",
                 "schema": {
@@ -4285,7 +4274,7 @@
             }
           }
         },
-        "description": "200 with status cancelled when the cancel is confirmed. 202 with cancelRequestedAt when the pharmacy has not confirmed yet: you get order.cancelled when it confirms, or, when it refuses, cancelRequestedAt becomes null and you get order.updated. 409 when the pharmacy refuses or the order has shipped.",
+        "description": "200 with status cancelled when the cancel is confirmed. 202 with cancelRequestedAt when the pharmacy has not confirmed yet: you get order.cancelled when it confirms, or, when it refuses, cancelRequestedAt becomes null and you get order.updated. If an earlier ask may have reached the pharmacy, a refusal keeps cancelRequestedAt and sends no event until the pharmacy ends the order (order.cancelled or order.shipped). 409 when the pharmacy refuses or the order has shipped.",
         "summary": "Cancel an order",
         "x-visibility": "public"
       }
@@ -4599,7 +4588,10 @@
                         "title",
                         "type"
                       ],
-                      "type": "object"
+                      "type": "object",
+                      "additionalProperties": {
+                        "description": "A field that this API version can add. Ignore fields that you do not know."
+                      }
                     }
                   ]
                 }
@@ -4668,7 +4660,10 @@
                     "title",
                     "type"
                   ],
-                  "type": "object"
+                  "type": "object",
+                  "additionalProperties": {
+                    "description": "A field that this API version can add. Ignore fields that you do not know."
+                  }
                 }
               }
             },
@@ -4844,20 +4839,16 @@
                         "title",
                         "type"
                       ],
-                      "type": "object"
+                      "type": "object",
+                      "additionalProperties": {
+                        "description": "A field that this API version can add. Ignore fields that you do not know."
+                      }
                     }
                   ]
                 }
               }
             },
             "headers": {
-              "retry-after": {
-                "description": "Seconds to wait before retrying.",
-                "schema": {
-                  "minimum": 1,
-                  "type": "integer"
-                }
-              },
               "Retry-After": {
                 "description": "Seconds to wait before retrying.",
                 "schema": {
@@ -4916,7 +4907,8 @@
                     "$ref": "#/components/schemas/AddressInput"
                   },
                   "liveEnabled": {
-                    "type": "boolean"
+                    "type": "boolean",
+                    "default": false
                   },
                   "name": {
                     "type": "string",
@@ -5385,20 +5377,16 @@
                         "title",
                         "type"
                       ],
-                      "type": "object"
+                      "type": "object",
+                      "additionalProperties": {
+                        "description": "A field that this API version can add. Ignore fields that you do not know."
+                      }
                     }
                   ]
                 }
               }
             },
             "headers": {
-              "retry-after": {
-                "description": "Seconds to wait before retrying.",
-                "schema": {
-                  "minimum": 1,
-                  "type": "integer"
-                }
-              },
               "Retry-After": {
                 "description": "Seconds to wait before retrying.",
                 "schema": {
@@ -5819,20 +5807,16 @@
                         "title",
                         "type"
                       ],
-                      "type": "object"
+                      "type": "object",
+                      "additionalProperties": {
+                        "description": "A field that this API version can add. Ignore fields that you do not know."
+                      }
                     }
                   ]
                 }
               }
             },
             "headers": {
-              "retry-after": {
-                "description": "Seconds to wait before retrying.",
-                "schema": {
-                  "minimum": 1,
-                  "type": "integer"
-                }
-              },
               "Retry-After": {
                 "description": "Seconds to wait before retrying.",
                 "schema": {
@@ -6186,7 +6170,10 @@
                         "title",
                         "type"
                       ],
-                      "type": "object"
+                      "type": "object",
+                      "additionalProperties": {
+                        "description": "A field that this API version can add. Ignore fields that you do not know."
+                      }
                     }
                   ]
                 }
@@ -6255,7 +6242,10 @@
                     "title",
                     "type"
                   ],
-                  "type": "object"
+                  "type": "object",
+                  "additionalProperties": {
+                    "description": "A field that this API version can add. Ignore fields that you do not know."
+                  }
                 }
               }
             },
@@ -6431,20 +6421,16 @@
                         "title",
                         "type"
                       ],
-                      "type": "object"
+                      "type": "object",
+                      "additionalProperties": {
+                        "description": "A field that this API version can add. Ignore fields that you do not know."
+                      }
                     }
                   ]
                 }
               }
             },
             "headers": {
-              "retry-after": {
-                "description": "Seconds to wait before retrying.",
-                "schema": {
-                  "minimum": 1,
-                  "type": "integer"
-                }
-              },
               "Retry-After": {
                 "description": "Seconds to wait before retrying.",
                 "schema": {
@@ -6526,7 +6512,7 @@
                                 "type": "null"
                               }
                             ],
-                            "description": "The apartment or suite, or null when there is none. Empty text counts as null."
+                            "description": "The apartment or suite. Send null or empty text to remove it. An omitted `line2` keeps the saved suite, also when `line1` changes."
                           },
                           "city": {
                             "type": "string",
@@ -6555,10 +6541,15 @@
                       {
                         "type": "null"
                       }
-                    ]
+                    ],
+                    "description": "Affinity merges the address parts you send into the saved address. An omitted part keeps its saved value. To move to an address with no suite, send `\"line2\": null` with the new `line1`, `city`, `state` and `postalCode`."
                   },
                   "liveEnabled": {
-                    "type": "boolean"
+                    "type": [
+                      "boolean",
+                      "null"
+                    ],
+                    "description": "Omit it or send null to leave Live unchanged."
                   },
                   "name": {
                     "type": "string",
@@ -6988,20 +6979,16 @@
                         "title",
                         "type"
                       ],
-                      "type": "object"
+                      "type": "object",
+                      "additionalProperties": {
+                        "description": "A field that this API version can add. Ignore fields that you do not know."
+                      }
                     }
                   ]
                 }
               }
             },
             "headers": {
-              "retry-after": {
-                "description": "Seconds to wait before retrying.",
-                "schema": {
-                  "minimum": 1,
-                  "type": "integer"
-                }
-              },
               "Retry-After": {
                 "description": "Seconds to wait before retrying.",
                 "schema": {
@@ -7097,11 +7084,11 @@
                     },
                     "mode": {
                       "type": "string",
-                      "enum": [
+                      "description": "The Test or Live mode of this record.",
+                      "x-extensible-enum": [
                         "test",
                         "live"
-                      ],
-                      "description": "The Test or Live mode of this record."
+                      ]
                     },
                     "id": {
                       "type": "string",
@@ -7128,7 +7115,10 @@
                     "id",
                     "url",
                     "secret"
-                  ]
+                  ],
+                  "additionalProperties": {
+                    "description": "A field that this API version can add. Ignore fields that you do not know."
+                  }
                 }
               }
             },
@@ -7393,7 +7383,10 @@
                         "title",
                         "type"
                       ],
-                      "type": "object"
+                      "type": "object",
+                      "additionalProperties": {
+                        "description": "A field that this API version can add. Ignore fields that you do not know."
+                      }
                     }
                   ]
                 }
@@ -7462,7 +7455,10 @@
                     "title",
                     "type"
                   ],
-                  "type": "object"
+                  "type": "object",
+                  "additionalProperties": {
+                    "description": "A field that this API version can add. Ignore fields that you do not know."
+                  }
                 }
               }
             },
@@ -7638,20 +7634,16 @@
                         "title",
                         "type"
                       ],
-                      "type": "object"
+                      "type": "object",
+                      "additionalProperties": {
+                        "description": "A field that this API version can add. Ignore fields that you do not know."
+                      }
                     }
                   ]
                 }
               }
             },
             "headers": {
-              "retry-after": {
-                "description": "Seconds to wait before retrying.",
-                "schema": {
-                  "minimum": 1,
-                  "type": "integer"
-                }
-              },
               "Retry-After": {
                 "description": "Seconds to wait before retrying.",
                 "schema": {
@@ -7707,7 +7699,58 @@
         },
         "description": "Platforms and independent practices can register up to 16 public HTTPS endpoints per mode. An API key acts only for its own organization and mode. Every event goes to every endpoint. The signing secret is returned by creation and its idempotent replay for 24 hours.",
         "summary": "Add a webhook endpoint",
-        "x-visibility": "public"
+        "x-visibility": "public",
+        "callbacks": {
+          "orderEvent": {
+            "{$request.body#/url}": {
+              "post": {
+                "summary": "Receive an Affinity event",
+                "description": "Affinity POSTs each event as JSON to your registered endpoint URL, with an `Affinity-Signature: t=<Unix time in seconds>,v1=<signature>` header and an `Affinity-Event-Id` header that holds the event `id`. The signature is the lowercase hex HMAC-SHA256 of `t`, a period (`.`) and the raw request body bytes, keyed with the endpoint's whole signing secret (`whsec_…`). Verify each request before you use it: calculate the signature from the raw body, compare it with `v1` in constant time, and reject the request if they differ or if `t` is more than 300 seconds from your current time. Any 2xx response acknowledges the delivery. After any other status, a redirect or no response, Affinity retries an order event with backoff.",
+                "externalDocs": {
+                  "description": "Receive order updates: verify the signature",
+                  "url": "https://docs.affinityrx.com/guides/receive-order-updates/#verify-the-signature"
+                },
+                "parameters": [
+                  {
+                    "name": "Affinity-Signature",
+                    "in": "header",
+                    "required": true,
+                    "description": "`t=<Unix time in seconds>,v1=<lowercase hex HMAC-SHA256 of t.rawBody>`, keyed with the endpoint's signing secret.",
+                    "schema": {
+                      "type": "string",
+                      "pattern": "^t=[0-9]+,v1=[0-9a-f]{64}$"
+                    }
+                  },
+                  {
+                    "name": "Affinity-Event-Id",
+                    "in": "header",
+                    "required": true,
+                    "description": "The event `id`. Every delivery attempt of one event sends the same value.",
+                    "schema": {
+                      "type": "string",
+                      "pattern": "^evt_[0-7][0-9a-hjkmnp-tv-z]{25}$"
+                    }
+                  }
+                ],
+                "requestBody": {
+                  "required": true,
+                  "content": {
+                    "application/json": {
+                      "schema": {
+                        "$ref": "#/components/schemas/WebhookEvent"
+                      }
+                    }
+                  }
+                },
+                "responses": {
+                  "2XX": {
+                    "description": "Event acknowledged"
+                  }
+                }
+              }
+            }
+          }
+        }
       }
     },
     "/v1/webhook-endpoints/{webhookEndpointId}": {
@@ -8031,7 +8074,10 @@
                         "title",
                         "type"
                       ],
-                      "type": "object"
+                      "type": "object",
+                      "additionalProperties": {
+                        "description": "A field that this API version can add. Ignore fields that you do not know."
+                      }
                     }
                   ]
                 }
@@ -8100,7 +8146,10 @@
                     "title",
                     "type"
                   ],
-                  "type": "object"
+                  "type": "object",
+                  "additionalProperties": {
+                    "description": "A field that this API version can add. Ignore fields that you do not know."
+                  }
                 }
               }
             },
@@ -8276,20 +8325,16 @@
                         "title",
                         "type"
                       ],
-                      "type": "object"
+                      "type": "object",
+                      "additionalProperties": {
+                        "description": "A field that this API version can add. Ignore fields that you do not know."
+                      }
                     }
                   ]
                 }
               }
             },
             "headers": {
-              "retry-after": {
-                "description": "Seconds to wait before retrying.",
-                "schema": {
-                  "minimum": 1,
-                  "type": "integer"
-                }
-              },
               "Retry-After": {
                 "description": "Seconds to wait before retrying.",
                 "schema": {
@@ -8394,7 +8439,10 @@
                   "properties": {
                     "deleted": {
                       "type": "boolean",
-                      "description": "Always true."
+                      "description": "Always true.",
+                      "examples": [
+                        true
+                      ]
                     },
                     "id": {
                       "type": "string",
@@ -8407,7 +8455,10 @@
                   "required": [
                     "deleted",
                     "id"
-                  ]
+                  ],
+                  "additionalProperties": {
+                    "description": "A field that this API version can add. Ignore fields that you do not know."
+                  }
                 }
               }
             },
@@ -8640,7 +8691,10 @@
                         "title",
                         "type"
                       ],
-                      "type": "object"
+                      "type": "object",
+                      "additionalProperties": {
+                        "description": "A field that this API version can add. Ignore fields that you do not know."
+                      }
                     }
                   ]
                 }
@@ -8786,20 +8840,16 @@
                         "title",
                         "type"
                       ],
-                      "type": "object"
+                      "type": "object",
+                      "additionalProperties": {
+                        "description": "A field that this API version can add. Ignore fields that you do not know."
+                      }
                     }
                   ]
                 }
               }
             },
             "headers": {
-              "retry-after": {
-                "description": "Seconds to wait before retrying.",
-                "schema": {
-                  "minimum": 1,
-                  "type": "integer"
-                }
-              },
               "Retry-After": {
                 "description": "Seconds to wait before retrying.",
                 "schema": {
@@ -8901,7 +8951,10 @@
                   },
                   "required": [
                     "queued"
-                  ]
+                  ],
+                  "additionalProperties": {
+                    "description": "A field that this API version can add. Ignore fields that you do not know."
+                  }
                 }
               }
             },
@@ -9166,7 +9219,10 @@
                         "title",
                         "type"
                       ],
-                      "type": "object"
+                      "type": "object",
+                      "additionalProperties": {
+                        "description": "A field that this API version can add. Ignore fields that you do not know."
+                      }
                     }
                   ]
                 }
@@ -9344,20 +9400,16 @@
                         "title",
                         "type"
                       ],
-                      "type": "object"
+                      "type": "object",
+                      "additionalProperties": {
+                        "description": "A field that this API version can add. Ignore fields that you do not know."
+                      }
                     }
                   ]
                 }
               }
             },
             "headers": {
-              "retry-after": {
-                "description": "Seconds to wait before retrying.",
-                "schema": {
-                  "minimum": 1,
-                  "type": "integer"
-                }
-              },
               "Retry-After": {
                 "description": "Seconds to wait before retrying.",
                 "schema": {
@@ -9484,7 +9536,10 @@
           },
           "signatureAttestation": {
             "type": "boolean",
-            "description": "Must be true to attest that the named prescriber approved and signed these prescriptions."
+            "description": "Must be true to attest that the named prescriber approved and signed these prescriptions.",
+            "examples": [
+              true
+            ]
           }
         },
         "required": [
@@ -9677,7 +9732,8 @@
           },
           "substitutionPermitted": {
             "type": "boolean",
-            "description": "Whether the prescriber permits substitution; defaults to true when omitted."
+            "description": "Whether the prescriber permits substitution; defaults to true when omitted.",
+            "default": true
           }
         },
         "required": [
@@ -9788,7 +9844,7 @@
               ],
               "additionalProperties": false
             },
-            "description": "The reported allergies; an empty list means no new allergies reported.",
+            "description": "The reported allergies. Send `[]` when the patient reports no new allergies.",
             "maxItems": 50
           },
           "dateOfBirth": {
@@ -9960,20 +10016,20 @@
           },
           "mode": {
             "type": "string",
-            "enum": [
+            "description": "The Test or Live mode selected by the API key.",
+            "x-extensible-enum": [
               "test",
               "live"
-            ],
-            "description": "The Test or Live mode selected by the API key."
+            ]
           },
           "type": {
             "type": "string",
-            "enum": [
+            "description": "The organization type.",
+            "x-extensible-enum": [
               "platform",
               "practice",
               "pharmacy"
-            ],
-            "description": "The organization type."
+            ]
           }
         },
         "required": [
@@ -9985,7 +10041,10 @@
           "createdAt",
           "mode",
           "type"
-        ]
+        ],
+        "additionalProperties": {
+          "description": "A field that this API version can add. Ignore fields that you do not know."
+        }
       },
       "Address": {
         "type": "object",
@@ -10025,7 +10084,10 @@
           "state",
           "postalCode"
         ],
-        "description": "The US mailing address."
+        "description": "The US mailing address.",
+        "additionalProperties": {
+          "description": "A field that this API version can add. Ignore fields that you do not know."
+        }
       },
       "MedicationList": {
         "type": "object",
@@ -10065,14 +10127,18 @@
           "nextCursor",
           "object",
           "url"
-        ]
+        ],
+        "additionalProperties": {
+          "description": "A field that this API version can add. Ignore fields that you do not know."
+        }
       },
       "Medication": {
         "type": "object",
         "properties": {
           "category": {
             "type": "string",
-            "enum": [
+            "description": "What the medication is prescribed for. Every strength, form and pharmacy of one medication has the same category.",
+            "x-extensible-enum": [
               "weight_loss",
               "hormones",
               "sexual_health",
@@ -10083,8 +10149,7 @@
               "pain",
               "other",
               "supplies"
-            ],
-            "description": "What the medication is prescribed for. Every strength, form and pharmacy of one medication has the same category."
+            ]
           },
           "coldChainRequired": {
             "type": "boolean",
@@ -10233,7 +10298,10 @@
           "shippingOptions",
           "shippingSuppliesPrice",
           "strength"
-        ]
+        ],
+        "additionalProperties": {
+          "description": "A field that this API version can add. Ignore fields that you do not know."
+        }
       },
       "Fill": {
         "type": "object",
@@ -10277,7 +10345,10 @@
                 "amount",
                 "name",
                 "unit"
-              ]
+              ],
+              "additionalProperties": {
+                "description": "A field that this API version can add. Ignore fields that you do not know."
+              }
             },
             "description": "Each active ingredient's total in one fill: a 2 mL vial of 30 mg/mL is 60 mg."
           },
@@ -10302,7 +10373,10 @@
                 "required": [
                   "amount",
                   "unit"
-                ]
+                ],
+                "additionalProperties": {
+                  "description": "A field that this API version can add. Ignore fields that you do not know."
+                }
               },
               {
                 "type": "null"
@@ -10318,7 +10392,10 @@
           "unit",
           "volume"
         ],
-        "description": "What the pharmacy dispenses for one price. A quantity counts `unit`, not fills, and is a whole number of fills: for a fill of 30 tablets, quantity 60 is two fills and costs twice the price. For a vial product, one fill is one vial and quantity counts vials."
+        "description": "What the pharmacy dispenses for one price. A quantity counts `unit`, not fills, and is a whole number of fills: for a fill of 30 tablets, quantity 60 is two fills and costs twice the price. For a vial product, one fill is one vial and quantity counts vials.",
+        "additionalProperties": {
+          "description": "A field that this API version can add. Ignore fields that you do not know."
+        }
       },
       "PharmacyReference": {
         "type": "object",
@@ -10340,7 +10417,10 @@
           "id",
           "name"
         ],
-        "description": "The dispensing pharmacy."
+        "description": "The dispensing pharmacy.",
+        "additionalProperties": {
+          "description": "A field that this API version can add. Ignore fields that you do not know."
+        }
       },
       "ShippingOption": {
         "type": "object",
@@ -10368,7 +10448,10 @@
           "id",
           "name",
           "price"
-        ]
+        ],
+        "additionalProperties": {
+          "description": "A field that this API version can add. Ignore fields that you do not know."
+        }
       },
       "Order": {
         "type": "object",
@@ -10422,11 +10505,11 @@
           },
           "mode": {
             "type": "string",
-            "enum": [
+            "description": "The Test or Live mode of this record.",
+            "x-extensible-enum": [
               "test",
               "live"
-            ],
-            "description": "The Test or Live mode of this record."
+            ]
           },
           "patient": {
             "$ref": "#/components/schemas/Patient"
@@ -10473,7 +10556,10 @@
                   "name",
                   "phone",
                   "archivedAt"
-                ]
+                ],
+                "additionalProperties": {
+                  "description": "A field that this API version can add. Ignore fields that you do not know."
+                }
               },
               {
                 "type": "null"
@@ -10535,7 +10621,10 @@
                   "npi",
                   "phone",
                   "address"
-                ]
+                ],
+                "additionalProperties": {
+                  "description": "A field that this API version can add. Ignore fields that you do not know."
+                }
               },
               {
                 "type": "null"
@@ -10581,7 +10670,10 @@
                       "id",
                       "name",
                       "price"
-                    ]
+                    ],
+                    "additionalProperties": {
+                      "description": "A field that this API version can add. Ignore fields that you do not know."
+                    }
                   },
                   {
                     "type": "null"
@@ -10597,7 +10689,10 @@
               "option",
               "destination"
             ],
-            "description": "The shipping option and destination."
+            "description": "The shipping option and destination.",
+            "additionalProperties": {
+              "description": "A field that this API version can add. Ignore fields that you do not know."
+            }
           },
           "shipments": {
             "type": "array",
@@ -10608,7 +10703,8 @@
           },
           "status": {
             "type": "string",
-            "enum": [
+            "description": "The current fulfillment status.",
+            "x-extensible-enum": [
               "awaiting_approval",
               "submitted",
               "processing",
@@ -10616,8 +10712,7 @@
               "delivered",
               "cancelled",
               "failed"
-            ],
-            "description": "The current fulfillment status."
+            ]
           },
           "trackingUrl": {
             "anyOf": [
@@ -10670,7 +10765,10 @@
           "statusHistory",
           "total",
           "updatedAt"
-        ]
+        ],
+        "additionalProperties": {
+          "description": "A field that this API version can add. Ignore fields that you do not know."
+        }
       },
       "Patient": {
         "type": "object",
@@ -10700,12 +10798,12 @@
           },
           "sex": {
             "type": "string",
-            "enum": [
+            "description": "The patient's sex as sent to the pharmacy.",
+            "x-extensible-enum": [
               "female",
               "male",
               "unknown"
-            ],
-            "description": "The patient's sex as sent to the pharmacy."
+            ]
           },
           "lastName": {
             "type": "string",
@@ -10738,14 +10836,18 @@
           "middleName",
           "phone"
         ],
-        "description": "The patient details saved when the order was signed."
+        "description": "The patient details saved when the order was signed.",
+        "additionalProperties": {
+          "description": "A field that this API version can add. Ignore fields that you do not know."
+        }
       },
       "Allergy": {
         "type": "object",
         "properties": {
           "category": {
             "type": "string",
-            "enum": [
+            "description": "The allergy category.",
+            "x-extensible-enum": [
               "drug",
               "food",
               "insect",
@@ -10753,8 +10855,7 @@
               "mold",
               "pet",
               "pollen"
-            ],
-            "description": "The allergy category."
+            ]
           },
           "display": {
             "type": "string",
@@ -10764,7 +10865,10 @@
         "required": [
           "category",
           "display"
-        ]
+        ],
+        "additionalProperties": {
+          "description": "A field that this API version can add. Ignore fields that you do not know."
+        }
       },
       "Prescription": {
         "type": "object",
@@ -10797,7 +10901,8 @@
           },
           "status": {
             "type": "string",
-            "enum": [
+            "description": "The current fulfillment status.",
+            "x-extensible-enum": [
               "awaiting_approval",
               "submitted",
               "processing",
@@ -10805,8 +10910,7 @@
               "delivered",
               "cancelled",
               "failed"
-            ],
-            "description": "The current fulfillment status."
+            ]
           },
           "failureReason": {
             "anyOf": [
@@ -10887,7 +10991,10 @@
               "quantityUnit",
               "strength"
             ],
-            "description": "The medication details saved when the order was signed."
+            "description": "The medication details saved when the order was signed.",
+            "additionalProperties": {
+              "description": "A field that this API version can add. Ignore fields that you do not know."
+            }
           },
           "notes": {
             "anyOf": [
@@ -10936,7 +11043,10 @@
           "quantity",
           "refills",
           "substitutionPermitted"
-        ]
+        ],
+        "additionalProperties": {
+          "description": "A field that this API version can add. Ignore fields that you do not know."
+        }
       },
       "ShippingDestination": {
         "oneOf": [
@@ -10969,7 +11079,10 @@
         },
         "required": [
           "type"
-        ]
+        ],
+        "additionalProperties": {
+          "description": "A field that this API version can add. Ignore fields that you do not know."
+        }
       },
       "ShippingDestinationPractice": {
         "type": "object",
@@ -10980,7 +11093,10 @@
         },
         "required": [
           "type"
-        ]
+        ],
+        "additionalProperties": {
+          "description": "A field that this API version can add. Ignore fields that you do not know."
+        }
       },
       "ShippingDestinationAddress": {
         "type": "object",
@@ -10995,7 +11111,10 @@
         "required": [
           "type",
           "address"
-        ]
+        ],
+        "additionalProperties": {
+          "description": "A field that this API version can add. Ignore fields that you do not know."
+        }
       },
       "Shipment": {
         "type": "object",
@@ -11032,7 +11151,10 @@
           "carrier",
           "trackingNumber",
           "trackingUrl"
-        ]
+        ],
+        "additionalProperties": {
+          "description": "A field that this API version can add. Ignore fields that you do not know."
+        }
       },
       "StatusHistoryEntry": {
         "type": "object",
@@ -11044,7 +11166,8 @@
           },
           "status": {
             "type": "string",
-            "enum": [
+            "description": "The current fulfillment status.",
+            "x-extensible-enum": [
               "awaiting_approval",
               "submitted",
               "processing",
@@ -11052,14 +11175,16 @@
               "delivered",
               "cancelled",
               "failed"
-            ],
-            "description": "The current fulfillment status."
+            ]
           }
         },
         "required": [
           "createdAt",
           "status"
-        ]
+        ],
+        "additionalProperties": {
+          "description": "A field that this API version can add. Ignore fields that you do not know."
+        }
       },
       "OrderList": {
         "type": "object",
@@ -11099,7 +11224,10 @@
           "nextCursor",
           "object",
           "url"
-        ]
+        ],
+        "additionalProperties": {
+          "description": "A field that this API version can add. Ignore fields that you do not know."
+        }
       },
       "Practice": {
         "type": "object",
@@ -11167,7 +11295,10 @@
           "liveEnabled",
           "createdAt",
           "externalId"
-        ]
+        ],
+        "additionalProperties": {
+          "description": "A field that this API version can add. Ignore fields that you do not know."
+        }
       },
       "PracticeList": {
         "type": "object",
@@ -11207,7 +11338,10 @@
           "nextCursor",
           "object",
           "url"
-        ]
+        ],
+        "additionalProperties": {
+          "description": "A field that this API version can add. Ignore fields that you do not know."
+        }
       },
       "WebhookEndpointList": {
         "type": "object",
@@ -11247,7 +11381,10 @@
           "nextCursor",
           "object",
           "url"
-        ]
+        ],
+        "additionalProperties": {
+          "description": "A field that this API version can add. Ignore fields that you do not know."
+        }
       },
       "WebhookEndpoint": {
         "type": "object",
@@ -11264,11 +11401,11 @@
           },
           "mode": {
             "type": "string",
-            "enum": [
+            "description": "The Test or Live mode of this record.",
+            "x-extensible-enum": [
               "test",
               "live"
-            ],
-            "description": "The Test or Live mode of this record."
+            ]
           },
           "id": {
             "type": "string",
@@ -11290,7 +11427,10 @@
           "mode",
           "id",
           "url"
-        ]
+        ],
+        "additionalProperties": {
+          "description": "A field that this API version can add. Ignore fields that you do not know."
+        }
       },
       "WebhookEvent": {
         "oneOf": [
@@ -11349,7 +11489,9 @@
             "required": [
               "order"
             ],
-            "additionalProperties": true,
+            "additionalProperties": {
+              "description": "A field that this API version can add. Ignore fields that you do not know."
+            },
             "description": "The event payload."
           }
         },
@@ -11359,7 +11501,9 @@
           "createdAt",
           "data"
         ],
-        "additionalProperties": true
+        "additionalProperties": {
+          "description": "A field that this API version can add. Ignore fields that you do not know."
+        }
       },
       "WebhookOrder": {
         "type": "object",
@@ -11428,7 +11572,8 @@
                 },
                 "status": {
                   "type": "string",
-                  "enum": [
+                  "description": "The current fulfillment status.",
+                  "x-extensible-enum": [
                     "awaiting_approval",
                     "submitted",
                     "processing",
@@ -11436,8 +11581,7 @@
                     "delivered",
                     "cancelled",
                     "failed"
-                  ],
-                  "description": "The current fulfillment status."
+                  ]
                 },
                 "failureReason": {
                   "anyOf": [
@@ -11456,13 +11600,16 @@
                 "status",
                 "failureReason"
               ],
-              "additionalProperties": true
+              "additionalProperties": {
+                "description": "A field that this API version can add. Ignore fields that you do not know."
+              }
             },
             "description": "The prescriptions for this order's patient."
           },
           "status": {
             "type": "string",
-            "enum": [
+            "description": "The current fulfillment status.",
+            "x-extensible-enum": [
               "awaiting_approval",
               "submitted",
               "processing",
@@ -11470,8 +11617,7 @@
               "delivered",
               "cancelled",
               "failed"
-            ],
-            "description": "The current fulfillment status."
+            ]
           },
           "trackingUrl": {
             "anyOf": [
@@ -11502,7 +11648,9 @@
           "trackingUrl",
           "updatedAt"
         ],
-        "additionalProperties": true,
+        "additionalProperties": {
+          "description": "A field that this API version can add. Ignore fields that you do not know."
+        },
         "description": "The order's operational details without patient data or prescription clinical details. `failureReason` is always Affinity's own summary; a reason written by Affinity staff is in the order that `GET /v1/orders/{orderId}` returns."
       },
       "PrescriptionEvent": {
@@ -11543,7 +11691,9 @@
               "order",
               "prescriptionId"
             ],
-            "additionalProperties": true,
+            "additionalProperties": {
+              "description": "A field that this API version can add. Ignore fields that you do not know."
+            },
             "description": "The event payload."
           }
         },
@@ -11553,7 +11703,9 @@
           "createdAt",
           "data"
         ],
-        "additionalProperties": true
+        "additionalProperties": {
+          "description": "A field that this API version can add. Ignore fields that you do not know."
+        }
       },
       "WebhookEndpointTestEvent": {
         "type": "object",
@@ -11576,7 +11728,10 @@
           },
           "data": {
             "type": "object",
-            "description": "The event payload."
+            "description": "The event payload.",
+            "additionalProperties": {
+              "description": "A field that this API version can add. Ignore fields that you do not know."
+            }
           }
         },
         "required": [
@@ -11585,7 +11740,9 @@
           "createdAt",
           "data"
         ],
-        "additionalProperties": true
+        "additionalProperties": {
+          "description": "A field that this API version can add. Ignore fields that you do not know."
+        }
       },
       "Problem": {
         "properties": {
@@ -11636,7 +11793,10 @@
                 "field",
                 "message",
                 "path"
-              ]
+              ],
+              "additionalProperties": {
+                "description": "A field that this API version can add. Ignore fields that you do not know."
+              }
             }
           },
           "instance": {
@@ -11661,7 +11821,10 @@
           "title",
           "type"
         ],
-        "type": "object"
+        "type": "object",
+        "additionalProperties": {
+          "description": "A field that this API version can add. Ignore fields that you do not know."
+        }
       },
       "Problem429": {
         "allOf": [
@@ -11675,16 +11838,22 @@
                 "properties": {
                   "retryAfterSeconds": {
                     "type": "integer",
-                    "minimum": -9007199254740991,
+                    "minimum": 1,
                     "maximum": 9007199254740991
                   }
                 },
                 "required": [
                   "retryAfterSeconds"
-                ]
+                ],
+                "additionalProperties": {
+                  "description": "A field that this API version can add. Ignore fields that you do not know."
+                }
               }
             },
-            "type": "object"
+            "type": "object",
+            "additionalProperties": {
+              "description": "A field that this API version can add. Ignore fields that you do not know."
+            }
           }
         ]
       },
@@ -11712,10 +11881,16 @@
                       "prac_01j2y8m6jcc9tt24af5pw9x1bc"
                     ]
                   }
+                },
+                "additionalProperties": {
+                  "description": "A field that this API version can add. Ignore fields that you do not know."
                 }
               }
             },
-            "type": "object"
+            "type": "object",
+            "additionalProperties": {
+              "description": "A field that this API version can add. Ignore fields that you do not know."
+            }
           }
         ]
       }
@@ -11735,55 +11910,6 @@
       "name": "api"
     }
   ],
-  "webhooks": {
-    "orderEvent": {
-      "post": {
-        "summary": "Receive an Affinity event",
-        "description": "Affinity POSTs each event as JSON to your registered endpoint URL, with an `Affinity-Signature: t=<Unix time in seconds>,v1=<signature>` header and an `Affinity-Event-Id` header that holds the event `id`. The signature is the lowercase hex HMAC-SHA256 of `t`, a period (`.`) and the raw request body bytes, keyed with the endpoint's whole signing secret (`whsec_…`). Verify each request before you use it: calculate the signature from the raw body, compare it with `v1` in constant time, and reject the request if they differ or if `t` is more than 300 seconds from your current time. Any 2xx response acknowledges the delivery. After any other status, a redirect or no response, Affinity retries an order event with backoff.",
-        "externalDocs": {
-          "description": "Receive order updates: verify the signature",
-          "url": "https://docs.affinityrx.com/guides/receive-order-updates/#verify-the-signature"
-        },
-        "parameters": [
-          {
-            "name": "Affinity-Signature",
-            "in": "header",
-            "required": true,
-            "description": "`t=<Unix time in seconds>,v1=<lowercase hex HMAC-SHA256 of t.rawBody>`, keyed with the endpoint's signing secret.",
-            "schema": {
-              "type": "string",
-              "pattern": "^t=[0-9]+,v1=[0-9a-f]{64}$"
-            }
-          },
-          {
-            "name": "Affinity-Event-Id",
-            "in": "header",
-            "required": true,
-            "description": "The event `id`. Every delivery attempt of one event sends the same value.",
-            "schema": {
-              "type": "string",
-              "pattern": "^evt_[0-7][0-9a-hjkmnp-tv-z]{25}$"
-            }
-          }
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/WebhookEvent"
-              }
-            }
-          }
-        },
-        "responses": {
-          "2XX": {
-            "description": "Event acknowledged"
-          }
-        }
-      }
-    }
-  },
   "servers": [
     {
       "url": "https://api.affinityrx.com"
