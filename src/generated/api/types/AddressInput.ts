@@ -4,9 +4,11 @@
  * The US mailing address.
  */
 export interface AddressInput {
+    /** The street address. */
     line1: string;
     /** The apartment or suite, or null when there is none. Empty text counts as null. */
     line2?: (string | null) | undefined;
+    /** The city name. */
     city: string;
     /** The two-letter US state or territory code, such as TX, in any letter case. Affinity stores and returns it in upper case. */
     state: string;

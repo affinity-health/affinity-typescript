@@ -23,6 +23,7 @@ export interface CreatePracticesRequest {
     externalId?: string | null;
     address: Affinity.AddressInput;
     liveEnabled?: boolean;
+    /** Text with at least one visible character. */
     name: string;
     /** A US phone number: 10 digits, with or without +1 or 1 before them. Spaces, dashes, dots and parentheses are allowed, such as (512) 555-0100. Affinity stores and returns +15125550100. */
     phone: string;

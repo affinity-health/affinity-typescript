@@ -8,9 +8,9 @@ import type * as Affinity from "../index.js";
 export interface WebhookOrder {
     /** When cancellation was requested, or null when no cancellation is waiting. */
     cancelRequestedAt: string | null;
-    /** Your order identifier, unique within the practice and mode. */
+    /** Your order identifier, unique within the practice and mode. A failed or cancelled order keeps it. */
     externalOrderId: string | null;
-    /** The failure or cancellation refusal reason, or null when there is none. */
+    /** Why the order failed, for a person to read. Null unless the order failed; a refused cancel leaves it null. */
     failureReason: string | null;
     /** The public record identifier. */
     id: string;
@@ -20,7 +20,7 @@ export interface WebhookOrder {
     prescriptions: WebhookOrder.Prescriptions.Item[];
     /** The current fulfillment status. */
     status: WebhookOrder.Status;
-    /** The carrier's tracking page for the newest package, or null before the order ships. */
+    /** The carrier's tracking page for the newest package. Null when there is no package yet or the carrier has no tracking page. */
     trackingUrl: string | null;
     /** When the record was last updated. */
     updatedAt: string;
@@ -35,7 +35,7 @@ export namespace WebhookOrder {
             id: string;
             /** The current fulfillment status. */
             status: Item.Status;
-            /** The failure or cancellation refusal reason, or null when there is none. */
+            /** Why the order failed, for a person to read. Null unless the order failed; a refused cancel leaves it null. */
             failureReason: string | null;
         }
 

@@ -16,6 +16,9 @@ export declare namespace OrdersClient {
     export interface RequestOptions extends BaseRequestOptions {}
 }
 
+/**
+ * Create, find and cancel orders.
+ */
 export class OrdersClient {
     protected readonly _options: NormalizedClientOptionsWithAuth<OrdersClient.Options>;
 
@@ -33,7 +36,6 @@ export class OrdersClient {
      * @throws {@link Affinity.UnauthorizedError}
      * @throws {@link Affinity.ForbiddenError}
      * @throws {@link Affinity.NotFoundError}
-     * @throws {@link Affinity.MethodNotAllowedError}
      * @throws {@link Affinity.ContentTooLargeError}
      * @throws {@link Affinity.TooManyRequestsError}
      * @throws {@link Affinity.InternalServerError}
@@ -131,14 +133,9 @@ export class OrdersClient {
                                 _response.error.body as Affinity.Problem,
                                 _response.rawResponse,
                             );
-                        case 405:
-                            throw new Affinity.MethodNotAllowedError(
-                                _response.error.body as Affinity.Problem,
-                                _response.rawResponse,
-                            );
                         case 413:
                             throw new Affinity.ContentTooLargeError(
-                                _response.error.body as unknown,
+                                _response.error.body as Affinity.Problem,
                                 _response.rawResponse,
                             );
                         case 429:
@@ -153,7 +150,7 @@ export class OrdersClient {
                             );
                         case 503:
                             throw new Affinity.ServiceUnavailableError(
-                                _response.error.body as Affinity.ServiceUnavailableErrorBody,
+                                _response.error.body as Affinity.Problem,
                                 _response.rawResponse,
                             );
                         default:
@@ -182,7 +179,7 @@ export class OrdersClient {
     }
 
     /**
-     * One request creates the order, signs it and sends it to the pharmacy. Platforms must send practiceId; practice callers can omit it to use their own practice. With an API key, name the prescriber and send signatureAttestation. Optional prescriber phone and address each default to the practice; no account is looked up by NPI. In the app, the signed-in member signs with the NPI in their settings, or names the prescriber with the same attestation. The patient is found by patient.externalId and updated from the order. Live orders require Live access on the practice and its platform. No payment method is required.
+     * One request creates the order, signs it and sends it to the pharmacy. Platforms must send practiceId; practice callers can omit it to use their own practice. With an API key, name the prescriber and send signatureAttestation. Optional prescriber phone and address each default to the practice; no account is looked up by NPI. In the app, the signed-in member signs with the NPI in their settings, or names the prescriber with the same attestation. With patient.externalId, the order reuses that patient of the practice and mode and updates the saved record; without it, each order creates a new patient. When the pharmacy already holds the patient's name, a different firstName or lastName returns 422 invalid_order. Live orders require Live access on the practice and its platform. No payment method is required.
      *
      * @param {Affinity.OrderInput} request
      * @param {OrdersClient.RequestOptions} requestOptions - Request-specific configuration.
@@ -191,7 +188,6 @@ export class OrdersClient {
      * @throws {@link Affinity.UnauthorizedError}
      * @throws {@link Affinity.ForbiddenError}
      * @throws {@link Affinity.NotFoundError}
-     * @throws {@link Affinity.MethodNotAllowedError}
      * @throws {@link Affinity.ConflictError}
      * @throws {@link Affinity.ContentTooLargeError}
      * @throws {@link Affinity.UnsupportedMediaTypeError}
@@ -293,18 +289,16 @@ export class OrdersClient {
                     throw new Affinity.ForbiddenError(_response.error.body as Affinity.Problem, _response.rawResponse);
                 case 404:
                     throw new Affinity.NotFoundError(_response.error.body as Affinity.Problem, _response.rawResponse);
-                case 405:
-                    throw new Affinity.MethodNotAllowedError(
-                        _response.error.body as Affinity.Problem,
-                        _response.rawResponse,
-                    );
                 case 409:
                     throw new Affinity.ConflictError(
                         _response.error.body as Affinity.Problem409,
                         _response.rawResponse,
                     );
                 case 413:
-                    throw new Affinity.ContentTooLargeError(_response.error.body as unknown, _response.rawResponse);
+                    throw new Affinity.ContentTooLargeError(
+                        _response.error.body as Affinity.Problem,
+                        _response.rawResponse,
+                    );
                 case 415:
                     throw new Affinity.UnsupportedMediaTypeError(
                         _response.error.body as unknown,
@@ -327,7 +321,7 @@ export class OrdersClient {
                     );
                 case 503:
                     throw new Affinity.ServiceUnavailableError(
-                        _response.error.body as Affinity.ServiceUnavailableErrorBody,
+                        _response.error.body as Affinity.Problem,
                         _response.rawResponse,
                     );
                 default:
@@ -352,7 +346,6 @@ export class OrdersClient {
      * @throws {@link Affinity.UnauthorizedError}
      * @throws {@link Affinity.ForbiddenError}
      * @throws {@link Affinity.NotFoundError}
-     * @throws {@link Affinity.MethodNotAllowedError}
      * @throws {@link Affinity.ContentTooLargeError}
      * @throws {@link Affinity.TooManyRequestsError}
      * @throws {@link Affinity.InternalServerError}
@@ -417,13 +410,11 @@ export class OrdersClient {
                     throw new Affinity.ForbiddenError(_response.error.body as Affinity.Problem, _response.rawResponse);
                 case 404:
                     throw new Affinity.NotFoundError(_response.error.body as Affinity.Problem, _response.rawResponse);
-                case 405:
-                    throw new Affinity.MethodNotAllowedError(
+                case 413:
+                    throw new Affinity.ContentTooLargeError(
                         _response.error.body as Affinity.Problem,
                         _response.rawResponse,
                     );
-                case 413:
-                    throw new Affinity.ContentTooLargeError(_response.error.body as unknown, _response.rawResponse);
                 case 429:
                     throw new Affinity.TooManyRequestsError(
                         _response.error.body as Affinity.Problem429,
@@ -436,7 +427,7 @@ export class OrdersClient {
                     );
                 case 503:
                     throw new Affinity.ServiceUnavailableError(
-                        _response.error.body as Affinity.ServiceUnavailableErrorBody,
+                        _response.error.body as Affinity.Problem,
                         _response.rawResponse,
                     );
                 default:
@@ -452,7 +443,7 @@ export class OrdersClient {
     }
 
     /**
-     * 200 with status cancelled when the cancel is confirmed. 202 with cancelRequestedAt when the pharmacy has not confirmed yet: you get order.cancelled when it confirms, or, when it refuses, cancelRequestedAt becomes null and you get order.updated. If an earlier ask may have reached the pharmacy, a refusal keeps cancelRequestedAt and sends no event until the pharmacy ends the order (order.cancelled or order.shipped). 409 when the pharmacy refuses or the order has shipped.
+     * 200 with status cancelled when the cancel is confirmed. 202 with cancelRequestedAt when the pharmacy has not confirmed yet: you get order.cancelled when it confirms, or, when it refuses, cancelRequestedAt becomes null and you get order.updated. If an earlier ask may have reached the pharmacy, a refusal keeps cancelRequestedAt and sends no event until the pharmacy ends the order (order.cancelled or order.shipped). 409 cannot_cancel when the order is shipped, delivered or failed. 409 cancel_refused when the pharmacy refused the cancel, or when Affinity could not reach the pharmacy; only the second says to retry with a new Idempotency-Key.
      *
      * @param {Affinity.CancelOrdersRequest} request
      * @param {OrdersClient.RequestOptions} requestOptions - Request-specific configuration.
@@ -461,7 +452,6 @@ export class OrdersClient {
      * @throws {@link Affinity.UnauthorizedError}
      * @throws {@link Affinity.ForbiddenError}
      * @throws {@link Affinity.NotFoundError}
-     * @throws {@link Affinity.MethodNotAllowedError}
      * @throws {@link Affinity.ConflictError}
      * @throws {@link Affinity.ContentTooLargeError}
      * @throws {@link Affinity.UnsupportedMediaTypeError}
@@ -532,18 +522,16 @@ export class OrdersClient {
                     throw new Affinity.ForbiddenError(_response.error.body as Affinity.Problem, _response.rawResponse);
                 case 404:
                     throw new Affinity.NotFoundError(_response.error.body as Affinity.Problem, _response.rawResponse);
-                case 405:
-                    throw new Affinity.MethodNotAllowedError(
-                        _response.error.body as Affinity.Problem,
-                        _response.rawResponse,
-                    );
                 case 409:
                     throw new Affinity.ConflictError(
                         _response.error.body as Affinity.Problem409,
                         _response.rawResponse,
                     );
                 case 413:
-                    throw new Affinity.ContentTooLargeError(_response.error.body as unknown, _response.rawResponse);
+                    throw new Affinity.ContentTooLargeError(
+                        _response.error.body as Affinity.Problem,
+                        _response.rawResponse,
+                    );
                 case 415:
                     throw new Affinity.UnsupportedMediaTypeError(
                         _response.error.body as unknown,
@@ -561,7 +549,7 @@ export class OrdersClient {
                     );
                 case 503:
                     throw new Affinity.ServiceUnavailableError(
-                        _response.error.body as Affinity.ServiceUnavailableErrorBody,
+                        _response.error.body as Affinity.Problem,
                         _response.rawResponse,
                     );
                 default:

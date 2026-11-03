@@ -15,6 +15,6 @@ export interface ListPracticesRequest {
     externalId?: string;
     /** Match practice names containing this text, ignoring case. Restart pagination after changing query. */
     query?: string;
-    /** name and location sort A to Z; mode sorts Test before Live; created sorts oldest first. A _desc suffix reverses the order. Defaults to created_desc. Missing locations sort last. Restart pagination after changing sort. */
+    /** name and location sort A to Z; mode sorts practices without Live access before those with it; created sorts oldest first. A _desc suffix reverses the order. Defaults to created_desc. Missing locations sort last. Restart pagination after changing sort. */
     sort?: Affinity.ListPracticesRequestSort;
 }

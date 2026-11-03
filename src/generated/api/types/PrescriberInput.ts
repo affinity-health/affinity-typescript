@@ -9,7 +9,9 @@ export interface PrescriberInput {
     /** A US phone number: 10 digits, with or without +1 or 1 before them. Spaces, dashes, dots and parentheses are allowed, such as (512) 555-0100. Affinity stores and returns +15125550100. Empty text counts as null. When the phone is omitted, null or blank, the order uses the practice phone. */
     phone?: (string | null) | undefined;
     address?: Affinity.AddressInput | undefined;
+    /** The first name. */
     firstName: string;
+    /** The last name. */
     lastName: string;
     /** The prescribing clinician's 10-digit National Provider Identifier (NPI). Surrounding spaces are removed. */
     npi: string;

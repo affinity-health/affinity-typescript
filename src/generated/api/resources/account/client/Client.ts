@@ -15,6 +15,9 @@ export declare namespace AccountClient {
     export interface RequestOptions extends BaseRequestOptions {}
 }
 
+/**
+ * The organization and mode that the API key acts for.
+ */
 export class AccountClient {
     protected readonly _options: NormalizedClientOptionsWithAuth<AccountClient.Options>;
 
@@ -31,7 +34,6 @@ export class AccountClient {
      * @throws {@link Affinity.UnauthorizedError}
      * @throws {@link Affinity.ForbiddenError}
      * @throws {@link Affinity.NotFoundError}
-     * @throws {@link Affinity.MethodNotAllowedError}
      * @throws {@link Affinity.ContentTooLargeError}
      * @throws {@link Affinity.TooManyRequestsError}
      * @throws {@link Affinity.InternalServerError}
@@ -89,13 +91,11 @@ export class AccountClient {
                     throw new Affinity.ForbiddenError(_response.error.body as Affinity.Problem, _response.rawResponse);
                 case 404:
                     throw new Affinity.NotFoundError(_response.error.body as Affinity.Problem, _response.rawResponse);
-                case 405:
-                    throw new Affinity.MethodNotAllowedError(
+                case 413:
+                    throw new Affinity.ContentTooLargeError(
                         _response.error.body as Affinity.Problem,
                         _response.rawResponse,
                     );
-                case 413:
-                    throw new Affinity.ContentTooLargeError(_response.error.body as unknown, _response.rawResponse);
                 case 429:
                     throw new Affinity.TooManyRequestsError(
                         _response.error.body as Affinity.Problem429,
@@ -108,7 +108,7 @@ export class AccountClient {
                     );
                 case 503:
                     throw new Affinity.ServiceUnavailableError(
-                        _response.error.body as Affinity.ServiceUnavailableErrorBody,
+                        _response.error.body as Affinity.Problem,
                         _response.rawResponse,
                     );
                 default:

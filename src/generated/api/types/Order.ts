@@ -7,9 +7,9 @@ export interface Order {
     cancelRequestedAt: string | null;
     /** When the record was created. */
     createdAt: string;
-    /** Your order identifier, unique within the practice and mode. */
+    /** Your order identifier, unique within the practice and mode. A failed or cancelled order keeps it. */
     externalOrderId: string | null;
-    /** The failure or cancellation refusal reason, or null when there is none. */
+    /** Why the order failed, for a person to read. Null unless the order failed; a refused cancel leaves it null. */
     failureReason: string | null;
     /** The public record identifier. */
     id: string;
@@ -32,7 +32,7 @@ export interface Order {
     shipments: Affinity.Shipment[];
     /** The current fulfillment status. */
     status: Order.Status;
-    /** The carrier's tracking page for the newest package, or null before the order ships. */
+    /** The carrier's tracking page for the newest package. Null when there is no package yet or the carrier has no tracking page. */
     trackingUrl: string | null;
     /** The order's status changes, oldest first. */
     statusHistory: Affinity.StatusHistoryEntry[];
@@ -88,7 +88,7 @@ export namespace Order {
             id: string;
             /** The name. */
             name: string;
-            /** The price in integer cents. */
+            /** The shipping price charged, in integer cents. */
             price: number;
         }
     }

@@ -8,6 +8,7 @@
  *     }
  */
 export interface UpdatePracticesRequest {
+    /** The practice ID. */
     practiceId: string;
     /** A unique key per operation, 1 to 255 printable ASCII characters without spaces. Retry the same key and body to avoid repeating the action. The replay response depends on the operation. See https://docs.affinityrx.com/guides/#retry-safely. */
     idempotencyKey: string;
@@ -17,6 +18,7 @@ export interface UpdatePracticesRequest {
     address?: UpdatePracticesRequest.Address | null;
     /** Omit it or send null to leave Live unchanged. */
     liveEnabled?: boolean | null;
+    /** Text with at least one visible character. */
     name?: string;
     /** A US phone number: 10 digits, with or without +1 or 1 before them. Spaces, dashes, dots and parentheses are allowed, such as (512) 555-0100. Affinity stores and returns +15125550100. Empty text counts as null. */
     phone?: string | null;
@@ -24,9 +26,11 @@ export interface UpdatePracticesRequest {
 
 export namespace UpdatePracticesRequest {
     export interface Address {
+        /** The street address. */
         line1?: string | undefined;
         /** The apartment or suite. Send null or empty text to remove it. An omitted `line2` keeps the saved suite, also when `line1` changes. */
         line2?: (string | null) | undefined;
+        /** The city name. */
         city?: string | undefined;
         /** The two-letter US state or territory code, such as TX, in any letter case. Affinity stores and returns it in upper case. */
         state?: string | undefined;

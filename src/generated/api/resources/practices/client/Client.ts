@@ -16,6 +16,9 @@ export declare namespace PracticesClient {
     export interface RequestOptions extends BaseRequestOptions {}
 }
 
+/**
+ * Create, find and update practices.
+ */
 export class PracticesClient {
     protected readonly _options: NormalizedClientOptionsWithAuth<PracticesClient.Options>;
 
@@ -24,7 +27,7 @@ export class PracticesClient {
     }
 
     /**
-     * List the platform's practices, newest first. Available to platforms only. `sort` takes `name` or `location` (A to Z, practices without a location last), `mode` (Test before Live) or `created` (oldest first); a `_desc` suffix reverses.
+     * List the platform's practices, newest first. Available to platforms only. `sort` takes `name` or `location` (A to Z, practices without a location last), `mode` (without Live access, then with it) or `created` (oldest first); a `_desc` suffix reverses.
      *
      * @param {Affinity.ListPracticesRequest} request
      * @param {PracticesClient.RequestOptions} requestOptions - Request-specific configuration.
@@ -33,7 +36,6 @@ export class PracticesClient {
      * @throws {@link Affinity.UnauthorizedError}
      * @throws {@link Affinity.ForbiddenError}
      * @throws {@link Affinity.NotFoundError}
-     * @throws {@link Affinity.MethodNotAllowedError}
      * @throws {@link Affinity.ContentTooLargeError}
      * @throws {@link Affinity.TooManyRequestsError}
      * @throws {@link Affinity.InternalServerError}
@@ -110,14 +112,9 @@ export class PracticesClient {
                                 _response.error.body as Affinity.Problem,
                                 _response.rawResponse,
                             );
-                        case 405:
-                            throw new Affinity.MethodNotAllowedError(
-                                _response.error.body as Affinity.Problem,
-                                _response.rawResponse,
-                            );
                         case 413:
                             throw new Affinity.ContentTooLargeError(
-                                _response.error.body as unknown,
+                                _response.error.body as Affinity.Problem,
                                 _response.rawResponse,
                             );
                         case 429:
@@ -132,7 +129,7 @@ export class PracticesClient {
                             );
                         case 503:
                             throw new Affinity.ServiceUnavailableError(
-                                _response.error.body as Affinity.ServiceUnavailableErrorBody,
+                                _response.error.body as Affinity.Problem,
                                 _response.rawResponse,
                             );
                         default:
@@ -170,7 +167,6 @@ export class PracticesClient {
      * @throws {@link Affinity.UnauthorizedError}
      * @throws {@link Affinity.ForbiddenError}
      * @throws {@link Affinity.NotFoundError}
-     * @throws {@link Affinity.MethodNotAllowedError}
      * @throws {@link Affinity.ConflictError}
      * @throws {@link Affinity.ContentTooLargeError}
      * @throws {@link Affinity.UnsupportedMediaTypeError}
@@ -252,18 +248,16 @@ export class PracticesClient {
                     throw new Affinity.ForbiddenError(_response.error.body as Affinity.Problem, _response.rawResponse);
                 case 404:
                     throw new Affinity.NotFoundError(_response.error.body as Affinity.Problem, _response.rawResponse);
-                case 405:
-                    throw new Affinity.MethodNotAllowedError(
-                        _response.error.body as Affinity.Problem,
-                        _response.rawResponse,
-                    );
                 case 409:
                     throw new Affinity.ConflictError(
                         _response.error.body as Affinity.Problem409,
                         _response.rawResponse,
                     );
                 case 413:
-                    throw new Affinity.ContentTooLargeError(_response.error.body as unknown, _response.rawResponse);
+                    throw new Affinity.ContentTooLargeError(
+                        _response.error.body as Affinity.Problem,
+                        _response.rawResponse,
+                    );
                 case 415:
                     throw new Affinity.UnsupportedMediaTypeError(
                         _response.error.body as unknown,
@@ -286,7 +280,7 @@ export class PracticesClient {
                     );
                 case 503:
                     throw new Affinity.ServiceUnavailableError(
-                        _response.error.body as Affinity.ServiceUnavailableErrorBody,
+                        _response.error.body as Affinity.Problem,
                         _response.rawResponse,
                     );
                 default:
@@ -311,7 +305,6 @@ export class PracticesClient {
      * @throws {@link Affinity.UnauthorizedError}
      * @throws {@link Affinity.ForbiddenError}
      * @throws {@link Affinity.NotFoundError}
-     * @throws {@link Affinity.MethodNotAllowedError}
      * @throws {@link Affinity.ContentTooLargeError}
      * @throws {@link Affinity.TooManyRequestsError}
      * @throws {@link Affinity.InternalServerError}
@@ -376,13 +369,11 @@ export class PracticesClient {
                     throw new Affinity.ForbiddenError(_response.error.body as Affinity.Problem, _response.rawResponse);
                 case 404:
                     throw new Affinity.NotFoundError(_response.error.body as Affinity.Problem, _response.rawResponse);
-                case 405:
-                    throw new Affinity.MethodNotAllowedError(
+                case 413:
+                    throw new Affinity.ContentTooLargeError(
                         _response.error.body as Affinity.Problem,
                         _response.rawResponse,
                     );
-                case 413:
-                    throw new Affinity.ContentTooLargeError(_response.error.body as unknown, _response.rawResponse);
                 case 429:
                     throw new Affinity.TooManyRequestsError(
                         _response.error.body as Affinity.Problem429,
@@ -395,7 +386,7 @@ export class PracticesClient {
                     );
                 case 503:
                     throw new Affinity.ServiceUnavailableError(
-                        _response.error.body as Affinity.ServiceUnavailableErrorBody,
+                        _response.error.body as Affinity.Problem,
                         _response.rawResponse,
                     );
                 default:
@@ -411,7 +402,7 @@ export class PracticesClient {
     }
 
     /**
-     * `liveEnabled` allows or refuses new Live orders. Existing records, cancellation, webhooks and billing keep working. Only its platform changes it; enabling requires platform Live access, and either change needs a Live caller: a Live key (403 live_key_required otherwise) or a session in Live mode (403 live_mode_required otherwise). Live orders send `name`, `phone` and `address` to the pharmacy, so a practice with Live access changes them only with a Live key (403 live_mode_required otherwise). A retry with the same key and body returns the stored first response, even if the practice has changed. Use GET /v1/practices/{practiceId} to read the current practice.
+     * `liveEnabled` allows or refuses new Live orders. Existing records, cancellation, webhooks and billing keep working. Only its platform changes it; enabling requires platform Live access, and either change needs a Live caller: a Live key (403 live_key_required otherwise) or a session in Live mode (403 live_mode_required otherwise). Live orders send `name`, `phone` and `address` to the pharmacy, so a practice with Live access changes them only in Live mode, with a Live key or a session in Live mode (403 live_mode_required otherwise). A retry with the same key and body returns the stored first response, even if the practice has changed. Use GET /v1/practices/{practiceId} to read the current practice.
      *
      * @param {Affinity.UpdatePracticesRequest} request
      * @param {PracticesClient.RequestOptions} requestOptions - Request-specific configuration.
@@ -420,7 +411,6 @@ export class PracticesClient {
      * @throws {@link Affinity.UnauthorizedError}
      * @throws {@link Affinity.ForbiddenError}
      * @throws {@link Affinity.NotFoundError}
-     * @throws {@link Affinity.MethodNotAllowedError}
      * @throws {@link Affinity.ConflictError}
      * @throws {@link Affinity.ContentTooLargeError}
      * @throws {@link Affinity.UnsupportedMediaTypeError}
@@ -495,18 +485,16 @@ export class PracticesClient {
                     throw new Affinity.ForbiddenError(_response.error.body as Affinity.Problem, _response.rawResponse);
                 case 404:
                     throw new Affinity.NotFoundError(_response.error.body as Affinity.Problem, _response.rawResponse);
-                case 405:
-                    throw new Affinity.MethodNotAllowedError(
-                        _response.error.body as Affinity.Problem,
-                        _response.rawResponse,
-                    );
                 case 409:
                     throw new Affinity.ConflictError(
                         _response.error.body as Affinity.Problem409,
                         _response.rawResponse,
                     );
                 case 413:
-                    throw new Affinity.ContentTooLargeError(_response.error.body as unknown, _response.rawResponse);
+                    throw new Affinity.ContentTooLargeError(
+                        _response.error.body as Affinity.Problem,
+                        _response.rawResponse,
+                    );
                 case 415:
                     throw new Affinity.UnsupportedMediaTypeError(
                         _response.error.body as unknown,
@@ -529,7 +517,7 @@ export class PracticesClient {
                     );
                 case 503:
                     throw new Affinity.ServiceUnavailableError(
-                        _response.error.body as Affinity.ServiceUnavailableErrorBody,
+                        _response.error.body as Affinity.Problem,
                         _response.rawResponse,
                     );
                 default:

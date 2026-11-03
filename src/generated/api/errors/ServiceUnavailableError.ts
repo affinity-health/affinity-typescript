@@ -5,9 +5,9 @@ import * as errors from "../../errors/index.js";
 import type * as Affinity from "../index.js";
 
 export class ServiceUnavailableError extends errors.AffinityError {
-    public declare readonly body: Affinity.ServiceUnavailableErrorBody;
+    public declare readonly body: Affinity.Problem;
 
-    constructor(body: Affinity.ServiceUnavailableErrorBody, rawResponse?: core.RawResponse) {
+    constructor(body: Affinity.Problem, rawResponse?: core.RawResponse) {
         super({
             message: "ServiceUnavailableError",
             statusCode: 503,

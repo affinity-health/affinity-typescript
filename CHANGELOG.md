@@ -7,6 +7,26 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 
 ## [Unreleased]
 
+## [2.0.0-beta.13] - 2026-11-03
+
+Generated from the corrected API `2026-11-01` document. Requests and responses on the wire are
+unchanged.
+
+### Removed
+
+- `Affinity.MethodNotAllowedError`. The API does not answer `405` to an SDK call. A `405` from a
+  proxy raises `AffinityError`.
+- The `Affinity.ContentTooLargeErrorBody` and `Affinity.ServiceUnavailableErrorBody` types.
+  `ContentTooLargeError.body` and `ServiceUnavailableError.body` are now `Affinity.Problem`, like
+  the other errors (before, `ContentTooLargeError.body` was `unknown`). If you construct
+  `Affinity.ContentTooLargeError` yourself, for example in a test, pass a `Problem`: its
+  constructor now requires one.
+
+### Changed
+
+- Clearer descriptions in the types and reference, for example of `failureReason`, `trackingUrl`
+  and `externalOrderId`. Every enum member keeps its name.
+
 ## [2.0.0-beta.12] - 2026-11-02
 
 This beta is generated from the API `2026-11-01` contract that production serves. That contract

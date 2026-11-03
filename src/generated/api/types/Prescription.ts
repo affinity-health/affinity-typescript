@@ -10,15 +10,15 @@ export interface Prescription {
     /** The public record identifier. */
     id: string;
     pharmacy: Affinity.PharmacyReference;
-    /** The current fulfillment status. */
+    /** The order's current status; every prescription of the order has the same value. */
     status: Prescription.Status;
-    /** The failure or cancellation refusal reason, or null when there is none. */
+    /** Why the order failed, for a person to read; every prescription of the order has the same value. Null unless the order failed; a refused cancel leaves it null. */
     failureReason: string | null;
     /** The medication details saved when the order was signed. */
     medication: Prescription.Medication;
     /** The prescriber's additional notes to the pharmacy. */
     notes: string | null;
-    /** The price in integer cents. */
+    /** The prescription's price in integer cents: with a fill, the price per fill times the number of fills. */
     price: number;
     /** The prescribed quantity in quantityUnit, not a count of fills. With a fill, it is a whole number of fills in units: two fills of 30 tablets is 60. A vial's unit is vial, so 2 is two vials. */
     quantity: number;
@@ -29,7 +29,7 @@ export interface Prescription {
 }
 
 export namespace Prescription {
-    /** The current fulfillment status. */
+    /** The order's current status; every prescription of the order has the same value. */
     export const Status = {
         AwaitingApproval: "awaiting_approval",
         Submitted: "submitted",

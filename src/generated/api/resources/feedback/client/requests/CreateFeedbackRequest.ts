@@ -12,8 +12,9 @@
 export interface CreateFeedbackRequest {
     /** A unique key per operation, 1 to 255 printable ASCII characters without spaces. Retry the same key and body to avoid repeating the action. The replay response depends on the operation. See https://docs.affinityrx.com/guides/#retry-safely. */
     idempotencyKey: string;
+    /** Text with at least one visible character. */
     message: string;
     pageUrl?: string;
-    /** The `requestId` of the response, as the API returned it. */
+    /** The `requestId` of the response, as the API returned it: a UUID or its `req_` form. */
     requestId?: string;
 }

@@ -1,6 +1,6 @@
 {
   "contractVersion": "2026-11-01",
-  "contractSha256": "12aeefbf00c97af6a92176b7155e35240f3432b0c7ef5ee129e6d4d6fbb3f079",
+  "contractSha256": "cb4dc6a1e1cad39ff3be94004dc167f736f9a6dbf7f5529d87c6bc41b41a42ef",
   "fernVersion": "5.190.0",
   "generator": "fernapi/fern-typescript-sdk",
   "generatorVersion": "3.108.6",

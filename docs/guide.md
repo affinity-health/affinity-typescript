@@ -169,10 +169,10 @@ try {
 | 409           | `Affinity.ConflictError`: `request_in_progress` means the first request with this key has not finished; wait, then send the same body with the same key. `idempotency_key_reused` means the key was used with a different body. Never switch to a new key to get past a 409. |
 | 422           | `Affinity.UnprocessableEntityError`: an ordering rule refused the request.                                                                                                                                                                                                   |
 | 429           | `Affinity.TooManyRequestsError`                                                                                                                                                                                                                                              |
-| 405, 413, 415 | `Affinity.MethodNotAllowedError`, `Affinity.ContentTooLargeError`, `Affinity.UnsupportedMediaTypeError`                                                                                                                                                                      |
+| 413, 415      | `Affinity.ContentTooLargeError`, `Affinity.UnsupportedMediaTypeError`                                                                                                                                                                                                        |
 | 500, 503      | `Affinity.InternalServerError`, `Affinity.ServiceUnavailableError`                                                                                                                                                                                                           |
 
-`error.body` is the problem document with `code`, `detail`, `requestId` and, for refused input, `issues`. Do not log credentials, patient data or request bodies.
+Any other status raises `AffinityError`. For an error that the API answers, `error.body` is the problem document with `code`, `detail`, `requestId` and, for refused input, `issues`. A response from something in between, such as a proxy's HTML page, raises `AffinityError` and its `body` is that response as text. Do not log credentials, patient data or request bodies.
 
 ## Webhooks
 

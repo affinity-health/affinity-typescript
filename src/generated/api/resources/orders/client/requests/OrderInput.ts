@@ -39,7 +39,7 @@ import type * as Affinity from "../../../../index.js";
 export interface OrderInput {
     /** A unique key per operation, 1 to 255 printable ASCII characters without spaces. Retry the same key and body to avoid repeating the action. The replay response depends on the operation. See https://docs.affinityrx.com/guides/#retry-safely. */
     idempotencyKey: string;
-    /** Your order identifier, unique within the practice and mode. */
+    /** Your order identifier, unique within the practice and mode. A failed or cancelled order keeps it, so send a new one for a replacement order. */
     externalOrderId?: string | null;
     patient: Affinity.PatientInput;
     /** Required with a platform API key. Send a child practice ID. Independent practice keys can omit this field to use their own practice. */

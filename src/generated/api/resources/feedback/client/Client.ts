@@ -16,6 +16,9 @@ export declare namespace FeedbackClient {
     export interface RequestOptions extends BaseRequestOptions {}
 }
 
+/**
+ * Tell Affinity about a wrong or unclear response or page.
+ */
 export class FeedbackClient {
     protected readonly _options: NormalizedClientOptionsWithAuth<FeedbackClient.Options>;
 
@@ -31,7 +34,6 @@ export class FeedbackClient {
      *
      * @throws {@link Affinity.BadRequestError}
      * @throws {@link Affinity.UnauthorizedError}
-     * @throws {@link Affinity.MethodNotAllowedError}
      * @throws {@link Affinity.ConflictError}
      * @throws {@link Affinity.ContentTooLargeError}
      * @throws {@link Affinity.UnsupportedMediaTypeError}
@@ -103,18 +105,16 @@ export class FeedbackClient {
                         _response.error.body as Affinity.Problem,
                         _response.rawResponse,
                     );
-                case 405:
-                    throw new Affinity.MethodNotAllowedError(
-                        _response.error.body as Affinity.Problem,
-                        _response.rawResponse,
-                    );
                 case 409:
                     throw new Affinity.ConflictError(
                         _response.error.body as Affinity.Problem409,
                         _response.rawResponse,
                     );
                 case 413:
-                    throw new Affinity.ContentTooLargeError(_response.error.body as unknown, _response.rawResponse);
+                    throw new Affinity.ContentTooLargeError(
+                        _response.error.body as Affinity.Problem,
+                        _response.rawResponse,
+                    );
                 case 415:
                     throw new Affinity.UnsupportedMediaTypeError(
                         _response.error.body as unknown,
@@ -132,7 +132,7 @@ export class FeedbackClient {
                     );
                 case 503:
                     throw new Affinity.ServiceUnavailableError(
-                        _response.error.body as Affinity.ServiceUnavailableErrorBody,
+                        _response.error.body as Affinity.Problem,
                         _response.rawResponse,
                     );
                 default:

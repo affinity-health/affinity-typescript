@@ -3,6 +3,7 @@
 export interface PrescriptionInput {
     /** The reason for compounding, required when the medication's requirements include it. Empty text counts as null. */
     compoundingReason?: (string | null) | undefined;
+    /** The prescriber's directions for use. */
     directions: string;
     /** The medication's public identifier from the current catalog. */
     medicationId: string;

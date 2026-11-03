@@ -7,5 +7,6 @@
  *     }
  */
 export interface RemoveWebhooksRequest {
+    /** The webhook endpoint ID. */
     webhookEndpointId: string;
 }

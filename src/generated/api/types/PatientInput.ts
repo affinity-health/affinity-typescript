@@ -13,9 +13,11 @@ export interface PatientInput {
     dateOfBirth: string;
     /** The patient's email address. */
     email: string;
+    /** The first name. */
     firstName: string;
     /** The patient's sex as sent to the pharmacy. */
     sex: PatientInput.Sex;
+    /** The last name. */
     lastName: string;
     /** The patient's middle name, or null when there is none. Empty text counts as null. */
     middleName?: (string | null) | undefined;
@@ -32,6 +34,7 @@ export namespace PatientInput {
         export interface Item {
             /** The allergy category. */
             category: Item.Category;
+            /** The reported allergy name. */
             display: string;
         }
 

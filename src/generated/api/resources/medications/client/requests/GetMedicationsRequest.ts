@@ -10,6 +10,7 @@ import type * as Affinity from "../../../../index.js";
  *     }
  */
 export interface GetMedicationsRequest {
+    /** The medication ID. */
     medicationId: string;
     /** Quote prices and availability for this practice. A platform may select only its own child practices; a practice may select only itself. Omit to use the caller's organization. */
     practiceId?: string;

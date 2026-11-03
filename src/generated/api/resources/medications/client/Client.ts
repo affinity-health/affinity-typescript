@@ -15,6 +15,9 @@ export declare namespace MedicationsClient {
     export interface RequestOptions extends BaseRequestOptions {}
 }
 
+/**
+ * The medications a practice can order, with prices and shipping options.
+ */
 export class MedicationsClient {
     protected readonly _options: NormalizedClientOptionsWithAuth<MedicationsClient.Options>;
 
@@ -23,7 +26,7 @@ export class MedicationsClient {
     }
 
     /**
-     * Every medication you can order in the current mode, A to Z by name, then by ID. The list has no search or filters: read every page and choose by name, strength, form and pharmacy. Prices are in cents. `requirements` names the optional prescription fields this pharmacy requires; `compoundingReasons` and `quantities` list the accepted values when the pharmacy limits them, counted in `quantityUnit`. With a `fill`, `price` is per fill and each quantity counts `quantityUnit`, not fills: it is a whole number of fills in units. For a fill of 30 tablets, quantity 60 is two fills. For vials, quantity 1 is one vial and quantity 2 is two vials. A 2 mL vial lists quantities 1–10; its volume is separate from its quantity.
+     * Every medication you can order in the current mode, A to Z by name, then by ID. The list has no text search: read every page and choose by name, strength, form and pharmacy. Send practiceId to list what that practice can order, at its prices; without it, the caller's organization is used. Prices are in cents. `requirements` names the optional prescription fields this pharmacy requires; `compoundingReasons` and `quantities` list the accepted values when the pharmacy limits them, counted in `quantityUnit`. With a `fill`, `price` is per fill and each quantity counts `quantityUnit`, not fills: it is a whole number of fills in units. For a fill of 30 tablets, quantity 60 is two fills. For vials, quantity 1 is one vial and quantity 2 is two vials. A 2 mL vial lists quantities 1–10; its volume is separate from its quantity.
      *
      * @param {Affinity.ListMedicationsRequest} request
      * @param {MedicationsClient.RequestOptions} requestOptions - Request-specific configuration.
@@ -32,7 +35,6 @@ export class MedicationsClient {
      * @throws {@link Affinity.UnauthorizedError}
      * @throws {@link Affinity.ForbiddenError}
      * @throws {@link Affinity.NotFoundError}
-     * @throws {@link Affinity.MethodNotAllowedError}
      * @throws {@link Affinity.ContentTooLargeError}
      * @throws {@link Affinity.TooManyRequestsError}
      * @throws {@link Affinity.InternalServerError}
@@ -111,14 +113,9 @@ export class MedicationsClient {
                                 _response.error.body as Affinity.Problem,
                                 _response.rawResponse,
                             );
-                        case 405:
-                            throw new Affinity.MethodNotAllowedError(
-                                _response.error.body as Affinity.Problem,
-                                _response.rawResponse,
-                            );
                         case 413:
                             throw new Affinity.ContentTooLargeError(
-                                _response.error.body as unknown,
+                                _response.error.body as Affinity.Problem,
                                 _response.rawResponse,
                             );
                         case 429:
@@ -133,7 +130,7 @@ export class MedicationsClient {
                             );
                         case 503:
                             throw new Affinity.ServiceUnavailableError(
-                                _response.error.body as Affinity.ServiceUnavailableErrorBody,
+                                _response.error.body as Affinity.Problem,
                                 _response.rawResponse,
                             );
                         default:
@@ -171,7 +168,6 @@ export class MedicationsClient {
      * @throws {@link Affinity.UnauthorizedError}
      * @throws {@link Affinity.ForbiddenError}
      * @throws {@link Affinity.NotFoundError}
-     * @throws {@link Affinity.MethodNotAllowedError}
      * @throws {@link Affinity.ContentTooLargeError}
      * @throws {@link Affinity.TooManyRequestsError}
      * @throws {@link Affinity.InternalServerError}
@@ -245,13 +241,11 @@ export class MedicationsClient {
                     throw new Affinity.ForbiddenError(_response.error.body as Affinity.Problem, _response.rawResponse);
                 case 404:
                     throw new Affinity.NotFoundError(_response.error.body as Affinity.Problem, _response.rawResponse);
-                case 405:
-                    throw new Affinity.MethodNotAllowedError(
+                case 413:
+                    throw new Affinity.ContentTooLargeError(
                         _response.error.body as Affinity.Problem,
                         _response.rawResponse,
                     );
-                case 413:
-                    throw new Affinity.ContentTooLargeError(_response.error.body as unknown, _response.rawResponse);
                 case 429:
                     throw new Affinity.TooManyRequestsError(
                         _response.error.body as Affinity.Problem429,
@@ -264,7 +258,7 @@ export class MedicationsClient {
                     );
                 case 503:
                     throw new Affinity.ServiceUnavailableError(
-                        _response.error.body as Affinity.ServiceUnavailableErrorBody,
+                        _response.error.body as Affinity.Problem,
                         _response.rawResponse,
                     );
                 default:

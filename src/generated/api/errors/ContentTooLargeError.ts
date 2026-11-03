@@ -2,9 +2,12 @@
 
 import type * as core from "../../core/index.js";
 import * as errors from "../../errors/index.js";
+import type * as Affinity from "../index.js";
 
 export class ContentTooLargeError extends errors.AffinityError {
-    constructor(body?: unknown, rawResponse?: core.RawResponse) {
+    public declare readonly body: Affinity.Problem;
+
+    constructor(body: Affinity.Problem, rawResponse?: core.RawResponse) {
         super({
             message: "ContentTooLargeError",
             statusCode: 413,

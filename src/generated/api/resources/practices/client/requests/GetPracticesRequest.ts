@@ -7,5 +7,6 @@
  *     }
  */
 export interface GetPracticesRequest {
+    /** The practice ID. */
     practiceId: string;
 }

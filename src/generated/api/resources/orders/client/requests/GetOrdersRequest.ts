@@ -7,5 +7,6 @@
  *     }
  */
 export interface GetOrdersRequest {
+    /** The order ID. */
     orderId: string;
 }

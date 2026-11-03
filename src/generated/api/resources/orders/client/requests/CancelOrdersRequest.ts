@@ -8,6 +8,7 @@
  *     }
  */
 export interface CancelOrdersRequest {
+    /** The order ID. */
     orderId: string;
     /** A unique key per operation, 1 to 255 printable ASCII characters without spaces. Retry the same key and body to avoid repeating the action. The replay response depends on the operation. See https://docs.affinityrx.com/guides/#retry-safely. */
     idempotencyKey: string;
