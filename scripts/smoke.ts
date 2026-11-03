@@ -363,7 +363,8 @@ try {
     await check("orders.list (every page, 1 per page)", async () => {
       let n = 0;
       for await (const _ of await client.orders.list({ limit: 1, practiceId: practice.id })) n++;
-      if (n !== 1) throw new Error(`${n} orders for a practice with 1`);
+      if (n !== orderIds.length)
+        throw new Error(`${n} orders for a practice with ${orderIds.length}`);
       return n;
     });
     await check(
