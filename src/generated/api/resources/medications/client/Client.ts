@@ -26,7 +26,7 @@ export class MedicationsClient {
     }
 
     /**
-     * Every medication you can order in the current mode, A to Z by name, then by ID. The list has no text search: read every page and choose by name, strength, form and pharmacy. Send practiceId to list what that practice can order, at its prices; without it, the caller's organization is used. Prices are in cents. `requirements` names the optional prescription fields this pharmacy requires; `compoundingReasons` and `quantities` list the accepted values when the pharmacy limits them, counted in `quantityUnit`. With a `fill`, `price` is per fill and each quantity counts `quantityUnit`, not fills: it is a whole number of fills in units. For a fill of 30 tablets, quantity 60 is two fills. For vials, quantity 1 is one vial and quantity 2 is two vials. A 2 mL vial lists quantities 1–10; its volume is separate from its quantity.
+     * Every medication you can order in the current mode, A to Z by name, then by ID. Send query to find medications by name: every word must appear in the name, so check the spelling when nothing matches. Then choose by name, strength, form and pharmacy. Send practiceId to list what that practice can order, at its prices; without it, the caller's organization is used. Prices are in cents. `requirements` names the optional prescription fields this pharmacy requires; `compoundingReasons` and `quantities` list the accepted values when the pharmacy limits them, counted in `quantityUnit`. With a `fill`, `price` is per fill and each quantity counts `quantityUnit`, not fills: it is a whole number of fills in units. For a fill of 30 tablets, quantity 60 is two fills. For vials, quantity 1 is one vial and quantity 2 is two vials. A 2 mL vial lists quantities 1–10; its volume is separate from its quantity.
      *
      * @param {Affinity.ListMedicationsRequest} request
      * @param {MedicationsClient.RequestOptions} requestOptions - Request-specific configuration.
@@ -54,11 +54,12 @@ export class MedicationsClient {
             async (
                 request: Affinity.ListMedicationsRequest,
             ): Promise<core.WithRawResponse<Affinity.MedicationList>> => {
-                const { practiceId, limit, startingAfter } = request;
+                const { practiceId, limit, startingAfter, query } = request;
                 const _queryParams: Record<string, unknown> = {
                     practiceId,
                     limit,
                     startingAfter,
+                    query,
                 };
                 const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
                 const _headers: core.Fetcher.Args["headers"] = mergeHeaders(

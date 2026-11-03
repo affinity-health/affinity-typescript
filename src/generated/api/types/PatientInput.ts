@@ -23,8 +23,10 @@ export interface PatientInput {
     middleName?: (string | null) | undefined;
     /** A US phone number: 10 digits, with or without +1 or 1 before them. Spaces, dashes, dots and parentheses are allowed, such as (512) 555-0100. Affinity stores and returns +15125550100. */
     phone: string;
-    /** Your patient identifier within the practice and mode; omit it to create a new patient for each order. */
+    /** Your patient identifier within the practice and mode. Omit it and id to create a new patient for each order. With id, send the saved patient's externalId or omit it. If the saved patient has none, this value is added to it. */
     externalId?: (string | null) | undefined;
+    /** The pat_ ID of a saved patient of the order's practice, in the same Test or Live mode. The order reuses that patient and updates it from the sent fields. Send all other patient fields as usual. GET /v1/orders returns the patientId of each order. An unknown ID, or an ID of a different practice or mode, returns 404 not_found. */
+    id?: string | undefined;
 }
 
 export namespace PatientInput {

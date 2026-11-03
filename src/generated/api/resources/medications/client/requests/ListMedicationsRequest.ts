@@ -13,4 +13,6 @@ export interface ListMedicationsRequest {
     limit?: number;
     /** Page forward using the previous response's nextCursor. Keep the same filters, sort, organization and mode. */
     startingAfter?: string;
+    /** Match medication names that contain every word of this text, in any order, ignoring case and accents. Each word must appear in the name, so a misspelled word matches nothing. Strength, form and pharmacy are not searched. An empty query lists every medication. Restart pagination after changing query. */
+    query?: string;
 }

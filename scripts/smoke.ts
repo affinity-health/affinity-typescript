@@ -235,6 +235,25 @@ try {
     () => client.medications.list({ limit: 5, practiceId: practice.id }),
     (p) => `${p.data.length}`,
   );
+  // `query` matches names that contain every word, ignoring case. Search for the chosen
+  // medication's longest word.
+  const word = medication.name
+    .split(/[^A-Za-z]+/)
+    .reduce((longest, w) => (w.length > longest.length ? w : longest), "");
+  await check(
+    "medications.list query",
+    async () => {
+      const found: Affinity.Medication[] = [];
+      for await (const m of await client.medications.list({ query: word.toLowerCase() }))
+        found.push(m);
+      if (!found.some((m) => m.id === medication.id))
+        throw new Error(`${medication.id} is not in the results`);
+      const other = found.find((m) => !m.name.toLowerCase().includes(word.toLowerCase()));
+      if (other) throw new Error(`"${other.name}" does not contain "${word}"`);
+      return found.length;
+    },
+    (n) => `"${word}": ${n} of ${medications!.length}`,
+  );
 
   const orderInput = (quantity: number): Affinity.OrderInput => ({
     idempotencyKey: randomUUID(),
@@ -280,6 +299,22 @@ try {
     if (again.id !== order?.id) throw new Error(`created a second order ${again.id}`);
     return again;
   });
+  if (order)
+    await check(
+      "orders.create with patient.id reuses the saved patient",
+      async () => {
+        const { externalId: _, ...patient } = input.patient;
+        const reused = await client.orders.create({
+          ...orderInput(quantity),
+          patient: { ...patient, id: order.patientId, phone: "+15125550177" },
+        });
+        orderIds.push(reused.id);
+        if (reused.patientId !== order.patientId || reused.patient.phone !== "+15125550177")
+          throw new Error(`patient ${reused.patientId}, phone ${reused.patient.phone}`);
+        return reused;
+      },
+      (o) => `${o.id} for ${o.patientId}`,
+    );
   await refused(
     "an unaccepted quantity raises UnprocessableEntityError with the field",
     Affinity.UnprocessableEntityError,

@@ -191,6 +191,35 @@ describe("requests", () => {
     await client.medications.list();
     expect([...calls[0]!.url.searchParams.keys()]).toEqual([]);
   });
+
+  test("medications.list sends query, and the next page keeps it", async () => {
+    const page = (n: number, nextCursor: string | null) => ({
+      object: "list",
+      url: "/v1/medications",
+      data: [{ id: id("med", n), name: `Semaglutide ${n}` }],
+      hasMore: nextCursor !== null,
+      nextCursor,
+    });
+    const { client, calls } = recorded([json(page(1, "cursor-1")), json(page(2, null))]);
+    const names: string[] = [];
+    for await (const m of await client.medications.list({ query: "semaglutide inj", limit: 1 }))
+      names.push(m.name);
+    expect(names).toEqual(["Semaglutide 1", "Semaglutide 2"]);
+    expect(calls.map((c) => Object.fromEntries(c.url.searchParams))).toEqual([
+      { limit: "1", query: "semaglutide inj" },
+      { limit: "1", query: "semaglutide inj", startingAfter: "cursor-1" },
+    ]);
+  });
+
+  test("orders.create sends patient.id to reuse a saved patient", async () => {
+    const { client, calls } = recorded([json({ id: id("ord"), patientId: id("pat") })]);
+    const { externalId: _, ...patient } = order.patient;
+    await client.orders.create({ ...order, patient: { ...patient, id: id("pat") } });
+    expect((calls[0]!.body as { patient: Affinity.PatientInput }).patient).toEqual({
+      ...patient,
+      id: id("pat"),
+    });
+  });
 });
 
 describe("pagination", () => {
