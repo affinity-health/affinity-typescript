@@ -13,11 +13,11 @@ export interface PatientInput {
     dateOfBirth: string;
     /** The patient's email address. */
     email: string;
-    /** The first name. */
+    /** The first name. N/A, TBD, unknown and none return 422. */
     firstName: string;
     /** The patient's sex as sent to the pharmacy. */
     sex: PatientInput.Sex;
-    /** The last name. */
+    /** The last name. N/A, TBD, unknown and none return 422. */
     lastName: string;
     /** The patient's middle name, or null when there is none. Empty text counts as null. */
     middleName?: (string | null) | undefined;
@@ -34,7 +34,7 @@ export namespace PatientInput {
         export interface Item {
             /** The allergy category. */
             category: Item.Category;
-            /** The reported allergy name. */
+            /** The reported allergy name. A whole-value no-allergy statement (NKDA, NKFA, none, unknown, denies, no, N/A and the same kind of phrase) returns 422, ignoring case, dots, hyphens, slashes, spaces and a trailing period. Send `[]` instead. */
             display: string;
         }
 

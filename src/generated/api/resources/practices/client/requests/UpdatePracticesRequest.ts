@@ -14,11 +14,11 @@ export interface UpdatePracticesRequest {
     idempotencyKey: string;
     /** Your practice identifier, unique among your platform's active practices. Send null to clear it. */
     externalId?: string | null;
-    /** Affinity merges the address parts you send into the saved address. An omitted part keeps its saved value. To move to an address with no suite, send `"line2": null` with the new `line1`, `city`, `state` and `postalCode`. */
+    /** Affinity merges the address parts you send into the saved address. An omitted part keeps its saved value. To move to an address with no suite, send `"line2": null` with the new `line1`, `city`, `state` and `postalCode`. PerfectRx prints it: use Windows-1252 characters, without < or >. Line 1 and line 2 together: 70 characters or fewer. */
     address?: UpdatePracticesRequest.Address | null;
     /** Omit it or send null to leave Live unchanged. */
     liveEnabled?: boolean | null;
-    /** Text with at least one visible character. */
+    /** The practice name. PerfectRx prints it: use Windows-1252 characters, without < or >. */
     name?: string;
     /** A US phone number: 10 digits, with or without +1 or 1 before them. Spaces, dashes, dots and parentheses are allowed, such as (512) 555-0100. Affinity stores and returns +15125550100. Empty text counts as null. */
     phone?: string | null;
@@ -26,13 +26,13 @@ export interface UpdatePracticesRequest {
 
 export namespace UpdatePracticesRequest {
     export interface Address {
-        /** The street address. */
+        /** The street address. Line 1 and line 2 together: 70 characters or fewer. */
         line1?: string | undefined;
-        /** The apartment or suite. Send null or empty text to remove it. An omitted `line2` keeps the saved suite, also when `line1` changes. */
+        /** The apartment or suite. Send null, empty text, N/A, NA, none or - to remove it. See notes, TBD and unknown return 422. An omitted `line2` keeps the saved suite, also when `line1` changes. */
         line2?: (string | null) | undefined;
         /** The city name. */
         city?: string | undefined;
-        /** The two-letter US state or territory code, such as TX, in any letter case. Affinity stores and returns it in upper case. */
+        /** The two-letter code of a US state, DC or PR, in any letter case. Affinity stores and returns it in upper case. */
         state?: string | undefined;
         /** The US ZIP code: 78701, or ZIP+4 as 78701-1234, 78701 1234 or 787011234. Affinity stores and returns 78701 or 78701-1234. */
         postalCode?: string | undefined;

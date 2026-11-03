@@ -5,10 +5,10 @@ Typed server-side client for the Affinity API, for Node.js 20+, Bun, AWS Lambda 
 ## Install
 
 ```sh
-bun add @affinity-health/sdk@next
+bun add @affinity-health/sdk
 ```
 
-For npm, use `npm install @affinity-health/sdk@next`. Install with `@next`: the `latest` tag is `1.16.0`, for an API version the API no longer accepts.
+For npm, use `npm install @affinity-health/sdk`.
 
 ## Use
 

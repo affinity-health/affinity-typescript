@@ -6,7 +6,7 @@
 export interface AddressInput {
     /** The street address. */
     line1: string;
-    /** The apartment or suite, or null when there is none. Empty text counts as null. */
+    /** The apartment or suite, or null when there is none. Empty text, N/A, NA, none and - count as null. See notes, TBD and unknown return 422. */
     line2?: (string | null) | undefined;
     /** The city name. */
     city: string;

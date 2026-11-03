@@ -30,7 +30,7 @@ export interface Medication {
     quantityUnit: string | null;
     /** The optional prescription field paths that this medication requires. */
     requirements: string[];
-    /** The states where this medication cannot ship; other states are permitted subject to pharmacy coverage. */
+    /** Every state where this medication cannot ship, including states the pharmacy does not cover. It can ship to every other state. */
     restrictedStates: string[];
     /** The shipping options available for this medication. */
     shippingOptions: Affinity.ShippingOption[];

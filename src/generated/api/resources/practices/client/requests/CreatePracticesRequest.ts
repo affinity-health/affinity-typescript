@@ -21,9 +21,9 @@ export interface CreatePracticesRequest {
     idempotencyKey: string;
     /** Your practice identifier, unique among your platform's active practices. */
     externalId?: string | null;
-    address: Affinity.AddressInput;
+    address: Affinity.PracticeAddressInput;
     liveEnabled?: boolean;
-    /** Text with at least one visible character. */
+    /** The practice name. PerfectRx prints it: use Windows-1252 characters, without < or >. */
     name: string;
     /** A US phone number: 10 digits, with or without +1 or 1 before them. Spaces, dashes, dots and parentheses are allowed, such as (512) 555-0100. Affinity stores and returns +15125550100. */
     phone: string;

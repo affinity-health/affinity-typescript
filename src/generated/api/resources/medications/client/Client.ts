@@ -35,7 +35,6 @@ export class MedicationsClient {
      * @throws {@link Affinity.UnauthorizedError}
      * @throws {@link Affinity.ForbiddenError}
      * @throws {@link Affinity.NotFoundError}
-     * @throws {@link Affinity.ContentTooLargeError}
      * @throws {@link Affinity.TooManyRequestsError}
      * @throws {@link Affinity.InternalServerError}
      * @throws {@link Affinity.ServiceUnavailableError}
@@ -113,11 +112,6 @@ export class MedicationsClient {
                                 _response.error.body as Affinity.Problem,
                                 _response.rawResponse,
                             );
-                        case 413:
-                            throw new Affinity.ContentTooLargeError(
-                                _response.error.body as Affinity.Problem,
-                                _response.rawResponse,
-                            );
                         case 429:
                             throw new Affinity.TooManyRequestsError(
                                 _response.error.body as Affinity.Problem429,
@@ -168,7 +162,6 @@ export class MedicationsClient {
      * @throws {@link Affinity.UnauthorizedError}
      * @throws {@link Affinity.ForbiddenError}
      * @throws {@link Affinity.NotFoundError}
-     * @throws {@link Affinity.ContentTooLargeError}
      * @throws {@link Affinity.TooManyRequestsError}
      * @throws {@link Affinity.InternalServerError}
      * @throws {@link Affinity.ServiceUnavailableError}
@@ -241,11 +234,6 @@ export class MedicationsClient {
                     throw new Affinity.ForbiddenError(_response.error.body as Affinity.Problem, _response.rawResponse);
                 case 404:
                     throw new Affinity.NotFoundError(_response.error.body as Affinity.Problem, _response.rawResponse);
-                case 413:
-                    throw new Affinity.ContentTooLargeError(
-                        _response.error.body as Affinity.Problem,
-                        _response.rawResponse,
-                    );
                 case 429:
                     throw new Affinity.TooManyRequestsError(
                         _response.error.body as Affinity.Problem429,

@@ -13,6 +13,7 @@ export * from "./Patient.js";
 export * from "./PatientInput.js";
 export * from "./PharmacyReference.js";
 export * from "./Practice.js";
+export * from "./PracticeAddressInput.js";
 export * from "./PracticeList.js";
 export * from "./PrescriberInput.js";
 export * from "./Prescription.js";

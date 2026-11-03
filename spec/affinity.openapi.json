@@ -153,28 +153,6 @@
               }
             }
           },
-          "413": {
-            "description": "Content Too Large",
-            "content": {
-              "application/problem+json": {
-                "schema": {
-                  "title": "AccountGet413Response",
-                  "$ref": "#/components/schemas/Problem"
-                }
-              }
-            },
-            "headers": {
-              "X-Request-Id": {
-                "$ref": "#/components/headers/X-Request-Id"
-              },
-              "X-Affinity-Trace-Id": {
-                "$ref": "#/components/headers/X-Affinity-Trace-Id"
-              },
-              "X-Api-Version": {
-                "$ref": "#/components/headers/X-Api-Version"
-              }
-            }
-          },
           "429": {
             "description": "Too Many Requests",
             "content": {
@@ -782,28 +760,6 @@
               }
             }
           },
-          "413": {
-            "description": "Content Too Large",
-            "content": {
-              "application/problem+json": {
-                "schema": {
-                  "title": "MedicationsList413Response",
-                  "$ref": "#/components/schemas/Problem"
-                }
-              }
-            },
-            "headers": {
-              "X-Request-Id": {
-                "$ref": "#/components/headers/X-Request-Id"
-              },
-              "X-Affinity-Trace-Id": {
-                "$ref": "#/components/headers/X-Affinity-Trace-Id"
-              },
-              "X-Api-Version": {
-                "$ref": "#/components/headers/X-Api-Version"
-              }
-            }
-          },
           "429": {
             "description": "Too Many Requests",
             "content": {
@@ -1084,7 +1040,7 @@
                       "items": {
                         "type": "string"
                       },
-                      "description": "The states where this medication cannot ship; other states are permitted subject to pharmacy coverage."
+                      "description": "Every state where this medication cannot ship, including states the pharmacy does not cover. It can ship to every other state."
                     },
                     "shippingOptions": {
                       "type": "array",
@@ -1228,28 +1184,6 @@
               "application/problem+json": {
                 "schema": {
                   "title": "MedicationsGet404Response",
-                  "$ref": "#/components/schemas/Problem"
-                }
-              }
-            },
-            "headers": {
-              "X-Request-Id": {
-                "$ref": "#/components/headers/X-Request-Id"
-              },
-              "X-Affinity-Trace-Id": {
-                "$ref": "#/components/headers/X-Affinity-Trace-Id"
-              },
-              "X-Api-Version": {
-                "$ref": "#/components/headers/X-Api-Version"
-              }
-            }
-          },
-          "413": {
-            "description": "Content Too Large",
-            "content": {
-              "application/problem+json": {
-                "schema": {
-                  "title": "MedicationsGet413Response",
                   "$ref": "#/components/schemas/Problem"
                 }
               }
@@ -1996,28 +1930,6 @@
               }
             }
           },
-          "413": {
-            "description": "Content Too Large",
-            "content": {
-              "application/problem+json": {
-                "schema": {
-                  "title": "OrdersList413Response",
-                  "$ref": "#/components/schemas/Problem"
-                }
-              }
-            },
-            "headers": {
-              "X-Request-Id": {
-                "$ref": "#/components/headers/X-Request-Id"
-              },
-              "X-Affinity-Trace-Id": {
-                "$ref": "#/components/headers/X-Affinity-Trace-Id"
-              },
-              "X-Api-Version": {
-                "$ref": "#/components/headers/X-Api-Version"
-              }
-            }
-          },
           "429": {
             "description": "Too Many Requests",
             "content": {
@@ -2235,28 +2147,6 @@
               "application/problem+json": {
                 "schema": {
                   "title": "OrdersGet404Response",
-                  "$ref": "#/components/schemas/Problem"
-                }
-              }
-            },
-            "headers": {
-              "X-Request-Id": {
-                "$ref": "#/components/headers/X-Request-Id"
-              },
-              "X-Affinity-Trace-Id": {
-                "$ref": "#/components/headers/X-Affinity-Trace-Id"
-              },
-              "X-Api-Version": {
-                "$ref": "#/components/headers/X-Api-Version"
-              }
-            }
-          },
-          "413": {
-            "description": "Content Too Large",
-            "content": {
-              "application/problem+json": {
-                "schema": {
-                  "title": "OrdersGet413Response",
                   "$ref": "#/components/schemas/Problem"
                 }
               }
@@ -3053,7 +2943,7 @@
                     "description": "Your practice identifier, unique among your platform's active practices."
                   },
                   "address": {
-                    "$ref": "#/components/schemas/AddressInput"
+                    "$ref": "#/components/schemas/PracticeAddressInput"
                   },
                   "liveEnabled": {
                     "type": "boolean",
@@ -3061,13 +2951,14 @@
                   },
                   "name": {
                     "type": "string",
-                    "maxLength": 120,
-                    "pattern": "^\\s*[^\\s\\x00-\\x08\\x0a-\\x1f\\x7f-\\x9f](?:[^\\x00-\\x08\\x0a-\\x1f\\x7f-\\x9f]*[^\\s\\x00-\\x08\\x0a-\\x1f\\x7f-\\x9f])?\\s*$",
-                    "description": "Text with at least one visible character."
+                    "maxLength": 100,
+                    "pattern": "^\\s*[\\x21-\\x3b\\x3d\\x3f-\\x7e\\xa1-\\xac\\xae-\\xffŒœŠšŸŽžƒˆ˜̀-̧̃̈̊̌̀́;·`´–—‘-‚“-„†-•…‰‹›€™KÅ](?:[\\x09\\x20-\\x3b\\x3d\\x3f-\\x7e\\xa0-\\xac\\xae-\\xffŒœŠšŸŽžƒˆ˜̀-̧̃̈̊̌̀́;·`´–—‘-‚“-„†-•…‰‹›€™KÅ]*[\\x21-\\x3b\\x3d\\x3f-\\x7e\\xa1-\\xac\\xae-\\xffŒœŠšŸŽžƒˆ˜̀-̧̃̈̊̌̀́;·`´–—‘-‚“-„†-•…‰‹›€™KÅ])?\\s*$",
+                    "description": "The practice name. PerfectRx prints it: use Windows-1252 characters, without < or >."
                   },
                   "phone": {
                     "type": "string",
                     "maxLength": 40,
+                    "pattern": "^[\\s\\x28\\x29\\x2d\\x2e֊־᐀᠆‐‑‒–—―⸗⸚⸺⸻⹀⹝〜〰゠︱︲﹘﹣－𐵮𐺭]*(?:\\+[\\s\\x28\\x29\\x2d\\x2e֊־᐀᠆‐‑‒–—―⸗⸚⸺⸻⹀⹝〜〰゠︱︲﹘﹣－𐵮𐺭]*1[\\s\\x28\\x29\\x2d\\x2e֊־᐀᠆‐‑‒–—―⸗⸚⸺⸻⹀⹝〜〰゠︱︲﹘﹣－𐵮𐺭]*|1[\\s\\x28\\x29\\x2d\\x2e֊־᐀᠆‐‑‒–—―⸗⸚⸺⸻⹀⹝〜〰゠︱︲﹘﹣－𐵮𐺭]*)?(?:[0-9][\\s\\x28\\x29\\x2d\\x2e֊־᐀᠆‐‑‒–—―⸗⸚⸺⸻⹀⹝〜〰゠︱︲﹘﹣－𐵮𐺭]*){10}$",
                     "description": "A US phone number: 10 digits, with or without +1 or 1 before them. Spaces, dashes, dots and parentheses are allowed, such as (512) 555-0100. Affinity stores and returns +15125550100."
                   }
                 },
@@ -3272,28 +3163,6 @@
               "application/problem+json": {
                 "schema": {
                   "title": "PracticesList404Response",
-                  "$ref": "#/components/schemas/Problem"
-                }
-              }
-            },
-            "headers": {
-              "X-Request-Id": {
-                "$ref": "#/components/headers/X-Request-Id"
-              },
-              "X-Affinity-Trace-Id": {
-                "$ref": "#/components/headers/X-Affinity-Trace-Id"
-              },
-              "X-Api-Version": {
-                "$ref": "#/components/headers/X-Api-Version"
-              }
-            }
-          },
-          "413": {
-            "description": "Content Too Large",
-            "content": {
-              "application/problem+json": {
-                "schema": {
-                  "title": "PracticesList413Response",
                   "$ref": "#/components/schemas/Problem"
                 }
               }
@@ -3527,28 +3396,6 @@
               "application/problem+json": {
                 "schema": {
                   "title": "PracticesGet404Response",
-                  "$ref": "#/components/schemas/Problem"
-                }
-              }
-            },
-            "headers": {
-              "X-Request-Id": {
-                "$ref": "#/components/headers/X-Request-Id"
-              },
-              "X-Affinity-Trace-Id": {
-                "$ref": "#/components/headers/X-Affinity-Trace-Id"
-              },
-              "X-Api-Version": {
-                "$ref": "#/components/headers/X-Api-Version"
-              }
-            }
-          },
-          "413": {
-            "description": "Content Too Large",
-            "content": {
-              "application/problem+json": {
-                "schema": {
-                  "title": "PracticesGet413Response",
                   "$ref": "#/components/schemas/Problem"
                 }
               }
@@ -4036,33 +3883,33 @@
                         "properties": {
                           "line1": {
                             "type": "string",
-                            "maxLength": 200,
-                            "pattern": "^\\s*[^\\s\\x00-\\x08\\x0a-\\x1f\\x7f-\\x9f](?:[^\\x00-\\x08\\x0a-\\x1f\\x7f-\\x9f]*[^\\s\\x00-\\x08\\x0a-\\x1f\\x7f-\\x9f])?\\s*$",
-                            "description": "The street address."
+                            "maxLength": 70,
+                            "pattern": "^\\s*[\\x21-\\x3b\\x3d\\x3f-\\x7e\\xa1-\\xac\\xae-\\xffŒœŠšŸŽžƒˆ˜̀-̧̃̈̊̌̀́;·`´–—‘-‚“-„†-•…‰‹›€™KÅ](?:[\\x09\\x20-\\x3b\\x3d\\x3f-\\x7e\\xa0-\\xac\\xae-\\xffŒœŠšŸŽžƒˆ˜̀-̧̃̈̊̌̀́;·`´–—‘-‚“-„†-•…‰‹›€™KÅ]*[\\x21-\\x3b\\x3d\\x3f-\\x7e\\xa1-\\xac\\xae-\\xffŒœŠšŸŽžƒˆ˜̀-̧̃̈̊̌̀́;·`´–—‘-‚“-„†-•…‰‹›€™KÅ])?\\s*$",
+                            "description": "The street address. Line 1 and line 2 together: 70 characters or fewer."
                           },
                           "line2": {
                             "anyOf": [
                               {
                                 "type": "string",
-                                "pattern": "^\\s*(?:[^\\s\\x00-\\x08\\x0a-\\x1f\\x7f-\\x9f](?:[^\\x00-\\x08\\x0a-\\x1f\\x7f-\\x9f]*[^\\s\\x00-\\x08\\x0a-\\x1f\\x7f-\\x9f])?\\s*)?$",
-                                "maxLength": 200
+                                "pattern": "^\\s*(?:[\\x21-\\x3b\\x3d\\x3f-\\x7e\\xa1-\\xac\\xae-\\xffŒœŠšŸŽžƒˆ˜̀-̧̃̈̊̌̀́;·`´–—‘-‚“-„†-•…‰‹›€™KÅ](?:[\\x09\\x20-\\x3b\\x3d\\x3f-\\x7e\\xa0-\\xac\\xae-\\xffŒœŠšŸŽžƒˆ˜̀-̧̃̈̊̌̀́;·`´–—‘-‚“-„†-•…‰‹›€™KÅ]*[\\x21-\\x3b\\x3d\\x3f-\\x7e\\xa1-\\xac\\xae-\\xffŒœŠšŸŽžƒˆ˜̀-̧̃̈̊̌̀́;·`´–—‘-‚“-„†-•…‰‹›€™KÅ])?\\s*)?$",
+                                "maxLength": 70
                               },
                               {
                                 "type": "null"
                               }
                             ],
-                            "description": "The apartment or suite. Send null or empty text to remove it. An omitted `line2` keeps the saved suite, also when `line1` changes."
+                            "description": "The apartment or suite. Send null, empty text, N/A, NA, none or - to remove it. See notes, TBD and unknown return 422. An omitted `line2` keeps the saved suite, also when `line1` changes."
                           },
                           "city": {
                             "type": "string",
                             "maxLength": 100,
-                            "pattern": "^\\s*[^\\s\\x00-\\x08\\x0a-\\x1f\\x7f-\\x9f](?:[^\\x00-\\x08\\x0a-\\x1f\\x7f-\\x9f]*[^\\s\\x00-\\x08\\x0a-\\x1f\\x7f-\\x9f])?\\s*$",
+                            "pattern": "^\\s*[\\x21-\\x3b\\x3d\\x3f-\\x7e\\xa1-\\xac\\xae-\\xffŒœŠšŸŽžƒˆ˜̀-̧̃̈̊̌̀́;·`´–—‘-‚“-„†-•…‰‹›€™KÅ](?:[\\x09\\x20-\\x3b\\x3d\\x3f-\\x7e\\xa0-\\xac\\xae-\\xffŒœŠšŸŽžƒˆ˜̀-̧̃̈̊̌̀́;·`´–—‘-‚“-„†-•…‰‹›€™KÅ]*[\\x21-\\x3b\\x3d\\x3f-\\x7e\\xa1-\\xac\\xae-\\xffŒœŠšŸŽžƒˆ˜̀-̧̃̈̊̌̀́;·`´–—‘-‚“-„†-•…‰‹›€™KÅ])?\\s*$",
                             "description": "The city name."
                           },
                           "state": {
                             "type": "string",
-                            "pattern": "^\\s*(?:[Aa][Ll]|[Aa][Kk]|[Aa][Zz]|[Aa][Rr]|[Cc][Aa]|[Cc][Oo]|[Cc][Tt]|[Dd][Ee]|[Dd][Cc]|[Ff][Ll]|[Gg][Aa]|[Hh][Ii]|[Ii][Dd]|[Ii][Ll]|[Ii][Nn]|[Ii][Aa]|[Kk][Ss]|[Kk][Yy]|[Ll][Aa]|[Mm][Ee]|[Mm][Dd]|[Mm][Aa]|[Mm][Ii]|[Mm][Nn]|[Mm][Ss]|[Mm][Oo]|[Mm][Tt]|[Nn][Ee]|[Nn][Vv]|[Nn][Hh]|[Nn][Jj]|[Nn][Mm]|[Nn][Yy]|[Nn][Cc]|[Nn][Dd]|[Oo][Hh]|[Oo][Kk]|[Oo][Rr]|[Pp][Aa]|[Rr][Ii]|[Ss][Cc]|[Ss][Dd]|[Tt][Nn]|[Tt][Xx]|[Uu][Tt]|[Vv][Tt]|[Vv][Aa]|[Ww][Aa]|[Ww][Vv]|[Ww][Ii]|[Ww][Yy]|[Aa][Ss]|[Gg][Uu]|[Mm][Pp]|[Pp][Rr]|[Vv][Ii]|[Aa][Aa]|[Aa][Ee]|[Aa][Pp])\\s*$",
-                            "description": "The two-letter US state or territory code, such as TX, in any letter case. Affinity stores and returns it in upper case."
+                            "pattern": "^\\s*(?:[Aa][Ll]|[Aa][Kk]|[Aa][Zz]|[Aa][Rr]|[Cc][Aa]|[Cc][Oo]|[Cc][Tt]|[Dd][Ee]|[Dd][Cc]|[Ff][Ll]|[Gg][Aa]|[Hh][Ii]|[Ii][Dd]|[Ii][Ll]|[Ii][Nn]|[Ii][Aa]|[Kk][Ss]|[Kk][Yy]|[Ll][Aa]|[Mm][Ee]|[Mm][Dd]|[Mm][Aa]|[Mm][Ii]|[Mm][Nn]|[Mm][Ss]|[Mm][Oo]|[Mm][Tt]|[Nn][Ee]|[Nn][Vv]|[Nn][Hh]|[Nn][Jj]|[Nn][Mm]|[Nn][Yy]|[Nn][Cc]|[Nn][Dd]|[Oo][Hh]|[Oo][Kk]|[Oo][Rr]|[Pp][Aa]|[Rr][Ii]|[Ss][Cc]|[Ss][Dd]|[Tt][Nn]|[Tt][Xx]|[Uu][Tt]|[Vv][Tt]|[Vv][Aa]|[Ww][Aa]|[Ww][Vv]|[Ww][Ii]|[Ww][Yy]|[Pp][Rr])\\s*$",
+                            "description": "The two-letter code of a US state, DC or PR, in any letter case. Affinity stores and returns it in upper case."
                           },
                           "postalCode": {
                             "type": "string",
@@ -4076,7 +3923,7 @@
                         "type": "null"
                       }
                     ],
-                    "description": "Affinity merges the address parts you send into the saved address. An omitted part keeps its saved value. To move to an address with no suite, send `\"line2\": null` with the new `line1`, `city`, `state` and `postalCode`."
+                    "description": "Affinity merges the address parts you send into the saved address. An omitted part keeps its saved value. To move to an address with no suite, send `\"line2\": null` with the new `line1`, `city`, `state` and `postalCode`. PerfectRx prints it: use Windows-1252 characters, without < or >. Line 1 and line 2 together: 70 characters or fewer."
                   },
                   "liveEnabled": {
                     "type": [
@@ -4087,15 +3934,16 @@
                   },
                   "name": {
                     "type": "string",
-                    "maxLength": 120,
-                    "pattern": "^\\s*[^\\s\\x00-\\x08\\x0a-\\x1f\\x7f-\\x9f](?:[^\\x00-\\x08\\x0a-\\x1f\\x7f-\\x9f]*[^\\s\\x00-\\x08\\x0a-\\x1f\\x7f-\\x9f])?\\s*$",
-                    "description": "Text with at least one visible character."
+                    "maxLength": 100,
+                    "pattern": "^\\s*[\\x21-\\x3b\\x3d\\x3f-\\x7e\\xa1-\\xac\\xae-\\xffŒœŠšŸŽžƒˆ˜̀-̧̃̈̊̌̀́;·`´–—‘-‚“-„†-•…‰‹›€™KÅ](?:[\\x09\\x20-\\x3b\\x3d\\x3f-\\x7e\\xa0-\\xac\\xae-\\xffŒœŠšŸŽžƒˆ˜̀-̧̃̈̊̌̀́;·`´–—‘-‚“-„†-•…‰‹›€™KÅ]*[\\x21-\\x3b\\x3d\\x3f-\\x7e\\xa1-\\xac\\xae-\\xffŒœŠšŸŽžƒˆ˜̀-̧̃̈̊̌̀́;·`´–—‘-‚“-„†-•…‰‹›€™KÅ])?\\s*$",
+                    "description": "The practice name. PerfectRx prints it: use Windows-1252 characters, without < or >."
                   },
                   "phone": {
                     "anyOf": [
                       {
                         "type": "string",
-                        "maxLength": 40
+                        "maxLength": 40,
+                        "pattern": "^(?:\\s*|[\\s\\x28\\x29\\x2d\\x2e֊־᐀᠆‐‑‒–—―⸗⸚⸺⸻⹀⹝〜〰゠︱︲﹘﹣－𐵮𐺭]*(?:\\+[\\s\\x28\\x29\\x2d\\x2e֊־᐀᠆‐‑‒–—―⸗⸚⸺⸻⹀⹝〜〰゠︱︲﹘﹣－𐵮𐺭]*1[\\s\\x28\\x29\\x2d\\x2e֊־᐀᠆‐‑‒–—―⸗⸚⸺⸻⹀⹝〜〰゠︱︲﹘﹣－𐵮𐺭]*|1[\\s\\x28\\x29\\x2d\\x2e֊־᐀᠆‐‑‒–—―⸗⸚⸺⸻⹀⹝〜〰゠︱︲﹘﹣－𐵮𐺭]*)?(?:[0-9][\\s\\x28\\x29\\x2d\\x2e֊־᐀᠆‐‑‒–—―⸗⸚⸺⸻⹀⹝〜〰゠︱︲﹘﹣－𐵮𐺭]*){10})$"
                       },
                       {
                         "type": "null"
@@ -4259,28 +4107,6 @@
               "application/problem+json": {
                 "schema": {
                   "title": "WebhooksList404Response",
-                  "$ref": "#/components/schemas/Problem"
-                }
-              }
-            },
-            "headers": {
-              "X-Request-Id": {
-                "$ref": "#/components/headers/X-Request-Id"
-              },
-              "X-Affinity-Trace-Id": {
-                "$ref": "#/components/headers/X-Affinity-Trace-Id"
-              },
-              "X-Api-Version": {
-                "$ref": "#/components/headers/X-Api-Version"
-              }
-            }
-          },
-          "413": {
-            "description": "Content Too Large",
-            "content": {
-              "application/problem+json": {
-                "schema": {
-                  "title": "WebhooksList413Response",
                   "$ref": "#/components/schemas/Problem"
                 }
               }
@@ -5854,6 +5680,54 @@
   },
   "components": {
     "schemas": {
+      "PracticeAddressInput": {
+        "type": "object",
+        "properties": {
+          "line1": {
+            "type": "string",
+            "maxLength": 70,
+            "pattern": "^\\s*[\\x21-\\x3b\\x3d\\x3f-\\x7e\\xa1-\\xac\\xae-\\xffŒœŠšŸŽžƒˆ˜̀-̧̃̈̊̌̀́;·`´–—‘-‚“-„†-•…‰‹›€™KÅ](?:[\\x09\\x20-\\x3b\\x3d\\x3f-\\x7e\\xa0-\\xac\\xae-\\xffŒœŠšŸŽžƒˆ˜̀-̧̃̈̊̌̀́;·`´–—‘-‚“-„†-•…‰‹›€™KÅ]*[\\x21-\\x3b\\x3d\\x3f-\\x7e\\xa1-\\xac\\xae-\\xffŒœŠšŸŽžƒˆ˜̀-̧̃̈̊̌̀́;·`´–—‘-‚“-„†-•…‰‹›€™KÅ])?\\s*$",
+            "description": "The street address. Line 1 and line 2 together: 70 characters or fewer."
+          },
+          "line2": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^\\s*(?:[\\x21-\\x3b\\x3d\\x3f-\\x7e\\xa1-\\xac\\xae-\\xffŒœŠšŸŽžƒˆ˜̀-̧̃̈̊̌̀́;·`´–—‘-‚“-„†-•…‰‹›€™KÅ](?:[\\x09\\x20-\\x3b\\x3d\\x3f-\\x7e\\xa0-\\xac\\xae-\\xffŒœŠšŸŽžƒˆ˜̀-̧̃̈̊̌̀́;·`´–—‘-‚“-„†-•…‰‹›€™KÅ]*[\\x21-\\x3b\\x3d\\x3f-\\x7e\\xa1-\\xac\\xae-\\xffŒœŠšŸŽžƒˆ˜̀-̧̃̈̊̌̀́;·`´–—‘-‚“-„†-•…‰‹›€™KÅ])?\\s*)?$",
+                "maxLength": 70
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "The apartment or suite, or null when there is none. Empty text, N/A, NA, none and - count as null. See notes, TBD and unknown return 422. Line 1 and line 2 together: 70 characters or fewer."
+          },
+          "city": {
+            "type": "string",
+            "maxLength": 100,
+            "pattern": "^\\s*[\\x21-\\x3b\\x3d\\x3f-\\x7e\\xa1-\\xac\\xae-\\xffŒœŠšŸŽžƒˆ˜̀-̧̃̈̊̌̀́;·`´–—‘-‚“-„†-•…‰‹›€™KÅ](?:[\\x09\\x20-\\x3b\\x3d\\x3f-\\x7e\\xa0-\\xac\\xae-\\xffŒœŠšŸŽžƒˆ˜̀-̧̃̈̊̌̀́;·`´–—‘-‚“-„†-•…‰‹›€™KÅ]*[\\x21-\\x3b\\x3d\\x3f-\\x7e\\xa1-\\xac\\xae-\\xffŒœŠšŸŽžƒˆ˜̀-̧̃̈̊̌̀́;·`´–—‘-‚“-„†-•…‰‹›€™KÅ])?\\s*$",
+            "description": "The city name."
+          },
+          "state": {
+            "type": "string",
+            "pattern": "^\\s*(?:[Aa][Ll]|[Aa][Kk]|[Aa][Zz]|[Aa][Rr]|[Cc][Aa]|[Cc][Oo]|[Cc][Tt]|[Dd][Ee]|[Dd][Cc]|[Ff][Ll]|[Gg][Aa]|[Hh][Ii]|[Ii][Dd]|[Ii][Ll]|[Ii][Nn]|[Ii][Aa]|[Kk][Ss]|[Kk][Yy]|[Ll][Aa]|[Mm][Ee]|[Mm][Dd]|[Mm][Aa]|[Mm][Ii]|[Mm][Nn]|[Mm][Ss]|[Mm][Oo]|[Mm][Tt]|[Nn][Ee]|[Nn][Vv]|[Nn][Hh]|[Nn][Jj]|[Nn][Mm]|[Nn][Yy]|[Nn][Cc]|[Nn][Dd]|[Oo][Hh]|[Oo][Kk]|[Oo][Rr]|[Pp][Aa]|[Rr][Ii]|[Ss][Cc]|[Ss][Dd]|[Tt][Nn]|[Tt][Xx]|[Uu][Tt]|[Vv][Tt]|[Vv][Aa]|[Ww][Aa]|[Ww][Vv]|[Ww][Ii]|[Ww][Yy]|[Pp][Rr])\\s*$",
+            "description": "The two-letter code of a US state, DC or PR, in any letter case. Affinity stores and returns it in upper case."
+          },
+          "postalCode": {
+            "type": "string",
+            "pattern": "^\\s*\\d{5}(?:[ -]?\\d{4})?\\s*$",
+            "description": "The US ZIP code: 78701, or ZIP+4 as 78701-1234, 78701 1234 or 787011234. Affinity stores and returns 78701 or 78701-1234."
+          }
+        },
+        "required": [
+          "line1",
+          "city",
+          "state",
+          "postalCode"
+        ],
+        "additionalProperties": false,
+        "description": "The practice's US mailing address. PerfectRx prints it: use Windows-1252 characters, without < or >. Line 1 and line 2 together: 70 characters or fewer."
+      },
       "ShippingDestinationAddressType": {
         "type": "string",
         "enum": [
@@ -6010,7 +5884,7 @@
                 "type": "null"
               }
             ],
-            "description": "The apartment or suite, or null when there is none. Empty text counts as null."
+            "description": "The apartment or suite, or null when there is none. Empty text, N/A, NA, none and - count as null. See notes, TBD and unknown return 422."
           },
           "city": {
             "type": "string",
@@ -6076,13 +5950,13 @@
                 "type": "null"
               }
             ],
-            "description": "The reason for compounding, required when the medication's requirements include it. Empty text counts as null."
+            "description": "One of the medication's compoundingReasons values, required when the medication's requirements include it. Another value returns 422. Empty text counts as null."
           },
           "directions": {
             "type": "string",
             "maxLength": 2000,
             "pattern": "^\\s*[^\\s\\x00-\\x08\\x0b\\x0c\\x0e-\\x1f\\x7f-\\x9f](?:[^\\x00-\\x08\\x0b\\x0c\\x0e-\\x1f\\x7f-\\x9f]*[^\\s\\x00-\\x08\\x0b\\x0c\\x0e-\\x1f\\x7f-\\x9f])?\\s*$",
-            "description": "The prescriber's directions for use."
+            "description": "The prescriber's directions for use, as the clinician wrote them. None, N/A, NA, TBD, unknown and see notes return 422."
           },
           "medicationId": {
             "type": "string",
@@ -6138,7 +6012,8 @@
             "anyOf": [
               {
                 "type": "string",
-                "maxLength": 40
+                "maxLength": 40,
+                "pattern": "^(?:\\s*|[\\s\\x28\\x29\\x2d\\x2e֊־᐀᠆‐‑‒–—―⸗⸚⸺⸻⹀⹝〜〰゠︱︲﹘﹣－𐵮𐺭]*(?:\\+[\\s\\x28\\x29\\x2d\\x2e֊־᐀᠆‐‑‒–—―⸗⸚⸺⸻⹀⹝〜〰゠︱︲﹘﹣－𐵮𐺭]*1[\\s\\x28\\x29\\x2d\\x2e֊־᐀᠆‐‑‒–—―⸗⸚⸺⸻⹀⹝〜〰゠︱︲﹘﹣－𐵮𐺭]*|1[\\s\\x28\\x29\\x2d\\x2e֊־᐀᠆‐‑‒–—―⸗⸚⸺⸻⹀⹝〜〰゠︱︲﹘﹣－𐵮𐺭]*)?(?:[0-9][\\s\\x28\\x29\\x2d\\x2e֊־᐀᠆‐‑‒–—―⸗⸚⸺⸻⹀⹝〜〰゠︱︲﹘﹣－𐵮𐺭]*){10})$"
               },
               {
                 "type": "null"
@@ -6204,7 +6079,7 @@
                   "maxLength": 200,
                   "pattern": "^\\s*[^\\s\\x00-\\x1f\\x7f-\\x9f](?:[^\\x00-\\x1f\\x7f-\\x9f]*[^\\s\\x00-\\x1f\\x7f-\\x9f])?\\s*$",
                   "minLength": 1,
-                  "description": "The reported allergy name."
+                  "description": "The reported allergy name. A whole-value no-allergy statement (NKDA, NKFA, none, unknown, denies, no, N/A and the same kind of phrase) returns 422, ignoring case, dots, hyphens, slashes, spaces and a trailing period. Send `[]` instead."
                 }
               },
               "required": [
@@ -6231,7 +6106,7 @@
             "type": "string",
             "maxLength": 60,
             "pattern": "^\\s*[^\\s\\x00-\\x08\\x0a-\\x1f\\x7f-\\x9f](?:[^\\x00-\\x08\\x0a-\\x1f\\x7f-\\x9f]*[^\\s\\x00-\\x08\\x0a-\\x1f\\x7f-\\x9f])?\\s*$",
-            "description": "The first name."
+            "description": "The first name. N/A, TBD, unknown and none return 422."
           },
           "sex": {
             "type": "string",
@@ -6246,7 +6121,7 @@
             "type": "string",
             "maxLength": 60,
             "pattern": "^\\s*[^\\s\\x00-\\x08\\x0a-\\x1f\\x7f-\\x9f](?:[^\\x00-\\x08\\x0a-\\x1f\\x7f-\\x9f]*[^\\s\\x00-\\x08\\x0a-\\x1f\\x7f-\\x9f])?\\s*$",
-            "description": "The last name."
+            "description": "The last name. N/A, TBD, unknown and none return 422."
           },
           "middleName": {
             "anyOf": [
@@ -6264,6 +6139,7 @@
           "phone": {
             "type": "string",
             "maxLength": 40,
+            "pattern": "^[\\s\\x28\\x29\\x2d\\x2e֊־᐀᠆‐‑‒–—―⸗⸚⸺⸻⹀⹝〜〰゠︱︲﹘﹣－𐵮𐺭]*(?:\\+[\\s\\x28\\x29\\x2d\\x2e֊־᐀᠆‐‑‒–—―⸗⸚⸺⸻⹀⹝〜〰゠︱︲﹘﹣－𐵮𐺭]*1[\\s\\x28\\x29\\x2d\\x2e֊־᐀᠆‐‑‒–—―⸗⸚⸺⸻⹀⹝〜〰゠︱︲﹘﹣－𐵮𐺭]*|1[\\s\\x28\\x29\\x2d\\x2e֊־᐀᠆‐‑‒–—―⸗⸚⸺⸻⹀⹝〜〰゠︱︲﹘﹣－𐵮𐺭]*)?(?:[0-9][\\s\\x28\\x29\\x2d\\x2e֊־᐀᠆‐‑‒–—―⸗⸚⸺⸻⹀⹝〜〰゠︱︲﹘﹣－𐵮𐺭]*){10}$",
             "description": "A US phone number: 10 digits, with or without +1 or 1 before them. Spaces, dashes, dots and parentheses are allowed, such as (512) 555-0100. Affinity stores and returns +15125550100."
           },
           "externalId": {
@@ -6658,7 +6534,7 @@
             "items": {
               "type": "string"
             },
-            "description": "The states where this medication cannot ship; other states are permitted subject to pharmacy coverage."
+            "description": "Every state where this medication cannot ship, including states the pharmacy does not cover. It can ship to every other state."
           },
           "shippingOptions": {
             "type": "array",

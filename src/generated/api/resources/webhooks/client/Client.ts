@@ -36,7 +36,6 @@ export class WebhooksClient {
      * @throws {@link Affinity.UnauthorizedError}
      * @throws {@link Affinity.ForbiddenError}
      * @throws {@link Affinity.NotFoundError}
-     * @throws {@link Affinity.ContentTooLargeError}
      * @throws {@link Affinity.TooManyRequestsError}
      * @throws {@link Affinity.InternalServerError}
      * @throws {@link Affinity.ServiceUnavailableError}
@@ -108,11 +107,6 @@ export class WebhooksClient {
                             );
                         case 404:
                             throw new Affinity.NotFoundError(
-                                _response.error.body as Affinity.Problem,
-                                _response.rawResponse,
-                            );
-                        case 413:
-                            throw new Affinity.ContentTooLargeError(
                                 _response.error.body as Affinity.Problem,
                                 _response.rawResponse,
                             );
