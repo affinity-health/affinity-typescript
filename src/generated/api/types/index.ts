@@ -3,6 +3,7 @@ export * from "./Address.js";
 export * from "./AddressInput.js";
 export * from "./Allergy.js";
 export * from "./Fill.js";
+export * from "./Kit.js";
 export * from "./Medication.js";
 export * from "./MedicationList.js";
 export * from "./Order.js";

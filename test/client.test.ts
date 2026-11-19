@@ -220,6 +220,40 @@ describe("requests", () => {
       id: id("pat"),
     });
   });
+
+  test("orders.search posts its filters as the JSON body, with no query string", async () => {
+    const page = {
+      object: "list",
+      url: "/v1/orders/search",
+      data: [],
+      hasMore: false,
+      nextCursor: null,
+    };
+    const { client, calls } = recorded([json(page)]);
+    const filters: Affinity.OrderSearch = {
+      query: "test patient",
+      status: "shipped",
+      practiceId: id("prac"),
+      limit: 10,
+      startingAfter: "cursor-1",
+    };
+    const result = await client.orders.search(filters);
+    expect(result.data).toEqual([]);
+    expect(calls[0]!.method).toBe("POST");
+    expect(calls[0]!.url.pathname).toBe("/v1/orders/search");
+    expect(calls[0]!.url.search).toBe("");
+    expect(calls[0]!.body).toEqual(filters);
+  });
+
+  test("orders.create sends daysSupply on a prescription", async () => {
+    const { client, calls } = recorded([json({ id: id("ord") })]);
+    await client.orders.create({
+      ...order,
+      prescriptions: [{ ...order.prescriptions[0]!, daysSupply: 30 }],
+    });
+    const body = calls[0]!.body as { prescriptions: Affinity.PrescriptionInput[] };
+    expect(body.prescriptions[0]!.daysSupply).toBe(30);
+  });
 });
 
 describe("pagination", () => {
@@ -386,7 +420,7 @@ test("the client has a method for every operation in the contract", async () => 
     return typeof client[resource!]?.[method!] !== "function";
   });
   expect(missing).toEqual([]);
-  expect(Object.keys(generation.operations)).toHaveLength(17);
+  expect(Object.keys(generation.operations)).toHaveLength(18);
 });
 
 test("every enum value in the contract is in the generated code", async () => {

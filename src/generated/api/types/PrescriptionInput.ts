@@ -3,6 +3,8 @@
 export interface PrescriptionInput {
     /** One of the medication's compoundingReasons values, required when the medication's requirements include it. Another value returns 422. Empty text counts as null. */
     compoundingReason?: (string | null) | undefined;
+    /** The number of days the prescribed quantity lasts, required when the medication's requirements include it. Null counts as not sent. */
+    daysSupply?: (number | null) | undefined;
     /** The prescriber's directions for use, as the clinician wrote them. None, N/A, NA, TBD, unknown and see notes return 422. */
     directions: string;
     /** The medication's public identifier from the current catalog. */
@@ -11,7 +13,7 @@ export interface PrescriptionInput {
     notes?: (string | null) | undefined;
     /** The prescribed quantity in quantityUnit, not a count of fills. With a fill, send a whole number of fills in units: two fills of 30 tablets is 60. A vial's unit is vial, so 2 is two vials. */
     quantity: number;
-    /** The number of authorized refills in addition to the first fill. */
+    /** The number of authorized refills in addition to the first fill. It cannot be more than the medication's maxRefills: a larger value returns 422 invalid_order. */
     refills: number;
     /** Whether the prescriber permits substitution; defaults to true when omitted. */
     substitutionPermitted?: boolean | undefined;

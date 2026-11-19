@@ -996,7 +996,7 @@
                     },
                     "fullName": {
                       "type": "string",
-                      "description": "The name with each ingredient's salt where the catalog records one, such as Enclomiphene Citrate. Equals name otherwise."
+                      "description": "The name with each ingredient: its salt where the catalog records one, such as Enclomiphene Citrate, or the ingredients of a blend named for what prescribers call it, such as Myers' Cocktail. Equals name otherwise."
                     },
                     "id": {
                       "type": "string",
@@ -1006,6 +1006,17 @@
                         "med_01j2y8m6jcc9tt24af5pw9x1bc"
                       ]
                     },
+                    "kit": {
+                      "anyOf": [
+                        {
+                          "$ref": "#/components/schemas/Kit"
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ],
+                      "description": "The vials or bottles a kit holds, in the order they are used; null for anything that is not a kit."
+                    },
                     "name": {
                       "type": "string",
                       "description": "The name."
@@ -1013,11 +1024,30 @@
                     "pharmacy": {
                       "$ref": "#/components/schemas/PharmacyReference"
                     },
+                    "pharmacyRank": {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 9007199254740991,
+                      "description": "Affinity's preference for the dispensing pharmacy, from 0 for the most preferred. When two pharmacies have the same item at the same price, choose the lower rank. Absent when Affinity has no preference for the pharmacy."
+                    },
                     "price": {
                       "type": "integer",
                       "minimum": 0,
                       "maximum": 9007199254740991,
                       "description": "The price in integer cents."
+                    },
+                    "researchUseOnly": {
+                      "type": "boolean",
+                      "description": "Whether the medication is for research use only (RUO). Only an organization with RUO access sees one."
+                    },
+                    "maxRefills": {
+                      "type": [
+                        "integer",
+                        "null"
+                      ],
+                      "minimum": 0,
+                      "maximum": 9007199254740991,
+                      "description": "The most refills a prescription of this medication takes, or null when any count within the request limits is accepted. 0 means the pharmacy takes no refills: send a new order for each fill."
                     },
                     "quantities": {
                       "type": "array",
@@ -1064,7 +1094,7 @@
                       "type": "integer",
                       "minimum": 0,
                       "maximum": 9007199254740991,
-                      "description": "Each shipping option price includes shippingSuppliesPrice. A mixed order pays the highest supplies price once. Example: $25.00 cold chain + $2.06 supplies = $27.06."
+                      "description": "Always 0. Each shipping option price is the complete shipping price."
                     },
                     "strength": {
                       "anyOf": [
@@ -1076,6 +1106,17 @@
                         }
                       ],
                       "description": "The pharmacy's strength text, or null when it is unknown."
+                    },
+                    "unsupportedFields": {
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "x-extensible-enum": [
+                          "notes",
+                          "substitutionPermitted"
+                        ]
+                      },
+                      "description": "The prescription fields this medication's pharmacy cannot receive: notes (send none) and substitutionPermitted (send true). An order that sets one is still accepted; in Live mode Affinity staff handle it, and in Test mode it fails when sent. Absent when the pharmacy receives them all."
                     },
                     "variants": {
                       "type": "array",
@@ -1094,9 +1135,12 @@
                     "form",
                     "fullName",
                     "id",
+                    "kit",
                     "name",
                     "pharmacy",
                     "price",
+                    "researchUseOnly",
+                    "maxRefills",
                     "quantities",
                     "quantityUnit",
                     "requirements",
@@ -1654,7 +1698,7 @@
           "required": true,
           "description": "Send the JSON body with Content-Type: application/json."
         },
-        "description": "One request creates the order, signs it and sends it to the pharmacy. Platforms must send practiceId; practice callers can omit it to use their own practice. With an API key, name the prescriber and send signatureAttestation. Optional prescriber phone and address each default to the practice; no account is looked up by NPI. In the app, the signed-in member signs with the NPI in their settings, or names the prescriber with the same attestation. With patient.id (a pat_ ID) or patient.externalId, the order reuses that patient of the practice and mode and updates the saved record; without them, each order creates a new patient. If id and externalId identify different patients, the request returns 422 invalid_order. When the pharmacy already holds the patient's name, a different firstName or lastName returns 422 invalid_order. Live orders require Live access on the practice and its platform. No payment method is required.",
+        "description": "One request creates the order, signs it and sends it to the pharmacy. Platforms must send practiceId; practice callers can omit it to use their own practice. With an API key, name the prescriber and send signatureAttestation. Optional prescriber phone and address each default to the practice; no account is looked up by NPI. In the app, the signed-in member signs with the NPI in their settings, or names the prescriber with the same attestation. With patient.id (a pat_ ID) or patient.externalId, the order reuses that patient of the practice and mode and updates the saved record; without them, each order creates a new patient. If id and externalId identify different patients, the request returns 422 invalid_order. When PerfectRx already holds a different firstName or lastName for the patient, the order is still accepted: a Live order stays submitted until staff correct the name with PerfectRx, and a Test order fails with a failureReason. Live orders require Live access on the practice and its platform. Platforms and their practices need no payment method. An independent practice billed per order needs a default payment method (a card or a US bank account), or account credit that covers the order.",
         "summary": "Create, sign and submit an order"
       },
       "get": {
@@ -1743,10 +1787,10 @@
             "schema": {
               "type": "string",
               "maxLength": 120,
-              "description": "Search saved order snapshots: patient names, email, phone and external ID; order external ID; prescriber name and NPI; medication names and brands; pharmacy name. Whole ord_ and pat_ IDs and six-character order numbers also match. Text matches ignore case and allow substrings, word prefixes and similar spellings for alphanumeric words of four or more characters. Every one of the first eight words containing letters or numbers must match; punctuation-only words are ignored. An empty or punctuation-only query leaves the list unfiltered. Date of birth, separate strength fields, practice names, prac_ IDs and rx_ IDs are not searched. Restart pagination when filters change."
+              "description": "Search saved order snapshots and tracking numbers: patient names, email, phone, date of birth (1985-03-02, 03/02/1985, 3/2/1985 or 03021985) and external ID; order external ID; prescriber name and NPI; medication names and brands; pharmacy name; each shipment's tracking number. Whole ord_ and pat_ IDs and six-character order numbers also match. Text matches ignore case and allow substrings, word prefixes and similar spellings for alphanumeric words of four or more characters. Every word containing letters or numbers must match, so each word narrows the list; punctuation-only words are ignored. An empty or punctuation-only query leaves the list unfiltered. Separate strength fields, practice names, prac_ IDs and rx_ IDs are not searched. Restart pagination when filters change."
             },
             "required": false,
-            "description": "Search saved order snapshots: patient names, email, phone and external ID; order external ID; prescriber name and NPI; medication names and brands; pharmacy name. Whole ord_ and pat_ IDs and six-character order numbers also match. Text matches ignore case and allow substrings, word prefixes and similar spellings for alphanumeric words of four or more characters. Every one of the first eight words containing letters or numbers must match; punctuation-only words are ignored. An empty or punctuation-only query leaves the list unfiltered. Date of birth, separate strength fields, practice names, prac_ IDs and rx_ IDs are not searched. Restart pagination when filters change."
+            "description": "Search saved order snapshots and tracking numbers: patient names, email, phone, date of birth (1985-03-02, 03/02/1985, 3/2/1985 or 03021985) and external ID; order external ID; prescriber name and NPI; medication names and brands; pharmacy name; each shipment's tracking number. Whole ord_ and pat_ IDs and six-character order numbers also match. Text matches ignore case and allow substrings, word prefixes and similar spellings for alphanumeric words of four or more characters. Every word containing letters or numbers must match, so each word narrows the list; punctuation-only words are ignored. An empty or punctuation-only query leaves the list unfiltered. Separate strength fields, practice names, prac_ IDs and rx_ IDs are not searched. Restart pagination when filters change."
           },
           {
             "name": "status",
@@ -2021,6 +2065,275 @@
           "cursorField": "id",
           "kind": "cursor"
         }
+      }
+    },
+    "/v1/orders/search": {
+      "post": {
+        "tags": [
+          "Orders"
+        ],
+        "operationId": "orders.search",
+        "parameters": [
+          {
+            "description": "The dated API version this request is written against.",
+            "in": "header",
+            "name": "Affinity-Version",
+            "required": true,
+            "schema": {
+              "default": "2026-11-01",
+              "enum": [
+                "2026-11-01"
+              ],
+              "type": "string"
+            }
+          }
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "OrdersSearchResponse",
+                  "$ref": "#/components/schemas/OrderList"
+                }
+              }
+            },
+            "headers": {
+              "X-Request-Id": {
+                "$ref": "#/components/headers/X-Request-Id"
+              },
+              "X-Affinity-Trace-Id": {
+                "$ref": "#/components/headers/X-Affinity-Trace-Id"
+              },
+              "X-Api-Version": {
+                "$ref": "#/components/headers/X-Api-Version"
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "title": "OrdersSearch400Response",
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "headers": {
+              "X-Request-Id": {
+                "$ref": "#/components/headers/X-Request-Id"
+              },
+              "X-Affinity-Trace-Id": {
+                "$ref": "#/components/headers/X-Affinity-Trace-Id"
+              },
+              "X-Api-Version": {
+                "$ref": "#/components/headers/X-Api-Version"
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "title": "OrdersSearch401Response",
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "headers": {
+              "X-Request-Id": {
+                "$ref": "#/components/headers/X-Request-Id"
+              },
+              "X-Affinity-Trace-Id": {
+                "$ref": "#/components/headers/X-Affinity-Trace-Id"
+              },
+              "X-Api-Version": {
+                "$ref": "#/components/headers/X-Api-Version"
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "title": "OrdersSearch403Response",
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "headers": {
+              "X-Request-Id": {
+                "$ref": "#/components/headers/X-Request-Id"
+              },
+              "X-Affinity-Trace-Id": {
+                "$ref": "#/components/headers/X-Affinity-Trace-Id"
+              },
+              "X-Api-Version": {
+                "$ref": "#/components/headers/X-Api-Version"
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "title": "OrdersSearch404Response",
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "headers": {
+              "X-Request-Id": {
+                "$ref": "#/components/headers/X-Request-Id"
+              },
+              "X-Affinity-Trace-Id": {
+                "$ref": "#/components/headers/X-Affinity-Trace-Id"
+              },
+              "X-Api-Version": {
+                "$ref": "#/components/headers/X-Api-Version"
+              }
+            }
+          },
+          "413": {
+            "description": "Content Too Large",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "title": "OrdersSearch413Response",
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "headers": {
+              "X-Request-Id": {
+                "$ref": "#/components/headers/X-Request-Id"
+              },
+              "X-Affinity-Trace-Id": {
+                "$ref": "#/components/headers/X-Affinity-Trace-Id"
+              },
+              "X-Api-Version": {
+                "$ref": "#/components/headers/X-Api-Version"
+              }
+            }
+          },
+          "415": {
+            "description": "Unsupported Media Type",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "title": "OrdersSearch415Response",
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "headers": {
+              "X-Request-Id": {
+                "$ref": "#/components/headers/X-Request-Id"
+              },
+              "X-Affinity-Trace-Id": {
+                "$ref": "#/components/headers/X-Affinity-Trace-Id"
+              },
+              "X-Api-Version": {
+                "$ref": "#/components/headers/X-Api-Version"
+              }
+            }
+          },
+          "429": {
+            "description": "Too Many Requests",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "title": "OrdersSearch429Response",
+                  "$ref": "#/components/schemas/Problem429"
+                }
+              }
+            },
+            "headers": {
+              "Retry-After": {
+                "$ref": "#/components/headers/Retry-After"
+              },
+              "X-Request-Id": {
+                "$ref": "#/components/headers/X-Request-Id"
+              },
+              "X-Affinity-Trace-Id": {
+                "$ref": "#/components/headers/X-Affinity-Trace-Id"
+              },
+              "X-Api-Version": {
+                "$ref": "#/components/headers/X-Api-Version"
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "title": "OrdersSearch500Response",
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "headers": {
+              "X-Request-Id": {
+                "$ref": "#/components/headers/X-Request-Id"
+              },
+              "X-Affinity-Trace-Id": {
+                "$ref": "#/components/headers/X-Affinity-Trace-Id"
+              },
+              "X-Api-Version": {
+                "$ref": "#/components/headers/X-Api-Version"
+              }
+            }
+          },
+          "503": {
+            "description": "Service Unavailable",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "title": "OrdersSearch503Response",
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            },
+            "headers": {
+              "X-Request-Id": {
+                "$ref": "#/components/headers/X-Request-Id"
+              },
+              "X-Affinity-Trace-Id": {
+                "$ref": "#/components/headers/X-Affinity-Trace-Id"
+              },
+              "X-Api-Version": {
+                "$ref": "#/components/headers/X-Api-Version"
+              },
+              "Retry-After": {
+                "$ref": "#/components/headers/Retry-After"
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/OrderSearch"
+              }
+            }
+          },
+          "required": true,
+          "description": "Send the JSON body with Content-Type: application/json."
+        },
+        "description": "Takes the same filters as List orders (GET /v1/orders) in a JSON body, so patient details stay out of URLs and logs. Returns the same list, newest first unless sort is supplied. For the next page, send the same body with startingAfter set to nextCursor. limit is a number, and cancelRequested and recentlyShipped are booleans.",
+        "summary": "Search orders"
       }
     },
     "/v1/orders/{orderId}": {
@@ -3035,10 +3348,10 @@
             "schema": {
               "type": "string",
               "maxLength": 120,
-              "description": "Match practice names containing this text, ignoring case. Restart pagination after changing query."
+              "description": "Match practice names that contain every word of this text, in any order, ignoring case. Restart pagination after changing query."
             },
             "required": false,
-            "description": "Match practice names containing this text, ignoring case. Restart pagination after changing query."
+            "description": "Match practice names that contain every word of this text, in any order, ignoring case. Restart pagination after changing query."
           },
           {
             "name": "sort",
@@ -5760,6 +6073,93 @@
         ],
         "description": "Use patient, practice or address to select the shipping destination."
       },
+      "OrderSearch": {
+        "type": "object",
+        "properties": {
+          "limit": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 100,
+            "description": "Maximum records per page, from 1 to 100. Defaults to 25.",
+            "default": 25
+          },
+          "startingAfter": {
+            "type": "string",
+            "maxLength": 2048,
+            "description": "Page forward using the previous response's nextCursor. Keep the same filters, sort, organization and mode."
+          },
+          "externalOrderId": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128,
+            "description": "Match the external order ID exactly, including case. Combine with practiceId when your platform reuses IDs across practices."
+          },
+          "updatedAfter": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Return orders whose updatedAt is strictly later than this ISO 8601 timestamp. Sorting stays by creation time and ID unless sort is supplied. Keep this cutoff unchanged while paging."
+          },
+          "patientId": {
+            "type": "string",
+            "pattern": "^pat_[0-7][0-9a-hjkmnp-tv-z]{25}$",
+            "description": "Limit results to the patient with this pat_ ID.",
+            "examples": [
+              "pat_01j2y8m6jcc9tt24af5pw9x1bc"
+            ]
+          },
+          "practiceId": {
+            "type": "string",
+            "pattern": "^prac_[0-7][0-9a-hjkmnp-tv-z]{25}$",
+            "description": "Limit results to the practice with this prac_ ID, within your authorized practices.",
+            "examples": [
+              "prac_01j2y8m6jcc9tt24af5pw9x1bc"
+            ]
+          },
+          "query": {
+            "type": "string",
+            "maxLength": 120,
+            "description": "Search saved order snapshots and tracking numbers: patient names, email, phone, date of birth (1985-03-02, 03/02/1985, 3/2/1985 or 03021985) and external ID; order external ID; prescriber name and NPI; medication names and brands; pharmacy name; each shipment's tracking number. Whole ord_ and pat_ IDs and six-character order numbers also match. Text matches ignore case and allow substrings, word prefixes and similar spellings for alphanumeric words of four or more characters. Every word containing letters or numbers must match, so each word narrows the list; punctuation-only words are ignored. An empty or punctuation-only query leaves the list unfiltered. Separate strength fields, practice names, prac_ IDs and rx_ IDs are not searched. Restart pagination when filters change."
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "awaiting_approval",
+              "submitted",
+              "processing",
+              "shipped",
+              "delivered",
+              "cancelled",
+              "failed"
+            ],
+            "description": "Return only orders with this status. Omit to include all statuses."
+          },
+          "cancelRequested": {
+            "type": [
+              "boolean",
+              "null"
+            ],
+            "description": "true returns only submitted or processing orders with a cancel the pharmacy has not confirmed yet (cancelRequestedAt set). false leaves those orders out. Omit to include both. Null counts as omitted."
+          },
+          "recentlyShipped": {
+            "type": [
+              "boolean",
+              "null"
+            ],
+            "description": "true returns only orders whose status is shipped and that shipped in the last 60 days; delivered orders are excluded. false leaves those orders out. Omit to include both. Null counts as omitted."
+          },
+          "sort": {
+            "type": "string",
+            "enum": [
+              "patient",
+              "patient_desc",
+              "created",
+              "created_desc"
+            ],
+            "description": "patient sorts the lowercase text firstName + space + lastName A to Z, then order ID; created sorts oldest first. A _desc suffix reverses the order. Defaults to created_desc. Restart pagination after changing sort."
+          }
+        },
+        "additionalProperties": false
+      },
       "OrderInput": {
         "type": "object",
         "properties": {
@@ -5963,6 +6363,15 @@
             ],
             "description": "One of the medication's compoundingReasons values, required when the medication's requirements include it. Another value returns 422. Empty text counts as null."
           },
+          "daysSupply": {
+            "type": [
+              "integer",
+              "null"
+            ],
+            "minimum": 1,
+            "maximum": 365,
+            "description": "The number of days the prescribed quantity lasts, required when the medication's requirements include it. Null counts as not sent."
+          },
           "directions": {
             "type": "string",
             "maxLength": 2000,
@@ -6000,7 +6409,7 @@
             "type": "integer",
             "minimum": 0,
             "maximum": 99,
-            "description": "The number of authorized refills in addition to the first fill."
+            "description": "The number of authorized refills in addition to the first fill. It cannot be more than the medication's maxRefills: a larger value returns 422 invalid_order."
           },
           "substitutionPermitted": {
             "type": "boolean",
@@ -6498,7 +6907,7 @@
           },
           "fullName": {
             "type": "string",
-            "description": "The name with each ingredient's salt where the catalog records one, such as Enclomiphene Citrate. Equals name otherwise."
+            "description": "The name with each ingredient: its salt where the catalog records one, such as Enclomiphene Citrate, or the ingredients of a blend named for what prescribers call it, such as Myers' Cocktail. Equals name otherwise."
           },
           "id": {
             "type": "string",
@@ -6508,6 +6917,17 @@
               "med_01j2y8m6jcc9tt24af5pw9x1bc"
             ]
           },
+          "kit": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Kit"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "The vials or bottles a kit holds, in the order they are used; null for anything that is not a kit."
+          },
           "name": {
             "type": "string",
             "description": "The name."
@@ -6515,11 +6935,30 @@
           "pharmacy": {
             "$ref": "#/components/schemas/PharmacyReference"
           },
+          "pharmacyRank": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991,
+            "description": "Affinity's preference for the dispensing pharmacy, from 0 for the most preferred. When two pharmacies have the same item at the same price, choose the lower rank. Absent when Affinity has no preference for the pharmacy."
+          },
           "price": {
             "type": "integer",
             "minimum": 0,
             "maximum": 9007199254740991,
             "description": "The price in integer cents."
+          },
+          "researchUseOnly": {
+            "type": "boolean",
+            "description": "Whether the medication is for research use only (RUO). Only an organization with RUO access sees one."
+          },
+          "maxRefills": {
+            "type": [
+              "integer",
+              "null"
+            ],
+            "minimum": 0,
+            "maximum": 9007199254740991,
+            "description": "The most refills a prescription of this medication takes, or null when any count within the request limits is accepted. 0 means the pharmacy takes no refills: send a new order for each fill."
           },
           "quantities": {
             "type": "array",
@@ -6566,7 +7005,7 @@
             "type": "integer",
             "minimum": 0,
             "maximum": 9007199254740991,
-            "description": "Each shipping option price includes shippingSuppliesPrice. A mixed order pays the highest supplies price once. Example: $25.00 cold chain + $2.06 supplies = $27.06."
+            "description": "Always 0. Each shipping option price is the complete shipping price."
           },
           "strength": {
             "anyOf": [
@@ -6578,6 +7017,17 @@
               }
             ],
             "description": "The pharmacy's strength text, or null when it is unknown."
+          },
+          "unsupportedFields": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "x-extensible-enum": [
+                "notes",
+                "substitutionPermitted"
+              ]
+            },
+            "description": "The prescription fields this medication's pharmacy cannot receive: notes (send none) and substitutionPermitted (send true). An order that sets one is still accepted; in Live mode Affinity staff handle it, and in Test mode it fails when sent. Absent when the pharmacy receives them all."
           }
         },
         "required": [
@@ -6589,9 +7039,12 @@
           "form",
           "fullName",
           "id",
+          "kit",
           "name",
           "pharmacy",
           "price",
+          "researchUseOnly",
+          "maxRefills",
           "quantities",
           "quantityUnit",
           "requirements",
@@ -6694,6 +7147,74 @@
           "volume"
         ],
         "description": "What the pharmacy dispenses for one price. A quantity counts `unit`, not fills, and is a whole number of fills: for a fill of 30 tablets, quantity 60 is two fills and costs twice the price. For a vial product, one fill is one vial and quantity counts vials.",
+        "additionalProperties": {
+          "description": "A field that this API version can add. Ignore fields that you do not know."
+        }
+      },
+      "Kit": {
+        "type": "object",
+        "properties": {
+          "days": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 9007199254740991,
+            "description": "How many days the kit lasts."
+          },
+          "vials": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "ingredients": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "amount": {
+                        "type": "number",
+                        "description": "The amount in the specified unit."
+                      },
+                      "name": {
+                        "type": "string",
+                        "description": "The name."
+                      },
+                      "unit": {
+                        "type": "string",
+                        "description": "The unit used to measure the amount."
+                      }
+                    },
+                    "required": [
+                      "amount",
+                      "name",
+                      "unit"
+                    ],
+                    "additionalProperties": {
+                      "description": "A field that this API version can add. Ignore fields that you do not know."
+                    }
+                  },
+                  "description": "Each active ingredient's total in this vial."
+                },
+                "strength": {
+                  "type": "string",
+                  "description": "This vial's strength, such as 5 mg/mL."
+                }
+              },
+              "required": [
+                "ingredients",
+                "strength"
+              ],
+              "additionalProperties": {
+                "description": "A field that this API version can add. Ignore fields that you do not know."
+              }
+            },
+            "description": "Each vial or bottle in the order it is used. `fill.volume` is what one holds."
+          }
+        },
+        "required": [
+          "days",
+          "vials"
+        ],
+        "description": "Vials or bottles shipped together as one product and used in order.",
         "additionalProperties": {
           "description": "A field that this API version can add. Ignore fields that you do not know."
         }
@@ -7185,6 +7706,12 @@
             ],
             "description": "The reason for compounding, required when the medication's requirements include it."
           },
+          "daysSupply": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 365,
+            "description": "The number of days the prescribed quantity lasts. Absent when the order sent none."
+          },
           "directions": {
             "type": "string",
             "description": "The prescriber's directions for use."
@@ -7257,6 +7784,17 @@
                   "med_01j2y8m6jcc9tt24af5pw9x1bc"
                 ]
               },
+              "kit": {
+                "anyOf": [
+                  {
+                    "$ref": "#/components/schemas/Kit"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ],
+                "description": "The vials or bottles a kit holds, in the order they are used; null for anything that is not a kit."
+              },
               "name": {
                 "type": "string",
                 "description": "The name."
@@ -7288,6 +7826,7 @@
               "fill",
               "form",
               "id",
+              "kit",
               "name",
               "quantityUnit",
               "strength"

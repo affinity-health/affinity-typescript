@@ -173,7 +173,7 @@ export class OrdersClient {
     }
 
     /**
-     * One request creates the order, signs it and sends it to the pharmacy. Platforms must send practiceId; practice callers can omit it to use their own practice. With an API key, name the prescriber and send signatureAttestation. Optional prescriber phone and address each default to the practice; no account is looked up by NPI. In the app, the signed-in member signs with the NPI in their settings, or names the prescriber with the same attestation. With patient.id (a pat_ ID) or patient.externalId, the order reuses that patient of the practice and mode and updates the saved record; without them, each order creates a new patient. If id and externalId identify different patients, the request returns 422 invalid_order. When the pharmacy already holds the patient's name, a different firstName or lastName returns 422 invalid_order. Live orders require Live access on the practice and its platform. No payment method is required.
+     * One request creates the order, signs it and sends it to the pharmacy. Platforms must send practiceId; practice callers can omit it to use their own practice. With an API key, name the prescriber and send signatureAttestation. Optional prescriber phone and address each default to the practice; no account is looked up by NPI. In the app, the signed-in member signs with the NPI in their settings, or names the prescriber with the same attestation. With patient.id (a pat_ ID) or patient.externalId, the order reuses that patient of the practice and mode and updates the saved record; without them, each order creates a new patient. If id and externalId identify different patients, the request returns 422 invalid_order. When PerfectRx already holds a different firstName or lastName for the patient, the order is still accepted: a Live order stays submitted until staff correct the name with PerfectRx, and a Test order fails with a failureReason. Live orders require Live access on the practice and its platform. Platforms and their practices need no payment method. An independent practice billed per order needs a default payment method (a card or a US bank account), or account credit that covers the order.
      *
      * @param {Affinity.OrderInput} request
      * @param {OrdersClient.RequestOptions} requestOptions - Request-specific configuration.
@@ -328,6 +328,118 @@ export class OrdersClient {
         }
 
         return handleNonStatusCodeError(_response.error, _response.rawResponse, "POST", "/v1/orders");
+    }
+
+    /**
+     * Takes the same filters as List orders (GET /v1/orders) in a JSON body, so patient details stay out of URLs and logs. Returns the same list, newest first unless sort is supplied. For the next page, send the same body with startingAfter set to nextCursor. limit is a number, and cancelRequested and recentlyShipped are booleans.
+     *
+     * @param {Affinity.OrderSearch} request
+     * @param {OrdersClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link Affinity.BadRequestError}
+     * @throws {@link Affinity.UnauthorizedError}
+     * @throws {@link Affinity.ForbiddenError}
+     * @throws {@link Affinity.NotFoundError}
+     * @throws {@link Affinity.ContentTooLargeError}
+     * @throws {@link Affinity.UnsupportedMediaTypeError}
+     * @throws {@link Affinity.TooManyRequestsError}
+     * @throws {@link Affinity.InternalServerError}
+     * @throws {@link Affinity.ServiceUnavailableError}
+     * @throws {@link errors.AffinityError}
+     * @throws {@link errors.AffinityTimeoutError}
+     *
+     * @example
+     *     await client.orders.search()
+     */
+    public search(
+        request: Affinity.OrderSearch = {},
+        requestOptions?: OrdersClient.RequestOptions,
+    ): core.HttpResponsePromise<Affinity.OrderList> {
+        return core.HttpResponsePromise.fromPromise(this.__search(request, requestOptions));
+    }
+
+    private async __search(
+        request: Affinity.OrderSearch = {},
+        requestOptions?: OrdersClient.RequestOptions,
+    ): Promise<core.WithRawResponse<Affinity.OrderList>> {
+        const _authRequest: core.AuthRequest = await this._options.authProvider.getAuthRequest();
+        const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
+            _authRequest.headers,
+            this._options?.headers,
+            mergeOnlyDefinedHeaders({ "Affinity-Version": requestOptions?.affinityVersion ?? "2026-11-01" }),
+            requestOptions?.headers,
+        );
+        const _response = await core.fetcher({
+            url: core.url.join(
+                (await core.Supplier.get(this._options.baseUrl)) ??
+                    (await core.Supplier.get(this._options.environment)) ??
+                    environments.AffinityEnvironment.Default,
+                "v1/orders/search",
+            ),
+            method: "POST",
+            headers: _headers,
+            contentType: "application/json",
+            queryString: core.url.queryBuilder().mergeAdditional(requestOptions?.queryParams).build(),
+            requestType: "json",
+            body: mergeAdditionalBodyParameters(request, requestOptions?.additionalBodyParameters),
+            timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
+            maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
+            abortSignal: requestOptions?.abortSignal,
+            fetchFn: this._options?.fetch,
+            logging: this._options.logging,
+        });
+        if (_response.ok) {
+            return { data: _response.body as Affinity.OrderList, rawResponse: _response.rawResponse };
+        }
+
+        if (_response.error.reason === "status-code") {
+            switch (_response.error.statusCode) {
+                case 400:
+                    throw new Affinity.BadRequestError(_response.error.body as Affinity.Problem, _response.rawResponse);
+                case 401:
+                    throw new Affinity.UnauthorizedError(
+                        _response.error.body as Affinity.Problem,
+                        _response.rawResponse,
+                    );
+                case 403:
+                    throw new Affinity.ForbiddenError(_response.error.body as Affinity.Problem, _response.rawResponse);
+                case 404:
+                    throw new Affinity.NotFoundError(_response.error.body as Affinity.Problem, _response.rawResponse);
+                case 413:
+                    throw new Affinity.ContentTooLargeError(
+                        _response.error.body as Affinity.Problem,
+                        _response.rawResponse,
+                    );
+                case 415:
+                    throw new Affinity.UnsupportedMediaTypeError(
+                        _response.error.body as unknown,
+                        _response.rawResponse,
+                    );
+                case 429:
+                    throw new Affinity.TooManyRequestsError(
+                        _response.error.body as Affinity.Problem429,
+                        _response.rawResponse,
+                    );
+                case 500:
+                    throw new Affinity.InternalServerError(
+                        _response.error.body as Affinity.Problem,
+                        _response.rawResponse,
+                    );
+                case 503:
+                    throw new Affinity.ServiceUnavailableError(
+                        _response.error.body as Affinity.Problem,
+                        _response.rawResponse,
+                    );
+                default:
+                    throw new errors.AffinityError({
+                        statusCode: _response.error.statusCode,
+                        body: _response.error.body,
+                        rawResponse: _response.rawResponse,
+                    });
+            }
+        }
+
+        return handleNonStatusCodeError(_response.error, _response.rawResponse, "POST", "/v1/orders/search");
     }
 
     /**

@@ -346,6 +346,15 @@ try {
         throw new Error(`found ${page.data.length}`);
       return page;
     });
+    await check("orders.search by externalOrderId and practiceId", async () => {
+      const page = await client.orders.search({
+        externalOrderId: input.externalOrderId!,
+        practiceId: practice.id,
+      });
+      if (page.data.map((o) => o.id).join() !== order.id)
+        throw new Error(`found ${page.data.length}`);
+      return page;
+    });
     await check(
       "orders.list updatedAfter (milliseconds)",
       () =>

@@ -15,15 +15,23 @@ export interface Medication {
     fill: Affinity.Fill | null;
     /** The dosage form, or null when it is unknown. */
     form: string | null;
-    /** The name with each ingredient's salt where the catalog records one, such as Enclomiphene Citrate. Equals name otherwise. */
+    /** The name with each ingredient: its salt where the catalog records one, such as Enclomiphene Citrate, or the ingredients of a blend named for what prescribers call it, such as Myers' Cocktail. Equals name otherwise. */
     fullName: string;
     /** The public record identifier. */
     id: string;
+    /** The vials or bottles a kit holds, in the order they are used; null for anything that is not a kit. */
+    kit: Affinity.Kit | null;
     /** The name. */
     name: string;
     pharmacy: Affinity.PharmacyReference;
+    /** Affinity's preference for the dispensing pharmacy, from 0 for the most preferred. When two pharmacies have the same item at the same price, choose the lower rank. Absent when Affinity has no preference for the pharmacy. */
+    pharmacyRank?: number | undefined;
     /** The price in integer cents. */
     price: number;
+    /** Whether the medication is for research use only (RUO). Only an organization with RUO access sees one. */
+    researchUseOnly: boolean;
+    /** The most refills a prescription of this medication takes, or null when any count within the request limits is accepted. 0 means the pharmacy takes no refills: send a new order for each fill. */
+    maxRefills: number | null;
     /** The accepted quantities, counted in quantityUnit; an empty list permits any quantity within the request limits. */
     quantities: number[];
     /** The unit used to count the prescribed quantity, or null when it is unknown. */
@@ -34,10 +42,12 @@ export interface Medication {
     restrictedStates: string[];
     /** The shipping options available for this medication. */
     shippingOptions: Affinity.ShippingOption[];
-    /** Each shipping option price includes shippingSuppliesPrice. A mixed order pays the highest supplies price once. Example: $25.00 cold chain + $2.06 supplies = $27.06. */
+    /** Always 0. Each shipping option price is the complete shipping price. */
     shippingSuppliesPrice: number;
     /** The pharmacy's strength text, or null when it is unknown. */
     strength: string | null;
+    /** The prescription fields this medication's pharmacy cannot receive: notes (send none) and substitutionPermitted (send true). An order that sets one is still accepted; in Live mode Affinity staff handle it, and in Test mode it fails when sent. Absent when the pharmacy receives them all. */
+    unsupportedFields?: Medication.UnsupportedFields.Item[] | undefined;
 }
 
 export namespace Medication {
@@ -55,4 +65,13 @@ export namespace Medication {
         Supplies: "supplies",
     } as const;
     export type Category = (typeof Category)[keyof typeof Category];
+    export type UnsupportedFields = UnsupportedFields.Item[];
+
+    export namespace UnsupportedFields {
+        export const Item = {
+            Notes: "notes",
+            SubstitutionPermitted: "substitutionPermitted",
+        } as const;
+        export type Item = (typeof Item)[keyof typeof Item];
+    }
 }

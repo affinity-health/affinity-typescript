@@ -364,7 +364,7 @@ const response = page.response;
 <dl>
 <dd>
 
-One request creates the order, signs it and sends it to the pharmacy. Platforms must send practiceId; practice callers can omit it to use their own practice. With an API key, name the prescriber and send signatureAttestation. Optional prescriber phone and address each default to the practice; no account is looked up by NPI. In the app, the signed-in member signs with the NPI in their settings, or names the prescriber with the same attestation. With patient.id (a pat_ ID) or patient.externalId, the order reuses that patient of the practice and mode and updates the saved record; without them, each order creates a new patient. If id and externalId identify different patients, the request returns 422 invalid_order. When the pharmacy already holds the patient's name, a different firstName or lastName returns 422 invalid_order. Live orders require Live access on the practice and its platform. No payment method is required.
+One request creates the order, signs it and sends it to the pharmacy. Platforms must send practiceId; practice callers can omit it to use their own practice. With an API key, name the prescriber and send signatureAttestation. Optional prescriber phone and address each default to the practice; no account is looked up by NPI. In the app, the signed-in member signs with the NPI in their settings, or names the prescriber with the same attestation. With patient.id (a pat_ ID) or patient.externalId, the order reuses that patient of the practice and mode and updates the saved record; without them, each order creates a new patient. If id and externalId identify different patients, the request returns 422 invalid_order. When PerfectRx already holds a different firstName or lastName for the patient, the order is still accepted: a Live order stays submitted until staff correct the name with PerfectRx, and a Test order fails with a failureReason. Live orders require Live access on the practice and its platform. Platforms and their practices need no payment method. An independent practice billed per order needs a default payment method (a card or a US bank account), or account credit that covers the order.
 </dd>
 </dl>
 </dd>
@@ -426,6 +426,69 @@ await client.orders.create({
 <dd>
 
 **request:** `Affinity.OrderInput` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `OrdersClient.RequestOptions` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.orders.<a href="/src/api/resources/orders/client/Client.ts">search</a>({ ...params }) -> Affinity.OrderList</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Takes the same filters as List orders (GET /v1/orders) in a JSON body, so patient details stay out of URLs and logs. Returns the same list, newest first unless sort is supplied. For the next page, send the same body with startingAfter set to nextCursor. limit is a number, and cancelRequested and recentlyShipped are booleans.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```typescript
+await client.orders.search();
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**request:** `Affinity.OrderSearch` 
     
 </dd>
 </dl>

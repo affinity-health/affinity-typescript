@@ -13,7 +13,7 @@ export interface ListPracticesRequest {
     startingAfter?: string;
     /** Match the external practice ID exactly, including case. Keep this filter unchanged while paging. */
     externalId?: string;
-    /** Match practice names containing this text, ignoring case. Restart pagination after changing query. */
+    /** Match practice names that contain every word of this text, in any order, ignoring case. Restart pagination after changing query. */
     query?: string;
     /** name and location sort A to Z; mode sorts practices without Live access before those with it; created sorts oldest first. A _desc suffix reverses the order. Defaults to created_desc. Missing locations sort last. Restart pagination after changing sort. */
     sort?: Affinity.ListPracticesRequestSort;

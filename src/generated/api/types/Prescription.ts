@@ -5,6 +5,8 @@ import type * as Affinity from "../index.js";
 export interface Prescription {
     /** The reason for compounding, required when the medication's requirements include it. */
     compoundingReason: string | null;
+    /** The number of days the prescribed quantity lasts. Absent when the order sent none. */
+    daysSupply?: number | undefined;
     /** The prescriber's directions for use. */
     directions: string;
     /** The public record identifier. */
@@ -51,6 +53,8 @@ export namespace Prescription {
         form: string | null;
         /** The public record identifier. */
         id: string;
+        /** The vials or bottles a kit holds, in the order they are used; null for anything that is not a kit. */
+        kit: Affinity.Kit | null;
         /** The name. */
         name: string;
         /** The unit used to count the prescribed quantity, or null when it is unknown. */

@@ -1,6 +1,6 @@
 {
   "contractVersion": "2026-11-01",
-  "contractSha256": "90dfa01c68c0541491e9fd198834f6bf6537559ce907ee396bab0619071b7487",
+  "contractSha256": "d960de21e8ca05feb3f93a5bcd6a93403d12ab396eb45632009e7d8e75ade362",
   "fernVersion": "5.190.0",
   "generator": "fernapi/fern-typescript-sdk",
   "generatorVersion": "3.108.6",
@@ -11,6 +11,7 @@
     "medications.get": "GET /v1/medications/{medicationId}",
     "orders.create": "POST /v1/orders",
     "orders.list": "GET /v1/orders",
+    "orders.search": "POST /v1/orders/search",
     "orders.get": "GET /v1/orders/{orderId}",
     "orders.cancel": "POST /v1/orders/{orderId}/cancel",
     "practices.create": "POST /v1/practices",
