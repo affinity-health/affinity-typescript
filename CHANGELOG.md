@@ -7,6 +7,21 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 
 ## [Unreleased]
 
+## [2.2.0] - 2026-11-19
+
+Generated from the API `2026-11-01` document that production serves (sha256 `d960de21…`). Every
+change is additive.
+
+### Added
+
+- `client.orders.search(filters)`: `POST /v1/orders/search` takes the same filters as
+  `orders.list` (`Affinity.OrderSearch`) in a JSON body, so patient details in `query` stay out of
+  URLs. It returns one page; send `startingAfter` with the previous page's `nextCursor` for the next.
+- `daysSupply` on `Affinity.PrescriptionInput` and `Affinity.Prescription`: the number of days the
+  prescribed quantity lasts.
+- On `Affinity.Medication`: `kit` (`Affinity.Kit`, the vials a kit holds and how many days it
+  lasts, or null), `maxRefills`, `pharmacyRank`, `researchUseOnly` and `unsupportedFields`.
+
 ## [2.1.0] - 2026-11-04
 
 Generated from the API `2026-11-01` document (sha256 `90dfa01c…`). It adds two optional request
