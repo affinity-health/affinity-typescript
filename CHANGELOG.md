@@ -7,6 +7,41 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 
 ## [Unreleased]
 
+## [2.3.0] - 2026-11-26
+
+Generated from the API `2026-11-01` document that production serves (sha256 `c7d0c543…`). Every
+change is additive.
+
+### Added
+
+- `client.consults`: file a consult for a network clinician and read it.
+  - `consults.create(input)`: `POST /v1/consults` with `Affinity.ConsultInput` (patient,
+    prescriptions with an optional titration `schedule`, shipping and intake answers). Only a
+    platform key files consults.
+  - `consults.list({ status, practiceId, externalConsultId })`: `GET /v1/consults`, newest first,
+    with the forward pager.
+  - `consults.get({ consultId })`: `GET /v1/consults/{consultId}`, with the intake answers.
+  - `consults.prescription({ consultId })`: `GET /v1/consults/{consultId}/prescription` returns
+    the approved prescription as a PDF (`core.BinaryResponse`).
+- The `consult.approved` and `consult.declined` webhook events (`Affinity.ConsultEvent`), in
+  `Affinity.WebhookEvent` and `affinityWebhookEventTypes`.
+- `consultId` on `Affinity.Order`: the consult whose approval created the order, or null.
+- On `Affinity.PatientInput`: `shippingUpdates`, which turns on the patient's shipping updates
+  (on its way, out for delivery, delivered, a delivery problem), and `smsConsentAt`, when the
+  patient agreed to get text messages. Both keep the current setting when omitted. The API named
+  the first field `shippingEmails` before this release; no SDK release had that name.
+- `consultId` in the `data` of a 409 problem: `consult_already_exists` names the consult that
+  already has the `externalConsultId`.
+- New error codes, described on the consult methods: `network_not_linked` (403),
+  `consult_already_exists` (409) and `medication_not_visible` (422). `Problem.code` stays a
+  string, so code that branches on it needs no change.
+
+### Fixed
+
+- A file response passes the SDK's JSON check: the check refused the prescription PDF as a proxy
+  page. A success response that is not JSON still raises `AffinityError` on every other
+  operation.
+
 ## [2.2.0] - 2026-11-19
 
 Generated from the API `2026-11-01` document that production serves (sha256 `d960de21…`). Every
