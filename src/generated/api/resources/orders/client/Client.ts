@@ -173,7 +173,7 @@ export class OrdersClient {
     }
 
     /**
-     * One request creates the order, signs it and sends it to the pharmacy. Platforms must send practiceId; practice callers can omit it to use their own practice. With an API key, name the prescriber and send signatureAttestation. Optional prescriber phone and address each default to the practice; no account is looked up by NPI. In the app, the signed-in member signs with the NPI in their settings, or names the prescriber with the same attestation. With patient.id (a pat_ ID) or patient.externalId, the order reuses that patient of the practice and mode and updates the saved record; without them, each order creates a new patient. If id and externalId identify different patients, the request returns 422 invalid_order. When PerfectRx already holds a different firstName or lastName for the patient, the order is still accepted: a Live order stays submitted until staff correct the name with PerfectRx, and a Test order fails with a failureReason. Live orders require Live access on the practice and its platform. Platforms and their practices need no payment method. An independent practice billed per order needs a default payment method (a card or a US bank account), or account credit that covers the order.
+     * One request creates the order, signs it and sends it to the pharmacy. Platforms must send practiceId; practice callers can omit it to use their own practice. With an API key, name the prescriber and send signatureAttestation. Optional prescriber phone and address each default to the practice; no account is looked up by NPI. In the app, the signed-in member signs with the NPI in their settings, or names the prescriber with the same attestation. With patient.id (a pat_ ID) or patient.externalId, the order reuses that patient of the practice and mode and updates the saved record; without them, each order creates a new patient. If id and externalId identify different patients, the request returns 422 invalid_order. A medication that the practice's catalog does not list in the caller's mode returns 422 medication_not_visible, with an issue at prescriptions[n].medicationId; read GET /v1/medications with the same key and practiceId. Other broken order rules return 422 invalid_order, with one issue for each problem. When PerfectRx already holds a different firstName or lastName for the patient, the order is still accepted: a Live order stays submitted until staff correct the name with PerfectRx, and a Test order fails with a failureReason. Live orders require Live access on the practice and its platform. A Live order needs its payer's default payment method (a card or a US bank account) or account credit that covers the order, or it returns 409 payment_method_required; the platform pays for its practices. A payer that Affinity bills on one invoice for its shipped Live orders needs neither.
      *
      * @param {Affinity.OrderInput} request
      * @param {OrdersClient.RequestOptions} requestOptions - Request-specific configuration.
@@ -211,7 +211,7 @@ export class OrdersClient {
      *             firstName: "firstName",
      *             sex: "female",
      *             lastName: "lastName",
-     *             phone: "phone"
+     *             phone: "+15125550100"
      *         },
      *         prescriptions: [{
      *                 directions: "directions",
@@ -331,7 +331,7 @@ export class OrdersClient {
     }
 
     /**
-     * Takes the same filters as List orders (GET /v1/orders) in a JSON body, so patient details stay out of URLs and logs. Returns the same list, newest first unless sort is supplied. For the next page, send the same body with startingAfter set to nextCursor. limit is a number, and cancelRequested and recentlyShipped are booleans.
+     * Takes the same filters as List orders (GET /v1/orders) in a JSON body, so patient details stay out of URLs and logs. Matches similar spellings as List orders does. Returns the same list, newest first unless sort is supplied. For the next page, send the same body with startingAfter set to nextCursor. limit is a number, and cancelRequested and recentlyShipped are booleans.
      *
      * @param {Affinity.OrderSearch} request
      * @param {OrdersClient.RequestOptions} requestOptions - Request-specific configuration.

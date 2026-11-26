@@ -181,7 +181,7 @@ export class PracticesClient {
      *             postalCode: "postalCode"
      *         },
      *         name: "name",
-     *         phone: "phone"
+     *         phone: "+15125550100"
      *     })
      */
     public create(

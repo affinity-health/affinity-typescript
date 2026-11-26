@@ -12,9 +12,9 @@ export interface Prescription {
     /** The public record identifier. */
     id: string;
     pharmacy: Affinity.PharmacyReference;
-    /** The order's current status; every prescription of the order has the same value. */
+    /** This prescription's status, with the order's values; the order's status sums up its prescriptions'. A pharmacy that accepts or rejects an order as a whole gives every prescription the order's status. One that reports each prescription can ship one and reject another. */
     status: Prescription.Status;
-    /** Why the order failed, for a person to read; every prescription of the order has the same value. Null unless the order failed; a refused cancel leaves it null. */
+    /** Why this prescription failed, for a person to read: the order's failureReason when it has the order's status, Affinity's generic rejection text when it alone failed, and null otherwise. A refused cancel leaves it null. */
     failureReason: string | null;
     /** The medication details saved when the order was signed. */
     medication: Prescription.Medication;
@@ -31,7 +31,7 @@ export interface Prescription {
 }
 
 export namespace Prescription {
-    /** The order's current status; every prescription of the order has the same value. */
+    /** This prescription's status, with the order's values; the order's status sums up its prescriptions'. A pharmacy that accepts or rejects an order as a whole gives every prescription the order's status. One that reports each prescription can ship one and reject another. */
     export const Status = {
         AwaitingApproval: "awaiting_approval",
         Submitted: "submitted",

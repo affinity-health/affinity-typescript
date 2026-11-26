@@ -12,7 +12,7 @@ export interface UpdatePracticesRequest {
     practiceId: string;
     /** A unique key per operation, 1 to 255 printable ASCII characters without spaces. Retry the same key and body to avoid repeating the action. The replay response depends on the operation. See https://docs.affinityrx.com/guides/#retry-safely. */
     idempotencyKey: string;
-    /** Your practice identifier, unique among your platform's active practices. Send null to clear it. */
+    /** Your practice identifier, unique among your platform's active practices. Send null to clear it. Only the platform sets it for a practice it manages; the practice gets 403 platform_only. */
     externalId?: string | null;
     /** Affinity merges the address parts you send into the saved address. An omitted part keeps its saved value. To move to an address with no suite, send `"line2": null` with the new `line1`, `city`, `state` and `postalCode`. PerfectRx prints it: use Windows-1252 characters, without < or >. Line 1 and line 2 together: 70 characters or fewer. */
     address?: UpdatePracticesRequest.Address | null;
@@ -20,7 +20,7 @@ export interface UpdatePracticesRequest {
     liveEnabled?: boolean | null;
     /** The practice name. PerfectRx prints it: use Windows-1252 characters, without < or >. */
     name?: string;
-    /** A US phone number: 10 digits, with or without +1 or 1 before them. Spaces, dashes, dots and parentheses are allowed, such as (512) 555-0100. Affinity stores and returns +15125550100. Empty text counts as null. */
+    /** A US phone number: 10 digits, with or without +1 or 1 before them. Spaces, dashes, dots and parentheses are allowed, such as (512) 555-0100. Affinity stores and returns +15125550100. The area code and the 3 digits after it start with 2 to 9; a number with 0 or 1 there returns 422 with the field in issues. Empty text counts as null. */
     phone?: string | null;
 }
 

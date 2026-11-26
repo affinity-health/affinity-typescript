@@ -13,7 +13,7 @@ export interface ListPracticesRequest {
     startingAfter?: string;
     /** Match the external practice ID exactly, including case. Keep this filter unchanged while paging. */
     externalId?: string;
-    /** Match practice names that contain every word of this text, in any order, ignoring case. Restart pagination after changing query. */
+    /** Find practices that match every word of this text, in any order. Case is ignored. The search reads the practice's name, external ID, city and state, and your platform's name. A word matches the start of a word in this text, or a part of the practice's name. A word of letters only that matches no word start can have typos: 1 from 4 letters, 2 from 6 letters. A word with a digit, such as a code, matches only as typed. A word of punctuation alone, such as &, matches only a name that contains it. A practice ID finds that practice. Results keep the order of sort. Restart pagination after changing query. */
     query?: string;
     /** name and location sort A to Z; mode sorts practices without Live access before those with it; created sorts oldest first. A _desc suffix reverses the order. Defaults to created_desc. Missing locations sort last. Restart pagination after changing sort. */
     sort?: Affinity.ListPracticesRequestSort;

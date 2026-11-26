@@ -7,6 +7,8 @@ export const affinityWebhookEventIdHeader = "Affinity-Event-Id" as const;
 
 /** Every event type the contract defines. The checks below fail to compile if the two drift. */
 export const affinityWebhookEventTypes = [
+  "consult.approved",
+  "consult.declined",
   "order.cancelled",
   "order.delivered",
   "order.failed",

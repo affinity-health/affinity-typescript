@@ -12,6 +12,8 @@ export type WebhookEvent =
     | Affinity.WebhookEvent.OrderUpdated
     | Affinity.WebhookEvent.PrescriptionFailed
     | Affinity.WebhookEvent.PrescriptionCancelled
+    | Affinity.WebhookEvent.ConsultApproved
+    | Affinity.WebhookEvent.ConsultDeclined
     | Affinity.WebhookEvent.WebhookEndpointTest;
 
 export namespace WebhookEvent {
@@ -49,6 +51,14 @@ export namespace WebhookEvent {
 
     export interface PrescriptionCancelled extends Affinity.PrescriptionEvent {
         type: "prescription.cancelled";
+    }
+
+    export interface ConsultApproved extends Affinity.ConsultEvent {
+        type: "consult.approved";
+    }
+
+    export interface ConsultDeclined extends Affinity.ConsultEvent {
+        type: "consult.declined";
     }
 
     export interface WebhookEndpointTest extends Affinity.WebhookEndpointTestEvent {

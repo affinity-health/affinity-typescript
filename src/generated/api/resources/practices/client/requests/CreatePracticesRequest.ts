@@ -13,7 +13,7 @@ import type * as Affinity from "../../../../index.js";
  *             postalCode: "postalCode"
  *         },
  *         name: "name",
- *         phone: "phone"
+ *         phone: "+15125550100"
  *     }
  */
 export interface CreatePracticesRequest {
@@ -25,6 +25,6 @@ export interface CreatePracticesRequest {
     liveEnabled?: boolean;
     /** The practice name. PerfectRx prints it: use Windows-1252 characters, without < or >. */
     name: string;
-    /** A US phone number: 10 digits, with or without +1 or 1 before them. Spaces, dashes, dots and parentheses are allowed, such as (512) 555-0100. Affinity stores and returns +15125550100. */
+    /** A US phone number: 10 digits, with or without +1 or 1 before them. Spaces, dashes, dots and parentheses are allowed, such as (512) 555-0100. Affinity stores and returns +15125550100. The area code and the 3 digits after it start with 2 to 9; a number with 0 or 1 there returns 422 with the field in issues. */
     phone: string;
 }

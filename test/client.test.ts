@@ -2,6 +2,9 @@
 // encoding, bodies, retries, errors and pagination. Synthetic data only.
 import { describe, expect, test } from "bun:test";
 import { Affinity, AffinityClient, AffinityEnvironment, AffinityError } from "../src";
+import { affinityFileOperations } from "../src/client";
+
+const contract = await Bun.file(new URL("../spec/affinity.openapi.json", import.meta.url)).json();
 
 type Call = { method: string; url: URL; headers: Headers; body: unknown };
 
@@ -254,6 +257,62 @@ describe("requests", () => {
     const body = calls[0]!.body as { prescriptions: Affinity.PrescriptionInput[] };
     expect(body.prescriptions[0]!.daysSupply).toBe(30);
   });
+
+  test("consults.create posts the consult with idempotencyKey as the header", async () => {
+    const { client, calls } = recorded([json({ id: id("cns"), status: "waiting" })]);
+    const consult: Affinity.ConsultInput = {
+      idempotencyKey: "consult-key-1",
+      externalConsultId: "intake-1",
+      practiceId: id("prac"),
+      patient: {
+        ...order.patient,
+        heightInches: 65,
+        weightPounds: 180,
+        shippingUpdates: true,
+        smsConsentAt: "2026-11-26T12:00:00Z",
+      },
+      prescriptions: [{ ...order.prescriptions[0]!, notes: "test_consult_approve" }],
+      shipping: { optionId: id("shp") },
+      intake: [{ id: "allergies", question: "Any allergies?", answer: "No", critical: false }],
+    };
+    await client.consults.create(consult);
+    const { idempotencyKey: _, ...body } = consult;
+    expect(calls[0]!.method).toBe("POST");
+    expect(calls[0]!.url.pathname).toBe("/v1/consults");
+    expect(calls[0]!.headers.get("idempotency-key")).toBe("consult-key-1");
+    expect(calls[0]!.body).toEqual(body);
+  });
+
+  test("consults.list sends its filters; get and prescription use the consult's path", async () => {
+    const page = {
+      object: "list",
+      url: "/v1/consults",
+      data: [],
+      hasMore: false,
+      nextCursor: null,
+    };
+    const pdf = new Response("%PDF-1.7", { headers: { "content-type": "application/pdf" } });
+    const { client, calls } = recorded([json(page), json({ id: id("cns") }), pdf]);
+    await client.consults.list({
+      limit: 5,
+      status: "approved",
+      practiceId: id("prac"),
+      externalConsultId: "intake 1/a",
+    });
+    await client.consults.get({ consultId: id("cns") });
+    const file = await client.consults.prescription({ consultId: id("cns") });
+    expect(await (await file.blob()).text()).toBe("%PDF-1.7");
+    expect(Object.fromEntries(calls[0]!.url.searchParams)).toEqual({
+      limit: "5",
+      status: "approved",
+      practiceId: id("prac"),
+      externalConsultId: "intake 1/a",
+    });
+    expect(calls.slice(1).map((c) => `${c.method} ${c.url.pathname}`)).toEqual([
+      `GET /v1/consults/${id("cns")}`,
+      `GET /v1/consults/${id("cns")}/prescription`,
+    ]);
+  });
 });
 
 describe("pagination", () => {
@@ -420,7 +479,7 @@ test("the client has a method for every operation in the contract", async () => 
     return typeof client[resource!]?.[method!] !== "function";
   });
   expect(missing).toEqual([]);
-  expect(Object.keys(generation.operations)).toHaveLength(18);
+  expect(Object.keys(generation.operations)).toHaveLength(22);
 });
 
 test("every enum value in the contract is in the generated code", async () => {
@@ -542,6 +601,37 @@ describe("a success response that is not JSON", () => {
   test("client.fetch raises too", async () => {
     const { client } = recorded([page()], { maxRetries: 0 });
     expect(await rejection(client.fetch("/v1/account"))).toBeInstanceOf(Error);
+  });
+  test("a consult's prescription PDF passes through; an HTML page in its place raises", async () => {
+    const pdf = new Response("%PDF-1.7", { headers: { "content-type": "application/pdf" } });
+    const { client } = recorded([pdf, page()], { maxRetries: 0 });
+    const file = await client.consults.prescription({ consultId: "cns_synthetic" });
+    expect(await (await file.blob()).text()).toBe("%PDF-1.7");
+    expect(
+      await rejection(client.consults.prescription({ consultId: "cns_synthetic" })),
+    ).toBeInstanceOf(AffinityError);
+  });
+  test("a PDF answering a JSON operation raises", async () => {
+    const pdf = new Response("%PDF-1.7", { headers: { "content-type": "application/pdf" } });
+    const { client } = recorded([pdf], { maxRetries: 0 });
+    expect(await rejection(client.account.get())).toBeInstanceOf(AffinityError);
+  });
+  test("the file operations are the contract's non-JSON success responses", () => {
+    type Operation = { responses?: Record<string, { content?: object }> };
+    const declared = Object.entries(contract.paths as Record<string, Record<string, Operation>>)
+      .flatMap(([path, operations]) =>
+        Object.entries(operations).flatMap(([method, operation]) =>
+          Object.entries(operation.responses ?? {})
+            .filter(([status]) => status.startsWith("2"))
+            .flatMap(([, response]) => Object.keys(response.content ?? {}))
+            .filter((type) => type !== "application/json")
+            .map((mediaType) => `${method.toUpperCase()} ${path} ${mediaType}`),
+        ),
+      )
+      .sort();
+    expect(declared).toEqual(
+      affinityFileOperations.map((o) => `${o.method} ${o.path} ${o.mediaType}`).sort(),
+    );
   });
   test("a JSON success response passes through unchanged", async () => {
     const { client } = recorded([json({ id: "plat_x", type: "platform", mode: "test" })]);

@@ -22,13 +22,36 @@ export class AffinityClient extends GeneratedAffinityClient {
   }
 }
 
-// Every Affinity response is JSON. The generated fetcher resolves a success response that is not
-// JSON (a proxy's HTML page, an empty body) as the operation's result, so a caller would receive
-// something that is not the record. Refuse it at the transport, for every request.
+/** The operations whose success response is a file, not JSON. A test checks this against the contract. */
+export const affinityFileOperations = [
+  { method: "GET", path: "/v1/consults/{consultId}/prescription", mediaType: "application/pdf" },
+] as const;
+const fileOperations = affinityFileOperations.map((operation) => ({
+  ...operation,
+  pattern: new RegExp(`${operation.path.replace(/\{[^}]+\}/g, "[^/]+")}$`),
+}));
+
+// Every Affinity response is JSON, except the file of an operation above. The generated fetcher
+// resolves a success response that is not JSON (a proxy's HTML page, an empty body) as the
+// operation's result, so a caller would receive something that is not the record. Refuse it at
+// the transport, for every request.
 function requireJson(fetchFn: typeof fetch | undefined): typeof fetch {
   return (async (input: RequestInfo | URL, init?: RequestInit) => {
     const response = await (fetchFn ?? fetch)(input, init);
     if (!response.ok) return response;
+    const request = input instanceof Request ? input : undefined;
+    const method = (init?.method ?? request?.method ?? "GET").toUpperCase();
+    const { pathname } = new URL(request?.url ?? String(input));
+    const mediaType = response.headers.get("content-type")?.split(";")[0]?.trim().toLowerCase();
+    if (
+      fileOperations.some(
+        (operation) =>
+          operation.method === method &&
+          operation.mediaType === mediaType &&
+          operation.pattern.test(pathname),
+      )
+    )
+      return response;
     const text = await response.clone().text();
     try {
       if (text.length > 0) {

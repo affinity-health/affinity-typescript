@@ -388,6 +388,24 @@ try {
     () => client.orders.get({ orderId: "ord_01j2y8m6jcc9tt24af5pw9x1bc" }),
   );
 
+  // Consults are read only: filing one needs a platform linked to a network, and would reach a
+  // clinician outside Test's automatic decisions.
+  await check(
+    "consults.list (one page)",
+    () => client.consults.list({ limit: 5 }),
+    (p) => `${p.data.length}, more: ${p.hasNextPage()}`,
+  );
+  await refused(
+    "consults.get for an unknown consult raises NotFoundError",
+    Affinity.NotFoundError,
+    () => client.consults.get({ consultId: "cns_01j2y8m6jcc9tt24af5pw9x1bc" }),
+  );
+  await refused(
+    "consults.prescription for an unknown consult raises NotFoundError",
+    Affinity.NotFoundError,
+    () => client.consults.prescription({ consultId: "cns_01j2y8m6jcc9tt24af5pw9x1bc" }),
+  );
+
   if (webhookUrl) {
     const endpoint = await check(
       "webhooks.create",

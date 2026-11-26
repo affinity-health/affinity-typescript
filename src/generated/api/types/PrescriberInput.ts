@@ -6,7 +6,7 @@ import type * as Affinity from "../index.js";
  * Required with an API key. Send the prescribing clinician's NPI, firstName and lastName. Session callers can omit this field to sign with their own profile.
  */
 export interface PrescriberInput {
-    /** A US phone number: 10 digits, with or without +1 or 1 before them. Spaces, dashes, dots and parentheses are allowed, such as (512) 555-0100. Affinity stores and returns +15125550100. Empty text counts as null. When the phone is omitted, null or blank, the order uses the practice phone. */
+    /** A US phone number: 10 digits, with or without +1 or 1 before them. Spaces, dashes, dots and parentheses are allowed, such as (512) 555-0100. Affinity stores and returns +15125550100. The area code and the 3 digits after it start with 2 to 9; a number with 0 or 1 there returns 422 with the field in issues. Empty text counts as null. When the phone is omitted, null or blank, the order uses the practice phone. */
     phone?: (string | null) | undefined;
     address?: Affinity.AddressInput | undefined;
     /** The first name. */

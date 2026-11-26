@@ -13,6 +13,6 @@ export interface ListMedicationsRequest {
     limit?: number;
     /** Page forward using the previous response's nextCursor. Keep the same filters, sort, organization and mode. */
     startingAfter?: string;
-    /** Match medication names that contain every word of this text, in any order, ignoring case and accents. Each word must appear in the name, so a misspelled word matches nothing. Strength, form and pharmacy are not searched. An empty query lists every medication. Restart pagination after changing query. */
+    /** Find medications that match every word of this text, in any order. Case and accents are ignored. The search reads the name, ingredients, strength, form, route, brands, category and pharmacy name. A word matches the start of a word in this text. A word of letters also matches a part of the name. A word of letters only that matches no word start can have typos: 1 from 4 letters, 2 from 6 letters. A word with a digit takes no typos. Thousands commas are optional: 1000 IU finds 1,000 IU/mL. A word of punctuation alone, such as %, matches only a name that contains it. A medication ID finds that medication. Results stay A to Z by name. An empty query lists every medication. Restart pagination after changing query. */
     query?: string;
 }

@@ -22,7 +22,7 @@ import type * as Affinity from "../../../../index.js";
  *             firstName: "firstName",
  *             sex: "female",
  *             lastName: "lastName",
- *             phone: "phone"
+ *             phone: "+15125550100"
  *         },
  *         prescriptions: [{
  *                 directions: "directions",

@@ -8,6 +8,8 @@ import type * as Affinity from "../index.js";
 export interface WebhookOrder {
     /** When cancellation was requested, or null when no cancellation is waiting. */
     cancelRequestedAt: string | null;
+    /** The consult whose approval created this order, or null. Absent on an event created before 2026-11-26, including a resend of one. */
+    consultId?: (string | null) | undefined;
     /** Your order identifier, unique within the practice and mode. A failed or cancelled order keeps it. */
     externalOrderId: string | null;
     /** Why the order failed, for a person to read. Null unless the order failed; a refused cancel leaves it null. */

@@ -7,7 +7,7 @@ export interface GetMedicationsResponse {
     category: GetMedicationsResponse.Category;
     /** Whether the medication requires refrigerated shipping. */
     coldChainRequired: boolean;
-    /** The accepted compounding reasons when the pharmacy limits them. */
+    /** The accepted compounding reasons. A compoundingReason must be one of them; an empty list means the medication takes no reason, so omit compoundingReason. */
     compoundingReasons: string[];
     /** The catalog's default directions, or null when none are supplied. */
     defaultDirections: string | null;
@@ -36,6 +36,8 @@ export interface GetMedicationsResponse {
     quantities: number[];
     /** The unit used to count the prescribed quantity, or null when it is unknown. */
     quantityUnit: string | null;
+    /** Whether this medication's pharmacy receives the patient's allergies. When false, the pharmacy's API has no field for them, so they never reach it; Affinity still accepts and sends the order. Tell the prescriber before they sign. */
+    receivesAllergies: boolean;
     /** The optional prescription field paths that this medication requires. */
     requirements: string[];
     /** Every state where this medication cannot ship, including states the pharmacy does not cover. It can ship to every other state. */
@@ -46,6 +48,8 @@ export interface GetMedicationsResponse {
     shippingSuppliesPrice: number;
     /** The pharmacy's strength text, or null when it is unknown. */
     strength: string | null;
+    /** Pharmacy-specific character limits for directions and notes. When notesIncludeAllergies is true, notes share their limit with the patient's allergies, composed as the pharmacy receives them. Absent when the ordinary prescription limits apply. */
+    fieldLimits?: GetMedicationsResponse.FieldLimits | undefined;
     /** The prescription fields this medication's pharmacy cannot receive: notes (send none) and substitutionPermitted (send true). An order that sets one is still accepted; in Live mode Affinity staff handle it, and in Test mode it fails when sent. Absent when the pharmacy receives them all. */
     unsupportedFields?: GetMedicationsResponse.UnsupportedFields.Item[] | undefined;
     /** With expand=variants: every other available strength, form and pharmacy of the same medication, for the current organization and mode. */
@@ -67,6 +71,19 @@ export namespace GetMedicationsResponse {
         Supplies: "supplies",
     } as const;
     export type Category = (typeof Category)[keyof typeof Category];
+
+    /**
+     * Pharmacy-specific character limits for directions and notes. When notesIncludeAllergies is true, notes share their limit with the patient's allergies, composed as the pharmacy receives them. Absent when the ordinary prescription limits apply.
+     */
+    export interface FieldLimits {
+        /** The maximum character count for directions. */
+        directions: number;
+        /** The maximum character count for notes, including allergies when notesIncludeAllergies is true. */
+        notes: number;
+        /** Whether the patient's allergies share the notes field and its character limit. */
+        notesIncludeAllergies?: boolean | undefined;
+    }
+
     export type UnsupportedFields = UnsupportedFields.Item[];
 
     export namespace UnsupportedFields {

@@ -55,6 +55,416 @@ await client.account.get();
 </dl>
 </details>
 
+## Consults
+<details><summary><code>client.consults.<a href="/src/api/resources/consults/client/Client.ts">list</a>({ ...params }) -> core.Page&lt;Affinity.Consult, Affinity.ConsultList&gt;</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+List the consults accessible to your API key in the current mode, newest first. Each row is the consult without its intake answers: read one consult for those. externalConsultId matches exactly, including case. Keep filters fixed while paging.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```typescript
+const pageableResponse = await client.consults.list({
+    practiceId: "prac_01j2y8m6jcc9tt24af5pw9x1bc"
+});
+for await (const item of pageableResponse) {
+    console.log(item);
+}
+
+// Or you can manually iterate page-by-page
+let page = await client.consults.list({
+    practiceId: "prac_01j2y8m6jcc9tt24af5pw9x1bc"
+});
+while (page.hasNextPage()) {
+    page = await page.getNextPage();
+}
+
+// You can also access the underlying response
+const response = page.response;
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**request:** `Affinity.ListConsultsRequest` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `ConsultsClient.RequestOptions` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.consults.<a href="/src/api/resources/consults/client/Client.ts">create</a>({ ...params }) -> Affinity.Consult</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Files the patient's proposed prescriptions and intake for a clinician of the network that reviews your platform's consults in this mode. Only a platform API key files consults: another key returns 403 forbidden, and a platform with no network linked in the key's mode returns 403 network_not_linked. The prescriptions are checked as a signed order with the same lines would be now (catalog, quantities, refills, requirements, shipping and price), so the consult is refused now for what its order would be refused for. A medication that the practice's catalog does not list in the key's mode returns 422 medication_not_visible. Every other broken rule returns one 422 invalid_order with one issue for each problem: an empty answer, a repeated intake id, a schedule rule, a patient in one of the network's live-visit states (live_visit_required at patient.address.state), each missing required answer (required at intake, naming the id) and the order's own rules. A Live consult needs its payer's payment method or covering credit, or it returns 409 payment_method_required. Send an Idempotency-Key: a retry with the same key and body returns the consult with its current status and 200; the same key with a different body returns 409 idempotency_key_reused. A used externalConsultId returns 409 consult_already_exists with data.consultId. In Test mode, a first prescription's notes that start with test_consult_approve or test_consult_decline make a test clinician approve or decline the consult at once; Live never does this. A clinician decides a Live consult, and the consult.approved or consult.declined event tells you.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```typescript
+await client.consults.create({
+    idempotencyKey: "Idempotency-Key",
+    externalConsultId: "intake-1042",
+    practiceId: "prac_01j9z3k4m5n6p7q8r9s0t1v2w3",
+    patient: {
+        address: {
+            line1: "200 Example Ave",
+            city: "Austin",
+            state: "TX",
+            postalCode: "78701"
+        },
+        allergies: [{
+                category: "drug",
+                display: "display"
+            }],
+        dateOfBirth: "1985-06-14",
+        email: "dana.example@example.com",
+        firstName: "Dana",
+        sex: "female",
+        lastName: "Example",
+        phone: "+15125550100",
+        externalId: "patient-1042",
+        heightInches: 65,
+        weightPounds: 204
+    },
+    prescriptions: [{
+            compoundingReason: "concentration_adjustment",
+            directions: "Inject 0.25 mL (7.5 mg tirzepatide) under the skin once weekly.",
+            medicationId: "med_3v9r73nmfs8bmbjb960yd2pggg",
+            quantity: 1,
+            refills: 0,
+            substitutionPermitted: true,
+            schedule: {
+                step: 3,
+                steps: [{
+                        dose: {
+                            amount: 2.5,
+                            unit: "mg"
+                        },
+                        weeks: 4
+                    }, {
+                        dose: {
+                            amount: 5,
+                            unit: "mg"
+                        },
+                        weeks: 4
+                    }, {
+                        dose: {
+                            amount: 7.5,
+                            unit: "mg"
+                        },
+                        weeks: 4
+                    }, {
+                        dose: {
+                            amount: 10,
+                            unit: "mg"
+                        },
+                        weeks: 4
+                    }, {
+                        dose: {
+                            amount: 12.5,
+                            unit: "mg"
+                        },
+                        weeks: 4
+                    }, {
+                        dose: {
+                            amount: 15,
+                            unit: "mg"
+                        }
+                    }]
+            }
+        }],
+    shipping: {
+        optionId: "shp_7yna882w139zfbmwzeyb16y24e"
+    },
+    intake: [{
+            id: "pregnancy_breastfeeding",
+            question: "Are you pregnant, planning pregnancy or breastfeeding?",
+            answer: "No",
+            critical: false
+        }, {
+            id: "allergies",
+            question: "Do you have any allergies?",
+            answer: "No",
+            critical: false
+        }, {
+            id: "current_medications",
+            question: "What medications do you take now?",
+            answer: "Metformin 500 mg twice daily",
+            critical: false
+        }, {
+            id: "bariatric_surgery",
+            question: "Have you had weight-loss surgery?",
+            answer: "No",
+            critical: false
+        }, {
+            id: "medullary_thyroid_cancer_men2",
+            question: "Have you or a relative had medullary thyroid cancer or MEN2?",
+            answer: "No",
+            critical: false
+        }, {
+            id: "pancreatic_disease",
+            question: "Have you had pancreatitis?",
+            answer: "No",
+            critical: false
+        }, {
+            id: "diabetes_history",
+            question: "Do you have diabetes?",
+            answer: "Type 2, A1c 7.1",
+            critical: true
+        }, {
+            id: "gastroparesis",
+            question: "Do you have gastroparesis?",
+            answer: "No",
+            critical: false
+        }, {
+            id: "severe_hypertriglyceridemia",
+            question: "Have you had very high triglycerides?",
+            answer: "No",
+            critical: false
+        }, {
+            id: "hypoglycemia_history",
+            question: "Have you had low blood sugar episodes?",
+            answer: "No",
+            critical: false
+        }, {
+            id: "glucose_lowering_medications",
+            question: "Do you take medicine to lower blood sugar?",
+            answer: "Metformin 500 mg twice daily",
+            critical: true
+        }, {
+            id: "glp1_hypersensitivity",
+            question: "Have you reacted to a GLP-1 medicine before?",
+            answer: "No",
+            critical: false
+        }],
+    patientQuestion: "Can I keep taking metformin?"
+});
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**request:** `Affinity.ConsultInput` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `ConsultsClient.RequestOptions` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.consults.<a href="/src/api/resources/consults/client/Client.ts">get</a>({ ...params }) -> Affinity.Consult</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Read one consult accessible to your API key in the current mode, with its intake answers. A malformed consult ID returns 400 invalid_request. A well-formed ID returns 404 not_found when no consult has it, when it is another kind of ID, or when your API key cannot access the consult or it is of another mode.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```typescript
+await client.consults.get({
+    consultId: "cns_01j2y8m6jcc9tt24af5pw9x1bc"
+});
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**request:** `Affinity.GetConsultsRequest` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `ConsultsClient.RequestOptions` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.consults.<a href="/src/api/resources/consults/client/Client.ts">prescription</a>({ ...params }) -> core.BinaryResponse</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+The signed prescription as a PDF, made once when the consult was approved: every download returns the same file. A malformed consult ID returns 400 invalid_request. A consult that is not approved returns 404 not_found, as does a well-formed ID that no consult has, another kind of ID, or a consult your API key cannot access or of another mode.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```typescript
+await client.consults.prescription({
+    consultId: "consultId"
+});
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**request:** `Affinity.PrescriptionConsultsRequest` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `ConsultsClient.RequestOptions` 
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
 ## Feedback
 <details><summary><code>client.feedback.<a href="/src/api/resources/feedback/client/Client.ts">create</a>({ ...params }) -> Affinity.CreateFeedbackResponse</code></summary>
 <dl>
@@ -137,7 +547,7 @@ await client.feedback.create({
 <dl>
 <dd>
 
-Every medication you can order in the current mode, A to Z by name, then by ID. Send query to find medications by name: every word must appear in the name, so check the spelling when nothing matches. Then choose by name, strength, form and pharmacy. Send practiceId to list what that practice can order, at its prices; without it, the caller's organization is used. Prices are in cents. `requirements` names the optional prescription fields this pharmacy requires; `compoundingReasons` and `quantities` list the accepted values when the pharmacy limits them, counted in `quantityUnit`. With a `fill`, `price` is per fill and each quantity counts `quantityUnit`, not fills: it is a whole number of fills in units. For a fill of 30 tablets, quantity 60 is two fills. For vials, quantity 1 is one vial and quantity 2 is two vials. A 2 mL vial lists quantities 1–10; its volume is separate from its quantity.
+Every medication you can order in the current mode, A to Z by name, then by ID. Send query to find medications by name, ingredient, strength, form or pharmacy. Then choose by name, strength, form and pharmacy. Send practiceId to list what that practice can order, at its prices; without it, the caller's organization is used. Prices are in cents. `requirements` names the optional prescription fields this pharmacy requires; `compoundingReasons` lists the accepted reasons; when it is empty, send no reason. `quantities` lists the accepted values when the pharmacy limits them, counted in `quantityUnit`. With a `fill`, `price` is per fill and each quantity counts `quantityUnit`, not fills: it is a whole number of fills in units. For a fill of 30 tablets, quantity 60 is two fills. For vials, quantity 1 is one vial and quantity 2 is two vials. A 2 mL vial lists quantities 1–10; its volume is separate from its quantity.
 </dd>
 </dl>
 </dd>
@@ -364,7 +774,7 @@ const response = page.response;
 <dl>
 <dd>
 
-One request creates the order, signs it and sends it to the pharmacy. Platforms must send practiceId; practice callers can omit it to use their own practice. With an API key, name the prescriber and send signatureAttestation. Optional prescriber phone and address each default to the practice; no account is looked up by NPI. In the app, the signed-in member signs with the NPI in their settings, or names the prescriber with the same attestation. With patient.id (a pat_ ID) or patient.externalId, the order reuses that patient of the practice and mode and updates the saved record; without them, each order creates a new patient. If id and externalId identify different patients, the request returns 422 invalid_order. When PerfectRx already holds a different firstName or lastName for the patient, the order is still accepted: a Live order stays submitted until staff correct the name with PerfectRx, and a Test order fails with a failureReason. Live orders require Live access on the practice and its platform. Platforms and their practices need no payment method. An independent practice billed per order needs a default payment method (a card or a US bank account), or account credit that covers the order.
+One request creates the order, signs it and sends it to the pharmacy. Platforms must send practiceId; practice callers can omit it to use their own practice. With an API key, name the prescriber and send signatureAttestation. Optional prescriber phone and address each default to the practice; no account is looked up by NPI. In the app, the signed-in member signs with the NPI in their settings, or names the prescriber with the same attestation. With patient.id (a pat_ ID) or patient.externalId, the order reuses that patient of the practice and mode and updates the saved record; without them, each order creates a new patient. If id and externalId identify different patients, the request returns 422 invalid_order. A medication that the practice's catalog does not list in the caller's mode returns 422 medication_not_visible, with an issue at prescriptions[n].medicationId; read GET /v1/medications with the same key and practiceId. Other broken order rules return 422 invalid_order, with one issue for each problem. When PerfectRx already holds a different firstName or lastName for the patient, the order is still accepted: a Live order stays submitted until staff correct the name with PerfectRx, and a Test order fails with a failureReason. Live orders require Live access on the practice and its platform. A Live order needs its payer's default payment method (a card or a US bank account) or account credit that covers the order, or it returns 409 payment_method_required; the platform pays for its practices. A payer that Affinity bills on one invoice for its shipped Live orders needs neither.
 </dd>
 </dl>
 </dd>
@@ -397,7 +807,7 @@ await client.orders.create({
         firstName: "firstName",
         sex: "female",
         lastName: "lastName",
-        phone: "phone"
+        phone: "+15125550100"
     },
     prescriptions: [{
             directions: "directions",
@@ -457,7 +867,7 @@ await client.orders.create({
 <dl>
 <dd>
 
-Takes the same filters as List orders (GET /v1/orders) in a JSON body, so patient details stay out of URLs and logs. Returns the same list, newest first unless sort is supplied. For the next page, send the same body with startingAfter set to nextCursor. limit is a number, and cancelRequested and recentlyShipped are booleans.
+Takes the same filters as List orders (GET /v1/orders) in a JSON body, so patient details stay out of URLs and logs. Matches similar spellings as List orders does. Returns the same list, newest first unless sort is supplied. For the next page, send the same body with startingAfter set to nextCursor. limit is a number, and cancelRequested and recentlyShipped are booleans.
 </dd>
 </dl>
 </dd>
@@ -751,7 +1161,7 @@ await client.practices.create({
         postalCode: "postalCode"
     },
     name: "name",
-    phone: "phone"
+    phone: "+15125550100"
 });
 
 ```
@@ -1205,7 +1615,7 @@ await client.webhooks.update({
 <dl>
 <dd>
 
-Queue failed order event deliveries from the last 30 days for this endpoint. Only the current organization and mode apply. Each failed delivery gets up to 12 new attempts. Also make pending deliveries waiting on a later retry due now, without resetting their attempt counts. Keep the same event IDs, payloads, and per-order delivery sequence. The queued count includes both kinds. Pending deliveries already due, delivered events, and one-time test events stay unchanged. Send a unique Idempotency-Key for each request. Reuse that key after an uncertain response to return the original count. A request with a new key returns 0 when no eligible failures or pending deliveries waiting on a later retry remain.
+Queue failed event deliveries from the last 30 days for this endpoint. Only the current organization and mode apply. Each failed delivery gets up to 12 new attempts. Also make pending deliveries waiting on a later retry due now, without resetting their attempt counts. Keep the same event IDs, payloads, and per-order delivery sequence. The queued count includes both kinds. Pending deliveries already due, delivered events, and one-time test events stay unchanged. Send a unique Idempotency-Key for each request. Reuse that key after an uncertain response to return the original count. A request with a new key returns 0 when no eligible failures or pending deliveries waiting on a later retry remain.
 </dd>
 </dl>
 </dd>

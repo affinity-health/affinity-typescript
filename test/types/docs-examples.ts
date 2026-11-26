@@ -104,6 +104,8 @@ export async function POST(request: Request) {
     case "order.updated":
       await saveEventOnce(event.id, event.data.order.id);
       break;
+    case "consult.approved":
+    case "consult.declined":
     case "prescription.cancelled":
     case "prescription.failed":
     case "webhook_endpoint.test":

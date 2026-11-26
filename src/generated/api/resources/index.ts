@@ -1,4 +1,7 @@
 export * as account from "./account/index.js";
+export * from "./consults/client/requests/index.js";
+export * as consults from "./consults/index.js";
+export * from "./consults/types/index.js";
 export * from "./feedback/client/requests/index.js";
 export * as feedback from "./feedback/index.js";
 export * from "./feedback/types/index.js";

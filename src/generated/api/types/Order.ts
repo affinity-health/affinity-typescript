@@ -5,6 +5,8 @@ import type * as Affinity from "../index.js";
 export interface Order {
     /** When cancellation was requested, or null when no cancellation is waiting. */
     cancelRequestedAt: string | null;
+    /** The consult whose approval created this order, or null. */
+    consultId: string | null;
     /** When the record was created. */
     createdAt: string;
     /** Your order identifier, unique within the practice and mode. A failed or cancelled order keeps it. */

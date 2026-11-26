@@ -8,6 +8,7 @@ export interface Problem409 extends Affinity.Problem {
 
 export namespace Problem409 {
     export interface Data {
+        consultId?: string | undefined;
         orderId?: string | undefined;
         practiceId?: string | undefined;
     }
